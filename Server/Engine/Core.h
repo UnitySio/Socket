@@ -16,6 +16,8 @@ public:
     inline POINT GetResolution() const { return resolution_; }
     inline HWND GetWindowHandle() const { return hWnd_; }
 
+    inline LPCWSTR GetWindowName() const { return window_name_; }
+
 private:
     static LRESULT CALLBACK StaticWndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
     LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
@@ -26,6 +28,7 @@ private:
     void Render();
 
     LPCWSTR class_name_;
+    LPCWSTR window_name_;
 
     POINT resolution_;
     RECT window_area_;

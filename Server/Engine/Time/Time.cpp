@@ -31,7 +31,7 @@ void Time::Tick()
         fps_ = frame_count_;
 
         wchar_t title[256];
-        swprintf_s(title, L"Server - FPS: %.2f", fps_);
+        swprintf_s(title, L"%s - FPS: %.2f", Core::GetInstance()->GetWindowName(), fps_);
         SetWindowText(Core::GetInstance()->GetWindowHandle(), title);
         
         frame_count_ = 0.f;

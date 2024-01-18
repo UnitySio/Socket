@@ -8,7 +8,7 @@
 #include "imgui/imgui_impl_dx11.h"
 #include "imgui/imgui_impl_win32.h"
 
-Core::Core() : class_name_(L"SERVER")
+Core::Core() : class_name_(L"GUI_SERVER"), window_name_(L"GUI Server")
 {
 }
 
@@ -40,7 +40,7 @@ BOOL Core::InitInstance(HINSTANCE hInstance, int nCmdShow)
     hWnd_ = CreateWindowEx(
         0,
         class_name_,
-        L"Server",
+        window_name_,
         WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_THICKFRAME | WS_MINIMIZEBOX,
         (screen_width - (window_area_.right - window_area_.left)) / 2,
         (screen_height - (window_area_.bottom - window_area_.top)) / 2,
