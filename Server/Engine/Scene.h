@@ -25,6 +25,4 @@ private:
 
     char input_buffer_[1024];
     
-    SOCKET server_socket_;
-    
 };

@@ -111,6 +111,12 @@ LRESULT Core::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         return 0;
     }
 
+    if (message == WM_CLOSE)
+    {
+        DestroyWindow(hWnd);
+        return 0;
+    }
+
     if (message == WM_DESTROY)
     {
         is_running_ = false;
