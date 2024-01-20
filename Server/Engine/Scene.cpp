@@ -1,6 +1,7 @@
 ﻿#include "Scene.h"
 
 #include "Core.h"
+#include "Extension/STDEx.h"
 #include "imgui/imgui.h"
 #include "Time/Time.h"
 
@@ -47,12 +48,28 @@ void Scene::Render()
         {
             for (auto& log : logs_)
             {
-                ImGui::Text(log.c_str());
+                ImVec4 color;
+                bool has_color = false;
+
+                if (log.find(u8"[에러]") != std::string::npos)
+                {
+                    color = ImVec4(1.f, .4f, .4f, 1.f);
+                    has_color = true;
+                }
+                else if (log.compare(0, 2, "# ") == 0)
+                {
+                    color = ImVec4(1.f, .8f, .6f, 1.f);
+                    has_color = true;
+                }
+
+                if (has_color) ImGui::PushStyleColor(ImGuiCol_Text, color);
+                ImGui::TextUnformatted(log.c_str());
+                if (has_color) ImGui::PopStyleColor();
             }
+            
+            if (ImGui::GetScrollY() >= ImGui::GetScrollMaxY())
+                ImGui::SetScrollHereY(1.f);
         }
-        
-        if (ImGui::GetScrollY() >= ImGui::GetScrollMaxY())
-            ImGui::SetScrollHereY(1.0f);
         
         ImGui::EndChild();
         ImGui::Separator();
@@ -60,7 +77,21 @@ void Scene::Render()
         bool reclaim_focus = false;
         if (ImGui::InputText(u8"명령어", input_buffer_, IM_ARRAYSIZE(input_buffer_), ImGuiInputTextFlags_EnterReturnsTrue))
         {
-            AddLog(input_buffer_);
+            std::string command = input_buffer_;
+            std::StringTrim(command);
+
+            if (input_buffer_[0])
+            {
+                AddLog(u8"# %s", command.c_str());
+                if (_stricmp(command.c_str(), u8"Start") == 0)
+                {
+                    AddLog(u8"서버를 시작합니다.");
+                    StartServer();
+                }
+                else AddLog(u8"알 수 없는 명령어입니다.");
+            }
+            
+            strcpy_s(input_buffer_, "");
             reclaim_focus = true;
         }
 
@@ -83,4 +114,8 @@ void Scene::AddLog(std::string format, ...)
     va_end(args);
     
     logs_.push_back(buffer);
+}
+
+void Scene::StartServer()
+{
 }

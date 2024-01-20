@@ -20,6 +20,7 @@ public:
 
 private:
     void AddLog(std::string format, ...);
+    void StartServer();
 
     std::vector<std::string> logs_;
 
