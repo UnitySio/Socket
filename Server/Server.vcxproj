@@ -135,6 +135,7 @@
     <ClInclude Include="Engine\Graphics\Graphics.h" />
     <ClInclude Include="Engine\Scene.h" />
     <ClInclude Include="Engine\Singleton.h" />
+    <ClInclude Include="Engine\Socket\NetworkManager.h" />
     <ClInclude Include="Engine\Time\Time.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="Include\imgui\imconfig.h" />
@@ -174,6 +175,7 @@
     <ClCompile Include="Engine\Extension\STDEx.cpp" />
     <ClCompile Include="Engine\Graphics\Graphics.cpp" />
     <ClCompile Include="Engine\Scene.cpp" />
+    <ClCompile Include="Engine\Socket\NetworkManager.cpp" />
     <ClCompile Include="Engine\Time\Time.cpp" />
     <ClCompile Include="Include\imgui\imgui.cpp" />
     <ClCompile Include="Include\imgui\imgui_demo.cpp" />

@@ -3,10 +3,6 @@
 
 #include "Singleton.h"
 
-#include <WinSock2.h>
-
-#pragma comment(lib, "ws2_32")
-
 class Scene : public Singleton<Scene>
 {
 public:
@@ -14,14 +10,12 @@ public:
     virtual ~Scene() final = default;
 
     virtual void Release() final;
-    
+
     void Tick(float delta_time);
     void Render();
+    void AddLog(std::string format, ...);
 
 private:
-    void AddLog(std::string format, ...);
-    void StartServer();
-
     std::vector<std::string> logs_;
 
     char input_buffer_[1024];

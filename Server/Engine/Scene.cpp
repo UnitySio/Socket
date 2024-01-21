@@ -3,6 +3,7 @@
 #include "Core.h"
 #include "Extension/STDEx.h"
 #include "imgui/imgui.h"
+#include "Socket/NetworkManager.h"
 #include "Time/Time.h"
 
 Scene::Scene()
@@ -36,6 +37,8 @@ void Scene::Render()
         ImGui::EndMainMenuBar();
     }
     
+    std::shared_ptr<NetworkManager> network_manager = NetworkManager::GetInstance();
+
     if (ImGui::Begin(u8"콘솔"))
     {
         ImGui::Text(u8"FPS: %.f", Time::GetInstance()->GetFPS());
@@ -44,7 +47,8 @@ void Scene::Render()
         ImGui::Separator();
 
         const float footer_height_to_reserve = ImGui::GetStyle().ItemSpacing.y + ImGui::GetFrameHeightWithSpacing();
-        if (ImGui::BeginChild("Logs", ImVec2(0, -footer_height_to_reserve), false, ImGuiWindowFlags_HorizontalScrollbar))
+        if (ImGui::BeginChild("Logs", ImVec2(0, -footer_height_to_reserve), false,
+                              ImGuiWindowFlags_HorizontalScrollbar))
         {
             for (auto& log : logs_)
             {
@@ -66,11 +70,11 @@ void Scene::Render()
                 ImGui::TextUnformatted(log.c_str());
                 if (has_color) ImGui::PopStyleColor();
             }
-            
+
             if (ImGui::GetScrollY() >= ImGui::GetScrollMaxY())
                 ImGui::SetScrollHereY(1.f);
         }
-        
+
         ImGui::EndChild();
         ImGui::Separator();
 
@@ -86,11 +90,22 @@ void Scene::Render()
                 if (_stricmp(command.c_str(), u8"Start") == 0)
                 {
                     AddLog(u8"서버를 시작합니다.");
-                    StartServer();
+                    
+                    if (network_manager->Init())
+                    {
+                    }
+                }
+                else if (_stricmp(command.c_str(), u8"Clear") == 0)
+                {
+                    logs_.clear();
+                }
+                else if (_stricmp(command.c_str(), u8"Exit") == 0)
+                {
+                    PostMessage(Core::GetInstance()->GetWindowHandle(), WM_CLOSE, 0, 0);
                 }
                 else AddLog(u8"알 수 없는 명령어입니다.");
             }
-            
+
             strcpy_s(input_buffer_, "");
             reclaim_focus = true;
         }
@@ -112,10 +127,6 @@ void Scene::AddLog(std::string format, ...)
     vsprintf_s(buffer, format.c_str(), args);
 
     va_end(args);
-    
-    logs_.push_back(buffer);
-}
 
-void Scene::StartServer()
-{
+    logs_.push_back(buffer);
 }
