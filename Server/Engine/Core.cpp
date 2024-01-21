@@ -7,6 +7,7 @@
 #include "imgui/imgui.h"
 #include "imgui/imgui_impl_dx11.h"
 #include "imgui/imgui_impl_win32.h"
+#include "Network/NetworkManager.h"
 
 Core::Core() : class_name_(L"GUI_SERVER"), window_name_(L"GUI Server")
 {
@@ -128,6 +129,7 @@ LRESULT Core::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
         Graphics::GetInstance()->Release();
         Time::GetInstance()->Release();
+        NetworkManager::GetInstance()->Release();
         Scene::GetInstance()->Release();
         GetInstance()->Release();
 

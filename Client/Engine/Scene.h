@@ -1,5 +1,8 @@
 ﻿#pragma once
 #include "Singleton.h"
+#include <WinSock2.h>
+
+#pragma comment(lib, "ws2_32.lib")
 
 class Scene : public Singleton<Scene>
 {

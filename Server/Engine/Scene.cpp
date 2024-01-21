@@ -3,7 +3,7 @@
 #include "Core.h"
 #include "Extension/STDEx.h"
 #include "imgui/imgui.h"
-#include "Socket/NetworkManager.h"
+#include "Network/NetworkManager.h"
 #include "Time/Time.h"
 
 Scene::Scene()
@@ -91,8 +91,9 @@ void Scene::Render()
                 {
                     AddLog(u8"서버를 시작합니다.");
                     
-                    if (network_manager->Init())
+                    if (network_manager->InitServer())
                     {
+                        network_manager->StartServer();
                     }
                 }
                 else if (_stricmp(command.c_str(), u8"Clear") == 0)

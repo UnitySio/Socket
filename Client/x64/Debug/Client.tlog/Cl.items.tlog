@@ -1,8 +1,10 @@
 C:\Users\Woojin Choi\Socket\Client\Client.cpp;C:\Users\Woojin Choi\Socket\Client\x64\Debug\Client.obj
 C:\Users\Woojin Choi\Socket\Client\Engine\Core.cpp;C:\Users\Woojin Choi\Socket\Client\x64\Debug\Core.obj
 C:\Users\Woojin Choi\Socket\Client\Engine\Graphics\Graphics.cpp;C:\Users\Woojin Choi\Socket\Client\x64\Debug\Graphics.obj
+C:\Users\Woojin Choi\Socket\Client\Engine\Network\NetworkManager.cpp;C:\Users\Woojin Choi\Socket\Client\x64\Debug\NetworkManager.obj
 C:\Users\Woojin Choi\Socket\Client\Engine\Scene.cpp;C:\Users\Woojin Choi\Socket\Client\x64\Debug\Scene.obj
 C:\Users\Woojin Choi\Socket\Client\Engine\Time\Time.cpp;C:\Users\Woojin Choi\Socket\Client\x64\Debug\Time.obj
+C:\Users\Woojin Choi\Socket\Client\Game\MainScene.cpp;C:\Users\Woojin Choi\Socket\Client\x64\Debug\MainScene.obj
 C:\Users\Woojin Choi\Socket\Client\Include\imgui\imgui.cpp;C:\Users\Woojin Choi\Socket\Client\x64\Debug\imgui.obj
 C:\Users\Woojin Choi\Socket\Client\Include\imgui\imgui_demo.cpp;C:\Users\Woojin Choi\Socket\Client\x64\Debug\imgui_demo.obj
 C:\Users\Woojin Choi\Socket\Client\Include\imgui\imgui_draw.cpp;C:\Users\Woojin Choi\Socket\Client\x64\Debug\imgui_draw.obj

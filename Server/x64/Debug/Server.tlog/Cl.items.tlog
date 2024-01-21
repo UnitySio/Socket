@@ -2,6 +2,7 @@ C:\Users\Woojin Choi\Socket\Server\Engine\Core.cpp;C:\Users\Woojin Choi\Socket\S
 C:\Users\Woojin Choi\Socket\Server\Engine\Extension\STDEx.cpp;C:\Users\Woojin Choi\Socket\Server\x64\Debug\STDEx.obj
 C:\Users\Woojin Choi\Socket\Server\Engine\Graphics\Graphics.cpp;C:\Users\Woojin Choi\Socket\Server\x64\Debug\Graphics.obj
 C:\Users\Woojin Choi\Socket\Server\Engine\Scene.cpp;C:\Users\Woojin Choi\Socket\Server\x64\Debug\Scene.obj
+C:\Users\Woojin Choi\Socket\Server\Engine\Network\NetworkManager.cpp;C:\Users\Woojin Choi\Socket\Server\x64\Debug\NetworkManager.obj
 C:\Users\Woojin Choi\Socket\Server\Engine\Time\Time.cpp;C:\Users\Woojin Choi\Socket\Server\x64\Debug\Time.obj
 C:\Users\Woojin Choi\Socket\Server\Include\imgui\imgui.cpp;C:\Users\Woojin Choi\Socket\Server\x64\Debug\imgui.obj
 C:\Users\Woojin Choi\Socket\Server\Include\imgui\imgui_demo.cpp;C:\Users\Woojin Choi\Socket\Server\x64\Debug\imgui_demo.obj
