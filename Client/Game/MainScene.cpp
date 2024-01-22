@@ -29,7 +29,7 @@ void MainScene::Begin()
 
     b2BodyDef body_def2;
     body_def2.type = b2_dynamicBody;
-    body_def2.position.Set(128.f, 48.f);
+    body_def2.position.Set(64.f, 48.f);
     dynamic_body2_ = world_.CreateBody(&body_def2);
 
     b2PolygonShape dynamic_box2;
@@ -56,6 +56,6 @@ void MainScene::Tick(float deltaTime)
 
 void MainScene::Render()
 {
-    Graphics::GetInstance()->FillRectangle(dynamic_body_->GetPosition());
-    Graphics::GetInstance()->FillRectangle(dynamic_body2_->GetPosition());
+    Graphics::GetInstance()->FillRectangle(dynamic_body_->GetPosition(), dynamic_body_->GetAngle());
+    Graphics::GetInstance()->FillRectangle(dynamic_body2_->GetPosition(), dynamic_body2_->GetAngle());
 }

@@ -136,7 +136,7 @@ void Graphics::EndRenderD3D()
     dxgi_swap_chain_->Present(0, 0);
 }
 
-void Graphics::FillRectangle(b2Vec2 position)
+void Graphics::FillRectangle(b2Vec2 position, float angle)
 {
     const D2D1_RECT_F rectangle = D2D1::RectF(
         position.x - 16.f,
@@ -147,6 +147,9 @@ void Graphics::FillRectangle(b2Vec2 position)
 
     ID2D1SolidColorBrush* brush;
     d2d_render_target_->CreateSolidColorBrush(D2D1::ColorF(D2D1::ColorF::White), &brush);
+
+    D2D1_POINT_2F center = D2D1::Point2F(position.x, position.y);
+    d2d_render_target_->SetTransform(D2D1::Matrix3x2F::Rotation(angle, center));
 
     d2d_render_target_->FillRectangle(rectangle, brush);
     brush->Release();
