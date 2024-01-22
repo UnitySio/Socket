@@ -9,6 +9,8 @@
 #include <d2d1.h>
 #include <dwrite.h>
 
+struct b2Vec2;
+
 class Graphics : public Singleton<Graphics>
 {
 public:
@@ -19,6 +21,7 @@ public:
     
     void BeginRenderD3D();
     void EndRenderD3D();
+    void FillRectangle(b2Vec2 position);
     
     bool LoadTexture(const std::string& file_name, ID3D11ShaderResourceView** texture_view, int* width, int* height);
 

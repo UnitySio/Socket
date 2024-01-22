@@ -3,6 +3,7 @@
 #include "Graphics.h"
 
 #include "../Core.h"
+#include "box2d/b2_math.h"
 #include "stb/stb_image.h"
 
 Graphics::Graphics()
@@ -135,8 +136,24 @@ void Graphics::EndRenderD3D()
     dxgi_swap_chain_->Present(0, 0);
 }
 
+void Graphics::FillRectangle(b2Vec2 position)
+{
+    const D2D1_RECT_F rectangle = D2D1::RectF(
+        position.x - 16.f,
+        position.y - 16.f,
+        position.x + 16.f,
+        position.y + 16.f
+    );
+
+    ID2D1SolidColorBrush* brush;
+    d2d_render_target_->CreateSolidColorBrush(D2D1::ColorF(D2D1::ColorF::White), &brush);
+
+    d2d_render_target_->FillRectangle(rectangle, brush);
+    brush->Release();
+}
+
 bool Graphics::LoadTexture(const std::string& file_name, ID3D11ShaderResourceView** texture_view, int* width,
-    int* height)
+                           int* height)
 {
     int image_width = 0;
     int image_height = 0;
