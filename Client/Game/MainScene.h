@@ -1,5 +1,7 @@
 ﻿#pragma once
 #include "../Engine/Scene/Scene.h"
+#include "box2d/b2_math.h"
+#include "box2d/b2_world.h"
 
 class MainScene : public Scene
 {
@@ -11,5 +13,7 @@ public:
     virtual void End() final;
     virtual void Tick(float deltaTime) final;
     virtual void Render() final;
+
+private:
     
 };
