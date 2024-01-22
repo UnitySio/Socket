@@ -6,6 +6,10 @@
 #include "Network/NetworkManager.h"
 #include "Time/Time.h"
 
+Scene::Scene()
+{
+}
+
 void Scene::Release()
 {
     Singleton<Scene>::Release();

@@ -15,6 +15,7 @@ public:
 
     inline POINT GetResolution() const { return resolution_; }
     inline HWND GetWindowHandle() const { return hWnd_; }
+    inline HWND GetFocusHandle() const { return focus_; }
 
 private:
     static LRESULT CALLBACK StaticWndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
@@ -31,6 +32,7 @@ private:
     RECT window_area_;
 
     HWND hWnd_;
+    HWND focus_;
 
     HANDLE logic_handle_;
 

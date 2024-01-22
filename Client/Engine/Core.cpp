@@ -2,8 +2,9 @@
 
 #include "Graphics/Graphics.h"
 #include "Time/Time.h"
-#include "Network/NetworkManager.h"
 #include "Scene/SceneManager.h"
+#include "Input/InputManager.h"
+#include "Network/NetworkManager.h"
 
 #include "imgui/imgui.h"
 #include "imgui/imgui_impl_dx11.h"
@@ -67,7 +68,10 @@ bool Core::InitWindow(HINSTANCE hInstance, int nCmdShow)
     CoInitializeEx(nullptr, COINIT_MULTITHREADED);
 
     if (!Graphics::GetInstance()->Init()) return false;
+    
     Time::GetInstance()->Init();
+    SceneManager::GetInstance()->Init();
+    InputManager::GetInstance()->Init();
 
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
@@ -88,8 +92,6 @@ bool Core::InitWindow(HINSTANCE hInstance, int nCmdShow)
 
     logic_handle_ = CreateThread(nullptr, 0, LogicThread, nullptr, 0, nullptr);
 
-    SceneManager::GetInstance()->Init();
-
     return true;
 }
 
@@ -103,6 +105,12 @@ extern LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam
 LRESULT Core::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
     if (ImGui_ImplWin32_WndProcHandler(hWnd, message, wParam, lParam)) return 0;
+
+    if (message == WM_SETFOCUS || message == WM_KILLFOCUS)
+    {
+        focus_ = GetFocus();
+        return 0;
+    }
 
     if (message == WM_GETMINMAXINFO)
     {
@@ -123,10 +131,11 @@ LRESULT Core::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         ImGui_ImplDX11_Shutdown();
         ImGui::DestroyContext();
 
-        Graphics::GetInstance()->Release();
-        Time::GetInstance()->Release();
         NetworkManager::GetInstance()->Release();
+        InputManager::GetInstance()->Release();
         SceneManager::GetInstance()->Release();
+        Time::GetInstance()->Release();
+        Graphics::GetInstance()->Release();
         GetInstance()->Release();
 
         CoUninitialize();
@@ -171,6 +180,7 @@ void Core::MainLogic()
 
 void Core::Tick(float delta_time)
 {
+    InputManager::GetInstance()->Tick();
     SceneManager::GetInstance()->Tick(delta_time);
 }
 

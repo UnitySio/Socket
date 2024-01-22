@@ -18,7 +18,7 @@ private:
     b2Vec2 gravity_;
     b2World world_;
 
+    b2Body* ground_body_;
     b2Body* dynamic_body_;
-    b2Body* dynamic_body2_;
     
 };
