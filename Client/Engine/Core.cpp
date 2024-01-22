@@ -1,8 +1,9 @@
 ﻿#include "Core.h"
 
-#include "Scene.h"
 #include "Graphics/Graphics.h"
 #include "Time/Time.h"
+#include "Network/NetworkManager.h"
+#include "Scene/SceneManager.h"
 
 #include "imgui/imgui.h"
 #include "imgui/imgui_impl_dx11.h"
@@ -87,6 +88,8 @@ bool Core::InitWindow(HINSTANCE hInstance, int nCmdShow)
 
     logic_handle_ = CreateThread(nullptr, 0, LogicThread, nullptr, 0, nullptr);
 
+    SceneManager::GetInstance()->Init();
+
     return true;
 }
 
@@ -122,7 +125,8 @@ LRESULT Core::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
         Graphics::GetInstance()->Release();
         Time::GetInstance()->Release();
-        Scene::GetInstance()->Release();
+        NetworkManager::GetInstance()->Release();
+        SceneManager::GetInstance()->Release();
         GetInstance()->Release();
 
         CoUninitialize();
@@ -167,10 +171,10 @@ void Core::MainLogic()
 
 void Core::Tick(float delta_time)
 {
-    Scene::GetInstance()->Tick(delta_time);
+    SceneManager::GetInstance()->Tick(delta_time);
 }
 
 void Core::Render()
 {
-    Scene::GetInstance()->Render();
+    SceneManager::GetInstance()->Render();
 }

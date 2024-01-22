@@ -109,6 +109,8 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(SolutionDir)\Client\Lib\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>box2d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -126,18 +128,62 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(SolutionDir)\Client\Lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>box2d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Client.h" />
     <ClInclude Include="Engine\Core.h" />
+    <ClInclude Include="Engine\Enums.h" />
     <ClInclude Include="Engine\Graphics\Graphics.h" />
     <ClInclude Include="Engine\Network\NetworkManager.h" />
-    <ClInclude Include="Engine\Scene.h" />
+    <ClInclude Include="Engine\Scene\Scene.h" />
+    <ClInclude Include="Engine\Scene\SceneManager.h" />
     <ClInclude Include="Engine\Singleton.h" />
     <ClInclude Include="Engine\Time\Time.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="Game\MainScene.h" />
+    <ClInclude Include="Include\box2d\b2_api.h" />
+    <ClInclude Include="Include\box2d\b2_block_allocator.h" />
+    <ClInclude Include="Include\box2d\b2_body.h" />
+    <ClInclude Include="Include\box2d\b2_broad_phase.h" />
+    <ClInclude Include="Include\box2d\b2_chain_shape.h" />
+    <ClInclude Include="Include\box2d\b2_circle_shape.h" />
+    <ClInclude Include="Include\box2d\b2_collision.h" />
+    <ClInclude Include="Include\box2d\b2_common.h" />
+    <ClInclude Include="Include\box2d\b2_contact.h" />
+    <ClInclude Include="Include\box2d\b2_contact_manager.h" />
+    <ClInclude Include="Include\box2d\b2_distance.h" />
+    <ClInclude Include="Include\box2d\b2_distance_joint.h" />
+    <ClInclude Include="Include\box2d\b2_draw.h" />
+    <ClInclude Include="Include\box2d\b2_dynamic_tree.h" />
+    <ClInclude Include="Include\box2d\b2_edge_shape.h" />
+    <ClInclude Include="Include\box2d\b2_fixture.h" />
+    <ClInclude Include="Include\box2d\b2_friction_joint.h" />
+    <ClInclude Include="Include\box2d\b2_gear_joint.h" />
+    <ClInclude Include="Include\box2d\b2_growable_stack.h" />
+    <ClInclude Include="Include\box2d\b2_joint.h" />
+    <ClInclude Include="Include\box2d\b2_math.h" />
+    <ClInclude Include="Include\box2d\b2_motor_joint.h" />
+    <ClInclude Include="Include\box2d\b2_mouse_joint.h" />
+    <ClInclude Include="Include\box2d\b2_polygon_shape.h" />
+    <ClInclude Include="Include\box2d\b2_prismatic_joint.h" />
+    <ClInclude Include="Include\box2d\b2_pulley_joint.h" />
+    <ClInclude Include="Include\box2d\b2_revolute_joint.h" />
+    <ClInclude Include="Include\box2d\b2_rope.h" />
+    <ClInclude Include="Include\box2d\b2_settings.h" />
+    <ClInclude Include="Include\box2d\b2_shape.h" />
+    <ClInclude Include="Include\box2d\b2_stack_allocator.h" />
+    <ClInclude Include="Include\box2d\b2_timer.h" />
+    <ClInclude Include="Include\box2d\b2_time_of_impact.h" />
+    <ClInclude Include="Include\box2d\b2_time_step.h" />
+    <ClInclude Include="Include\box2d\b2_types.h" />
+    <ClInclude Include="Include\box2d\b2_weld_joint.h" />
+    <ClInclude Include="Include\box2d\b2_wheel_joint.h" />
+    <ClInclude Include="Include\box2d\b2_world.h" />
+    <ClInclude Include="Include\box2d\b2_world_callbacks.h" />
+    <ClInclude Include="Include\box2d\box2d.h" />
     <ClInclude Include="Include\imgui\imconfig.h" />
     <ClInclude Include="Include\imgui\imgui.h" />
     <ClInclude Include="Include\imgui\imgui_impl_dx11.h" />
@@ -174,7 +220,8 @@
     <ClCompile Include="Engine\Core.cpp" />
     <ClCompile Include="Engine\Graphics\Graphics.cpp" />
     <ClCompile Include="Engine\Network\NetworkManager.cpp" />
-    <ClCompile Include="Engine\Scene.cpp" />
+    <ClCompile Include="Engine\Scene\Scene.cpp" />
+    <ClCompile Include="Engine\Scene\SceneManager.cpp" />
     <ClCompile Include="Engine\Time\Time.cpp" />
     <ClCompile Include="Game\MainScene.cpp" />
     <ClCompile Include="Include\imgui\imgui.cpp" />
@@ -192,6 +239,10 @@
   <ItemGroup>
     <Image Include="Client.ico" />
     <Image Include="small.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Lib\box2d.lib" />
+    <Content Include="Lib\Debug\box2d.lib" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
