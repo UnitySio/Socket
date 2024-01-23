@@ -134,6 +134,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Client.h" />
+    <ClInclude Include="Engine\Actor\Actor.h" />
     <ClInclude Include="Engine\Core.h" />
     <ClInclude Include="Engine\Enums.h" />
     <ClInclude Include="Engine\Graphics\Graphics.h" />
@@ -145,7 +146,10 @@
     <ClInclude Include="Engine\Singleton.h" />
     <ClInclude Include="Engine\Time\Time.h" />
     <ClInclude Include="framework.h" />
-    <ClInclude Include="Game\MainScene.h" />
+    <ClInclude Include="Game\Actor\Box.h" />
+    <ClInclude Include="Game\Actor\Ground.h" />
+    <ClInclude Include="Game\Actor\Player.h" />
+    <ClInclude Include="Game\Scene\MainScene.h" />
     <ClInclude Include="Include\box2d\b2_api.h" />
     <ClInclude Include="Include\box2d\b2_block_allocator.h" />
     <ClInclude Include="Include\box2d\b2_body.h" />
@@ -219,6 +223,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp" />
+    <ClCompile Include="Engine\Actor\Actor.cpp" />
     <ClCompile Include="Engine\Core.cpp" />
     <ClCompile Include="Engine\Graphics\Graphics.cpp" />
     <ClCompile Include="Engine\Input\InputManager.cpp" />
@@ -226,7 +231,10 @@
     <ClCompile Include="Engine\Scene\Scene.cpp" />
     <ClCompile Include="Engine\Scene\SceneManager.cpp" />
     <ClCompile Include="Engine\Time\Time.cpp" />
-    <ClCompile Include="Game\MainScene.cpp" />
+    <ClCompile Include="Game\Actor\Box.cpp" />
+    <ClCompile Include="Game\Actor\Ground.cpp" />
+    <ClCompile Include="Game\Actor\Player.cpp" />
+    <ClCompile Include="Game\Scene\MainScene.cpp" />
     <ClCompile Include="Include\imgui\imgui.cpp" />
     <ClCompile Include="Include\imgui\imgui_demo.cpp" />
     <ClCompile Include="Include\imgui\imgui_draw.cpp" />

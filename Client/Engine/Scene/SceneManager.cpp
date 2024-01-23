@@ -1,7 +1,7 @@
 ﻿#include "SceneManager.h"
 
 #include "Scene.h"
-#include "../../Game/MainScene.h"
+#include "../../Game/Scene/MainScene.h"
 
 SceneManager::SceneManager()
 {
@@ -9,9 +9,8 @@ SceneManager::SceneManager()
 
 void SceneManager::Init()
 {
-    std::shared_ptr<MainScene> main_scene = std::make_shared<MainScene>();
+    std::shared_ptr<Scene> main_scene = std::make_shared<MainScene>();
     main_scene->SetName("Map 0");
-    
     CreateScene(main_scene, SceneType::kDefault);
     
     LoadScene(SceneType::kDefault);

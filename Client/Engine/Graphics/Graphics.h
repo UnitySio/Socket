@@ -21,7 +21,7 @@ public:
     
     void BeginRenderD3D();
     void EndRenderD3D();
-    void FillRectangle(b2Vec2 position, float angle);
+    void DrawFillRectangle(b2Vec2 position, b2Vec2 size, float angle);
     
     bool LoadTexture(const std::string& file_name, ID3D11ShaderResourceView** texture_view, int* width, int* height);
 

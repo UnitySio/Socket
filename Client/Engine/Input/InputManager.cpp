@@ -13,6 +13,7 @@ void InputManager::Init()
     key_map_[VK_DOWN] = Key();
     key_map_[VK_LEFT] = Key();
     key_map_[VK_RIGHT] = Key();
+    key_map_[VK_SPACE] = Key();
 }
 
 void InputManager::Tick()

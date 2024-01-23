@@ -1,21 +1,38 @@
 ﻿#pragma once
-#include "Windows.h"
+#include <memory>
+#include <vector>
 
-class Scene
+#include "Windows.h"
+#include "box2d/b2_world_callbacks.h"
+#include "box2d/b2_world.h"
+
+class Scene : public b2ContactListener
 {
 public:
-    Scene() = default;
+    Scene();
     virtual ~Scene() = default;
 
-    virtual void Begin() = 0;
+    virtual void BeginContact(b2Contact* contact) final;
+    virtual void EndContact(b2Contact* contact) final;
+
+    virtual void Begin();
+    virtual void Tick(float deltaTime);
+    virtual void Render();
+    
     virtual void End() = 0;
-    virtual void Tick(float deltaTime) = 0;
-    virtual void Render() = 0;
+
+    void AddActor(std::shared_ptr<class Actor> actor);
 
     inline void SetName(const char* name) { strcpy_s(name_, name); }
     inline const char* GetName() const { return name_; }
 
+    inline b2World* GetWorld() const { return world_.get(); }
+
 private:
     char name_[256];
+
+    std::unique_ptr<b2World> world_;
+
+    std::vector<std::shared_ptr<class Actor>> actors_;
     
 };

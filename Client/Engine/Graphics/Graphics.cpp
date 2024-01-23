@@ -136,18 +136,24 @@ void Graphics::EndRenderD3D()
     dxgi_swap_chain_->Present(0, 0);
 }
 
-void Graphics::FillRectangle(b2Vec2 position, float angle)
+void Graphics::DrawFillRectangle(b2Vec2 position, b2Vec2 size, float angle)
 {
+    const float half_size_x = size.x / 2.f;
+    const float half_size_y = size.y / 2.f;
+    
     const D2D1_RECT_F rectangle = D2D1::RectF(
-        position.x - 16.f,
-        position.y - 16.f,
-        position.x + 16.f,
-        position.y + 16.f
+        position.x - half_size_x,
+        position.y - half_size_y,
+        position.x + half_size_x,
+        position.y + half_size_y
     );
 
     ID2D1SolidColorBrush* brush;
     d2d_render_target_->CreateSolidColorBrush(D2D1::ColorF(D2D1::ColorF::White), &brush);
 
+    // 라디안을 각도로 변환
+    angle = angle * 180.f / b2_pi;
+    
     D2D1_POINT_2F center = D2D1::Point2F(position.x, position.y);
     d2d_render_target_->SetTransform(D2D1::Matrix3x2F::Rotation(angle, center));
 
