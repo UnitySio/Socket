@@ -44,6 +44,6 @@ void Box::OnCollisionBegin(Actor* other)
 {
     if (strcmp(other->GetName(), "Player") == 0)
     {
-        Destroy();
+        // Destroy();
     }
 }

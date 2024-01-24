@@ -8,17 +8,18 @@
 #include "box2d/b2_circle_shape.h"
 #include "box2d/b2_fixture.h"
 #include "box2d/b2_polygon_shape.h"
+#include "box2d/b2_world.h"
 #include "imgui/imgui.h"
 
 Player::Player(b2World* world) : Actor(world)
 {
     GetBody()->SetType(b2_dynamicBody);
 
-    b2CircleShape circle;
-    circle.m_radius = 16.f;
+    b2PolygonShape box;
+    box.SetAsBox(16.f, 16.f);
 
     b2FixtureDef fixture_def;
-    fixture_def.shape = &circle;
+    fixture_def.shape = &box;
     fixture_def.density = 1.f;
     fixture_def.friction = .3f;
 
@@ -27,43 +28,45 @@ Player::Player(b2World* world) : Actor(world)
     color_ = b2Color(1.f, 1.f, 1.f);
 }
 
+float Player::ReportFixture(b2Fixture* fixture, const b2Vec2& point, const b2Vec2& normal, float fraction)
+{
+    b2Body* body = fixture->GetBody();
+    Actor* actor = reinterpret_cast<Actor*>(body->GetUserData().pointer);
+    if (actor)
+    {
+        is_ground_ = true;
+        return fraction;
+    }
+    
+    return 1;
+}
+
 void Player::Begin()
 {
 }
 
 void Player::Tick(float deltaTime)
 {
+    is_ground_ = false;
+    GetBody()->GetWorld()->RayCast(this, GetBody()->GetPosition(), GetBody()->GetPosition() + b2Vec2(0.f, 32.f));
+    
     std::shared_ptr<InputManager> input = InputManager::GetInstance();
 
-    if (!is_focused_)
+    const int h = input->IsKeyPressed(VK_RIGHT) - input->IsKeyPressed(VK_LEFT);
+    GetBody()->SetLinearVelocity(b2Vec2(h * 10.f, GetBody()->GetLinearVelocity().y));
+
+    if (input->IsKeyDown(VK_SPACE) && is_ground_)
     {
-        const int h = input->IsKeyPressed(VK_RIGHT) - input->IsKeyPressed(VK_LEFT);
-        GetBody()->SetLinearVelocity(b2Vec2(h * 10.f, GetBody()->GetLinearVelocity().y));
-
-        if (input->IsKeyDown(VK_SPACE))
-        {
-            GetBody()->ApplyLinearImpulse(b2Vec2(0.f, -50000.f), GetBody()->GetWorldCenter(), true);
-        }
-
-        if (input->IsKeyDown(VK_DOWN))
-        {
-            Box* box = new Box(GetBody()->GetWorld());
-            box->SetName("Box");
-
-            SpawnActor(box);
-        }
+        GetBody()->ApplyLinearImpulse(b2Vec2(0.f, -50000.f), GetBody()->GetWorldCenter(), true);
     }
 
-    if (ImGui::Begin(u8"정보"))
+    if (input->IsKeyDown(VK_DOWN))
     {
-        ImGui::Text(u8"Player 위치: (%.2f, %.2f)", GetBody()->GetPosition().x, GetBody()->GetPosition().y);
-        ImGui::Text(u8"Player 각도: %.2f", GetBody()->GetAngle());
-        ImGui::Text(u8"Player 속도: (%.2f, %.2f)", GetBody()->GetLinearVelocity().x, GetBody()->GetLinearVelocity().y);
+        Box* box = new Box(GetBody()->GetWorld());
+        box->SetName("Box");
 
-        is_focused_ = ImGui::IsWindowFocused();
+        SpawnActor(box);
     }
-
-    ImGui::End();
 }
 
 void Player::Render()
