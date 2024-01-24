@@ -96,7 +96,7 @@ void Scene::Tick(float deltaTime)
 
     for (auto& actor : actors_)
     {
-        if (actor->is_destroy_) continue;
+        if (!actor->is_active_ || actor->is_destroy_) continue;
         actor->Tick(deltaTime);
     }
 }
@@ -105,7 +105,7 @@ void Scene::Render()
 {
     for (auto& actor : actors_)
     {
-        if (actor->is_destroy_) continue;
+        if (!actor->is_active_ || actor->is_destroy_) continue;
         actor->Render();
     }
 }

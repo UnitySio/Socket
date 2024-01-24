@@ -48,4 +48,10 @@ void Actor::SpawnActor(const Actor* actor)
 
 void Actor::SetActive(bool active)
 {
+    EventManager::GetInstance()->AddEvent(
+        {
+            EventType::kActiveActor,
+            reinterpret_cast<uintptr_t>(this),
+            static_cast<bool>(active)
+        });
 }

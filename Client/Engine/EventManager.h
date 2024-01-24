@@ -9,7 +9,8 @@ enum class EventType : size_t;
 struct Event
 {
     EventType type;
-    uintptr_t data;
+    uintptr_t wParam;
+    uintptr_t lParam;
 };
 
 class EventManager : public Singleton<EventManager>

@@ -30,7 +30,7 @@ void EventManager::ExcuteEvent(const Event& event)
     {
     case EventType::kSpawnActor:
         {
-            Actor* temp_actor = reinterpret_cast<Actor*>(event.data);
+            Actor* temp_actor = reinterpret_cast<Actor*>(event.wParam);
             std::shared_ptr<Actor> actor(temp_actor);
             
             Scene* scene = SceneManager::GetInstance()->GetCurrentScene();
@@ -40,13 +40,16 @@ void EventManager::ExcuteEvent(const Event& event)
         
     case EventType::kDestroyActor:
         {
-            Actor* actor = reinterpret_cast<Actor*>(event.data);
+            Actor* actor = reinterpret_cast<Actor*>(event.wParam);
             actor->is_destroy_ = true;
         }
         break;
 
     case EventType::kActiveActor:
         {
+            Actor* actor = reinterpret_cast<Actor*>(event.wParam);
+            bool active = static_cast<bool>(event.lParam);
+            actor->is_active_ = active;
         }
         break;
     }
