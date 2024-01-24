@@ -8,6 +8,7 @@
 Box::Box(b2World* world) : Actor(world)
 {
     GetBody()->SetType(b2_dynamicBody);
+    GetBody()->SetTransform(b2Vec2(320.f, 0.f), 0.f);
 
     b2PolygonShape box;
     box.SetAsBox(32.f, 32.f);

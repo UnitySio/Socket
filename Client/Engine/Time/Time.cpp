@@ -4,7 +4,8 @@
 Time::Time() :
     frequency_{},
     previous_count_{},
-    current_count_{}
+    current_count_{},
+    time_scale_(10)
 {
 }
 

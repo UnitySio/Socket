@@ -15,11 +15,13 @@ public:
     virtual void BeginContact(b2Contact* contact) final;
     virtual void EndContact(b2Contact* contact) final;
 
+    virtual void PreSolve(b2Contact* contact, const b2Manifold* oldManifold) final;
+
     virtual void Begin();
     virtual void Tick(float deltaTime);
     virtual void Render();
     
-    virtual void End() = 0;
+    virtual inline void End() {};
 
     void AddActor(std::shared_ptr<class Actor> actor);
 

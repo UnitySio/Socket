@@ -31,11 +31,11 @@ void Player::Tick(float deltaTime)
     std::shared_ptr<InputManager> input = InputManager::GetInstance();
 
     const int h = input->IsKeyPressed(VK_RIGHT) - input->IsKeyPressed(VK_LEFT);
-    GetBody()->SetLinearVelocity(b2Vec2(h * 100.f, GetBody()->GetLinearVelocity().y));
+    GetBody()->SetLinearVelocity(b2Vec2(h * 10.f, GetBody()->GetLinearVelocity().y));
 
     if (input->IsKeyDown(VK_SPACE))
     {
-        GetBody()->ApplyLinearImpulse(b2Vec2(0.f, -500000.f), GetBody()->GetWorldCenter(), true);
+        GetBody()->ApplyLinearImpulse(b2Vec2(0.f, -50000.f), GetBody()->GetWorldCenter(), true);
     }
 }
 

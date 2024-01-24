@@ -13,7 +13,7 @@ public:
     void Init();
     void Tick();
 
-    inline float GetDeltaTime() const { return delta_time_; }
+    inline float GetDeltaTime() const { return delta_time_ * time_scale_; }
     inline float GetFPS() const { return fps_; }
 
 private:
@@ -22,6 +22,7 @@ private:
     LARGE_INTEGER current_count_;
 
     float delta_time_;
+    float time_scale_;
     float frame_count_;
     float frame_timer_;
     float fps_;

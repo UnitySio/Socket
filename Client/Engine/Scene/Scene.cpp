@@ -4,22 +4,82 @@
 #include "box2d/b2_world.h"
 
 #include "../Actor/Actor.h"
+#include "box2d/b2_contact.h"
 
 Scene::Scene()
 {
-    b2Vec2 gravity(0.0f, 9.81f * 200.f);
+    b2Vec2 gravity(0.0f, 9.81f);
     world_ = std::make_unique<b2World>(gravity);
     world_->SetContactListener(this);
 }
 
 void Scene::BeginContact(b2Contact* contact)
 {
-    b2ContactListener::BeginContact(contact);
+    b2Fixture* fixture_a = contact->GetFixtureA();
+    b2Fixture* fixture_b = contact->GetFixtureB();
+
+    b2Body* body_a = fixture_a->GetBody();
+    b2Body* body_b = fixture_b->GetBody();
+
+    Actor* actor_a = reinterpret_cast<Actor*>(body_a->GetUserData().pointer);
+    Actor* actor_b = reinterpret_cast<Actor*>(body_b->GetUserData().pointer);
+
+    if (!actor_a || !actor_b) return;
+    if (fixture_a->IsSensor() || fixture_b->IsSensor())
+    {
+        actor_a->OnTriggerBegin(actor_b);
+        actor_b->OnTriggerBegin(actor_a);
+        return;
+    }
+
+    actor_a->OnCollisionBegin(actor_b);
+    actor_b->OnCollisionBegin(actor_a);
 }
 
 void Scene::EndContact(b2Contact* contact)
 {
-    b2ContactListener::EndContact(contact);
+    b2Fixture* fixture_a = contact->GetFixtureA();
+    b2Fixture* fixture_b = contact->GetFixtureB();
+
+    b2Body* body_a = fixture_a->GetBody();
+    b2Body* body_b = fixture_b->GetBody();
+
+    Actor* actor_a = reinterpret_cast<Actor*>(body_a->GetUserData().pointer);
+    Actor* actor_b = reinterpret_cast<Actor*>(body_b->GetUserData().pointer);
+
+    if (!actor_a || !actor_b) return;
+    if (fixture_a->IsSensor() || fixture_b->IsSensor())
+    {
+        actor_a->OnTriggerEnd(actor_b);
+        actor_b->OnTriggerEnd(actor_a);
+        return;
+    }
+
+    actor_a->OnCollisionEnd(actor_b);
+    actor_b->OnCollisionEnd(actor_a);
+}
+
+void Scene::PreSolve(b2Contact* contact, const b2Manifold* oldManifold)
+{
+    b2Fixture* fixture_a = contact->GetFixtureA();
+    b2Fixture* fixture_b = contact->GetFixtureB();
+
+    b2Body* body_a = fixture_a->GetBody();
+    b2Body* body_b = fixture_b->GetBody();
+
+    Actor* actor_a = reinterpret_cast<Actor*>(body_a->GetUserData().pointer);
+    Actor* actor_b = reinterpret_cast<Actor*>(body_b->GetUserData().pointer);
+
+    if (!actor_a || !actor_b) return;
+    if (fixture_a->IsSensor() || fixture_b->IsSensor())
+    {
+        actor_a->OnTrigger(actor_b);
+        actor_b->OnTrigger(actor_a);
+        return;
+    }
+
+    actor_a->OnCollision(actor_b);
+    actor_b->OnCollision(actor_a);
 }
 
 void Scene::Begin()
