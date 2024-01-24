@@ -96,6 +96,7 @@ void Scene::Tick(float deltaTime)
 
     for (auto& actor : actors_)
     {
+        if (actor->is_destroy_) continue;
         actor->Tick(deltaTime);
     }
 }
@@ -104,7 +105,23 @@ void Scene::Render()
 {
     for (auto& actor : actors_)
     {
+        if (actor->is_destroy_) continue;
         actor->Render();
+    }
+}
+
+void Scene::Destroy()
+{
+    for (auto iter = actors_.begin(); iter != actors_.end();)
+    {
+        if ((*iter)->is_destroy_)
+        {
+            iter = actors_.erase(iter);
+        }
+        else
+        {
+            ++iter;
+        }
     }
 }
 

@@ -1,9 +1,11 @@
 ﻿#include "Actor.h"
 
+#include "../EventManager.h"
+#include "../Enums.h"
 #include "box2d/b2_body.h"
 #include "box2d/b2_world.h"
 
-Actor::Actor(b2World* world)
+Actor::Actor(b2World* world) : is_destroy_(false)
 {
     b2BodyDef body_def;
     body_def.userData.pointer = reinterpret_cast<uintptr_t>(this);
@@ -17,4 +19,36 @@ Actor::Actor(const Actor& kOrigin)
     strcpy_s(name_, kOrigin.name_);
 
     // 추후 구현
+}
+
+Actor::~Actor()
+{
+    body_->GetWorld()->DestroyBody(body_);
+}
+
+void Actor::Destroy()
+{
+    EventManager::GetInstance()->AddEvent(
+        {
+            EventType::kDestroyActor,
+            reinterpret_cast<uintptr_t>(this)
+        });
+}
+
+void Actor::Destroy(const Actor* other)
+{
+    EventManager::GetInstance()->AddEvent(
+        {
+            EventType::kDestroyActor,
+            reinterpret_cast<uintptr_t>(other)
+        });
+}
+
+void Actor::SpawnActor(const Actor* actor)
+{
+    EventManager::GetInstance()->AddEvent(
+        {
+            EventType::kSpawnActor,
+            reinterpret_cast<uintptr_t>(actor)
+        });
 }

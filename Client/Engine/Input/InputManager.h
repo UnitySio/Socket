@@ -1,9 +1,16 @@
 ﻿#pragma once
 
 #include "../Singleton.h"
-#include "Key.h"
 
 #include <map>
+
+enum class KeyState : size_t;
+
+struct Key
+{
+    KeyState state;
+    bool is_down;
+};
 
 class InputManager : public Singleton<InputManager>
 {

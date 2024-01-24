@@ -20,6 +20,7 @@ public:
     virtual void Begin();
     virtual void Tick(float deltaTime);
     virtual void Render();
+    virtual void Destroy();
     
     virtual inline void End() {};
 

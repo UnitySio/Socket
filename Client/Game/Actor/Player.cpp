@@ -1,5 +1,6 @@
 ﻿#include "Player.h"
 
+#include "Box.h"
 #include "../../Engine/Core.h"
 #include "../../Engine/Graphics/Graphics.h"
 #include "../../Engine/Input/InputManager.h"
@@ -42,6 +43,14 @@ void Player::Tick(float deltaTime)
         if (input->IsKeyDown(VK_SPACE))
         {
             GetBody()->ApplyLinearImpulse(b2Vec2(0.f, -50000.f), GetBody()->GetWorldCenter(), true);
+        }
+
+        if (input->IsKeyDown(VK_DOWN))
+        {
+            Box* box = new Box(GetBody()->GetWorld());
+            box->SetName("Box");
+
+            SpawnActor(box);
         }
     }
 

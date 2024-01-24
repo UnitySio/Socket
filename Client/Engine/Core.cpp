@@ -1,5 +1,6 @@
 ﻿#include "Core.h"
 
+#include "EventManager.h"
 #include "Graphics/Graphics.h"
 #include "Time/Time.h"
 #include "Scene/SceneManager.h"
@@ -136,6 +137,7 @@ LRESULT Core::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         SceneManager::GetInstance()->Release();
         Time::GetInstance()->Release();
         Graphics::GetInstance()->Release();
+        EventManager::GetInstance()->Release();
         GetInstance()->Release();
 
         CoUninitialize();
@@ -166,18 +168,22 @@ void Core::MainLogic()
     ImGui_ImplDX11_NewFrame();
     ImGui_ImplWin32_NewFrame();
     ImGui::NewFrame();
-    
-    Tick(Time::GetInstance()->GetDeltaTime());
 
-    ImGui::Render();
-    ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
+    Tick(Time::GetInstance()->GetDeltaTime());
     
     Graphics::GetInstance()->BeginRenderD2D();
 
     Render();
 
     Graphics::GetInstance()->EndRenderD2D();
+    
+    ImGui::Render();
+    ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
+    
     Graphics::GetInstance()->EndRenderD3D();
+
+    SceneManager::GetInstance()->Destroy();
+    EventManager::GetInstance()->Tick();
 }
 
 void Core::Tick(float delta_time)

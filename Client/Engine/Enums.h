@@ -13,3 +13,9 @@ enum class SceneType : size_t
     kDefault = 0,
     kEnd
 };
+
+enum class EventType : size_t
+{
+    kSpawnActor = 0,
+    kDestroyActor
+};

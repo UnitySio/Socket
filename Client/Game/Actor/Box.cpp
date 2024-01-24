@@ -1,6 +1,7 @@
 ﻿#include "Box.h"
 
 #include "../../Engine/Graphics/Graphics.h"
+#include "../../Engine/Input/InputManager.h"
 #include "box2d/b2_body.h"
 #include "box2d/b2_fixture.h"
 #include "box2d/b2_polygon_shape.h"
@@ -35,4 +36,12 @@ void Box::Render()
     float angle = GetBody()->GetAngle();
 
     Graphics::GetInstance()->DrawBox(position, b2Vec2(64.f, 64.f), angle);
+}
+
+void Box::OnCollisionBegin(Actor* other)
+{
+    if (strcmp(other->GetName(), "Player") == 0)
+    {
+        // Destroy();
+    }
 }

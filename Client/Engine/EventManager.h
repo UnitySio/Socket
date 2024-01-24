@@ -1,0 +1,29 @@
+﻿#pragma once
+#include <cstdint>
+#include <vector>
+
+#include "Singleton.h"
+
+enum class EventType : size_t;
+
+struct Event
+{
+    EventType type;
+    uintptr_t data;
+};
+
+class EventManager : public Singleton<EventManager>
+{
+public:
+    EventManager();
+    virtual ~EventManager() final = default;
+
+    void Tick();
+    void AddEvent(const Event& event);
+
+private:
+    void ExcuteEvent(const Event& event);
+    
+    std::vector<Event> events_;
+    
+};

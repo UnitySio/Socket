@@ -47,3 +47,11 @@ void SceneManager::Render()
         current_scene_->Render();
     }
 }
+
+void SceneManager::Destroy()
+{
+    if (current_scene_)
+    {
+        current_scene_->Destroy();
+    }
+}

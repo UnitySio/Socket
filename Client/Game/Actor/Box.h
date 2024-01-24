@@ -10,5 +10,6 @@ public:
     virtual void Begin() final;
     virtual void Tick(float deltaTime) final;
     virtual void Render() final;
+    virtual void OnCollisionBegin(Actor* other) final;
     
 };

@@ -16,6 +16,9 @@ public:
     void LoadScene(SceneType type);
     void Tick(float deltaTime);
     void Render();
+    void Destroy();
+
+    inline Scene* GetCurrentScene() const { return current_scene_.get(); }
 
 private:
     std::shared_ptr<Scene> current_scene_;
