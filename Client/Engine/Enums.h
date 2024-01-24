@@ -17,5 +17,6 @@ enum class SceneType : size_t
 enum class EventType : size_t
 {
     kSpawnActor = 0,
-    kDestroyActor
+    kDestroyActor,
+    kActiveActor,
 };

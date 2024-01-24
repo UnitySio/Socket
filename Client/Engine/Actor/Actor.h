@@ -7,7 +7,6 @@ class Actor
 {
 public:
     Actor(class b2World* world);
-    Actor(const Actor& kOrigin);
     virtual ~Actor();
 
     virtual inline void Begin() {};
@@ -29,6 +28,10 @@ public:
 
     inline b2Body* GetBody() const { return body_; }
 
+    inline bool IsActive() const { return is_active_; }
+
+    void SetActive(bool active);
+
 private:
     friend class Scene;
     friend class EventManager;
@@ -37,6 +40,7 @@ private:
 
     b2Body* body_;
 
+    bool is_active_;
     bool is_destroy_;
     
 };

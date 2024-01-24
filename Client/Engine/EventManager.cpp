@@ -44,5 +44,10 @@ void EventManager::ExcuteEvent(const Event& event)
             actor->is_destroy_ = true;
         }
         break;
+
+    case EventType::kActiveActor:
+        {
+        }
+        break;
     }
 }
