@@ -20,6 +20,8 @@ Box::Box(b2World* world) : Actor(world)
     fixture_def.friction = .3f;
 
     GetBody()->CreateFixture(&fixture_def);
+
+    texture_ = Graphics::GetInstance()->LoadTexture(L".\\box.png");
 }
 
 void Box::Begin()
@@ -35,13 +37,13 @@ void Box::Render()
     b2Vec2 position = GetBody()->GetPosition();
     float angle = GetBody()->GetAngle();
 
-    Graphics::GetInstance()->DrawBox(position, b2Vec2(64.f, 64.f), angle);
+    Graphics::GetInstance()->DrawTexture(texture_, position, b2Vec2(.25f, .25f), angle);
 }
 
 void Box::OnCollisionBegin(Actor* other)
 {
     if (strcmp(other->GetName(), "Player") == 0)
     {
-        // Destroy();
+        Destroy();
     }
 }

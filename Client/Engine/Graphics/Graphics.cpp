@@ -6,6 +6,8 @@
 #include "box2d/b2_math.h"
 #include "stb/stb_image.h"
 
+#include <wincodec.h>
+
 Graphics::Graphics()
 {
 }
@@ -166,6 +168,30 @@ void Graphics::DrawBox(b2Vec2 position, b2Vec2 size, float angle, b2Color color)
     brush->Release();
 }
 
+void Graphics::DrawTexture(ID2D1Bitmap* texture, b2Vec2 position, b2Vec2 scale, float angle, float opacity)
+{
+    const float half_size_x = texture->GetSize().width * scale.x / 2.f;
+    const float half_size_y = texture->GetSize().height * scale.y / 2.f;
+
+    const D2D1_RECT_F rectangle = D2D1::RectF(
+        position.x - half_size_x,
+        position.y - half_size_y,
+        position.x + half_size_x,
+        position.y + half_size_y
+    );
+
+    const D2D1_POINT_2F center = D2D1::Point2F(position.x, position.y);
+    d2d_render_target_->SetTransform(D2D1::Matrix3x2F::Rotation(angle, center));
+
+    d2d_render_target_->DrawBitmap(
+        texture,
+        rectangle,
+        opacity,
+        D2D1_BITMAP_INTERPOLATION_MODE_LINEAR,
+        D2D1::RectF(0, 0, texture->GetSize().width, texture->GetSize().height
+        ));
+}
+
 bool Graphics::LoadTexture(const std::string& file_name, ID3D11ShaderResourceView** texture_view, int* width,
                            int* height)
 {
@@ -207,4 +233,83 @@ bool Graphics::LoadTexture(const std::string& file_name, ID3D11ShaderResourceVie
     stbi_image_free(image_data);
 
     return true;
+}
+
+ID2D1Bitmap* Graphics::LoadTexture(const WCHAR* file_name)
+{
+    IWICImagingFactory* wic_factory;
+    HRESULT result = CoCreateInstance(
+        CLSID_WICImagingFactory,
+        nullptr,
+        CLSCTX_INPROC_SERVER,
+        IID_PPV_ARGS(&wic_factory)
+    );
+
+    if (FAILED(result))
+    {
+        return nullptr;
+    }
+
+    IWICBitmapDecoder* wic_decoder;
+    result = wic_factory->CreateDecoderFromFilename(
+        file_name,
+        nullptr,
+        GENERIC_READ,
+        WICDecodeMetadataCacheOnDemand,
+        &wic_decoder
+    );
+
+    if (FAILED(result))
+    {
+        return nullptr;
+    }
+
+    IWICBitmapFrameDecode* wic_frame;
+    result = wic_decoder->GetFrame(0, &wic_frame);
+
+    if (FAILED(result))
+    {
+        return nullptr;
+    }
+
+    IWICFormatConverter* wic_converter;
+    result = wic_factory->CreateFormatConverter(&wic_converter);
+
+    if (FAILED(result))
+    {
+        return nullptr;
+    }
+
+    result = wic_converter->Initialize(
+        wic_frame,
+        GUID_WICPixelFormat32bppPBGRA,
+        WICBitmapDitherTypeNone,
+        nullptr,
+        0.f,
+        WICBitmapPaletteTypeMedianCut
+    );
+
+    if (FAILED(result))
+    {
+        return nullptr;
+    }
+
+    ID2D1Bitmap* d2d_bitmap;
+    result = d2d_render_target_->CreateBitmapFromWicBitmap(
+        wic_converter,
+        nullptr,
+        &d2d_bitmap
+    );
+
+    if (FAILED(result))
+    {
+        return nullptr;
+    }
+
+    wic_frame->Release();
+    wic_decoder->Release();
+    wic_converter->Release();
+    wic_factory->Release();
+
+    return d2d_bitmap;
 }

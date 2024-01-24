@@ -23,9 +23,12 @@ public:
     
     void BeginRenderD3D();
     void EndRenderD3D();
-    void DrawBox(b2Vec2 position, b2Vec2 size, float angle, b2Color color = b2Color(1.0f, 1.0f, 1.0f));
+    void DrawBox(b2Vec2 position, b2Vec2 size, float angle, b2Color color = b2Color(1.f, 1.f, 1.f));
+    void DrawTexture(ID2D1Bitmap* texture, b2Vec2 position, b2Vec2 scale = b2Vec2(1.f, 1.f), float angle = 0.f, float opacity = 1.f);
     
     bool LoadTexture(const std::string& file_name, ID3D11ShaderResourceView** texture_view, int* width, int* height);
+
+    ID2D1Bitmap* LoadTexture(const WCHAR* file_name);
 
     inline ID3D11Device* GetD3DDevice() const { return d3d_device_; }
     inline ID3D11DeviceContext* GetD3DDeviceContext() const { return d3d_device_context_; }
