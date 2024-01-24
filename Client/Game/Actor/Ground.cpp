@@ -27,5 +27,5 @@ void Ground::Render()
     b2Vec2 position = GetBody()->GetPosition();
     float angle = GetBody()->GetAngle();
 
-    Graphics::GetInstance()->DrawFillRectangle(position, b2Vec2(640.f, 32.f), angle);
+    Graphics::GetInstance()->DrawBox(position, b2Vec2(640.f, 32.f), angle);
 }

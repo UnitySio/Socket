@@ -135,6 +135,7 @@
   <ItemGroup>
     <ClInclude Include="Client.h" />
     <ClInclude Include="Engine\Actor\Actor.h" />
+    <ClInclude Include="Engine\Actor\Component\Component.h" />
     <ClInclude Include="Engine\Core.h" />
     <ClInclude Include="Engine\Enums.h" />
     <ClInclude Include="Engine\Graphics\Graphics.h" />
@@ -224,6 +225,7 @@
   <ItemGroup>
     <ClCompile Include="Client.cpp" />
     <ClCompile Include="Engine\Actor\Actor.cpp" />
+    <ClCompile Include="Engine\Actor\Component\Component.cpp" />
     <ClCompile Include="Engine\Core.cpp" />
     <ClCompile Include="Engine\Graphics\Graphics.cpp" />
     <ClCompile Include="Engine\Input\InputManager.cpp" />

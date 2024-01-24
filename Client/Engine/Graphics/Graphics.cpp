@@ -75,7 +75,7 @@ bool Graphics::InitDeviceD3D()
 bool Graphics::InitRenderTargetD3D()
 {
     ID3D11Texture2D* back_buffer;
-    
+
     HRESULT result = dxgi_swap_chain_->GetBuffer(0, IID_PPV_ARGS(&back_buffer));
     if (FAILED(result)) return false;
 
@@ -111,7 +111,7 @@ bool Graphics::InitRenderTargetD2D()
     );
 
     IDXGISurface* back_buffer;
-    
+
     HRESULT result = dxgi_swap_chain_->GetBuffer(0, IID_PPV_ARGS(&back_buffer));
     if (FAILED(result)) return false;
 
@@ -123,7 +123,7 @@ bool Graphics::InitRenderTargetD2D()
 
 void Graphics::BeginRenderD3D()
 {
-    constexpr float clear_color[] = { 0.f, 0.f, 0.f, 1.f };
+    constexpr float clear_color[] = {0.f, 0.f, 0.f, 1.f};
 
     d3d_device_context_->OMSetRenderTargets(1, &d3d_render_target_view_, nullptr);
     d3d_device_context_->ClearRenderTargetView(d3d_render_target_view_, clear_color);
@@ -136,11 +136,11 @@ void Graphics::EndRenderD3D()
     dxgi_swap_chain_->Present(0, 0);
 }
 
-void Graphics::DrawFillRectangle(b2Vec2 position, b2Vec2 size, float angle)
+void Graphics::DrawBox(b2Vec2 position, b2Vec2 size, float angle, b2Color color)
 {
     const float half_size_x = size.x / 2.f;
     const float half_size_y = size.y / 2.f;
-    
+
     const D2D1_RECT_F rectangle = D2D1::RectF(
         position.x - half_size_x,
         position.y - half_size_y,
@@ -148,12 +148,17 @@ void Graphics::DrawFillRectangle(b2Vec2 position, b2Vec2 size, float angle)
         position.y + half_size_y
     );
 
+    const D2D_COLOR_F d2d_color = D2D1::ColorF(color.r,
+                                               color.g,
+                                               color.b,
+                                               color.a);
+
     ID2D1SolidColorBrush* brush;
-    d2d_render_target_->CreateSolidColorBrush(D2D1::ColorF(D2D1::ColorF::White), &brush);
+    d2d_render_target_->CreateSolidColorBrush(d2d_color, &brush);
 
     // 라디안을 각도로 변환
     angle = angle * 180.f / b2_pi;
-    
+
     D2D1_POINT_2F center = D2D1::Point2F(position.x, position.y);
     d2d_render_target_->SetTransform(D2D1::Matrix3x2F::Rotation(angle, center));
 
@@ -181,7 +186,7 @@ bool Graphics::LoadTexture(const std::string& file_name, ID3D11ShaderResourceVie
     desc.BindFlags = D3D11_BIND_SHADER_RESOURCE;
     desc.CPUAccessFlags = 0;
 
-    ID3D11Texture2D *texture = NULL;
+    ID3D11Texture2D* texture = NULL;
     D3D11_SUBRESOURCE_DATA subresource_data;
     subresource_data.pSysMem = image_data;
     subresource_data.SysMemPitch = desc.Width * 4;

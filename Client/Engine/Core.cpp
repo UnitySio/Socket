@@ -160,19 +160,21 @@ DWORD Core::LogicThread(LPVOID lpParam)
 void Core::MainLogic()
 {
     Time::GetInstance()->Tick();
-    Tick(Time::GetInstance()->GetDeltaTime());
 
     Graphics::GetInstance()->BeginRenderD3D();
-    Graphics::GetInstance()->BeginRenderD2D();
 
     ImGui_ImplDX11_NewFrame();
     ImGui_ImplWin32_NewFrame();
     ImGui::NewFrame();
-
-    Render();
+    
+    Tick(Time::GetInstance()->GetDeltaTime());
 
     ImGui::Render();
     ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
+    
+    Graphics::GetInstance()->BeginRenderD2D();
+
+    Render();
 
     Graphics::GetInstance()->EndRenderD2D();
     Graphics::GetInstance()->EndRenderD3D();

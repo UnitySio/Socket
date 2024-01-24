@@ -16,7 +16,7 @@ Box::Box(b2World* world) : Actor(world)
     b2FixtureDef fixture_def;
     fixture_def.shape = &box;
     fixture_def.density = 1.f;
-    fixture_def.friction = 0.3f;
+    fixture_def.friction = .3f;
 
     GetBody()->CreateFixture(&fixture_def);
 }
@@ -34,5 +34,5 @@ void Box::Render()
     b2Vec2 position = GetBody()->GetPosition();
     float angle = GetBody()->GetAngle();
 
-    Graphics::GetInstance()->DrawFillRectangle(position, b2Vec2(64.f, 64.f), angle);
+    Graphics::GetInstance()->DrawBox(position, b2Vec2(64.f, 64.f), angle);
 }
