@@ -17,3 +17,18 @@ void ShapeComponent::SetFriction(float friction)
 {
     fixture_->SetFriction(friction);
 }
+
+void ShapeComponent::SetRestitution(float restitution)
+{
+    fixture_->SetRestitution(restitution);
+}
+
+void ShapeComponent::SetRestitutionThreshold(float threshold)
+{
+    fixture_->SetRestitutionThreshold(threshold);
+}
+
+void ShapeComponent::SetTrigger(bool trigger)
+{
+    fixture_->SetSensor(trigger);
+}

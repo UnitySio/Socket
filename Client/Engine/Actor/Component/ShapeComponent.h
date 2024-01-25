@@ -9,6 +9,9 @@ public:
 
     void SetDensity(float density);
     void SetFriction(float friction);
+    void SetRestitution(float restitution);
+    void SetRestitutionThreshold(float threshold);
+    void SetTrigger(bool trigger);
 
 protected:
     class b2Fixture* fixture_;

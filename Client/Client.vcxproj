@@ -136,6 +136,7 @@
     <ClInclude Include="Client.h" />
     <ClInclude Include="Engine\Actor\Actor.h" />
     <ClInclude Include="Engine\Actor\Component\BoxComponent.h" />
+    <ClInclude Include="Engine\Actor\Component\CircleComponent.h" />
     <ClInclude Include="Engine\Actor\Component\Component.h" />
     <ClInclude Include="Engine\Actor\Component\ShapeComponent.h" />
     <ClInclude Include="Engine\Core.h" />
@@ -228,6 +229,7 @@
     <ClCompile Include="Client.cpp" />
     <ClCompile Include="Engine\Actor\Actor.cpp" />
     <ClCompile Include="Engine\Actor\Component\BoxComponent.cpp" />
+    <ClCompile Include="Engine\Actor\Component\CircleComponent.cpp" />
     <ClCompile Include="Engine\Actor\Component\Component.cpp" />
     <ClCompile Include="Engine\Actor\Component\ShapeComponent.cpp" />
     <ClCompile Include="Engine\Core.cpp" />

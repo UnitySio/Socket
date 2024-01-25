@@ -17,7 +17,7 @@ Player::Player(b2World* world) : Actor(world)
     BoxComponent* box_component = AddComponent<BoxComponent>();
     box_component->SetBox(b2Vec2(32.f, 32.f));
     box_component->SetDensity(1.f);
-    box_component->SetFriction(.3f);
+    box_component->SetFriction(0.f);
 
     color_ = b2Color(1.f, 1.f, 1.f);
 }
