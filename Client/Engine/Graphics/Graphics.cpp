@@ -4,7 +4,6 @@
 
 #include "../Core.h"
 #include "box2d/b2_math.h"
-#include "stb/stb_image.h"
 
 #include <wincodec.h>
 
