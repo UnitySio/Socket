@@ -19,6 +19,14 @@ Actor::~Actor()
     body_->GetWorld()->DestroyBody(body_);
 }
 
+void Actor::Tick(float deltaTime)
+{
+    for (auto& component : components_)
+    {
+        component->TickComponent(deltaTime);
+    }
+}
+
 void Actor::Destroy()
 {
     EventManager::GetInstance()->AddEvent(
