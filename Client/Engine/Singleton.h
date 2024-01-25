@@ -5,13 +5,6 @@
 template <typename T>
 class Singleton
 {
-    static std::shared_ptr<T> instance_;
-    static std::once_flag flag_;
-
-protected:
-    Singleton() = default;
-    virtual ~Singleton() = default;
-    
 public:
     Singleton(const Singleton&) = delete;
     Singleton& operator=(const Singleton&) = delete;
@@ -26,6 +19,14 @@ public:
     {
         instance_.reset();
     }
+
+protected:
+    Singleton() = default;
+    virtual ~Singleton() = default;
+    
+private:
+    static std::shared_ptr<T> instance_;
+    static std::once_flag flag_;
     
 };
 

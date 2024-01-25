@@ -7,8 +7,6 @@ public:
     Ground(b2World* world);
     virtual ~Ground() final = default;
 
-    virtual void Begin() final;
-    virtual void Tick(float deltaTime) final;
     virtual void Render() final;
     
 };

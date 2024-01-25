@@ -27,6 +27,14 @@ void Actor::Tick(float deltaTime)
     }
 }
 
+void Actor::Render()
+{
+    for (auto& component : components_)
+    {
+        component->Render();
+    }
+}
+
 void Actor::Destroy()
 {
     EventManager::GetInstance()->AddEvent(

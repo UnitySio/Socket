@@ -15,14 +15,6 @@ Ground::Ground(b2World* world) : Actor(world)
     GetBody()->CreateFixture(&box, 0.f);
 }
 
-void Ground::Begin()
-{
-}
-
-void Ground::Tick(float deltaTime)
-{
-}
-
 void Ground::Render()
 {
     b2Vec2 position = Camera::GetInstance()->GetRenderPosition(GetBody()->GetPosition());

@@ -25,8 +25,6 @@ public:
     void EndRenderD3D();
     void DrawBox(b2Vec2 position, b2Vec2 size, float angle, b2Color color = b2Color(1.f, 1.f, 1.f));
     void DrawTexture(ID2D1Bitmap* texture, b2Vec2 position, b2Vec2 scale = b2Vec2(1.f, 1.f), float angle = 0.f, float opacity = 1.f);
-    
-    bool LoadTexture(const std::string& file_name, ID3D11ShaderResourceView** texture_view, int* width, int* height);
 
     ID2D1Bitmap* LoadTexture(const WCHAR* file_name);
 

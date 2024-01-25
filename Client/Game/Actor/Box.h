@@ -8,10 +8,7 @@ public:
     Box(b2World* world);
     virtual ~Box() final = default;
     
-    virtual void Begin() final;
-    virtual void Tick(float deltaTime) final;
     virtual void Render() final;
-    virtual void OnCollisionBegin(Actor* other) final;
 
 private:
     class ID2D1Bitmap* texture_;

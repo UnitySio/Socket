@@ -12,7 +12,6 @@ public:
 
     virtual float ReportFixture(b2Fixture* fixture, const b2Vec2& point, const b2Vec2& normal, float fraction) final;
     
-    virtual void Begin() final;
     virtual void Tick(float deltaTime) final;
     virtual void Render() final;
     virtual void OnCollisionBegin(Actor* other) final;

@@ -36,10 +36,6 @@ float Player::ReportFixture(b2Fixture* fixture, const b2Vec2& point, const b2Vec
     return 1;
 }
 
-void Player::Begin()
-{
-}
-
 void Player::Tick(float deltaTime)
 {
     is_ground_ = false;

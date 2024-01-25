@@ -2,6 +2,7 @@
 #include <memory>
 #include <vector>
 
+#include "box2d/b2_math.h"
 #include "Component/Component.h"
 
 class b2Body;
@@ -13,7 +14,6 @@ public:
     virtual ~Actor();
 
     virtual inline void Begin() {};
-    virtual inline void Render() {};
     virtual inline void OnCollisionBegin(Actor* other) {};
     virtual inline void OnCollisionEnd(Actor* other) {};
     virtual inline void OnCollision(Actor* other) {};
@@ -22,6 +22,7 @@ public:
     virtual inline void OnTriggerEnd(Actor* other) {};
 
     virtual void Tick(float deltaTime);
+    virtual void Render();
 
     void Destroy();
     void Destroy(const Actor* other);
@@ -53,6 +54,8 @@ private:
     char name_[256];
 
     b2Body* body_;
+
+    b2Vec2 scale_;
 
     bool is_active_;
     bool is_destroy_;

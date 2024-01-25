@@ -8,6 +8,7 @@ public:
 
     virtual inline void Begin() {};
     virtual inline void TickComponent(float deltaTime) {};
+    virtual inline void Render() {};
 
 protected:
     Actor* owner_;

@@ -194,49 +194,6 @@ void Graphics::DrawTexture(ID2D1Bitmap* texture, b2Vec2 position, b2Vec2 scale, 
         ));
 }
 
-bool Graphics::LoadTexture(const std::string& file_name, ID3D11ShaderResourceView** texture_view, int* width,
-                           int* height)
-{
-    int image_width = 0;
-    int image_height = 0;
-    unsigned char* image_data = stbi_load(file_name.c_str(), &image_width, &image_height, nullptr, 4);
-    if (!image_data) return false;
-
-    D3D11_TEXTURE2D_DESC desc;
-    ZeroMemory(&desc, sizeof(desc));
-    desc.Width = image_width;
-    desc.Height = image_height;
-    desc.MipLevels = 1;
-    desc.ArraySize = 1;
-    desc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
-    desc.SampleDesc.Count = 1;
-    desc.Usage = D3D11_USAGE_DEFAULT;
-    desc.BindFlags = D3D11_BIND_SHADER_RESOURCE;
-    desc.CPUAccessFlags = 0;
-
-    ID3D11Texture2D* texture = NULL;
-    D3D11_SUBRESOURCE_DATA subresource_data;
-    subresource_data.pSysMem = image_data;
-    subresource_data.SysMemPitch = desc.Width * 4;
-    subresource_data.SysMemSlicePitch = 0;
-    d3d_device_->CreateTexture2D(&desc, &subresource_data, &texture);
-
-    D3D11_SHADER_RESOURCE_VIEW_DESC shader_resource_view_desc;
-    ZeroMemory(&shader_resource_view_desc, sizeof(shader_resource_view_desc));
-    shader_resource_view_desc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
-    shader_resource_view_desc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
-    shader_resource_view_desc.Texture2D.MipLevels = desc.MipLevels;
-    shader_resource_view_desc.Texture2D.MostDetailedMip = 0;
-    d3d_device_->CreateShaderResourceView(texture, &shader_resource_view_desc, texture_view);
-    texture->Release();
-
-    *width = image_width;
-    *height = image_height;
-    stbi_image_free(image_data);
-
-    return true;
-}
-
 ID2D1Bitmap* Graphics::LoadTexture(const WCHAR* file_name)
 {
     IWICImagingFactory* wic_factory;
