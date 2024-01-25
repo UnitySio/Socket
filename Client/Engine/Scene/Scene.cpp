@@ -92,13 +92,13 @@ void Scene::Begin()
 
 void Scene::Tick(float deltaTime)
 {
-    world_->Step(deltaTime, 8, 3);
-    
     for (auto& actor : actors_)
     {
         if (!actor->is_active_ || actor->is_destroy_) continue;
         actor->Tick(deltaTime);
     }
+    
+    world_->Step(deltaTime, 8, 3);
 }
 
 void Scene::Render()

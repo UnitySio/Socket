@@ -22,11 +22,13 @@ private:
     LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 
     static DWORD WINAPI LogicThread(LPVOID lpParam);
+    
     void MainLogic();
+    void PhysicsLogic();
     void Tick(float delta_time);
     void Render();
 
-    LPCWSTR class_name_;
+    WCHAR class_name_[256];
 
     POINT resolution_;
     RECT window_area_;
