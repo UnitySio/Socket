@@ -179,6 +179,8 @@ void Graphics::DrawTexture(ID2D1Bitmap* texture, b2Vec2 position, b2Vec2 scale, 
         position.x + half_size_x,
         position.y + half_size_y
     );
+    
+    angle = angle * 180.f / b2_pi;
 
     const D2D1_POINT_2F center = D2D1::Point2F(position.x, position.y);
     d2d_render_target_->SetTransform(D2D1::Matrix3x2F::Rotation(angle, center));

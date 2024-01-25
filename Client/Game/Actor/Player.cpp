@@ -18,7 +18,7 @@ Player::Player(b2World* world) : Actor(world)
     BoxComponent* box_component = AddComponent<BoxComponent>();
     box_component->SetBox(b2Vec2(32.f, 32.f));
     box_component->SetDensity(1.f);
-    box_component->SetFriction(0.f);
+    box_component->SetFriction(.3f);
 
     color_ = b2Color(1.f, 1.f, 1.f);
 }
@@ -62,6 +62,16 @@ void Player::Tick(float deltaTime)
 
         SpawnActor(box);
     }
+
+    if (ImGui::Begin(u8"DEBUG"))
+    {
+        float angle = GetBody()->GetAngle() * 180.f / b2_pi;
+
+        ImGui::Text(u8"Position: (%.2f, %.2f)", GetBody()->GetPosition().x, GetBody()->GetPosition().y);
+        ImGui::Text(u8"Angle: %.2f", angle);
+    }
+
+    ImGui::End();
     
     Camera::GetInstance()->GetBody()->SetTransform(GetBody()->GetPosition(), GetBody()->GetAngle());
 }
