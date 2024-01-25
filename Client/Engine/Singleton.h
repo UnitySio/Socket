@@ -3,7 +3,7 @@
 #include <mutex>
 
 template <typename T>
-class Singleton : public std::enable_shared_from_this<T>
+class Singleton
 {
     static std::shared_ptr<T> instance_;
     static std::once_flag flag_;

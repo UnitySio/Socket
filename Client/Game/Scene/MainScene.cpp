@@ -1,11 +1,17 @@
 ﻿#include "MainScene.h"
 
+#include "../../Engine/Actor/Camera.h"
 #include "../Actor/Box.h"
 #include "../Actor/Ground.h"
 #include "../Actor/Player.h"
 
 MainScene::MainScene()
 {
+    std::shared_ptr<Camera> camera = std::make_shared<Camera>(GetWorld());
+    camera->SetName("Camera");
+
+    AddActor(camera);
+    
     std::shared_ptr<Actor> ground = std::make_shared<Ground>(GetWorld());
     ground->SetName("Ground");
     

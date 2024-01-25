@@ -8,7 +8,7 @@ class Player : public Actor, public b2RayCastCallback
 {
 public:
     Player(class b2World* world);
-    virtual ~Player() = default;
+    virtual ~Player() final = default;
 
     virtual float ReportFixture(b2Fixture* fixture, const b2Vec2& point, const b2Vec2& normal, float fraction) final;
     

@@ -2,6 +2,7 @@
 
 #include "Box.h"
 #include "../../Engine/Core.h"
+#include "../../Engine/Actor/Camera.h"
 #include "../../Engine/Actor/Component/BoxComponent.h"
 #include "../../Engine/Graphics/Graphics.h"
 #include "../../Engine/Input/InputManager.h"
@@ -61,11 +62,13 @@ void Player::Tick(float deltaTime)
 
         SpawnActor(box);
     }
+    
+    Camera::GetInstance()->GetBody()->SetTransform(GetBody()->GetPosition(), GetBody()->GetAngle());
 }
 
 void Player::Render()
 {
-    b2Vec2 position = GetBody()->GetPosition();
+    b2Vec2 position = Camera::GetInstance()->GetRenderPosition(GetBody()->GetPosition());
     float angle = GetBody()->GetAngle();
 
     Graphics::GetInstance()->DrawBox(position, b2Vec2(32.f, 32.f), angle, color_);

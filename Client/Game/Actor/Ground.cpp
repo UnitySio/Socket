@@ -1,5 +1,6 @@
 ﻿#include "Ground.h"
 
+#include "../../Engine/Actor/Camera.h"
 #include "../../Engine/Graphics/Graphics.h"
 #include "box2d/b2_body.h"
 #include "box2d/b2_polygon_shape.h"
@@ -24,7 +25,7 @@ void Ground::Tick(float deltaTime)
 
 void Ground::Render()
 {
-    b2Vec2 position = GetBody()->GetPosition();
+    b2Vec2 position = Camera::GetInstance()->GetRenderPosition(GetBody()->GetPosition());
     float angle = GetBody()->GetAngle();
 
     Graphics::GetInstance()->DrawBox(position, b2Vec2(640.f, 32.f), angle);

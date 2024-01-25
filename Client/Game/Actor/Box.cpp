@@ -1,5 +1,6 @@
 ﻿#include "Box.h"
 
+#include "../../Engine/Actor/Camera.h"
 #include "../../Engine/Graphics/Graphics.h"
 #include "../../Engine/Input/InputManager.h"
 #include "box2d/b2_body.h"
@@ -34,7 +35,7 @@ void Box::Tick(float deltaTime)
 
 void Box::Render()
 {
-    b2Vec2 position = GetBody()->GetPosition();
+    b2Vec2 position = Camera::GetInstance()->GetRenderPosition(GetBody()->GetPosition());
     float angle = GetBody()->GetAngle();
 
     Graphics::GetInstance()->DrawTexture(texture_, position, b2Vec2(.25f, .25f), angle);

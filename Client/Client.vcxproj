@@ -135,6 +135,7 @@
   <ItemGroup>
     <ClInclude Include="Client.h" />
     <ClInclude Include="Engine\Actor\Actor.h" />
+    <ClInclude Include="Engine\Actor\Camera.h" />
     <ClInclude Include="Engine\Actor\Component\BoxComponent.h" />
     <ClInclude Include="Engine\Actor\Component\CircleComponent.h" />
     <ClInclude Include="Engine\Actor\Component\Component.h" />
@@ -228,6 +229,7 @@
   <ItemGroup>
     <ClCompile Include="Client.cpp" />
     <ClCompile Include="Engine\Actor\Actor.cpp" />
+    <ClCompile Include="Engine\Actor\Camera.cpp" />
     <ClCompile Include="Engine\Actor\Component\BoxComponent.cpp" />
     <ClCompile Include="Engine\Actor\Component\CircleComponent.cpp" />
     <ClCompile Include="Engine\Actor\Component\Component.cpp" />

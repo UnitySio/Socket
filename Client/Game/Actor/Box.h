@@ -6,7 +6,7 @@ class Box : public Actor
 {
 public:
     Box(b2World* world);
-    virtual ~Box() = default;
+    virtual ~Box() final = default;
     
     virtual void Begin() final;
     virtual void Tick(float deltaTime) final;

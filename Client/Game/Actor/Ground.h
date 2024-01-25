@@ -5,7 +5,7 @@ class Ground : public Actor
 {
 public:
     Ground(b2World* world);
-    virtual ~Ground() = default;
+    virtual ~Ground() final = default;
 
     virtual void Begin() final;
     virtual void Tick(float deltaTime) final;
