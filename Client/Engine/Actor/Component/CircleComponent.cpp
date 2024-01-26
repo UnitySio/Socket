@@ -18,7 +18,7 @@ CircleComponent::CircleComponent(Actor* owner) : ShapeComponent(owner)
 void CircleComponent::SetRadius(float radius)
 {
     b2CircleShape circle;
-    circle.m_radius = 1.f;
+    circle.m_radius = radius;
 
     b2FixtureDef fixture_def;
     fixture_def.shape = &circle;

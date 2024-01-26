@@ -21,7 +21,7 @@ Box::Box(b2World* world) : Actor(world)
 
     SpriteComponent* sprite_component = AddComponent<SpriteComponent>();
 
-    texture_ = Graphics::GetInstance()->LoadTexture(L".\\box.png");
+    texture_ = Graphics::GetInstance()->LoadTexture(L".\\Box.png");
 }
 
 void Box::Render()

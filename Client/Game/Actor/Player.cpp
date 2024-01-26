@@ -19,8 +19,6 @@ Player::Player(b2World* world) : Actor(world)
     box_component->SetBox(b2Vec2(32.f, 32.f));
     box_component->SetDensity(1.f);
     box_component->SetFriction(.3f);
-
-    color_ = b2Color(1.f, 1.f, 1.f);
 }
 
 float Player::ReportFixture(b2Fixture* fixture, const b2Vec2& point, const b2Vec2& normal, float fraction)
@@ -65,6 +63,7 @@ void Player::Tick(float deltaTime)
 
         ImGui::Text(u8"Position: (%.2f, %.2f)", GetBody()->GetPosition().x, GetBody()->GetPosition().y);
         ImGui::Text(u8"Angle: %.2f", angle);
+        ImGui::Text(u8"Velocity: (%.2f, %.2f)", GetBody()->GetLinearVelocity().x, GetBody()->GetLinearVelocity().y);
     }
 
     ImGui::End();
@@ -77,21 +76,13 @@ void Player::Render()
     b2Vec2 position = Camera::GetInstance()->GetRenderPosition(GetBody()->GetPosition());
     float angle = GetBody()->GetAngle();
 
-    Graphics::GetInstance()->DrawBox(position, b2Vec2(32.f, 32.f), angle, color_);
-}
+    // Graphics::GetInstance()->DrawBox(position, b2Vec2(32.f, 32.f), angle, b2Color(1.f, 1.f, 1.f, 1.f));
 
-void Player::OnCollisionBegin(Actor* other)
-{
-    if (strcmp(other->GetName(), "Box") == 0)
-    {
-        color_ = b2Color(1.f, 0.f, 0.f);
-    }
-}
+    b2Vec2 vertices[4];
+    vertices[0] = position + b2Mul(b2Rot(angle), b2Vec2(-16.f, -16.f));
+    vertices[1] = position + b2Mul(b2Rot(angle), b2Vec2(16.f, -16.f));
+    vertices[2] = position + b2Mul(b2Rot(angle), b2Vec2(16.f, 16.f));
+    vertices[3] = position + b2Mul(b2Rot(angle), b2Vec2(-16.f, 16.f));
 
-void Player::OnCollisionEnd(Actor* other)
-{
-    if (strcmp(other->GetName(), "Box") == 0)
-    {
-        color_ = b2Color(1.f, 1.f, 1.f);
-    }
+    Graphics::GetInstance()->DrawSolidPolygon(vertices, 4, b2Color(1.f, 1.f, 1.f, 1.f));
 }

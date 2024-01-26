@@ -11,6 +11,16 @@ Scene::Scene()
     b2Vec2 gravity(0.0f, 9.81f);
     world_ = std::make_unique<b2World>(gravity);
     world_->SetContactListener(this);
+    
+    uint32 flags = 0;
+    // flags += b2Draw::e_shapeBit; // 버그가 잇는 걸로 보임
+    flags += b2Draw::e_jointBit;
+    flags += b2Draw::e_aabbBit;
+    flags += b2Draw::e_pairBit;
+    flags += b2Draw::e_centerOfMassBit;
+    debug_draw.SetFlags(flags);
+
+    world_->SetDebugDraw(&debug_draw);
 }
 
 void Scene::BeginContact(b2Contact* contact)
@@ -108,6 +118,8 @@ void Scene::Render()
         if (!actor->is_active_ || actor->is_destroy_) continue;
         actor->Render();
     }
+    
+    world_->DebugDraw();
 }
 
 void Scene::Destroy()

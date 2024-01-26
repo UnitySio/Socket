@@ -6,6 +6,8 @@
 #include "box2d/b2_world_callbacks.h"
 #include "box2d/b2_world.h"
 
+#include "../DebugDraw.h"
+
 class Scene : public b2ContactListener
 {
 public:
@@ -30,6 +32,8 @@ public:
     inline const char* GetName() const { return name_; }
 
     inline b2World* GetWorld() const { return world_.get(); }
+    
+    DebugDraw debug_draw;
 
 private:
     char name_[256];

@@ -182,7 +182,9 @@ void Graphics::DrawTexture(ID2D1Bitmap* texture, b2Vec2 position, b2Vec2 scale, 
     angle = angle * 180.f / b2_pi;
 
     const D2D1_POINT_2F center = D2D1::Point2F(position.x, position.y);
-    d2d_render_target_->SetTransform(D2D1::Matrix3x2F::Rotation(angle, center));
+    D2D1_MATRIX_3X2_F transform = D2D1::Matrix3x2F::Rotation(angle, center);
+    transform = transform * D2D1::Matrix3x2F::Scale(1.f, 1.f, center);
+    d2d_render_target_->SetTransform(transform);
 
     d2d_render_target_->DrawBitmap(
         texture,
@@ -191,6 +193,104 @@ void Graphics::DrawTexture(ID2D1Bitmap* texture, b2Vec2 position, b2Vec2 scale, 
         D2D1_BITMAP_INTERPOLATION_MODE_LINEAR,
         D2D1::RectF(0, 0, texture->GetSize().width, texture->GetSize().height
         ));
+}
+
+void Graphics::DrawLine(b2Vec2 start, b2Vec2 end, b2Color color)
+{
+    ID2D1SolidColorBrush* brush;
+    d2d_render_target_->CreateSolidColorBrush(D2D1::ColorF(color.r, color.g, color.b, color.a), &brush);
+
+    d2d_render_target_->SetTransform(D2D1::Matrix3x2F::Identity());
+
+    d2d_render_target_->DrawLine(
+        D2D1::Point2F(start.x, start.y),
+        D2D1::Point2F(end.x, end.y),
+        brush
+    );
+
+    brush->Release();
+}
+
+void Graphics::DrawCircle(b2Vec2 center, float radius, b2Color color)
+{
+    const D2D1_ELLIPSE ellipse = D2D1::Ellipse(
+        D2D1::Point2F(center.x, center.y),
+        radius,
+        radius
+    );
+    
+    ID2D1SolidColorBrush* brush;
+    d2d_render_target_->CreateSolidColorBrush(D2D1::ColorF(color.r, color.g, color.b, color.a), &brush);
+
+    d2d_render_target_->DrawEllipse(ellipse, brush);
+
+    brush->Release();
+}
+
+void Graphics::DrawSolidCircle(b2Vec2 center, float radius, b2Color color)
+{
+    const D2D1_ELLIPSE ellipse = D2D1::Ellipse(
+        D2D1::Point2F(center.x, center.y),
+        radius,
+        radius
+    );
+    
+    ID2D1SolidColorBrush* brush;
+    d2d_render_target_->CreateSolidColorBrush(D2D1::ColorF(color.r, color.g, color.b, color.a), &brush);
+
+    d2d_render_target_->FillEllipse(ellipse, brush);
+
+    brush->Release();
+}
+
+void Graphics::DrawPolygon(const b2Vec2* vertices, int32 vertexCount, b2Color color)
+{
+    ID2D1PathGeometry* geometry;
+    d2d_factory_->CreatePathGeometry(&geometry);
+
+    ID2D1GeometrySink* sink;
+    geometry->Open(&sink);
+
+    sink->BeginFigure(D2D1::Point2F(vertices[0].x, vertices[0].y), D2D1_FIGURE_BEGIN_FILLED);
+    for (int32 i = 1; i < vertexCount; ++i)
+    {
+        sink->AddLine(D2D1::Point2F(vertices[i].x, vertices[i].y));
+    }
+
+    sink->EndFigure(D2D1_FIGURE_END_CLOSED);
+    sink->Close();
+    
+    ID2D1SolidColorBrush* brush;
+    d2d_render_target_->CreateSolidColorBrush(D2D1::ColorF(color.r, color.g, color.b, color.a), &brush);
+
+    d2d_render_target_->DrawGeometry(geometry, brush);
+
+    brush->Release();
+}
+
+void Graphics::DrawSolidPolygon(const b2Vec2* vertices, int32 vertexCount, b2Color color)
+{
+    ID2D1PathGeometry* geometry;
+    d2d_factory_->CreatePathGeometry(&geometry);
+
+    ID2D1GeometrySink* sink;
+    geometry->Open(&sink);
+
+    sink->BeginFigure(D2D1::Point2F(vertices[0].x, vertices[0].y), D2D1_FIGURE_BEGIN_FILLED);
+    for (int32 i = 1; i < vertexCount; ++i)
+    {
+        sink->AddLine(D2D1::Point2F(vertices[i].x, vertices[i].y));
+    }
+
+    sink->EndFigure(D2D1_FIGURE_END_CLOSED);
+    sink->Close();
+    
+    ID2D1SolidColorBrush* brush;
+    d2d_render_target_->CreateSolidColorBrush(D2D1::ColorF(color.r, color.g, color.b, color.a), &brush);
+
+    d2d_render_target_->FillGeometry(geometry, brush);
+
+    brush->Release();
 }
 
 ID2D1Bitmap* Graphics::LoadTexture(const WCHAR* file_name)
