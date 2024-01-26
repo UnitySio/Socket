@@ -30,9 +30,7 @@ void EventManager::ExcuteEvent(const Event& event)
     {
     case EventType::kSpawnActor:
         {
-            Actor* temp_actor = reinterpret_cast<Actor*>(event.wParam);
-            std::shared_ptr<Actor> actor(temp_actor);
-            
+            Actor* actor = reinterpret_cast<Actor*>(event.wParam);
             Scene* scene = SceneManager::GetInstance()->GetCurrentScene();
             scene->AddActor(actor);
         }

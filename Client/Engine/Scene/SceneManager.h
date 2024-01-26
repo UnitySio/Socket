@@ -12,16 +12,16 @@ public:
     virtual ~SceneManager() override = default;
 
     void Init();
-    void CreateScene(std::shared_ptr<Scene> scene, SceneType type);
+    void CreateScene(Scene* scene, SceneType type);
     void LoadScene(SceneType type);
     void Tick(float deltaTime);
     void Render();
     void Destroy();
 
-    inline Scene* GetCurrentScene() const { return current_scene_.get(); }
+    inline Scene* GetCurrentScene() const { return current_scene_; }
 
 private:
-    std::shared_ptr<Scene> current_scene_;
-    std::shared_ptr<Scene> scenes_[static_cast<size_t>(SceneType::kEnd)];
+    Scene* current_scene_;
+    std::unique_ptr<Scene> scenes_[static_cast<size_t>(SceneType::kEnd)];
     
 };

@@ -140,7 +140,7 @@ void Scene::Destroy()
     }
 }
 
-void Scene::AddActor(std::shared_ptr<Actor> actor)
+void Scene::AddActor(Actor* actor)
 {
-    actors_.push_back(actor);
+    actors_.push_back(std::unique_ptr<Actor>(actor));
 }

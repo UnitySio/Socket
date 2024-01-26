@@ -9,16 +9,17 @@ SceneManager::SceneManager() : current_scene_(nullptr), scenes_{}
 
 void SceneManager::Init()
 {
-    std::shared_ptr<Scene> main_scene = std::make_shared<MainScene>();
-    main_scene->SetName(L"Map 0");
+    Scene* main_scene = new MainScene();
+    main_scene->SetName(L"MainScene");
+    
     CreateScene(main_scene, SceneType::kDefault);
     
     LoadScene(SceneType::kDefault);
 }
 
-void SceneManager::CreateScene(std::shared_ptr<Scene> scene, SceneType type)
+void SceneManager::CreateScene(Scene* scene, SceneType type)
 {
-    scenes_[static_cast<size_t>(type)] = scene;
+    scenes_[static_cast<size_t>(type)] = std::unique_ptr<Scene>(scene);
 }
 
 void SceneManager::LoadScene(SceneType type)
@@ -28,7 +29,7 @@ void SceneManager::LoadScene(SceneType type)
         current_scene_->End();
     }
 
-    current_scene_ = scenes_[static_cast<size_t>(type)];
+    current_scene_ = scenes_[static_cast<size_t>(type)].get();
     current_scene_->Begin();
 }
 

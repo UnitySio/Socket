@@ -9,6 +9,8 @@
 
 #include "../DebugDraw.h"
 
+class Actor;
+
 class Scene : public b2ContactListener
 {
 public:
@@ -27,7 +29,7 @@ public:
 
     virtual inline void End() {};
 
-    void AddActor(std::shared_ptr<class Actor> actor);
+    void AddActor(Actor* actor);
 
     inline void SetName(const std::wstring name) { name_ = name; }
     inline const std::wstring GetName() const { return name_; }
@@ -39,7 +41,7 @@ private:
 
     std::unique_ptr<b2World> world_;
 
-    std::vector<std::shared_ptr<class Actor>> actors_;
+    std::vector<std::unique_ptr<Actor>> actors_;
 
     DebugDraw debug_draw_;
 };
