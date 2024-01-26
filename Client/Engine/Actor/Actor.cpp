@@ -71,3 +71,8 @@ void Actor::SetActive(bool active)
             static_cast<bool>(active)
         });
 }
+
+b2World* Actor::GetWorld() const
+{
+    return body_->GetWorld();
+}

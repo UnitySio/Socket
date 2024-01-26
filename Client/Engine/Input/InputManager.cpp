@@ -14,13 +14,16 @@ void InputManager::Init()
     key_map_[VK_LEFT] = Key();
     key_map_[VK_RIGHT] = Key();
     key_map_[VK_SPACE] = Key();
+    key_map_[MK_LBUTTON] = Key();
 }
 
 void InputManager::Tick()
 {
+    Core* core = Core::GetInstance();
+    
     for (auto& key : key_map_)
     {
-        if (Core::GetInstance()->GetFocusHandle())
+        if (core->GetFocusHandle())
         {
             if (GetAsyncKeyState(key.first) & 0x8000)
             {
@@ -47,6 +50,23 @@ void InputManager::Tick()
 
             key.second.is_down = false;
         }
+    }
+
+    if (core->GetFocusHandle())
+    {
+        POINT mouse_position;
+        GetCursorPos(&mouse_position);
+        ScreenToClient(core->GetFocusHandle(), &mouse_position);
+
+        mouse_position_.Set(static_cast<float>(mouse_position.x), static_cast<float>(mouse_position.y));
+        mouse_delta_ = mouse_position_ - mouse_previous_position_;
+        mouse_previous_position_ = mouse_position_;
+    }
+    else
+    {
+        mouse_position_.SetZero();
+        mouse_previous_position_.SetZero();
+        mouse_delta_.SetZero();
     }
 }
 

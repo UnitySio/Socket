@@ -7,7 +7,8 @@ class Box : public Actor
 public:
     Box(b2World* world);
     virtual ~Box() final = default;
-    
+
+    virtual void Tick(float deltaTime) final;
     virtual void Render() final;
 
 private:

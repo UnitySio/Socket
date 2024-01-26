@@ -24,6 +24,10 @@ Box::Box(b2World* world) : Actor(world)
     texture_ = Graphics::GetInstance()->LoadTexture(L".\\Box.png");
 }
 
+void Box::Tick(float deltaTime)
+{
+}
+
 void Box::Render()
 {
     b2Vec2 position = Camera::GetInstance()->GetRenderPosition(GetBody()->GetPosition());

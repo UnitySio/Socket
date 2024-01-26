@@ -9,10 +9,10 @@ public:
     Singleton(const Singleton&) = delete;
     Singleton& operator=(const Singleton&) = delete;
 
-    static std::shared_ptr<T> GetInstance()
+    static T* GetInstance()
     {
         std::call_once(flag_, []() { instance_.reset(new T()); });
-        return instance_;
+        return instance_.get();
     }
 
     virtual void Release()
@@ -25,13 +25,13 @@ protected:
     virtual ~Singleton() = default;
     
 private:
-    static std::shared_ptr<T> instance_;
+    static std::unique_ptr<T> instance_;
     static std::once_flag flag_;
     
 };
 
 template <typename T>
-std::shared_ptr<T> Singleton<T>::instance_ = nullptr;
+std::unique_ptr<T> Singleton<T>::instance_ = nullptr;
 
 template <typename T>
 std::once_flag Singleton<T>::flag_;

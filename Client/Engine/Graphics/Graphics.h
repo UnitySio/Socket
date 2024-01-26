@@ -23,14 +23,15 @@ public:
     
     void BeginRenderD3D();
     void EndRenderD3D();
-    void DrawBox(b2Vec2 position, b2Vec2 size, float angle, b2Color color = b2Color(1.f, 1.f, 1.f));
-    void DrawTexture(ID2D1Bitmap* texture, b2Vec2 position, b2Vec2 scale = b2Vec2(1.f, 1.f), float angle = 0.f, float opacity = 1.f);
 
     void DrawLine(b2Vec2 start, b2Vec2 end, b2Color color = b2Color(1.f, 1.f, 1.f));
+    void DrawBox(b2Vec2 center, b2Vec2 size, float angle, b2Color color = b2Color(1.f, 1.f, 1.f));
+    void DrawSolidBox(b2Vec2 center, b2Vec2 size, float angle, b2Color color = b2Color(1.f, 1.f, 1.f));
     void DrawCircle(b2Vec2 center, float radius, b2Color color = b2Color(1.f, 1.f, 1.f));
     void DrawSolidCircle(b2Vec2 center, float radius, b2Color color = b2Color(1.f, 1.f, 1.f));
-    void DrawPolygon(const b2Vec2* vertices, int32 vertexCount, b2Color color = b2Color(1.f, 1.f, 1.f));
-    void DrawSolidPolygon(const b2Vec2* vertices, int32 vertexCount, b2Color color = b2Color(1.f, 1.f, 1.f));
+    void DrawPolygon(const b2Vec2* vertices, int32 vertex_count, b2Color color = b2Color(1.f, 1.f, 1.f));
+    void DrawSolidPolygon(const b2Vec2* vertices, int32 vertex_count, b2Color color = b2Color(1.f, 1.f, 1.f));
+    void DrawTexture(ID2D1Bitmap* texture, b2Vec2 center, b2Vec2 scale = b2Vec2(1.f, 1.f), float angle = 0.f, float opacity = 1.f);
 
     ID2D1Bitmap* LoadTexture(const WCHAR* file_name);
 

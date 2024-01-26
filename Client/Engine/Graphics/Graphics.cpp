@@ -137,64 +137,6 @@ void Graphics::EndRenderD3D()
     dxgi_swap_chain_->Present(0, 0);
 }
 
-void Graphics::DrawBox(b2Vec2 position, b2Vec2 size, float angle, b2Color color)
-{
-    const float half_size_x = size.x / 2.f;
-    const float half_size_y = size.y / 2.f;
-
-    const D2D1_RECT_F rectangle = D2D1::RectF(
-        position.x - half_size_x,
-        position.y - half_size_y,
-        position.x + half_size_x,
-        position.y + half_size_y
-    );
-
-    const D2D_COLOR_F d2d_color = D2D1::ColorF(color.r,
-                                               color.g,
-                                               color.b,
-                                               color.a);
-
-    ID2D1SolidColorBrush* brush;
-    d2d_render_target_->CreateSolidColorBrush(d2d_color, &brush);
-
-    // 라디안을 각도로 변환
-    angle = angle * 180.f / b2_pi;
-
-    D2D1_POINT_2F center = D2D1::Point2F(position.x, position.y);
-    d2d_render_target_->SetTransform(D2D1::Matrix3x2F::Rotation(angle, center));
-
-    d2d_render_target_->FillRectangle(rectangle, brush);
-    brush->Release();
-}
-
-void Graphics::DrawTexture(ID2D1Bitmap* texture, b2Vec2 position, b2Vec2 scale, float angle, float opacity)
-{
-    const float half_size_x = texture->GetSize().width * scale.x / 2.f;
-    const float half_size_y = texture->GetSize().height * scale.y / 2.f;
-
-    const D2D1_RECT_F rectangle = D2D1::RectF(
-        position.x - half_size_x,
-        position.y - half_size_y,
-        position.x + half_size_x,
-        position.y + half_size_y
-    );
-    
-    angle = angle * 180.f / b2_pi;
-
-    const D2D1_POINT_2F center = D2D1::Point2F(position.x, position.y);
-    D2D1_MATRIX_3X2_F transform = D2D1::Matrix3x2F::Rotation(angle, center);
-    transform = transform * D2D1::Matrix3x2F::Scale(1.f, 1.f, center);
-    d2d_render_target_->SetTransform(transform);
-
-    d2d_render_target_->DrawBitmap(
-        texture,
-        rectangle,
-        opacity,
-        D2D1_BITMAP_INTERPOLATION_MODE_LINEAR,
-        D2D1::RectF(0, 0, texture->GetSize().width, texture->GetSize().height
-        ));
-}
-
 void Graphics::DrawLine(b2Vec2 start, b2Vec2 end, b2Color color)
 {
     ID2D1SolidColorBrush* brush;
@@ -208,6 +150,66 @@ void Graphics::DrawLine(b2Vec2 start, b2Vec2 end, b2Color color)
         brush
     );
 
+    brush->Release();
+}
+
+void Graphics::DrawBox(b2Vec2 center, b2Vec2 size, float angle, b2Color color)
+{
+    const float half_size_x = size.x / 2.f;
+    const float half_size_y = size.y / 2.f;
+
+    const D2D1_RECT_F rectangle = D2D1::RectF(
+        center.x - half_size_x,
+        center.y - half_size_y,
+        center.x + half_size_x,
+        center.y + half_size_y
+    );
+
+    const D2D_COLOR_F d2d_color = D2D1::ColorF(color.r,
+                                               color.g,
+                                               color.b,
+                                               color.a);
+
+    ID2D1SolidColorBrush* brush;
+    d2d_render_target_->CreateSolidColorBrush(d2d_color, &brush);
+
+    // 라디안을 각도로 변환
+    angle = angle * 180.f / b2_pi;
+
+    D2D1_POINT_2F point = D2D1::Point2F(center.x, center.y);
+    d2d_render_target_->SetTransform(D2D1::Matrix3x2F::Rotation(angle, point));
+
+    d2d_render_target_->DrawRectangle(rectangle, brush);
+    brush->Release();
+}
+
+void Graphics::DrawSolidBox(b2Vec2 center, b2Vec2 size, float angle, b2Color color)
+{
+    const float half_size_x = size.x / 2.f;
+    const float half_size_y = size.y / 2.f;
+
+    const D2D1_RECT_F rectangle = D2D1::RectF(
+        center.x - half_size_x,
+        center.y - half_size_y,
+        center.x + half_size_x,
+        center.y + half_size_y
+    );
+
+    const D2D_COLOR_F d2d_color = D2D1::ColorF(color.r,
+                                               color.g,
+                                               color.b,
+                                               color.a);
+
+    ID2D1SolidColorBrush* brush;
+    d2d_render_target_->CreateSolidColorBrush(d2d_color, &brush);
+
+    // 라디안을 각도로 변환
+    angle = angle * 180.f / b2_pi;
+
+    D2D1_POINT_2F point = D2D1::Point2F(center.x, center.y);
+    d2d_render_target_->SetTransform(D2D1::Matrix3x2F::Rotation(angle, point));
+
+    d2d_render_target_->FillRectangle(rectangle, brush);
     brush->Release();
 }
 
@@ -243,7 +245,7 @@ void Graphics::DrawSolidCircle(b2Vec2 center, float radius, b2Color color)
     brush->Release();
 }
 
-void Graphics::DrawPolygon(const b2Vec2* vertices, int32 vertexCount, b2Color color)
+void Graphics::DrawPolygon(const b2Vec2* vertices, int32 vertex_count, b2Color color)
 {
     ID2D1PathGeometry* geometry;
     d2d_factory_->CreatePathGeometry(&geometry);
@@ -252,7 +254,7 @@ void Graphics::DrawPolygon(const b2Vec2* vertices, int32 vertexCount, b2Color co
     geometry->Open(&sink);
 
     sink->BeginFigure(D2D1::Point2F(vertices[0].x, vertices[0].y), D2D1_FIGURE_BEGIN_FILLED);
-    for (int32 i = 1; i < vertexCount; ++i)
+    for (int32 i = 1; i < vertex_count; ++i)
     {
         sink->AddLine(D2D1::Point2F(vertices[i].x, vertices[i].y));
     }
@@ -268,7 +270,7 @@ void Graphics::DrawPolygon(const b2Vec2* vertices, int32 vertexCount, b2Color co
     brush->Release();
 }
 
-void Graphics::DrawSolidPolygon(const b2Vec2* vertices, int32 vertexCount, b2Color color)
+void Graphics::DrawSolidPolygon(const b2Vec2* vertices, int32 vertex_count, b2Color color)
 {
     ID2D1PathGeometry* geometry;
     d2d_factory_->CreatePathGeometry(&geometry);
@@ -277,7 +279,7 @@ void Graphics::DrawSolidPolygon(const b2Vec2* vertices, int32 vertexCount, b2Col
     geometry->Open(&sink);
 
     sink->BeginFigure(D2D1::Point2F(vertices[0].x, vertices[0].y), D2D1_FIGURE_BEGIN_FILLED);
-    for (int32 i = 1; i < vertexCount; ++i)
+    for (int32 i = 1; i < vertex_count; ++i)
     {
         sink->AddLine(D2D1::Point2F(vertices[i].x, vertices[i].y));
     }
@@ -291,6 +293,34 @@ void Graphics::DrawSolidPolygon(const b2Vec2* vertices, int32 vertexCount, b2Col
     d2d_render_target_->FillGeometry(geometry, brush);
 
     brush->Release();
+}
+
+void Graphics::DrawTexture(ID2D1Bitmap* texture, b2Vec2 center, b2Vec2 scale, float angle, float opacity)
+{
+    const float half_size_x = texture->GetSize().width * scale.x / 2.f;
+    const float half_size_y = texture->GetSize().height * scale.y / 2.f;
+
+    const D2D1_RECT_F rectangle = D2D1::RectF(
+        center.x - half_size_x,
+        center.y - half_size_y,
+        center.x + half_size_x,
+        center.y + half_size_y
+    );
+    
+    angle = angle * 180.f / b2_pi;
+
+    const D2D1_POINT_2F point = D2D1::Point2F(center.x, center.y);
+    D2D1_MATRIX_3X2_F transform = D2D1::Matrix3x2F::Rotation(angle, point);
+    transform = transform * D2D1::Matrix3x2F::Scale(1.f, 1.f, point);
+    d2d_render_target_->SetTransform(transform);
+
+    d2d_render_target_->DrawBitmap(
+        texture,
+        rectangle,
+        opacity,
+        D2D1_BITMAP_INTERPOLATION_MODE_LINEAR,
+        D2D1::RectF(0, 0, texture->GetSize().width, texture->GetSize().height
+        ));
 }
 
 ID2D1Bitmap* Graphics::LoadTexture(const WCHAR* file_name)

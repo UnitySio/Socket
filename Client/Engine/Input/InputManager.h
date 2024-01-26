@@ -4,6 +4,8 @@
 
 #include <map>
 
+#include "box2d/b2_math.h"
+
 enum class KeyState : size_t;
 
 struct Key
@@ -25,7 +27,14 @@ public:
     bool IsKeyPressed(int key) const;
     bool IsKeyUp(int key) const;
 
+    inline b2Vec2 GetMousePosition() const { return mouse_position_; }
+    inline b2Vec2 GetMouseDelta() const { return mouse_delta_; }
+
 private:
     std::map<int, Key> key_map_;
+
+    b2Vec2 mouse_position_;
+    b2Vec2 mouse_previous_position_;;
+    b2Vec2 mouse_delta_;
     
 };

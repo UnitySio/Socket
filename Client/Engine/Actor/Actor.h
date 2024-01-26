@@ -27,6 +27,9 @@ public:
     void Destroy();
     void Destroy(const Actor* other);
     void SpawnActor(const Actor* actor);
+    void SetActive(bool active);
+
+    b2World* GetWorld() const;
 
     template <typename T>
     T* AddComponent();
@@ -43,8 +46,6 @@ public:
     inline b2Body* GetBody() const { return body_; }
 
     inline bool IsActive() const { return is_active_; }
-
-    void SetActive(bool active);
 
 private:
     friend class Scene;
