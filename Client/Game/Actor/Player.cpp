@@ -13,7 +13,7 @@
 Player::Player(b2World* world) : Actor(world), is_ground_(false)
 {
     GetBody()->SetType(b2_dynamicBody);
-    GetBody()->SetFixedRotation(true);
+    // GetBody()->SetFixedRotation(true);
     GetBody()->SetTransform(b2Vec2(320.f, 0.f), 0.f);
 
     BoxComponent* box_component = AddComponent<BoxComponent>();
@@ -32,11 +32,11 @@ void Player::Tick(float deltaTime)
     InputManager* input = InputManager::GetInstance();
 
     const int h = input->IsKeyPressed(VK_RIGHT) - input->IsKeyPressed(VK_LEFT);
-    GetBody()->SetLinearVelocity(b2Vec2(h * 10.f, GetBody()->GetLinearVelocity().y));
+    GetBody()->SetLinearVelocity(b2Vec2(h * 250.f, GetBody()->GetLinearVelocity().y));
 
     if (input->IsKeyDown(VK_SPACE))
     {
-        GetBody()->ApplyLinearImpulse(b2Vec2(0.f, -50000.f), GetBody()->GetWorldCenter(), true);
+        GetBody()->ApplyLinearImpulse(b2Vec2(0.f, -500000.f), GetBody()->GetWorldCenter(), true);
     }
 
     if (input->IsKeyDown(VK_DOWN))

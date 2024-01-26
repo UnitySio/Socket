@@ -11,17 +11,17 @@ Scene::Scene() :
     actors_(),
     debug_draw_()
 {
-    b2Vec2 gravity(0.0f, 9.81f);
+    b2Vec2 gravity(0.0f, 9.81f * 100.0f);
     world_ = std::make_unique<b2World>(gravity);
     world_->SetContactListener(this);
     
-    uint32 flags = 0;
-    flags += b2Draw::e_shapeBit;
-    flags += b2Draw::e_jointBit;
-    flags += b2Draw::e_aabbBit;
-    flags += b2Draw::e_pairBit;
-    flags += b2Draw::e_centerOfMassBit;
-    debug_draw_.SetFlags(flags);
+    // uint32 flags = 0;
+    // flags += b2Draw::e_shapeBit;
+    // flags += b2Draw::e_jointBit;
+    // flags += b2Draw::e_aabbBit;
+    // flags += b2Draw::e_pairBit;
+    // flags += b2Draw::e_centerOfMassBit;
+    // debug_draw_.SetFlags(flags);
 
     world_->SetDebugDraw(&debug_draw_);
 }

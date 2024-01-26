@@ -20,7 +20,7 @@ void Camera::Tick(float deltaTime)
     if (target_)
     {
         b2Vec2 target_position = target_->GetBody()->GetPosition();
-        b2Vec2 lerp_position = Lerp(GetBody()->GetPosition(), target_position, deltaTime * .25f);
+        b2Vec2 lerp_position = Lerp(GetBody()->GetPosition(), target_position, deltaTime * 5.f);
         GetBody()->SetTransform(lerp_position, 0.f);
     
         screen_position_ = lerp_position - b2Vec2(core->GetResolution().x / 2.f, core->GetResolution().y / 2.f);
