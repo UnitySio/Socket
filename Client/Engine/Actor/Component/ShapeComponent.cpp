@@ -3,7 +3,9 @@
 #include "box2d/b2_fixture.h"
 #include "../Actor.h"
 
-ShapeComponent::ShapeComponent(Actor* actor) : Component(actor)
+ShapeComponent::ShapeComponent(Actor* actor) :
+    Component(actor),
+    fixture_(nullptr)
 {
 }
 

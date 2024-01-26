@@ -5,10 +5,12 @@
 
 Camera* Camera::instance_ = nullptr;
 
-Camera::Camera(b2World* world) : Actor(world)
+Camera::Camera(b2World* world) :
+    Actor(world),
+    screen_position_(0.f, 0.f),
+    target_(nullptr)
 {
     instance_ = this;
-    target_ = nullptr;
 }
 
 void Camera::Tick(float deltaTime)

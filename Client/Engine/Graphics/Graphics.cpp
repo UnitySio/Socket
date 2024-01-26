@@ -7,7 +7,13 @@
 
 #include <wincodec.h>
 
-Graphics::Graphics()
+Graphics::Graphics() :
+    d3d_device_(nullptr),
+    d3d_device_context_(nullptr),
+    d3d_render_target_view_(nullptr),
+    dxgi_swap_chain_(nullptr),
+    d2d_factory_(nullptr),
+    d2d_render_target_(nullptr)
 {
 }
 

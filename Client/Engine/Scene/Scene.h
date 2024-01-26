@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include <memory>
+#include <string>
 #include <vector>
 
 #include "Windows.h"
@@ -12,34 +13,33 @@ class Scene : public b2ContactListener
 {
 public:
     Scene();
-    virtual ~Scene() = default;
+    virtual ~Scene() override = default;
 
-    virtual void BeginContact(b2Contact* contact) final;
-    virtual void EndContact(b2Contact* contact) final;
+    virtual void BeginContact(b2Contact* contact) override;
+    virtual void EndContact(b2Contact* contact) override;
 
-    virtual void PreSolve(b2Contact* contact, const b2Manifold* oldManifold) final;
+    virtual void PreSolve(b2Contact* contact, const b2Manifold* oldManifold) override;
 
     virtual void Begin();
     virtual void Tick(float deltaTime);
     virtual void Render();
     virtual void Destroy();
-    
+
     virtual inline void End() {};
 
     void AddActor(std::shared_ptr<class Actor> actor);
 
-    inline void SetName(const char* name) { strcpy_s(name_, name); }
-    inline const char* GetName() const { return name_; }
+    inline void SetName(const std::wstring name) { name_ = name; }
+    inline const std::wstring GetName() const { return name_; }
 
     inline b2World* GetWorld() const { return world_.get(); }
-    
-    DebugDraw debug_draw;
 
 private:
-    char name_[256];
+    std::wstring name_;
 
     std::unique_ptr<b2World> world_;
 
     std::vector<std::shared_ptr<class Actor>> actors_;
-    
+
+    DebugDraw debug_draw_;
 };

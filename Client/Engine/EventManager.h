@@ -17,7 +17,7 @@ class EventManager : public Singleton<EventManager>
 {
 public:
     EventManager();
-    virtual ~EventManager() final = default;
+    virtual ~EventManager() override = default;
 
     void Tick();
     void AddEvent(const Event& event);

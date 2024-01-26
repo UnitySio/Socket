@@ -18,7 +18,7 @@ class InputManager : public Singleton<InputManager>
 {
 public:
     InputManager();
-    virtual ~InputManager() final = default;
+    virtual ~InputManager() override = default;
 
     void Init();
     void Tick();

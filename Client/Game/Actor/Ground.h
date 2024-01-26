@@ -5,8 +5,8 @@ class Ground : public Actor
 {
 public:
     Ground(b2World* world);
-    virtual ~Ground() final = default;
+    virtual ~Ground() override = default;
 
-    virtual void Render() final;
+    virtual void Render() override;
     
 };

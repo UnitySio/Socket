@@ -7,11 +7,10 @@
 #include "../../Engine/Actor/Component/BoxComponent.h"
 #include "../../Engine/Actor/Component/SpriteComponent.h"
 
-class BoxComponent;
-
 Box::Box(b2World* world) : Actor(world)
 {
     GetBody()->SetType(b2_dynamicBody);
+    GetBody()->SetFixedRotation(true);
     GetBody()->SetTransform(b2Vec2(320.f, 0.f), 0.f);
     
     BoxComponent* box_component = AddComponent<BoxComponent>();

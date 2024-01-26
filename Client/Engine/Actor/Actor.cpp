@@ -5,11 +5,15 @@
 #include "box2d/b2_body.h"
 #include "box2d/b2_world.h"
 
-Actor::Actor(b2World* world) : is_active_(true), is_destroy_(false)
+Actor::Actor(b2World* world) :
+    body_(nullptr),
+    is_active_(true),
+    is_destroy_(false),
+    components_()
 {
     b2BodyDef body_def;
     body_def.userData.pointer = reinterpret_cast<uintptr_t>(this);
-    body_def.position.Set(0.0f, 0.0f);
+    body_def.position.Set(0.f, 0.f);
 
     body_ = world->CreateBody(&body_def);
 }

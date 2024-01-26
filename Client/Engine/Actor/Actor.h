@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include <memory>
+#include <string>
 #include <vector>
 
 #include "box2d/b2_math.h"
@@ -40,8 +41,8 @@ public:
     template <typename T>
     std::vector<T*> GetComponents();
 
-    inline void SetName(const char* name) { strcpy_s(name_, name); }
-    inline const char* GetName() const { return name_; }
+    inline void SetName(const std::wstring name) { name_ = name; }
+    inline const std::wstring GetName() const { return name_; }
 
     inline b2Body* GetBody() const { return body_; }
 
@@ -52,11 +53,9 @@ private:
     friend class EventManager;
     friend class Component;
     
-    char name_[256];
+    std::wstring name_;
 
     b2Body* body_;
-
-    b2Vec2 scale_;
 
     bool is_active_;
     bool is_destroy_;

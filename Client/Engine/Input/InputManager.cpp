@@ -3,7 +3,11 @@
 #include "../Core.h"
 #include "../Enums.h"
 
-InputManager::InputManager()
+InputManager::InputManager() :
+    key_map_(),
+    mouse_position_(b2Vec2_zero),
+    mouse_previous_position_(b2Vec2_zero),
+    mouse_delta_(b2Vec2_zero)
 {
 }
 

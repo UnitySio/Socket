@@ -11,7 +11,14 @@
 #include "imgui/imgui_impl_dx11.h"
 #include "imgui/imgui_impl_win32.h"
 
-Core::Core() : class_name_(L"CLIENT")
+Core::Core() :
+    class_name_(L"CLIENT"),
+    resolution_(),
+    window_area_(),
+    hWnd_(nullptr),
+    focus_(nullptr),
+    logic_handle_(nullptr),
+    is_running_(false)
 {
 }
 
@@ -26,7 +33,7 @@ ATOM Core::MyRegisterClass(HINSTANCE hInstance)
     wcex.hInstance = hInstance;
     wcex.hCursor = LoadCursor(nullptr, IDC_ARROW);
     wcex.hbrBackground = static_cast<HBRUSH>(GetStockObject(BLACK_BRUSH));
-    wcex.lpszClassName = class_name_;
+    wcex.lpszClassName = class_name_.c_str();
 
     return RegisterClassEx(&wcex);
 }
@@ -36,13 +43,13 @@ BOOL Core::InitInstance(HINSTANCE hInstance, int nCmdShow)
     const int screen_width = GetSystemMetrics(SM_CXSCREEN);
     const int screen_height = GetSystemMetrics(SM_CYSCREEN);
 
-    resolution_ = {640, 480};
+    resolution_ = {1366, 768};
     window_area_ = {0, 0, resolution_.x, resolution_.y};
     AdjustWindowRect(&window_area_, WS_OVERLAPPEDWINDOW, FALSE);
 
     hWnd_ = CreateWindowEx(
         0,
-        class_name_,
+        class_name_.c_str(),
         L"Client",
         WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_THICKFRAME | WS_MINIMIZEBOX,
         (screen_width - (window_area_.right - window_area_.left)) / 2,
@@ -69,7 +76,7 @@ bool Core::InitWindow(HINSTANCE hInstance, int nCmdShow)
     CoInitializeEx(nullptr, COINIT_MULTITHREADED);
 
     if (!Graphics::GetInstance()->Init()) return false;
-    
+
     Time::GetInstance()->Init();
     SceneManager::GetInstance()->Init();
     InputManager::GetInstance()->Init();
@@ -82,8 +89,10 @@ bool Core::InitWindow(HINSTANCE hInstance, int nCmdShow)
     io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
     io.Fonts->AddFontFromFileTTF(".\\Fonts\\NanumBarunGothic.ttf", 16.f, nullptr, io.Fonts->GetGlyphRangesKorean());
     io.Fonts->AddFontFromFileTTF(".\\Fonts\\NanumBarunGothicBold.ttf", 16.f, nullptr, io.Fonts->GetGlyphRangesKorean());
-    io.Fonts->AddFontFromFileTTF(".\\Fonts\\NanumBarunGothicLight.ttf", 16.f, nullptr, io.Fonts->GetGlyphRangesKorean());
-    io.Fonts->AddFontFromFileTTF(".\\Fonts\\NanumBarunGothicUltraLight.ttf", 16.f, nullptr, io.Fonts->GetGlyphRangesKorean());
+    io.Fonts->AddFontFromFileTTF(".\\Fonts\\NanumBarunGothicLight.ttf", 16.f, nullptr,
+                                 io.Fonts->GetGlyphRangesKorean());
+    io.Fonts->AddFontFromFileTTF(".\\Fonts\\NanumBarunGothicUltraLight.ttf", 16.f, nullptr,
+                                 io.Fonts->GetGlyphRangesKorean());
 
     io.FontDefault = io.Fonts->Fonts[0];
 
@@ -170,16 +179,16 @@ void Core::MainLogic()
     ImGui::NewFrame();
 
     Tick(Time::GetInstance()->GetDeltaTime());
-    
+
     Graphics::GetInstance()->BeginRenderD2D();
 
     Render();
 
     Graphics::GetInstance()->EndRenderD2D();
-    
+
     ImGui::Render();
     ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
-    
+
     Graphics::GetInstance()->EndRenderD3D();
 
     SceneManager::GetInstance()->Destroy();

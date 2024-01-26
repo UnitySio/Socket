@@ -1,4 +1,5 @@
 ﻿#pragma once
+#include <string>
 
 class Component
 {
@@ -13,6 +14,6 @@ public:
 protected:
     Actor* owner_;
 
-    char name_[256];
+    std::wstring name_;
     
 };

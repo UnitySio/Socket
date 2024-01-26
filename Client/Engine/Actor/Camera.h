@@ -6,9 +6,9 @@ class Camera : public Actor
 {
 public:
     Camera(b2World* world);
-    virtual ~Camera() final = default;
+    virtual ~Camera() override = default;
 
-    virtual void Tick(float deltaTime) final;
+    virtual void Tick(float deltaTime) override;
 
     static Camera* GetInstance() { return instance_; }
 
@@ -21,7 +21,7 @@ public:
 
 private:
     b2Vec2 Lerp(b2Vec2 a, b2Vec2 b, float t);
-    
+
     static Camera* instance_;
     
     b2Vec2 screen_position_;

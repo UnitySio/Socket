@@ -6,7 +6,7 @@ class Core : public Singleton<Core>
 {
 public:
     Core();
-    virtual ~Core() final = default;
+    virtual ~Core() override = default;
 
     ATOM MyRegisterClass(HINSTANCE hInstance);
     BOOL InitInstance(HINSTANCE hInstance, int nCmdShow);
@@ -28,7 +28,7 @@ private:
     void Tick(float delta_time);
     void Render();
 
-    WCHAR class_name_[256];
+    std::wstring class_name_;
 
     POINT resolution_;
     RECT window_area_;

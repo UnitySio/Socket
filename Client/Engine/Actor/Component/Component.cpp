@@ -1,6 +1,5 @@
 ﻿#include "Component.h"
 
-Component::Component(Actor* owner)
+Component::Component(Actor* owner) : owner_(owner)
 {
-    owner_ = owner;
 }

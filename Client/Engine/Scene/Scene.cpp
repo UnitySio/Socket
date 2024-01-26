@@ -6,21 +6,24 @@
 #include "../Actor/Actor.h"
 #include "box2d/b2_contact.h"
 
-Scene::Scene()
+Scene::Scene() :
+    world_(nullptr),
+    actors_(),
+    debug_draw_()
 {
     b2Vec2 gravity(0.0f, 9.81f);
     world_ = std::make_unique<b2World>(gravity);
     world_->SetContactListener(this);
     
     uint32 flags = 0;
-    // flags += b2Draw::e_shapeBit; // 버그가 잇는 걸로 보임
+    flags += b2Draw::e_shapeBit;
     flags += b2Draw::e_jointBit;
     flags += b2Draw::e_aabbBit;
     flags += b2Draw::e_pairBit;
     flags += b2Draw::e_centerOfMassBit;
-    debug_draw.SetFlags(flags);
+    debug_draw_.SetFlags(flags);
 
-    world_->SetDebugDraw(&debug_draw);
+    world_->SetDebugDraw(&debug_draw_);
 }
 
 void Scene::BeginContact(b2Contact* contact)

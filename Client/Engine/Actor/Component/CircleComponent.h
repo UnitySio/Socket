@@ -5,7 +5,7 @@ class CircleComponent : public ShapeComponent
 {
 public:
     CircleComponent(Actor* owner);
-    virtual ~CircleComponent() final = default;
+    virtual ~CircleComponent() override = default;
 
     void SetRadius(float radius);
     

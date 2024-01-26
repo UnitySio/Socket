@@ -9,7 +9,7 @@ class SceneManager : public Singleton<SceneManager>
 {
 public:
     SceneManager();
-    virtual ~SceneManager() final = default;
+    virtual ~SceneManager() override = default;
 
     void Init();
     void CreateScene(std::shared_ptr<Scene> scene, SceneType type);

@@ -1,6 +1,8 @@
 ﻿#include "SpriteComponent.h"
 
-SpriteComponent::SpriteComponent(Actor* owner) : Component(owner)
+SpriteComponent::SpriteComponent(Actor* owner) :
+    Component(owner),
+    sprite_(nullptr)
 {
 }
 

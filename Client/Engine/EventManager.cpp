@@ -5,7 +5,7 @@
 #include "Scene/Scene.h"
 #include "Scene/SceneManager.h"
 
-EventManager::EventManager()
+EventManager::EventManager() : events_()
 {
 }
 

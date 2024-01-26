@@ -149,7 +149,6 @@
     <ClInclude Include="Engine\Graphics\Graphics.h" />
     <ClInclude Include="Engine\Input\InputManager.h" />
     <ClInclude Include="Engine\Network\NetworkManager.h" />
-    <ClInclude Include="Engine\Physics\HitResult.h" />
     <ClInclude Include="Engine\ResourceManager.h" />
     <ClInclude Include="Engine\Scene\Scene.h" />
     <ClInclude Include="Engine\Scene\SceneManager.h" />
@@ -226,7 +225,6 @@
     <ClCompile Include="Engine\Graphics\Graphics.cpp" />
     <ClCompile Include="Engine\Input\InputManager.cpp" />
     <ClCompile Include="Engine\Network\NetworkManager.cpp" />
-    <ClCompile Include="Engine\Physics\HitResult.cpp" />
     <ClCompile Include="Engine\ResourceManager.cpp" />
     <ClCompile Include="Engine\Scene\Scene.cpp" />
     <ClCompile Include="Engine\Scene\SceneManager.cpp" />

@@ -8,7 +8,7 @@ class Time : public Singleton<Time>
 {
 public:
     Time();
-    virtual ~Time() final = default;
+    virtual ~Time() override = default;
     
     void Init();
     void Tick();

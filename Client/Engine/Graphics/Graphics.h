@@ -17,7 +17,7 @@ class Graphics : public Singleton<Graphics>
 {
 public:
     Graphics();
-    virtual ~Graphics() final;
+    virtual ~Graphics() override;
 
     bool Init();
     

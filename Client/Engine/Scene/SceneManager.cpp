@@ -3,14 +3,14 @@
 #include "Scene.h"
 #include "../../Game/Scene/MainScene.h"
 
-SceneManager::SceneManager()
+SceneManager::SceneManager() : current_scene_(nullptr), scenes_{}
 {
 }
 
 void SceneManager::Init()
 {
     std::shared_ptr<Scene> main_scene = std::make_shared<MainScene>();
-    main_scene->SetName("Map 0");
+    main_scene->SetName(L"Map 0");
     CreateScene(main_scene, SceneType::kDefault);
     
     LoadScene(SceneType::kDefault);
