@@ -21,7 +21,7 @@ public:
     virtual inline void OnTriggerBegin(Actor* other) {};
     virtual inline void OnTrigger(Actor* other) {};
     virtual inline void OnTriggerEnd(Actor* other) {};
-
+    
     virtual void Tick(float delta_time);
     virtual void Render();
 
@@ -44,6 +44,8 @@ public:
     template <typename T>
     T* GetComponentByName(const std::wstring& name);
 
+    inline unsigned int GetInstanceID() const { return instance_id_; }
+
     inline const std::wstring& GetName() const { return name_; }
     
     inline b2World* GetWorld() { return world_; }
@@ -55,7 +57,10 @@ public:
 private:
     friend class Scene;
     friend class EventManager;
-    friend class ActorComponent;
+
+    static unsigned int next_instance_id_;
+
+    unsigned int instance_id_;
     
     std::wstring name_;
 

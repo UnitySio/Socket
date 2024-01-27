@@ -1,10 +1,8 @@
 ﻿#include "Box.h"
 
-#include "../../Engine/Graphics/Graphics.h"
 #include "../../Engine/Input/InputManager.h"
 #include "box2d/b2_body.h"
 #include "../../Engine/Actor/Component/BoxComponent.h"
-#include "../../Engine/Actor/Component/SpriteComponent.h"
 
 Box::Box(b2World* world, const std::wstring& name) : Actor(world, name)
 {
@@ -16,8 +14,4 @@ Box::Box(b2World* world, const std::wstring& name) : Actor(world, name)
     box_component->SetBox(b2Vec2(64.f, 64.f));
     box_component->SetDensity(1.f);
     box_component->SetFriction(.3f);
-
-    SpriteComponent* sprite_component = CreateComponent<SpriteComponent>(L"SpriteComponent");
-
-    texture_ = Graphics::GetInstance()->LoadTexture(L".\\Box.png");
 }

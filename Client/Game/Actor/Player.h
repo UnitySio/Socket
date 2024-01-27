@@ -1,6 +1,8 @@
 ﻿#pragma once
 #include "../../Engine/Actor/Actor.h"
 
+class Camera;
+
 class Player : public Actor
 {
 public:

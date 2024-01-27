@@ -35,6 +35,9 @@ public:
 
     inline b2World* GetWorld() const { return world_.get(); }
 
+    inline void SetScreenPosition(b2Vec2 screen_position) { screen_position_ = screen_position; }
+    inline b2Vec2 GetScreenPosition() const { return screen_position_; }
+
     b2Vec2 GetRenderPosition(b2Vec2 world_position);
 
 private:

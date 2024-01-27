@@ -137,6 +137,7 @@
     <ClInclude Include="Client.h" />
     <ClInclude Include="Engine\Actor\Actor.h" />
     <ClInclude Include="Engine\Actor\Component\BoxComponent.h" />
+    <ClInclude Include="Engine\Actor\Component\CameraComponent.h" />
     <ClInclude Include="Engine\Actor\Component\CircleComponent.h" />
     <ClInclude Include="Engine\Actor\Component\ActorComponent.h" />
     <ClInclude Include="Engine\Actor\Component\ShapeComponent.h" />
@@ -213,6 +214,7 @@
     <ClCompile Include="Client.cpp" />
     <ClCompile Include="Engine\Actor\Actor.cpp" />
     <ClCompile Include="Engine\Actor\Component\BoxComponent.cpp" />
+    <ClCompile Include="Engine\Actor\Component\CameraComponent.cpp" />
     <ClCompile Include="Engine\Actor\Component\CircleComponent.cpp" />
     <ClCompile Include="Engine\Actor\Component\ActorComponent.cpp" />
     <ClCompile Include="Engine\Actor\Component\ShapeComponent.cpp" />
