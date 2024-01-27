@@ -4,7 +4,7 @@
 class MainScene : public Scene
 {
 public:
-    MainScene();
+    MainScene(const std::wstring& name);
     virtual ~MainScene() override = default;
     
 };

@@ -5,11 +5,8 @@
 class Box : public Actor
 {
 public:
-    Box(b2World* world);
+    Box(b2World* world, const std::wstring& name);
     virtual ~Box() override = default;
-
-    virtual void Tick(float deltaTime) override;
-    virtual void Render() override;
 
 private:
     class ID2D1Bitmap* texture_;

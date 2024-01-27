@@ -4,14 +4,14 @@
 #include <vector>
 
 #include "box2d/b2_math.h"
-#include "Component/Component.h"
+#include "Component/ActorComponent.h"
 
 class b2Body;
 
 class Actor
 {
 public:
-    Actor(class b2World* world);
+    Actor(class b2World* world, const std::wstring& name);
     virtual ~Actor();
 
     virtual inline void Begin() {};
@@ -22,7 +22,7 @@ public:
     virtual inline void OnTrigger(Actor* other) {};
     virtual inline void OnTriggerEnd(Actor* other) {};
 
-    virtual void Tick(float deltaTime);
+    virtual void Tick(float delta_time);
     virtual void Render();
 
     void Destroy();
@@ -33,7 +33,7 @@ public:
     b2World* GetWorld() const;
 
     template <typename T>
-    T* AddComponent();
+    T* CreateComponent(const std::wstring& name);
 
     template <typename T>
     T* GetComponent();
@@ -41,8 +41,12 @@ public:
     template <typename T>
     std::vector<T*> GetComponents();
 
-    inline void SetName(const std::wstring name) { name_ = name; }
-    inline const std::wstring GetName() const { return name_; }
+    template <typename T>
+    T* GetComponentByName(const std::wstring& name);
+
+    inline const std::wstring& GetName() const { return name_; }
+    
+    inline b2World* GetWorld() { return world_; }
 
     inline b2Body* GetBody() const { return body_; }
 
@@ -51,23 +55,24 @@ public:
 private:
     friend class Scene;
     friend class EventManager;
-    friend class Component;
+    friend class ActorComponent;
     
     std::wstring name_;
 
+    b2World* world_;
     b2Body* body_;
 
     bool is_active_;
     bool is_destroy_;
 
-    std::vector<std::unique_ptr<Component>> components_;
+    std::vector<std::unique_ptr<ActorComponent>> components_;
     
 };
 
 template <typename T>
-T* Actor::AddComponent()
+T* Actor::CreateComponent(const std::wstring& name)
 {
-    components_.push_back(std::make_unique<T>(this));
+    components_.push_back(std::make_unique<T>(this, name));
     return static_cast<T*>(components_.back().get());
 }
 
@@ -99,4 +104,18 @@ std::vector<T*> Actor::GetComponents()
     }
 
     return components;
+}
+
+template <typename T>
+T* Actor::GetComponentByName(const std::wstring& name)
+{
+    for (auto& component : components_)
+    {
+        if (typeid(*component) == typeid(T) && component->GetName().compare(name))
+        {
+            return static_cast<T*>(component.get());
+        }
+    }
+
+    return nullptr;
 }

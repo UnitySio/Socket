@@ -6,22 +6,25 @@
 #include "../Actor/Actor.h"
 #include "box2d/b2_contact.h"
 
-Scene::Scene() :
+Scene::Scene(const std::wstring& name) :
     world_(nullptr),
     actors_(),
-    debug_draw_()
+    debug_draw_(),
+    screen_position_(b2Vec2_zero)
 {
+    name_ = name;
+    
     b2Vec2 gravity(0.0f, 9.81f * 100.0f);
     world_ = std::make_unique<b2World>(gravity);
     world_->SetContactListener(this);
     
-    // uint32 flags = 0;
-    // flags += b2Draw::e_shapeBit;
-    // flags += b2Draw::e_jointBit;
-    // flags += b2Draw::e_aabbBit;
-    // flags += b2Draw::e_pairBit;
-    // flags += b2Draw::e_centerOfMassBit;
-    // debug_draw_.SetFlags(flags);
+    uint32 flags = 0;
+    flags += b2Draw::e_shapeBit;
+    flags += b2Draw::e_jointBit;
+    flags += b2Draw::e_aabbBit;
+    flags += b2Draw::e_pairBit;
+    flags += b2Draw::e_centerOfMassBit;
+    debug_draw_.SetFlags(flags);
 
     world_->SetDebugDraw(&debug_draw_);
 }
@@ -103,14 +106,14 @@ void Scene::Begin()
     }
 }
 
-void Scene::Tick(float deltaTime)
+void Scene::Tick(float delta_time)
 {
-    world_->Step(deltaTime, 8, 3);
+    world_->Step(delta_time, 8, 3);
     
     for (auto& actor : actors_)
     {
         if (!actor->is_active_ || actor->is_destroy_) continue;
-        actor->Tick(deltaTime);
+        actor->Tick(delta_time);
     }
 }
 
@@ -143,4 +146,9 @@ void Scene::Destroy()
 void Scene::AddActor(Actor* actor)
 {
     actors_.push_back(std::unique_ptr<Actor>(actor));
+}
+
+b2Vec2 Scene::GetRenderPosition(b2Vec2 world_position)
+{
+    return world_position - screen_position_;
 }

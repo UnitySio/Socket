@@ -4,7 +4,7 @@
 #include "box2d/b2_fixture.h"
 #include "../Actor.h"
 
-CircleComponent::CircleComponent(Actor* owner) : ShapeComponent(owner)
+CircleComponent::CircleComponent(Actor* owner, const std::wstring& name) : ShapeComponent(owner, name)
 {
     b2CircleShape circle;
     circle.m_radius = 1.f;

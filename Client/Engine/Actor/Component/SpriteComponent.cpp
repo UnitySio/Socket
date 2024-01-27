@@ -1,7 +1,7 @@
 ﻿#include "SpriteComponent.h"
 
-SpriteComponent::SpriteComponent(Actor* owner) :
-    Component(owner),
+SpriteComponent::SpriteComponent(Actor* owner, const std::wstring& name) :
+    ActorComponent(owner, name),
     sprite_(nullptr)
 {
 }

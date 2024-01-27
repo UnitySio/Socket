@@ -9,9 +9,7 @@ SceneManager::SceneManager() : current_scene_(nullptr), scenes_{}
 
 void SceneManager::Init()
 {
-    Scene* main_scene = new MainScene();
-    main_scene->SetName(L"MainScene");
-    
+    Scene* main_scene = new MainScene(L"Map 0");
     CreateScene(main_scene, SceneType::kDefault);
     
     LoadScene(SceneType::kDefault);
@@ -33,11 +31,11 @@ void SceneManager::LoadScene(SceneType type)
     current_scene_->Begin();
 }
 
-void SceneManager::Tick(float deltaTime)
+void SceneManager::Tick(float delta_time)
 {
     if (current_scene_)
     {
-        current_scene_->Tick(deltaTime);
+        current_scene_->Tick(delta_time);
     }
 }
 

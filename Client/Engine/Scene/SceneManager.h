@@ -14,7 +14,7 @@ public:
     void Init();
     void CreateScene(Scene* scene, SceneType type);
     void LoadScene(SceneType type);
-    void Tick(float deltaTime);
+    void Tick(float delta_time);
     void Render();
     void Destroy();
 

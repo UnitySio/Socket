@@ -5,7 +5,7 @@
 
 #include "../Actor.h"
 
-BoxComponent::BoxComponent(Actor* actor) : ShapeComponent(actor)
+BoxComponent::BoxComponent(Actor* actor, const std::wstring& name) : ShapeComponent(actor, name)
 {
     b2PolygonShape box;
     box.SetAsBox(1.0f, 1.0f);

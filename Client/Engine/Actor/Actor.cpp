@@ -5,12 +5,15 @@
 #include "box2d/b2_body.h"
 #include "box2d/b2_world.h"
 
-Actor::Actor(b2World* world) :
+Actor::Actor(b2World* world, const std::wstring& name) :
+    world_(world),
     body_(nullptr),
     is_active_(true),
     is_destroy_(false),
     components_()
 {
+    name_ = name;
+    
     b2BodyDef body_def;
     body_def.userData.pointer = reinterpret_cast<uintptr_t>(this);
     body_def.position.Set(0.f, 0.f);
@@ -23,11 +26,11 @@ Actor::~Actor()
     body_->GetWorld()->DestroyBody(body_);
 }
 
-void Actor::Tick(float deltaTime)
+void Actor::Tick(float delta_time)
 {
     for (auto& component : components_)
     {
-        component->TickComponent(deltaTime);
+        component->TickComponent(delta_time);
     }
 }
 

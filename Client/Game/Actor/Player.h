@@ -4,12 +4,10 @@
 class Player : public Actor
 {
 public:
-    Player(class b2World* world);
+    Player(class b2World* world, const std::wstring& name);
     virtual ~Player() override = default;
 
-    virtual void Begin() override;
-    virtual void Tick(float deltaTime) override;
-    virtual void Render() override;
+    virtual void Tick(float delta_time) override;
 
 private:
     bool is_ground_;

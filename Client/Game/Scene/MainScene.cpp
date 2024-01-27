@@ -1,22 +1,13 @@
 ﻿#include "MainScene.h"
 
-#include "../../Engine/Actor/Camera.h"
-#include "../Actor/Box.h"
 #include "../Actor/Ground.h"
 #include "../Actor/Player.h"
 
-MainScene::MainScene()
+MainScene::MainScene(const std::wstring& name) : Scene(name)
 {
-    Camera* camera = new Camera(GetWorld());
-    camera->SetName(L"Camera");
+    Ground* ground = new Ground(GetWorld(), L"Ground");
+    Player* player = new Player(GetWorld(), L"Player");
 
-    Ground* ground = new Ground(GetWorld());
-    ground->SetName(L"Ground");
-
-    Player* player = new Player(GetWorld());
-    player->SetName(L"Player");
-
-    AddActor(camera);
     AddActor(ground);
     AddActor(player);
 }

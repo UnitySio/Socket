@@ -14,7 +14,7 @@ class Actor;
 class Scene : public b2ContactListener
 {
 public:
-    Scene();
+    Scene(const std::wstring& name);
     virtual ~Scene() override = default;
 
     virtual void BeginContact(b2Contact* contact) override;
@@ -23,7 +23,7 @@ public:
     virtual void PreSolve(b2Contact* contact, const b2Manifold* oldManifold) override;
 
     virtual void Begin();
-    virtual void Tick(float deltaTime);
+    virtual void Tick(float delta_time);
     virtual void Render();
     virtual void Destroy();
 
@@ -31,10 +31,11 @@ public:
 
     void AddActor(Actor* actor);
 
-    inline void SetName(const std::wstring name) { name_ = name; }
-    inline const std::wstring GetName() const { return name_; }
+    inline const std::wstring& GetName() const { return name_; }
 
     inline b2World* GetWorld() const { return world_.get(); }
+
+    b2Vec2 GetRenderPosition(b2Vec2 world_position);
 
 private:
     std::wstring name_;
@@ -44,4 +45,6 @@ private:
     std::vector<std::unique_ptr<Actor>> actors_;
 
     DebugDraw debug_draw_;
+
+    b2Vec2 screen_position_;
 };

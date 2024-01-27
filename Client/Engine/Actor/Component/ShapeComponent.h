@@ -1,10 +1,10 @@
 ﻿#pragma once
-#include "Component.h"
+#include "ActorComponent.h"
 
-class ShapeComponent : public Component
+class ShapeComponent : public ActorComponent
 {
 public:
-    ShapeComponent(class Actor* actor);
+    ShapeComponent(class Actor* actor, const std::wstring& name);
     virtual ~ShapeComponent() override = default;
 
     void SetDensity(float density);

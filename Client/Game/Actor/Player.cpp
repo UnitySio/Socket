@@ -2,7 +2,6 @@
 
 #include "Box.h"
 #include "../../Engine/Core.h"
-#include "../../Engine/Actor/Camera.h"
 #include "../../Engine/Actor/Component/BoxComponent.h"
 #include "../../Engine/Graphics/Graphics.h"
 #include "../../Engine/Input/InputManager.h"
@@ -10,24 +9,19 @@
 #include "box2d/b2_fixture.h"
 #include "imgui/imgui.h"
 
-Player::Player(b2World* world) : Actor(world), is_ground_(false)
+Player::Player(b2World* world, const std::wstring& name) : Actor(world, name), is_ground_(false)
 {
     GetBody()->SetType(b2_dynamicBody);
     // GetBody()->SetFixedRotation(true);
     GetBody()->SetTransform(b2Vec2(320.f, 0.f), 0.f);
 
-    BoxComponent* box_component = AddComponent<BoxComponent>();
+    BoxComponent* box_component = CreateComponent<BoxComponent>(L"BoxComponent");
     box_component->SetBox(b2Vec2(32.f, 32.f));
     box_component->SetDensity(1.f);
     box_component->SetFriction(.3f);
 }
 
-void Player::Begin()
-{
-    Camera::GetInstance()->SetTarget(this);
-}
-
-void Player::Tick(float deltaTime)
+void Player::Tick(float delta_time)
 {
     InputManager* input = InputManager::GetInstance();
 
@@ -41,17 +35,7 @@ void Player::Tick(float deltaTime)
 
     if (input->IsKeyDown(VK_DOWN))
     {
-        Box* box = new Box(GetBody()->GetWorld());
-        box->SetName(L"Box");
-
+        Box* box = new Box(GetWorld(), L"Box");
         SpawnActor(box);
     }
-}
-
-void Player::Render()
-{
-    b2Vec2 position = Camera::GetInstance()->GetRenderPosition(GetBody()->GetPosition());
-    float angle = GetBody()->GetAngle();
-
-    Graphics::GetInstance()->DrawSolidBox(position, b2Vec2(32.f, 32.f), angle, b2Color(1.f, 1.f, 1.f, 1.f));
 }

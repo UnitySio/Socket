@@ -3,8 +3,8 @@
 #include "box2d/b2_fixture.h"
 #include "../Actor.h"
 
-ShapeComponent::ShapeComponent(Actor* actor) :
-    Component(actor),
+ShapeComponent::ShapeComponent(Actor* actor, const std::wstring& name) :
+    ActorComponent(actor, name),
     fixture_(nullptr)
 {
 }

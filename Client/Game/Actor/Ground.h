@@ -4,9 +4,7 @@
 class Ground : public Actor
 {
 public:
-    Ground(b2World* world);
+    Ground(b2World* world, const std::wstring& name);
     virtual ~Ground() override = default;
-
-    virtual void Render() override;
     
 };
