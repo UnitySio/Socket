@@ -24,11 +24,11 @@ void SceneManager::LoadScene(SceneType type)
 {
     if (current_scene_)
     {
-        current_scene_->End();
+        current_scene_->EndPlay();
     }
 
     current_scene_ = scenes_[static_cast<size_t>(type)].get();
-    current_scene_->Begin();
+    current_scene_->BeginPlay();
 }
 
 void SceneManager::Tick(float delta_time)

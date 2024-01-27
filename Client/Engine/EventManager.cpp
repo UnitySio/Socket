@@ -33,12 +33,14 @@ void EventManager::ExcuteEvent(const Event& event)
             Actor* actor = reinterpret_cast<Actor*>(event.wParam);
             Scene* scene = SceneManager::GetInstance()->GetCurrentScene();
             scene->AddActor(actor);
+            scene->BeginPlay();
         }
         break;
         
     case EventType::kDestroyActor:
         {
             Actor* actor = reinterpret_cast<Actor*>(event.wParam);
+            actor->OnDestroyed();
             actor->is_destroy_ = true;
         }
         break;

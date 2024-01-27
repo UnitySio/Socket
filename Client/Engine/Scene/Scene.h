@@ -22,12 +22,11 @@ public:
 
     virtual void PreSolve(b2Contact* contact, const b2Manifold* oldManifold) override;
 
-    virtual void Begin();
+    virtual void BeginPlay();
     virtual void Tick(float delta_time);
+    virtual void EndPlay();
     virtual void Render();
     virtual void Destroy();
-
-    virtual inline void End() {};
 
     void AddActor(Actor* actor);
 

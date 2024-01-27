@@ -98,11 +98,11 @@ void Scene::PreSolve(b2Contact* contact, const b2Manifold* oldManifold)
     actor_b->OnCollision(actor_a);
 }
 
-void Scene::Begin()
+void Scene::BeginPlay()
 {
     for (auto& actor : actors_)
     {
-        actor->Begin();
+        actor->BeginPlay();
     }
 }
 
@@ -114,6 +114,14 @@ void Scene::Tick(float delta_time)
     {
         if (!actor->is_active_ || actor->is_destroy_) continue;
         actor->Tick(delta_time);
+    }
+}
+
+void Scene::EndPlay()
+{
+    for (auto& actor : actors_)
+    {
+        actor->EndPlay();
     }
 }
 
@@ -134,6 +142,7 @@ void Scene::Destroy()
     {
         if ((*iter)->is_destroy_)
         {
+            (*iter)->EndPlay();
             iter = actors_.erase(iter);
         }
         else
