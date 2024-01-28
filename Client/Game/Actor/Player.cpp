@@ -6,6 +6,7 @@
 #include "../../Engine/Actor/Component/CameraComponent.h"
 #include "../../Engine/Graphics/Graphics.h"
 #include "../../Engine/Input/InputManager.h"
+#include "../../Engine/Time/Time.h"
 #include "box2d/b2_body.h"
 #include "box2d/b2_fixture.h"
 #include "imgui/imgui.h"
@@ -43,4 +44,6 @@ void Player::Tick(float delta_time)
         Box* box = new Box(GetWorld(), L"Box");
         SpawnActor(box);
     }
+
+    ImGui::Text("FPS : %.2f", Time::GetInstance()->GetFPS());
 }

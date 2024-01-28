@@ -14,7 +14,7 @@ Scene::Scene(const std::wstring& name) :
 {
     name_ = name;
     
-    b2Vec2 gravity(0.0f, 9.81f * 100.0f);
+    b2Vec2 gravity(0.f, 9.81f * 100.f);
     world_ = std::make_unique<b2World>(gravity);
     world_->SetContactListener(this);
     
@@ -23,7 +23,7 @@ Scene::Scene(const std::wstring& name) :
     // flags += b2Draw::e_jointBit;
     // flags += b2Draw::e_aabbBit;
     // flags += b2Draw::e_pairBit;
-    // flags += b2Draw::e_centerOfMassBit;
+    flags += b2Draw::e_centerOfMassBit;
     debug_draw_.SetFlags(flags);
     
     world_->SetDebugDraw(&debug_draw_);

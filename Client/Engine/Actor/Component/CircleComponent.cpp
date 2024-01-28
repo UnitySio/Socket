@@ -15,10 +15,11 @@ CircleComponent::CircleComponent(Actor* owner, const std::wstring& name) : Shape
     fixture_ = owner_->GetBody()->CreateFixture(&fixture_def);
 }
 
-void CircleComponent::SetRadius(float radius)
+void CircleComponent::SetRadius(float radius, b2Vec2 center)
 {
     b2CircleShape circle;
     circle.m_radius = radius;
+    circle.m_p = center;
 
     b2FixtureDef fixture_def;
     fixture_def.shape = &circle;
