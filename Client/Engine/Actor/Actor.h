@@ -14,8 +14,6 @@ public:
     Actor(class b2World* world, const std::wstring& name);
     virtual ~Actor();
 
-    virtual inline void BeginPlay() {};
-    virtual inline void EndPlay() {};
     virtual inline void OnCollisionBegin(Actor* other) {};
     virtual inline void OnCollisionEnd(Actor* other) {};
     virtual inline void OnCollision(Actor* other) {};
@@ -24,6 +22,8 @@ public:
     virtual inline void OnTriggerEnd(Actor* other) {};
     virtual inline void OnDestroyed() {};
     
+    virtual void BeginPlay();
+    virtual void EndPlay();
     virtual void Tick(float delta_time);
     virtual void Render();
 

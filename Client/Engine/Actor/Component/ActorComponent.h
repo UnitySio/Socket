@@ -7,7 +7,8 @@ public:
     ActorComponent(class Actor* owner, const std::wstring& name);
     virtual ~ActorComponent() = default;
 
-    virtual inline void Begin() {};
+    virtual inline void BeginPlay() {};
+    virtual inline void EndPlay() {};
     virtual inline void TickComponent(float delta_time) {};
     virtual inline void Render() {};
 

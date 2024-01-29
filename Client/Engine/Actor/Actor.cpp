@@ -26,6 +26,22 @@ Actor::~Actor()
     body_->GetWorld()->DestroyBody(body_);
 }
 
+void Actor::BeginPlay()
+{
+    for (auto& component : components_)
+    {
+        component->BeginPlay();
+    }
+}
+
+void Actor::EndPlay()
+{
+    for (auto& component : components_)
+    {
+        component->EndPlay();
+    }
+}
+
 void Actor::Tick(float delta_time)
 {
     for (auto& component : components_)
