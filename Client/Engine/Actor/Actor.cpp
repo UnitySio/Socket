@@ -5,10 +5,7 @@
 #include "box2d/b2_body.h"
 #include "box2d/b2_world.h"
 
-unsigned int Actor::next_instance_id_ = 0;
-
 Actor::Actor(b2World* world, const std::wstring& name) :
-    instance_id_(next_instance_id_++),
     world_(world),
     body_(nullptr),
     is_active_(true),

@@ -27,6 +27,7 @@ public:
     virtual void Tick(float delta_time);
     virtual void Render();
 
+    void AttachToActor(Actor* actor);
     void Destroy();
     void Destroy(const Actor* other);
     void SpawnActor(const Actor* actor);
@@ -46,7 +47,9 @@ public:
     template <typename T>
     T* GetComponentByName(const std::wstring& name);
 
-    inline unsigned int GetInstanceID() const { return instance_id_; }
+    // 추후 구현 예정
+    inline size_t GetUniqueID() const { return 0; }
+    inline size_t GetTypeHash() const { return 0; }
 
     inline const std::wstring& GetName() const { return name_; }
     
@@ -59,10 +62,6 @@ public:
 private:
     friend class Scene;
     friend class EventManager;
-
-    static unsigned int next_instance_id_;
-
-    unsigned int instance_id_;
     
     std::wstring name_;
 

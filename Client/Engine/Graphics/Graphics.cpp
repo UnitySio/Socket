@@ -187,6 +187,8 @@ void Graphics::DrawBox(b2Vec2 center, b2Vec2 size, float angle, b2Color color)
 
     d2d_render_target_->DrawRectangle(rectangle, brush);
     brush->Release();
+    
+    d2d_render_target_->SetTransform(D2D1::Matrix3x2F::Identity());
 }
 
 void Graphics::DrawSolidBox(b2Vec2 center, b2Vec2 size, float angle, b2Color color)
@@ -217,6 +219,8 @@ void Graphics::DrawSolidBox(b2Vec2 center, b2Vec2 size, float angle, b2Color col
 
     d2d_render_target_->FillRectangle(rectangle, brush);
     brush->Release();
+    
+    d2d_render_target_->SetTransform(D2D1::Matrix3x2F::Identity());
 }
 
 void Graphics::DrawCircle(b2Vec2 center, float radius, b2Color color)
@@ -327,6 +331,8 @@ void Graphics::DrawTexture(ID2D1Bitmap* texture, b2Vec2 center, b2Vec2 scale, fl
         D2D1_BITMAP_INTERPOLATION_MODE_LINEAR,
         D2D1::RectF(0, 0, texture->GetSize().width, texture->GetSize().height
         ));
+
+    d2d_render_target_->SetTransform(D2D1::Matrix3x2F::Identity());
 }
 
 ID2D1Bitmap* Graphics::LoadTexture(const WCHAR* file_name)

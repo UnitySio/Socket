@@ -5,6 +5,7 @@
 
 SceneManager::SceneManager() : current_scene_(nullptr), scenes_{}
 {
+    int a = 0;
 }
 
 void SceneManager::Init()

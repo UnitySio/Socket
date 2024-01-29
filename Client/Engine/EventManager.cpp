@@ -33,7 +33,7 @@ void EventManager::ExcuteEvent(const Event& event)
             Actor* actor = reinterpret_cast<Actor*>(event.wParam);
             Scene* scene = SceneManager::GetInstance()->GetCurrentScene();
             scene->AddActor(actor);
-            scene->BeginPlay();
+            // scene->BeginPlay();
         }
         break;
         

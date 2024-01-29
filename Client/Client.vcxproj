@@ -157,6 +157,7 @@
     <ClInclude Include="framework.h" />
     <ClInclude Include="Game\Actor\Box.h" />
     <ClInclude Include="Game\Actor\Ground.h" />
+    <ClInclude Include="Game\Actor\JointTest.h" />
     <ClInclude Include="Game\Actor\Player.h" />
     <ClInclude Include="Game\Scene\MainScene.h" />
     <ClInclude Include="Include\box2d\b2_api.h" />
@@ -231,6 +232,7 @@
     <ClCompile Include="Engine\Time\Time.cpp" />
     <ClCompile Include="Game\Actor\Box.cpp" />
     <ClCompile Include="Game\Actor\Ground.cpp" />
+    <ClCompile Include="Game\Actor\JointTest.cpp" />
     <ClCompile Include="Game\Actor\Player.cpp" />
     <ClCompile Include="Game\Scene\MainScene.cpp" />
     <ClCompile Include="Include\imgui\imgui.cpp" />

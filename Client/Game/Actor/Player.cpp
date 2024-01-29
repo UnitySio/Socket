@@ -9,6 +9,7 @@
 #include "../../Engine/Time/Time.h"
 #include "box2d/b2_body.h"
 #include "box2d/b2_fixture.h"
+#include "box2d/b2_world.h"
 #include "imgui/imgui.h"
 
 Player::Player(b2World* world, const std::wstring& name) : Actor(world, name), is_ground_(false)
@@ -39,11 +40,12 @@ void Player::Tick(float delta_time)
         GetBody()->ApplyLinearImpulse(b2Vec2(0.f, -500000.f), GetBody()->GetWorldCenter(), true);
     }
 
-    if (input->IsKeyDown(VK_DOWN))
-    {
-        Box* box = new Box(GetWorld(), L"Box");
-        SpawnActor(box);
-    }
+    // if (input->IsKeyDown(VK_DOWN))
+    // {
+    //     Box* box = new Box(GetWorld(), L"Box");
+    //     SpawnActor(box);
+    // }
 
-    ImGui::Text("FPS : %.2f", Time::GetInstance()->GetFPS());
+    // body 개수
+    ImGui::Text("Body Count: %d", GetWorld()->GetBodyCount());
 }
