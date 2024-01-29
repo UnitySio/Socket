@@ -40,11 +40,11 @@ void Player::Tick(float delta_time)
         GetBody()->ApplyLinearImpulse(b2Vec2(0.f, -500000.f), GetBody()->GetWorldCenter(), true);
     }
 
-    // if (input->IsKeyDown(VK_DOWN))
-    // {
-    //     Box* box = new Box(GetWorld(), L"Box");
-    //     SpawnActor(box);
-    // }
+    if (input->IsKeyDown(VK_DOWN))
+    {
+        Box* box = new Box(GetWorld(), L"Box");
+        SpawnActor(box);
+    }
 
     // body 개수
     ImGui::Text("Body Count: %d", GetWorld()->GetBodyCount());
