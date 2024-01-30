@@ -5,14 +5,13 @@
 #include "Time/Time.h"
 #include "Scene/SceneManager.h"
 #include "Input/InputManager.h"
-#include "Network/NetworkManager.h"
 
 #include "imgui/imgui.h"
 #include "imgui/imgui_impl_dx11.h"
 #include "imgui/imgui_impl_win32.h"
 
 Core::Core() :
-    class_name_(L"CLIENT"),
+    class_name_(L"GAME"),
     resolution_(),
     window_area_(),
     hWnd_(nullptr),
@@ -50,7 +49,7 @@ BOOL Core::InitInstance(HINSTANCE hInstance, int nCmdShow)
     hWnd_ = CreateWindowEx(
         0,
         class_name_.c_str(),
-        L"Client",
+        L"Game",
         WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_THICKFRAME | WS_MINIMIZEBOX,
         (screen_width - (window_area_.right - window_area_.left)) / 2,
         (screen_height - (window_area_.bottom - window_area_.top)) / 2,
@@ -141,7 +140,6 @@ LRESULT Core::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         ImGui_ImplDX11_Shutdown();
         ImGui::DestroyContext();
 
-        NetworkManager::GetInstance()->Release();
         InputManager::GetInstance()->Release();
         SceneManager::GetInstance()->Release();
         Time::GetInstance()->Release();
