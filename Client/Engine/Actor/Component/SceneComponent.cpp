@@ -29,6 +29,8 @@ void SceneComponent::Render()
 
     Scene* scene = SceneManager::GetInstance()->GetCurrentScene();
     Graphics* graphics = Graphics::GetInstance();
+
+    graphics->DrawSolidCircle(scene->GetRenderPosition(transform_.p), 8.f, b2Color(1.f, 1.f, 1.f));
     
     const float axis_scale = 16.f;
     b2Color red(1.f, 0.f, 0.f);

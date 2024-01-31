@@ -20,8 +20,8 @@ public:
     void SetRotation(float angle);
     void SetupAttachment(SceneComponent* parent);
 
-    b2Vec2 GetLocation() const { return transform_.p; }
-    float GetRotation() const { return transform_.q.GetAngle(); }
+    b2Vec2 GetLocation() const { return relative_transform_.p; }
+    float GetRotation() const { return relative_transform_.q.GetAngle(); }
 
     b2World* GetWorld() const;
 

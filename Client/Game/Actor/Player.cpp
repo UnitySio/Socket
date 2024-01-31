@@ -30,11 +30,15 @@ Player::Player(b2World* world, const std::wstring& name) : Actor(world, name), i
     
     temp_1 = CreateComponent<SceneComponent>(L"Temp1");
     temp_1->SetupAttachment(root_component_);
-    temp_1->SetLocation(b2Vec2(0.f, 10.f));
+    temp_1->SetLocation(b2Vec2(0.f, 50.f));
     
     temp_2 = CreateComponent<SceneComponent>(L"Temp2");
     temp_2->SetupAttachment(temp_1);
-    temp_2->SetLocation(b2Vec2(0.f, 10.f));
+    temp_2->SetLocation(b2Vec2(0.f, 50.f));
+
+    temp_3 = CreateComponent<SceneComponent>(L"Temp3");
+    temp_3->SetupAttachment(temp_2);
+    temp_3->SetLocation(b2Vec2(0.f, 50.f));
 }
 
 void Player::Tick(float delta_time)
@@ -60,7 +64,7 @@ void Player::Tick(float delta_time)
     if (input->IsKeyPressed(VK_UP))
     {
         b2Vec2 location = root_component_->GetLocation();
-        location.y += 1.f;
+        location.y += 100.f * delta_time;
         root_component_->SetLocation(location);
     }
 
@@ -69,6 +73,9 @@ void Player::Tick(float delta_time)
 
     float angle2 = temp_1->GetRotation();
     temp_1->SetRotation(angle2 + 1.f * delta_time);
+
+    float angle3 = temp_2->GetRotation();
+    temp_2->SetRotation(angle3 + 1.5f * delta_time);
 
     // body 개수
     ImGui::Text("Body Count: %d", GetWorld()->GetBodyCount());
