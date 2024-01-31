@@ -140,6 +140,7 @@
     <ClInclude Include="Engine\Actor\Component\CameraComponent.h" />
     <ClInclude Include="Engine\Actor\Component\CircleComponent.h" />
     <ClInclude Include="Engine\Actor\Component\ActorComponent.h" />
+    <ClInclude Include="Engine\Actor\Component\SceneComponent.h" />
     <ClInclude Include="Engine\Actor\Component\ShapeComponent.h" />
     <ClInclude Include="Engine\Actor\Component\SpriteComponent.h" />
     <ClInclude Include="Engine\Core.h" />
@@ -148,6 +149,7 @@
     <ClInclude Include="Engine\EventManager.h" />
     <ClInclude Include="Engine\Graphics\Graphics.h" />
     <ClInclude Include="Engine\Input\InputManager.h" />
+    <ClInclude Include="Engine\Reflection\ObjectMacros.h" />
     <ClInclude Include="Engine\ResourceManager.h" />
     <ClInclude Include="Engine\Scene\Scene.h" />
     <ClInclude Include="Engine\Scene\SceneManager.h" />
@@ -216,6 +218,7 @@
     <ClCompile Include="Engine\Actor\Component\CameraComponent.cpp" />
     <ClCompile Include="Engine\Actor\Component\CircleComponent.cpp" />
     <ClCompile Include="Engine\Actor\Component\ActorComponent.cpp" />
+    <ClCompile Include="Engine\Actor\Component\SceneComponent.cpp" />
     <ClCompile Include="Engine\Actor\Component\ShapeComponent.cpp" />
     <ClCompile Include="Engine\Actor\Component\SpriteComponent.cpp" />
     <ClCompile Include="Engine\Core.cpp" />

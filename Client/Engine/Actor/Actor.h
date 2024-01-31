@@ -3,7 +3,6 @@
 #include <string>
 #include <vector>
 
-#include "box2d/b2_math.h"
 #include "Component/ActorComponent.h"
 
 class b2Body;
@@ -38,14 +37,7 @@ public:
     template <typename T>
     T* CreateComponent(const std::wstring& name);
 
-    template <typename T>
-    T* GetComponent();
-
-    template <typename T>
-    std::vector<T*> GetComponents();
-
-    template <typename T>
-    T* GetComponentByName(const std::wstring& name);
+    // Reflection 구현 필요
 
     // 추후 구현 예정
     inline size_t GetUniqueID() const { return 0; }
@@ -80,48 +72,4 @@ T* Actor::CreateComponent(const std::wstring& name)
 {
     components_.push_back(std::make_unique<T>(this, name));
     return static_cast<T*>(components_.back().get());
-}
-
-template <typename T>
-T* Actor::GetComponent()
-{
-    for (auto& component : components_)
-    {
-        if (typeid(*component) == typeid(T))
-        {
-            return static_cast<T*>(component.get());
-        }
-    }
-
-    return nullptr;
-}
-
-template <typename T>
-std::vector<T*> Actor::GetComponents()
-{
-    std::vector<T*> components;
-
-    for (auto& component : components_)
-    {
-        if (typeid(*component) == typeid(T))
-        {
-            components.push_back(static_cast<T*>(component.get()));
-        }
-    }
-
-    return components;
-}
-
-template <typename T>
-T* Actor::GetComponentByName(const std::wstring& name)
-{
-    for (auto& component : components_)
-    {
-        if (typeid(*component) == typeid(T) && component->GetName().compare(name))
-        {
-            return static_cast<T*>(component.get());
-        }
-    }
-
-    return nullptr;
 }

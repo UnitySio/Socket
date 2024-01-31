@@ -13,5 +13,9 @@ public:
 
 private:
     bool is_ground_;
+
+    class SceneComponent* root_component_;
+    class SceneComponent* temp_1;
+    class SceneComponent* temp_2;
     
 };
