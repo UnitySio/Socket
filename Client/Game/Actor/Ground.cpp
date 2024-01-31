@@ -3,6 +3,7 @@
 #include "../../Engine/Actor/Component/BoxComponent.h"
 #include "../../Engine/Graphics/Graphics.h"
 #include "box2d/b2_body.h"
+#include "../../Engine/Actor/Component/CameraComponent.h"
 
 Ground::Ground(b2World* world, const std::wstring& name) : Actor(world, name)
 {
@@ -10,4 +11,6 @@ Ground::Ground(b2World* world, const std::wstring& name) : Actor(world, name)
 
     BoxComponent* box_component = CreateComponent<BoxComponent>(L"BoxComponent");
     box_component->SetBox(b2Vec2(640.f, 32.f));
+    
+    CameraComponent* camera_component = CreateComponent<CameraComponent>(L"CameraComponent");
 }

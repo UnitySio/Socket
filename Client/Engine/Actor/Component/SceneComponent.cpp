@@ -11,16 +11,29 @@
 SceneComponent::SceneComponent(Actor* owner, const std::wstring& name) :
     ActorComponent(owner, name),
     body_(nullptr),
+    transform_(),
+    relative_transform_(),
     parent_(nullptr),
     children_()
 {
     relative_transform_.SetIdentity();
     transform_ = relative_transform_;
+
+    b2BodyDef body_def;
+    body_def.position.Set(0.f, 0.f);
+
+    body_ = GetWorld()->CreateBody(&body_def);
 }
 
 void SceneComponent::TickComponent(float delta_time)
 {
     ActorComponent::TickComponent(delta_time);
+
+    if (body_->GetFixtureList())
+    {
+        SetLocation(body_->GetPosition());
+        SetRotation(body_->GetAngle());
+    }
 }
 
 void SceneComponent::Render()
@@ -81,18 +94,8 @@ void SceneComponent::UpdateTransform()
     }
     else transform_ = relative_transform_; // Root Component
 
-    UpdateChildrenTransform();
-}
-
-void SceneComponent::UpdateChildrenTransform()
-{
     for (SceneComponent* child : children_)
     {
-        child->UpdateWorldTransform();
+        child->UpdateTransform();
     }
-}
-
-void SceneComponent::UpdateWorldTransform()
-{
-    UpdateTransform();
 }

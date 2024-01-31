@@ -25,12 +25,12 @@ public:
 
     b2World* GetWorld() const;
 
+    b2Body* GetBody() const { return body_; }
+
 private:
     friend class SceneComponent;
 
     void UpdateTransform();
-    void UpdateChildrenTransform();
-    void UpdateWorldTransform();
     
     b2Body* body_;
     
