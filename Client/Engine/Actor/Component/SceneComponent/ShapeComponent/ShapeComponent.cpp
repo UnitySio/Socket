@@ -9,6 +9,7 @@ ShapeComponent::ShapeComponent(Actor* owner, const std::wstring& kName) :
     const b2Vec2 position = GetRelativeLocation();
 
     b2BodyDef body_def;
+    body_def.userData.pointer = reinterpret_cast<uintptr_t>(owner_);
     body_def.position.Set(position.x, position.y);
 
     body_ = GetWorld()->CreateBody(&body_def);
