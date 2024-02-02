@@ -18,3 +18,10 @@ ShapeComponent::~ShapeComponent()
 {
     GetWorld()->DestroyBody(body_);
 }
+
+void ShapeComponent::EndPlay()
+{
+    SceneComponent::EndPlay();
+
+    GetWorld()->DestroyBody(body_);
+}

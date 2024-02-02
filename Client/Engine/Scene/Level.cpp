@@ -43,13 +43,13 @@ void Level::BeginContact(b2Contact* contact)
     if (!actor_a || !actor_b) return;
     if (fixture_a->IsSensor() || fixture_b->IsSensor())
     {
-        actor_a->OnTriggerBegin(actor_b);
-        actor_b->OnTriggerBegin(actor_a);
+        actor_a->OnTriggerEnter(actor_b);
+        actor_b->OnTriggerEnter(actor_a);
         return;
     }
 
-    actor_a->OnCollisionBegin(actor_b);
-    actor_b->OnCollisionBegin(actor_a);
+    actor_a->OnCollisionEnter(actor_b);
+    actor_b->OnCollisionEnter(actor_a);
 }
 
 void Level::EndContact(b2Contact* contact)
@@ -66,13 +66,13 @@ void Level::EndContact(b2Contact* contact)
     if (!actor_a || !actor_b) return;
     if (fixture_a->IsSensor() || fixture_b->IsSensor())
     {
-        actor_a->OnTriggerEnd(actor_b);
-        actor_b->OnTriggerEnd(actor_a);
+        actor_a->OnTriggerExit(actor_b);
+        actor_b->OnTriggerExit(actor_a);
         return;
     }
 
-    actor_a->OnCollisionEnd(actor_b);
-    actor_b->OnCollisionEnd(actor_a);
+    actor_a->OnCollisionExit(actor_b);
+    actor_b->OnCollisionExit(actor_a);
 }
 
 void Level::PreSolve(b2Contact* contact, const b2Manifold* oldManifold)
@@ -89,13 +89,13 @@ void Level::PreSolve(b2Contact* contact, const b2Manifold* oldManifold)
     if (!actor_a || !actor_b) return;
     if (fixture_a->IsSensor() || fixture_b->IsSensor())
     {
-        actor_a->OnTrigger(actor_b);
-        actor_b->OnTrigger(actor_a);
+        actor_a->OnTriggerStay(actor_b);
+        actor_b->OnTriggerStay(actor_a);
         return;
     }
 
-    actor_a->OnCollision(actor_b);
-    actor_b->OnCollision(actor_a);
+    actor_a->OnCollisionStay(actor_b);
+    actor_b->OnCollisionStay(actor_a);
 }
 
 void Level::BeginPlay()

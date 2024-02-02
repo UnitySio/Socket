@@ -11,6 +11,7 @@ public:
 
 private:
     class BoxComponent* box_;
+    class SpriteComponent* sprite_;
     class CameraComponent* camera_view_;
     
 };

@@ -47,6 +47,10 @@ void Actor::Render()
     }
 }
 
+void Actor::AttachToActor(Actor* actor)
+{
+}
+
 void Actor::Destroy()
 {
     EventManager::GetInstance()->AddEvent(

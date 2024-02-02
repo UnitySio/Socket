@@ -2,6 +2,7 @@
 
 #include "../../Engine/Core.h"
 #include "../../Engine/Actor/Component/Scenecomponent/ShapeComponent/BoxComponent.h"
+#include "../../Engine/Actor/Component/Scenecomponent/SpriteComponent.h"
 #include "../../Engine/Actor/Component/Scenecomponent/CameraComponent.h"
 #include "../../Engine/Input/InputManager.h"
 #include "box2d/b2_body.h"
@@ -20,6 +21,9 @@ Pawn::Pawn(b2World* world, const std::wstring& kName) :
     box_->GetBody()->ResetMassData();
 
     root_component_ = box_;
+
+    sprite_ = CreateComponent<SpriteComponent>(L"Sprite");
+    sprite_->SetupAttachment(root_component_);
 
     camera_view_ = CreateComponent<CameraComponent>(L"Camera");
     camera_view_->SetupAttachment(root_component_);
