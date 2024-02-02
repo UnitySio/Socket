@@ -23,29 +23,6 @@ Pawn::Pawn(b2World* world, const std::wstring& kName) :
 
     camera_view_ = CreateComponent<CameraComponent>(L"Camera");
     camera_view_->SetupAttachment(root_component_);
-
-    temp_box_ = CreateComponent<BoxComponent>(L"TempBox");
-    temp_box_->SetBoxExtent(b2Vec2(32.f, 32.f));
-    temp_box_->SetRelativeLocation(b2Vec2(0.f, -64.f));
-    temp_box_->SetRelativeRotation(45.f);
-    
-    // temp_box_->GetBody()->SetType(b2_dynamicBody);
-    temp_box_->GetBody()->GetFixtureList()->SetDensity(1.f);
-    temp_box_->GetBody()->GetFixtureList()->SetFriction(0.3f);
-    temp_box_->GetBody()->ResetMassData();
-    
-    temp_box_->SetupAttachment(root_component_);
-    
-    temp_box2_ = CreateComponent<BoxComponent>(L"TempBox2");
-    temp_box2_->SetBoxExtent(b2Vec2(32.f, 32.f));
-    temp_box2_->SetRelativeLocation(b2Vec2(0.f, -64.f));
-    
-    temp_box2_->SetupAttachment(temp_box_);
-    
-    temp_ = CreateComponent<SceneComponent>(L"Temp");
-    temp_->SetRelativeLocation(b2Vec2(0.f, -128.f));
-    
-    temp_->SetupAttachment(temp_box_);
 }
 
 void Pawn::Tick(float delta_time)

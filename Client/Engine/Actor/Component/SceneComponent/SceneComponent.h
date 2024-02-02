@@ -13,7 +13,6 @@ public:
     virtual ~SceneComponent() override = default;
 
     virtual void TickComponent(float delta_time) override;
-    virtual void Render() override;
 
     void SetRelativeLocation(const b2Vec2& location);
     void SetRelativeRotation(float angle);
