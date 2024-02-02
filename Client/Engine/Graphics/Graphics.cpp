@@ -255,7 +255,7 @@ void Graphics::DrawSolidCircle(b2Vec2 center, float radius, b2Color color)
     brush->Release();
 }
 
-void Graphics::DrawPolygon(const b2Vec2* vertices, int32 vertex_count, b2Color color)
+void Graphics::DrawPolygon(const b2Vec2* kVertices, int32 vertex_count, b2Color color)
 {
     ID2D1PathGeometry* geometry;
     d2d_factory_->CreatePathGeometry(&geometry);
@@ -263,10 +263,10 @@ void Graphics::DrawPolygon(const b2Vec2* vertices, int32 vertex_count, b2Color c
     ID2D1GeometrySink* sink;
     geometry->Open(&sink);
 
-    sink->BeginFigure(D2D1::Point2F(vertices[0].x, vertices[0].y), D2D1_FIGURE_BEGIN_FILLED);
+    sink->BeginFigure(D2D1::Point2F(kVertices[0].x, kVertices[0].y), D2D1_FIGURE_BEGIN_FILLED);
     for (int32 i = 1; i < vertex_count; ++i)
     {
-        sink->AddLine(D2D1::Point2F(vertices[i].x, vertices[i].y));
+        sink->AddLine(D2D1::Point2F(kVertices[i].x, kVertices[i].y));
     }
 
     sink->EndFigure(D2D1_FIGURE_END_CLOSED);
@@ -280,7 +280,7 @@ void Graphics::DrawPolygon(const b2Vec2* vertices, int32 vertex_count, b2Color c
     brush->Release();
 }
 
-void Graphics::DrawSolidPolygon(const b2Vec2* vertices, int32 vertex_count, b2Color color)
+void Graphics::DrawSolidPolygon(const b2Vec2* kVertices, int32 vertex_count, b2Color color)
 {
     ID2D1PathGeometry* geometry;
     d2d_factory_->CreatePathGeometry(&geometry);
@@ -288,10 +288,10 @@ void Graphics::DrawSolidPolygon(const b2Vec2* vertices, int32 vertex_count, b2Co
     ID2D1GeometrySink* sink;
     geometry->Open(&sink);
 
-    sink->BeginFigure(D2D1::Point2F(vertices[0].x, vertices[0].y), D2D1_FIGURE_BEGIN_FILLED);
+    sink->BeginFigure(D2D1::Point2F(kVertices[0].x, kVertices[0].y), D2D1_FIGURE_BEGIN_FILLED);
     for (int32 i = 1; i < vertex_count; ++i)
     {
-        sink->AddLine(D2D1::Point2F(vertices[i].x, vertices[i].y));
+        sink->AddLine(D2D1::Point2F(kVertices[i].x, kVertices[i].y));
     }
 
     sink->EndFigure(D2D1_FIGURE_END_CLOSED);
@@ -335,7 +335,7 @@ void Graphics::DrawTexture(ID2D1Bitmap* texture, b2Vec2 center, b2Vec2 scale, fl
     d2d_render_target_->SetTransform(D2D1::Matrix3x2F::Identity());
 }
 
-ID2D1Bitmap* Graphics::LoadTexture(const WCHAR* file_name)
+ID2D1Bitmap* Graphics::LoadTexture(const WCHAR* kFileName)
 {
     IWICImagingFactory* wic_factory;
     HRESULT result = CoCreateInstance(
@@ -352,7 +352,7 @@ ID2D1Bitmap* Graphics::LoadTexture(const WCHAR* file_name)
 
     IWICBitmapDecoder* wic_decoder;
     result = wic_factory->CreateDecoderFromFilename(
-        file_name,
+        kFileName,
         nullptr,
         GENERIC_READ,
         WICDecodeMetadataCacheOnDemand,

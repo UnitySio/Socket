@@ -1,10 +1,10 @@
 ﻿#pragma once
-#include "ActorComponent.h"
+#include "SceneComponent.h"
 
-class CameraComponent : public ActorComponent
+class CameraComponent : public SceneComponent
 {
 public:
-    CameraComponent(class Actor* owner, const std::wstring& name);
+    CameraComponent(Actor* owner, const std::wstring& kName);
     virtual ~CameraComponent() override = default;
 
     virtual void TickComponent(float delta_time) override;

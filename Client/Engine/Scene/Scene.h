@@ -3,7 +3,6 @@
 #include <string>
 #include <vector>
 
-#include "Windows.h"
 #include "box2d/b2_world_callbacks.h"
 #include "box2d/b2_world.h"
 
@@ -14,7 +13,7 @@ class Actor;
 class Scene : public b2ContactListener
 {
 public:
-    Scene(const std::wstring& name);
+    Scene(const std::wstring& kName);
     virtual ~Scene() override = default;
 
     virtual void BeginContact(b2Contact* contact) override;

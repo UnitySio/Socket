@@ -6,13 +6,13 @@
 #include "../Actor/Actor.h"
 #include "box2d/b2_contact.h"
 
-Scene::Scene(const std::wstring& name) :
+Scene::Scene(const std::wstring& kName) :
     world_(nullptr),
     actors_(),
     debug_draw_(),
     screen_position_(b2Vec2_zero)
 {
-    name_ = name;
+    name_ = kName;
     
     b2Vec2 gravity(0.f, 9.81f * 100.f);
     world_ = std::make_unique<b2World>(gravity);

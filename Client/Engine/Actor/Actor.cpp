@@ -5,25 +5,14 @@
 #include "box2d/b2_body.h"
 #include "box2d/b2_world.h"
 
-Actor::Actor(b2World* world, const std::wstring& name) :
+Actor::Actor(b2World* world, const std::wstring& kName) :
+    root_component_(nullptr),
     world_(world),
-    body_(nullptr),
     is_active_(true),
     is_destroy_(false),
     components_()
 {
-    name_ = name;
-    
-    b2BodyDef body_def;
-    body_def.userData.pointer = reinterpret_cast<uintptr_t>(this);
-    body_def.position.Set(0.f, 0.f);
-
-    body_ = world->CreateBody(&body_def);
-}
-
-Actor::~Actor()
-{
-    body_->GetWorld()->DestroyBody(body_);
+    name_ = kName;
 }
 
 void Actor::BeginPlay()
@@ -93,9 +82,4 @@ void Actor::SetActive(bool active)
             reinterpret_cast<uintptr_t>(this),
             static_cast<bool>(active)
         });
-}
-
-b2World* Actor::GetWorld() const
-{
-    return body_->GetWorld();
 }

@@ -1,6 +1,13 @@
 ﻿#include "ActorComponent.h"
 
-ActorComponent::ActorComponent(Actor* owner, const std::wstring& name) : owner_(owner)
+#include "../Actor.h"
+
+ActorComponent::ActorComponent(Actor* owner, const std::wstring& kName) : owner_(owner)
 {
-    name_ = name;
+    name_ = kName;
+}
+
+b2World* ActorComponent::GetWorld() const
+{
+    return owner_->GetWorld();
 }

@@ -10,8 +10,8 @@ class b2Body;
 class Actor
 {
 public:
-    Actor(class b2World* world, const std::wstring& name);
-    virtual ~Actor();
+    Actor(class b2World* world, const std::wstring& kName);
+    virtual ~Actor() = default;
 
     virtual inline void OnCollisionBegin(Actor* other) {};
     virtual inline void OnCollisionEnd(Actor* other) {};
@@ -32,10 +32,8 @@ public:
     void SpawnActor(const Actor* actor);
     void SetActive(bool active);
 
-    b2World* GetWorld() const;
-
     template <typename T>
-    T* CreateComponent(const std::wstring& name);
+    T* CreateComponent(const std::wstring& kName);
 
     // Reflection 구현 필요
 
@@ -47,9 +45,10 @@ public:
     
     inline b2World* GetWorld() { return world_; }
 
-    inline b2Body* GetBody() const { return body_; }
-
     inline bool IsActive() const { return is_active_; }
+
+protected:
+    class SceneComponent* root_component_;
 
 private:
     friend class Scene;
@@ -58,7 +57,6 @@ private:
     std::wstring name_;
 
     b2World* world_;
-    b2Body* body_;
 
     bool is_active_;
     bool is_destroy_;
@@ -68,8 +66,8 @@ private:
 };
 
 template <typename T>
-T* Actor::CreateComponent(const std::wstring& name)
+T* Actor::CreateComponent(const std::wstring& kName)
 {
-    components_.push_back(std::make_unique<T>(this, name));
+    components_.push_back(std::make_unique<T>(this, kName));
     return static_cast<T*>(components_.back().get());
 }

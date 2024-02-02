@@ -1,18 +1,17 @@
 ﻿#include "SceneManager.h"
 
 #include "Scene.h"
-#include "../../Game/Scene/MainScene.h"
+#include "../../Game/Map/MainMap.h"
 
 SceneManager::SceneManager() : current_scene_(nullptr), scenes_{}
 {
-    int a = 0;
 }
 
 void SceneManager::Init()
 {
-    Scene* main_scene = new MainScene(L"Map 0");
-    CreateScene(main_scene, SceneType::kDefault);
-    
+    Scene* main_map = new MainMap(L"MainMap");
+    CreateScene(main_map, SceneType::kDefault);
+
     LoadScene(SceneType::kDefault);
 }
 
