@@ -2,6 +2,7 @@
 
 #include "../../Engine/Core.h"
 #include "../../Engine/Actor/Component/Scenecomponent/ShapeComponent/BoxComponent.h"
+#include "../../Engine/Actor/Component/Scenecomponent/ShapeComponent/CircleComponent.h"
 #include "../../Engine/Actor/Component/Scenecomponent/SpriteComponent.h"
 #include "../../Engine/Actor/Component/Scenecomponent/CameraComponent.h"
 #include "../../Engine/Graphics/Graphics.h"
@@ -25,6 +26,17 @@ Pawn::Pawn(b2World* world, const std::wstring& kName) :
     box_->GetBody()->ResetMassData();
 
     root_component_ = box_;
+
+    circle_ = CreateComponent<CircleComponent>(L"Circle");
+    circle_->SetCircleRadius(32.f);
+    circle_->SetRelativeLocation(b2Vec2(0.f, -96.f));
+
+    circle_->GetBody()->SetType(b2_dynamicBody);
+    circle_->GetBody()->GetFixtureList()->SetDensity(1.f);
+    circle_->GetBody()->GetFixtureList()->SetFriction(0.3f);
+    circle_->GetBody()->ResetMassData();
+    
+    circle_->SetupAttachment(root_component_);
 
     sprite_ = CreateComponent<SpriteComponent>(L"Sprite");
     sprite_->SetupAttachment(root_component_);
