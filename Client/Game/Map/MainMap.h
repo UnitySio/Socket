@@ -1,7 +1,7 @@
 ﻿#pragma once
-#include "../../Engine/Scene/Scene.h"
+#include "../../Engine/Scene/Level.h"
 
-class MainMap : public Scene
+class MainMap : public Level
 {
 public:
     MainMap(const std::wstring& kName);

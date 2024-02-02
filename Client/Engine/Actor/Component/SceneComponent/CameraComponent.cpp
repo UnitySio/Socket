@@ -2,7 +2,7 @@
 
 #include "../../Actor.h"
 #include "../../../Core.h"
-#include "../../../Scene/Scene.h"
+#include "../../../Scene/Level.h"
 #include "../../../Scene/SceneManager.h"
 #include "box2d/b2_body.h"
 
@@ -15,10 +15,10 @@ void CameraComponent::TickComponent(float delta_time)
     SceneComponent::TickComponent(delta_time);
     
     Core* core = Core::GetInstance();
-    Scene* scene = SceneManager::GetInstance()->GetCurrentScene();
+    Level* level = SceneManager::GetInstance()->GetLevel();
 
     POINT resolution = core->GetResolution();
     b2Vec2 half_screen = b2Vec2(resolution.x / 2.f, resolution.y / 2.f);
     
-    scene->SetScreenPosition(GetWorldLocation() - half_screen);
+    level->SetScreenPosition(GetWorldLocation() - half_screen);
 }

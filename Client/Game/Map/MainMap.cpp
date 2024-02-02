@@ -3,7 +3,7 @@
 #include "../Actor/Floor.h"
 #include "../Actor/Pawn.h"
 
-MainMap::MainMap(const std::wstring& kName) : Scene(kName)
+MainMap::MainMap(const std::wstring& kName) : Level(kName)
 {
     Actor* floor = new Floor(GetWorld(), L"Floor");
     AddActor(floor);

@@ -2,7 +2,7 @@
 
 #include "Enums.h"
 #include "Actor/Actor.h"
-#include "Scene/Scene.h"
+#include "Scene/Level.h"
 #include "Scene/SceneManager.h"
 
 EventManager::EventManager() : events_()
@@ -31,8 +31,8 @@ void EventManager::ExcuteEvent(const Event& event)
     case EventType::kSpawnActor:
         {
             Actor* actor = reinterpret_cast<Actor*>(event.wParam);
-            Scene* scene = SceneManager::GetInstance()->GetCurrentScene();
-            scene->AddActor(actor);
+            Level* level = SceneManager::GetInstance()->GetLevel();
+            level->AddActor(actor);
             actor->BeginPlay();
         }
         break;

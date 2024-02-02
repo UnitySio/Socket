@@ -51,7 +51,7 @@ protected:
     class SceneComponent* root_component_;
 
 private:
-    friend class Scene;
+    friend class Level;
     friend class EventManager;
     
     std::wstring name_;

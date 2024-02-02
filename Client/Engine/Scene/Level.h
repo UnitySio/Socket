@@ -10,11 +10,11 @@
 
 class Actor;
 
-class Scene : public b2ContactListener
+class Level : public b2ContactListener
 {
 public:
-    Scene(const std::wstring& kName);
-    virtual ~Scene() override = default;
+    Level(const std::wstring& kName);
+    virtual ~Level() override = default;
 
     virtual void BeginContact(b2Contact* contact) override;
     virtual void EndContact(b2Contact* contact) override;

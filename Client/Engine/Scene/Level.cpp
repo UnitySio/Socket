@@ -1,4 +1,4 @@
-﻿#include "Scene.h"
+﻿#include "Level.h"
 
 #include "box2d/b2_math.h"
 #include "box2d/b2_world.h"
@@ -6,7 +6,7 @@
 #include "../Actor/Actor.h"
 #include "box2d/b2_contact.h"
 
-Scene::Scene(const std::wstring& kName) :
+Level::Level(const std::wstring& kName) :
     world_(nullptr),
     actors_(),
     debug_draw_(),
@@ -29,7 +29,7 @@ Scene::Scene(const std::wstring& kName) :
     world_->SetDebugDraw(&debug_draw_);
 }
 
-void Scene::BeginContact(b2Contact* contact)
+void Level::BeginContact(b2Contact* contact)
 {
     b2Fixture* fixture_a = contact->GetFixtureA();
     b2Fixture* fixture_b = contact->GetFixtureB();
@@ -52,7 +52,7 @@ void Scene::BeginContact(b2Contact* contact)
     actor_b->OnCollisionBegin(actor_a);
 }
 
-void Scene::EndContact(b2Contact* contact)
+void Level::EndContact(b2Contact* contact)
 {
     b2Fixture* fixture_a = contact->GetFixtureA();
     b2Fixture* fixture_b = contact->GetFixtureB();
@@ -75,7 +75,7 @@ void Scene::EndContact(b2Contact* contact)
     actor_b->OnCollisionEnd(actor_a);
 }
 
-void Scene::PreSolve(b2Contact* contact, const b2Manifold* oldManifold)
+void Level::PreSolve(b2Contact* contact, const b2Manifold* oldManifold)
 {
     b2Fixture* fixture_a = contact->GetFixtureA();
     b2Fixture* fixture_b = contact->GetFixtureB();
@@ -98,7 +98,7 @@ void Scene::PreSolve(b2Contact* contact, const b2Manifold* oldManifold)
     actor_b->OnCollision(actor_a);
 }
 
-void Scene::BeginPlay()
+void Level::BeginPlay()
 {
     for (auto& actor : actors_)
     {
@@ -106,7 +106,7 @@ void Scene::BeginPlay()
     }
 }
 
-void Scene::Tick(float delta_time)
+void Level::Tick(float delta_time)
 {
     world_->Step(delta_time, 8, 3);
     
@@ -117,7 +117,7 @@ void Scene::Tick(float delta_time)
     }
 }
 
-void Scene::EndPlay()
+void Level::EndPlay()
 {
     for (auto& actor : actors_)
     {
@@ -125,7 +125,7 @@ void Scene::EndPlay()
     }
 }
 
-void Scene::Render()
+void Level::Render()
 {
     for (auto& actor : actors_)
     {
@@ -136,7 +136,7 @@ void Scene::Render()
     world_->DebugDraw();
 }
 
-void Scene::Destroy()
+void Level::Destroy()
 {
     for (auto iter = actors_.begin(); iter != actors_.end();)
     {
@@ -152,12 +152,12 @@ void Scene::Destroy()
     }
 }
 
-void Scene::AddActor(Actor* actor)
+void Level::AddActor(Actor* actor)
 {
     actors_.push_back(std::unique_ptr<Actor>(actor));
 }
 
-b2Vec2 Scene::GetRenderPosition(b2Vec2 world_position)
+b2Vec2 Level::GetRenderPosition(b2Vec2 world_position)
 {
     return world_position - screen_position_;
 }
