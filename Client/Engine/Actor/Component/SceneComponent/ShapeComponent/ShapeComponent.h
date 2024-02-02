@@ -9,11 +9,6 @@ public:
     ShapeComponent(Actor* owner, const std::wstring& kName);
     virtual ~ShapeComponent() override;
 
-    virtual void TickComponent(float delta_time) override;
-
     inline b2Body* GetBody() const { return body_; }
-
-protected:
-    b2Body* body_;
     
 };

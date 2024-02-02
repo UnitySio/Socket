@@ -4,32 +4,39 @@
 #include "../ActorComponent.h"
 #include "box2d/b2_math.h"
 
+class b2Body;
+
 class SceneComponent : public ActorComponent
 {
 public:
     SceneComponent(Actor* owner, const std::wstring& kName);
     virtual ~SceneComponent() override = default;
 
+    virtual void TickComponent(float delta_time) override;
     virtual void Render() override;
 
-    void SetLocation(const b2Vec2& location);
-    void SetRotation(float angle);
+    void SetRelativeLocation(const b2Vec2& location);
+    void SetRelativeRotation(float angle);
+    void SetWorldLocation(const b2Vec2& location);
+    void SetWorldRotation(float angle);
+    
     void SetupAttachment(SceneComponent* parent);
 
-    inline b2Vec2 GetLocation() const { return relative_transform_.p; }
+    inline b2Vec2 GetRelativeLocation() const { return relative_transform_.p; }
     inline b2Vec2 GetWorldLocation() const { return transform_.p; }
     
-    inline float GetRotation() const { return relative_transform_.q.GetAngle(); }
+    inline float GetRelativeRotation() const { return relative_transform_.q.GetAngle(); }
     inline float GetWorldRotation() const { return transform_.q.GetAngle(); }
 
-    inline b2Transform GetTransform() const { return transform_; }
+    inline b2Transform GetWorldTransform() const { return transform_; }
     inline b2Transform GetRelativeTransform() const { return relative_transform_; }
 
     inline SceneComponent* GetAttachParent() const { return parent_; }
 
-private:
-    friend class SceneComponent;
+protected:
+    b2Body* body_;
 
+private:
     void UpdateTransform();
     
     b2Transform transform_;
