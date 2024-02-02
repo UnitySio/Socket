@@ -5,11 +5,11 @@
 enum class SceneType : size_t;
 class Level;
 
-class SceneManager : public Singleton<SceneManager>
+class LevelManager : public Singleton<LevelManager>
 {
 public:
-    SceneManager();
-    virtual ~SceneManager() override = default;
+    LevelManager();
+    virtual ~LevelManager() override = default;
 
     void Init();
     void CreateScene(Level* level, SceneType type);

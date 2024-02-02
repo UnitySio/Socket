@@ -1,11 +1,8 @@
 ﻿#include "SceneComponent.h"
 
 #include "../../Actor.h"
-#include "../../../Graphics/Graphics.h"
-#include "../../../Scene/Level.h"
-#include "../../../Scene/SceneManager.h"
+#include "../../../Level/LevelManager.h"
 #include "box2d/b2_body.h"
-#include "box2d/b2_draw.h"
 
 SceneComponent::SceneComponent(Actor* owner, const std::wstring& kName) :
     ActorComponent(owner, kName),

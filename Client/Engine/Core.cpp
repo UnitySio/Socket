@@ -3,7 +3,7 @@
 #include "EventManager.h"
 #include "Graphics/Graphics.h"
 #include "Time/Time.h"
-#include "Scene/SceneManager.h"
+#include "Level/LevelManager.h"
 #include "Input/InputManager.h"
 
 #include "imgui/imgui.h"
@@ -77,7 +77,7 @@ bool Core::InitWindow(HINSTANCE hInstance, int nCmdShow)
     if (!Graphics::GetInstance()->Init()) return false;
 
     Time::GetInstance()->Init();
-    SceneManager::GetInstance()->Init();
+    LevelManager::GetInstance()->Init();
     InputManager::GetInstance()->Init();
 
     IMGUI_CHECKVERSION();
@@ -141,7 +141,7 @@ LRESULT Core::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         ImGui::DestroyContext();
 
         InputManager::GetInstance()->Release();
-        SceneManager::GetInstance()->Release();
+        LevelManager::GetInstance()->Release();
         Time::GetInstance()->Release();
         Graphics::GetInstance()->Release();
         EventManager::GetInstance()->Release();
@@ -189,17 +189,17 @@ void Core::MainLogic()
 
     Graphics::GetInstance()->EndRenderD3D();
 
-    SceneManager::GetInstance()->Destroy();
+    LevelManager::GetInstance()->Destroy();
     EventManager::GetInstance()->Tick();
 }
 
 void Core::Tick(float delta_time)
 {
     InputManager::GetInstance()->Tick();
-    SceneManager::GetInstance()->Tick(delta_time);
+    LevelManager::GetInstance()->Tick(delta_time);
 }
 
 void Core::Render()
 {
-    SceneManager::GetInstance()->Render();
+    LevelManager::GetInstance()->Render();
 }

@@ -4,12 +4,16 @@
 #include "../../Engine/Actor/Component/Scenecomponent/ShapeComponent/BoxComponent.h"
 #include "../../Engine/Actor/Component/Scenecomponent/SpriteComponent.h"
 #include "../../Engine/Actor/Component/Scenecomponent/CameraComponent.h"
+#include "../../Engine/Graphics/Graphics.h"
 #include "../../Engine/Input/InputManager.h"
+#include "../../Engine/Level/Level.h"
+#include "../../Engine/Level/LevelManager.h"
 #include "box2d/b2_body.h"
 #include "box2d/b2_fixture.h"
 
 Pawn::Pawn(b2World* world, const std::wstring& kName) :
-    Actor(world, kName)
+    Actor(world, kName),
+    bitmap_(nullptr)
 {
     box_ = CreateComponent<BoxComponent>(L"Box");
     box_->SetBoxExtent(b2Vec2(32.f, 32.f));
@@ -27,6 +31,9 @@ Pawn::Pawn(b2World* world, const std::wstring& kName) :
 
     camera_view_ = CreateComponent<CameraComponent>(L"Camera");
     camera_view_->SetupAttachment(root_component_);
+
+    bitmap_ = Graphics::GetInstance()->LoadTexture(L"box.png");
+    assert(bitmap_);
 }
 
 void Pawn::Tick(float delta_time)
@@ -42,4 +49,13 @@ void Pawn::Tick(float delta_time)
     {
         box_->GetBody()->ApplyLinearImpulse(b2Vec2(0.f, -500000.f), box_->GetBody()->GetWorldCenter(), true);
     }
+}
+
+void Pawn::Render()
+{
+    Actor::Render();
+
+    Level* level = LevelManager::GetInstance()->GetLevel();
+    b2Vec2 render_position = level->GetRenderPosition(box_->GetWorldLocation());
+    Graphics::GetInstance()->DrawTexture(bitmap_, render_position, b2Vec2(.125f, .125f), box_->GetWorldRotation());
 }

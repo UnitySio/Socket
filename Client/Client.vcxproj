@@ -148,8 +148,8 @@
     <ClInclude Include="Engine\EventManager.h" />
     <ClInclude Include="Engine\Graphics\Graphics.h" />
     <ClInclude Include="Engine\Input\InputManager.h" />
-    <ClInclude Include="Engine\Scene\Level.h" />
-    <ClInclude Include="Engine\Scene\SceneManager.h" />
+    <ClInclude Include="Engine\Level\Level.h" />
+    <ClInclude Include="Engine\Level\LevelManager.h" />
     <ClInclude Include="Engine\Singleton.h" />
     <ClInclude Include="Engine\Time\Time.h" />
     <ClInclude Include="framework.h" />
@@ -220,8 +220,8 @@
     <ClCompile Include="Engine\EventManager.cpp" />
     <ClCompile Include="Engine\Graphics\Graphics.cpp" />
     <ClCompile Include="Engine\Input\InputManager.cpp" />
-    <ClCompile Include="Engine\Scene\Level.cpp" />
-    <ClCompile Include="Engine\Scene\SceneManager.cpp" />
+    <ClCompile Include="Engine\Level\Level.cpp" />
+    <ClCompile Include="Engine\Level\LevelManager.cpp" />
     <ClCompile Include="Engine\Time\Time.cpp" />
     <ClCompile Include="Game\Actor\Floor.cpp" />
     <ClCompile Include="Game\Actor\Pawn.cpp" />

@@ -1,13 +1,13 @@
-﻿#include "SceneManager.h"
+﻿#include "LevelManager.h"
 
 #include "Level.h"
 #include "../../Game/Map/MainMap.h"
 
-SceneManager::SceneManager() : current_level_(nullptr), levels_{}
+LevelManager::LevelManager() : current_level_(nullptr), levels_{}
 {
 }
 
-void SceneManager::Init()
+void LevelManager::Init()
 {
     Level* main_map = new MainMap(L"MainMap");
     CreateScene(main_map, SceneType::kDefault);
@@ -15,12 +15,12 @@ void SceneManager::Init()
     LoadScene(SceneType::kDefault);
 }
 
-void SceneManager::CreateScene(Level* level, SceneType type)
+void LevelManager::CreateScene(Level* level, SceneType type)
 {
     levels_[static_cast<size_t>(type)] = std::unique_ptr<Level>(level);
 }
 
-void SceneManager::LoadScene(SceneType type)
+void LevelManager::LoadScene(SceneType type)
 {
     if (current_level_)
     {
@@ -31,7 +31,7 @@ void SceneManager::LoadScene(SceneType type)
     current_level_->BeginPlay();
 }
 
-void SceneManager::Tick(float delta_time)
+void LevelManager::Tick(float delta_time)
 {
     if (current_level_)
     {
@@ -39,7 +39,7 @@ void SceneManager::Tick(float delta_time)
     }
 }
 
-void SceneManager::Render()
+void LevelManager::Render()
 {
     if (current_level_)
     {
@@ -47,7 +47,7 @@ void SceneManager::Render()
     }
 }
 
-void SceneManager::Destroy()
+void LevelManager::Destroy()
 {
     if (current_level_)
     {
