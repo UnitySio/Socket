@@ -31,12 +31,14 @@ Pawn::Pawn(b2World* world, const std::wstring& kName) :
     circle_->SetCircleRadius(32.f);
     circle_->SetRelativeLocation(b2Vec2(0.f, -96.f));
 
-    circle_->GetBody()->SetType(b2_dynamicBody);
-    circle_->GetBody()->GetFixtureList()->SetDensity(1.f);
-    circle_->GetBody()->GetFixtureList()->SetFriction(0.3f);
-    circle_->GetBody()->ResetMassData();
+    // circle_->GetBody()->SetType(b2_dynamicBody);
+    // circle_->GetBody()->GetFixtureList()->SetDensity(1.f);
+    // circle_->GetBody()->GetFixtureList()->SetFriction(0.3f);
+    // circle_->GetBody()->ResetMassData();
     
     circle_->SetupAttachment(root_component_);
+    
+    circle_->SetRelativeRotation(45.f);
 
     sprite_ = CreateComponent<SpriteComponent>(L"Sprite");
     sprite_->SetupAttachment(root_component_);

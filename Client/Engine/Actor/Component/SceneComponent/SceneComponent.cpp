@@ -74,15 +74,19 @@ void SceneComponent::SetRelativeLocation(const b2Vec2& location)
 
 void SceneComponent::SetRelativeRotation(float angle)
 {
+    angle = angle * b2_pi / 180.f;
+    
     relative_transform_.q.Set(angle);
 
     if (body_)
     {
         if (parent_)
         {
+            const b2Rot parent_rotation = parent_->transform_.q;
             const b2Rot rotation(angle);
-            const b2Rot parent_rotation = parent_->GetWorldTransform().q;
-            body_->SetTransform(parent_->GetWorldLocation() + b2Mul(parent_rotation, relative_transform_.p), angle);
+            const b2Rot world_rotation = b2Mul(parent_rotation, rotation);
+
+            body_->SetTransform(body_->GetPosition(), world_rotation.GetAngle());
         }
         else
         {
