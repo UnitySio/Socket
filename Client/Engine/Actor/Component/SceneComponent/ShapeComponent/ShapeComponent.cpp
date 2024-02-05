@@ -9,7 +9,7 @@ ShapeComponent::ShapeComponent(Actor* owner, const std::wstring& kName) :
     const b2Vec2 position = GetRelativeLocation();
 
     b2BodyDef body_def;
-    body_def.userData.pointer = reinterpret_cast<uintptr_t>(owner_);
+    body_def.userData.pointer = reinterpret_cast<uintptr_t>(GetOwner());
     body_def.position.Set(position.x, position.y);
 
     body_ = GetWorld()->CreateBody(&body_def);
@@ -17,12 +17,24 @@ ShapeComponent::ShapeComponent(Actor* owner, const std::wstring& kName) :
 
 ShapeComponent::~ShapeComponent()
 {
-    GetWorld()->DestroyBody(body_);
+    // if (body_) GetWorld()->DestroyBody(body_);
 }
 
 void ShapeComponent::EndPlay()
 {
     SceneComponent::EndPlay();
 
-    GetWorld()->DestroyBody(body_);
+    // if (body_) GetWorld()->DestroyBody(body_);
+}
+
+void ShapeComponent::SetupAttachment(SceneComponent* parent)
+{
+    SceneComponent::SetupAttachment(parent);
+    
+    SceneComponent* body_component = GetBodyComponent();
+    if (body_component)
+    {
+        GetWorld()->DestroyBody(body_);
+        body_ = body_component->GetBody();
+    }
 }

@@ -24,22 +24,22 @@ void SceneComponent::TickComponent(float delta_time)
     {
         if (GetAttachParent())
         {
-            if (body_->GetType() != b2_staticBody)
-            {
-                b2Vec2 relative_location = body_->GetPosition() - GetAttachParent()->GetWorldLocation();
-                b2Vec2 location = b2MulT(GetAttachParent()->GetWorldTransform().q, relative_location);
-
-                b2Rot relative_rotation(body_->GetAngle());
-                b2Rot rotation = b2MulT(GetAttachParent()->GetWorldTransform().q, relative_rotation);
-
-                relative_transform_.p = location;
-                relative_transform_.q = rotation;
-
-                UpdateTransform();
-                return;
-            }
-
-            body_->SetTransform(GetWorldLocation(), GetWorldRotation());
+            // if (body_->GetType() != b2_staticBody)
+            // {
+            //     b2Vec2 relative_location = body_->GetPosition() - GetAttachParent()->GetWorldLocation();
+            //     b2Vec2 location = b2MulT(GetAttachParent()->GetWorldTransform().q, relative_location);
+            //
+            //     b2Rot relative_rotation(body_->GetAngle());
+            //     b2Rot rotation = b2MulT(GetAttachParent()->GetWorldTransform().q, relative_rotation);
+            //
+            //     relative_transform_.p = location;
+            //     relative_transform_.q = rotation;
+            //
+            //     UpdateTransform();
+            //     return;
+            // }
+            //
+            // body_->SetTransform(GetWorldLocation(), GetWorldRotation());
         }
         else
         {
@@ -55,19 +55,19 @@ void SceneComponent::SetRelativeLocation(const b2Vec2& location)
 {
     relative_transform_.p = location;
 
-    if (body_)
-    {
-        if (parent_)
-        {
-            const b2Vec2 parent_position = parent_->GetWorldLocation();
-            const b2Vec2 world_location = parent_position + b2Mul(parent_->GetWorldTransform().q, location);
-            body_->SetTransform(world_location, body_->GetAngle());
-        }
-        else
-        {
-            body_->SetTransform(location, body_->GetAngle());
-        }
-    }
+    // if (body_)
+    // {
+    //     if (parent_)
+    //     {
+    //         const b2Vec2 parent_position = parent_->GetWorldLocation();
+    //         const b2Vec2 world_location = parent_position + b2Mul(parent_->GetWorldTransform().q, location);
+    //         body_->SetTransform(world_location, body_->GetAngle());
+    //     }
+    //     else
+    //     {
+    //         body_->SetTransform(location, body_->GetAngle());
+    //     }
+    // }
     
     UpdateTransform();
 }
@@ -78,21 +78,21 @@ void SceneComponent::SetRelativeRotation(float angle)
     
     relative_transform_.q.Set(angle);
 
-    if (body_)
-    {
-        if (parent_)
-        {
-            const b2Rot parent_rotation = parent_->transform_.q;
-            const b2Rot rotation(angle);
-            const b2Rot world_rotation = b2Mul(parent_rotation, rotation);
-
-            body_->SetTransform(body_->GetPosition(), world_rotation.GetAngle());
-        }
-        else
-        {
-            body_->SetTransform(body_->GetPosition(), angle);
-        }
-    }
+    // if (body_)
+    // {
+    //     if (parent_)
+    //     {
+    //         const b2Rot parent_rotation = parent_->transform_.q;
+    //         const b2Rot rotation(angle);
+    //         const b2Rot world_rotation = b2Mul(parent_rotation, rotation);
+    //
+    //         body_->SetTransform(body_->GetPosition(), world_rotation.GetAngle());
+    //     }
+    //     else
+    //     {
+    //         body_->SetTransform(body_->GetPosition(), angle);
+    //     }
+    // }
     
     UpdateTransform();
 }
@@ -103,6 +103,18 @@ void SceneComponent::SetWorldLocation(const b2Vec2& location)
 
 void SceneComponent::SetWorldRotation(float angle)
 {
+}
+
+SceneComponent* SceneComponent::GetBodyComponent()
+{
+    SceneComponent* parent = parent_;
+    while (parent)
+    {
+        if (parent->body_) return parent;
+        parent = parent->parent_;
+    }
+
+    return nullptr;
 }
 
 void SceneComponent::SetupAttachment(SceneComponent* parent)

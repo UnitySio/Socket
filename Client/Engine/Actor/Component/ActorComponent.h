@@ -14,9 +14,11 @@ public:
 
     class b2World* GetWorld() const;
 
+    inline Actor* GetOwner() const { return owner_; }
+
     inline std::wstring GetName() const { return name_; }
 
-protected:
+private:
     Actor* owner_;
 
     std::wstring name_;

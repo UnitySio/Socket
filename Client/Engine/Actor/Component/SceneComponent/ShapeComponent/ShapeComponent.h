@@ -11,6 +11,7 @@ public:
 
     virtual void EndPlay() override;
 
-    inline b2Body* GetBody() const { return body_; }
+    // 만약 부모에 붙였을 때, 부모의 바디를 찾아 하나로 통합한다.
+    virtual void SetupAttachment(SceneComponent* parent) override;
     
 };

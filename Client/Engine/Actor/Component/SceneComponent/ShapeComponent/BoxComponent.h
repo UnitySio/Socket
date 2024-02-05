@@ -7,9 +7,14 @@ public:
     BoxComponent(Actor* owner, const std::wstring& kName);
     virtual ~BoxComponent() override = default;
 
+    virtual void SetRelativeLocation(const b2Vec2& location) override;
+    virtual void SetRelativeRotation(float angle) override;
+
     void SetBoxExtent(const b2Vec2& kExtent);
 
 private:
     class b2Fixture* fixture_;
+
+    b2Vec2 extent_;
     
 };

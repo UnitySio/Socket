@@ -5,6 +5,7 @@
 
 #include "Component/ActorComponent.h"
 
+class SceneComponent;
 class b2Body;
 
 class Actor
@@ -41,6 +42,9 @@ public:
     inline size_t GetUniqueID() const { return 0; }
     inline size_t GetTypeHash() const { return 0; }
 
+    inline void SetRootComponent(SceneComponent* component) { root_component_ = component; }
+    inline SceneComponent* GetRootComponent() const { return root_component_; }
+
     inline const std::wstring& GetName() const { return name_; }
     
     inline b2World* GetWorld() { return world_; }
@@ -48,7 +52,7 @@ public:
     inline bool IsActive() const { return is_active_; }
 
 protected:
-    class SceneComponent* root_component_;
+    SceneComponent* root_component_;
 
 private:
     friend class Level;

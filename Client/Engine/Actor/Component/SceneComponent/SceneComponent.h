@@ -14,12 +14,16 @@ public:
 
     virtual void TickComponent(float delta_time) override;
 
-    void SetRelativeLocation(const b2Vec2& location);
-    void SetRelativeRotation(float angle);
-    void SetWorldLocation(const b2Vec2& location);
-    void SetWorldRotation(float angle);
+    virtual void SetRelativeLocation(const b2Vec2& location);
+    virtual void SetRelativeRotation(float angle);
+    virtual void SetWorldLocation(const b2Vec2& location);
+    virtual void SetWorldRotation(float angle);
     
-    void SetupAttachment(SceneComponent* parent);
+    SceneComponent* GetBodyComponent();
+    
+    virtual void SetupAttachment(SceneComponent* parent);
+
+    inline b2Body* GetBody() const { return body_; }
 
     inline b2Vec2 GetRelativeLocation() const { return relative_transform_.p; }
     inline b2Vec2 GetWorldLocation() const { return transform_.p; }
