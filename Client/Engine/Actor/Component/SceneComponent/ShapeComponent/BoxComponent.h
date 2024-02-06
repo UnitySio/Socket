@@ -12,8 +12,11 @@ public:
 
     void SetBoxExtent(const b2Vec2& kExtent);
 
-private:
+protected:
     void UpdateTransform();
+
+private:
+    void CreateFixture(class b2PolygonShape* shape);
 
     b2Vec2 extent_;
     

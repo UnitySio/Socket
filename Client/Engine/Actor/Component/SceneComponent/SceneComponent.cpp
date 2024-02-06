@@ -74,6 +74,12 @@ void SceneComponent::Render()
 void SceneComponent::SetRelativeLocation(const b2Vec2& location)
 {
     relative_transform_.p = location;
+
+    if (body_)
+    {
+        body_->SetTransform(location, body_->GetAngle());
+    }
+    
     UpdateTransform();
 }
 
@@ -82,6 +88,12 @@ void SceneComponent::SetRelativeRotation(float angle)
     angle = angle * b2_pi / 180.f;
     
     relative_transform_.q.Set(angle);
+
+    if (body_)
+    {
+        body_->SetTransform(body_->GetPosition(), angle);
+    }
+    
     UpdateTransform();
 }
 
