@@ -12,6 +12,7 @@ public:
     SceneComponent(Actor* owner, const std::wstring& kName);
     virtual ~SceneComponent() override = default;
 
+    virtual void EndPlay() override;
     virtual void TickComponent(float delta_time) override;
     virtual void Render() override;
 
@@ -19,8 +20,6 @@ public:
     virtual void SetRelativeRotation(float angle);
     virtual void SetWorldLocation(const b2Vec2& location);
     virtual void SetWorldRotation(float angle);
-    
-    SceneComponent* GetBodyComponent();
     
     virtual void SetupAttachment(SceneComponent* parent);
 
@@ -40,10 +39,9 @@ public:
     inline const std::vector<SceneComponent*>& GetAttachChildren() const { return children_; }
 
 protected:
-    b2Body* body_;
-
-private:
     void UpdateTransform();
+    
+    b2Body* body_;
     
     b2Transform transform_;
     b2Transform relative_transform_;

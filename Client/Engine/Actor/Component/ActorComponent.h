@@ -18,7 +18,7 @@ public:
 
     inline std::wstring GetName() const { return name_; }
 
-private:
+protected:
     Actor* owner_;
 
     std::wstring name_;

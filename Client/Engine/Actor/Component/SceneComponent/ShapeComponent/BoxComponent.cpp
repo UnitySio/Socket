@@ -1,5 +1,6 @@
 ﻿#include "BoxComponent.h"
 
+#include "../../../Actor.h"
 #include "box2d/b2_fixture.h"
 #include "box2d/b2_polygon_shape.h"
 
@@ -24,8 +25,13 @@ void BoxComponent::SetRelativeRotation(float angle)
 
 void BoxComponent::SetBoxExtent(const b2Vec2& kExtent)
 {
+    SceneComponent* root = GetOwner()->GetRootComponent();
+    assert(root);
+    
     const float half_width = kExtent.x * 0.5f;
     const float half_height = kExtent.y * 0.5f;
+    
+    b2Body* body = GetOwner()->GetRootComponent()->GetBody();
 
     extent_ = kExtent;
 
@@ -40,18 +46,20 @@ void BoxComponent::SetBoxExtent(const b2Vec2& kExtent)
     {
         fixture_def.density = fixture_->GetDensity();
         fixture_def.friction = fixture_->GetFriction();
-        body_->DestroyFixture(fixture_);
+        body->DestroyFixture(fixture_);
     }
 
-    fixture_ = body_->CreateFixture(&fixture_def);
+    fixture_ = body->CreateFixture(&fixture_def);
 }
 
 void BoxComponent::UpdateTransform()
 {
-    if (!fixture_ || !GetAttachParent()) return;
-
+    assert(fixture_ && GetAttachParent());
+    
     const float half_width = extent_.x * 0.5f;
     const float half_height = extent_.y * 0.5f;
+    
+    b2Body* body = GetOwner()->GetRootComponent()->GetBody();
 
     const b2Transform& parent_relative_transform = GetAttachParent()->GetRelativeTransform();
     const b2Vec2 final_location = parent_relative_transform.p + b2Mul(parent_relative_transform.q, GetRelativeLocation());
@@ -67,8 +75,8 @@ void BoxComponent::UpdateTransform()
     {
         fixture_def.density = fixture_->GetDensity();
         fixture_def.friction = fixture_->GetFriction();
-        body_->DestroyFixture(fixture_);
+        body->DestroyFixture(fixture_);
     }
 
-    fixture_ = body_->CreateFixture(&fixture_def);
+    fixture_ = body->CreateFixture(&fixture_def);
 }

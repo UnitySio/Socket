@@ -18,11 +18,25 @@ SceneComponent::SceneComponent(Actor* owner, const std::wstring& kName) :
     transform_ = relative_transform_;
 }
 
+void SceneComponent::EndPlay()
+{
+    ActorComponent::EndPlay();
+
+    SceneComponent* root = owner_->GetRootComponent();
+    assert(root);
+
+    if (root->GetBody())
+    {
+        GetWorld()->DestroyBody(root->GetBody());
+        root->SetBody(nullptr);
+    }
+}
+
 void SceneComponent::TickComponent(float delta_time)
 {
     ActorComponent::TickComponent(delta_time);
 
-    if (body_ && !parent_)
+    if (body_)
     {
         relative_transform_.p = body_->GetPosition();
         relative_transform_.q.Set(body_->GetAngle());
@@ -77,18 +91,6 @@ void SceneComponent::SetWorldLocation(const b2Vec2& location)
 
 void SceneComponent::SetWorldRotation(float angle)
 {
-}
-
-SceneComponent* SceneComponent::GetBodyComponent()
-{
-    SceneComponent* parent = parent_;
-    while (parent)
-    {
-        if (parent->body_) return parent;
-        parent = parent->parent_;
-    }
-
-    return nullptr;
 }
 
 void SceneComponent::SetupAttachment(SceneComponent* parent)
