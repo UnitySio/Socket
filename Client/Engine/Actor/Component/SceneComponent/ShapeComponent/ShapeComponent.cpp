@@ -4,7 +4,8 @@
 #include "box2d/b2_world.h"
 
 ShapeComponent::ShapeComponent(Actor* owner, const std::wstring& kName) :
-    SceneComponent(owner, kName)
+    SceneComponent(owner, kName),
+    fixture_(nullptr)
 {
     const b2Vec2 position = GetRelativeLocation();
 
@@ -15,16 +16,17 @@ ShapeComponent::ShapeComponent(Actor* owner, const std::wstring& kName) :
     body_ = GetWorld()->CreateBody(&body_def);
 }
 
-ShapeComponent::~ShapeComponent()
-{
-    // if (body_) GetWorld()->DestroyBody(body_);
-}
-
 void ShapeComponent::EndPlay()
 {
     SceneComponent::EndPlay();
 
-    // if (body_) GetWorld()->DestroyBody(body_);
+    if (body_)
+    {
+        SetBodyNullptr(GetAttachChildren());
+        
+        GetWorld()->DestroyBody(body_);
+        body_ = nullptr;
+    }
 }
 
 void ShapeComponent::SetupAttachment(SceneComponent* parent)
@@ -36,5 +38,14 @@ void ShapeComponent::SetupAttachment(SceneComponent* parent)
     {
         GetWorld()->DestroyBody(body_);
         body_ = body_component->GetBody();
+    }
+}
+
+void ShapeComponent::SetBodyNullptr(const std::vector<SceneComponent*>& kChildren)
+{
+    for (auto& child : kChildren)
+    {
+        if (child->GetBody()) child->SetBody(nullptr);
+        SetBodyNullptr(child->GetAttachChildren());
     }
 }

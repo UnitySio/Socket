@@ -28,6 +28,13 @@ Pawn::Pawn(b2World* world, const std::wstring& kName) :
     
     box->SetBoxExtent(b2Vec2(32.f, 32.f));
     box->SetRelativeLocation(b2Vec2(0.f, -100.f));
+    box->SetRelativeRotation(45.f);
+
+    BoxComponent* box2 = CreateComponent<BoxComponent>(L"Box2");
+    box2->SetupAttachment(box);
+
+    box2->SetBoxExtent(b2Vec2(32.f, 32.f));
+    box2->SetRelativeLocation(b2Vec2(0.f, -100.f));
 
     camera_view_ = CreateComponent<CameraComponent>(L"Camera");
     camera_view_->SetupAttachment(root_component_);
@@ -44,6 +51,7 @@ void Pawn::Tick(float delta_time)
 
     if (input->IsKeyDown(VK_SPACE))
     {
-        box_->GetBody()->ApplyLinearImpulse(b2Vec2(0.f, -500000.f), box_->GetBody()->GetWorldCenter(), true);
+        // box_->GetBody()->ApplyLinearImpulse(b2Vec2(0.f, -500000.f), box_->GetBody()->GetWorldCenter(), true);
+        Destroy(this);
     }
 }

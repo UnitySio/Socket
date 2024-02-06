@@ -13,7 +13,7 @@ public:
     void SetBoxExtent(const b2Vec2& kExtent);
 
 private:
-    class b2Fixture* fixture_;
+    void UpdateTransform();
 
     b2Vec2 extent_;
     

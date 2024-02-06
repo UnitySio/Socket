@@ -13,6 +13,7 @@ public:
     virtual ~SceneComponent() override = default;
 
     virtual void TickComponent(float delta_time) override;
+    virtual void Render() override;
 
     virtual void SetRelativeLocation(const b2Vec2& location);
     virtual void SetRelativeRotation(float angle);
@@ -23,6 +24,7 @@ public:
     
     virtual void SetupAttachment(SceneComponent* parent);
 
+    inline void SetBody(b2Body* body) { body_ = body; }
     inline b2Body* GetBody() const { return body_; }
 
     inline b2Vec2 GetRelativeLocation() const { return relative_transform_.p; }
@@ -35,6 +37,7 @@ public:
     inline b2Transform GetRelativeTransform() const { return relative_transform_; }
 
     inline SceneComponent* GetAttachParent() const { return parent_; }
+    inline const std::vector<SceneComponent*>& GetAttachChildren() const { return children_; }
 
 protected:
     b2Body* body_;
