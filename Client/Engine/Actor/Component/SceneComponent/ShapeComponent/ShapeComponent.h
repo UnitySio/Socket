@@ -10,8 +10,15 @@ public:
     virtual ~ShapeComponent() override = default;
 
     virtual void SetupAttachment(SceneComponent* parent) override;
+    virtual void SetRelativeLocation(const b2Vec2& location) override;
+    virtual void SetRelativeRotation(float angle) override;
+
+    virtual void UpdateTransform() = 0;
 
 protected:
+    void CreateFixture(class b2Shape* shape);
+    void UpdateChildTransforms();
+    
     class b2Fixture* fixture_;
 
 private:
