@@ -8,7 +8,6 @@
 
 SceneComponent::SceneComponent(Actor* owner, const std::wstring& kName) :
     ActorComponent(owner, kName),
-    body_(nullptr),
     transform_(),
     relative_transform_(),
     parent_(nullptr),
@@ -16,33 +15,6 @@ SceneComponent::SceneComponent(Actor* owner, const std::wstring& kName) :
 {
     relative_transform_.SetIdentity();
     transform_ = relative_transform_;
-}
-
-void SceneComponent::EndPlay()
-{
-    ActorComponent::EndPlay();
-
-    SceneComponent* root = owner_->GetRootComponent();
-    assert(root);
-
-    if (root->GetBody())
-    {
-        GetWorld()->DestroyBody(root->GetBody());
-        root->SetBody(nullptr);
-    }
-}
-
-void SceneComponent::TickComponent(float delta_time)
-{
-    ActorComponent::TickComponent(delta_time);
-
-    if (body_)
-    {
-        relative_transform_.p = body_->GetPosition();
-        relative_transform_.q.Set(body_->GetAngle());
-            
-        UpdateTransform();
-    }
 }
 
 void SceneComponent::Render()
@@ -73,27 +45,20 @@ void SceneComponent::Render()
 
 void SceneComponent::SetRelativeLocation(const b2Vec2& location)
 {
-    relative_transform_.p = location;
-
-    if (body_)
-    {
-        body_->SetTransform(location, body_->GetAngle());
-    }
+    // Root Component는 위치를 변경할 수 없음
+    if (owner_->root_component_ == this) return;
     
+    relative_transform_.p = location;
     UpdateTransform();
 }
 
 void SceneComponent::SetRelativeRotation(float angle)
 {
+    // Root Component는 회전을 변경할 수 없음
+    if (owner_->root_component_ == this) return;
+    
     angle = angle * b2_pi / 180.f;
-    
     relative_transform_.q.Set(angle);
-
-    if (body_)
-    {
-        body_->SetTransform(body_->GetPosition(), angle);
-    }
-    
     UpdateTransform();
 }
 
@@ -109,6 +74,16 @@ void SceneComponent::SetupAttachment(SceneComponent* parent)
 {
     parent_ = parent;
     parent_->children_.push_back(this);
+}
+
+void SceneComponent::SetRelativeTransform(const b2Transform& transform)
+{
+    relative_transform_ = transform;
+    UpdateTransform();
+}
+
+void SceneComponent::SetWorldTransform(const b2Transform& transform)
+{
 }
 
 void SceneComponent::UpdateTransform()

@@ -12,9 +12,6 @@ CircleComponent::CircleComponent(Actor* owner, const std::wstring& kName) :
 
 void CircleComponent::SetCircleRadius(float radius)
 {
-    SceneComponent* root = owner_->GetRootComponent();
-    assert(root);
-
     radius_ = radius;
 
     b2CircleShape circle;
@@ -25,8 +22,7 @@ void CircleComponent::SetCircleRadius(float radius)
 
 void CircleComponent::UpdateTransform()
 {
-    SceneComponent* root = owner_->GetRootComponent();
-    b2Body* body = root->GetBody();
+    b2Body* body = owner_->body_;
 
     b2Vec2 location = body->GetLocalPoint(GetWorldLocation());
 

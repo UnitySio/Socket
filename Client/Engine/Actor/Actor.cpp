@@ -2,17 +2,24 @@
 
 #include "../EventManager.h"
 #include "../Enums.h"
+#include "box2d/b2_body.h"
 #include "box2d/b2_world.h"
 #include "Component/SceneComponent/SceneComponent.h"
 
 Actor::Actor(b2World* world, const std::wstring& kName) :
     root_component_(nullptr),
     world_(world),
+    body_(nullptr),
     is_active_(true),
     is_destroy_(false),
     components_()
 {
     name_ = kName;
+
+    b2BodyDef body_def;
+    body_def.userData.pointer = reinterpret_cast<uintptr_t>(this);
+    
+    body_ = world_->CreateBody(&body_def);
 }
 
 void Actor::BeginPlay()
@@ -29,10 +36,20 @@ void Actor::EndPlay()
     {
         component->EndPlay();
     }
+
+    if (body_) world_->DestroyBody(body_);
 }
 
 void Actor::Tick(float delta_time)
 {
+    if (body_)
+    {
+        if (body_->GetType() == b2_dynamicBody && root_component_)
+        {
+            root_component_->SetRelativeTransform(body_->GetTransform());
+        }
+    }
+    
     for (auto& component : components_)
     {
         component->TickComponent(delta_time);

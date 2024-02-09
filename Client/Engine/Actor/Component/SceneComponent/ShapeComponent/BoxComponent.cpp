@@ -14,9 +14,6 @@ BoxComponent::BoxComponent(Actor* owner, const std::wstring& kName) :
 
 void BoxComponent::SetBoxExtent(const b2Vec2& kExtent)
 {
-    SceneComponent* root = owner_->GetRootComponent();
-    assert(root);
-
     extent_ = kExtent;
 
     b2PolygonShape box;
@@ -27,8 +24,7 @@ void BoxComponent::SetBoxExtent(const b2Vec2& kExtent)
 
 void BoxComponent::UpdateTransform()
 {
-    SceneComponent* root = owner_->GetRootComponent();
-    b2Body* body = root->GetBody();
+    b2Body* body = owner_->body_;
 
     b2Vec2 location = body->GetLocalPoint(GetWorldLocation());
     b2Rot rotation = b2MulT(body->GetTransform().q, GetWorldTransform().q);

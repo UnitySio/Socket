@@ -21,10 +21,10 @@ Pawn::Pawn(b2World* world, const std::wstring& kName) :
     box_->SetBoxExtent(b2Vec2(16.f, 16.f));
     box_->SetRelativeLocation(b2Vec2(0.f, -100.f));
 
-    root_component_->GetBody()->SetType(b2_dynamicBody);
-    root_component_->GetBody()->GetFixtureList()->SetDensity(1.f);
-    root_component_->GetBody()->GetFixtureList()->SetFriction(0.3f);
-    root_component_->GetBody()->ResetMassData();
+    GetBody()->SetType(b2_dynamicBody);
+    GetBody()->GetFixtureList()->SetDensity(1.f);
+    GetBody()->GetFixtureList()->SetFriction(0.3f);
+    GetBody()->ResetMassData();
 
     box2_ = CreateComponent<BoxComponent>(L"Box2");
     box2_->SetupAttachment(root_component_);
@@ -55,11 +55,11 @@ void Pawn::Tick(float delta_time)
     InputManager* input = InputManager::GetInstance();
     float h = input->IsKeyPressed(VK_RIGHT) - input->IsKeyPressed(VK_LEFT);
 
-    root_component_->GetBody()->SetLinearVelocity(b2Vec2(h * 100.f, root_component_->GetBody()->GetLinearVelocity().y));
+    GetBody()->SetLinearVelocity(b2Vec2(h * 100.f, GetBody()->GetLinearVelocity().y));
 
     if (input->IsKeyDown(VK_SPACE))
     {
-        root_component_->GetBody()->ApplyLinearImpulse(b2Vec2(0.f, -500000.f), root_component_->GetBody()->GetWorldCenter(), true);
+        GetBody()->ApplyLinearImpulse(b2Vec2(0.f, -500000.f), GetBody()->GetWorldCenter(), true);
         // Destroy(this);
     }
 

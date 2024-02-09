@@ -49,18 +49,28 @@ public:
     
     inline b2World* GetWorld() { return world_; }
 
+    // 테스트 후 삭제
+    inline b2Body* GetBody() { return body_; }
+
     inline bool IsActive() const { return is_active_; }
 
 protected:
+    friend class SceneComponent;
+    
     SceneComponent* root_component_;
 
 private:
     friend class Level;
     friend class EventManager;
+    friend class ShapeComponent;
+    friend class BoxComponent;
+    friend class CircleComponent;
     
     std::wstring name_;
 
     b2World* world_;
+    
+    b2Body* body_;
 
     bool is_active_;
     bool is_destroy_;

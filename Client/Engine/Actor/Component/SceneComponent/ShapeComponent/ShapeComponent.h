@@ -9,7 +9,6 @@ public:
     ShapeComponent(Actor* owner, const std::wstring& kName);
     virtual ~ShapeComponent() override = default;
 
-    virtual void SetupAttachment(SceneComponent* parent) override;
     virtual void SetRelativeLocation(const b2Vec2& location) override;
     virtual void SetRelativeRotation(float angle) override;
 
@@ -20,8 +19,5 @@ protected:
     void UpdateChildTransforms();
     
     class b2Fixture* fixture_;
-
-private:
-    class b2Body* CreateBody();
     
 };

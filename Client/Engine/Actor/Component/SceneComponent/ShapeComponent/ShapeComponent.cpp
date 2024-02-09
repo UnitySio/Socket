@@ -9,20 +9,6 @@ ShapeComponent::ShapeComponent(Actor* owner, const std::wstring& kName) :
     SceneComponent(owner, kName),
     fixture_(nullptr)
 {
-    body_ = CreateBody();
-}
-
-void ShapeComponent::SetupAttachment(SceneComponent* parent)
-{
-    SceneComponent::SetupAttachment(parent);
-
-    SceneComponent* root = owner_->GetRootComponent();
-    assert(root);
-
-    if (!root->GetBody()) root->SetBody(CreateBody());
-
-    GetWorld()->DestroyBody(body_);
-    body_ = nullptr;
 }
 
 void ShapeComponent::SetRelativeLocation(const b2Vec2& location)
@@ -49,7 +35,7 @@ void ShapeComponent::SetRelativeRotation(float angle)
 
 void ShapeComponent::CreateFixture(b2Shape* shape)
 {
-    b2Body* body = GetOwner()->GetRootComponent()->GetBody();
+    b2Body* body = owner_->body_;
     
     b2FixtureDef fixture_def;
     fixture_def.shape = shape;
@@ -72,15 +58,4 @@ void ShapeComponent::UpdateChildTransforms()
         ShapeComponent* shape = dynamic_cast<ShapeComponent*>(child);
         if (shape) shape->UpdateTransform();
     }
-}
-
-b2Body* ShapeComponent::CreateBody()
-{
-    const b2Vec2 position = GetRelativeLocation();
-
-    b2BodyDef body_def;
-    body_def.userData.pointer = reinterpret_cast<uintptr_t>(owner_);
-    body_def.position.Set(position.x, position.y);
-
-    return GetWorld()->CreateBody(&body_def);
 }
