@@ -156,6 +156,7 @@
     <ClInclude Include="framework.h" />
     <ClInclude Include="Game\Actor\Floor.h" />
     <ClInclude Include="Game\Actor\Pawn.h" />
+    <ClInclude Include="Game\Actor\Box.h" />
     <ClInclude Include="Game\Map\MainMap.h" />
     <ClInclude Include="Include\box2d\b2_api.h" />
     <ClInclude Include="Include\box2d\b2_block_allocator.h" />
@@ -227,6 +228,7 @@
     <ClCompile Include="Engine\Time\Time.cpp" />
     <ClCompile Include="Game\Actor\Floor.cpp" />
     <ClCompile Include="Game\Actor\Pawn.cpp" />
+    <ClCompile Include="Game\Actor\Box.cpp" />
     <ClCompile Include="Game\Map\MainMap.cpp" />
     <ClCompile Include="Include\imgui\imgui.cpp" />
     <ClCompile Include="Include\imgui\imgui_demo.cpp" />
