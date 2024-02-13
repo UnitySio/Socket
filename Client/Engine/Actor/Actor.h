@@ -32,6 +32,10 @@ public:
     void Destroy(const Actor* other);
     void SpawnActor(const Actor* actor);
     void SetActive(bool active);
+    void SetActorLocation(const struct b2Vec2& location);
+    void SetActorRotation(float rotation);
+    
+    bool SetRootComponent(SceneComponent* component);
 
     template <typename T>
     T* CreateComponent(const std::wstring& kName);
@@ -42,7 +46,6 @@ public:
     inline size_t GetUniqueID() const { return 0; }
     inline size_t GetTypeHash() const { return 0; }
 
-    inline void SetRootComponent(SceneComponent* component) { root_component_ = component; }
     inline SceneComponent* GetRootComponent() const { return root_component_; }
 
     inline const std::wstring& GetName() const { return name_; }
@@ -54,14 +57,11 @@ public:
 
     inline bool IsActive() const { return is_active_; }
 
-protected:
-    friend class SceneComponent;
-    
-    SceneComponent* root_component_;
-
 private:
+    // 추후 정리 예정
     friend class Level;
     friend class EventManager;
+    friend class SceneComponent;
     friend class ShapeComponent;
     friend class BoxComponent;
     friend class CircleComponent;
@@ -75,6 +75,7 @@ private:
     bool is_active_;
     bool is_destroy_;
 
+    SceneComponent* root_component_;
     std::vector<std::unique_ptr<ActorComponent>> components_;
     
 };

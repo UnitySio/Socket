@@ -104,3 +104,34 @@ void Actor::SetActive(bool active)
             static_cast<bool>(active)
         });
 }
+
+void Actor::SetActorLocation(const b2Vec2& location)
+{
+    if (!root_component_) return;
+
+    root_component_->SetRelativeLocation(location);
+    body_->SetTransform(location, body_->GetAngle());
+}
+
+void Actor::SetActorRotation(float rotation)
+{
+    if (!root_component_) return;
+
+    root_component_->SetRelativeRotation(rotation);
+    body_->SetTransform(body_->GetPosition(), rotation);
+}
+
+bool Actor::SetRootComponent(SceneComponent* component)
+{
+    if (component == nullptr || component->GetOwner() == this)
+    {
+        if (root_component_ != component)
+        {
+            root_component_ = component;
+        }
+        
+        return true;
+    }
+
+    return false;
+}
