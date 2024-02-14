@@ -24,7 +24,6 @@ private:
     static DWORD WINAPI LogicThread(LPVOID lpParam);
     
     void MainLogic();
-    void PhysicsLogic();
     void Tick(float delta_time);
     void Render();
 
