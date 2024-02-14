@@ -1,16 +1,22 @@
 ﻿#include "Window.h"
 
-#include "GameEngine.h"
 
 HWND Window::hWnd_ = nullptr;
 RECT Window::window_area_;
 
 Window::Window() : resolution_()
 {
-    GameEngine* a = new GameEngine();
 }
 
-ATOM Window::RegisterWindowClass(HINSTANCE hInstance)
+bool Window::InitWindow(HINSTANCE hInstance, int nCmdShow)
+{
+    MyRegisterClass(hInstance);
+    if (!InitInstance(hInstance, nCmdShow)) return false;
+
+    return true;
+}
+
+ATOM Window::MyRegisterClass(HINSTANCE hInstance)
 {
     WNDCLASSEX wcex;
     ZeroMemory(&wcex, sizeof(WNDCLASSEX));
@@ -52,14 +58,6 @@ BOOL Window::InitInstance(HINSTANCE hInstance, int nCmdShow)
     
     if (!hWnd_) return FALSE;
     ShowWindow(hWnd_, nCmdShow);
-
-    return TRUE;
-}
-
-BOOL Window::InitWindow(HINSTANCE hInstance, int nCmdShow)
-{
-    RegisterWindowClass(hInstance);
-    if (!InitInstance(hInstance, nCmdShow)) return false;
 
     return TRUE;
 }
