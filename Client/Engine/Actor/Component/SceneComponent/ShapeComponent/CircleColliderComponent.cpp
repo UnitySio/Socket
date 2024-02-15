@@ -1,16 +1,16 @@
-﻿#include "CircleComponent.h"
+﻿#include "CircleColliderComponent.h"
 
 #include "../../../Actor.h"
 #include "box2d/b2_body.h"
 #include "box2d/b2_circle_shape.h"
 
-CircleComponent::CircleComponent(Actor* owner, const std::wstring& kName) :
-    ShapeComponent(owner, kName),
+CircleColliderComponent::CircleColliderComponent(Actor* owner, const std::wstring& kName) :
+    ColliderComponent(owner, kName),
     radius_(0.f)
 {
 }
 
-void CircleComponent::SetCircleRadius(float radius)
+void CircleColliderComponent::SetCircleRadius(float radius)
 {
     radius_ = radius;
 
@@ -20,7 +20,7 @@ void CircleComponent::SetCircleRadius(float radius)
     CreateFixture(&circle);
 }
 
-void CircleComponent::UpdateTransform()
+void CircleColliderComponent::UpdateTransform()
 {
     b2Body* body = owner_->body_;
 

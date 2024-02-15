@@ -1,4 +1,4 @@
-﻿#include "BoxComponent.h"
+﻿#include "BoxColliderComponent.h"
 
 #include <valarray>
 
@@ -6,13 +6,13 @@
 #include "box2d/b2_fixture.h"
 #include "box2d/b2_polygon_shape.h"
 
-BoxComponent::BoxComponent(Actor* owner, const std::wstring& kName) :
-    ShapeComponent(owner, kName),
+BoxColliderComponent::BoxColliderComponent(Actor* owner, const std::wstring& kName) :
+    ColliderComponent(owner, kName),
     extent_(b2Vec2_zero)
 {
 }
 
-void BoxComponent::SetBoxExtent(const b2Vec2& kExtent)
+void BoxColliderComponent::SetBoxExtent(const b2Vec2& kExtent)
 {
     extent_ = kExtent;
 
@@ -22,7 +22,7 @@ void BoxComponent::SetBoxExtent(const b2Vec2& kExtent)
     CreateFixture(&box);
 }
 
-void BoxComponent::UpdateTransform()
+void BoxColliderComponent::UpdateTransform()
 {
     b2Body* body = owner_->body_;
 

@@ -11,7 +11,11 @@ public:
     virtual void Tick(float delta_time) override;
 
 private:
-    class BoxComponent* box_;
+    // Scene components
+    class BoxColliderComponent* box_;
     class CameraComponent* camera_view_;
+
+    // Actor components
+    class RigidBodyComponent* rigid_body_;
     
 };

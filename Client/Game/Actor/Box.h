@@ -8,6 +8,6 @@ public:
     virtual ~Box() override = default;
 
 private:
-    class BoxComponent* box_;
+    class BoxColliderComponent* box_;
     
 };

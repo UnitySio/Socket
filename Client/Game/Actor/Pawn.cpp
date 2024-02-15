@@ -2,9 +2,10 @@
 
 #include "Box.h"
 #include "../../Engine/Core.h"
-#include "../../Engine/Actor/Component/Scenecomponent/ShapeComponent/BoxComponent.h"
+#include "../../Engine/Actor/Component/Scenecomponent/ShapeComponent/BoxColliderComponent.h"
 #include "../../Engine/Actor/Component/Scenecomponent/SpriteComponent.h"
 #include "../../Engine/Actor/Component/Scenecomponent/CameraComponent.h"
+#include "../../Engine/Actor/Component/Actorcomponent/RigidBodyComponent.h"
 #include "../../Engine/Graphics/Graphics.h"
 #include "../../Engine/Input/InputManager.h"
 #include "../../Engine/Level/Level.h"
@@ -15,7 +16,7 @@
 Pawn::Pawn(b2World* world, const std::wstring& kName) :
     Actor(world, kName)
 {
-    box_ = CreateComponent<BoxComponent>(L"Box");
+    box_ = CreateComponent<BoxColliderComponent>(L"Box");
     SetRootComponent(box_);
     
     box_->SetBoxExtent(b2Vec2(16.f, 16.f));
@@ -29,6 +30,8 @@ Pawn::Pawn(b2World* world, const std::wstring& kName) :
 
     camera_view_ = CreateComponent<CameraComponent>(L"Camera");
     camera_view_->SetupAttachment(GetRootComponent());
+
+    rigid_body_ = CreateComponent<RigidBodyComponent>(L"RigidBody");
 }
 
 void Pawn::BeginPlay()

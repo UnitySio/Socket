@@ -3,11 +3,11 @@
 
 class b2Body;
 
-class ShapeComponent : public SceneComponent
+class ColliderComponent : public SceneComponent
 {
 public:
-    ShapeComponent(Actor* owner, const std::wstring& kName);
-    virtual ~ShapeComponent() override = default;
+    ColliderComponent(Actor* owner, const std::wstring& kName);
+    virtual ~ColliderComponent() override = default;
 
     virtual void SetRelativeLocation(const b2Vec2& location) override;
     virtual void SetRelativeRotation(float angle) override;

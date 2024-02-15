@@ -1,17 +1,17 @@
-﻿#include "ShapeComponent.h"
+﻿#include "ColliderComponent.h"
 
 #include "../../../Actor.h"
 #include "box2d/b2_body.h"
 #include "box2d/b2_fixture.h"
 #include "box2d/b2_world.h"
 
-ShapeComponent::ShapeComponent(Actor* owner, const std::wstring& kName) :
+ColliderComponent::ColliderComponent(Actor* owner, const std::wstring& kName) :
     SceneComponent(owner, kName),
     fixture_(nullptr)
 {
 }
 
-void ShapeComponent::SetRelativeLocation(const b2Vec2& location)
+void ColliderComponent::SetRelativeLocation(const b2Vec2& location)
 {
     SceneComponent::SetRelativeLocation(location);
     
@@ -22,7 +22,7 @@ void ShapeComponent::SetRelativeLocation(const b2Vec2& location)
     UpdateTransform();
 }
 
-void ShapeComponent::SetRelativeRotation(float angle)
+void ColliderComponent::SetRelativeRotation(float angle)
 {
     SceneComponent::SetRelativeRotation(angle);
     
@@ -33,7 +33,7 @@ void ShapeComponent::SetRelativeRotation(float angle)
     UpdateTransform();
 }
 
-void ShapeComponent::CreateFixture(b2Shape* shape)
+void ColliderComponent::CreateFixture(b2Shape* shape)
 {
     b2Body* body = owner_->body_;
     
@@ -51,11 +51,11 @@ void ShapeComponent::CreateFixture(b2Shape* shape)
     fixture_ = body->CreateFixture(&fixture_def);
 }
 
-void ShapeComponent::UpdateChildTransforms()
+void ColliderComponent::UpdateChildTransforms()
 {
     for (SceneComponent* child : children_)
     {
-        ShapeComponent* shape = dynamic_cast<ShapeComponent*>(child);
+        ColliderComponent* shape = dynamic_cast<ColliderComponent*>(child);
         if (shape) shape->UpdateTransform();
     }
 }

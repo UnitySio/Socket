@@ -231,6 +231,9 @@
     <ClInclude Include="Game\Map\MainMap.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="Game\Actor\Box.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -312,6 +315,9 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="Game\Map\MainMap.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Actor\Box.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
