@@ -37,8 +37,8 @@ bool Graphics::InitDeviceD3D()
     DXGI_SWAP_CHAIN_DESC swap_chain_desc;
     ZeroMemory(&swap_chain_desc, sizeof(DXGI_SWAP_CHAIN_DESC));
 
-    swap_chain_desc.BufferDesc.Width = Core::GetInstance()->GetResolution().x;
-    swap_chain_desc.BufferDesc.Height = Core::GetInstance()->GetResolution().y;
+    swap_chain_desc.BufferDesc.Width = Core::Get()->GetResolution().x;
+    swap_chain_desc.BufferDesc.Height = Core::Get()->GetResolution().y;
     swap_chain_desc.BufferDesc.RefreshRate.Numerator = 60;
     swap_chain_desc.BufferDesc.RefreshRate.Denominator = 1;
     swap_chain_desc.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
@@ -50,7 +50,7 @@ bool Graphics::InitDeviceD3D()
 
     swap_chain_desc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
     swap_chain_desc.BufferCount = 1;
-    swap_chain_desc.OutputWindow = Core::GetInstance()->GetWindowHandle();
+    swap_chain_desc.OutputWindow = Core::Get()->GetWindowHandle();
     swap_chain_desc.Windowed = TRUE;
     swap_chain_desc.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;
     swap_chain_desc.Flags = 0;
@@ -91,8 +91,8 @@ bool Graphics::InitRenderTargetD3D()
 
     d3d_viewport_.TopLeftX = 0;
     d3d_viewport_.TopLeftY = 0;
-    d3d_viewport_.Width = static_cast<float>(Core::GetInstance()->GetResolution().x);
-    d3d_viewport_.Height = static_cast<float>(Core::GetInstance()->GetResolution().y);
+    d3d_viewport_.Width = static_cast<float>(Core::Get()->GetResolution().x);
+    d3d_viewport_.Height = static_cast<float>(Core::Get()->GetResolution().y);
     d3d_viewport_.MinDepth = 0.0f;
     d3d_viewport_.MaxDepth = 1.0f;
 
@@ -109,7 +109,7 @@ bool Graphics::InitFactoryD2D()
 
 bool Graphics::InitRenderTargetD2D()
 {
-    const float dpi = GetDpiForWindow(Core::GetInstance()->GetWindowHandle());
+    const float dpi = GetDpiForWindow(Core::Get()->GetWindowHandle());
     const D2D1_RENDER_TARGET_PROPERTIES render_target_properties = D2D1::RenderTargetProperties(
         D2D1_RENDER_TARGET_TYPE_DEFAULT,
         D2D1::PixelFormat(DXGI_FORMAT_UNKNOWN, D2D1_ALPHA_MODE_PREMULTIPLIED),

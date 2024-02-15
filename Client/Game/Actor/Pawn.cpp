@@ -89,7 +89,7 @@ void Pawn::Tick(float delta_time)
 {
     Actor::Tick(delta_time);
 
-    InputManager* input = InputManager::GetInstance();
+    InputManager* input = InputManager::Get();
     float h = input->IsKeyPressed(VK_RIGHT) - input->IsKeyPressed(VK_LEFT);
 
     GetBody()->SetLinearVelocity(b2Vec2(h * 100.f, GetBody()->GetLinearVelocity().y));

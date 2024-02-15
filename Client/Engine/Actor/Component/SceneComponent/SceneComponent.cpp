@@ -21,8 +21,8 @@ void SceneComponent::Render()
 {
     ActorComponent::Render();
 
-    Level* level = LevelManager::GetInstance()->GetLevel();
-    Graphics* graphics = Graphics::GetInstance();
+    Level* level = LevelManager::Get()->GetLevel();
+    Graphics* graphics = Graphics::Get();
     
     graphics->DrawSolidCircle(level->GetRenderPosition(transform_.p), 8.f, b2Color(1.f, 1.f, 1.f));
     

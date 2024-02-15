@@ -31,7 +31,7 @@ void EventManager::ExcuteEvent(const Event& event)
     case EventType::kSpawnActor:
         {
             Actor* actor = reinterpret_cast<Actor*>(event.wParam);
-            Level* level = LevelManager::GetInstance()->GetLevel();
+            Level* level = LevelManager::Get()->GetLevel();
             level->AddActor(actor);
             actor->BeginPlay();
         }

@@ -23,7 +23,7 @@ void InputManager::Init()
 
 void InputManager::Tick()
 {
-    Core* core = Core::GetInstance();
+    Core* core = Core::Get();
     
     for (auto& key : key_map_)
     {

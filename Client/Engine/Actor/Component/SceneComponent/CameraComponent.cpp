@@ -14,8 +14,8 @@ void CameraComponent::TickComponent(float delta_time)
 {
     SceneComponent::TickComponent(delta_time);
     
-    Core* core = Core::GetInstance();
-    Level* level = LevelManager::GetInstance()->GetLevel();
+    Core* core = Core::Get();
+    Level* level = LevelManager::Get()->GetLevel();
 
     POINT resolution = core->GetResolution();
     b2Vec2 half_screen = b2Vec2(resolution.x / 2.f, resolution.y / 2.f);

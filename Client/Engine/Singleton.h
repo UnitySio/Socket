@@ -9,7 +9,7 @@ public:
     Singleton(const Singleton&) = delete;
     Singleton& operator=(const Singleton&) = delete;
 
-    static T* GetInstance()
+    static T* Get()
     {
         std::call_once(flag_, []() { instance_.reset(new T()); });
         return instance_.get();

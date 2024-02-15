@@ -74,11 +74,11 @@ bool Core::InitWindow(HINSTANCE hInstance, int nCmdShow)
     if (!InitInstance(hInstance, nCmdShow)) return false;
     CoInitializeEx(nullptr, COINIT_MULTITHREADED);
 
-    if (!Graphics::GetInstance()->Init()) return false;
+    if (!Graphics::Get()->Init()) return false;
 
-    Time::GetInstance()->Init();
-    LevelManager::GetInstance()->Init();
-    InputManager::GetInstance()->Init();
+    Time::Get()->Init();
+    LevelManager::Get()->Init();
+    InputManager::Get()->Init();
 
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
@@ -97,7 +97,7 @@ bool Core::InitWindow(HINSTANCE hInstance, int nCmdShow)
 
     ImGui::StyleColorsDark();
     ImGui_ImplWin32_Init(hWnd_);
-    ImGui_ImplDX11_Init(Graphics::GetInstance()->GetD3DDevice(), Graphics::GetInstance()->GetD3DDeviceContext());
+    ImGui_ImplDX11_Init(Graphics::Get()->GetD3DDevice(), Graphics::Get()->GetD3DDeviceContext());
 
     logic_handle_ = CreateThread(nullptr, 0, LogicThread, nullptr, 0, nullptr);
 
@@ -106,7 +106,7 @@ bool Core::InitWindow(HINSTANCE hInstance, int nCmdShow)
 
 LRESULT Core::StaticWndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-    return GetInstance()->WndProc(hWnd, message, wParam, lParam);
+    return Get()->WndProc(hWnd, message, wParam, lParam);
 }
 
 extern LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
@@ -140,12 +140,12 @@ LRESULT Core::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         ImGui_ImplDX11_Shutdown();
         ImGui::DestroyContext();
 
-        InputManager::GetInstance()->Release();
-        LevelManager::GetInstance()->Release();
-        Time::GetInstance()->Release();
-        Graphics::GetInstance()->Release();
-        EventManager::GetInstance()->Release();
-        GetInstance()->Release();
+        InputManager::Get()->Release();
+        LevelManager::Get()->Release();
+        Time::Get()->Release();
+        Graphics::Get()->Release();
+        EventManager::Get()->Release();
+        Get()->Release();
 
         CoUninitialize();
         PostQuitMessage(0);
@@ -157,10 +157,10 @@ LRESULT Core::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
 DWORD Core::LogicThread(LPVOID lpParam)
 {
-    GetInstance()->is_running_ = true;
-    while (GetInstance()->is_running_)
+    Get()->is_running_ = true;
+    while (Get()->is_running_)
     {
-        GetInstance()->MainLogic();
+        Get()->MainLogic();
     }
 
     return 0;
@@ -168,38 +168,38 @@ DWORD Core::LogicThread(LPVOID lpParam)
 
 void Core::MainLogic()
 {
-    Time::GetInstance()->Tick();
+    Time::Get()->Tick();
 
-    Graphics::GetInstance()->BeginRenderD3D();
+    Graphics::Get()->BeginRenderD3D();
 
     ImGui_ImplDX11_NewFrame();
     ImGui_ImplWin32_NewFrame();
     ImGui::NewFrame();
 
-    Tick(Time::GetInstance()->GetDeltaTime());
+    Tick(Time::Get()->GetDeltaTime());
 
-    Graphics::GetInstance()->BeginRenderD2D();
+    Graphics::Get()->BeginRenderD2D();
 
     Render();
 
-    Graphics::GetInstance()->EndRenderD2D();
+    Graphics::Get()->EndRenderD2D();
 
     ImGui::Render();
     ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
 
-    Graphics::GetInstance()->EndRenderD3D();
+    Graphics::Get()->EndRenderD3D();
 
-    LevelManager::GetInstance()->Destroy();
-    EventManager::GetInstance()->Tick();
+    LevelManager::Get()->Destroy();
+    EventManager::Get()->Tick();
 }
 
 void Core::Tick(float delta_time)
 {
-    InputManager::GetInstance()->Tick();
-    LevelManager::GetInstance()->Tick(delta_time);
+    InputManager::Get()->Tick();
+    LevelManager::Get()->Tick(delta_time);
 }
 
 void Core::Render()
 {
-    LevelManager::GetInstance()->Render();
+    LevelManager::Get()->Render();
 }

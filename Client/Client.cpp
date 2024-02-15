@@ -15,7 +15,7 @@ int APIENTRY wWinMain(
     UNREFERENCED_PARAMETER(hPrevInstance);
     UNREFERENCED_PARAMETER(lpCmdLine);
 
-    if (!Core::GetInstance()->InitWindow(hInstance, nCmdShow)) return 0;
+    if (!Core::Get()->InitWindow(hInstance, nCmdShow)) return 0;
 
 #ifdef _DEBUG
     _CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);

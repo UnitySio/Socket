@@ -70,7 +70,7 @@ void Actor::AttachToActor(Actor* actor)
 
 void Actor::Destroy()
 {
-    EventManager::GetInstance()->AddEvent(
+    EventManager::Get()->AddEvent(
         {
             EventType::kDestroyActor,
             reinterpret_cast<uintptr_t>(this)
@@ -79,7 +79,7 @@ void Actor::Destroy()
 
 void Actor::Destroy(const Actor* other)
 {
-    EventManager::GetInstance()->AddEvent(
+    EventManager::Get()->AddEvent(
         {
             EventType::kDestroyActor,
             reinterpret_cast<uintptr_t>(other)
@@ -88,7 +88,7 @@ void Actor::Destroy(const Actor* other)
 
 void Actor::SpawnActor(const Actor* actor)
 {
-    EventManager::GetInstance()->AddEvent(
+    EventManager::Get()->AddEvent(
         {
             EventType::kSpawnActor,
             reinterpret_cast<uintptr_t>(actor)
@@ -97,7 +97,7 @@ void Actor::SpawnActor(const Actor* actor)
 
 void Actor::SetActive(bool active)
 {
-    EventManager::GetInstance()->AddEvent(
+    EventManager::Get()->AddEvent(
         {
             EventType::kActiveActor,
             reinterpret_cast<uintptr_t>(this),
