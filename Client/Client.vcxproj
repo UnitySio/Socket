@@ -154,6 +154,7 @@
     <ClInclude Include="Engine\Level\LevelManager.h" />
     <ClInclude Include="Engine\Singleton.h" />
     <ClInclude Include="Engine\Time\Time.h" />
+    <ClInclude Include="Engine\Vector.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="Game\Actor\Floor.h" />
     <ClInclude Include="Game\Actor\Pawn.h" />
@@ -301,6 +302,7 @@
     <ClCompile Include="Engine\Level\Level.cpp" />
     <ClCompile Include="Engine\Level\LevelManager.cpp" />
     <ClCompile Include="Engine\Time\Time.cpp" />
+    <ClCompile Include="Engine\Vector.cpp" />
     <ClCompile Include="Game\Actor\Floor.cpp" />
     <ClCompile Include="Game\Actor\Pawn.cpp" />
     <ClCompile Include="Game\Actor\Box.cpp" />
