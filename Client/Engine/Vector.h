@@ -1,10 +1,10 @@
 ﻿#pragma once
 
-class Vector
+struct Vector
 {
-public:
     Vector();
     Vector(float x, float y);
+ 
     Vector& operator+=(const Vector& kVector);
     Vector& operator-=(const Vector& kVector);
     Vector& operator*=(const Vector& kVector);
@@ -21,10 +21,12 @@ public:
     Vector operator*(float val);
     Vector operator/(float val);
  
-    ~Vector() = default;
+    bool operator==(const Vector& kVector) const;
+    bool operator!=(const Vector& kVector) const;
+    bool operator==(float val) const;
+    bool operator!=(float val) const;
  
-    float x;
-    float y;
+    ~Vector() = default;
 
     /**
      * \brief Vector(0.f, 0.f)
@@ -93,11 +95,6 @@ public:
      */
     Vector Normalized();
 
-    bool operator==(const Vector& kVector) const;
-    bool operator!=(const Vector& kVector) const;
-    bool operator==(float val) const;
-    bool operator!=(float val) const;
-
     /**
      * \brief 백터의 길이를 반환합니다.
      * \return float
@@ -108,4 +105,7 @@ public:
      * \brief 백터를 정규화를 합니다.
      */
     void Normalize();
+ 
+    float x;
+    float y;
 };

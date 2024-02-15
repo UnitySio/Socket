@@ -94,6 +94,50 @@ Vector Vector::operator/(float val)
     return { x / val, y / val };
 }
 
+bool Vector::operator==(const Vector& kVector) const
+{
+    if (fabsf(x - kVector.x) <= FLT_EPSILON &&
+        fabsf(y - kVector.y) <= FLT_EPSILON)
+    {
+        return true;
+    }
+
+    return false;
+}
+
+bool Vector::operator!=(const Vector& kVector) const
+{
+    if (fabsf(x - kVector.x) > FLT_EPSILON ||
+        fabsf(y - kVector.y) > FLT_EPSILON)
+    {
+        return true;
+    }
+
+    return false;
+}
+
+bool Vector::operator==(float val) const
+{
+    if (fabsf(x - val) <= FLT_EPSILON &&
+        fabsf(y - val) <= FLT_EPSILON)
+    {
+        return true;
+    }
+
+    return false;
+}
+
+bool Vector::operator!=(float val) const
+{
+    if (fabsf(x - val) > FLT_EPSILON ||
+        fabsf(y - val) > FLT_EPSILON)
+    {
+        return true;
+    }
+
+    return false;
+}
+
 Vector Vector::Zero()
 {
     return { 0.f, 0.f };
@@ -152,50 +196,6 @@ Vector Vector::Normalized()
     }
 
     return Zero();
-}
-
-bool Vector::operator==(const Vector& kVector) const
-{
-    if (fabsf(x - kVector.x) <= FLT_EPSILON &&
-        fabsf(y - kVector.y) <= FLT_EPSILON)
-    {
-        return true;
-    }
-
-    return false;
-}
-
-bool Vector::operator!=(const Vector& kVector) const
-{
-    if (fabsf(x - kVector.x) > FLT_EPSILON ||
-        fabsf(y - kVector.y) > FLT_EPSILON)
-    {
-        return true;
-    }
-
-    return false;
-}
-
-bool Vector::operator==(float val) const
-{
-    if (fabsf(x - val) <= FLT_EPSILON &&
-        fabsf(y - val) <= FLT_EPSILON)
-    {
-        return true;
-    }
-
-    return false;
-}
-
-bool Vector::operator!=(float val) const
-{
-    if (fabsf(x - val) > FLT_EPSILON ||
-        fabsf(y - val) > FLT_EPSILON)
-    {
-        return true;
-    }
-
-    return false;
 }
 
 float Vector::Magnitude()
