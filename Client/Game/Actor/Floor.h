@@ -8,5 +8,6 @@ public:
     virtual ~Floor() override = default;
 
 private:
+    class BoxColliderComponent* box_collider_;
     
 };

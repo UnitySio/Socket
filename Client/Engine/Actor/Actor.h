@@ -66,6 +66,7 @@ private:
     friend class Level;
     friend class EventManager;
     friend class SceneComponent;
+    friend class BoxColliderComponent;
     
     std::wstring name_;
 

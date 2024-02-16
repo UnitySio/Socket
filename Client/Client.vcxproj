@@ -137,6 +137,8 @@
     <ClInclude Include="Client.h" />
     <ClInclude Include="Engine\Actor\Actor.h" />
     <ClInclude Include="Engine\Actor\Component\ActorComponent.h" />
+    <ClInclude Include="Engine\Actor\Component\BoxColliderComponent.h" />
+    <ClInclude Include="Engine\Actor\Component\ColliderComponent.h" />
     <ClInclude Include="Engine\Actor\Component\RigidBodyComponent.h" />
     <ClInclude Include="Engine\Actor\Component\SceneComponent\CameraComponent.h" />
     <ClInclude Include="Engine\Actor\Component\SceneComponent\SceneComponent.h" />
@@ -283,6 +285,8 @@
       <AdditionalIncludeDirectories>C:\Users\Nexol\RiderProjects\Socket\\Client\Include;</AdditionalIncludeDirectories>
       <LinkCompiled>true</LinkCompiled>
     </ClCompile>
+    <ClCompile Include="Engine\Actor\Component\BoxColliderComponent.cpp" />
+    <ClCompile Include="Engine\Actor\Component\ColliderComponent.cpp" />
     <ClCompile Include="Engine\Actor\Component\RigidBodyComponent.cpp" />
     <ClCompile Include="Engine\Actor\Component\SceneComponent\CameraComponent.cpp" />
     <ClCompile Include="Engine\Actor\Component\SceneComponent\SceneComponent.cpp" />

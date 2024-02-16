@@ -14,6 +14,7 @@ private:
     class CameraComponent* camera_view_;
 
     // Actor components
+    class BoxColliderComponent* box_collider_;
     class RigidBodyComponent* rigid_body_;
     
 };
