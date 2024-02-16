@@ -5,6 +5,7 @@
 
 #include "Component/ActorComponent.h"
 
+struct Vector;
 class SceneComponent;
 class b2Body;
 
@@ -37,6 +38,9 @@ public:
     
     bool SetRootComponent(SceneComponent* component);
 
+    Vector GetActorRightVector() const;
+    Vector GetActorUpVector() const;
+
     template <typename T>
     T* CreateComponent(const std::wstring& kName);
 
@@ -62,9 +66,6 @@ private:
     friend class Level;
     friend class EventManager;
     friend class SceneComponent;
-    friend class ColliderComponent;
-    friend class BoxColliderComponent;
-    friend class CircleColliderComponent;
     
     std::wstring name_;
 

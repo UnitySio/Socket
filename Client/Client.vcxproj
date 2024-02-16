@@ -140,9 +140,6 @@
     <ClInclude Include="Engine\Actor\Component\RigidBodyComponent.h" />
     <ClInclude Include="Engine\Actor\Component\SceneComponent\CameraComponent.h" />
     <ClInclude Include="Engine\Actor\Component\SceneComponent\SceneComponent.h" />
-    <ClInclude Include="Engine\Actor\Component\SceneComponent\ShapeComponent\BoxColliderComponent.h" />
-    <ClInclude Include="Engine\Actor\Component\SceneComponent\ShapeComponent\CircleColliderComponent.h" />
-    <ClInclude Include="Engine\Actor\Component\SceneComponent\ShapeComponent\ColliderComponent.h" />
     <ClInclude Include="Engine\Actor\Component\SceneComponent\SpriteComponent.h" />
     <ClInclude Include="Engine\Core.h" />
     <ClInclude Include="Engine\DebugDraw.h" />
@@ -158,7 +155,6 @@
     <ClInclude Include="framework.h" />
     <ClInclude Include="Game\Actor\Floor.h" />
     <ClInclude Include="Game\Actor\Pawn.h" />
-    <ClInclude Include="Game\Actor\Box.h" />
     <ClInclude Include="Game\Map\MainMap.h" />
     <ClInclude Include="Include\box2d\b2_api.h" />
     <ClInclude Include="Include\box2d\b2_block_allocator.h" />
@@ -290,9 +286,6 @@
     <ClCompile Include="Engine\Actor\Component\RigidBodyComponent.cpp" />
     <ClCompile Include="Engine\Actor\Component\SceneComponent\CameraComponent.cpp" />
     <ClCompile Include="Engine\Actor\Component\SceneComponent\SceneComponent.cpp" />
-    <ClCompile Include="Engine\Actor\Component\SceneComponent\ShapeComponent\BoxColliderComponent.cpp" />
-    <ClCompile Include="Engine\Actor\Component\SceneComponent\ShapeComponent\CircleColliderComponent.cpp" />
-    <ClCompile Include="Engine\Actor\Component\SceneComponent\ShapeComponent\ColliderComponent.cpp" />
     <ClCompile Include="Engine\Actor\Component\SceneComponent\SpriteComponent.cpp" />
     <ClCompile Include="Engine\Core.cpp" />
     <ClCompile Include="Engine\DebugDraw.cpp" />
@@ -305,7 +298,6 @@
     <ClCompile Include="Engine\Vector.cpp" />
     <ClCompile Include="Game\Actor\Floor.cpp" />
     <ClCompile Include="Game\Actor\Pawn.cpp" />
-    <ClCompile Include="Game\Actor\Box.cpp" />
     <ClCompile Include="Game\Map\MainMap.cpp" />
     <ClCompile Include="Include\imgui\imgui.cpp" />
     <ClCompile Include="Include\imgui\imgui_demo.cpp" />

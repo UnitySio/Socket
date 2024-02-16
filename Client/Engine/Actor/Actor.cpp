@@ -5,6 +5,7 @@
 #include "box2d/b2_body.h"
 #include "box2d/b2_world.h"
 #include "Component/SceneComponent/SceneComponent.h"
+#include "../Vector.h"
 
 Actor::Actor(b2World* world, const std::wstring& kName) :
     root_component_(nullptr),
@@ -134,4 +135,20 @@ bool Actor::SetRootComponent(SceneComponent* component)
     }
 
     return false;
+}
+
+Vector Actor::GetActorRightVector() const
+{
+    assert(body_);
+
+    b2Vec2 x = body_->GetTransform().q.GetXAxis();
+    return {x.x, x.y};
+}
+
+Vector Actor::GetActorUpVector() const
+{
+    assert(body_);
+
+    b2Vec2 y = body_->GetTransform().q.GetYAxis();
+    return {-y.x, -y.y};
 }

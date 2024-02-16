@@ -14,13 +14,11 @@ public:
 
     virtual void Render() override;
 
-    virtual void SetRelativeLocation(const b2Vec2& location);
-    virtual void SetRelativeRotation(float angle);
-    virtual void SetWorldLocation(const b2Vec2& location);
-    virtual void SetWorldRotation(float angle);
-    
+    void SetRelativeLocation(const b2Vec2& location);
+    void SetRelativeRotation(float angle);
+    void SetWorldLocation(const b2Vec2& location);
+    void SetWorldRotation(float angle);
     void SetupAttachment(SceneComponent* parent);
-
     void SetRelativeTransform(const b2Transform& transform);
     void SetWorldTransform(const b2Transform& transform);
 
