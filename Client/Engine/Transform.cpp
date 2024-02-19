@@ -1,8 +1,8 @@
 ﻿#include "Transform.h"
 
-Transform::Transform() :
-    position(Vector::Zero()),
-    scale(Vector::One()),
-    angle()
+Transform::Transform(Vector position, Vector scale, float angle) :
+    position(position),
+    scale(scale),
+    angle(angle)
 {
 }

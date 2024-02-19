@@ -16,11 +16,12 @@ Pawn::Pawn(b2World* world, const std::wstring& kName) :
     SetRootComponent(camera_view_);
 
     box_collider_ = CreateComponent<BoxColliderComponent>(L"BoxCollider");
+    box_collider_->SetSize({32.f, 32.f});
 
     rigid_body_ = CreateComponent<RigidBodyComponent>(L"RigidBody");
     rigid_body_->SetBodyType(BodyType::kDynamic);
     
-    SetActorLocation(b2Vec2(0.f, -100.f));
+    SetActorLocation({0.f, -100.f});
 }
 
 void Pawn::Tick(float delta_time)

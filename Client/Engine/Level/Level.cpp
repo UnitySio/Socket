@@ -10,7 +10,7 @@ Level::Level(const std::wstring& kName) :
     world_(nullptr),
     actors_(),
     debug_draw_(),
-    screen_position_(b2Vec2_zero)
+    screen_position_(Vector::Zero())
 {
     name_ = kName;
     
@@ -159,5 +159,6 @@ void Level::AddActor(Actor* actor)
 
 b2Vec2 Level::GetRenderPosition(b2Vec2 world_position)
 {
-    return world_position - screen_position_;
+    const b2Vec2 screen_position = {screen_position_.x, screen_position_.y};
+    return world_position - screen_position;
 }

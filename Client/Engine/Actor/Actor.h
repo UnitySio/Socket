@@ -38,6 +38,7 @@ public:
     
     bool SetRootComponent(SceneComponent* component);
 
+    Vector GetActorLocation() const;
     Vector GetActorRightVector() const;
     Vector GetActorUpVector() const;
 
@@ -56,9 +57,6 @@ public:
     
     inline b2World* GetWorld() { return world_; }
 
-    // 테스트 후 삭제
-    inline b2Body* GetBody() { return body_; }
-
     inline bool IsActive() const { return is_active_; }
 
 private:
@@ -66,7 +64,8 @@ private:
     friend class Level;
     friend class EventManager;
     friend class SceneComponent;
-    friend class BoxColliderComponent;
+    friend class ColliderComponent;
+    friend class RigidBodyComponent;
     
     std::wstring name_;
 

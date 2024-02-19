@@ -137,6 +137,12 @@ bool Actor::SetRootComponent(SceneComponent* component)
     return false;
 }
 
+Vector Actor::GetActorLocation() const
+{
+    if (!root_component_) return Vector::Zero();
+    return root_component_->GetRelativeLocation();
+}
+
 Vector Actor::GetActorRightVector() const
 {
     assert(body_);

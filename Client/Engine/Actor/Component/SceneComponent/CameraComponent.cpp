@@ -18,7 +18,7 @@ void CameraComponent::TickComponent(float delta_time)
     Level* level = LevelManager::Get()->GetLevel();
 
     POINT resolution = core->GetResolution();
-    b2Vec2 half_screen = b2Vec2(resolution.x / 2.f, resolution.y / 2.f);
+    Vector half_screen = {resolution.x / 2.f, resolution.y / 2.f};
     
     level->SetScreenPosition(GetWorldLocation() - half_screen);
 }

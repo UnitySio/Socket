@@ -7,6 +7,7 @@
 #include "box2d/b2_world.h"
 
 #include "../DebugDraw.h"
+#include "../Vector.h"
 
 class Actor;
 
@@ -33,8 +34,8 @@ public:
 
     inline b2World* GetWorld() const { return world_.get(); }
 
-    inline void SetScreenPosition(b2Vec2 screen_position) { screen_position_ = screen_position; }
-    inline b2Vec2 GetScreenPosition() const { return screen_position_; }
+    inline void SetScreenPosition(Vector screen_position) { screen_position_ = screen_position; }
+    inline Vector GetScreenPosition() const { return screen_position_; }
 
     b2Vec2 GetRenderPosition(b2Vec2 world_position);
 
@@ -47,5 +48,5 @@ private:
 
     DebugDraw debug_draw_;
 
-    b2Vec2 screen_position_;
+    Vector screen_position_;
 };

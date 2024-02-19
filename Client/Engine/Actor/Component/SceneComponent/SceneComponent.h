@@ -2,6 +2,8 @@
 #include <vector>
 
 #include "../ActorComponent.h"
+#include "../../../Transform.h"
+#include "../../../Vector.h"
 #include "box2d/b2_math.h"
 
 class b2Body;
@@ -22,14 +24,14 @@ public:
     void SetRelativeTransform(const b2Transform& transform);
     void SetWorldTransform(const b2Transform& transform);
 
-    inline b2Vec2 GetRelativeLocation() const { return relative_transform_.p; }
-    inline b2Vec2 GetWorldLocation() const { return transform_.p; }
+    Vector GetRelativeLocation() const;
+    Vector GetWorldLocation() const;
     
-    inline float GetRelativeRotation() const { return relative_transform_.q.GetAngle(); }
-    inline float GetWorldRotation() const { return transform_.q.GetAngle(); }
-
-    inline b2Transform GetWorldTransform() const { return transform_; }
-    inline b2Transform GetRelativeTransform() const { return relative_transform_; }
+    Transform GetWorldTransform() const;
+    Transform GetRelativeTransform() const;
+    
+    inline float GetRelativeRotation() const { return GetRelativeTransform().angle; }
+    inline float GetWorldRotation() const { return GetWorldTransform().angle; }
 
     inline SceneComponent* GetAttachParent() const { return parent_; }
     inline const std::vector<SceneComponent*>& GetAttachChildren() const { return children_; }
@@ -37,7 +39,7 @@ public:
 protected:
     void UpdateTransform();
     
-    b2Transform transform_;
+    b2Transform world_transform_;
     b2Transform relative_transform_;
 
     SceneComponent* parent_;

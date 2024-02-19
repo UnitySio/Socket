@@ -138,11 +138,13 @@
     <ClInclude Include="Engine\Actor\Actor.h" />
     <ClInclude Include="Engine\Actor\Component\ActorComponent.h" />
     <ClInclude Include="Engine\Actor\Component\BoxColliderComponent.h" />
+    <ClInclude Include="Engine\Actor\Component\CircleColliderComponent.h" />
     <ClInclude Include="Engine\Actor\Component\ColliderComponent.h" />
     <ClInclude Include="Engine\Actor\Component\RigidBodyComponent.h" />
     <ClInclude Include="Engine\Actor\Component\SceneComponent\CameraComponent.h" />
     <ClInclude Include="Engine\Actor\Component\SceneComponent\SceneComponent.h" />
     <ClInclude Include="Engine\Actor\Component\SceneComponent\SpriteComponent.h" />
+    <ClInclude Include="Engine\Bounds.h" />
     <ClInclude Include="Engine\Core.h" />
     <ClInclude Include="Engine\DebugDraw.h" />
     <ClInclude Include="Engine\Enums.h" />
@@ -287,11 +289,13 @@
       <LinkCompiled>true</LinkCompiled>
     </ClCompile>
     <ClCompile Include="Engine\Actor\Component\BoxColliderComponent.cpp" />
+    <ClCompile Include="Engine\Actor\Component\CircleColliderComponent.cpp" />
     <ClCompile Include="Engine\Actor\Component\ColliderComponent.cpp" />
     <ClCompile Include="Engine\Actor\Component\RigidBodyComponent.cpp" />
     <ClCompile Include="Engine\Actor\Component\SceneComponent\CameraComponent.cpp" />
     <ClCompile Include="Engine\Actor\Component\SceneComponent\SceneComponent.cpp" />
     <ClCompile Include="Engine\Actor\Component\SceneComponent\SpriteComponent.cpp" />
+    <ClCompile Include="Engine\Bounds.cpp" />
     <ClCompile Include="Engine\Core.cpp" />
     <ClCompile Include="Engine\DebugDraw.cpp" />
     <ClCompile Include="Engine\EventManager.cpp" />
