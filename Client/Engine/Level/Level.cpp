@@ -31,71 +31,71 @@ Level::Level(const std::wstring& kName) :
 
 void Level::BeginContact(b2Contact* contact)
 {
-    // b2Fixture* fixture_a = contact->GetFixtureA();
-    // b2Fixture* fixture_b = contact->GetFixtureB();
-    //
-    // b2Body* body_a = fixture_a->GetBody();
-    // b2Body* body_b = fixture_b->GetBody();
-    //
-    // Actor* actor_a = reinterpret_cast<Actor*>(body_a->GetUserData().pointer);
-    // Actor* actor_b = reinterpret_cast<Actor*>(body_b->GetUserData().pointer);
-    //
-    // if (!actor_a || !actor_b) return;
-    // if (fixture_a->IsSensor() || fixture_b->IsSensor())
-    // {
-    //     actor_a->OnTriggerEnter(actor_b);
-    //     actor_b->OnTriggerEnter(actor_a);
-    //     return;
-    // }
-    //
-    // actor_a->OnCollisionEnter(actor_b);
-    // actor_b->OnCollisionEnter(actor_a);
+    b2Fixture* fixture_a = contact->GetFixtureA();
+    b2Fixture* fixture_b = contact->GetFixtureB();
+    
+    b2Body* body_a = fixture_a->GetBody();
+    b2Body* body_b = fixture_b->GetBody();
+    
+    Actor* actor_a = reinterpret_cast<Actor*>(body_a->GetUserData().pointer);
+    Actor* actor_b = reinterpret_cast<Actor*>(body_b->GetUserData().pointer);
+    
+    if (!actor_a || !actor_b) return;
+    if (fixture_a->IsSensor() || fixture_b->IsSensor())
+    {
+        actor_a->OnTriggerEnter(actor_b);
+        actor_b->OnTriggerEnter(actor_a);
+        return;
+    }
+    
+    actor_a->OnCollisionEnter(actor_b);
+    actor_b->OnCollisionEnter(actor_a);
 }
 
 void Level::EndContact(b2Contact* contact)
 {
-    // b2Fixture* fixture_a = contact->GetFixtureA();
-    // b2Fixture* fixture_b = contact->GetFixtureB();
-    //
-    // b2Body* body_a = fixture_a->GetBody();
-    // b2Body* body_b = fixture_b->GetBody();
-    //
-    // Actor* actor_a = reinterpret_cast<Actor*>(body_a->GetUserData().pointer);
-    // Actor* actor_b = reinterpret_cast<Actor*>(body_b->GetUserData().pointer);
-    //
-    // if (!actor_a || !actor_b) return;
-    // if (fixture_a->IsSensor() || fixture_b->IsSensor())
-    // {
-    //     actor_a->OnTriggerExit(actor_b);
-    //     actor_b->OnTriggerExit(actor_a);
-    //     return;
-    // }
-    //
-    // actor_a->OnCollisionExit(actor_b);
-    // actor_b->OnCollisionExit(actor_a);
+    b2Fixture* fixture_a = contact->GetFixtureA();
+    b2Fixture* fixture_b = contact->GetFixtureB();
+    
+    b2Body* body_a = fixture_a->GetBody();
+    b2Body* body_b = fixture_b->GetBody();
+    
+    Actor* actor_a = reinterpret_cast<Actor*>(body_a->GetUserData().pointer);
+    Actor* actor_b = reinterpret_cast<Actor*>(body_b->GetUserData().pointer);
+    
+    if (!actor_a || !actor_b) return;
+    if (fixture_a->IsSensor() || fixture_b->IsSensor())
+    {
+        actor_a->OnTriggerExit(actor_b);
+        actor_b->OnTriggerExit(actor_a);
+        return;
+    }
+    
+    actor_a->OnCollisionExit(actor_b);
+    actor_b->OnCollisionExit(actor_a);
 }
 
 void Level::PreSolve(b2Contact* contact, const b2Manifold* oldManifold)
 {
-    // b2Fixture* fixture_a = contact->GetFixtureA();
-    // b2Fixture* fixture_b = contact->GetFixtureB();
-    //
-    // b2Body* body_a = fixture_a->GetBody();
-    // b2Body* body_b = fixture_b->GetBody();
-    //
-    // Actor* actor_a = reinterpret_cast<Actor*>(body_a->GetUserData().pointer);
-    // Actor* actor_b = reinterpret_cast<Actor*>(body_b->GetUserData().pointer);
-    //
-    // if (!actor_a || !actor_b) return;
-    // if (fixture_a->IsSensor() || fixture_b->IsSensor())
-    // {
-    //     actor_a->OnTriggerStay(actor_b);
-    //     actor_b->OnTriggerStay(actor_a);
-    //     return;
-    // }
-    //
-    // actor_a->OnCollisionStay(actor_b);
-    // actor_b->OnCollisionStay(actor_a);
+    b2Fixture* fixture_a = contact->GetFixtureA();
+    b2Fixture* fixture_b = contact->GetFixtureB();
+    
+    b2Body* body_a = fixture_a->GetBody();
+    b2Body* body_b = fixture_b->GetBody();
+    
+    Actor* actor_a = reinterpret_cast<Actor*>(body_a->GetUserData().pointer);
+    Actor* actor_b = reinterpret_cast<Actor*>(body_b->GetUserData().pointer);
+    
+    if (!actor_a || !actor_b) return;
+    if (fixture_a->IsSensor() || fixture_b->IsSensor())
+    {
+        actor_a->OnTriggerStay(actor_b);
+        actor_b->OnTriggerStay(actor_a);
+        return;
+    }
+    
+    actor_a->OnCollisionStay(actor_b);
+    actor_b->OnCollisionStay(actor_a);
 }
 
 void Level::BeginPlay()
