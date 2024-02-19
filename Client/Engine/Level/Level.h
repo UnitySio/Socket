@@ -49,4 +49,6 @@ private:
     DebugDraw debug_draw_;
 
     Vector screen_position_;
+
+    std::vector<b2Contact*> triggered_contacts_;
 };

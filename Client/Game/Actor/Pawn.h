@@ -1,4 +1,5 @@
 ﻿#pragma once
+#include "../../Engine/Bounds.h"
 #include "../../Engine/Actor/Actor.h"
 
 class Pawn : public Actor
@@ -8,7 +9,8 @@ public:
     virtual ~Pawn() override = default;
 
     virtual void Tick(float delta_time) override;
-    virtual void OnTriggerEnter(Actor* other) override;
+    virtual void Render() override;
+    virtual void OnTriggerStay(Actor* other) override;
 
 private:
     // Scene components
@@ -17,5 +19,7 @@ private:
     // Actor components
     class BoxColliderComponent* box_collider_;
     class RigidBodyComponent* rigid_body_;
+
+    Bounds bounds_;
     
 };

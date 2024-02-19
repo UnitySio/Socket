@@ -21,26 +21,26 @@ void SceneComponent::Render()
 {
     ActorComponent::Render();
 
-    Level* level = LevelManager::Get()->GetLevel();
-    Graphics* graphics = Graphics::Get();
-    
-    graphics->DrawSolidCircle(level->GetRenderPosition(world_transform_.p), 8.f, b2Color(1.f, 1.f, 1.f));
-    
-    const float axis_scale = 16.f;
-    b2Color red(1.f, 0.f, 0.f);
-    b2Color green(0.f, 1.f, 0.f);
-    b2Vec2 p1 = level->GetRenderPosition(world_transform_.p), p2;
-    
-    p2 = p1 + axis_scale * world_transform_.q.GetXAxis();
-    graphics->DrawLine(p1, p2, red);
-    
-    p2 = p1 + axis_scale * world_transform_.q.GetYAxis();
-    graphics->DrawLine(p1, p2, green);
-    
-    for (auto& child : children_)
-    {
-        graphics->DrawLine(level->GetRenderPosition(world_transform_.p), level->GetRenderPosition(child->world_transform_.p), b2Color(1.f, 1.f, 1.f));
-    }
+    // Level* level = LevelManager::Get()->GetLevel();
+    // Graphics* graphics = Graphics::Get();
+    //
+    // graphics->DrawSolidCircle(level->GetRenderPosition(world_transform_.p), 8.f, b2Color(1.f, 1.f, 1.f));
+    //
+    // const float axis_scale = 16.f;
+    // b2Color red(1.f, 0.f, 0.f);
+    // b2Color green(0.f, 1.f, 0.f);
+    // b2Vec2 p1 = level->GetRenderPosition(world_transform_.p), p2;
+    //
+    // p2 = p1 + axis_scale * world_transform_.q.GetXAxis();
+    // graphics->DrawLine(p1, p2, red);
+    //
+    // p2 = p1 + axis_scale * world_transform_.q.GetYAxis();
+    // graphics->DrawLine(p1, p2, green);
+    //
+    // for (auto& child : children_)
+    // {
+    //     graphics->DrawLine(level->GetRenderPosition(world_transform_.p), level->GetRenderPosition(child->world_transform_.p), b2Color(1.f, 1.f, 1.f));
+    // }
 }
 
 void SceneComponent::SetRelativeLocation(const b2Vec2& location)

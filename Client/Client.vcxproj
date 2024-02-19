@@ -158,6 +158,7 @@
     <ClInclude Include="Engine\Transform.h" />
     <ClInclude Include="Engine\Vector.h" />
     <ClInclude Include="framework.h" />
+    <ClInclude Include="Game\Actor\Dummy.h" />
     <ClInclude Include="Game\Actor\Floor.h" />
     <ClInclude Include="Game\Actor\Pawn.h" />
     <ClInclude Include="Game\Map\MainMap.h" />
@@ -306,6 +307,7 @@
     <ClCompile Include="Engine\Time\Time.cpp" />
     <ClCompile Include="Engine\Transform.cpp" />
     <ClCompile Include="Engine\Vector.cpp" />
+    <ClCompile Include="Game\Actor\Dummy.cpp" />
     <ClCompile Include="Game\Actor\Floor.cpp" />
     <ClCompile Include="Game\Actor\Pawn.cpp" />
     <ClCompile Include="Game\Map\MainMap.cpp" />

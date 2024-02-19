@@ -1,5 +1,9 @@
 ﻿#include "Pawn.h"
 
+#include <iostream>
+#include <ostream>
+
+#include "Dummy.h"
 #include "Floor.h"
 #include "../../Engine/Core.h"
 #include "../../Engine/Actor/Component/Scenecomponent/CameraComponent.h"
@@ -9,9 +13,11 @@
 #include "../../Engine/Input/InputManager.h"
 #include "../../Engine/Level/Level.h"
 #include "../../Engine/Vector.h"
+#include "../../Engine/Level/LevelManager.h"
 
 Pawn::Pawn(b2World* world, const std::wstring& kName) :
-    Actor(world, kName)
+    Actor(world, kName),
+    bounds_()
 {
     camera_view_ = CreateComponent<CameraComponent>(L"Camera");
     SetRootComponent(camera_view_);
@@ -40,20 +46,31 @@ void Pawn::Tick(float delta_time)
     }
 }
 
-void Pawn::OnTriggerEnter(Actor* other)
+void Pawn::Render()
 {
-    Actor::OnTriggerEnter(other);
+    Actor::Render();
 
-    if (wcscmp(other->GetName().c_str(), L"Floor") == 0)
+    Graphics* graphics = Graphics::Get();
+    b2Vec2 position = {bounds_.center.x, bounds_.center.y};
+    b2Vec2 size = {bounds_.extents.x * 2.f, bounds_.extents.y * 2.f};
+
+    Level* level = LevelManager::Get()->GetLevel();
+    b2Vec2 render_position = level->GetRenderPosition(position);
+
+    graphics->DrawBox(render_position, size, 0.f, {1.f, 0.f, 0.f, 1.f});
+}
+
+void Pawn::OnTriggerStay(Actor* other)
+{
+    Actor::OnTriggerStay(other);
+
+    if (wcscmp(other->GetName().c_str(), L"Dummy") == 0)
     {
-        Floor* floor = dynamic_cast<Floor*>(other);
-        BoxColliderComponent* floor_collider = floor->GetBoxCollider();
+        Dummy* dummy = dynamic_cast<Dummy*>(other);
+        BoxColliderComponent* floor_collider = dummy->GetBoxCollider();
 
         Bounds bounds = box_collider_->GetBounds();
         Bounds floor_bounds = floor_collider->GetBounds();
-        Bounds intersect = Bounds::Intersect(bounds, floor_bounds);
-
-        // 디버그 확인을 위한 더비 코드
-        int a = 0;
+        bounds_ = Bounds::Intersect(bounds, floor_bounds);
     }
 }

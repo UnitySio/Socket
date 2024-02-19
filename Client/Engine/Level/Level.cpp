@@ -45,6 +45,8 @@ void Level::BeginContact(b2Contact* contact)
     {
         actor_a->OnTriggerEnter(actor_b);
         actor_b->OnTriggerEnter(actor_a);
+
+        triggered_contacts_.push_back(contact);
         return;
     }
     
@@ -68,6 +70,8 @@ void Level::EndContact(b2Contact* contact)
     {
         actor_a->OnTriggerExit(actor_b);
         actor_b->OnTriggerExit(actor_a);
+
+        std::erase(triggered_contacts_, contact);
         return;
     }
     
@@ -87,12 +91,6 @@ void Level::PreSolve(b2Contact* contact, const b2Manifold* oldManifold)
     Actor* actor_b = reinterpret_cast<Actor*>(body_b->GetUserData().pointer);
     
     if (!actor_a || !actor_b) return;
-    if (fixture_a->IsSensor() || fixture_b->IsSensor())
-    {
-        actor_a->OnTriggerStay(actor_b);
-        actor_b->OnTriggerStay(actor_a);
-        return;
-    }
     
     actor_a->OnCollisionStay(actor_b);
     actor_b->OnCollisionStay(actor_a);
@@ -109,6 +107,24 @@ void Level::BeginPlay()
 void Level::Tick(float delta_time)
 {
     world_->Step(delta_time, 8, 3);
+
+    // IsSensor이 활성화된 충돌체의 경우 PreSolve가 호출되지 않아 OnTriggerStay를 호출하지 않는다.
+    // 임시로 triggered_contacts_를 사용하여 OnTriggerStay를 호출한다.
+    // 충돌을 빠져나가기 전까지는 지속적으로 호출되므로, 최적화할 방안이 필요하다.
+    for (const auto& triggered_contact : triggered_contacts_)
+    {
+        b2Fixture* fixture_a = triggered_contact->GetFixtureA();
+        b2Fixture* fixture_b = triggered_contact->GetFixtureB();
+    
+        b2Body* body_a = fixture_a->GetBody();
+        b2Body* body_b = fixture_b->GetBody();
+    
+        Actor* actor_a = reinterpret_cast<Actor*>(body_a->GetUserData().pointer);
+        Actor* actor_b = reinterpret_cast<Actor*>(body_b->GetUserData().pointer);
+        
+        actor_a->OnTriggerStay(actor_b);
+        actor_b->OnTriggerStay(actor_a);
+    }
     
     for (auto& actor : actors_)
     {
@@ -127,13 +143,13 @@ void Level::EndPlay()
 
 void Level::Render()
 {
+    world_->DebugDraw();
+    
     for (auto& actor : actors_)
     {
         if (!actor->is_active_ || actor->is_destroy_) continue;
         actor->Render();
     }
-    
-    world_->DebugDraw();
 }
 
 void Level::Destroy()
