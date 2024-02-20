@@ -19,7 +19,7 @@ public:
     virtual inline void OnCollisionStay(Actor* other) {};
     virtual inline void OnCollisionExit(Actor* other) {};
     virtual inline void OnTriggerEnter(Actor* other) {};
-    // virtual inline void OnTriggerStay(Actor* other) {}; // 기본적으로 Box2D에서는 OnTriggerStay에 대응하는 기능을 제공하지 않음, 추후 상황에 따라 구현 예정
+    virtual inline void OnTriggerStay(Actor* other) {};
     virtual inline void OnTriggerExit(Actor* other) {};
     virtual inline void OnDestroyed() {};
     
