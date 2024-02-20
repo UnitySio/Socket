@@ -1,5 +1,7 @@
 ﻿#include "Level.h"
 
+#include <iostream>
+
 #include "box2d/b2_math.h"
 #include "box2d/b2_world.h"
 
@@ -107,24 +109,6 @@ void Level::BeginPlay()
 void Level::Tick(float delta_time)
 {
     world_->Step(delta_time, 8, 3);
-
-    // IsSensor이 활성화된 충돌체의 경우 PreSolve가 호출되지 않아 OnTriggerStay를 호출하지 않는다.
-    // 임시로 triggered_contacts_를 사용하여 OnTriggerStay를 호출한다.
-    // 충돌을 빠져나가기 전까지는 지속적으로 호출되므로, 최적화할 방안이 필요하다.
-    for (const auto& triggered_contact : triggered_contacts_)
-    {
-        b2Fixture* fixture_a = triggered_contact->GetFixtureA();
-        b2Fixture* fixture_b = triggered_contact->GetFixtureB();
-    
-        b2Body* body_a = fixture_a->GetBody();
-        b2Body* body_b = fixture_b->GetBody();
-    
-        Actor* actor_a = reinterpret_cast<Actor*>(body_a->GetUserData().pointer);
-        Actor* actor_b = reinterpret_cast<Actor*>(body_b->GetUserData().pointer);
-        
-        actor_a->OnTriggerStay(actor_b);
-        actor_b->OnTriggerStay(actor_a);
-    }
     
     for (auto& actor : actors_)
     {

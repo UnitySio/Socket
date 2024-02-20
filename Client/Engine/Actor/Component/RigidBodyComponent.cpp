@@ -220,3 +220,14 @@ float RigidBodyComponent::GetAngularVelocity() const
 
     return body->GetAngularVelocity();
 }
+
+bool RigidBodyComponent::IsAwake() const
+{
+    Actor* owner = GetOwner();
+    assert(owner);
+
+    b2Body* body = owner->body_;
+    assert(body);
+
+    return body->IsAwake();
+}

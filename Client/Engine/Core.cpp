@@ -1,5 +1,7 @@
 ﻿#include "Core.h"
 
+#include <iostream>
+
 #include "EventManager.h"
 #include "Graphics/Graphics.h"
 #include "Time/Time.h"
@@ -115,6 +117,17 @@ LRESULT Core::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
     if (ImGui_ImplWin32_WndProcHandler(hWnd, message, wParam, lParam)) return 0;
 
+    if (message == WM_CREATE)
+    {
+#ifdef _DEBUG
+        AllocConsole();
+        SetConsoleTitle(L"Debug Console");
+
+        _tfreopen(L"CONOUT$", L"w", stdout);
+#endif
+        return 0;
+    }
+
     if (message == WM_SETFOCUS || message == WM_KILLFOCUS)
     {
         focus_ = GetFocus();
@@ -150,6 +163,13 @@ LRESULT Core::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         CoUninitialize();
         PostQuitMessage(0);
         return 0;
+    }
+
+    if (message == WM_CLOSE)
+    {
+#ifdef _DEBUG
+        FreeConsole();
+#endif
     }
 
     return DefWindowProc(hWnd, message, wParam, lParam);

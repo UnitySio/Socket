@@ -50,5 +50,7 @@ public:
     Vector GetVelocity() const;
     
     float GetAngularVelocity() const;
+
+    bool IsAwake() const;
     
 };
