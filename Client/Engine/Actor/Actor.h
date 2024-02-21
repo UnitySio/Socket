@@ -48,8 +48,8 @@ public:
     // Reflection 구현 필요
 
     // 추후 구현 예정
-    inline size_t GetUniqueID() const { return 0; }
-    inline size_t GetTypeHash() const { return 0; }
+    inline size_t GetUniqueID() const { return -1; }
+    inline size_t GetTypeHash() const { return -1; }
 
     inline SceneComponent* GetRootComponent() const { return root_component_; }
 

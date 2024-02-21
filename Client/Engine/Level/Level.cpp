@@ -174,11 +174,6 @@ void Level::Destroy()
     }
 }
 
-void Level::AddActor(Actor* actor)
-{
-    actors_.push_back(std::unique_ptr<Actor>(actor));
-}
-
 b2Vec2 Level::GetRenderPosition(b2Vec2 world_position)
 {
     const b2Vec2 screen_position = {screen_position_.x, screen_position_.y};

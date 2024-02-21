@@ -8,7 +8,7 @@ enum class KeyState : size_t
     kUp
 };
 
-enum class SceneType : size_t
+enum class LevelType : size_t
 {
     kDefault = 0,
     kEnd

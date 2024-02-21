@@ -5,7 +5,7 @@
 #include "EventManager.h"
 #include "Graphics/Graphics.h"
 #include "Time/Time.h"
-#include "Level/LevelManager.h"
+#include "Level/World.h"
 #include "Input/InputManager.h"
 
 #include "imgui/imgui.h"
@@ -79,7 +79,7 @@ bool Core::InitWindow(HINSTANCE hInstance, int nCmdShow)
     if (!Graphics::Get()->Init()) return false;
 
     Time::Get()->Init();
-    LevelManager::Get()->Init();
+    World::Get()->Init();
     InputManager::Get()->Init();
 
     IMGUI_CHECKVERSION();
@@ -154,7 +154,7 @@ LRESULT Core::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         ImGui::DestroyContext();
 
         InputManager::Get()->Release();
-        LevelManager::Get()->Release();
+        World::Get()->Release();
         Time::Get()->Release();
         Graphics::Get()->Release();
         EventManager::Get()->Release();
@@ -209,17 +209,17 @@ void Core::MainLogic()
 
     Graphics::Get()->EndRenderD3D();
 
-    LevelManager::Get()->Destroy();
+    World::Get()->Destroy();
     EventManager::Get()->Tick();
 }
 
 void Core::Tick(float delta_time)
 {
     InputManager::Get()->Tick();
-    LevelManager::Get()->Tick(delta_time);
+    World::Get()->Tick(delta_time);
 }
 
 void Core::Render()
 {
-    LevelManager::Get()->Render();
+    World::Get()->Render();
 }

@@ -1,7 +1,7 @@
 ﻿#include "SceneComponent.h"
 
 #include "../../Actor.h"
-#include "../../../Level/LevelManager.h"
+#include "../../../Level/World.h"
 #include "../../../Level/Level.h"
 #include "../../../Graphics/Graphics.h"
 #include "box2d/b2_body.h"

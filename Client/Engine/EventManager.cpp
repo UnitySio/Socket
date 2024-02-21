@@ -3,7 +3,7 @@
 #include "Enums.h"
 #include "Actor/Actor.h"
 #include "Level/Level.h"
-#include "Level/LevelManager.h"
+#include "Level/World.h"
 
 EventManager::EventManager() : events_()
 {
@@ -31,8 +31,7 @@ void EventManager::ExcuteEvent(const Event& event)
     case EventType::kSpawnActor:
         {
             Actor* actor = reinterpret_cast<Actor*>(event.wParam);
-            Level* level = LevelManager::Get()->GetLevel();
-            level->AddActor(actor);
+            Level* level = World::Get()->GetLevel();
             actor->BeginPlay();
         }
         break;
