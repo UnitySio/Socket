@@ -1,5 +1,6 @@
 ﻿#include "Pawn.h"
 
+#include <iostream>
 #include <ostream>
 
 #include "Dummy.h"
@@ -39,4 +40,6 @@ void Pawn::Tick(float delta_time)
     {
         rigid_body_->AddForce(Vector::Up() * 500000.f, ForceMode::kImpulse);
     }
+
+    std::cout << GetTickCount() << std::endl;
 }

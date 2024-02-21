@@ -38,5 +38,8 @@ private:
     HANDLE logic_handle_;
 
     bool is_running_;
+
+    // 테스트 코드
+    float timer_;
     
 };

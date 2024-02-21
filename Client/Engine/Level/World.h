@@ -13,6 +13,7 @@ public:
 
     void Init();
     void OpenLevel(LevelType type);
+    void FixedUpdate();
     void Tick(float delta_time);
     void Render();
     void Destroy();
