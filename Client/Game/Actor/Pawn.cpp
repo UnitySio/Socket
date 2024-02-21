@@ -27,19 +27,24 @@ Pawn::Pawn(b2World* world, const std::wstring& kName) :
     SetActorLocation({0.f, -100.f});
 }
 
+void Pawn::FixedTick(float delta_time)
+{
+    Actor::FixedTick(delta_time);
+    
+    InputManager* input = InputManager::Get();
+    float h = input->IsKeyPressed(VK_RIGHT) - input->IsKeyPressed(VK_LEFT);
+
+    rigid_body_->SetVelocity({h * 100.f, rigid_body_->GetVelocity().y});
+}
+
 void Pawn::Tick(float delta_time)
 {
     Actor::Tick(delta_time);
 
     InputManager* input = InputManager::Get();
-    float h = input->IsKeyPressed(VK_RIGHT) - input->IsKeyPressed(VK_LEFT);
-
-    rigid_body_->SetVelocity({h * 100.f, rigid_body_->GetVelocity().y});
 
     if (input->IsKeyDown(VK_SPACE))
     {
         rigid_body_->AddForce(Vector::Up() * 500000.f, ForceMode::kImpulse);
     }
-
-    std::cout << GetTickCount() << std::endl;
 }

@@ -17,7 +17,7 @@ Level::Level(const std::wstring& kName) :
 {
     name_ = kName;
     
-    b2Vec2 gravity(0.f, 9.81f * 100.f);
+    b2Vec2 gravity(0.f, 9.81f * 10.f);
     world_ = std::make_unique<b2World>(gravity);
     world_->SetContactListener(this);
     
@@ -123,15 +123,24 @@ void Level::BeginPlay()
     }
 }
 
-void Level::Tick(float delta_time)
+void Level::FixedTick(float delta_time)
 {
     world_->Step(delta_time, 8, 3);
-
+    
     for (const auto& contact : triggered_contacts_)
     {
         OnTriggerStay(contact);
     }
     
+    for (auto& actor : actors_)
+    {
+        if (!actor->is_active_ || actor->is_destroy_) continue;
+        actor->FixedTick(delta_time);
+    }
+}
+
+void Level::Tick(float delta_time)
+{
     for (auto& actor : actors_)
     {
         if (!actor->is_active_ || actor->is_destroy_) continue;

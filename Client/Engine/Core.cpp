@@ -19,7 +19,8 @@ Core::Core() :
     hWnd_(nullptr),
     focus_(nullptr),
     logic_handle_(nullptr),
-    is_running_(false)
+    is_running_(false),
+    timer_(0.f)
 {
 }
 
@@ -216,6 +217,15 @@ void Core::MainLogic()
 void Core::Tick(float delta_time)
 {
     InputManager::Get()->Tick();
+    
+    timer_ += delta_time;
+
+    while (timer_ >= .02f)
+    {
+        World::Get()->FixedTick(.02f);
+        timer_ -= .02f;
+    }
+    
     World::Get()->Tick(delta_time);
 }
 

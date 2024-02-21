@@ -25,8 +25,12 @@ void World::OpenLevel(LevelType type)
     current_level_->BeginPlay();
 }
 
-void World::FixedUpdate()
+void World::FixedTick(float delta_time)
 {
+    if (current_level_)
+    {
+        current_level_->FixedTick(delta_time);
+    }
 }
 
 void World::Tick(float delta_time)
