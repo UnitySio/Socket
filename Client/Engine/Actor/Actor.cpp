@@ -41,7 +41,7 @@ void Actor::EndPlay()
     if (body_) world_->DestroyBody(body_);
 }
 
-void Actor::FixedTick(float delta_time)
+void Actor::PhyscisTick(float delta_time)
 {
 }
 

@@ -217,13 +217,15 @@ void Core::MainLogic()
 void Core::Tick(float delta_time)
 {
     InputManager::Get()->Tick();
-    
+
     timer_ += delta_time;
 
-    while (timer_ >= .02f)
+    // 좀 더 조정이 필요해 보임
+    float t = 1.f / 300.f;
+    while (timer_ >= t)
     {
-        World::Get()->FixedTick(.02f);
-        timer_ -= .02f;
+        World::Get()->PhyscisTick(t);
+        timer_ -= t;
     }
     
     World::Get()->Tick(delta_time);

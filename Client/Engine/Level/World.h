@@ -13,7 +13,7 @@ public:
 
     void Init();
     void OpenLevel(LevelType type);
-    void FixedTick(float delta_time);
+    void PhyscisTick(float delta_time);
     void Tick(float delta_time);
     void Render();
     void Destroy();

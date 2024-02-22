@@ -25,7 +25,7 @@ public:
     
     virtual void BeginPlay();
     virtual void EndPlay();
-    virtual void FixedTick(float delta_time);
+    virtual void PhyscisTick(float delta_time);
     virtual void Tick(float delta_time);
     virtual void Render();
 

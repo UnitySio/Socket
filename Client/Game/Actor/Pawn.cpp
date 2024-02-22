@@ -27,9 +27,9 @@ Pawn::Pawn(b2World* world, const std::wstring& kName) :
     SetActorLocation({0.f, -100.f});
 }
 
-void Pawn::FixedTick(float delta_time)
+void Pawn::PhyscisTick(float delta_time)
 {
-    Actor::FixedTick(delta_time);
+    Actor::PhyscisTick(delta_time);
     
     InputManager* input = InputManager::Get();
     float h = input->IsKeyPressed(VK_RIGHT) - input->IsKeyPressed(VK_LEFT);
