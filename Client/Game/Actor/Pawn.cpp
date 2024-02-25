@@ -27,9 +27,9 @@ Pawn::Pawn(b2World* world, const std::wstring& kName) :
     SetActorLocation({0.f, -100.f});
 }
 
-void Pawn::PhyscisTick(float delta_time)
+void Pawn::PhysicsTick(float delta_time)
 {
-    Actor::PhyscisTick(delta_time);
+    Actor::PhysicsTick(delta_time);
     
     InputManager* input = InputManager::Get();
     float h = input->IsKeyPressed(VK_RIGHT) - input->IsKeyPressed(VK_LEFT);
@@ -47,4 +47,25 @@ void Pawn::Tick(float delta_time)
     {
         rigid_body_->AddForce(Vector::Up() * 500000.f, ForceMode::kImpulse);
     }
+}
+
+void Pawn::OnTriggerEnter(Actor* other)
+{
+    Actor::OnTriggerEnter(other);
+
+    std::cout << "Pawn OnTriggerEnter" << std::endl;
+}
+
+void Pawn::OnTriggerStay(Actor* other)
+{
+    Actor::OnTriggerStay(other);
+
+    std::cout << "Pawn OnTriggerStay" << std::endl;
+}
+
+void Pawn::OnTriggerExit(Actor* other)
+{
+    Actor::OnTriggerExit(other);
+
+    std::cout << "Pawn OnTriggerExit" << std::endl;
 }

@@ -25,7 +25,7 @@ public:
     void OnTriggerStay(b2Contact* contact);
     
     virtual void BeginPlay();
-    virtual void PhyscisTick(float delta_time);
+    virtual void PhysicsTick(float delta_time);
     virtual void Tick(float delta_time);
     virtual void EndPlay();
     virtual void Render();

@@ -38,7 +38,5 @@ private:
     HANDLE logic_handle_;
 
     bool is_running_;
-
-    float timer_;
     
 };

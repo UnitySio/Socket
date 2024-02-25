@@ -19,8 +19,7 @@ Core::Core() :
     hWnd_(nullptr),
     focus_(nullptr),
     logic_handle_(nullptr),
-    is_running_(false),
-    timer_(0.f)
+    is_running_(false)
 {
 }
 
@@ -197,7 +196,7 @@ void Core::MainLogic()
     ImGui_ImplWin32_NewFrame();
     ImGui::NewFrame();
 
-    Tick(Time::Get()->GetDeltaTime());
+    Tick(Time::DeltaTime());
 
     Graphics::Get()->BeginRenderD2D();
 
@@ -217,21 +216,24 @@ void Core::MainLogic()
 void Core::Tick(float delta_time)
 {
     InputManager::Get()->Tick();
+    
+    static float accumulator = 0.f;
+    // 죽음의 나선형을 방지하기 위해 최대 프레임 시간을 0.25초로 제한
+    const float frame_time = min(delta_time, .25f);
+    accumulator += frame_time;
 
-    timer_ += delta_time;
-
-    // 좀 더 조정이 필요해 보임
-    float t = 1.f / 300.f;
-    while (timer_ >= t)
+    while (accumulator >= FIXED_TIME_STEP)
     {
-        World::Get()->PhyscisTick(t);
-        timer_ -= t;
+        World::Get()->PhysicsTick(FIXED_TIME_STEP);
+        accumulator -= FIXED_TIME_STEP;
     }
+
+    float alpha = accumulator / FIXED_TIME_STEP;
     
     World::Get()->Tick(delta_time);
 }
 
 void Core::Render()
 {
-    World::Get()->Render();
+    World::Get()->Render(); 
 }

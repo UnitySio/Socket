@@ -8,8 +8,11 @@ public:
     Pawn(b2World* world, const std::wstring& kName);
     virtual ~Pawn() override = default;
 
-    virtual void PhyscisTick(float delta_time) override;
+    virtual void PhysicsTick(float delta_time) override;
     virtual void Tick(float delta_time) override;
+    virtual void OnTriggerEnter(Actor* other) override;
+    virtual void OnTriggerStay(Actor* other) override;
+    virtual void OnTriggerExit(Actor* other) override;
 
 private:
     // Scene components
