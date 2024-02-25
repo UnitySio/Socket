@@ -33,6 +33,14 @@ void World::PhysicsTick(float delta_time)
     }
 }
 
+void World::Interpolate(float alpha)
+{
+    if (current_level_)
+    {
+        current_level_->Interpolate(alpha);
+    }
+}
+
 void World::Tick(float delta_time)
 {
     if (current_level_)

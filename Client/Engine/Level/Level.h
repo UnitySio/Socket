@@ -26,6 +26,7 @@ public:
     
     virtual void BeginPlay();
     virtual void PhysicsTick(float delta_time);
+    virtual void Interpolate(float alpha);
     virtual void Tick(float delta_time);
     virtual void EndPlay();
     virtual void Render();

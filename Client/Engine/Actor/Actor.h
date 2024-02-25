@@ -3,9 +3,9 @@
 #include <string>
 #include <vector>
 
+#include "../Vector.h"
 #include "Component/ActorComponent.h"
 
-struct Vector;
 class SceneComponent;
 class b2Body;
 

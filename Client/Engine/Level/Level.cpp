@@ -139,6 +139,10 @@ void Level::PhysicsTick(float delta_time)
     }
 }
 
+void Level::Interpolate(float alpha)
+{
+}
+
 void Level::Tick(float delta_time)
 {
     for (auto& actor : actors_)

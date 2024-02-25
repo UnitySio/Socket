@@ -1,5 +1,6 @@
 ﻿#include "Core.h"
 
+#include <functional>
 #include <iostream>
 
 #include "EventManager.h"
@@ -228,7 +229,9 @@ void Core::Tick(float delta_time)
         accumulator -= FIXED_TIME_STEP;
     }
 
-    float alpha = accumulator / FIXED_TIME_STEP;
+    // 물리 시뮬레이션으로 인해 발생한 오차를 보정하기 위해 보간을 수행
+    const float alpha = accumulator / FIXED_TIME_STEP;
+    World::Get()->Interpolate(alpha);
     
     World::Get()->Tick(delta_time);
 }
