@@ -63,6 +63,9 @@ public:
 
     inline bool IsActive() const { return is_active_; }
 
+    // 추후 삭제
+    inline b2Body* GetBody() { return body_; }
+
 private:
     // 추후 정리 예정
     friend class Level;

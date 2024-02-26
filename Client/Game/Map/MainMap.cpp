@@ -8,5 +8,4 @@ MainMap::MainMap(const std::wstring& kName) : Level(kName)
 {
     AddActor<Floor>(L"Floor");
     AddActor<Pawn>(L"Pawn");
-    AddActor<Dummy>(L"Dummy");
 }
