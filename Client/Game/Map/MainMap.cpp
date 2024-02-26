@@ -6,6 +6,9 @@
 
 MainMap::MainMap(const std::wstring& kName) : Level(kName)
 {
-    AddActor<Floor>(L"Floor");
-    AddActor<Pawn>(L"Pawn");
+    Actor* floor = new Floor(GetWorld(), L"Floor");
+    AddActor(floor);
+
+    Actor* pawn = new Pawn(GetWorld(), L"Pawn");
+    AddActor(pawn);
 }

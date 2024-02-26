@@ -32,8 +32,7 @@ public:
     virtual void Render();
     virtual void Destroy();
 
-    template<std::derived_from<Actor> T>
-    T* AddActor(std::wstring name);
+    void AddActor(Actor* actor);
 
     inline const std::wstring& GetName() const { return name_; }
 
@@ -57,10 +56,3 @@ private:
 
     std::vector<b2Contact*> triggered_contacts_;
 };
-
-template <std::derived_from<Actor> T>
-T* Level::AddActor(std::wstring name)
-{
-    actors_.push_back(std::make_unique<T>(world_.get(), name));
-    return static_cast<T*>(actors_.back().get());
-}

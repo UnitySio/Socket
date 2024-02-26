@@ -156,7 +156,6 @@ void Level::Interpolate(float alpha)
 
         const b2Vec2 position = body->GetPosition();
         const b2Vec2 previous_position = actor->previous_location_;
-        if (previous_position == b2Vec2_zero) continue; // 버그가 발생할 수 있음
         
         b2Vec2 interpolated_position = {
             position.x * alpha + previous_position.x * (1.f - alpha),
@@ -164,6 +163,8 @@ void Level::Interpolate(float alpha)
         };
 
         body->SetTransform(interpolated_position, body->GetAngle());
+
+        std::wcout << actor->GetName() << " " << interpolated_position.x << " " << interpolated_position.y << std::endl;
     }
 }
 
@@ -209,6 +210,11 @@ void Level::Destroy()
             ++iter;
         }
     }
+}
+
+void Level::AddActor(Actor* actor)
+{
+    actors_.push_back(std::unique_ptr<Actor>(actor));
 }
 
 b2Vec2 Level::GetRenderPosition(b2Vec2 world_position)

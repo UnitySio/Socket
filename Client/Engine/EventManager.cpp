@@ -32,6 +32,7 @@ void EventManager::ExcuteEvent(const Event& event)
         {
             Actor* actor = reinterpret_cast<Actor*>(event.wParam);
             Level* level = World::Get()->GetLevel();
+            level->AddActor(actor);
             actor->BeginPlay();
         }
         break;
