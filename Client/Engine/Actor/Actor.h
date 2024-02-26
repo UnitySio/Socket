@@ -4,6 +4,7 @@
 #include <vector>
 
 #include "../Vector.h"
+#include "box2d/b2_math.h"
 #include "Component/ActorComponent.h"
 
 class SceneComponent;
@@ -73,6 +74,8 @@ private:
     b2World* world_;
     
     b2Body* body_;
+
+    b2Vec2 previous_location_;
 
     bool is_active_;
     bool is_destroy_;

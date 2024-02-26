@@ -228,7 +228,7 @@ void Core::Tick(float delta_time)
         World::Get()->PhysicsTick(FIXED_TIME_STEP);
         accumulator -= FIXED_TIME_STEP;
     }
-
+    
     // 물리 시뮬레이션으로 인해 발생한 오차를 보정하기 위해 보간을 수행
     const float alpha = accumulator / FIXED_TIME_STEP;
     World::Get()->Interpolate(alpha);

@@ -140,7 +140,7 @@ void Graphics::BeginRenderD3D()
 void Graphics::EndRenderD3D()
 {
     if (dxgi_swap_chain_->Present(1, DXGI_PRESENT_TEST) == DXGI_STATUS_OCCLUDED) return;
-    dxgi_swap_chain_->Present(0, 0);
+    dxgi_swap_chain_->Present(1, 0);
 }
 
 void Graphics::DrawLine(b2Vec2 start, b2Vec2 end, b2Color color)

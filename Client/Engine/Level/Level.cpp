@@ -125,6 +125,12 @@ void Level::BeginPlay()
 
 void Level::PhysicsTick(float delta_time)
 {
+    for (const auto& actor : actors_)
+    {
+        if (!actor->is_active_ || actor->is_destroy_) continue;
+        actor->previous_location_ = actor->body_->GetPosition();
+    }
+    
     world_->Step(delta_time, 6, 2);
     
     for (const auto& contact : triggered_contacts_)
@@ -141,6 +147,23 @@ void Level::PhysicsTick(float delta_time)
 
 void Level::Interpolate(float alpha)
 {
+    for (b2Body* body = world_->GetBodyList(); body; body = body->GetNext())
+    {
+        if (body->GetType() == b2_staticBody) continue;
+
+        const Actor* actor = reinterpret_cast<Actor*>(body->GetUserData().pointer);
+        if (!actor) continue;
+
+        const b2Vec2 position = body->GetPosition();
+        const b2Vec2 previous_position = actor->previous_location_;
+        
+        b2Vec2 interpolated_position = {
+            position.x * alpha + previous_position.x * (1.f - alpha),
+            position.y * alpha + previous_position.y * (1.f - alpha)
+        };
+
+        body->SetTransform(interpolated_position, body->GetAngle());
+    }
 }
 
 void Level::Tick(float delta_time)
