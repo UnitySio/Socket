@@ -11,7 +11,7 @@ Actor::Actor(b2World* world, const std::wstring& kName) :
     root_component_(nullptr),
     world_(world),
     body_(nullptr),
-    previous_location_(b2Vec2_zero),
+    previous_location_(Vector::Zero()),
     is_active_(true),
     is_destroy_(false),
     components_()
