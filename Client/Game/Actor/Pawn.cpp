@@ -76,8 +76,16 @@ void Pawn::Tick(float delta_time)
 
     InputManager* input = InputManager::Get();
 
-    if (input->IsKeyDown(VK_SPACE))
+    if (input->IsKeyDown(VK_UP))
     {
         rigid_body_->AddForce(Vector::Up() * 500000.f, ForceMode::kImpulse);
+    }
+
+    if (input->IsKeyDown(VK_SPACE))
+    {
+        Dummy* dummy = new Dummy(GetWorld(), L"Dummy");
+        dummy->GetRigidBody()->SetBodyType(BodyType::kDynamic);
+        dummy->SetActorLocation({GetActorLocation().x, GetActorLocation().y});
+        SpawnActor(dummy);
     }
 }
