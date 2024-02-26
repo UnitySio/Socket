@@ -156,6 +156,7 @@ void Level::Interpolate(float alpha)
 
         const b2Vec2 position = body->GetPosition();
         const b2Vec2 previous_position = actor->previous_location_;
+        if (previous_position == b2Vec2_zero) continue; // 버그가 발생할 수 있음
         
         b2Vec2 interpolated_position = {
             position.x * alpha + previous_position.x * (1.f - alpha),

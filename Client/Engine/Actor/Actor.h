@@ -23,7 +23,7 @@ public:
     virtual inline void OnTriggerStay(Actor* other) {};
     virtual inline void OnTriggerExit(Actor* other) {};
     virtual inline void OnDestroyed() {};
-    
+
     virtual void BeginPlay();
     virtual void EndPlay();
     virtual void PhysicsTick(float delta_time);
@@ -43,6 +43,8 @@ public:
     Vector GetActorLocation() const;
     Vector GetActorRightVector() const;
     Vector GetActorUpVector() const;
+
+    float GetActorRotation() const;
 
     template <typename T>
     T* CreateComponent(const std::wstring& kName);

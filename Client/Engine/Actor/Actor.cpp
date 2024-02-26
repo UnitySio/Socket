@@ -11,6 +11,7 @@ Actor::Actor(b2World* world, const std::wstring& kName) :
     root_component_(nullptr),
     world_(world),
     body_(nullptr),
+    previous_location_(b2Vec2_zero),
     is_active_(true),
     is_destroy_(false),
     components_()
@@ -161,4 +162,11 @@ Vector Actor::GetActorUpVector() const
 
     b2Vec2 y = body_->GetTransform().q.GetYAxis();
     return {-y.x, -y.y};
+}
+
+float Actor::GetActorRotation() const
+{
+    assert(body_);
+
+    return body_->GetAngle();
 }

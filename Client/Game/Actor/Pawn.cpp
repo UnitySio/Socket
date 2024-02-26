@@ -48,24 +48,3 @@ void Pawn::Tick(float delta_time)
         rigid_body_->AddForce(Vector::Up() * 500000.f, ForceMode::kImpulse);
     }
 }
-
-void Pawn::OnTriggerEnter(Actor* other)
-{
-    Actor::OnTriggerEnter(other);
-
-    std::cout << "Pawn OnTriggerEnter" << std::endl;
-}
-
-void Pawn::OnTriggerStay(Actor* other)
-{
-    Actor::OnTriggerStay(other);
-
-    std::cout << "Pawn OnTriggerStay" << std::endl;
-}
-
-void Pawn::OnTriggerExit(Actor* other)
-{
-    Actor::OnTriggerExit(other);
-
-    std::cout << "Pawn OnTriggerExit" << std::endl;
-}
