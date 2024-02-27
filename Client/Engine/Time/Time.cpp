@@ -1,5 +1,6 @@
 ﻿#include "Time.h"
 
+#include <iostream>
 #include <string>
 
 #include "../Core.h"
@@ -45,4 +46,6 @@ void Time::Tick()
         frame_count_ = 0.f;
         frame_timer_ = 0.f;
     }
+
+    std::cout << "DeltaTime: " << delta_time_ << std::endl;
 }

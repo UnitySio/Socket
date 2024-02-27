@@ -17,7 +17,7 @@ Level::Level(const std::wstring& kName) :
 {
     name_ = kName;
 
-    b2Vec2 gravity(0.f, 10.f * 100.f);
+    b2Vec2 gravity(0.f, 9.81f * 100.f);
     world_ = std::make_unique<b2World>(gravity);
     world_->SetContactListener(this);
 
@@ -131,9 +131,10 @@ void Level::PhysicsTick(float delta_time)
 
         b2Vec2 position = actor->body_->GetPosition();
         actor->previous_location_ = {position.x, position.y};
+        actor->previous_angle_ = actor->body_->GetAngle();
     }
 
-    world_->Step(delta_time, 6, 2);
+    world_->Step(delta_time, 8, 3);
 
     for (const auto& contact : triggered_contacts_)
     {
@@ -164,7 +165,9 @@ void Level::Interpolate(float alpha)
             position.y * alpha + previous_position.y * (1.f - alpha)
         };
 
-        body->SetTransform(interpolated_position, body->GetAngle());
+        const float interpolated_angle = body->GetAngle() * alpha + actor->previous_angle_ * (1.f - alpha);
+
+        body->SetTransform(interpolated_position, interpolated_angle);
     }
 }
 

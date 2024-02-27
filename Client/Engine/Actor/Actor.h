@@ -81,6 +81,8 @@ private:
 
     Vector previous_location_;
 
+    float previous_angle_;
+
     bool is_active_;
     bool is_destroy_;
 
