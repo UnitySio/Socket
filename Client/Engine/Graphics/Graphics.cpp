@@ -2,6 +2,8 @@
 
 #include "Graphics.h"
 
+#include <iostream>
+
 #include "../Core.h"
 #include "box2d/b2_math.h"
 
@@ -141,6 +143,15 @@ void Graphics::EndRenderD3D()
 {
     if (dxgi_swap_chain_->Present(1, DXGI_PRESENT_TEST) == DXGI_STATUS_OCCLUDED) return;
     dxgi_swap_chain_->Present(1, 0);
+}
+
+void Graphics::Resize()
+{
+    if (!d3d_device_context_) return;
+    d3d_device_context_->OMSetRenderTargets(0, nullptr, nullptr);
+    d3d_render_target_view_->Release();
+
+    dxgi_swap_chain_->ResizeBuffers(0, 0, 0, DXGI_FORMAT_R8G8B8A8_UNORM, 0);
 }
 
 void Graphics::DrawLine(b2Vec2 start, b2Vec2 end, b2Color color)

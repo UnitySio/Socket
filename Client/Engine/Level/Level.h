@@ -8,6 +8,7 @@
 
 #include "../DebugDraw.h"
 #include "../Vector.h"
+#include "Listener/ContactListener.h"
 
 class Actor;
 
@@ -16,13 +17,6 @@ class Level : public b2ContactListener
 public:
     Level(const std::wstring& kName);
     virtual ~Level() override = default;
-
-    virtual void BeginContact(b2Contact* contact) override;
-    virtual void EndContact(b2Contact* contact) override;
-
-    virtual void PostSolve(b2Contact* contact, const b2ContactImpulse* impulse) override;
-
-    void OnTriggerStay(b2Contact* contact);
     
     virtual void BeginPlay();
     virtual void PhysicsTick(float delta_time);
@@ -54,5 +48,5 @@ private:
 
     Vector screen_position_;
 
-    std::vector<b2Contact*> triggered_contacts_;
+    ContactListener contact_listener_;
 };

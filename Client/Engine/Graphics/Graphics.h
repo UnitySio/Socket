@@ -23,6 +23,7 @@ public:
     
     void BeginRenderD3D();
     void EndRenderD3D();
+    void Resize();
 
     void DrawLine(b2Vec2 start, b2Vec2 end, b2Color color = b2Color(1.f, 1.f, 1.f));
     void DrawBox(b2Vec2 center, b2Vec2 size, float angle, b2Color color = b2Color(1.f, 1.f, 1.f));

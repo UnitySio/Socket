@@ -104,7 +104,7 @@ public:
 	/// Note: if you set the number of contact points to zero, you will not
 	/// get an EndContact callback. However, you may get a BeginContact callback
 	/// the next step.
-	virtual void PostSolve(b2Contact* contact, const b2Manifold* oldManifold)
+	virtual void PreSolve(b2Contact* contact, const b2Manifold* oldManifold)
 	{
 		B2_NOT_USED(contact);
 		B2_NOT_USED(oldManifold);
