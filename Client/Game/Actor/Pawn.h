@@ -19,5 +19,8 @@ private:
     // Actor components
     class BoxColliderComponent* box_collider_;
     class RigidBodyComponent* rigid_body_;
+
+    class b2Body* body_;
+    class b2MouseJoint* mouse_joint_;
     
 };

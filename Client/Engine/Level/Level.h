@@ -36,6 +36,7 @@ public:
     inline Vector GetScreenPosition() const { return screen_position_; }
 
     b2Vec2 GetRenderPosition(b2Vec2 world_position);
+    b2Vec2 GetWorldPosition(b2Vec2 render_position);
 
 private:
     std::wstring name_;

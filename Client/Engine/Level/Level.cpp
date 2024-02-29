@@ -138,3 +138,9 @@ b2Vec2 Level::GetRenderPosition(b2Vec2 world_position)
     const b2Vec2 screen_position = {screen_position_.x, screen_position_.y};
     return world_position - screen_position;
 }
+
+b2Vec2 Level::GetWorldPosition(b2Vec2 render_position)
+{
+    const b2Vec2 screen_position = {screen_position_.x, screen_position_.y};
+    return render_position + screen_position;
+}

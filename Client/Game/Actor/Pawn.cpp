@@ -11,12 +11,22 @@
 #include "../../Engine/Graphics/Graphics.h"
 #include "../../Engine/Input/InputManager.h"
 #include "../../Engine/Vector.h"
+#include "../../Engine/Level/Level.h"
+#include "../../Engine/Level/World.h"
+#include "../../Engine/Level/Listener/QueryCallback.h"
 #include "box2d/b2_body.h"
+#include "box2d/b2_fixture.h"
+#include "box2d/b2_mouse_joint.h"
 #include "box2d/b2_revolute_joint.h"
 #include "box2d/b2_world.h"
 
 Pawn::Pawn(b2World* world, const std::wstring& kName) :
-    Actor(world, kName)
+    Actor(world, kName),
+    camera_view_(nullptr),
+    box_collider_(nullptr),
+    rigid_body_(nullptr),
+    body_(nullptr),
+    mouse_joint_(nullptr)
 {
     camera_view_ = CreateComponent<CameraComponent>(L"Camera");
     SetRootComponent(camera_view_);
@@ -28,6 +38,9 @@ Pawn::Pawn(b2World* world, const std::wstring& kName) :
     rigid_body_->SetBodyType(BodyType::kDynamic);
     
     SetActorLocation({0.f, -100.f});
+
+    b2BodyDef body_def;
+    body_ = GetWorld()->CreateBody(&body_def);
 }
 
 void Pawn::BeginPlay()
@@ -87,5 +100,44 @@ void Pawn::Tick(float delta_time)
         dummy->GetRigidBody()->SetBodyType(BodyType::kDynamic);
         dummy->SetActorLocation({GetActorLocation().x, GetActorLocation().y});
         SpawnActor(dummy);
+    }
+
+    Level* level = World::Get()->GetLevel();
+    b2Vec2 mouse_position = level->GetWorldPosition(input->GetMousePosition());
+
+    if (input->IsKeyDown(MK_LBUTTON))
+    {
+        b2AABB aabb;
+        aabb.lowerBound = mouse_position - b2Vec2(0.001f, 0.001f);
+        aabb.upperBound = mouse_position + b2Vec2(0.001f, 0.001f);
+
+        QueryCallback callback(mouse_position);
+        GetWorld()->QueryAABB(&callback, aabb);
+
+        if (callback.GetFixture())
+        {
+            b2Body* body = callback.GetFixture()->GetBody();
+
+            b2MouseJointDef def;
+            def.bodyA = body_;
+            def.bodyB = body;
+            def.target = mouse_position;
+            def.maxForce = 10000.f * body->GetMass();
+            b2LinearStiffness(def.stiffness, def.damping, 5.f, .7f, def.bodyA, def.bodyB);
+            
+            mouse_joint_ = dynamic_cast<b2MouseJoint*>(GetWorld()->CreateJoint(&def));
+            body->SetAwake(true);
+        }
+    }
+
+    if (input->IsKeyUp(MK_LBUTTON) && mouse_joint_)
+    {
+        GetWorld()->DestroyJoint(mouse_joint_);
+        mouse_joint_ = nullptr;
+    }
+
+    if (input->IsKeyPressed(MK_LBUTTON) && mouse_joint_)
+    {
+        mouse_joint_->SetTarget(mouse_position);
     }
 }
