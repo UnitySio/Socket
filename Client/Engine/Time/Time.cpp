@@ -47,10 +47,10 @@ void Time::Tick()
         frame_timer_ = 0.f;
     }
 
-    constexpr float limit = 1.f / 60.f;
-    if (delta_time_ < limit)
-    {
-        const DWORD sleep_time = static_cast<DWORD>((limit - delta_time_) * 1000.f);
-        Sleep(sleep_time);
-    }
+    // constexpr float limit = 1.f / 60.f;
+    // if (delta_time_ < limit)
+    // {
+    //     const DWORD sleep_time = static_cast<DWORD>((limit - delta_time_) * 1000.f);
+    //     Sleep(sleep_time);
+    // }
 }

@@ -46,7 +46,7 @@ void SceneComponent::Render()
 void SceneComponent::SetRelativeLocation(const b2Vec2& location)
 {
     // Root Component는 위치를 변경할 수 없음
-    if (owner_->root_component_ == this) return;
+    // if (owner_->root_component_ == this) return;
     
     relative_transform_.p = location;
     UpdateTransform();
@@ -55,7 +55,7 @@ void SceneComponent::SetRelativeLocation(const b2Vec2& location)
 void SceneComponent::SetRelativeRotation(float angle)
 {
     // Root Component는 회전을 변경할 수 없음
-    if (owner_->root_component_ == this) return;
+    // if (owner_->root_component_ == this) return;
     
     angle = angle * b2_pi / 180.f;
     relative_transform_.q.Set(angle);

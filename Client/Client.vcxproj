@@ -162,6 +162,7 @@
     <ClInclude Include="framework.h" />
     <ClInclude Include="Game\Actor\Dummy.h" />
     <ClInclude Include="Game\Actor\Floor.h" />
+    <ClInclude Include="Game\Actor\FollowCamera.h" />
     <ClInclude Include="Game\Actor\Pawn.h" />
     <ClInclude Include="Game\Map\MainMap.h" />
     <ClInclude Include="Include\box2d\b2_api.h" />
@@ -313,6 +314,7 @@
     <ClCompile Include="Engine\Vector.cpp" />
     <ClCompile Include="Game\Actor\Dummy.cpp" />
     <ClCompile Include="Game\Actor\Floor.cpp" />
+    <ClCompile Include="Game\Actor\FollowCamera.cpp" />
     <ClCompile Include="Game\Actor\Pawn.cpp" />
     <ClCompile Include="Game\Map\MainMap.cpp" />
     <ClCompile Include="Include\imgui\imgui.cpp" />

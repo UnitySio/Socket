@@ -5,7 +5,7 @@
 
 #include "Dummy.h"
 #include "../../Engine/Core.h"
-#include "../../Engine/Actor/Component/Scenecomponent/CameraComponent.h"
+#include "../../Engine/Actor/Component/SceneComponent/SceneComponent.h"
 #include "../../Engine/Actor/Component/BoxColliderComponent.h"
 #include "../../Engine/Actor/Component/RigidBodyComponent.h"
 #include "../../Engine/Graphics/Graphics.h"
@@ -22,15 +22,16 @@
 
 Pawn::Pawn(b2World* world, const std::wstring& kName) :
     Actor(world, kName),
-    camera_view_(nullptr),
+    scene_(nullptr),
     box_collider_(nullptr),
     rigid_body_(nullptr),
     body_(nullptr),
-    mouse_joint_(nullptr)
+    mouse_joint_(nullptr),
+    dir_(1)
 {
-    camera_view_ = CreateComponent<CameraComponent>(L"Camera");
-    SetRootComponent(camera_view_);
-
+    scene_ = CreateComponent<SceneComponent>(L"Scene");
+    SetRootComponent(scene_);
+    
     box_collider_ = CreateComponent<BoxColliderComponent>(L"BoxCollider");
     box_collider_->SetSize({32.f, 32.f});
 
@@ -80,6 +81,8 @@ void Pawn::PhysicsTick(float delta_time)
     InputManager* input = InputManager::Get();
     float h = input->IsKeyPressed(VK_RIGHT) - input->IsKeyPressed(VK_LEFT);
 
+    if (h == 0) return;
+    dir_ = h;
     rigid_body_->SetVelocity({h * 100.f, rigid_body_->GetVelocity().y});
 }
 
@@ -91,7 +94,7 @@ void Pawn::Tick(float delta_time)
 
     if (input->IsKeyDown(VK_UP))
     {
-        rigid_body_->AddForce(Vector::Up() * 500000.f, ForceMode::kImpulse);
+        rigid_body_->AddForce({dir_ * 500000.f, -500000.f}, ForceMode::kImpulse);
     }
 
     if (input->IsKeyDown(VK_SPACE))

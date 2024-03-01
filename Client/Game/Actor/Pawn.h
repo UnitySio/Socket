@@ -14,7 +14,7 @@ public:
 
 private:
     // Scene components
-    class CameraComponent* camera_view_;
+    class SceneComponent* scene_;
 
     // Actor components
     class BoxColliderComponent* box_collider_;
@@ -22,5 +22,7 @@ private:
 
     class b2Body* body_;
     class b2MouseJoint* mouse_joint_;
+
+    int dir_;
     
 };
