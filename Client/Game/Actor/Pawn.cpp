@@ -94,6 +94,7 @@ void Pawn::Tick(float delta_time)
 
     if (input->IsKeyDown(VK_UP))
     {
+        rigid_body_->SetVelocity(Vector::Zero());
         rigid_body_->AddForce({dir_ * 500000.f, -500000.f}, ForceMode::kImpulse);
     }
 
