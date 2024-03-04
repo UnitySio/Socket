@@ -20,6 +20,7 @@ void Time::Init()
 {
     QueryPerformanceFrequency(&frequency_);
     QueryPerformanceCounter(&previous_count_);
+    QueryPerformanceCounter(&start_count_);
 }
 
 void Time::Tick()
@@ -52,4 +53,10 @@ void Time::Tick()
     //     const DWORD sleep_time = static_cast<DWORD>((limit - delta_time_) * 1000.f);
     //     Sleep(sleep_time);
     // }
+}
+
+float Time::RealTime()
+{
+    QueryPerformanceCounter(&Get()->end_count_);
+    return static_cast<float>(Get()->end_count_.QuadPart - Get()->start_count_.QuadPart) / Get()->frequency_.QuadPart;
 }

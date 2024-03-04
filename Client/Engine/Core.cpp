@@ -5,6 +5,7 @@
 
 #include "EventManager.h"
 #include "DirectXTK/DDSTextureLoader.h"
+#include "DirectXTK/WICTextureLoader.h"
 #include "Graphics/Graphics.h"
 #include "Time/Time.h"
 #include "Level/World.h"
@@ -104,7 +105,7 @@ bool Core::InitWindow(HINSTANCE hInstance, int nCmdShow)
     ImGui_ImplDX11_Init(Graphics::Get()->GetD3DDevice(), Graphics::Get()->GetD3DDeviceContext());
     
     sprite_batch_.reset(new DirectX::SpriteBatch(Graphics::Get()->GetD3DDeviceContext()));
-    DirectX::CreateDDSTextureFromFile(Graphics::Get()->GetD3DDevice(), L".\\box.dds", nullptr, &texture_);
+    DirectX::CreateWICTextureFromFile(Graphics::Get()->GetD3DDevice(), L".\\box.png", nullptr, &texture_);
     assert(texture_);
 
     logic_handle_ = CreateThread(nullptr, 0, LogicThread, nullptr, 0, nullptr);
@@ -204,8 +205,11 @@ void Core::MainLogic()
 
     Graphics::Get()->BeginRenderD3D();
 
+    static float angle = 0.f;
+    angle += Time::DeltaTime() * 2.f;
+    
     sprite_batch_->Begin();
-    sprite_batch_->Draw(texture_, DirectX::XMFLOAT2(32.f, 32.f), nullptr, DirectX::Colors::White, 0.f, DirectX::XMFLOAT2(0.f, 0.f), .5f);
+    sprite_batch_->Draw(texture_, DirectX::XMFLOAT2(32.f, 32.f), nullptr, DirectX::Colors::White, angle, DirectX::XMFLOAT2(128.f, 128.f), .5f);
     sprite_batch_->End();
 
     ImGui_ImplDX11_NewFrame();
@@ -249,6 +253,8 @@ void Core::Tick(float delta_time)
     World::Get()->Interpolate(alpha);
     
     World::Get()->Tick(delta_time);
+
+    std::cout << "Time: " << Time::RealTime() << std::endl;
 }
 
 void Core::Render()
