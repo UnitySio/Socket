@@ -3,7 +3,7 @@
 #pragma comment(lib, "d2d1")
 #pragma comment(lib, "dwrite")
 
-#include "../Singleton.h"
+#include "Singleton.h"
 
 #include <d3d11.h>
 #include <d2d1.h>

@@ -1,9 +1,9 @@
 ﻿#pragma once
 #include <vector>
 
-#include "../ActorComponent.h"
-#include "../../../Transform.h"
-#include "../../../Vector.h"
+#include "Transform.h"
+#include "Vector.h"
+#include "Actor/Component/ActorComponent.h"
 #include "box2d/b2_math.h"
 
 class b2Body;

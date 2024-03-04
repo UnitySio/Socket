@@ -1,6 +1,6 @@
 ﻿#include "ColliderComponent.h"
 
-#include "../Actor.h"
+#include "Actor/Actor.h"
 #include "box2d/b2_fixture.h"
 
 ColliderComponent::ColliderComponent(Actor* owner, const std::wstring& kName) :

@@ -1,7 +1,7 @@
 ﻿#include "InputManager.h"
 
-#include "../Core.h"
-#include "../Enums.h"
+#include "Core.h"
+#include "Enums.h"
 
 InputManager::InputManager() :
     key_map_(),

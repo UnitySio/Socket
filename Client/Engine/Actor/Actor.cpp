@@ -1,11 +1,10 @@
 ﻿#include "Actor.h"
 
-#include "../EventManager.h"
-#include "../Enums.h"
+#include "EventManager.h"
+#include "Enums.h"
 #include "box2d/b2_body.h"
 #include "box2d/b2_world.h"
 #include "Component/SceneComponent/SceneComponent.h"
-#include "../Vector.h"
 
 Actor::Actor(b2World* world, const std::wstring& kName) :
     root_component_(nullptr),

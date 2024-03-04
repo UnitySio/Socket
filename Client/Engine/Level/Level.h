@@ -6,8 +6,8 @@
 #include "box2d/b2_world_callbacks.h"
 #include "box2d/b2_world.h"
 
-#include "../DebugDraw.h"
-#include "../Vector.h"
+#include "DebugDraw.h"
+#include "Vector.h"
 #include "Listener/ContactListener.h"
 
 class Actor;

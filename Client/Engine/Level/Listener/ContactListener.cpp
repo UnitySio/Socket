@@ -1,7 +1,7 @@
 ﻿#include "ContactListener.h"
 
 #include "box2d/b2_contact.h"
-#include "../../Actor/Actor.h"
+#include "Actor/Actor.h"
 
 ContactListener::ContactListener() :
     triggered_contacts_()

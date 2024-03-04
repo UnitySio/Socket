@@ -1,9 +1,8 @@
 ﻿#include "Time.h"
 
 #include <iostream>
-#include <string>
 
-#include "../Core.h"
+#include "Core.h"
 
 Time::Time() :
     frequency_{},

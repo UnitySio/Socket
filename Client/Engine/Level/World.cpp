@@ -1,7 +1,7 @@
 ﻿#include "World.h"
 
 #include "Level.h"
-#include "../../Game/Map/MainMap.h"
+#include "Map/MainMap.h"
 
 World::World() : current_level_(nullptr), levels_{}
 {

@@ -1,6 +1,6 @@
 ﻿#pragma once
 
-#include "../Singleton.h"
+#include "Singleton.h"
 
 #include <map>
 
@@ -22,6 +22,8 @@ public:
 
     void Init();
     void Tick();
+
+    void InputProc();
 
     bool IsKeyDown(int key) const;
     bool IsKeyPressed(int key) const;

@@ -5,7 +5,7 @@
 #include "box2d/b2_math.h"
 #include "box2d/b2_world.h"
 
-#include "../Actor/Actor.h"
+#include "Actor/Actor.h"
 #include "box2d/b2_contact.h"
 
 Level::Level(const std::wstring& kName) :
@@ -103,13 +103,13 @@ void Level::EndPlay()
 
 void Level::Render()
 {
-    world_->DebugDraw();
-
     for (const auto& actor : actors_)
     {
         if (!actor->is_active_ || actor->is_destroy_) continue;
         actor->Render();
     }
+    
+    world_->DebugDraw();
 }
 
 void Level::Destroy()

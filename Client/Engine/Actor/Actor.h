@@ -3,7 +3,7 @@
 #include <string>
 #include <vector>
 
-#include "../Vector.h"
+#include "Vector.h"
 #include "Component/ActorComponent.h"
 
 class SceneComponent;

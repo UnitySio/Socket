@@ -1,7 +1,7 @@
 ﻿#pragma once
 #include "ActorComponent.h"
-#include "../../Vector.h"
-#include "../../Bounds.h"
+#include "Bounds.h"
+#include "Vector.h"
 
 class ColliderComponent : public ActorComponent
 {

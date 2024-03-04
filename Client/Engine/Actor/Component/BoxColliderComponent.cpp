@@ -1,7 +1,5 @@
 ﻿#include "BoxColliderComponent.h"
 
-#include "../Actor.h"
-#include "box2d/b2_fixture.h"
 #include "box2d/b2_polygon_shape.h"
 
 BoxColliderComponent::BoxColliderComponent(Actor* owner, const std::wstring& kName) :

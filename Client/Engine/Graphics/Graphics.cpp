@@ -4,7 +4,7 @@
 
 #include <iostream>
 
-#include "../Core.h"
+#include "Core.h"
 #include "box2d/b2_math.h"
 
 #include <wincodec.h>

@@ -1,11 +1,5 @@
 ﻿#include "SceneComponent.h"
 
-#include "../../Actor.h"
-#include "../../../Level/World.h"
-#include "../../../Level/Level.h"
-#include "../../../Graphics/Graphics.h"
-#include "box2d/b2_body.h"
-
 SceneComponent::SceneComponent(Actor* owner, const std::wstring& kName) :
     ActorComponent(owner, kName),
     world_transform_(),

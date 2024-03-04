@@ -1,10 +1,8 @@
 ﻿#include "CameraComponent.h"
 
-#include "../../Actor.h"
-#include "../../../Core.h"
-#include "../../../Level/Level.h"
-#include "../../../Level/World.h"
-#include "box2d/b2_body.h"
+#include "Core.h"
+#include "Level/Level.h"
+#include "Level/World.h"
 
 CameraComponent::CameraComponent(Actor* owner, const std::wstring& kName) : SceneComponent(owner, kName)
 {

@@ -1,6 +1,6 @@
 ﻿#pragma once
-#include "../Enums.h"
-#include "../Singleton.h"
+#include "Enums.h"
+#include "Singleton.h"
 
 enum class LevelType : size_t;
 class Level;
