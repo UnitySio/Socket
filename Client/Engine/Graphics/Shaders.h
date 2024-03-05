@@ -24,3 +24,20 @@ private:
     Microsoft::WRL::ComPtr<ID3D11InputLayout> input_layout_;
     
 };
+
+class PixelShader
+{
+public:
+    PixelShader();
+    ~PixelShader() = default;
+
+    bool Init(Microsoft::WRL::ComPtr<ID3D11Device>& device, const std::wstring& path);
+
+    inline ID3D11PixelShader* GetShader() const { return shader_.Get(); }
+    inline ID3D10Blob* GetShaderBuffer() const { return shader_buffer_.Get(); }
+
+private:
+    Microsoft::WRL::ComPtr<ID3D11PixelShader> shader_;
+    Microsoft::WRL::ComPtr<ID3D10Blob> shader_buffer_;
+    
+};

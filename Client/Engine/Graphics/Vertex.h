@@ -4,7 +4,7 @@
 struct Vertex
 {
     Vertex();
-    Vertex(float x, float y) : x(x), y(y) {}
+    Vertex(float x, float y) : pos(x, y) {}
 
     DirectX::XMFLOAT2 pos;
 };

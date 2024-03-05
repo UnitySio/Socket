@@ -10,8 +10,9 @@
 #include <dwrite.h>
 #include <wrl/client.h>
 
-#include "VertexShader.h"
+#include "Shaders.h"
 #include "box2d/b2_draw.h"
+#include "DirectXTK/SpriteBatch.h"
 
 struct b2Vec2;
 
@@ -47,6 +48,7 @@ private:
     bool InitDeviceD3D();
     bool InitRenderTargetD3D();
     bool InitShaders();
+    bool InitScene();
     bool InitFactoryD2D();
     bool InitRenderTargetD2D();
     
@@ -61,5 +63,17 @@ private:
     Microsoft::WRL::ComPtr<ID2D1RenderTarget> d2d_render_target_;
 
     VertexShader vertex_shader_;
+    PixelShader pixel_shader_;
+
+    Microsoft::WRL::ComPtr<ID3D11DepthStencilView> depth_stencil_view_;
+    Microsoft::WRL::ComPtr<ID3D11Texture2D> depth_stencil_buffer_;
+    Microsoft::WRL::ComPtr<ID3D11DepthStencilState> depth_stencil_state_;
+    
+    Microsoft::WRL::ComPtr<ID3D11RasterizerState> rasterizer_state_;
+
+    std::unique_ptr<DirectX::SpriteBatch> sprite_batch_;
+    Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> texture_;
+
+    Microsoft::WRL::ComPtr<ID3D11SamplerState> sampler_state_;
     
 };

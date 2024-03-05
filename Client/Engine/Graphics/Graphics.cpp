@@ -9,6 +9,9 @@
 
 #include <wincodec.h>
 
+#include "Vertex.h"
+#include "DirectXTK/WICTextureLoader.h"
+
 Graphics::Graphics() :
     d3d_device_(nullptr),
     d3d_device_context_(nullptr),
@@ -80,6 +83,39 @@ bool Graphics::InitRenderTargetD3D()
 
     result = d3d_device_->CreateRenderTargetView(back_buffer, nullptr, &d3d_render_target_view_);
     back_buffer->Release();
+    
+    if (FAILED(result)) return false;
+
+    D3D11_TEXTURE2D_DESC depth_stencil_desc;
+    depth_stencil_desc.Width = Core::Get()->GetResolution().x;
+    depth_stencil_desc.Height = Core::Get()->GetResolution().y;
+    depth_stencil_desc.MipLevels = 1;
+    depth_stencil_desc.ArraySize = 1;
+    depth_stencil_desc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
+    depth_stencil_desc.SampleDesc.Count = 1;
+    depth_stencil_desc.SampleDesc.Quality = 0;
+    depth_stencil_desc.Usage = D3D11_USAGE_DEFAULT;
+    depth_stencil_desc.BindFlags = D3D11_BIND_DEPTH_STENCIL;
+    depth_stencil_desc.CPUAccessFlags = 0;
+    depth_stencil_desc.MiscFlags = 0;
+
+    result = d3d_device_->CreateTexture2D(&depth_stencil_desc, nullptr, depth_stencil_buffer_.GetAddressOf());
+    if (FAILED(result)) return false;
+
+    result = d3d_device_->CreateDepthStencilView(depth_stencil_buffer_.Get(), nullptr, depth_stencil_view_.GetAddressOf());
+    if (FAILED(result)) return false;
+    
+    d3d_device_context_->OMSetRenderTargets(1, d3d_render_target_view_.GetAddressOf(), depth_stencil_view_.Get());
+
+    D3D11_DEPTH_STENCIL_DESC depth_stencil_state_desc;
+    ZeroMemory(&depth_stencil_state_desc, sizeof(D3D11_DEPTH_STENCIL_DESC));
+
+    depth_stencil_state_desc.DepthEnable = true;
+    depth_stencil_state_desc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
+    depth_stencil_state_desc.DepthFunc = D3D11_COMPARISON_LESS;
+
+    result = d3d_device_->CreateDepthStencilState(&depth_stencil_state_desc, depth_stencil_state_.GetAddressOf());
+    if (FAILED(result)) return false;
 
     d3d_viewport_.TopLeftX = 0;
     d3d_viewport_.TopLeftY = 0;
@@ -87,8 +123,36 @@ bool Graphics::InitRenderTargetD3D()
     d3d_viewport_.Height = static_cast<float>(Core::Get()->GetResolution().y);
     d3d_viewport_.MinDepth = 0.0f;
     d3d_viewport_.MaxDepth = 1.0f;
+    
+    d3d_device_context_->RSSetViewports(1, &d3d_viewport_);
 
+    D3D11_RASTERIZER_DESC rasterizer_desc;
+    ZeroMemory(&rasterizer_desc, sizeof(D3D11_RASTERIZER_DESC));
+
+    rasterizer_desc.FillMode = D3D11_FILL_SOLID;
+    rasterizer_desc.CullMode = D3D11_CULL_NONE;
+
+    result = d3d_device_->CreateRasterizerState(&rasterizer_desc, rasterizer_state_.GetAddressOf());
     if (FAILED(result)) return false;
+
+    sprite_batch_ = std::make_unique<DirectX::SpriteBatch>(d3d_device_context_.Get());
+
+    D3D11_SAMPLER_DESC sampler_desc;
+    ZeroMemory(&sampler_desc, sizeof(D3D11_SAMPLER_DESC));
+    sampler_desc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
+    sampler_desc.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
+    sampler_desc.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
+    sampler_desc.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
+    sampler_desc.ComparisonFunc = D3D11_COMPARISON_NEVER;
+    sampler_desc.MinLOD = 0;
+    sampler_desc.MaxLOD = D3D11_FLOAT32_MAX;
+
+    result = d3d_device_->CreateSamplerState(&sampler_desc, sampler_state_.GetAddressOf());
+    if (FAILED(result)) return false;
+    
+    result = DirectX::CreateWICTextureFromFile(d3d_device_.Get(), L".\\box.png", nullptr, texture_.GetAddressOf());
+    if (FAILED(result)) return false;
+
     return InitShaders();
 }
 
@@ -100,6 +164,7 @@ bool Graphics::InitShaders()
 
     constexpr UINT num_elements = ARRAYSIZE(layout);
     if (!vertex_shader_.Init(d3d_device_, L"..\\x64\\Debug\\VertexShader.cso", layout, num_elements)) return false;
+    if (!pixel_shader_.Init(d3d_device_, L"..\\x64\\Debug\\PixelShader.cso")) return false;
     
     return true;
 }
@@ -136,14 +201,26 @@ bool Graphics::InitRenderTargetD2D()
 void Graphics::BeginRenderD3D()
 {
     constexpr float clear_color[] = {0.f, 0.f, 0.f, 1.f};
-
-    d3d_device_context_->OMSetRenderTargets(1, d3d_render_target_view_.GetAddressOf(), nullptr);
     d3d_device_context_->ClearRenderTargetView(d3d_render_target_view_.Get(), clear_color);
-    d3d_device_context_->RSSetViewports(1, &d3d_viewport_);
+    d3d_device_context_->ClearDepthStencilView(depth_stencil_view_.Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.f, 0);
+
+    d3d_device_context_->IASetInputLayout(vertex_shader_.GetInputLayout());
+    d3d_device_context_->IASetPrimitiveTopology(D3D10_PRIMITIVE_TOPOLOGY_LINELIST);
+    d3d_device_context_->RSSetState(rasterizer_state_.Get());
+    d3d_device_context_->OMSetDepthStencilState(depth_stencil_state_.Get(), 0);
+    d3d_device_context_->PSSetSamplers(0, 1, sampler_state_.GetAddressOf());
+    d3d_device_context_->VSSetShader(vertex_shader_.GetShader(), nullptr, 0);
+    d3d_device_context_->PSSetShader(pixel_shader_.GetShader(), nullptr, 0);
+
+    sprite_batch_->Begin();
+    static float angle = 0.f;
+    sprite_batch_->Draw(texture_.Get(), DirectX::XMFLOAT2(32.f, 32.f), nullptr, DirectX::Colors::White, angle, DirectX::XMFLOAT2(128.f, 128.f), .5f);
 }
 
 void Graphics::EndRenderD3D()
 {
+    sprite_batch_->End();
+    
     if (dxgi_swap_chain_->Present(1, DXGI_PRESENT_TEST) == DXGI_STATUS_OCCLUDED) return;
     dxgi_swap_chain_->Present(1, 0);
 }
