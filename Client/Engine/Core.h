@@ -1,7 +1,6 @@
 ﻿#pragma once
 #include "Singleton.h"
 #include "../framework.h"
-#include "DirectXTK/SpriteBatch.h"
 
 class Core : public Singleton<Core>
 {
@@ -39,8 +38,5 @@ private:
     HANDLE logic_handle_;
 
     bool is_running_;
-
-    std::unique_ptr<DirectX::SpriteBatch> sprite_batch_;
-    class ID3D11ShaderResourceView* texture_;
     
 };

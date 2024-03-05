@@ -150,6 +150,8 @@
     <ClInclude Include="Engine\Enums.h" />
     <ClInclude Include="Engine\EventManager.h" />
     <ClInclude Include="Engine\Graphics\Graphics.h" />
+    <ClInclude Include="Engine\Graphics\Vertex.h" />
+    <ClInclude Include="Engine\Graphics\VertexShader.h" />
     <ClInclude Include="Engine\Input\InputManager.h" />
     <ClInclude Include="Engine\Level\Level.h" />
     <ClInclude Include="Engine\Level\Listener\ContactListener.h" />
@@ -253,6 +255,7 @@
     <ClCompile Include="Engine\DebugDraw.cpp" />
     <ClCompile Include="Engine\EventManager.cpp" />
     <ClCompile Include="Engine\Graphics\Graphics.cpp" />
+    <ClCompile Include="Engine\Graphics\VertexShader.cpp" />
     <ClCompile Include="Engine\Input\InputManager.cpp" />
     <ClCompile Include="Engine\Level\Level.cpp" />
     <ClCompile Include="Engine\Level\Listener\ContactListener.cpp" />
@@ -279,6 +282,14 @@
     <Content Include="Lib\Debug\box2d.lib" />
     <Content Include="Lib\Debug\DirectXTK.lib" />
     <Content Include="Lib\DirectXTK.lib" />
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="VertexShader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+    </FxCompile>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

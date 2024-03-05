@@ -8,7 +8,9 @@
 #include <d3d11.h>
 #include <d2d1.h>
 #include <dwrite.h>
+#include <wrl/client.h>
 
+#include "VertexShader.h"
 #include "box2d/b2_draw.h"
 
 struct b2Vec2;
@@ -17,7 +19,7 @@ class Graphics : public Singleton<Graphics>
 {
 public:
     Graphics();
-    virtual ~Graphics() override;
+    virtual ~Graphics() override = default;
 
     bool Init();
     
@@ -36,25 +38,28 @@ public:
 
     ID2D1Bitmap* LoadTexture(const WCHAR* kFileName);
 
-    inline ID3D11Device* GetD3DDevice() const { return d3d_device_; }
-    inline ID3D11DeviceContext* GetD3DDeviceContext() const { return d3d_device_context_; }
+    inline ID3D11Device* GetD3DDevice() const { return d3d_device_.Get(); }
+    inline ID3D11DeviceContext* GetD3DDeviceContext() const { return d3d_device_context_.Get(); }
     inline void BeginRenderD2D() const { d2d_render_target_->BeginDraw(); }
     inline void EndRenderD2D() const { d2d_render_target_->EndDraw(); }
 
 private:
     bool InitDeviceD3D();
     bool InitRenderTargetD3D();
+    bool InitShaders();
     bool InitFactoryD2D();
     bool InitRenderTargetD2D();
     
-    ID3D11Device* d3d_device_;
-    ID3D11DeviceContext* d3d_device_context_;
-    ID3D11RenderTargetView* d3d_render_target_view_;
+    Microsoft::WRL::ComPtr<ID3D11Device> d3d_device_;
+    Microsoft::WRL::ComPtr<ID3D11DeviceContext> d3d_device_context_;
+    Microsoft::WRL::ComPtr<ID3D11RenderTargetView> d3d_render_target_view_;
     D3D11_VIEWPORT d3d_viewport_;
     
-    IDXGISwapChain* dxgi_swap_chain_;
+    Microsoft::WRL::ComPtr<IDXGISwapChain> dxgi_swap_chain_;
 
-    ID2D1Factory* d2d_factory_;
-    ID2D1RenderTarget* d2d_render_target_;
+    Microsoft::WRL::ComPtr<ID2D1Factory> d2d_factory_;
+    Microsoft::WRL::ComPtr<ID2D1RenderTarget> d2d_render_target_;
+
+    VertexShader vertex_shader_;
     
 };

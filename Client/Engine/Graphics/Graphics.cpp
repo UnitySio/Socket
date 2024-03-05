@@ -19,16 +19,6 @@ Graphics::Graphics() :
 {
 }
 
-Graphics::~Graphics()
-{
-    if (d2d_render_target_) d2d_render_target_->Release();
-    if (d2d_factory_) d2d_factory_->Release();
-    if (d3d_render_target_view_) d3d_render_target_view_->Release();
-    if (dxgi_swap_chain_) dxgi_swap_chain_->Release();
-    if (d3d_device_context_) d3d_device_context_->Release();
-    if (d3d_device_) d3d_device_->Release();
-}
-
 bool Graphics::Init()
 {
     return InitDeviceD3D() && InitFactoryD2D();
@@ -71,10 +61,10 @@ bool Graphics::InitDeviceD3D()
         2,
         D3D11_SDK_VERSION,
         &swap_chain_desc,
-        &dxgi_swap_chain_,
-        &d3d_device_,
+        dxgi_swap_chain_.GetAddressOf(),
+        d3d_device_.GetAddressOf(),
         nullptr,
-        &d3d_device_context_
+        d3d_device_context_.GetAddressOf()
     );
 
     if (FAILED(result)) return false;
@@ -98,12 +88,25 @@ bool Graphics::InitRenderTargetD3D()
     d3d_viewport_.MinDepth = 0.0f;
     d3d_viewport_.MaxDepth = 1.0f;
 
-    return SUCCEEDED(result);
+    if (FAILED(result)) return false;
+    return InitShaders();
+}
+
+bool Graphics::InitShaders()
+{
+    D3D11_INPUT_ELEMENT_DESC layout[] = {
+        {"POSITION", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0}
+    };
+
+    constexpr UINT num_elements = ARRAYSIZE(layout);
+    if (!vertex_shader_.Init(d3d_device_, L"..\\x64\\Debug\\VertexShader.cso", layout, num_elements)) return false;
+    
+    return true;
 }
 
 bool Graphics::InitFactoryD2D()
 {
-    HRESULT result = D2D1CreateFactory(D2D1_FACTORY_TYPE_SINGLE_THREADED, &d2d_factory_);
+    HRESULT result = D2D1CreateFactory(D2D1_FACTORY_TYPE_SINGLE_THREADED, d2d_factory_.GetAddressOf());
 
     if (FAILED(result)) return false;
     return InitRenderTargetD2D();
@@ -134,15 +137,15 @@ void Graphics::BeginRenderD3D()
 {
     constexpr float clear_color[] = {0.f, 0.f, 0.f, 1.f};
 
-    d3d_device_context_->OMSetRenderTargets(1, &d3d_render_target_view_, nullptr);
-    d3d_device_context_->ClearRenderTargetView(d3d_render_target_view_, clear_color);
+    d3d_device_context_->OMSetRenderTargets(1, d3d_render_target_view_.GetAddressOf(), nullptr);
+    d3d_device_context_->ClearRenderTargetView(d3d_render_target_view_.Get(), clear_color);
     d3d_device_context_->RSSetViewports(1, &d3d_viewport_);
 }
 
 void Graphics::EndRenderD3D()
 {
     if (dxgi_swap_chain_->Present(1, DXGI_PRESENT_TEST) == DXGI_STATUS_OCCLUDED) return;
-    dxgi_swap_chain_->Present(0, 0);
+    dxgi_swap_chain_->Present(1, 0);
 }
 
 void Graphics::Resize()
