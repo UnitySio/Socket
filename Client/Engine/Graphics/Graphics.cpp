@@ -9,6 +9,7 @@
 
 #include <wincodec.h>
 
+#include "ConstantBufferTypes.h"
 #include "Vertex.h"
 #include "DirectXTK/WICTextureLoader.h"
 
@@ -55,7 +56,7 @@ bool Graphics::InitDeviceD3D()
         D3D_FEATURE_LEVEL_10_1
     };
 
-    HRESULT result = D3D11CreateDeviceAndSwapChain(
+    HRESULT hr = D3D11CreateDeviceAndSwapChain(
         nullptr,
         D3D_DRIVER_TYPE_HARDWARE,
         nullptr,
@@ -70,7 +71,7 @@ bool Graphics::InitDeviceD3D()
         d3d_device_context_.GetAddressOf()
     );
 
-    if (FAILED(result)) return false;
+    if (FAILED(hr)) return false;
     return InitRenderTargetD3D();
 }
 
@@ -78,13 +79,13 @@ bool Graphics::InitRenderTargetD3D()
 {
     ID3D11Texture2D* back_buffer;
 
-    HRESULT result = dxgi_swap_chain_->GetBuffer(0, IID_PPV_ARGS(&back_buffer));
-    if (FAILED(result)) return false;
+    HRESULT hr = dxgi_swap_chain_->GetBuffer(0, IID_PPV_ARGS(&back_buffer));
+    if (FAILED(hr)) return false;
 
-    result = d3d_device_->CreateRenderTargetView(back_buffer, nullptr, &d3d_render_target_view_);
+    hr = d3d_device_->CreateRenderTargetView(back_buffer, nullptr, &d3d_render_target_view_);
     back_buffer->Release();
     
-    if (FAILED(result)) return false;
+    if (FAILED(hr)) return false;
 
     D3D11_TEXTURE2D_DESC depth_stencil_desc;
     depth_stencil_desc.Width = Core::Get()->GetResolution().x;
@@ -99,11 +100,11 @@ bool Graphics::InitRenderTargetD3D()
     depth_stencil_desc.CPUAccessFlags = 0;
     depth_stencil_desc.MiscFlags = 0;
 
-    result = d3d_device_->CreateTexture2D(&depth_stencil_desc, nullptr, depth_stencil_buffer_.GetAddressOf());
-    if (FAILED(result)) return false;
+    hr = d3d_device_->CreateTexture2D(&depth_stencil_desc, nullptr, depth_stencil_buffer_.GetAddressOf());
+    if (FAILED(hr)) return false;
 
-    result = d3d_device_->CreateDepthStencilView(depth_stencil_buffer_.Get(), nullptr, depth_stencil_view_.GetAddressOf());
-    if (FAILED(result)) return false;
+    hr = d3d_device_->CreateDepthStencilView(depth_stencil_buffer_.Get(), nullptr, depth_stencil_view_.GetAddressOf());
+    if (FAILED(hr)) return false;
     
     d3d_device_context_->OMSetRenderTargets(1, d3d_render_target_view_.GetAddressOf(), depth_stencil_view_.Get());
 
@@ -112,10 +113,10 @@ bool Graphics::InitRenderTargetD3D()
 
     depth_stencil_state_desc.DepthEnable = true;
     depth_stencil_state_desc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
-    depth_stencil_state_desc.DepthFunc = D3D11_COMPARISON_LESS;
+    depth_stencil_state_desc.DepthFunc = D3D11_COMPARISON_LESS_EQUAL;
 
-    result = d3d_device_->CreateDepthStencilState(&depth_stencil_state_desc, depth_stencil_state_.GetAddressOf());
-    if (FAILED(result)) return false;
+    hr = d3d_device_->CreateDepthStencilState(&depth_stencil_state_desc, depth_stencil_state_.GetAddressOf());
+    if (FAILED(hr)) return false;
 
     d3d_viewport_.TopLeftX = 0;
     d3d_viewport_.TopLeftY = 0;
@@ -132,10 +133,8 @@ bool Graphics::InitRenderTargetD3D()
     rasterizer_desc.FillMode = D3D11_FILL_SOLID;
     rasterizer_desc.CullMode = D3D11_CULL_NONE;
 
-    result = d3d_device_->CreateRasterizerState(&rasterizer_desc, rasterizer_state_.GetAddressOf());
-    if (FAILED(result)) return false;
-
-    sprite_batch_ = std::make_unique<DirectX::SpriteBatch>(d3d_device_context_.Get());
+    hr = d3d_device_->CreateRasterizerState(&rasterizer_desc, rasterizer_state_.GetAddressOf());
+    if (FAILED(hr)) return false;
 
     D3D11_SAMPLER_DESC sampler_desc;
     ZeroMemory(&sampler_desc, sizeof(D3D11_SAMPLER_DESC));
@@ -147,11 +146,8 @@ bool Graphics::InitRenderTargetD3D()
     sampler_desc.MinLOD = 0;
     sampler_desc.MaxLOD = D3D11_FLOAT32_MAX;
 
-    result = d3d_device_->CreateSamplerState(&sampler_desc, sampler_state_.GetAddressOf());
-    if (FAILED(result)) return false;
-    
-    result = DirectX::CreateWICTextureFromFile(d3d_device_.Get(), L".\\box.png", nullptr, texture_.GetAddressOf());
-    if (FAILED(result)) return false;
+    hr = d3d_device_->CreateSamplerState(&sampler_desc, sampler_state_.GetAddressOf());
+    if (FAILED(hr)) return false;
 
     return InitShaders();
 }
@@ -159,21 +155,54 @@ bool Graphics::InitRenderTargetD3D()
 bool Graphics::InitShaders()
 {
     D3D11_INPUT_ELEMENT_DESC layout[] = {
-        {"POSITION", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0}
+        {"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0},
+        {"TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0}
     };
 
     constexpr UINT num_elements = ARRAYSIZE(layout);
     if (!vertex_shader_.Init(d3d_device_, L"..\\x64\\Debug\\VertexShader.cso", layout, num_elements)) return false;
     if (!pixel_shader_.Init(d3d_device_, L"..\\x64\\Debug\\PixelShader.cso")) return false;
     
+    return InitScene();
+}
+
+bool Graphics::InitScene()
+{
+    Vertex vertices[] = {
+        {-.5f, -.5f, 0.f, 0.f, 1.f},
+        {-.5f, .5f, 0.f, 0.f, 0.f},
+        {.5f, .5f, 0.f, 1.f, 0.f},
+        {.5f, -.5f, 0.f, 1.f, 1.f}
+    };
+
+    DWORD indices[] = {
+        0, 1, 2,
+        0, 2, 3
+    };
+
+    HRESULT hr = vertex_buffer_.Init(d3d_device_.Get(), vertices, ARRAYSIZE(vertices));
+    if (FAILED(hr)) return false;
+
+    hr = index_buffer_.Init(d3d_device_.Get(), indices, ARRAYSIZE(indices));
+    if (FAILED(hr)) return false;
+
+    hr = DirectX::CreateWICTextureFromFile(d3d_device_.Get(), L".\\box.png", nullptr, texture_.GetAddressOf());
+    if (FAILED(hr)) return false;
+
+    hr = constant_buffer_.Init(d3d_device_.Get(), d3d_device_context_.Get());
+    if (FAILED(hr)) return false;
+
+    camera_.SetPosition(0.f, 0.f, -2.f);
+    camera_.SetProjectionValues(90.f, static_cast<float>(Core::Get()->GetResolution().x) / static_cast<float>(Core::Get()->GetResolution().y), 0.1f, 1000.f);
+    
     return true;
 }
 
 bool Graphics::InitFactoryD2D()
 {
-    HRESULT result = D2D1CreateFactory(D2D1_FACTORY_TYPE_SINGLE_THREADED, d2d_factory_.GetAddressOf());
+    HRESULT hr = D2D1CreateFactory(D2D1_FACTORY_TYPE_SINGLE_THREADED, d2d_factory_.GetAddressOf());
 
-    if (FAILED(result)) return false;
+    if (FAILED(hr)) return false;
     return InitRenderTargetD2D();
 }
 
@@ -189,13 +218,13 @@ bool Graphics::InitRenderTargetD2D()
 
     IDXGISurface* back_buffer;
 
-    HRESULT result = dxgi_swap_chain_->GetBuffer(0, IID_PPV_ARGS(&back_buffer));
-    if (FAILED(result)) return false;
+    HRESULT hr = dxgi_swap_chain_->GetBuffer(0, IID_PPV_ARGS(&back_buffer));
+    if (FAILED(hr)) return false;
 
-    result = d2d_factory_->CreateDxgiSurfaceRenderTarget(back_buffer, &render_target_properties, &d2d_render_target_);
+    hr = d2d_factory_->CreateDxgiSurfaceRenderTarget(back_buffer, &render_target_properties, &d2d_render_target_);
     back_buffer->Release();
 
-    return SUCCEEDED(result);
+    return SUCCEEDED(hr);
 }
 
 void Graphics::BeginRenderD3D()
@@ -205,22 +234,31 @@ void Graphics::BeginRenderD3D()
     d3d_device_context_->ClearDepthStencilView(depth_stencil_view_.Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.f, 0);
 
     d3d_device_context_->IASetInputLayout(vertex_shader_.GetInputLayout());
-    d3d_device_context_->IASetPrimitiveTopology(D3D10_PRIMITIVE_TOPOLOGY_LINELIST);
+    d3d_device_context_->IASetPrimitiveTopology(D3D10_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
     d3d_device_context_->RSSetState(rasterizer_state_.Get());
     d3d_device_context_->OMSetDepthStencilState(depth_stencil_state_.Get(), 0);
     d3d_device_context_->PSSetSamplers(0, 1, sampler_state_.GetAddressOf());
     d3d_device_context_->VSSetShader(vertex_shader_.GetShader(), nullptr, 0);
     d3d_device_context_->PSSetShader(pixel_shader_.GetShader(), nullptr, 0);
 
-    sprite_batch_->Begin();
-    static float angle = 0.f;
-    sprite_batch_->Draw(texture_.Get(), DirectX::XMFLOAT2(32.f, 32.f), nullptr, DirectX::Colors::White, angle, DirectX::XMFLOAT2(128.f, 128.f), .5f);
+    constexpr UINT offset = 0;
+
+    DirectX::XMMATRIX world = DirectX::XMMatrixIdentity();
+    
+    constant_buffer_.data.mat = world * camera_.GetViewMatrix() * camera_.GetProjectionMatrix();
+    constant_buffer_.data.mat = DirectX::XMMatrixTranspose(constant_buffer_.data.mat);
+    
+    if (!constant_buffer_.ApplyChanges()) return;
+    d3d_device_context_->VSSetConstantBuffers(0, 1, constant_buffer_.GetAddressOf());
+
+    d3d_device_context_->PSSetShaderResources(0, 1, texture_.GetAddressOf());
+    d3d_device_context_->IASetVertexBuffers(0, 1, vertex_buffer_.GetAddressOf(), vertex_buffer_.StridePtr(), &offset);
+    d3d_device_context_->IASetIndexBuffer(index_buffer_.Get(), DXGI_FORMAT_R32_UINT, 0);
+    d3d_device_context_->DrawIndexed(index_buffer_.BufferSize(), 0, 0);
 }
 
 void Graphics::EndRenderD3D()
 {
-    sprite_batch_->End();
-    
     if (dxgi_swap_chain_->Present(1, DXGI_PRESENT_TEST) == DXGI_STATUS_OCCLUDED) return;
     dxgi_swap_chain_->Present(1, 0);
 }
@@ -429,20 +467,20 @@ void Graphics::DrawTexture(ID2D1Bitmap* texture, b2Vec2 center, b2Vec2 scale, fl
 ID2D1Bitmap* Graphics::LoadTexture(const WCHAR* kFileName)
 {
     IWICImagingFactory* wic_factory;
-    HRESULT result = CoCreateInstance(
+    HRESULT hr = CoCreateInstance(
         CLSID_WICImagingFactory,
         nullptr,
         CLSCTX_INPROC_SERVER,
         IID_PPV_ARGS(&wic_factory)
     );
 
-    if (FAILED(result))
+    if (FAILED(hr))
     {
         return nullptr;
     }
 
     IWICBitmapDecoder* wic_decoder;
-    result = wic_factory->CreateDecoderFromFilename(
+    hr = wic_factory->CreateDecoderFromFilename(
         kFileName,
         nullptr,
         GENERIC_READ,
@@ -450,28 +488,28 @@ ID2D1Bitmap* Graphics::LoadTexture(const WCHAR* kFileName)
         &wic_decoder
     );
 
-    if (FAILED(result))
+    if (FAILED(hr))
     {
         return nullptr;
     }
 
     IWICBitmapFrameDecode* wic_frame;
-    result = wic_decoder->GetFrame(0, &wic_frame);
+    hr = wic_decoder->GetFrame(0, &wic_frame);
 
-    if (FAILED(result))
+    if (FAILED(hr))
     {
         return nullptr;
     }
 
     IWICFormatConverter* wic_converter;
-    result = wic_factory->CreateFormatConverter(&wic_converter);
+    hr = wic_factory->CreateFormatConverter(&wic_converter);
 
-    if (FAILED(result))
+    if (FAILED(hr))
     {
         return nullptr;
     }
 
-    result = wic_converter->Initialize(
+    hr = wic_converter->Initialize(
         wic_frame,
         GUID_WICPixelFormat32bppPBGRA,
         WICBitmapDitherTypeNone,
@@ -480,19 +518,19 @@ ID2D1Bitmap* Graphics::LoadTexture(const WCHAR* kFileName)
         WICBitmapPaletteTypeMedianCut
     );
 
-    if (FAILED(result))
+    if (FAILED(hr))
     {
         return nullptr;
     }
 
     ID2D1Bitmap* d2d_bitmap;
-    result = d2d_render_target_->CreateBitmapFromWicBitmap(
+    hr = d2d_render_target_->CreateBitmapFromWicBitmap(
         wic_converter,
         nullptr,
         &d2d_bitmap
     );
 
-    if (FAILED(result))
+    if (FAILED(hr))
     {
         return nullptr;
     }

@@ -10,7 +10,13 @@
 #include <dwrite.h>
 #include <wrl/client.h>
 
+#include "ConstantBuffer.h"
+#include "ConstantBufferTypes.h"
+#include "IndexBuffer.h"
+#include "PerspectiveCamera.h"
 #include "Shaders.h"
+#include "Vertex.h"
+#include "VertexBuffer.h"
 #include "box2d/b2_draw.h"
 #include "DirectXTK/SpriteBatch.h"
 
@@ -43,6 +49,7 @@ public:
     inline ID3D11DeviceContext* GetD3DDeviceContext() const { return d3d_device_context_.Get(); }
     inline void BeginRenderD2D() const { d2d_render_target_->BeginDraw(); }
     inline void EndRenderD2D() const { d2d_render_target_->EndDraw(); }
+    inline PerspectiveCamera& GetCamera() { return camera_; }
 
 private:
     bool InitDeviceD3D();
@@ -65,15 +72,19 @@ private:
     VertexShader vertex_shader_;
     PixelShader pixel_shader_;
 
+    VertexBuffer<Vertex> vertex_buffer_;
+    IndexBuffer index_buffer_;
+    ConstantBuffer<CB_VS_VertexShader> constant_buffer_;
+
     Microsoft::WRL::ComPtr<ID3D11DepthStencilView> depth_stencil_view_;
     Microsoft::WRL::ComPtr<ID3D11Texture2D> depth_stencil_buffer_;
     Microsoft::WRL::ComPtr<ID3D11DepthStencilState> depth_stencil_state_;
     
     Microsoft::WRL::ComPtr<ID3D11RasterizerState> rasterizer_state_;
 
-    std::unique_ptr<DirectX::SpriteBatch> sprite_batch_;
+    Microsoft::WRL::ComPtr<ID3D11SamplerState> sampler_state_;
     Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> texture_;
 
-    Microsoft::WRL::ComPtr<ID3D11SamplerState> sampler_state_;
+    PerspectiveCamera camera_;
     
 };

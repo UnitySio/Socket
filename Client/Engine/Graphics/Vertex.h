@@ -4,7 +4,8 @@
 struct Vertex
 {
     Vertex();
-    Vertex(float x, float y) : pos(x, y) {}
+    Vertex(float x, float y, float z, float u, float v) : pos(x, y, z), texcoord(u, v) {}
 
-    DirectX::XMFLOAT2 pos;
+    DirectX::XMFLOAT3 pos;
+    DirectX::XMFLOAT2 texcoord;
 };

@@ -4,6 +4,7 @@
 #include <iostream>
 
 #include "EventManager.h"
+#include "Vector.h"
 #include "Graphics/Graphics.h"
 #include "Time/Time.h"
 #include "Level/World.h"
@@ -223,6 +224,18 @@ void Core::MainLogic()
 void Core::Tick(float delta_time)
 {
     InputManager::Get()->Tick();
+
+    // 카메라 테스트 코드
+    InputManager* input = InputManager::Get();
+    Graphics* graphics = Graphics::Get();
+
+    Vector mouse_pos = {input->GetMouseDelta().x, input->GetMouseDelta().y};
+    std::cout << "Mouse: " << mouse_pos.x << ", " << mouse_pos.y << std::endl;
+    
+    if (input->IsKeyPressed(MK_LBUTTON))
+    {
+        graphics->GetCamera().AdjustRotation(mouse_pos.y * .01f, mouse_pos.x * .01f, 0.f);
+    }
     
     static float accumulator = 0.f;
     // 죽음의 나선형을 방지하기 위해 최대 프레임 시간을 0.25초로 제한
