@@ -192,6 +192,8 @@ bool Graphics::InitScene()
 
     camera_3d_.SetPosition(0.f, 0.f, -2.f);
     camera_3d_.SetProjectionValues(90.f, static_cast<float>(Core::Get()->GetResolution().x) / static_cast<float>(Core::Get()->GetResolution().y), 0.1f, 1000.f);
+
+    shape_ = DirectX::GeometricPrimitive::CreateCube(d3d_device_context_.Get(), 1.f);
     
     return true;
 }
@@ -230,7 +232,7 @@ void Graphics::BeginRenderD3D()
     d3d_device_context_->ClearDepthStencilView(depth_stencil_view_.Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.f, 0);
 
     d3d_device_context_->IASetInputLayout(vertex_shader_.GetInputLayout());
-    d3d_device_context_->IASetPrimitiveTopology(D3D10_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
+    d3d_device_context_->IASetPrimitiveTopology(D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
     d3d_device_context_->RSSetState(rasterizer_state_.Get());
     d3d_device_context_->OMSetDepthStencilState(depth_stencil_state_.Get(), 0);
     d3d_device_context_->PSSetSamplers(0, 1, sampler_state_.GetAddressOf());
@@ -247,10 +249,12 @@ void Graphics::BeginRenderD3D()
     if (!constant_buffer_.ApplyChanges()) return;
     d3d_device_context_->VSSetConstantBuffers(0, 1, constant_buffer_.GetAddressOf());
 
-    d3d_device_context_->PSSetShaderResources(0, 1, texture_.GetAddressOf());
-    d3d_device_context_->IASetVertexBuffers(0, 1, vertex_buffer_.GetAddressOf(), vertex_buffer_.StridePtr(), &offset);
-    d3d_device_context_->IASetIndexBuffer(index_buffer_.Get(), DXGI_FORMAT_R32_UINT, 0);
-    d3d_device_context_->DrawIndexed(index_buffer_.BufferSize(), 0, 0);
+    // d3d_device_context_->PSSetShaderResources(0, 1, texture_.GetAddressOf());
+    // d3d_device_context_->IASetVertexBuffers(0, 1, vertex_buffer_.GetAddressOf(), vertex_buffer_.StridePtr(), &offset);
+    // d3d_device_context_->IASetIndexBuffer(index_buffer_.Get(), DXGI_FORMAT_R32_UINT, 0);
+    // d3d_device_context_->DrawIndexed(index_buffer_.BufferSize(), 0, 0);
+
+    shape_->Draw(world, camera_3d_.GetViewMatrix(), camera_3d_.GetProjectionMatrix(), DirectX::Colors::White, texture_.Get());
 }
 
 void Graphics::EndRenderD3D()

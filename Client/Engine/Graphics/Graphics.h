@@ -18,6 +18,7 @@
 #include "Vertex.h"
 #include "VertexBuffer.h"
 #include "box2d/b2_draw.h"
+#include "DirectXTK/GeometricPrimitive.h"
 #include "DirectXTK/SpriteBatch.h"
 
 struct b2Vec2;
@@ -86,5 +87,7 @@ private:
     Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> texture_;
 
     Camera3D camera_3d_;
+
+    std::unique_ptr<DirectX::GeometricPrimitive> shape_;
     
 };

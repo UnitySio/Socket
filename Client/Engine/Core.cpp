@@ -236,6 +236,36 @@ void Core::Tick(float delta_time)
     {
         graphics->GetCamera().AdjustRotation(mouse_pos.y * .01f, mouse_pos.x * .01f, 0.f);
     }
+
+    float speed = 5.f * delta_time;
+    
+    if (input->IsKeyPressed(0x57)) // W
+    {
+        DirectX::XMVECTOR forward = graphics->GetCamera().GetForwardVector();
+        forward = DirectX::XMVectorScale(forward, speed);
+        graphics->GetCamera().AdjustPosition(forward);
+    }
+
+    if (input->IsKeyPressed(0x41)) // A
+    {
+        DirectX::XMVECTOR left = graphics->GetCamera().GetLeftVector();
+        left = DirectX::XMVectorScale(left, speed);
+        graphics->GetCamera().AdjustPosition(left);
+    }
+
+    if (input->IsKeyPressed(0x53)) // S
+    {
+        DirectX::XMVECTOR backward = graphics->GetCamera().GetBackwardVector();
+        backward = DirectX::XMVectorScale(backward, speed);
+        graphics->GetCamera().AdjustPosition(backward);
+    }
+
+    if (input->IsKeyPressed(0x44)) // D
+    {
+        DirectX::XMVECTOR right = graphics->GetCamera().GetRightVector();
+        right = DirectX::XMVectorScale(right, speed);
+        graphics->GetCamera().AdjustPosition(right);
+    }
     
     static float accumulator = 0.f;
     // 죽음의 나선형을 방지하기 위해 최대 프레임 시간을 0.25초로 제한
