@@ -193,7 +193,7 @@ bool Graphics::InitScene()
     camera_3d_.SetPosition(0.f, 0.f, -2.f);
     camera_3d_.SetProjectionValues(90.f, static_cast<float>(Core::Get()->GetResolution().x) / static_cast<float>(Core::Get()->GetResolution().y), 0.1f, 1000.f);
 
-    shape_ = DirectX::GeometricPrimitive::CreateCube(d3d_device_context_.Get(), 1.f);
+    shape_ = DirectX::GeometricPrimitive::CreateCube(d3d_device_context_.Get(), 1.f, false);
     
     return true;
 }
@@ -243,11 +243,11 @@ void Graphics::BeginRenderD3D()
 
     DirectX::XMMATRIX world = DirectX::XMMatrixIdentity();
     
-    constant_buffer_.data.mat = world * camera_3d_.GetViewMatrix() * camera_3d_.GetProjectionMatrix();
-    constant_buffer_.data.mat = DirectX::XMMatrixTranspose(constant_buffer_.data.mat);
-    
-    if (!constant_buffer_.ApplyChanges()) return;
-    d3d_device_context_->VSSetConstantBuffers(0, 1, constant_buffer_.GetAddressOf());
+    // constant_buffer_.data.mat = world * camera_3d_.GetViewMatrix() * camera_3d_.GetProjectionMatrix();
+    // constant_buffer_.data.mat = DirectX::XMMatrixTranspose(constant_buffer_.data.mat);
+    //
+    // if (!constant_buffer_.ApplyChanges()) return;
+    // d3d_device_context_->VSSetConstantBuffers(0, 1, constant_buffer_.GetAddressOf());
 
     // d3d_device_context_->PSSetShaderResources(0, 1, texture_.GetAddressOf());
     // d3d_device_context_->IASetVertexBuffers(0, 1, vertex_buffer_.GetAddressOf(), vertex_buffer_.StridePtr(), &offset);
