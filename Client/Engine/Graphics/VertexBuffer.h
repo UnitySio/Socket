@@ -13,8 +13,11 @@ public:
 
     HRESULT Init(ID3D11Device* device, const T* data, UINT num_vertices)
     {
+        if (buffer_.Get()) buffer_.Reset();
+        
         buffer_size_ = num_vertices;
-        stride_ = std::make_unique<UINT>(sizeof(T));
+
+        if (!stride_.get()) stride_ = std::make_unique<UINT>(sizeof(T));
 
         D3D11_BUFFER_DESC buffer_desc = {};
         ZeroMemory(&buffer_desc, sizeof(D3D11_BUFFER_DESC));

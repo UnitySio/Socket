@@ -1,11 +1,11 @@
 ﻿#pragma once
 #include <DirectXMath.h>
 
-class PerspectiveCamera
+class Camera3D
 {
 public:
-    PerspectiveCamera();
-    ~PerspectiveCamera() = default;
+    Camera3D();
+    ~Camera3D() = default;
 
     void SetProjectionValues(float fov_degrees, float aspect_ratio, float z_near, float z_far);
     void SetPosition(float x, float y, float z);

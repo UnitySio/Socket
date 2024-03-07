@@ -6,6 +6,8 @@ IndexBuffer::IndexBuffer() : buffer_size_(0)
 
 HRESULT IndexBuffer::Init(ID3D11Device* device, DWORD* data, UINT num_indices)
 {
+    if (buffer_.Get()) buffer_.Reset();
+    
     buffer_size_ = num_indices;
 
     D3D11_BUFFER_DESC buffer = {};

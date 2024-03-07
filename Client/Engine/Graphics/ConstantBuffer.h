@@ -13,6 +13,8 @@ public:
 
     HRESULT Init(ID3D11Device* device, ID3D11DeviceContext* device_context)
     {
+        if (buffer_.Get()) buffer_.Reset();
+        
         context_ = device_context;
 
         D3D11_BUFFER_DESC buffer_desc = {};

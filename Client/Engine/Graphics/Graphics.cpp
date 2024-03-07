@@ -77,14 +77,12 @@ bool Graphics::InitDeviceD3D()
 
 bool Graphics::InitRenderTargetD3D()
 {
-    ID3D11Texture2D* back_buffer;
+    Microsoft::WRL::ComPtr<ID3D11Texture2D> back_buffer;
 
-    HRESULT hr = dxgi_swap_chain_->GetBuffer(0, IID_PPV_ARGS(&back_buffer));
+    HRESULT hr = dxgi_swap_chain_->GetBuffer(0, IID_PPV_ARGS(back_buffer.GetAddressOf()));
     if (FAILED(hr)) return false;
 
-    hr = d3d_device_->CreateRenderTargetView(back_buffer, nullptr, &d3d_render_target_view_);
-    back_buffer->Release();
-    
+    hr = d3d_device_->CreateRenderTargetView(back_buffer.Get(), nullptr, &d3d_render_target_view_);
     if (FAILED(hr)) return false;
 
     D3D11_TEXTURE2D_DESC depth_stencil_desc;
@@ -192,8 +190,8 @@ bool Graphics::InitScene()
     hr = constant_buffer_.Init(d3d_device_.Get(), d3d_device_context_.Get());
     if (FAILED(hr)) return false;
 
-    camera_.SetPosition(0.f, 0.f, -2.f);
-    camera_.SetProjectionValues(90.f, static_cast<float>(Core::Get()->GetResolution().x) / static_cast<float>(Core::Get()->GetResolution().y), 0.1f, 1000.f);
+    camera_3d_.SetPosition(0.f, 0.f, -2.f);
+    camera_3d_.SetProjectionValues(90.f, static_cast<float>(Core::Get()->GetResolution().x) / static_cast<float>(Core::Get()->GetResolution().y), 0.1f, 1000.f);
     
     return true;
 }
@@ -216,14 +214,12 @@ bool Graphics::InitRenderTargetD2D()
         dpi
     );
 
-    IDXGISurface* back_buffer;
+    Microsoft::WRL::ComPtr<IDXGISurface> back_buffer;
 
-    HRESULT hr = dxgi_swap_chain_->GetBuffer(0, IID_PPV_ARGS(&back_buffer));
+    HRESULT hr = dxgi_swap_chain_->GetBuffer(0, IID_PPV_ARGS(back_buffer.GetAddressOf()));
     if (FAILED(hr)) return false;
 
-    hr = d2d_factory_->CreateDxgiSurfaceRenderTarget(back_buffer, &render_target_properties, &d2d_render_target_);
-    back_buffer->Release();
-
+    hr = d2d_factory_->CreateDxgiSurfaceRenderTarget(back_buffer.Get(), &render_target_properties, &d2d_render_target_);
     return SUCCEEDED(hr);
 }
 
@@ -245,7 +241,7 @@ void Graphics::BeginRenderD3D()
 
     DirectX::XMMATRIX world = DirectX::XMMatrixIdentity();
     
-    constant_buffer_.data.mat = world * camera_.GetViewMatrix() * camera_.GetProjectionMatrix();
+    constant_buffer_.data.mat = world * camera_3d_.GetViewMatrix() * camera_3d_.GetProjectionMatrix();
     constant_buffer_.data.mat = DirectX::XMMatrixTranspose(constant_buffer_.data.mat);
     
     if (!constant_buffer_.ApplyChanges()) return;

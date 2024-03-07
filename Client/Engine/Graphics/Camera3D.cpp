@@ -1,6 +1,6 @@
-﻿#include "PerspectiveCamera.h"
+﻿#include "Camera3D.h"
 
-PerspectiveCamera::PerspectiveCamera()
+Camera3D::Camera3D()
 {
     position_ = {0.0f, 0.0f, 0.0f};
     rotation_ = {0.0f, 0.0f, 0.0f};
@@ -9,27 +9,27 @@ PerspectiveCamera::PerspectiveCamera()
     UpdateViewMatrix();
 }
 
-void PerspectiveCamera::SetProjectionValues(float fov_degrees, float aspect_ratio, float z_near, float z_far)
+void Camera3D::SetProjectionValues(float fov_degrees, float aspect_ratio, float z_near, float z_far)
 {
     const float fov_radians = (fov_degrees / 360.0f) * DirectX::XM_2PI;
     projection_matrix_ = DirectX::XMMatrixPerspectiveFovLH(fov_radians, aspect_ratio, z_near, z_far);
 }
 
-void PerspectiveCamera::SetPosition(float x, float y, float z)
+void Camera3D::SetPosition(float x, float y, float z)
 {
     position_ = {x, y, z};
     position_vector_ = DirectX::XMLoadFloat3(&position_);
     UpdateViewMatrix();
 }
 
-void PerspectiveCamera::SetPosition(const DirectX::XMVECTOR& position)
+void Camera3D::SetPosition(const DirectX::XMVECTOR& position)
 {
     DirectX::XMStoreFloat3(&position_, position);
     position_vector_ = position;
     UpdateViewMatrix();
 }
 
-void PerspectiveCamera::AdjustPosition(float x, float y, float z)
+void Camera3D::AdjustPosition(float x, float y, float z)
 {
     position_.x += x;
     position_.y += y;
@@ -38,28 +38,28 @@ void PerspectiveCamera::AdjustPosition(float x, float y, float z)
     UpdateViewMatrix();
 }
 
-void PerspectiveCamera::AdjustPosition(const DirectX::XMVECTOR& position)
+void Camera3D::AdjustPosition(const DirectX::XMVECTOR& position)
 {
     position_vector_ = DirectX::XMVectorAdd(position_vector_, position);
     DirectX::XMStoreFloat3(&position_, position_vector_);
     UpdateViewMatrix();
 }
 
-void PerspectiveCamera::SetRotation(float x, float y, float z)
+void Camera3D::SetRotation(float x, float y, float z)
 {
     rotation_ = {x, y, z};
     rotation_vector_ = DirectX::XMLoadFloat3(&rotation_);
     UpdateViewMatrix();
 }
 
-void PerspectiveCamera::SetRotation(const DirectX::XMVECTOR& rotation)
+void Camera3D::SetRotation(const DirectX::XMVECTOR& rotation)
 {
     rotation_vector_ = rotation;
     DirectX::XMStoreFloat3(&rotation_, rotation);
     UpdateViewMatrix();
 }
 
-void PerspectiveCamera::AdjustRotation(float x, float y, float z)
+void Camera3D::AdjustRotation(float x, float y, float z)
 {
     rotation_.x += x;
     rotation_.y += y;
@@ -68,14 +68,14 @@ void PerspectiveCamera::AdjustRotation(float x, float y, float z)
     UpdateViewMatrix();
 }
 
-void PerspectiveCamera::AdjustRotation(const DirectX::XMVECTOR& rotation)
+void Camera3D::AdjustRotation(const DirectX::XMVECTOR& rotation)
 {
     rotation_vector_ = DirectX::XMVectorAdd(rotation_vector_, rotation);
     DirectX::XMStoreFloat3(&rotation_, rotation_vector_);
     UpdateViewMatrix();
 }
 
-void PerspectiveCamera::SetLookAtPos(DirectX::XMFLOAT3 look_at_pos)
+void Camera3D::SetLookAtPos(DirectX::XMFLOAT3 look_at_pos)
 {
     if (look_at_pos.x == position_.x && look_at_pos.y == position_.y && look_at_pos.z == position_.z) return;
 
@@ -101,7 +101,7 @@ void PerspectiveCamera::SetLookAtPos(DirectX::XMFLOAT3 look_at_pos)
     SetRotation(pitch, yaw, 0.f);
 }
 
-void PerspectiveCamera::UpdateViewMatrix()
+void Camera3D::UpdateViewMatrix()
 {
     const DirectX::XMMATRIX rot_matrix = DirectX::XMMatrixRotationRollPitchYaw(rotation_.x, rotation_.y, rotation_.z);
     DirectX::XMVECTOR target = DirectX::XMVector3TransformCoord(DEFAULT_FORWARD_VECTOR, rot_matrix);

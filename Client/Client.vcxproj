@@ -153,7 +153,7 @@
     <ClInclude Include="Engine\Graphics\ConstantBufferTypes.h" />
     <ClInclude Include="Engine\Graphics\Graphics.h" />
     <ClInclude Include="Engine\Graphics\IndexBuffer.h" />
-    <ClInclude Include="Engine\Graphics\PerspectiveCamera.h" />
+    <ClInclude Include="Engine\Graphics\Camera3D.h" />
     <ClInclude Include="Engine\Graphics\Vertex.h" />
     <ClInclude Include="Engine\Graphics\Shaders.h" />
     <ClInclude Include="Engine\Graphics\VertexBuffer.h" />
@@ -261,7 +261,7 @@
     <ClCompile Include="Engine\EventManager.cpp" />
     <ClCompile Include="Engine\Graphics\Graphics.cpp" />
     <ClCompile Include="Engine\Graphics\IndexBuffer.cpp" />
-    <ClCompile Include="Engine\Graphics\PerspectiveCamera.cpp" />
+    <ClCompile Include="Engine\Graphics\Camera3D.cpp" />
     <ClCompile Include="Engine\Graphics\Shaders.cpp" />
     <ClCompile Include="Engine\Input\InputManager.cpp" />
     <ClCompile Include="Engine\Level\Level.cpp" />

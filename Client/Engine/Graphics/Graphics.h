@@ -13,7 +13,7 @@
 #include "ConstantBuffer.h"
 #include "ConstantBufferTypes.h"
 #include "IndexBuffer.h"
-#include "PerspectiveCamera.h"
+#include "Camera3D.h"
 #include "Shaders.h"
 #include "Vertex.h"
 #include "VertexBuffer.h"
@@ -49,7 +49,7 @@ public:
     inline ID3D11DeviceContext* GetD3DDeviceContext() const { return d3d_device_context_.Get(); }
     inline void BeginRenderD2D() const { d2d_render_target_->BeginDraw(); }
     inline void EndRenderD2D() const { d2d_render_target_->EndDraw(); }
-    inline PerspectiveCamera& GetCamera() { return camera_; }
+    inline Camera3D& GetCamera() { return camera_3d_; }
 
 private:
     bool InitDeviceD3D();
@@ -85,6 +85,6 @@ private:
     Microsoft::WRL::ComPtr<ID3D11SamplerState> sampler_state_;
     Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> texture_;
 
-    PerspectiveCamera camera_;
+    Camera3D camera_3d_;
     
 };
