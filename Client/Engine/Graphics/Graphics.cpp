@@ -190,7 +190,7 @@ bool Graphics::InitScene()
     hr = constant_buffer_.Init(d3d_device_.Get(), d3d_device_context_.Get());
     if (FAILED(hr)) return false;
 
-    camera_3d_.SetPosition(0.f, 0.f, -2.f);
+    camera_3d_.SetPosition(0.f, 1.f, -2.f);
     camera_3d_.SetProjectionValues(90.f, static_cast<float>(Core::Get()->GetResolution().x) / static_cast<float>(Core::Get()->GetResolution().y), 0.1f, 1000.f);
 
     shape_ = DirectX::GeometricPrimitive::CreateCube(d3d_device_context_.Get(), 1.f, false);
