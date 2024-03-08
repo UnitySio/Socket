@@ -255,21 +255,21 @@ void Graphics::BeginRenderD3D()
     d3d_device_context_->PSSetShader(pixel_shader_.GetShader(), nullptr, 0);
 
     // constexpr UINT offset = 0;
-    //
-    // DirectX::XMMATRIX world = DirectX::XMMatrixIdentity();
-    //
-    // constant_buffer_.data.mat = world * camera_3d_.GetViewMatrix() * camera_3d_.GetProjectionMatrix();
-    // constant_buffer_.data.mat = DirectX::XMMatrixTranspose(constant_buffer_.data.mat);
-    //
-    // if (!constant_buffer_.ApplyChanges()) return;
-    // d3d_device_context_->VSSetConstantBuffers(0, 1, constant_buffer_.GetAddressOf());
+    
+    DirectX::XMMATRIX world = DirectX::XMMatrixIdentity();
+    
+    constant_buffer_.data.mat = world * camera_3d_.GetViewMatrix() * camera_3d_.GetProjectionMatrix();
+    constant_buffer_.data.mat = DirectX::XMMatrixTranspose(constant_buffer_.data.mat);
+    
+    if (!constant_buffer_.ApplyChanges()) return;
+    d3d_device_context_->VSSetConstantBuffers(0, 1, constant_buffer_.GetAddressOf());
     //
     // d3d_device_context_->PSSetShaderResources(0, 1, texture_.GetAddressOf());
     // d3d_device_context_->IASetVertexBuffers(0, 1, vertex_buffer_.GetAddressOf(), vertex_buffer_.StridePtr(), &offset);
     // d3d_device_context_->IASetIndexBuffer(index_buffer_.Get(), DXGI_FORMAT_R32_UINT, 0);
     // d3d_device_context_->DrawIndexed(index_buffer_.BufferSize(), 0, 0);
 
-    // shape_->Draw(world, camera_3d_.GetViewMatrix(), camera_3d_.GetProjectionMatrix(), DirectX::Colors::White, texture_.Get());
+    shape_->Draw(world, camera_3d_.GetViewMatrix(), camera_3d_.GetProjectionMatrix(), DirectX::Colors::White, texture_.Get());
 
     // 2D
     d3d_device_context_->IASetInputLayout(vertex_shader_2d_.GetInputLayout());

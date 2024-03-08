@@ -1,3 +1,5 @@
+#pragma pack_matrix(row_major)
+
 cbuffer mycBuffer : register(b0)
 {
     float4x4 mat;
