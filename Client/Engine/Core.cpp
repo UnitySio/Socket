@@ -289,5 +289,5 @@ void Core::Tick(float delta_time)
 
 void Core::Render()
 {
-    World::Get()->Render(); 
+    World::Get()->Render();
 }

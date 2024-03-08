@@ -10,11 +10,13 @@
 #include <dwrite.h>
 #include <wrl/client.h>
 
+#include "Camera2D.h"
 #include "ConstantBuffer.h"
 #include "ConstantBufferTypes.h"
 #include "IndexBuffer.h"
 #include "Camera3D.h"
 #include "Shaders.h"
+#include "Sprite.h"
 #include "Vertex.h"
 #include "VertexBuffer.h"
 #include "box2d/b2_draw.h"
@@ -71,11 +73,16 @@ private:
     Microsoft::WRL::ComPtr<ID2D1RenderTarget> d2d_render_target_;
 
     VertexShader vertex_shader_;
+    VertexShader vertex_shader_2d_;
+    
     PixelShader pixel_shader_;
+    PixelShader pixel_shader_2d_;
 
     VertexBuffer<Vertex> vertex_buffer_;
     IndexBuffer index_buffer_;
+    
     ConstantBuffer<CB_VS_VertexShader> constant_buffer_;
+    ConstantBuffer<CB_VS_VertexShader2D> constant_buffer_2d_;
 
     Microsoft::WRL::ComPtr<ID3D11DepthStencilView> depth_stencil_view_;
     Microsoft::WRL::ComPtr<ID3D11Texture2D> depth_stencil_buffer_;
@@ -87,7 +94,9 @@ private:
     Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> texture_;
 
     Camera3D camera_3d_;
+    Camera2D camera_2d_;
 
     std::unique_ptr<DirectX::GeometricPrimitive> shape_;
+    Sprite sprite_;
     
 };
