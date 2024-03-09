@@ -1,3 +1,8 @@
+cbuffer constant : register(b0)
+{
+	float alpha;
+};
+
 struct PS_INPUT
 {
 	float4 position : SV_POSITION;
@@ -10,5 +15,5 @@ SamplerState sampler_ : register(s0);
 float4 main(PS_INPUT input) : SV_TARGET
 {
 	float3 color = texture_.Sample(sampler_, input.texcoord);
-	return float4(color, 1.f);
+	return float4(color, alpha);
 }

@@ -10,7 +10,7 @@ Sprite::Sprite()
 }
 
 bool Sprite::Init(ID3D11Device* device, ID3D11DeviceContext* device_context, float width, float height,
-    const std::wstring& kPath, ConstantBuffer<CB_VS_VertexShader2D>& constant_buffer)
+    const std::wstring& kPath, ConstantBuffer<ConstantVertexBuffer2D>& constant_buffer)
 {
     device_context_ = device_context;
     if (!device_context_) return false;

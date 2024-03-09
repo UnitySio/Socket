@@ -1,12 +1,22 @@
 ﻿#pragma once
 #include <DirectXMath.h>
 
-struct CB_VS_VertexShader
+struct ConstantVertexBuffer3D
 {
     DirectX::XMMATRIX mat;
 };
 
-struct CB_VS_VertexShader2D
+struct ConstantVertexBuffer2D
 {
     DirectX::XMMATRIX mat;
+};
+
+struct ConstantPixelBuffer3D
+{
+    float alpha = 1.f;
+};
+
+struct ConstantPixelBuffer2D
+{
+    float alpha = 1.f;
 };

@@ -15,7 +15,7 @@ public:
     Sprite();
     ~Sprite() = default;
 
-    bool Init(ID3D11Device* device, ID3D11DeviceContext* device_context, float width, float height, const std::wstring& kPath, ConstantBuffer<CB_VS_VertexShader2D>& constant_buffer);
+    bool Init(ID3D11Device* device, ID3D11DeviceContext* device_context, float width, float height, const std::wstring& kPath, ConstantBuffer<ConstantVertexBuffer2D>& constant_buffer);
     
     void Draw(DirectX::XMMATRIX orthographic_matrix);
     void SetPosition(float x, float y, float z);
@@ -38,7 +38,7 @@ private:
 
     ID3D11DeviceContext* device_context_;
     
-    ConstantBuffer<CB_VS_VertexShader2D>* constant_buffer_;
+    ConstantBuffer<ConstantVertexBuffer2D>* constant_buffer_;
 
     Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> texture_view_;
 
