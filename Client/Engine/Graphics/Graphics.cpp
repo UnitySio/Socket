@@ -194,28 +194,7 @@ bool Graphics::InitShaders()
 
 bool Graphics::InitScene()
 {
-    Vertex vertices[] = {
-        {-.5f, -.5f, 0.f, 0.f, 1.f},
-        {-.5f, .5f, 0.f, 0.f, 0.f},
-        {.5f, .5f, 0.f, 1.f, 0.f},
-        {.5f, -.5f, 0.f, 1.f, 1.f}
-    };
-
-    DWORD indices[] = {
-        0, 1, 2,
-        0, 2, 3
-    };
-
-    HRESULT hr = vertex_buffer_.Init(d3d_device_.Get(), vertices, ARRAYSIZE(vertices));
-    if (FAILED(hr)) return false;
-
-    hr = index_buffer_.Init(d3d_device_.Get(), indices, ARRAYSIZE(indices));
-    if (FAILED(hr)) return false;
-
-    hr = DirectX::CreateWICTextureFromFile(d3d_device_.Get(), L".\\box.png", nullptr, texture_.GetAddressOf());
-    if (FAILED(hr)) return false;
-
-    hr = constant_buffer_.Init(d3d_device_.Get(), d3d_device_context_.Get());
+    HRESULT hr = constant_buffer_.Init(d3d_device_.Get(), d3d_device_context_.Get());
     if (FAILED(hr)) return false;
 
     hr = constant_pixel_buffer_.Init(d3d_device_.Get(), d3d_device_context_.Get());
@@ -227,14 +206,12 @@ bool Graphics::InitScene()
     hr = constant_pixel_buffer_2d_.Init(d3d_device_.Get(), d3d_device_context_.Get());
     if (FAILED(hr)) return false;
 
-    if (!sprite_.Init(d3d_device_.Get(), d3d_device_context_.Get(), 512.f, 64.f, L".\\Temp.png", constant_buffer_2d_)) return false;
+    if (!sprite_.Init(d3d_device_.Get(), d3d_device_context_.Get(), L".\\Temp.png", constant_buffer_2d_, constant_pixel_buffer_2d_)) return false;
 
     camera_3d_.SetPosition(0.f, 1.f, -2.f);
     camera_3d_.SetProjectionValues(90.f, static_cast<float>(Core::Get()->GetResolution().x) / static_cast<float>(Core::Get()->GetResolution().y), 0.1f, 1000.f);
 
-    camera_2d_.SetProjectionValues(static_cast<float>(Core::Get()->GetResolution().x), static_cast<float>(Core::Get()->GetResolution().y), 0.f, 1.f);
-
-    shape_ = DirectX::GeometricPrimitive::CreateCube(d3d_device_context_.Get(), 1.f, false);
+    camera_2d_.SetProjectionValues(384.f, .3f, 1000.f);
     
     return true;
 }
@@ -268,7 +245,13 @@ bool Graphics::InitRenderTargetD2D()
 
 void Graphics::BeginRenderD3D()
 {
-    constexpr float clear_color[] = {0.f, 0.f, 0.f, 1.f};
+    constexpr float clear_color[4] = {
+        49.f / 255.f,
+        77.f / 255.f,
+        121.f / 255.f,
+        1.f
+    };
+    
     d3d_device_context_->ClearRenderTargetView(d3d_render_target_view_.Get(), clear_color);
     d3d_device_context_->ClearDepthStencilView(depth_stencil_view_.Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.f, 0);
 
@@ -281,37 +264,11 @@ void Graphics::BeginRenderD3D()
     d3d_device_context_->VSSetShader(vertex_shader_.GetShader(), nullptr, 0);
     d3d_device_context_->PSSetShader(pixel_shader_.GetShader(), nullptr, 0);
 
-    constexpr UINT offset = 0;
-    
-    DirectX::XMMATRIX world = DirectX::XMMatrixIdentity();
-    
-    constant_buffer_.data.mat = world * camera_3d_.GetViewMatrix() * camera_3d_.GetProjectionMatrix();
-    constant_buffer_.data.mat = DirectX::XMMatrixTranspose(constant_buffer_.data.mat);
-
-    constant_pixel_buffer_.data.alpha = .5f;
-    
-    if (!constant_buffer_.ApplyChanges()) return;
-    d3d_device_context_->VSSetConstantBuffers(0, 1, constant_buffer_.GetAddressOf());
-
-    if (!constant_pixel_buffer_.ApplyChanges()) return;
-    d3d_device_context_->PSSetConstantBuffers(0, 1, constant_pixel_buffer_.GetAddressOf());
-    
-    d3d_device_context_->PSSetShaderResources(0, 1, texture_.GetAddressOf());
-    d3d_device_context_->IASetVertexBuffers(0, 1, vertex_buffer_.GetAddressOf(), vertex_buffer_.StridePtr(), &offset);
-    d3d_device_context_->IASetIndexBuffer(index_buffer_.Get(), DXGI_FORMAT_R32_UINT, 0);
-    d3d_device_context_->DrawIndexed(index_buffer_.BufferSize(), 0, 0);
-
-    // shape_->Draw(world, camera_3d_.GetViewMatrix(), camera_3d_.GetProjectionMatrix(), DirectX::Colors::White, texture_.Get());
-
-    constant_pixel_buffer_2d_.data.alpha = 1.f;
-
-    if (!constant_pixel_buffer_2d_.ApplyChanges()) return;
-    d3d_device_context_->PSSetConstantBuffers(0, 1, constant_pixel_buffer_2d_.GetAddressOf());
-
     // 2D
     d3d_device_context_->IASetInputLayout(vertex_shader_2d_.GetInputLayout());
     d3d_device_context_->VSSetShader(vertex_shader_2d_.GetShader(), nullptr, 0);
     d3d_device_context_->PSSetShader(pixel_shader_2d_.GetShader(), nullptr, 0);
+    sprite_.AdjustRotation(.01f, .01f, .01f);
     sprite_.Draw(camera_2d_.GetWorldMatrix() * camera_2d_.GetOrthographicMatrix());
 }
 
@@ -319,15 +276,6 @@ void Graphics::EndRenderD3D()
 {
     if (dxgi_swap_chain_->Present(1, DXGI_PRESENT_TEST) == DXGI_STATUS_OCCLUDED) return;
     dxgi_swap_chain_->Present(1, 0);
-}
-
-void Graphics::Resize()
-{
-    if (!d3d_device_context_) return;
-    d3d_device_context_->OMSetRenderTargets(0, nullptr, nullptr);
-    d3d_render_target_view_->Release();
-
-    dxgi_swap_chain_->ResizeBuffers(0, 0, 0, DXGI_FORMAT_R8G8B8A8_UNORM, 0);
 }
 
 void Graphics::DrawLine(b2Vec2 start, b2Vec2 end, b2Color color)

@@ -9,10 +9,10 @@ Camera3D::Camera3D()
     UpdateViewMatrix();
 }
 
-void Camera3D::SetProjectionValues(float fov_degrees, float aspect_ratio, float z_near, float z_far)
+void Camera3D::SetProjectionValues(float fov_degrees, float aspect_ratio, float near, float far)
 {
     const float fov_radians = (fov_degrees / 360.0f) * DirectX::XM_2PI;
-    projection_matrix_ = DirectX::XMMatrixPerspectiveFovLH(fov_radians, aspect_ratio, z_near, z_far);
+    projection_matrix_ = DirectX::XMMatrixPerspectiveFovLH(fov_radians, aspect_ratio, near, far);
 }
 
 void Camera3D::SetPosition(float x, float y, float z)

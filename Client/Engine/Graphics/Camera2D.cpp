@@ -1,5 +1,7 @@
 ﻿#include "Camera2D.h"
 
+#include "Core.h"
+
 Camera2D::Camera2D()
 {
     position_ = {0.0f, 0.0f, 0.0f};
@@ -9,9 +11,17 @@ Camera2D::Camera2D()
     UpdateMatrix();
 }
 
-void Camera2D::SetProjectionValues(float width, float height, float near_z, float far_z)
+void Camera2D::SetProjectionValues(float size, float near_z, float far_z)
 {
-    orthographic_matrix_ = DirectX::XMMatrixOrthographicOffCenterLH(0.f, width, height, 0.f, near_z, far_z);
+    Core* core = Core::Get();
+
+    const float width = static_cast<float>(core->GetResolution().x);
+    const float height = static_cast<float>(core->GetResolution().y);
+    const float aspect_ratio = width / height;
+    const float left = -size * aspect_ratio;
+    const float right = size * aspect_ratio;
+
+    orthographic_matrix_ = DirectX::XMMatrixOrthographicOffCenterLH(left, right, -size, size, near_z, far_z);
 }
 
 void Camera2D::SetPosition(float x, float y, float z)

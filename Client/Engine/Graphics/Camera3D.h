@@ -7,7 +7,7 @@ public:
     Camera3D();
     ~Camera3D() = default;
 
-    void SetProjectionValues(float fov_degrees, float aspect_ratio, float z_near, float z_far);
+    void SetProjectionValues(float fov_degrees, float aspect_ratio, float near, float far);
     void SetPosition(float x, float y, float z);
     void SetPosition(const DirectX::XMVECTOR& position);
     void AdjustPosition(float x, float y, float z);

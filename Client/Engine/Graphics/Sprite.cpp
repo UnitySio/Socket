@@ -9,16 +9,26 @@ Sprite::Sprite()
     world_matrix_ = DirectX::XMMatrixIdentity();
 }
 
-bool Sprite::Init(ID3D11Device* device, ID3D11DeviceContext* device_context, float width, float height,
-    const std::wstring& kPath, ConstantBuffer<ConstantVertexBuffer2D>& constant_buffer)
+bool Sprite::Init(ID3D11Device* device, ID3D11DeviceContext* device_context,
+                  const std::wstring& kPath, ConstantBuffer<ConstantVertexBuffer2D>& constant_buffer,
+                  ConstantBuffer<ConstantPixelBuffer2D>& constant_pixel_buffer)
 {
     device_context_ = device_context;
     if (!device_context_) return false;
 
     constant_buffer_ = &constant_buffer;
+    constant_pixel_buffer_ = &constant_pixel_buffer;
 
-    HRESULT hr = DirectX::CreateWICTextureFromFile(device, kPath.c_str(), nullptr, texture_view_.GetAddressOf());
+    HRESULT hr = DirectX::CreateWICTextureFromFile(device, kPath.c_str(), texture_.GetAddressOf(), texture_view_.GetAddressOf());
     if (FAILED(hr)) return false;
+
+    Microsoft::WRL::ComPtr<ID3D11Texture2D> texture;
+
+    texture_->QueryInterface<ID3D11Texture2D>(texture.GetAddressOf());
+    if (!texture) return false;
+
+    D3D11_TEXTURE2D_DESC texture_desc;
+    texture->GetDesc(&texture_desc);
 
     std::vector<Vertex2D> vertices =
     {
@@ -42,7 +52,7 @@ bool Sprite::Init(ID3D11Device* device, ID3D11DeviceContext* device_context, flo
 
     SetPosition(0.f, 0.f, 0.f);
     SetRotation(0.f, 0.f, 0.f);
-    SetScale(width, height);
+    SetScale(texture_desc.Width, texture_desc.Height);
 
     return true;
 }
@@ -53,6 +63,9 @@ void Sprite::Draw(DirectX::XMMATRIX orthographic_matrix)
     device_context_->VSSetConstantBuffers(0, 1, constant_buffer_->GetAddressOf());
     constant_buffer_->data.mat = wvp_matrix;
     constant_buffer_->ApplyChanges();
+
+    device_context_->PSSetConstantBuffers(0, 1, constant_pixel_buffer_->GetAddressOf());
+    constant_pixel_buffer_->ApplyChanges();
 
     device_context_->PSSetShaderResources(0, 1, texture_view_.GetAddressOf());
 

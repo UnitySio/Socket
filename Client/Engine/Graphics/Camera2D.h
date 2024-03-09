@@ -7,7 +7,7 @@ public:
     Camera2D();
     ~Camera2D() = default;
 
-    void SetProjectionValues(float width, float height, float near_z, float far_z);
+    void SetProjectionValues(float size, float near_z, float far_z);
     void SetPosition(float x, float y, float z);
     void SetPosition(const DirectX::XMVECTOR& position);
     void AdjustPosition(float x, float y, float z);

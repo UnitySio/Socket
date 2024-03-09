@@ -35,7 +35,6 @@ public:
     
     void BeginRenderD3D();
     void EndRenderD3D();
-    void Resize();
 
     void DrawLine(b2Vec2 start, b2Vec2 end, b2Color color = b2Color(1.f, 1.f, 1.f));
     void DrawBox(b2Vec2 center, b2Vec2 size, float angle, b2Color color = b2Color(1.f, 1.f, 1.f));
@@ -53,6 +52,7 @@ public:
     inline void BeginRenderD2D() const { d2d_render_target_->BeginDraw(); }
     inline void EndRenderD2D() const { d2d_render_target_->EndDraw(); }
     inline Camera3D& GetCamera() { return camera_3d_; }
+    inline Camera2D& GetCamera2D() { return camera_2d_; }
 
 private:
     bool InitDeviceD3D();
@@ -77,9 +77,6 @@ private:
     
     PixelShader pixel_shader_;
     PixelShader pixel_shader_2d_;
-
-    VertexBuffer<Vertex> vertex_buffer_;
-    IndexBuffer index_buffer_;
     
     ConstantBuffer<ConstantVertexBuffer3D> constant_buffer_;
     ConstantBuffer<ConstantPixelBuffer3D> constant_pixel_buffer_;
@@ -94,12 +91,10 @@ private:
     Microsoft::WRL::ComPtr<ID3D11BlendState> blend_state_;
 
     Microsoft::WRL::ComPtr<ID3D11SamplerState> sampler_state_;
-    Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> texture_;
 
     Camera3D camera_3d_;
     Camera2D camera_2d_;
 
-    std::unique_ptr<DirectX::GeometricPrimitive> shape_;
     Sprite sprite_;
     
 };

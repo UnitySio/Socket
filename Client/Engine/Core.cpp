@@ -138,17 +138,11 @@ LRESULT Core::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
     if (message == WM_GETMINMAXINFO)
     {
-        // reinterpret_cast<MINMAXINFO*>(lParam)->ptMinTrackSize.x = window_area_.right - window_area_.left;
-        // reinterpret_cast<MINMAXINFO*>(lParam)->ptMinTrackSize.y = window_area_.bottom - window_area_.top;
-        // reinterpret_cast<MINMAXINFO*>(lParam)->ptMaxTrackSize.x = window_area_.right - window_area_.left;
-        // reinterpret_cast<MINMAXINFO*>(lParam)->ptMaxTrackSize.y = window_area_.bottom - window_area_.top;
+        reinterpret_cast<MINMAXINFO*>(lParam)->ptMinTrackSize.x = window_area_.right - window_area_.left;
+        reinterpret_cast<MINMAXINFO*>(lParam)->ptMinTrackSize.y = window_area_.bottom - window_area_.top;
+        reinterpret_cast<MINMAXINFO*>(lParam)->ptMaxTrackSize.x = window_area_.right - window_area_.left;
+        reinterpret_cast<MINMAXINFO*>(lParam)->ptMaxTrackSize.y = window_area_.bottom - window_area_.top;
 
-        return 0;
-    }
-
-    if (message == WM_SIZE)
-    {
-        Graphics::Get()->Resize();
         return 0;
     }
 
@@ -224,48 +218,6 @@ void Core::MainLogic()
 void Core::Tick(float delta_time)
 {
     InputManager::Get()->Tick();
-
-    // 카메라 테스트 코드
-    InputManager* input = InputManager::Get();
-    Graphics* graphics = Graphics::Get();
-
-    Vector mouse_pos = {input->GetMouseDelta().x, input->GetMouseDelta().y};
-    std::cout << "Mouse: " << mouse_pos.x << ", " << mouse_pos.y << std::endl;
-    
-    if (input->IsKeyPressed(MK_LBUTTON))
-    {
-        graphics->GetCamera().AdjustRotation(mouse_pos.y * .01f, mouse_pos.x * .01f, 0.f);
-    }
-
-    float speed = 5.f * delta_time;
-    
-    if (input->IsKeyPressed(0x57)) // W
-    {
-        DirectX::XMVECTOR forward = graphics->GetCamera().GetForwardVector();
-        forward = DirectX::XMVectorScale(forward, speed);
-        graphics->GetCamera().AdjustPosition(forward);
-    }
-
-    if (input->IsKeyPressed(0x41)) // A
-    {
-        DirectX::XMVECTOR left = graphics->GetCamera().GetLeftVector();
-        left = DirectX::XMVectorScale(left, speed);
-        graphics->GetCamera().AdjustPosition(left);
-    }
-
-    if (input->IsKeyPressed(0x53)) // S
-    {
-        DirectX::XMVECTOR backward = graphics->GetCamera().GetBackwardVector();
-        backward = DirectX::XMVectorScale(backward, speed);
-        graphics->GetCamera().AdjustPosition(backward);
-    }
-
-    if (input->IsKeyPressed(0x44)) // D
-    {
-        DirectX::XMVECTOR right = graphics->GetCamera().GetRightVector();
-        right = DirectX::XMVectorScale(right, speed);
-        graphics->GetCamera().AdjustPosition(right);
-    }
     
     static float accumulator = 0.f;
     // 죽음의 나선형을 방지하기 위해 최대 프레임 시간을 0.25초로 제한
@@ -284,7 +236,31 @@ void Core::Tick(float delta_time)
     
     World::Get()->Tick(delta_time);
 
-    std::cout << "Time: " << Time::RealTime() << std::endl;
+    // Camera 2D 테스트
+    InputManager* input = InputManager::Get();
+    Graphics* gfx = Graphics::Get();
+    
+    static float size = 384.f;
+
+    if (input->IsKeyPressed(0x57))
+    {
+        size += 1.f;
+        size = min(size, 1000.f);
+        
+        std::cout << "Size: " << size << std::endl;
+
+        gfx->GetCamera2D().SetProjectionValues(size, .3f, 1000.f);
+    }
+    
+    if (input->IsKeyPressed(0x53))
+    {
+        size -= 1.f;
+        size = max(size, 1.f);
+        
+        std::cout << "Size: " << size << std::endl;
+        
+        gfx->GetCamera2D().SetProjectionValues(size, .3f, 1000.f);
+    }
 }
 
 void Core::Render()
