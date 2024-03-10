@@ -192,7 +192,7 @@ void Core::MainLogic()
 {
     Time::Get()->Tick();
 
-    Graphics::Get()->BeginRenderD3D();
+    Graphics::Get()->BeginFrame3D();
 
     ImGui_ImplDX11_NewFrame();
     ImGui_ImplWin32_NewFrame();
@@ -200,16 +200,16 @@ void Core::MainLogic()
 
     Tick(Time::DeltaTime());
 
-    Graphics::Get()->BeginRenderD2D();
+    Graphics::Get()->BeginFrame2D();
 
     Render();
 
-    Graphics::Get()->EndRenderD2D();
+    Graphics::Get()->EndFrame2D();
 
     ImGui::Render();
     ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
 
-    Graphics::Get()->EndRenderD3D();
+    Graphics::Get()->EndFrame3D();
 
     World::Get()->Destroy();
     EventManager::Get()->Tick();
@@ -240,24 +240,24 @@ void Core::Tick(float delta_time)
     InputManager* input = InputManager::Get();
     Graphics* gfx = Graphics::Get();
     
-    static float size = 384.f;
+    static float size = 5.f;
 
-    if (input->IsKeyPressed(0x57))
+    if (input->IsKeyDown(0x57))
     {
         size += 1.f;
         size = min(size, 1000.f);
         
-        std::cout << "Size: " << size << std::endl;
+        std::cout << "Camera Size: " << size << std::endl;
 
         gfx->GetCamera2D().SetProjectionValues(size, .3f, 1000.f);
     }
     
-    if (input->IsKeyPressed(0x53))
+    if (input->IsKeyDown(0x53))
     {
         size -= 1.f;
         size = max(size, 1.f);
         
-        std::cout << "Size: " << size << std::endl;
+        std::cout << "Camera Size: " << size << std::endl;
         
         gfx->GetCamera2D().SetProjectionValues(size, .3f, 1000.f);
     }

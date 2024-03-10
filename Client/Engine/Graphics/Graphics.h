@@ -33,8 +33,8 @@ public:
 
     bool Init();
     
-    void BeginRenderD3D();
-    void EndRenderD3D();
+    void BeginFrame3D();
+    void EndFrame3D();
 
     void DrawLine(b2Vec2 start, b2Vec2 end, b2Color color = b2Color(1.f, 1.f, 1.f));
     void DrawBox(b2Vec2 center, b2Vec2 size, float angle, b2Color color = b2Color(1.f, 1.f, 1.f));
@@ -49,8 +49,8 @@ public:
 
     inline ID3D11Device* GetD3DDevice() const { return d3d_device_.Get(); }
     inline ID3D11DeviceContext* GetD3DDeviceContext() const { return d3d_device_context_.Get(); }
-    inline void BeginRenderD2D() const { d2d_render_target_->BeginDraw(); }
-    inline void EndRenderD2D() const { d2d_render_target_->EndDraw(); }
+    inline void BeginFrame2D() const { d2d_render_target_->BeginDraw(); }
+    inline void EndFrame2D() const { d2d_render_target_->EndDraw(); }
     inline Camera3D& GetCamera() { return camera_3d_; }
     inline Camera2D& GetCamera2D() { return camera_2d_; }
 

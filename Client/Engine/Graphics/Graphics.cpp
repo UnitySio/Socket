@@ -9,9 +9,6 @@
 
 #include <wincodec.h>
 
-#include "Vertex.h"
-#include "DirectXTK/WICTextureLoader.h"
-
 Graphics::Graphics() :
     d3d_device_(nullptr),
     d3d_device_context_(nullptr),
@@ -155,7 +152,7 @@ bool Graphics::InitRenderTargetD3D()
 
     D3D11_SAMPLER_DESC sampler_desc;
     ZeroMemory(&sampler_desc, sizeof(D3D11_SAMPLER_DESC));
-    sampler_desc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
+    sampler_desc.Filter = D3D11_FILTER_MIN_MAG_MIP_POINT; // D3D11_FILTER_MIN_MAG_MIP_LINEAR;
     sampler_desc.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
     sampler_desc.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
     sampler_desc.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
@@ -206,12 +203,12 @@ bool Graphics::InitScene()
     hr = constant_pixel_buffer_2d_.Init(d3d_device_.Get(), d3d_device_context_.Get());
     if (FAILED(hr)) return false;
 
-    if (!sprite_.Init(d3d_device_.Get(), d3d_device_context_.Get(), L".\\Temp.png", constant_buffer_2d_, constant_pixel_buffer_2d_)) return false;
+    if (!sprite_.Init(d3d_device_.Get(), d3d_device_context_.Get(), L".\\Temp.png", 32.f, constant_buffer_2d_, constant_pixel_buffer_2d_)) return false;
 
     camera_3d_.SetPosition(0.f, 1.f, -2.f);
     camera_3d_.SetProjectionValues(90.f, static_cast<float>(Core::Get()->GetResolution().x) / static_cast<float>(Core::Get()->GetResolution().y), 0.1f, 1000.f);
 
-    camera_2d_.SetProjectionValues(384.f, .3f, 1000.f);
+    camera_2d_.SetProjectionValues(5.f, .3f, 1000.f);
     
     return true;
 }
@@ -243,7 +240,7 @@ bool Graphics::InitRenderTargetD2D()
     return SUCCEEDED(hr);
 }
 
-void Graphics::BeginRenderD3D()
+void Graphics::BeginFrame3D()
 {
     constexpr float clear_color[4] = {
         49.f / 255.f,
@@ -268,11 +265,12 @@ void Graphics::BeginRenderD3D()
     d3d_device_context_->IASetInputLayout(vertex_shader_2d_.GetInputLayout());
     d3d_device_context_->VSSetShader(vertex_shader_2d_.GetShader(), nullptr, 0);
     d3d_device_context_->PSSetShader(pixel_shader_2d_.GetShader(), nullptr, 0);
+
     sprite_.AdjustRotation(.01f, .01f, .01f);
     sprite_.Draw(camera_2d_.GetWorldMatrix() * camera_2d_.GetOrthographicMatrix());
 }
 
-void Graphics::EndRenderD3D()
+void Graphics::EndFrame3D()
 {
     if (dxgi_swap_chain_->Present(1, DXGI_PRESENT_TEST) == DXGI_STATUS_OCCLUDED) return;
     dxgi_swap_chain_->Present(1, 0);

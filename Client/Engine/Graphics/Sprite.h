@@ -14,7 +14,7 @@ public:
     Sprite();
     ~Sprite() = default;
 
-    bool Init(ID3D11Device* device, ID3D11DeviceContext* device_context, const std::wstring& kPath,
+    bool Init(ID3D11Device* device, ID3D11DeviceContext* device_context, const std::wstring& kPath, float ppu,
               ConstantBuffer<ConstantVertexBuffer2D>& constant_buffer,
               ConstantBuffer<ConstantPixelBuffer2D>& constant_pixel_buffer);
 

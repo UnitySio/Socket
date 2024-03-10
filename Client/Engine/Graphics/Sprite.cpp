@@ -10,7 +10,7 @@ Sprite::Sprite()
 }
 
 bool Sprite::Init(ID3D11Device* device, ID3D11DeviceContext* device_context,
-                  const std::wstring& kPath, ConstantBuffer<ConstantVertexBuffer2D>& constant_buffer,
+                  const std::wstring& kPath, float ppu, ConstantBuffer<ConstantVertexBuffer2D>& constant_buffer,
                   ConstantBuffer<ConstantPixelBuffer2D>& constant_pixel_buffer)
 {
     device_context_ = device_context;
@@ -19,7 +19,8 @@ bool Sprite::Init(ID3D11Device* device, ID3D11DeviceContext* device_context,
     constant_buffer_ = &constant_buffer;
     constant_pixel_buffer_ = &constant_pixel_buffer;
 
-    HRESULT hr = DirectX::CreateWICTextureFromFile(device, kPath.c_str(), texture_.GetAddressOf(), texture_view_.GetAddressOf());
+    HRESULT hr = DirectX::CreateWICTextureFromFile(device, kPath.c_str(), texture_.GetAddressOf(),
+                                                   texture_view_.GetAddressOf());
     if (FAILED(hr)) return false;
 
     Microsoft::WRL::ComPtr<ID3D11Texture2D> texture;
@@ -32,11 +33,21 @@ bool Sprite::Init(ID3D11Device* device, ID3D11DeviceContext* device_context,
 
     std::vector<Vertex2D> vertices =
     {
-        {-.5f, -.5f, 0.f, 0.f, 0.f},
-        {.5f, -.5f, 0.f, 1.f, 0.f},
-        {-.5f, .5f, 0.f, 0.f, 1.f},
-        {.5f, .5f, 0.f, 1.f, 1.f}
+        {-.5f, -.5f, 0.f, 0.f, 1.f}, // 왼쪽 아래
+        {.5f, -.5f, 0.f, 1.f, 1.f}, // 오른쪽 아래
+        {-.5f, .5f, 0.f, 0.f, 0.f}, // 왼쪽 위
+        {.5f, .5f, 0.f, 1.f, 0.f} // 오른쪽 위
     };
+    
+    float left = 0.f;
+    float top = 0.f;
+    float right = left + .25f;
+    float bottom = top + 1.f;
+
+    vertices[0].texcoord = {left, bottom};
+    vertices[1].texcoord = {right, bottom};
+    vertices[2].texcoord = {left, top};
+    vertices[3].texcoord = {right, top};
 
     std::vector<DWORD> indices =
     {
@@ -50,9 +61,12 @@ bool Sprite::Init(ID3D11Device* device, ID3D11DeviceContext* device_context,
     hr = indices_.Init(device, indices.data(), indices.size());
     if (FAILED(hr)) return false;
 
-    SetPosition(0.f, 0.f, 0.f);
+    SetPosition(-((128.f / ppu) / 2.f),
+        -((texture_desc.Height / ppu) / 2.f),
+        0.f);
+    
     SetRotation(0.f, 0.f, 0.f);
-    SetScale(texture_desc.Width, texture_desc.Height);
+    SetScale(128.f / ppu, texture_desc.Height / ppu);
 
     return true;
 }
