@@ -99,7 +99,7 @@ bool Graphics::InitRenderTargetD3D()
 
     hr = d3d_device_->CreateDepthStencilView(depth_stencil_buffer_.Get(), nullptr, depth_stencil_view_.GetAddressOf());
     if (FAILED(hr)) return false;
-    
+
     d3d_device_context_->OMSetRenderTargets(1, d3d_render_target_view_.GetAddressOf(), depth_stencil_view_.Get());
 
     D3D11_DEPTH_STENCIL_DESC depth_stencil_state_desc;
@@ -118,7 +118,7 @@ bool Graphics::InitRenderTargetD3D()
     d3d_viewport_.Height = static_cast<float>(Core::Get()->GetResolution().y);
     d3d_viewport_.MinDepth = 0.0f;
     d3d_viewport_.MaxDepth = 1.0f;
-    
+
     d3d_device_context_->RSSetViewports(1, &d3d_viewport_);
 
     D3D11_RASTERIZER_DESC rasterizer_desc;
@@ -183,9 +183,10 @@ bool Graphics::InitShaders()
     };
 
     constexpr UINT num_elements_2d = ARRAYSIZE(layout_2d);
-    if (!vertex_shader_2d_.Init(d3d_device_, L"..\\x64\\Debug\\VertexShader2D.cso", layout_2d, num_elements_2d)) return false;
+    if (!vertex_shader_2d_.Init(d3d_device_, L"..\\x64\\Debug\\VertexShader2D.cso", layout_2d, num_elements_2d)) return
+        false;
     if (!pixel_shader_2d_.Init(d3d_device_, L"..\\x64\\Debug\\PixelShader2D.cso")) return false;
-    
+
     return InitScene();
 }
 
@@ -203,13 +204,16 @@ bool Graphics::InitScene()
     hr = constant_pixel_buffer_2d_.Init(d3d_device_.Get(), d3d_device_context_.Get());
     if (FAILED(hr)) return false;
 
-    if (!sprite_.Init(d3d_device_.Get(), d3d_device_context_.Get(), L".\\Temp.png", 32.f, constant_buffer_2d_, constant_pixel_buffer_2d_)) return false;
+    if (!sprite_.Init(d3d_device_.Get(), d3d_device_context_.Get(), L".\\Temp.png", 32.f, constant_buffer_2d_,
+                      constant_pixel_buffer_2d_)) return false;
 
-    camera_3d_.SetPosition(0.f, 1.f, -2.f);
-    camera_3d_.SetProjectionValues(90.f, static_cast<float>(Core::Get()->GetResolution().x) / static_cast<float>(Core::Get()->GetResolution().y), 0.1f, 1000.f);
+    camera_3d_.SetPosition(0.f, 0.f, -2.f);
+    camera_3d_.SetProjectionValues(
+        90.f, static_cast<float>(Core::Get()->GetResolution().x) / static_cast<float>(Core::Get()->GetResolution().y),
+        0.3f, 1000.f);
 
     camera_2d_.SetProjectionValues(5.f, .3f, 1000.f);
-    
+
     return true;
 }
 
@@ -248,9 +252,10 @@ void Graphics::BeginFrame3D()
         121.f / 255.f,
         1.f
     };
-    
+
     d3d_device_context_->ClearRenderTargetView(d3d_render_target_view_.Get(), clear_color);
-    d3d_device_context_->ClearDepthStencilView(depth_stencil_view_.Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.f, 0);
+    d3d_device_context_->ClearDepthStencilView(depth_stencil_view_.Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.f,
+                                               0);
 
     d3d_device_context_->IASetInputLayout(vertex_shader_.GetInputLayout());
     d3d_device_context_->IASetPrimitiveTopology(D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
@@ -267,7 +272,15 @@ void Graphics::BeginFrame3D()
     d3d_device_context_->PSSetShader(pixel_shader_2d_.GetShader(), nullptr, 0);
 
     sprite_.AdjustRotation(.01f, .01f, .01f);
-    sprite_.Draw(camera_2d_.GetWorldMatrix() * camera_2d_.GetOrthographicMatrix());
+
+    if (is_3d_)
+    {
+        sprite_.Draw(camera_2d_.GetWorldMatrix() * camera_2d_.GetOrthographicMatrix());
+    }
+    else
+    {
+        sprite_.Draw(camera_3d_.GetViewMatrix() * camera_3d_.GetProjectionMatrix());
+    }
 }
 
 void Graphics::EndFrame3D()
@@ -320,7 +333,7 @@ void Graphics::DrawBox(b2Vec2 center, b2Vec2 size, float angle, b2Color color)
 
     d2d_render_target_->DrawRectangle(rectangle, brush);
     brush->Release();
-    
+
     d2d_render_target_->SetTransform(D2D1::Matrix3x2F::Identity());
 }
 
@@ -352,7 +365,7 @@ void Graphics::DrawSolidBox(b2Vec2 center, b2Vec2 size, float angle, b2Color col
 
     d2d_render_target_->FillRectangle(rectangle, brush);
     brush->Release();
-    
+
     d2d_render_target_->SetTransform(D2D1::Matrix3x2F::Identity());
 }
 
@@ -363,7 +376,7 @@ void Graphics::DrawCircle(b2Vec2 center, float radius, b2Color color)
         radius,
         radius
     );
-    
+
     ID2D1SolidColorBrush* brush;
     d2d_render_target_->CreateSolidColorBrush(D2D1::ColorF(color.r, color.g, color.b, color.a), &brush);
 
@@ -379,7 +392,7 @@ void Graphics::DrawSolidCircle(b2Vec2 center, float radius, b2Color color)
         radius,
         radius
     );
-    
+
     ID2D1SolidColorBrush* brush;
     d2d_render_target_->CreateSolidColorBrush(D2D1::ColorF(color.r, color.g, color.b, color.a), &brush);
 
@@ -404,7 +417,7 @@ void Graphics::DrawPolygon(const b2Vec2* kVertices, int32 vertex_count, b2Color 
 
     sink->EndFigure(D2D1_FIGURE_END_CLOSED);
     sink->Close();
-    
+
     ID2D1SolidColorBrush* brush;
     d2d_render_target_->CreateSolidColorBrush(D2D1::ColorF(color.r, color.g, color.b, color.a), &brush);
 
@@ -429,7 +442,7 @@ void Graphics::DrawSolidPolygon(const b2Vec2* kVertices, int32 vertex_count, b2C
 
     sink->EndFigure(D2D1_FIGURE_END_CLOSED);
     sink->Close();
-    
+
     ID2D1SolidColorBrush* brush;
     d2d_render_target_->CreateSolidColorBrush(D2D1::ColorF(color.r, color.g, color.b, color.a), &brush);
 
@@ -449,7 +462,7 @@ void Graphics::DrawTexture(ID2D1Bitmap* texture, b2Vec2 center, b2Vec2 scale, fl
         center.x + half_size_x,
         center.y + half_size_y
     );
-    
+
     angle = angle * 180.f / b2_pi;
 
     const D2D1_POINT_2F point = D2D1::Point2F(center.x, center.y);
