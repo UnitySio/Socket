@@ -9,9 +9,6 @@
 
 #include <wincodec.h>
 
-#include "Color.h"
-#include "Time/Time.h"
-
 Graphics::Graphics() :
     d3d_device_(nullptr),
     d3d_device_context_(nullptr),
