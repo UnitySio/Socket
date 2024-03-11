@@ -243,8 +243,8 @@ void Core::Tick(float delta_time)
     {
         ImGui::Text("Camera Settings");
     
-        static int size = 5.f;
-        if (ImGui::SliderInt("Size", &size, 1, 10))
+        static float size = 5.f;
+        if (ImGui::SliderFloat("Size", &size, 1.f, 10.f, "%.1f"))
         {
             gfx->GetCamera2D().SetProjectionValues(size, .3f, 1000.f);
         }
