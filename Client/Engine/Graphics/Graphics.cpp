@@ -9,6 +9,7 @@
 
 #include <wincodec.h>
 
+#include "Color.h"
 #include "Time/Time.h"
 
 Graphics::Graphics() :
@@ -193,6 +194,8 @@ bool Graphics::InitScene()
 
     if (!sprite_.Init(d3d_device_.Get(), d3d_device_context_.Get(), L".\\spritesheet.png", 32.f, constant_buffer_2d_,
                       constant_pixel_buffer_2d_)) return false;
+
+    Color color;
 
     camera_2d_.SetProjectionValues(5.f, .3f, 1000.f);
 
