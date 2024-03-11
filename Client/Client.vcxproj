@@ -141,6 +141,7 @@
     <ClInclude Include="Engine\Actor\Component\CircleColliderComponent.h" />
     <ClInclude Include="Engine\Actor\Component\ColliderComponent.h" />
     <ClInclude Include="Engine\Actor\Component\RigidBodyComponent.h" />
+    <ClInclude Include="Engine\Actor\Component\SceneComponent\AnimationComponent.h" />
     <ClInclude Include="Engine\Actor\Component\SceneComponent\CameraComponent.h" />
     <ClInclude Include="Engine\Actor\Component\SceneComponent\SceneComponent.h" />
     <ClInclude Include="Engine\Actor\Component\SceneComponent\SpriteComponent.h" />
@@ -173,6 +174,7 @@
     <ClInclude Include="Game\Actor\FollowCamera.h" />
     <ClInclude Include="Game\Actor\Pawn.h" />
     <ClInclude Include="Game\Map\MainMap.h" />
+    <ClInclude Include="Game\Resource\ResourceManager.h" />
     <ClInclude Include="Include\box2d\b2_api.h" />
     <ClInclude Include="Include\box2d\b2_block_allocator.h" />
     <ClInclude Include="Include\box2d\b2_body.h" />
@@ -253,6 +255,7 @@
     <ClCompile Include="Engine\Actor\Component\CircleColliderComponent.cpp" />
     <ClCompile Include="Engine\Actor\Component\ColliderComponent.cpp" />
     <ClCompile Include="Engine\Actor\Component\RigidBodyComponent.cpp" />
+    <ClCompile Include="Engine\Actor\Component\SceneComponent\AnimationComponent.cpp" />
     <ClCompile Include="Engine\Actor\Component\SceneComponent\CameraComponent.cpp" />
     <ClCompile Include="Engine\Actor\Component\SceneComponent\SceneComponent.cpp" />
     <ClCompile Include="Engine\Actor\Component\SceneComponent\SpriteComponent.cpp" />
@@ -278,6 +281,7 @@
     <ClCompile Include="Game\Actor\FollowCamera.cpp" />
     <ClCompile Include="Game\Actor\Pawn.cpp" />
     <ClCompile Include="Game\Map\MainMap.cpp" />
+    <ClCompile Include="Game\Resource\ResourceManager.cpp" />
     <ClCompile Include="Include\imgui\imgui.cpp" />
     <ClCompile Include="Include\imgui\imgui_demo.cpp" />
     <ClCompile Include="Include\imgui\imgui_draw.cpp" />

@@ -13,12 +13,17 @@
 #include "../../Engine/Vector.h"
 #include "../../Engine/Level/Level.h"
 #include "../../Engine/Level/World.h"
+
 #include "../../Engine/Level/Listener/QueryCallback.h"
 #include "box2d/b2_body.h"
 #include "box2d/b2_fixture.h"
 #include "box2d/b2_mouse_joint.h"
 #include "box2d/b2_revolute_joint.h"
 #include "box2d/b2_world.h"
+
+#include "../../Client/Engine/Actor/Component/SceneComponent/SpriteComponent.h"
+#include "../../Client/Engine/Actor/Component/SceneComponent/AnimationComponent.h"
+
 
 Pawn::Pawn(b2World* world, const std::wstring& kName) :
     Actor(world, kName),
@@ -27,7 +32,10 @@ Pawn::Pawn(b2World* world, const std::wstring& kName) :
     rigid_body_(nullptr),
     body_(nullptr),
     mouse_joint_(nullptr),
-    dir_(1)
+    dir_(1),
+    bitmap_(nullptr),
+    sprite_(nullptr),
+    animation_(nullptr)
 {
     scene_ = CreateComponent<SceneComponent>(L"Scene");
     SetRootComponent(scene_);
@@ -42,6 +50,8 @@ Pawn::Pawn(b2World* world, const std::wstring& kName) :
 
     b2BodyDef body_def;
     body_ = GetWorld()->CreateBody(&body_def);
+    sprite_ = CreateComponent<SpriteComponent>(L"SpriteComponent");
+    animation_ = CreateComponent<AnimationComponent>(L"AnimationComponent");
 }
 
 void Pawn::BeginPlay()
@@ -144,4 +154,9 @@ void Pawn::Tick(float delta_time)
     {
         mouse_joint_->SetTarget(mouse_position);
     }
+}
+
+void Pawn::Render()
+{
+    Actor::Render();
 }

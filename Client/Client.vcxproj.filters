@@ -234,12 +234,15 @@
     <ClInclude Include="Engine\Bounds.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+<<<<<<< Updated upstream
     <ClInclude Include="Engine\Level\Listener\ContactListener.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Level\Listener\QueryCallback.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+=======
+>>>>>>> Stashed changes
     <ClInclude Include="Engine\Level\World.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
@@ -252,6 +255,7 @@
     <ClInclude Include="Game\Actor\Dummy.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+<<<<<<< Updated upstream
     <ClInclude Include="Game\Actor\FollowCamera.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
@@ -340,6 +344,12 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Graphics\VertexBuffer.h">
+=======
+    <ClInclude Include="Game\Resource\ResourceManager.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Actor\Component\SceneComponent\AnimationComponent.h">
+>>>>>>> Stashed changes
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
@@ -428,12 +438,15 @@
     <ClCompile Include="Engine\Bounds.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+<<<<<<< Updated upstream
     <ClCompile Include="Engine\Level\Listener\ContactListener.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Level\Listener\QueryCallback.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+=======
+>>>>>>> Stashed changes
     <ClCompile Include="Engine\Level\World.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
@@ -446,6 +459,7 @@
     <ClCompile Include="Game\Actor\Dummy.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+<<<<<<< Updated upstream
     <ClCompile Include="Game\Actor\FollowCamera.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
@@ -456,6 +470,12 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Graphics\Shaders.cpp">
+=======
+    <ClCompile Include="Game\Resource\ResourceManager.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Actor\Component\SceneComponent\AnimationComponent.cpp">
+>>>>>>> Stashed changes
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
