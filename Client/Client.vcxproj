@@ -151,7 +151,6 @@
     <ClInclude Include="Engine\Enums.h" />
     <ClInclude Include="Engine\EventManager.h" />
     <ClInclude Include="Engine\Graphics\Camera2D.h" />
-    <ClInclude Include="Engine\Graphics\Color.h" />
     <ClInclude Include="Engine\Graphics\ConstantBuffer.h" />
     <ClInclude Include="Engine\Graphics\ConstantBufferTypes.h" />
     <ClInclude Include="Engine\Graphics\Graphics.h" />
@@ -265,7 +264,6 @@
     <ClCompile Include="Engine\DebugDraw.cpp" />
     <ClCompile Include="Engine\EventManager.cpp" />
     <ClCompile Include="Engine\Graphics\Camera2D.cpp" />
-    <ClCompile Include="Engine\Graphics\Color.cpp" />
     <ClCompile Include="Engine\Graphics\Graphics.cpp" />
     <ClCompile Include="Engine\Graphics\IndexBuffer.cpp" />
     <ClCompile Include="Engine\Graphics\Shaders.cpp" />
