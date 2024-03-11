@@ -154,7 +154,6 @@
     <ClInclude Include="Engine\Graphics\ConstantBufferTypes.h" />
     <ClInclude Include="Engine\Graphics\Graphics.h" />
     <ClInclude Include="Engine\Graphics\IndexBuffer.h" />
-    <ClInclude Include="Engine\Graphics\Camera3D.h" />
     <ClInclude Include="Engine\Graphics\Sprite.h" />
     <ClInclude Include="Engine\Graphics\Vertex.h" />
     <ClInclude Include="Engine\Graphics\Shaders.h" />
@@ -264,7 +263,6 @@
     <ClCompile Include="Engine\Graphics\Camera2D.cpp" />
     <ClCompile Include="Engine\Graphics\Graphics.cpp" />
     <ClCompile Include="Engine\Graphics\IndexBuffer.cpp" />
-    <ClCompile Include="Engine\Graphics\Camera3D.cpp" />
     <ClCompile Include="Engine\Graphics\Shaders.cpp" />
     <ClCompile Include="Engine\Graphics\Sprite.cpp" />
     <ClCompile Include="Engine\Input\InputManager.cpp" />
@@ -295,17 +293,6 @@
     <Content Include="Lib\DirectXTK.lib" />
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="Engine\Shader\PixelShader.hlsl">
-      <ObjectFileOutput>C:\Users\Woojin Choi\RiderProjects\Socket\x64\Debug\%(Filename).cso</ObjectFileOutput>
-      <TrackerLogDirectory>x64\Debug\Client.tlog\</TrackerLogDirectory>
-      <EntryPointName>main</EntryPointName>
-      <SuppressStartupBanner>true</SuppressStartupBanner>
-      <ShaderModel>4.0_level_9_3</ShaderModel>
-      <MinimalRebuildFromTracking>true</MinimalRebuildFromTracking>
-      <DisableOptimizations>true</DisableOptimizations>
-      <EnableDebuggingInformation>true</EnableDebuggingInformation>
-      <ShaderType>Pixel</ShaderType>
-    </FxCompile>
     <FxCompile Include="Engine\Shader\PixelShader2D.hlsl">
       <ObjectFileOutput>C:\Users\Woojin Choi\RiderProjects\Socket\x64\Debug\%(Filename).cso</ObjectFileOutput>
       <TrackerLogDirectory>x64\Debug\Client.tlog\</TrackerLogDirectory>
@@ -316,17 +303,7 @@
       <DisableOptimizations>true</DisableOptimizations>
       <EnableDebuggingInformation>true</EnableDebuggingInformation>
       <ShaderType>Pixel</ShaderType>
-    </FxCompile>
-    <FxCompile Include="Engine\Shader\VertexShader.hlsl">
-      <ObjectFileOutput>C:\Users\Woojin Choi\RiderProjects\Socket\x64\Debug\%(Filename).cso</ObjectFileOutput>
-      <TrackerLogDirectory>x64\Debug\Client.tlog\</TrackerLogDirectory>
-      <EntryPointName>main</EntryPointName>
-      <SuppressStartupBanner>true</SuppressStartupBanner>
-      <ShaderModel>4.0_level_9_3</ShaderModel>
-      <MinimalRebuildFromTracking>true</MinimalRebuildFromTracking>
-      <DisableOptimizations>true</DisableOptimizations>
-      <EnableDebuggingInformation>true</EnableDebuggingInformation>
-      <ShaderType>Vertex</ShaderType>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)\x64\Debug\%(Filename).cso</ObjectFileOutput>
     </FxCompile>
     <FxCompile Include="Engine\Shader\VertexShader2D.hlsl">
       <ObjectFileOutput>C:\Users\Woojin Choi\RiderProjects\Socket\x64\Debug\%(Filename).cso</ObjectFileOutput>
@@ -338,6 +315,7 @@
       <DisableOptimizations>true</DisableOptimizations>
       <EnableDebuggingInformation>true</EnableDebuggingInformation>
       <ShaderType>Vertex</ShaderType>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)\x64\Debug\%(Filename).cso</ObjectFileOutput>
     </FxCompile>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -261,11 +261,6 @@ void Core::Tick(float delta_time)
         
         gfx->GetCamera2D().SetProjectionValues(size, .3f, 1000.f);
     }
-
-    if (input->IsKeyDown(0x41))
-    {
-        gfx->Set3D(!gfx->Is3D());
-    }
 }
 
 void Core::Render()

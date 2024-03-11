@@ -13,15 +13,9 @@
 #include "Camera2D.h"
 #include "ConstantBuffer.h"
 #include "ConstantBufferTypes.h"
-#include "IndexBuffer.h"
-#include "Camera3D.h"
 #include "Shaders.h"
 #include "Sprite.h"
-#include "Vertex.h"
-#include "VertexBuffer.h"
 #include "box2d/b2_draw.h"
-#include "DirectXTK/GeometricPrimitive.h"
-#include "DirectXTK/SpriteBatch.h"
 
 struct b2Vec2;
 
@@ -51,11 +45,7 @@ public:
     inline ID3D11DeviceContext* GetD3DDeviceContext() const { return d3d_device_context_.Get(); }
     inline void BeginFrame2D() const { d2d_render_target_->BeginDraw(); }
     inline void EndFrame2D() const { d2d_render_target_->EndDraw(); }
-    inline Camera3D& GetCamera() { return camera_3d_; }
     inline Camera2D& GetCamera2D() { return camera_2d_; }
-    
-    inline bool Is3D() const { return is_3d_; }
-    inline void Set3D(bool is_3d) { is_3d_ = is_3d; }
 
 private:
     bool InitDeviceD3D();
@@ -75,14 +65,9 @@ private:
     Microsoft::WRL::ComPtr<ID2D1Factory> d2d_factory_;
     Microsoft::WRL::ComPtr<ID2D1RenderTarget> d2d_render_target_;
 
-    VertexShader vertex_shader_;
     VertexShader vertex_shader_2d_;
-    
-    PixelShader pixel_shader_;
     PixelShader pixel_shader_2d_;
     
-    ConstantBuffer<ConstantVertexBuffer3D> constant_buffer_;
-    ConstantBuffer<ConstantPixelBuffer3D> constant_pixel_buffer_;
     ConstantBuffer<ConstantVertexBuffer2D> constant_buffer_2d_;
     ConstantBuffer<ConstantPixelBuffer2D> constant_pixel_buffer_2d_;
 
@@ -95,11 +80,8 @@ private:
 
     Microsoft::WRL::ComPtr<ID3D11SamplerState> sampler_state_;
 
-    Camera3D camera_3d_;
     Camera2D camera_2d_;
 
     Sprite sprite_;
-
-    bool is_3d_ = false;
     
 };

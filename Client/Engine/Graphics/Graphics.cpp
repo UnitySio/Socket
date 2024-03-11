@@ -168,15 +168,6 @@ bool Graphics::InitRenderTargetD3D()
 
 bool Graphics::InitShaders()
 {
-    D3D11_INPUT_ELEMENT_DESC layout[] = {
-        {"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0},
-        {"TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0}
-    };
-
-    constexpr UINT num_elements = ARRAYSIZE(layout);
-    if (!vertex_shader_.Init(d3d_device_, L"..\\x64\\Debug\\VertexShader.cso", layout, num_elements)) return false;
-    if (!pixel_shader_.Init(d3d_device_, L"..\\x64\\Debug\\PixelShader.cso")) return false;
-
     D3D11_INPUT_ELEMENT_DESC layout_2d[] = {
         {"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0},
         {"TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0}
@@ -192,13 +183,7 @@ bool Graphics::InitShaders()
 
 bool Graphics::InitScene()
 {
-    HRESULT hr = constant_buffer_.Init(d3d_device_.Get(), d3d_device_context_.Get());
-    if (FAILED(hr)) return false;
-
-    hr = constant_pixel_buffer_.Init(d3d_device_.Get(), d3d_device_context_.Get());
-    if (FAILED(hr)) return false;
-
-    hr = constant_buffer_2d_.Init(d3d_device_.Get(), d3d_device_context_.Get());
+    HRESULT hr = constant_buffer_2d_.Init(d3d_device_.Get(), d3d_device_context_.Get());
     if (FAILED(hr)) return false;
 
     hr = constant_pixel_buffer_2d_.Init(d3d_device_.Get(), d3d_device_context_.Get());
@@ -206,11 +191,6 @@ bool Graphics::InitScene()
 
     if (!sprite_.Init(d3d_device_.Get(), d3d_device_context_.Get(), L".\\Temp.png", 32.f, constant_buffer_2d_,
                       constant_pixel_buffer_2d_)) return false;
-
-    camera_3d_.SetPosition(0.f, 0.f, -2.f);
-    camera_3d_.SetProjectionValues(
-        90.f, static_cast<float>(Core::Get()->GetResolution().x) / static_cast<float>(Core::Get()->GetResolution().y),
-        0.3f, 1000.f);
 
     camera_2d_.SetProjectionValues(5.f, .3f, 1000.f);
 
@@ -257,30 +237,17 @@ void Graphics::BeginFrame3D()
     d3d_device_context_->ClearDepthStencilView(depth_stencil_view_.Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.f,
                                                0);
 
-    d3d_device_context_->IASetInputLayout(vertex_shader_.GetInputLayout());
+    d3d_device_context_->IASetInputLayout(vertex_shader_2d_.GetInputLayout());
     d3d_device_context_->IASetPrimitiveTopology(D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
     d3d_device_context_->RSSetState(rasterizer_state_.Get());
     d3d_device_context_->OMSetDepthStencilState(depth_stencil_state_.Get(), 0);
     d3d_device_context_->OMSetBlendState(blend_state_.Get(), nullptr, 0xffffffff);
     d3d_device_context_->PSSetSamplers(0, 1, sampler_state_.GetAddressOf());
-    d3d_device_context_->VSSetShader(vertex_shader_.GetShader(), nullptr, 0);
-    d3d_device_context_->PSSetShader(pixel_shader_.GetShader(), nullptr, 0);
-
-    // 2D
-    d3d_device_context_->IASetInputLayout(vertex_shader_2d_.GetInputLayout());
     d3d_device_context_->VSSetShader(vertex_shader_2d_.GetShader(), nullptr, 0);
     d3d_device_context_->PSSetShader(pixel_shader_2d_.GetShader(), nullptr, 0);
-
+    
     sprite_.AdjustRotation(.01f, .01f, .01f);
-
-    if (is_3d_)
-    {
-        sprite_.Draw(camera_2d_.GetWorldMatrix() * camera_2d_.GetOrthographicMatrix());
-    }
-    else
-    {
-        sprite_.Draw(camera_3d_.GetViewMatrix() * camera_3d_.GetProjectionMatrix());
-    }
+    sprite_.Draw(camera_2d_.GetWorldMatrix() * camera_2d_.GetOrthographicMatrix());
 }
 
 void Graphics::EndFrame3D()
