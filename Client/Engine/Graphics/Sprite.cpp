@@ -41,7 +41,7 @@ bool Sprite::Init(ID3D11Device* device, ID3D11DeviceContext* device_context,
     
     float left = 0.f;
     float top = 0.f;
-    float right = left + .25f;
+    float right = left + (64.f / 384.f);
     float bottom = top + 1.f;
 
     vertices[0].texcoord = {left, bottom};
@@ -61,12 +61,12 @@ bool Sprite::Init(ID3D11Device* device, ID3D11DeviceContext* device_context,
     hr = indices_.Init(device, indices.data(), indices.size());
     if (FAILED(hr)) return false;
 
-    SetPosition(-((128.f / ppu) / 2.f),
+    SetPosition(-((64.f / ppu) / 2.f),
         -((texture_desc.Height / ppu) / 2.f),
         0.f);
     
     SetRotation(0.f, 0.f, 0.f);
-    SetScale(128.f / ppu, texture_desc.Height / ppu);
+    SetScale(64.f / ppu, texture_desc.Height / ppu);
 
     return true;
 }

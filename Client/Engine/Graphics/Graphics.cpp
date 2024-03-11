@@ -9,6 +9,8 @@
 
 #include <wincodec.h>
 
+#include "Time/Time.h"
+
 Graphics::Graphics() :
     d3d_device_(nullptr),
     d3d_device_context_(nullptr),
@@ -189,7 +191,7 @@ bool Graphics::InitScene()
     hr = constant_pixel_buffer_2d_.Init(d3d_device_.Get(), d3d_device_context_.Get());
     if (FAILED(hr)) return false;
 
-    if (!sprite_.Init(d3d_device_.Get(), d3d_device_context_.Get(), L".\\Temp.png", 32.f, constant_buffer_2d_,
+    if (!sprite_.Init(d3d_device_.Get(), d3d_device_context_.Get(), L".\\spritesheet.png", 32.f, constant_buffer_2d_,
                       constant_pixel_buffer_2d_)) return false;
 
     camera_2d_.SetProjectionValues(5.f, .3f, 1000.f);
@@ -245,8 +247,9 @@ void Graphics::BeginFrame3D()
     d3d_device_context_->PSSetSamplers(0, 1, sampler_state_.GetAddressOf());
     d3d_device_context_->VSSetShader(vertex_shader_2d_.GetShader(), nullptr, 0);
     d3d_device_context_->PSSetShader(pixel_shader_2d_.GetShader(), nullptr, 0);
-    
-    sprite_.AdjustRotation(.01f, .01f, .01f);
+
+    const float delta_time = Time::DeltaTime();
+    sprite_.AdjustRotation(1.f * delta_time, 1.f * delta_time, 1.f * delta_time);
     sprite_.Draw(camera_2d_.GetWorldMatrix() * camera_2d_.GetOrthographicMatrix());
 }
 

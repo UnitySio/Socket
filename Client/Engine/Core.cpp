@@ -237,30 +237,20 @@ void Core::Tick(float delta_time)
     World::Get()->Tick(delta_time);
 
     // Camera 2D 테스트
-    InputManager* input = InputManager::Get();
     Graphics* gfx = Graphics::Get();
-    
-    static float size = 5.f;
 
-    if (input->IsKeyDown(0x57))
+    if (ImGui::Begin("Camera"))
     {
-        size += 1.f;
-        size = min(size, 1000.f);
-        
-        std::cout << "Camera Size: " << size << std::endl;
-
-        gfx->GetCamera2D().SetProjectionValues(size, .3f, 1000.f);
-    }
+        ImGui::Text("Camera Settings");
     
-    if (input->IsKeyDown(0x53))
-    {
-        size -= 1.f;
-        size = max(size, 1.f);
-        
-        std::cout << "Camera Size: " << size << std::endl;
-        
-        gfx->GetCamera2D().SetProjectionValues(size, .3f, 1000.f);
+        static int size = 5.f;
+        if (ImGui::SliderInt("Size", &size, 1, 10))
+        {
+            gfx->GetCamera2D().SetProjectionValues(size, .3f, 1000.f);
+        }
     }
+
+    ImGui::End();
 }
 
 void Core::Render()
