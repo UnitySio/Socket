@@ -248,8 +248,6 @@ void Graphics::BeginFrame3D()
     d3d_device_context_->VSSetShader(vertex_shader_2d_.GetShader(), nullptr, 0);
     d3d_device_context_->PSSetShader(pixel_shader_2d_.GetShader(), nullptr, 0);
 
-    const float delta_time = Time::DeltaTime();
-    sprite_.AdjustRotation(1.f * delta_time, 1.f * delta_time, 1.f * delta_time);
     sprite_.Draw(camera_2d_.GetWorldMatrix() * camera_2d_.GetOrthographicMatrix());
 }
 

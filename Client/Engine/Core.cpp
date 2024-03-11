@@ -248,12 +248,47 @@ void Core::Tick(float delta_time)
         {
             gfx->GetCamera2D().SetProjectionValues(size, .3f, 1000.f);
         }
+
+        static float position[3];
+        if (ImGui::InputFloat3("Position", position))
+        {
+            gfx->GetCamera2D().SetPosition(position[0], position[1], position[2]);
+        }
+
+        static float rotation[3];
+        if (ImGui::InputFloat3("Rotation", rotation))
+        {
+            gfx->GetCamera2D().SetRotation(rotation[0], rotation[1], rotation[2]);
+        }
     }
 
     ImGui::End();
+
+    InputManager* input = InputManager::Get();
+    float spd = 1.f;
+    
+    if (input->IsKeyPressed(0x41))
+    {
+        gfx->GetCamera2D().AdjustPosition(-spd * delta_time, 0.f, 0.f);
+    }
+
+    if (input->IsKeyPressed(0x44))
+    {
+        gfx->GetCamera2D().AdjustPosition(spd * delta_time, 0.f, 0.f);
+    }
+
+    if (input->IsKeyPressed(0x57))
+    {
+        gfx->GetCamera2D().AdjustPosition(0.f, spd * delta_time, 0.f);
+    }
+
+    if (input->IsKeyPressed(0x53))
+    {
+        gfx->GetCamera2D().AdjustPosition(0.f, -spd * delta_time, 0.f);
+    }
 }
 
 void Core::Render()
 {
-    World::Get()->Render();
+    // World::Get()->Render();
 }
