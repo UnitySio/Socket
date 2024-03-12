@@ -3,6 +3,8 @@
 cbuffer constant : register(b0)
 {
 	float4x4 mat;
+	float2 uv_offset;
+	float2 uv_scale;
 };
 
 struct VS_INPUT
@@ -21,6 +23,6 @@ VS_OUTPUT main(VS_INPUT input)
 {
 	VS_OUTPUT output;
 	output.pos = mul(float4(input.pos, 1.f), mat);
-	output.texcoord = input.texcoord;
+	output.texcoord = (input.texcoord + uv_offset) * uv_scale;
 	return output;
 }

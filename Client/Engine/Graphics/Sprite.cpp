@@ -3,6 +3,7 @@
 #include <vector>
 
 #include "DirectXTK/WICTextureLoader.h"
+#include "Time/Time.h"
 
 Sprite::Sprite()
 {
@@ -38,16 +39,6 @@ bool Sprite::Init(ID3D11Device* device, ID3D11DeviceContext* device_context,
         {-.5f, .5f, 0.f, 0.f, 0.f}, // 왼쪽 위
         {.5f, .5f, 0.f, 1.f, 0.f} // 오른쪽 위
     };
-    
-    float left = 0.f;
-    float top = 0.f;
-    float right = left + (64.f / 384.f);
-    float bottom = top + 1.f;
-
-    vertices[0].texcoord = {left, bottom};
-    vertices[1].texcoord = {right, bottom};
-    vertices[2].texcoord = {left, top};
-    vertices[3].texcoord = {right, top};
 
     std::vector<DWORD> indices =
     {
@@ -80,6 +71,19 @@ void Sprite::Draw(DirectX::XMMATRIX orthographic_matrix)
 
     device_context_->PSSetConstantBuffers(0, 1, constant_pixel_buffer_->GetAddressOf());
     constant_pixel_buffer_->ApplyChanges();
+
+    static float x_offset = 0.f;
+    x_offset += .5f * Time::DeltaTime();
+
+    static float y_offset = 0.f;
+    y_offset += .5f * Time::DeltaTime();
+
+    constant_buffer_->data.uv_offset = {x_offset, y_offset};
+    
+    float width_scale = 64.f / 384.f;
+    float height_scale = 1.f;
+
+    constant_buffer_->data.uv_scale = {width_scale, height_scale};
 
     device_context_->PSSetShaderResources(0, 1, texture_view_.GetAddressOf());
 
