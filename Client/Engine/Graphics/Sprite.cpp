@@ -1,7 +1,5 @@
 ﻿#include "Sprite.h"
 
-#include <vector>
-
 #include "DirectXTK/WICTextureLoader.h"
 #include "Time/Time.h"
 
@@ -31,6 +29,22 @@ bool Sprite::Init(ID3D11Device* device, ID3D11DeviceContext* device_context,
 
     D3D11_TEXTURE2D_DESC texture_desc;
     texture->GetDesc(&texture_desc);
+
+    int row = texture_desc.Height / 64.f;
+    int col = texture_desc.Width / 64.f;
+
+    for (int i = 0; i < row; ++i)
+    {
+        for (int j = 0; j < col; ++j)
+        {
+            SpriteFrame frame;
+            frame.offset_x = j;
+            frame.offset_y = i;
+            frame.scale_x = 64.f / texture_desc.Width;
+            frame.scale_y = 64.f / texture_desc.Height;
+            frames_.push_back(frame);
+        }
+    }
 
     std::vector<Vertex2D> vertices =
     {
@@ -72,18 +86,19 @@ void Sprite::Draw(DirectX::XMMATRIX orthographic_matrix)
     device_context_->PSSetConstantBuffers(0, 1, constant_pixel_buffer_->GetAddressOf());
     constant_pixel_buffer_->ApplyChanges();
 
-    static float x_offset = 0.f;
-    x_offset += .5f * Time::DeltaTime();
+    static float timer = 0.f;
+    timer += Time::DeltaTime();
 
-    static float y_offset = 0.f;
-    y_offset += .5f * Time::DeltaTime();
+    static int frame_index = 0;
+    if (timer >= .1f)
+    {
+        frame_index = (frame_index + 1) % frames_.size();
+        timer = 0.f;
+    }
 
-    constant_buffer_->data.uv_offset = {x_offset, y_offset};
-    
-    float width_scale = 64.f / 384.f;
-    float height_scale = 1.f;
-
-    constant_buffer_->data.uv_scale = {width_scale, height_scale};
+    SpriteFrame frame = frames_[frame_index];
+    constant_buffer_->data.uv_offset = {frame.offset_x, frame.offset_y};
+    constant_buffer_->data.uv_scale = {frame.scale_x, frame.scale_y};
 
     device_context_->PSSetShaderResources(0, 1, texture_view_.GetAddressOf());
 

@@ -1,12 +1,21 @@
 ﻿#pragma once
 #include <DirectXMath.h>
 #include <string>
+#include <vector>
 
 #include "ConstantBuffer.h"
 #include "ConstantBufferTypes.h"
 #include "IndexBuffer.h"
 #include "Vertex.h"
 #include "VertexBuffer.h"
+
+struct SpriteFrame
+{
+    float offset_x = 0;
+    float offset_y = 0;
+    float scale_x = 1;
+    float scale_y = 1;
+};
 
 class Sprite
 {
@@ -57,4 +66,6 @@ private:
     DirectX::XMFLOAT3 scale_;
 
     DirectX::XMMATRIX world_matrix_;
+
+    std::vector<SpriteFrame> frames_;
 };
