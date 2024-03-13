@@ -15,6 +15,7 @@
 #include "ConstantBufferTypes.h"
 #include "Shaders.h"
 #include "Sprite.h"
+#include "SpriteBatch.h"
 #include "box2d/b2_draw.h"
 
 struct b2Vec2;
@@ -83,5 +84,7 @@ private:
     Camera2D camera_2d_;
 
     Sprite sprite_;
+
+    std::unique_ptr<SpriteBatch> sprite_batch_;
     
 };

@@ -1,488 +1,166 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="소스 파일">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
-    <Filter Include="헤더 파일">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
-    </Filter>
-    <Filter Include="리소스 파일">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
+    <FxCompile Include="Engine\Shader\PixelShader2D.hlsl" />
+    <FxCompile Include="Engine\Shader\VertexShader2D.hlsl" />
+    <FxCompile Include="VertexShaderDebug.hlsl" />
+    <FxCompile Include="PixelShaderDebug.hlsl" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="framework.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="targetver.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Client.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Core.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Graphics\Graphics.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Singleton.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Time\Time.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\imgui\imconfig.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\imgui\imgui.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\imgui\imgui_impl_dx11.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\imgui\imgui_impl_win32.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\imgui\imgui_internal.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\imgui\imstb_rectpack.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\imgui\imstb_textedit.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\imgui\imstb_truetype.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Enums.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\box2d\b2_api.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\box2d\b2_block_allocator.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\box2d\b2_body.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\box2d\b2_broad_phase.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\box2d\b2_chain_shape.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\box2d\b2_circle_shape.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\box2d\b2_collision.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\box2d\b2_common.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\box2d\b2_contact.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\box2d\b2_contact_manager.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\box2d\b2_distance.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\box2d\b2_distance_joint.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\box2d\b2_draw.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\box2d\b2_dynamic_tree.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\box2d\b2_edge_shape.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\box2d\b2_fixture.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\box2d\b2_friction_joint.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\box2d\b2_gear_joint.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\box2d\b2_growable_stack.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\box2d\b2_joint.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\box2d\b2_math.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\box2d\b2_motor_joint.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\box2d\b2_mouse_joint.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\box2d\b2_polygon_shape.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\box2d\b2_prismatic_joint.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\box2d\b2_pulley_joint.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\box2d\b2_revolute_joint.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\box2d\b2_rope.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\box2d\b2_settings.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\box2d\b2_shape.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\box2d\b2_stack_allocator.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\box2d\b2_timer.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\box2d\b2_time_of_impact.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\box2d\b2_time_step.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\box2d\b2_types.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\box2d\b2_weld_joint.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\box2d\b2_wheel_joint.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\box2d\b2_world.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\box2d\b2_world_callbacks.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\box2d\box2d.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Input\InputManager.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Actor\Actor.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Actor\Component\ActorComponent.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Actor\Component\SceneComponent\CameraComponent.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Actor\Component\SceneComponent\SceneComponent.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Actor\Component\SceneComponent\SpriteComponent.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\DebugDraw.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\EventManager.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Level\Level.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Actor\Floor.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Actor\Pawn.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Map\MainMap.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Actor\Component\BoxColliderComponent.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Actor\Component\CircleColliderComponent.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Actor\Component\ColliderComponent.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Actor\Component\RigidBodyComponent.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Bounds.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-<<<<<<< Updated upstream
-    <ClInclude Include="Engine\Level\Listener\ContactListener.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Level\Listener\QueryCallback.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-=======
->>>>>>> Stashed changes
-    <ClInclude Include="Engine\Level\World.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Transform.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Vector.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Actor\Dummy.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-<<<<<<< Updated upstream
-    <ClInclude Include="Game\Actor\FollowCamera.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\DirectXTK\Audio.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\DirectXTK\BufferHelpers.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\DirectXTK\CommonStates.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\DirectXTK\DDSTextureLoader.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\DirectXTK\DirectXHelpers.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\DirectXTK\Effects.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\DirectXTK\GamePad.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\DirectXTK\GeometricPrimitive.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\DirectXTK\GraphicsMemory.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\DirectXTK\Keyboard.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\DirectXTK\Model.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\DirectXTK\Mouse.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\DirectXTK\PostProcess.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\DirectXTK\PrimitiveBatch.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\DirectXTK\ScreenGrab.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\DirectXTK\SimpleMath.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\DirectXTK\SimpleMath.inl">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\DirectXTK\SpriteBatch.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\DirectXTK\SpriteFont.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\DirectXTK\VertexTypes.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\DirectXTK\WICTextureLoader.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\DirectXTK\XboxDDSTextureLoader.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Graphics\Vertex.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Graphics\ConstantBuffer.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Graphics\ConstantBufferTypes.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Graphics\IndexBuffer.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Graphics\Camera3D.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Graphics\Shaders.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Graphics\VertexBuffer.h">
-=======
-    <ClInclude Include="Game\Resource\ResourceManager.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Actor\Component\SceneComponent\AnimationComponent.h">
->>>>>>> Stashed changes
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
+    <ClCompile Include="Client.cpp" />
+    <ClCompile Include="Engine\Actor\Actor.cpp" />
+    <ClCompile Include="Engine\Actor\Component\ActorComponent.cpp" />
+    <ClCompile Include="Engine\Actor\Component\BoxColliderComponent.cpp" />
+    <ClCompile Include="Engine\Actor\Component\CircleColliderComponent.cpp" />
+    <ClCompile Include="Engine\Actor\Component\ColliderComponent.cpp" />
+    <ClCompile Include="Engine\Actor\Component\RigidBodyComponent.cpp" />
+    <ClCompile Include="Engine\Actor\Component\SceneComponent\AnimationComponent.cpp" />
+    <ClCompile Include="Engine\Actor\Component\SceneComponent\CameraComponent.cpp" />
+    <ClCompile Include="Engine\Actor\Component\SceneComponent\SceneComponent.cpp" />
+    <ClCompile Include="Engine\Actor\Component\SceneComponent\SpriteComponent.cpp" />
+    <ClCompile Include="Engine\Bounds.cpp" />
+    <ClCompile Include="Engine\Core.cpp" />
+    <ClCompile Include="Engine\DebugDraw.cpp" />
+    <ClCompile Include="Engine\EventManager.cpp" />
+    <ClCompile Include="Engine\Graphics\Camera2D.cpp" />
+    <ClCompile Include="Engine\Graphics\Graphics.cpp" />
+    <ClCompile Include="Engine\Graphics\IndexBuffer.cpp" />
+    <ClCompile Include="Engine\Graphics\Shaders.cpp" />
+    <ClCompile Include="Engine\Graphics\Sprite.cpp" />
+    <ClCompile Include="Engine\Input\InputManager.cpp" />
+    <ClCompile Include="Engine\Level\Level.cpp" />
+    <ClCompile Include="Engine\Level\Listener\ContactListener.cpp" />
+    <ClCompile Include="Engine\Level\Listener\QueryCallback.cpp" />
+    <ClCompile Include="Engine\Level\World.cpp" />
+    <ClCompile Include="Engine\Time\Time.cpp" />
+    <ClCompile Include="Engine\Transform.cpp" />
+    <ClCompile Include="Engine\Vector.cpp" />
+    <ClCompile Include="Game\Actor\Dummy.cpp" />
+    <ClCompile Include="Game\Actor\Floor.cpp" />
+    <ClCompile Include="Game\Actor\FollowCamera.cpp" />
+    <ClCompile Include="Game\Actor\Pawn.cpp" />
+    <ClCompile Include="Game\Map\MainMap.cpp" />
+    <ClCompile Include="Game\Resource\ResourceManager.cpp" />
+    <ClCompile Include="Include\imgui\imgui.cpp" />
+    <ClCompile Include="Include\imgui\imgui_demo.cpp" />
+    <ClCompile Include="Include\imgui\imgui_draw.cpp" />
+    <ClCompile Include="Include\imgui\imgui_impl_dx11.cpp" />
+    <ClCompile Include="Include\imgui\imgui_impl_win32.cpp" />
+    <ClCompile Include="Include\imgui\imgui_tables.cpp" />
+    <ClCompile Include="Include\imgui\imgui_widgets.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Client.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Core.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Graphics\Graphics.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Time\Time.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Include\imgui\imgui.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Include\imgui\imgui_demo.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Include\imgui\imgui_draw.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Include\imgui\imgui_impl_dx11.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Include\imgui\imgui_impl_win32.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Include\imgui\imgui_tables.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Include\imgui\imgui_widgets.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Input\InputManager.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Actor\Actor.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Actor\Component\ActorComponent.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Actor\Component\SceneComponent\CameraComponent.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Actor\Component\SceneComponent\SceneComponent.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Actor\Component\SceneComponent\SpriteComponent.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\DebugDraw.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\EventManager.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Level\Level.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\Actor\Floor.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\Actor\Pawn.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\Map\MainMap.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Actor\Component\BoxColliderComponent.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Actor\Component\CircleColliderComponent.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Actor\Component\ColliderComponent.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Actor\Component\RigidBodyComponent.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Bounds.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-<<<<<<< Updated upstream
-    <ClCompile Include="Engine\Level\Listener\ContactListener.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Level\Listener\QueryCallback.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-=======
->>>>>>> Stashed changes
-    <ClCompile Include="Engine\Level\World.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Transform.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Vector.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\Actor\Dummy.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-<<<<<<< Updated upstream
-    <ClCompile Include="Game\Actor\FollowCamera.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Graphics\IndexBuffer.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Graphics\Camera3D.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Graphics\Shaders.cpp">
-=======
-    <ClCompile Include="Game\Resource\ResourceManager.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Actor\Component\SceneComponent\AnimationComponent.cpp">
->>>>>>> Stashed changes
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <FxCompile Include="VertexShader.hlsl" />
-    <FxCompile Include="PixelShader.hlsl" />
-    <FxCompile Include="VertexShader2D.hlsl" />
-    <FxCompile Include="PixelShader2D.hlsl" />
+    <ClInclude Include="Client.h" />
+    <ClInclude Include="Engine\Actor\Actor.h" />
+    <ClInclude Include="Engine\Actor\Component\ActorComponent.h" />
+    <ClInclude Include="Engine\Actor\Component\BoxColliderComponent.h" />
+    <ClInclude Include="Engine\Actor\Component\CircleColliderComponent.h" />
+    <ClInclude Include="Engine\Actor\Component\ColliderComponent.h" />
+    <ClInclude Include="Engine\Actor\Component\RigidBodyComponent.h" />
+    <ClInclude Include="Engine\Actor\Component\SceneComponent\AnimationComponent.h" />
+    <ClInclude Include="Engine\Actor\Component\SceneComponent\CameraComponent.h" />
+    <ClInclude Include="Engine\Actor\Component\SceneComponent\SceneComponent.h" />
+    <ClInclude Include="Engine\Actor\Component\SceneComponent\SpriteComponent.h" />
+    <ClInclude Include="Engine\Bounds.h" />
+    <ClInclude Include="Engine\Core.h" />
+    <ClInclude Include="Engine\DebugDraw.h" />
+    <ClInclude Include="Engine\Enums.h" />
+    <ClInclude Include="Engine\EventManager.h" />
+    <ClInclude Include="Engine\Graphics\Camera2D.h" />
+    <ClInclude Include="Engine\Graphics\ConstantBuffer.h" />
+    <ClInclude Include="Engine\Graphics\ConstantBufferTypes.h" />
+    <ClInclude Include="Engine\Graphics\Graphics.h" />
+    <ClInclude Include="Engine\Graphics\IndexBuffer.h" />
+    <ClInclude Include="Engine\Graphics\Sprite.h" />
+    <ClInclude Include="Engine\Graphics\Vertex.h" />
+    <ClInclude Include="Engine\Graphics\Shaders.h" />
+    <ClInclude Include="Engine\Graphics\VertexBuffer.h" />
+    <ClInclude Include="Engine\Input\InputManager.h" />
+    <ClInclude Include="Engine\Level\Level.h" />
+    <ClInclude Include="Engine\Level\Listener\ContactListener.h" />
+    <ClInclude Include="Engine\Level\Listener\QueryCallback.h" />
+    <ClInclude Include="Engine\Level\World.h" />
+    <ClInclude Include="Engine\Singleton.h" />
+    <ClInclude Include="Engine\Time\Time.h" />
+    <ClInclude Include="Engine\Transform.h" />
+    <ClInclude Include="Engine\Vector.h" />
+    <ClInclude Include="framework.h" />
+    <ClInclude Include="Game\Actor\Dummy.h" />
+    <ClInclude Include="Game\Actor\Floor.h" />
+    <ClInclude Include="Game\Actor\FollowCamera.h" />
+    <ClInclude Include="Game\Actor\Pawn.h" />
+    <ClInclude Include="Game\Map\MainMap.h" />
+    <ClInclude Include="Game\Resource\ResourceManager.h" />
+    <ClInclude Include="Include\box2d\b2_api.h" />
+    <ClInclude Include="Include\box2d\b2_block_allocator.h" />
+    <ClInclude Include="Include\box2d\b2_body.h" />
+    <ClInclude Include="Include\box2d\b2_broad_phase.h" />
+    <ClInclude Include="Include\box2d\b2_chain_shape.h" />
+    <ClInclude Include="Include\box2d\b2_circle_shape.h" />
+    <ClInclude Include="Include\box2d\b2_collision.h" />
+    <ClInclude Include="Include\box2d\b2_common.h" />
+    <ClInclude Include="Include\box2d\b2_contact.h" />
+    <ClInclude Include="Include\box2d\b2_contact_manager.h" />
+    <ClInclude Include="Include\box2d\b2_distance.h" />
+    <ClInclude Include="Include\box2d\b2_distance_joint.h" />
+    <ClInclude Include="Include\box2d\b2_draw.h" />
+    <ClInclude Include="Include\box2d\b2_dynamic_tree.h" />
+    <ClInclude Include="Include\box2d\b2_edge_shape.h" />
+    <ClInclude Include="Include\box2d\b2_fixture.h" />
+    <ClInclude Include="Include\box2d\b2_friction_joint.h" />
+    <ClInclude Include="Include\box2d\b2_gear_joint.h" />
+    <ClInclude Include="Include\box2d\b2_growable_stack.h" />
+    <ClInclude Include="Include\box2d\b2_joint.h" />
+    <ClInclude Include="Include\box2d\b2_math.h" />
+    <ClInclude Include="Include\box2d\b2_motor_joint.h" />
+    <ClInclude Include="Include\box2d\b2_mouse_joint.h" />
+    <ClInclude Include="Include\box2d\b2_polygon_shape.h" />
+    <ClInclude Include="Include\box2d\b2_prismatic_joint.h" />
+    <ClInclude Include="Include\box2d\b2_pulley_joint.h" />
+    <ClInclude Include="Include\box2d\b2_revolute_joint.h" />
+    <ClInclude Include="Include\box2d\b2_rope.h" />
+    <ClInclude Include="Include\box2d\b2_settings.h" />
+    <ClInclude Include="Include\box2d\b2_shape.h" />
+    <ClInclude Include="Include\box2d\b2_stack_allocator.h" />
+    <ClInclude Include="Include\box2d\b2_timer.h" />
+    <ClInclude Include="Include\box2d\b2_time_of_impact.h" />
+    <ClInclude Include="Include\box2d\b2_time_step.h" />
+    <ClInclude Include="Include\box2d\b2_types.h" />
+    <ClInclude Include="Include\box2d\b2_weld_joint.h" />
+    <ClInclude Include="Include\box2d\b2_wheel_joint.h" />
+    <ClInclude Include="Include\box2d\b2_world.h" />
+    <ClInclude Include="Include\box2d\b2_world_callbacks.h" />
+    <ClInclude Include="Include\box2d\box2d.h" />
+    <ClInclude Include="Include\DirectXTK\Audio.h" />
+    <ClInclude Include="Include\DirectXTK\BufferHelpers.h" />
+    <ClInclude Include="Include\DirectXTK\CommonStates.h" />
+    <ClInclude Include="Include\DirectXTK\DDSTextureLoader.h" />
+    <ClInclude Include="Include\DirectXTK\DirectXHelpers.h" />
+    <ClInclude Include="Include\DirectXTK\Effects.h" />
+    <ClInclude Include="Include\DirectXTK\GamePad.h" />
+    <ClInclude Include="Include\DirectXTK\GeometricPrimitive.h" />
+    <ClInclude Include="Include\DirectXTK\GraphicsMemory.h" />
+    <ClInclude Include="Include\DirectXTK\Keyboard.h" />
+    <ClInclude Include="Include\DirectXTK\Model.h" />
+    <ClInclude Include="Include\DirectXTK\Mouse.h" />
+    <ClInclude Include="Include\DirectXTK\PostProcess.h" />
+    <ClInclude Include="Include\DirectXTK\PrimitiveBatch.h" />
+    <ClInclude Include="Include\DirectXTK\ScreenGrab.h" />
+    <ClInclude Include="Include\DirectXTK\SimpleMath.h" />
+    <ClInclude Include="Include\DirectXTK\SimpleMath.inl" />
+    <ClInclude Include="Include\DirectXTK\SpriteBatch.h" />
+    <ClInclude Include="Include\DirectXTK\SpriteFont.h" />
+    <ClInclude Include="Include\DirectXTK\VertexTypes.h" />
+    <ClInclude Include="Include\DirectXTK\WICTextureLoader.h" />
+    <ClInclude Include="Include\DirectXTK\XboxDDSTextureLoader.h" />
+    <ClInclude Include="Include\imgui\imconfig.h" />
+    <ClInclude Include="Include\imgui\imgui.h" />
+    <ClInclude Include="Include\imgui\imgui_impl_dx11.h" />
+    <ClInclude Include="Include\imgui\imgui_impl_win32.h" />
+    <ClInclude Include="Include\imgui\imgui_internal.h" />
+    <ClInclude Include="Include\imgui\imstb_rectpack.h" />
+    <ClInclude Include="Include\imgui\imstb_textedit.h" />
+    <ClInclude Include="Include\imgui\imstb_truetype.h" />
+    <ClInclude Include="targetver.h" />
   </ItemGroup>
 </Project>

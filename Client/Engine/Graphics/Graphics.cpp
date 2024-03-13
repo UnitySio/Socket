@@ -194,6 +194,8 @@ bool Graphics::InitScene()
 
     camera_2d_.SetProjectionValues(5.f, .3f, 1000.f);
 
+    sprite_batch_ = std::make_unique<SpriteBatch>(d3d_device_context_.Get());
+
     return true;
 }
 
@@ -247,6 +249,9 @@ void Graphics::BeginFrame3D()
     d3d_device_context_->PSSetShader(pixel_shader_2d_.GetShader(), nullptr, 0);
 
     sprite_.Draw(camera_2d_.GetWorldMatrix() * camera_2d_.GetOrthographicMatrix());
+
+    sprite_batch_->Begin(camera_2d_.GetWorldMatrix() * camera_2d_.GetOrthographicMatrix());
+    sprite_batch_->End();
 }
 
 void Graphics::EndFrame3D()

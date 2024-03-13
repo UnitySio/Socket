@@ -90,7 +90,7 @@ void Sprite::Draw(DirectX::XMMATRIX orthographic_matrix)
     timer += Time::DeltaTime();
 
     static int frame_index = 0;
-    if (timer >= .1f)
+    if (timer >= 1.f / 10.f)
     {
         frame_index = (frame_index + 1) % frames_.size();
         timer = 0.f;
