@@ -157,6 +157,7 @@
     <ClInclude Include="Engine\Graphics\IndexBuffer.h" />
     <ClInclude Include="Engine\Graphics\Sprite.h" />
     <ClInclude Include="Engine\Graphics\SpriteBatch.h" />
+    <ClInclude Include="Engine\Graphics\Texture.h" />
     <ClInclude Include="Engine\Graphics\Vertex.h" />
     <ClInclude Include="Engine\Graphics\Shaders.h" />
     <ClInclude Include="Engine\Graphics\VertexBuffer.h" />
@@ -270,6 +271,7 @@
     <ClCompile Include="Engine\Graphics\Shaders.cpp" />
     <ClCompile Include="Engine\Graphics\Sprite.cpp" />
     <ClCompile Include="Engine\Graphics\SpriteBatch.cpp" />
+    <ClCompile Include="Engine\Graphics\Texture.cpp" />
     <ClCompile Include="Engine\Input\InputManager.cpp" />
     <ClCompile Include="Engine\Level\Level.cpp" />
     <ClCompile Include="Engine\Level\Listener\ContactListener.cpp" />

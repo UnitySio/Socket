@@ -1,6 +1,7 @@
 ﻿#include "SpriteBatch.h"
 
 #include <d3d11.h>
+#include "Sprite.h"
 
 SpriteBatch::SpriteBatch(ID3D11DeviceContext* device_context)
 {
@@ -18,7 +19,7 @@ void SpriteBatch::End()
     orthographic_matrix_ = DirectX::XMMatrixIdentity();
 }
 
-void SpriteBatch::Draw(UINT frame_index)
+void SpriteBatch::Draw(Sprite* sprite, UINT frame_index)
 {
     DirectX::XMMATRIX wvp_matrix = orthographic_matrix_;
 }
