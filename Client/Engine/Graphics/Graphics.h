@@ -14,7 +14,7 @@
 #include "ConstantBuffer.h"
 #include "ConstantBufferTypes.h"
 #include "Shaders.h"
-#include "Sprite.h"
+#include "TempSprite.h"
 #include "SpriteBatch.h"
 #include "Texture.h"
 #include "box2d/b2_draw.h"
@@ -85,7 +85,7 @@ private:
     Camera2D camera_2d_;
 
     std::unique_ptr<Texture> texture_;
-    Sprite sprite_;
+    TempSprite sprite_;
 
     std::unique_ptr<SpriteBatch> sprite_batch_;
     

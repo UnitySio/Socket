@@ -12,7 +12,7 @@ public:
 
     void Begin(DirectX::XMMATRIX orthographic_matrix);
     void End();
-    void Draw(class Sprite* sprite, UINT frame_index = 0);
+    void Draw(class TempSprite* sprite, UINT frame_index = 0);
 
 private:
     ID3D11DeviceContext* device_context_;
