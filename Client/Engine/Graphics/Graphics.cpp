@@ -174,8 +174,9 @@ bool Graphics::InitShaders()
     };
 
     constexpr UINT num_elements_2d = ARRAYSIZE(layout_2d);
-    if (!vertex_shader_2d_.Init(d3d_device_, L"..\\x64\\Debug\\VertexShader2D.cso", layout_2d, num_elements_2d)) return
-        false;
+    if (!vertex_shader_2d_.Init(d3d_device_, L"..\\x64\\Debug\\VertexShader2D.cso", layout_2d, num_elements_2d))
+        return
+            false;
     if (!pixel_shader_2d_.Init(d3d_device_, L"..\\x64\\Debug\\PixelShader2D.cso")) return false;
 
     return InitScene();
@@ -189,8 +190,10 @@ bool Graphics::InitScene()
     hr = constant_pixel_buffer_2d_.Init(d3d_device_.Get(), d3d_device_context_.Get());
     if (FAILED(hr)) return false;
 
-    if (!sprite_.Init(d3d_device_.Get(), d3d_device_context_.Get(), L".\\spritesheet.png", 32.f, constant_buffer_2d_,
-                      constant_pixel_buffer_2d_)) return false;
+    texture_ = std::make_unique<Texture>();
+    if (!texture_->Load(d3d_device_.Get(), L".\\spritesheet.png")) return false;
+    if (!sprite_.Init(d3d_device_context_.Get(), texture_.get(), 32.f, constant_buffer_2d_, constant_pixel_buffer_2d_))
+        return false;
 
     camera_2d_.SetProjectionValues(5.f, .3f, 1000.f);
 

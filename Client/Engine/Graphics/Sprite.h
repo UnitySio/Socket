@@ -9,6 +9,8 @@
 #include "Vertex.h"
 #include "VertexBuffer.h"
 
+class Texture;
+
 struct SpriteFrame
 {
     float offset_x = 0;
@@ -23,7 +25,7 @@ public:
     Sprite();
     ~Sprite() = default;
 
-    bool Init(ID3D11Device* device, ID3D11DeviceContext* device_context, const std::wstring& kPath, float ppu,
+    bool Init(ID3D11DeviceContext* device_context, Texture* texture, float ppu,
               ConstantBuffer<ConstantVertexBuffer2D>& constant_buffer,
               ConstantBuffer<ConstantPixelBuffer2D>& constant_pixel_buffer);
 
@@ -51,12 +53,7 @@ private:
     ConstantBuffer<ConstantVertexBuffer2D>* constant_buffer_;
     ConstantBuffer<ConstantPixelBuffer2D>* constant_pixel_buffer_;
 
-    Microsoft::WRL::ComPtr<ID3D11Resource> texture_;
-    Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> texture_view_;
-
-    IndexBuffer indices_;
-
-    VertexBuffer<Vertex2D> vertices_;
+    Texture* texture_;
 
     DirectX::XMVECTOR position_vector_;
     DirectX::XMVECTOR rotation_vector_;

@@ -1,5 +1,6 @@
 ﻿#include "Sprite.h"
 
+#include "Texture.h"
 #include "DirectXTK/WICTextureLoader.h"
 #include "Time/Time.h"
 
@@ -8,8 +9,8 @@ Sprite::Sprite()
     world_matrix_ = DirectX::XMMatrixIdentity();
 }
 
-bool Sprite::Init(ID3D11Device* device, ID3D11DeviceContext* device_context,
-                  const std::wstring& kPath, float ppu, ConstantBuffer<ConstantVertexBuffer2D>& constant_buffer,
+bool Sprite::Init(ID3D11DeviceContext* device_context, Texture* texture, float ppu,
+                  ConstantBuffer<ConstantVertexBuffer2D>& constant_buffer,
                   ConstantBuffer<ConstantPixelBuffer2D>& constant_pixel_buffer)
 {
     device_context_ = device_context;
@@ -18,20 +19,8 @@ bool Sprite::Init(ID3D11Device* device, ID3D11DeviceContext* device_context,
     constant_buffer_ = &constant_buffer;
     constant_pixel_buffer_ = &constant_pixel_buffer;
 
-    HRESULT hr = DirectX::CreateWICTextureFromFile(device, kPath.c_str(), texture_.GetAddressOf(),
-                                                   texture_view_.GetAddressOf());
-    if (FAILED(hr)) return false;
-
-    Microsoft::WRL::ComPtr<ID3D11Texture2D> texture;
-
-    texture_->QueryInterface<ID3D11Texture2D>(texture.GetAddressOf());
-    if (!texture) return false;
-
-    D3D11_TEXTURE2D_DESC texture_desc;
-    texture->GetDesc(&texture_desc);
-
-    int row = texture_desc.Height / 64.f;
-    int col = texture_desc.Width / 64.f;
+    int row = texture->height_ / 64.f;
+    int col = texture->width_ / 64.f;
 
     for (int i = 0; i < row; ++i)
     {
@@ -40,38 +29,20 @@ bool Sprite::Init(ID3D11Device* device, ID3D11DeviceContext* device_context,
             SpriteFrame frame;
             frame.offset_x = j;
             frame.offset_y = i;
-            frame.scale_x = 64.f / texture_desc.Width;
-            frame.scale_y = 64.f / texture_desc.Height;
+            frame.scale_x = 64.f / texture->width_;
+            frame.scale_y = 64.f / texture->height_;
             frames_.push_back(frame);
         }
     }
 
-    std::vector<Vertex2D> vertices =
-    {
-        {-.5f, -.5f, 0.f, 0.f, 1.f}, // 왼쪽 아래
-        {.5f, -.5f, 0.f, 1.f, 1.f}, // 오른쪽 아래
-        {-.5f, .5f, 0.f, 0.f, 0.f}, // 왼쪽 위
-        {.5f, .5f, 0.f, 1.f, 0.f} // 오른쪽 위
-    };
-
-    std::vector<DWORD> indices =
-    {
-        0, 1, 2,
-        2, 1, 3
-    };
-
-    hr = vertices_.Init(device, vertices.data(), vertices.size());
-    if (FAILED(hr)) return false;
-
-    hr = indices_.Init(device, indices.data(), indices.size());
-    if (FAILED(hr)) return false;
-
     SetPosition(-((64.f / ppu) / 2.f),
-        -((texture_desc.Height / ppu) / 2.f),
-        0.f);
-    
+                -((texture->height_ / ppu) / 2.f),
+                0.f);
+
     SetRotation(0.f, 0.f, 0.f);
-    SetScale(64.f / ppu, texture_desc.Height / ppu);
+    SetScale(64.f / ppu, texture->height_ / ppu);
+    
+    texture_ = texture;
 
     return true;
 }
@@ -100,12 +71,12 @@ void Sprite::Draw(DirectX::XMMATRIX orthographic_matrix)
     constant_buffer_->data.uv_offset = {frame.offset_x, frame.offset_y};
     constant_buffer_->data.uv_scale = {frame.scale_x, frame.scale_y};
 
-    device_context_->PSSetShaderResources(0, 1, texture_view_.GetAddressOf());
+    device_context_->PSSetShaderResources(0, 1, texture_->texture_view_.GetAddressOf());
 
     constexpr UINT offsets = 0;
-    device_context_->IASetVertexBuffers(0, 1, vertices_.GetAddressOf(), vertices_.StridePtr(), &offsets);
-    device_context_->IASetIndexBuffer(indices_.Get(), DXGI_FORMAT_R32_UINT, 0);
-    device_context_->DrawIndexed(indices_.BufferSize(), 0, 0);
+    device_context_->IASetVertexBuffers(0, 1, texture_->vertices_.GetAddressOf(), texture_->vertices_.StridePtr(), &offsets);
+    device_context_->IASetIndexBuffer(texture_->indices_.Get(), DXGI_FORMAT_R32_UINT, 0);
+    device_context_->DrawIndexed(texture_->indices_.BufferSize(), 0, 0);
 }
 
 void Sprite::SetPosition(float x, float y, float z)

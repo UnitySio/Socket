@@ -16,6 +16,7 @@
 #include "Shaders.h"
 #include "Sprite.h"
 #include "SpriteBatch.h"
+#include "Texture.h"
 #include "box2d/b2_draw.h"
 
 struct b2Vec2;
@@ -83,6 +84,7 @@ private:
 
     Camera2D camera_2d_;
 
+    std::unique_ptr<Texture> texture_;
     Sprite sprite_;
 
     std::unique_ptr<SpriteBatch> sprite_batch_;

@@ -1,6 +1,14 @@
 ﻿#include "Texture.h"
 
+#include <vector>
+
 #include "DirectXTK/WICTextureLoader.h"
+
+Texture::Texture() :
+    width_(0),
+    height_(0)
+{
+}
 
 bool Texture::Load(ID3D11Device* device, const std::wstring& path)
 {
@@ -17,6 +25,26 @@ bool Texture::Load(ID3D11Device* device, const std::wstring& path)
 
     width_ = tex_2d_desc.Width;
     height_ = tex_2d_desc.Height;
+    
+    std::vector<Vertex2D> vertices =
+    {
+        {-.5f, -.5f, 0.f, 0.f, 1.f}, // 왼쪽 아래
+        {.5f, -.5f, 0.f, 1.f, 1.f}, // 오른쪽 아래
+        {-.5f, .5f, 0.f, 0.f, 0.f}, // 왼쪽 위
+        {.5f, .5f, 0.f, 1.f, 0.f} // 오른쪽 위
+    };
+
+    std::vector<DWORD> indices =
+    {
+        0, 1, 2,
+        2, 1, 3
+    };
+    
+    hr = vertices_.Init(device, vertices.data(), vertices.size());
+    if (FAILED(hr)) return false;
+
+    hr = indices_.Init(device, indices.data(), indices.size());
+    if (FAILED(hr)) return false;
 
     return true;
 }
