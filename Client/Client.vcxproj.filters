@@ -3,8 +3,8 @@
   <ItemGroup>
     <FxCompile Include="Engine\Shader\PixelShader2D.hlsl" />
     <FxCompile Include="Engine\Shader\VertexShader2D.hlsl" />
-    <FxCompile Include="VertexShaderPrimitive.hlsl" />
-    <FxCompile Include="PixelShaderPrimitive.hlsl" />
+    <FxCompile Include="Engine\Shader\PixelShaderPrimitive.hlsl" />
+    <FxCompile Include="Engine\Shader\VertexShaderPrimitive.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp" />

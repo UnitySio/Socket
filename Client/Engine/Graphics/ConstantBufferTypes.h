@@ -15,3 +15,16 @@ struct ConstantPixelBuffer2D
     float b = 1.f;
     float alpha = 1.f;
 };
+
+struct ConstantVertexPrimitiveBuffer
+{
+    DirectX::XMMATRIX mat;
+};
+
+struct ConstantPixelPrimitiveBuffer
+{
+    float r = 1.f;
+    float g = 1.f;
+    float b = 1.f;
+    float alpha = 1.f;
+};
