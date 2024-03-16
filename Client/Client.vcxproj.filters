@@ -3,8 +3,8 @@
   <ItemGroup>
     <FxCompile Include="Engine\Shader\PixelShader2D.hlsl" />
     <FxCompile Include="Engine\Shader\VertexShader2D.hlsl" />
-    <FxCompile Include="VertexShaderDebug.hlsl" />
-    <FxCompile Include="PixelShaderDebug.hlsl" />
+    <FxCompile Include="VertexShaderPrimitive.hlsl" />
+    <FxCompile Include="PixelShaderPrimitive.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp" />
@@ -48,6 +48,9 @@
     <ClCompile Include="Include\imgui\imgui_impl_win32.cpp" />
     <ClCompile Include="Include\imgui\imgui_tables.cpp" />
     <ClCompile Include="Include\imgui\imgui_widgets.cpp" />
+    <ClCompile Include="Engine\Graphics\TempSprite.cpp" />
+    <ClCompile Include="Engine\Graphics\SpriteBatch.cpp" />
+    <ClCompile Include="Engine\Graphics\Texture.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h" />
@@ -162,5 +165,8 @@
     <ClInclude Include="Include\imgui\imstb_textedit.h" />
     <ClInclude Include="Include\imgui\imstb_truetype.h" />
     <ClInclude Include="targetver.h" />
+    <ClInclude Include="Engine\Graphics\TempSprite.h" />
+    <ClInclude Include="Engine\Graphics\SpriteBatch.h" />
+    <ClInclude Include="Engine\Graphics\Texture.h" />
   </ItemGroup>
 </Project>
