@@ -3,7 +3,7 @@ cbuffer constant : register(b0)
 	float r;
 	float g;
 	float b;
-	float alpha;
+	float a;
 };
 
 struct PS_INPUT
@@ -21,7 +21,7 @@ float4 main(PS_INPUT input) : SV_TARGET
 	color.r *= r;
 	color.g *= g;
 	color.b *= b;
-	color.a *= alpha;
+	color.a *= a;
 	
 	return color;
 }
