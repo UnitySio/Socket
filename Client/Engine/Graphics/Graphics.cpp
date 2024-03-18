@@ -213,27 +213,29 @@ bool Graphics::InitScene()
     sprite_batch_ = std::make_unique<SpriteBatch>(d3d_device_context_.Get());
 
     VertexPrimitive vertices[] = {
-        VertexPrimitive(-.5f, -.5f, 0.f, 1.f, 0.f, 0.f, 1.f),
-        VertexPrimitive(0.f, .5f, 0.f, 0.f, 1.f, 0.f, 1.f),
-        VertexPrimitive(.5f, -.5f, 0.f, 0.f, 0.f, 1.f, 1.f)
+        VertexPrimitive(-.5f, 0.f, 0.f, 1.f, 0.f, 0.f, 1.f),
+        VertexPrimitive(.5f, 0.f, 0.f, 0.f, 1.f, 0.f, 1.f)
     };
 
+    // 동적 버퍼 테스트
     D3D11_BUFFER_DESC vertex_buffer_desc;
     ZeroMemory(&vertex_buffer_desc, sizeof(D3D11_BUFFER_DESC));
 
-    vertex_buffer_desc.Usage = D3D11_USAGE_DEFAULT;
-    vertex_buffer_desc.ByteWidth = sizeof(VertexPrimitive) * 3;
+    vertex_buffer_desc.ByteWidth = sizeof(VertexPrimitive) * 2;
+    vertex_buffer_desc.Usage = D3D11_USAGE_DYNAMIC;
     vertex_buffer_desc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-    vertex_buffer_desc.CPUAccessFlags = 0;
-    vertex_buffer_desc.MiscFlags = 0;
+    vertex_buffer_desc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
 
-    D3D11_SUBRESOURCE_DATA vertex_data;
-    ZeroMemory(&vertex_data, sizeof(D3D11_SUBRESOURCE_DATA));
-
-    vertex_data.pSysMem = vertices;
-
-    hr = d3d_device_->CreateBuffer(&vertex_buffer_desc, &vertex_data, vertex_buffer_.GetAddressOf());
+    hr = d3d_device_->CreateBuffer(&vertex_buffer_desc, nullptr, vertex_buffer_.GetAddressOf());
     if (FAILED(hr)) return false;
+
+    D3D11_MAPPED_SUBRESOURCE mapped_vertices;
+    hr = d3d_device_context_->Map(vertex_buffer_.Get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &mapped_vertices);
+    if (FAILED(hr)) return false;
+
+    CopyMemory(mapped_vertices.pData, vertices, sizeof(vertices));
+
+    d3d_device_context_->Unmap(vertex_buffer_.Get(), 0);
 
     return true;
 }
@@ -278,11 +280,12 @@ void Graphics::BeginFrame3D()
     d3d_device_context_->ClearDepthStencilView(depth_stencil_view_.Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.f,
                                                0);
 
-    d3d_device_context_->IASetPrimitiveTopology(D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
     d3d_device_context_->RSSetState(rasterizer_state_.Get());
     d3d_device_context_->OMSetDepthStencilState(depth_stencil_state_.Get(), 0);
     d3d_device_context_->OMSetBlendState(blend_state_.Get(), nullptr, 0xffffffff);
     d3d_device_context_->PSSetSamplers(0, 1, sampler_state_.GetAddressOf());
+    
+    d3d_device_context_->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_LINELIST);
 
     // Primitive
     d3d_device_context_->IASetInputLayout(vertex_shader_primitive_.GetInputLayout());
@@ -300,7 +303,9 @@ void Graphics::BeginFrame3D()
     UINT stride = sizeof(VertexPrimitive);
     UINT offset = 0;
     d3d_device_context_->IASetVertexBuffers(0, 1, vertex_buffer_.GetAddressOf(), &stride, &offset);
-    d3d_device_context_->Draw(3, 0);
+    d3d_device_context_->Draw(2, 0);
+    
+    d3d_device_context_->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
     // 2D
     d3d_device_context_->IASetInputLayout(vertex_shader_2d_.GetInputLayout());

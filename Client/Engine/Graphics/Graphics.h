@@ -18,6 +18,7 @@
 #include "SpriteBatch.h"
 #include "Texture.h"
 #include "box2d/b2_draw.h"
+#include "DirectXTK/PrimitiveBatch.h"
 
 struct b2Vec2;
 
