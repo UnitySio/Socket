@@ -8,6 +8,7 @@
 
 #include "DebugDraw.h"
 #include "Vector.h"
+#include "Graphics/PrimitiveBatch.h"
 #include "Listener/ContactListener.h"
 
 class Actor;
@@ -38,6 +39,8 @@ public:
     b2Vec2 GetRenderPosition(b2Vec2 world_position);
     b2Vec2 GetWorldPosition(b2Vec2 render_position);
 
+    inline PrimitiveBatch* GetPrimitiveBatch() const { return primitive_batch_.get(); }
+
 private:
     std::wstring name_;
 
@@ -50,4 +53,6 @@ private:
     Vector screen_position_;
 
     ContactListener contact_listener_;
+
+    std::unique_ptr<PrimitiveBatch> primitive_batch_;
 };

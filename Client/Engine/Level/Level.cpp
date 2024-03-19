@@ -7,6 +7,7 @@
 
 #include "Actor/Actor.h"
 #include "box2d/b2_contact.h"
+#include "Graphics/Graphics.h"
 
 Level::Level(const std::wstring& kName) :
     world_(nullptr),
@@ -29,6 +30,8 @@ Level::Level(const std::wstring& kName) :
     debug_draw_.SetFlags(flags);
 
     world_->SetDebugDraw(&debug_draw_);
+
+    primitive_batch_ = std::make_unique<PrimitiveBatch>(Graphics::Get()->GetD3DDeviceContext());
 }
 
 void Level::BeginPlay()
@@ -108,8 +111,10 @@ void Level::Render()
         if (!actor->is_active_ || actor->is_destroy_) continue;
         actor->Render();
     }
-    
+
+    primitive_batch_->Begin(Graphics::Get()->GetCamera2D().GetWorldMatrix() * Graphics::Get()->GetCamera2D().GetOrthographicMatrix());
     world_->DebugDraw();
+    primitive_batch_->End();
 }
 
 void Level::Destroy()

@@ -18,7 +18,6 @@
 #include "SpriteBatch.h"
 #include "Texture.h"
 #include "box2d/b2_draw.h"
-#include "DirectXTK/PrimitiveBatch.h"
 
 struct b2Vec2;
 
@@ -69,16 +68,12 @@ private:
     Microsoft::WRL::ComPtr<ID2D1RenderTarget> d2d_render_target_;
 
     VertexShader vertex_shader_2d_;
-    VertexShader vertex_shader_primitive_;
     
     PixelShader pixel_shader_2d_;
-    PixelShader pixel_shader_primitive_;
     
     ConstantBuffer<ConstantVertexBuffer2D> constant_buffer_2d_;
-    ConstantBuffer<ConstantVertexPrimitiveBuffer> constant_primitive_buffer_;
     
     ConstantBuffer<ConstantPixelBuffer2D> constant_pixel_buffer_2d_;
-    ConstantBuffer<ConstantPixelPrimitiveBuffer> constant_pixel_primitive_buffer_;
 
     Microsoft::WRL::ComPtr<ID3D11DepthStencilView> depth_stencil_view_;
     Microsoft::WRL::ComPtr<ID3D11Texture2D> depth_stencil_buffer_;
