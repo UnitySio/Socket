@@ -155,7 +155,7 @@ Vector Vector::Left()
 
 Vector Vector::Up()
 {
-    return {0.f, -1.f};
+    return {0.f, 1.f};
 }
 
 Vector Vector::Right()
@@ -165,7 +165,7 @@ Vector Vector::Right()
 
 Vector Vector::Down()
 {
-    return {0.f, 1.f};
+    return {0.f, -1.f};
 }
 
 Vector Vector::Lerp(Vector a, Vector b, float t)

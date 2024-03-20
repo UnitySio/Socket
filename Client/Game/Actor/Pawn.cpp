@@ -41,12 +41,13 @@ Pawn::Pawn(b2World* world, const std::wstring& kName) :
     SetRootComponent(scene_);
     
     box_collider_ = CreateComponent<BoxColliderComponent>(L"BoxCollider");
-    box_collider_->SetSize({32.f, 32.f});
+    box_collider_->SetSize({1.f, 1.f});
 
     rigid_body_ = CreateComponent<RigidBodyComponent>(L"RigidBody");
     rigid_body_->SetBodyType(BodyType::kDynamic);
+    rigid_body_->SetFreezeRotation(true);
     
-    SetActorLocation({0.f, -100.f});
+    SetActorLocation({0.f, 5.f});
 
     b2BodyDef body_def;
     body_ = GetWorld()->CreateBody(&body_def);
@@ -59,11 +60,11 @@ void Pawn::BeginPlay()
     Actor::BeginPlay();
 
     Dummy* dummy = new Dummy(GetWorld(), L"Dummy");
-    dummy->SetActorLocation({0.f, -300.f});
+    dummy->SetActorLocation({0.f, 6.f});
     SpawnActor(dummy);
 
     Dummy* dummy2 = new Dummy(GetWorld(), L"Dummy2");
-    dummy2->SetActorLocation({0.f, -200.f});
+    dummy2->SetActorLocation({0.f, 4.f});
     dummy2->GetRigidBody()->SetBodyType(BodyType::kDynamic);
     SpawnActor(dummy2);
 
@@ -73,7 +74,7 @@ void Pawn::BeginPlay()
     GetWorld()->CreateJoint(&joint_def);
 
     Dummy* dummy3 = new Dummy(GetWorld(), L"Dummy3");
-    dummy3->SetActorLocation({0.f, -100.f});
+    dummy3->SetActorLocation({0.f, 2.f});
     dummy3->GetRigidBody()->SetBodyType(BodyType::kDynamic);
     SpawnActor(dummy3);
 
@@ -93,7 +94,7 @@ void Pawn::PhysicsTick(float delta_time)
 
     if (h == 0) return;
     dir_ = h;
-    rigid_body_->SetVelocity({h * 100.f, rigid_body_->GetVelocity().y});
+    rigid_body_->SetVelocity({h * 2.f, rigid_body_->GetVelocity().y});
 }
 
 void Pawn::Tick(float delta_time)
@@ -105,7 +106,7 @@ void Pawn::Tick(float delta_time)
     if (input->IsKeyDown(VK_UP))
     {
         rigid_body_->SetVelocity(Vector::Zero());
-        rigid_body_->AddForce({dir_ * 500000.f, -500000.f}, ForceMode::kImpulse);
+        rigid_body_->AddForce(Vector::Up() * 5.f, ForceMode::kImpulse);
     }
 
     if (input->IsKeyDown(VK_SPACE))

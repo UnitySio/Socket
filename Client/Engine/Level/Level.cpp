@@ -17,7 +17,7 @@ Level::Level(const std::wstring& kName) :
 {
     name_ = kName;
 
-    b2Vec2 gravity(0.f, 9.81f * 100.f);
+    b2Vec2 gravity(0.f, -9.81f);
     world_ = std::make_unique<b2World>(gravity);
     world_->SetContactListener(&contact_listener_);
 
