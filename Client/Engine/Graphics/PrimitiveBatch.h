@@ -18,6 +18,7 @@ public:
     void Begin(DirectX::XMMATRIX orthographic_matrix);
     void End();
     void DrawLine(float x1, float y1, float x2, float y2, float r, float g, float b, float a);
+    void DrawPolygon(std::vector<VertexPrimitive>& vertices, float r, float g, float b, float a);
 
 private:
     void LockBuffer(std::vector<VertexPrimitive>& vertices);
@@ -25,6 +26,7 @@ private:
     ID3D11DeviceContext* device_context_;
     
     Microsoft::WRL::ComPtr<ID3D11Buffer> vertex_buffer_;
+    Microsoft::WRL::ComPtr<ID3D11Buffer> index_buffer_;
     
     VertexShader vertex_shader_primitive_;
     

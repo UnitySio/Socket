@@ -31,7 +31,20 @@ void DebugDraw::DrawSolidPolygon(const b2Vec2* vertices, int32 vertexCount, cons
     // Graphics::Get()->DrawSolidPolygon(new_vertices, vertexCount, fill_color);
     //
     // Graphics::Get()->DrawPolygon(new_vertices, vertexCount, color);
+    
+    Level* level = World::Get()->GetLevel();
+    PrimitiveBatch* batch = level->GetPrimitiveBatch();
+    b2Color fill_color(color.r * .5f, color.g * .5f, color.b * .5f, .5f);
 
+    std::vector<VertexPrimitive> vertex_primitives;
+    for (int32 i = 0; i < vertexCount; ++i)
+    {
+        b2Vec2 p = vertices[i];
+        vertex_primitives.push_back(VertexPrimitive(p.x, p.y, 0.f, fill_color.r, fill_color.g, fill_color.b, fill_color.a));
+    }
+
+    batch->DrawPolygon(vertex_primitives, fill_color.r, fill_color.g, fill_color.b, fill_color.a);
+    
     for (int32 i = 0; i < vertexCount; ++i)
     {
         b2Vec2 p1 = vertices[i];

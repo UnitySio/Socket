@@ -32,7 +32,6 @@ Pawn::Pawn(b2World* world, const std::wstring& kName) :
     rigid_body_(nullptr),
     body_(nullptr),
     mouse_joint_(nullptr),
-    dir_(1),
     bitmap_(nullptr),
     sprite_(nullptr),
     animation_(nullptr)
@@ -45,9 +44,9 @@ Pawn::Pawn(b2World* world, const std::wstring& kName) :
 
     rigid_body_ = CreateComponent<RigidBodyComponent>(L"RigidBody");
     rigid_body_->SetBodyType(BodyType::kDynamic);
-    rigid_body_->SetFreezeRotation(true);
+    // rigid_body_->SetFreezeRotation(true);
     
-    SetActorLocation({0.f, 5.f});
+    SetActorLocation({1.f, 5.f});
 
     b2BodyDef body_def;
     body_ = GetWorld()->CreateBody(&body_def);
@@ -91,9 +90,6 @@ void Pawn::PhysicsTick(float delta_time)
     
     InputManager* input = InputManager::Get();
     float h = input->IsKeyPressed(VK_RIGHT) - input->IsKeyPressed(VK_LEFT);
-
-    if (h == 0) return;
-    dir_ = h;
     rigid_body_->SetVelocity({h * 2.f, rigid_body_->GetVelocity().y});
 }
 

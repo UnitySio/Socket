@@ -23,8 +23,6 @@ private:
 
     class b2Body* body_;
     class b2MouseJoint* mouse_joint_;
-
-    int dir_;
     
     class ID2D1Bitmap* bitmap_;
     class SpriteComponent* sprite_;
