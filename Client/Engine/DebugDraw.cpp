@@ -21,20 +21,7 @@ void DebugDraw::DrawPolygon(const b2Vec2* vertices, int32 vertexCount, const b2C
 
 void DebugDraw::DrawSolidPolygon(const b2Vec2* vertices, int32 vertexCount, const b2Color& color)
 {
-    // b2Vec2 new_vertices[b2_maxPolygonVertices];
-    // for (int32 i = 0; i < vertexCount; ++i)
-    // {
-    //     new_vertices[i] = World::Get()->GetLevel()->GetRenderPosition(vertices[i]);
-    // }
-    //
-    // b2Color fill_color(color.r * .5f, color.g * .5f, color.b * .5f, .5f);
-    // Graphics::Get()->DrawSolidPolygon(new_vertices, vertexCount, fill_color);
-    //
-    // Graphics::Get()->DrawPolygon(new_vertices, vertexCount, color);
-    
-    Level* level = World::Get()->GetLevel();
-    PrimitiveBatch* batch = level->GetPrimitiveBatch();
-    b2Color fill_color(color.r * .5f, color.g * .5f, color.b * .5f, .5f);
+    const b2Color fill_color(color.r * .5f, color.g * .5f, color.b * .5f, .5f);
 
     std::vector<VertexPrimitive> vertex_primitives;
     for (int32 i = 0; i < vertexCount; ++i)
@@ -42,8 +29,10 @@ void DebugDraw::DrawSolidPolygon(const b2Vec2* vertices, int32 vertexCount, cons
         b2Vec2 p = vertices[i];
         vertex_primitives.push_back(VertexPrimitive(p.x, p.y, 0.f, fill_color.r, fill_color.g, fill_color.b, fill_color.a));
     }
-
-    batch->DrawPolygon(vertex_primitives, fill_color.r, fill_color.g, fill_color.b, fill_color.a);
+    
+    Level* level = World::Get()->GetLevel();
+    PrimitiveBatch* batch = level->GetPrimitiveBatch();
+    batch->DrawPolygon(vertex_primitives);
     
     for (int32 i = 0; i < vertexCount; ++i)
     {
@@ -74,10 +63,14 @@ void DebugDraw::DrawSolidCircle(const b2Vec2& center, float radius, const b2Vec2
 
 void DebugDraw::DrawSegment(const b2Vec2& p1, const b2Vec2& p2, const b2Color& color)
 {
+    std::vector<VertexPrimitive> vertices = {
+        VertexPrimitive(p1.x, p1.y, 0.f, color.r, color.g, color.b, color.a),
+        VertexPrimitive(p2.x, p2.y, 0.f, color.r, color.g, color.b, color.a)
+    };
+
     Level* level = World::Get()->GetLevel();
     PrimitiveBatch* batch = level->GetPrimitiveBatch();
-
-    batch->DrawLine(p1.x, p1.y, p2.x, p2.y, color.r, color.g, color.b, color.a);
+    batch->DrawLine(vertices);
 }
 
 void DebugDraw::DrawTransform(const b2Transform& xf)

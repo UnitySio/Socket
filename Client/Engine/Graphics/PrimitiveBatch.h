@@ -17,8 +17,8 @@ public:
     
     void Begin(DirectX::XMMATRIX orthographic_matrix);
     void End();
-    void DrawLine(float x1, float y1, float x2, float y2, float r, float g, float b, float a);
-    void DrawPolygon(std::vector<VertexPrimitive>& vertices, float r, float g, float b, float a);
+    void DrawLine(std::vector<VertexPrimitive>& vertices);
+    void DrawPolygon(std::vector<VertexPrimitive>& vertices);
 
 private:
     void LockBuffer(std::vector<VertexPrimitive>& vertices);
