@@ -32,7 +32,6 @@ void DebugDraw::DrawSolidPolygon(const b2Vec2* vertices, int32 vertexCount, cons
         vertex_primitives.push_back(VertexPrimitive(p.x, p.y, 0.f, fill_color.r, fill_color.g, fill_color.b, fill_color.a));
     }
 
-    // indices
     std::vector<UINT> indices;
     for (int32 i = 1; i < vertexCount - 1; i++)
     {
