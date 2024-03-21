@@ -1,6 +1,7 @@
 ﻿#include "CameraComponent.h"
 
 #include "Core.h"
+#include "Graphics/Graphics.h"
 #include "Level/Level.h"
 #include "Level/World.h"
 
@@ -11,12 +12,9 @@ CameraComponent::CameraComponent(Actor* owner, const std::wstring& kName) : Scen
 void CameraComponent::TickComponent(float delta_time)
 {
     SceneComponent::TickComponent(delta_time);
-    
-    Core* core = Core::Get();
-    Level* level = World::Get()->GetLevel();
 
-    POINT resolution = core->GetResolution();
-    Vector half_screen = {resolution.x / 2.f, resolution.y / 2.f};
-    
-    level->SetScreenPosition(GetWorldLocation() - half_screen);
+    Graphics* gfx = Graphics::Get();
+    Camera2D& camera = gfx->GetCamera2D();
+
+    camera.SetPosition(GetRelativeLocation().x, GetRelativeLocation().y, 0.f);
 }
