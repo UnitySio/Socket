@@ -18,7 +18,8 @@ private:
     class SceneComponent* scene_;
 
     // Actor components
-    class BoxColliderComponent* box_collider_;
+    // class BoxColliderComponent* box_collider_;
+    class CircleColliderComponent* circle_collider_;
     class RigidBodyComponent* rigid_body_;
 
     class b2Body* body_;

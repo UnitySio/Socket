@@ -7,6 +7,7 @@
 #include "../../Engine/Core.h"
 #include "../../Engine/Actor/Component/SceneComponent/SceneComponent.h"
 #include "../../Engine/Actor/Component/BoxColliderComponent.h"
+#include "../../Engine/Actor/Component/CircleColliderComponent.h"
 #include "../../Engine/Actor/Component/RigidBodyComponent.h"
 #include "../../Engine/Graphics/Graphics.h"
 #include "../../Engine/Input/InputManager.h"
@@ -28,7 +29,7 @@
 Pawn::Pawn(b2World* world, const std::wstring& kName) :
     Actor(world, kName),
     scene_(nullptr),
-    box_collider_(nullptr),
+    // box_collider_(nullptr),
     rigid_body_(nullptr),
     body_(nullptr),
     mouse_joint_(nullptr),
@@ -39,8 +40,11 @@ Pawn::Pawn(b2World* world, const std::wstring& kName) :
     scene_ = CreateComponent<SceneComponent>(L"Scene");
     SetRootComponent(scene_);
     
-    box_collider_ = CreateComponent<BoxColliderComponent>(L"BoxCollider");
-    box_collider_->SetSize({1.f, 1.f});
+    // box_collider_ = CreateComponent<BoxColliderComponent>(L"BoxCollider");
+    // box_collider_->SetSize({1.f, 1.f});
+
+    circle_collider_ = CreateComponent<CircleColliderComponent>(L"CircleCollider");
+    circle_collider_->SetRadius(.5f);
 
     rigid_body_ = CreateComponent<RigidBodyComponent>(L"RigidBody");
     rigid_body_->SetBodyType(BodyType::kDynamic);

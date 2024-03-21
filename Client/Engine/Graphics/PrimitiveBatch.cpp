@@ -17,26 +17,16 @@ PrimitiveBatch::PrimitiveBatch(ID3D11DeviceContext* device_context) :
 
     HRESULT hr = device->CreateBuffer(&vertex_buffer_desc, nullptr, vertex_buffer_.GetAddressOf());
     assert(SUCCEEDED(hr));
-    
-    DWORD indices[] = {
-        0, 3, 2,
-        0, 2, 1
-    };
 
     D3D11_BUFFER_DESC index_buffer_desc;
     ZeroMemory(&index_buffer_desc, sizeof(D3D11_BUFFER_DESC));
     
-    index_buffer_desc.ByteWidth = sizeof(DWORD) * 6;
+    index_buffer_desc.ByteWidth = sizeof(UINT) * (2048 * 3);
     index_buffer_desc.Usage = D3D11_USAGE_DYNAMIC;
     index_buffer_desc.BindFlags = D3D11_BIND_INDEX_BUFFER;
     index_buffer_desc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
-    
-    D3D11_SUBRESOURCE_DATA buffer_data = {};
-    ZeroMemory(&buffer_data, sizeof(D3D11_SUBRESOURCE_DATA));
-    
-    buffer_data.pSysMem = indices;
 
-    hr = device->CreateBuffer(&index_buffer_desc, &buffer_data, index_buffer_.GetAddressOf());
+    hr = device->CreateBuffer(&index_buffer_desc, nullptr, index_buffer_.GetAddressOf());
     assert(SUCCEEDED(hr));
     
     D3D11_INPUT_ELEMENT_DESC layout_primitive[] = {
@@ -85,7 +75,10 @@ void PrimitiveBatch::End()
 
 void PrimitiveBatch::DrawLine(std::vector<VertexPrimitive>& vertices)
 {
-    LockBuffer(vertices);
+    LockBuffer(vertex_buffer_.Get(), &mapped_vertices_);
+
+    CopyMemory(mapped_vertices_.pData, vertices.data(), sizeof(VertexPrimitive) * vertices.size());
+    device_context_->Unmap(vertex_buffer_.Get(), 0);
     
     device_context_->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_LINELIST);
     device_context_->Draw(2, 0);
@@ -93,19 +86,33 @@ void PrimitiveBatch::DrawLine(std::vector<VertexPrimitive>& vertices)
 
 void PrimitiveBatch::DrawPolygon(std::vector<VertexPrimitive>& vertices)
 {
-    LockBuffer(vertices);
+    LockBuffer(vertex_buffer_.Get(), &mapped_vertices_);
+
+    CopyMemory(mapped_vertices_.pData, vertices.data(), sizeof(VertexPrimitive) * vertices.size());
+    device_context_->Unmap(vertex_buffer_.Get(), 0);
     
-    device_context_->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-    device_context_->DrawIndexed(6, 0, 0);
+    device_context_->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_LINESTRIP);
+    device_context_->Draw(vertices.size(), 0);
 }
 
-void PrimitiveBatch::LockBuffer(std::vector<VertexPrimitive>& vertices)
+void PrimitiveBatch::DrawSolidPolygon(std::vector<VertexPrimitive>& vertices, std::vector<UINT>& indices)
 {
-    D3D11_MAPPED_SUBRESOURCE mapped_vertices;
-    HRESULT hr = device_context_->Map(vertex_buffer_.Get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &mapped_vertices);
-    assert(SUCCEEDED(hr));
+    LockBuffer(vertex_buffer_.Get(), &mapped_vertices_);
 
-    CopyMemory(mapped_vertices.pData, vertices.data(), sizeof(VertexPrimitive) * vertices.size());
-
+    CopyMemory(mapped_vertices_.pData, vertices.data(), sizeof(VertexPrimitive) * vertices.size());
     device_context_->Unmap(vertex_buffer_.Get(), 0);
+
+    LockBuffer(index_buffer_.Get(), &mapped_indices_);
+
+    CopyMemory(mapped_indices_.pData, indices.data(), sizeof(UINT) * indices.size());
+    device_context_->Unmap(index_buffer_.Get(), 0);
+    
+    device_context_->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+    device_context_->DrawIndexed(indices.size(), 0, 0);
+}
+
+void PrimitiveBatch::LockBuffer(ID3D11Buffer* buffer, D3D11_MAPPED_SUBRESOURCE* mapped_resource)
+{
+    HRESULT hr = device_context_->Map(buffer, 0, D3D11_MAP_WRITE_DISCARD, 0, mapped_resource);
+    assert(SUCCEEDED(hr));
 }
