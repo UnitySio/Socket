@@ -10,9 +10,9 @@ Texture::Texture() :
 {
 }
 
-bool Texture::Load(ID3D11Device* device, const std::wstring& path)
+bool Texture::Load(ID3D11Device* device, const std::wstring& kPath)
 {
-    HRESULT hr = DirectX::CreateWICTextureFromFile(device, path.c_str(), texture_.GetAddressOf(),
+    HRESULT hr = DirectX::CreateWICTextureFromFile(device, kPath.c_str(), texture_.GetAddressOf(),
                                                    texture_view_.GetAddressOf());
     if (FAILED(hr)) return false;
 

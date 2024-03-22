@@ -4,7 +4,7 @@
 #include "Level/Level.h"
 #include "Level/World.h"
 
-#define SEGMENTS 16
+#define CIRCLE_SEGMENTS 64
 
 DebugDraw::DebugDraw()
 {
@@ -50,10 +50,10 @@ void DebugDraw::DrawSolidPolygon(const b2Vec2* vertices, int32 vertexCount, cons
 void DebugDraw::DrawCircle(const b2Vec2& center, float radius, const b2Color& color)
 {
     std::vector<VertexPrimitive> vertices;
-    for (int32 i = 0; i < SEGMENTS; ++i)
+    for (int32 i = 0; i < CIRCLE_SEGMENTS; ++i)
     {
         //정점이 모두 연결되어야 해
-        float theta = 2.f * b2_pi * i / SEGMENTS;
+        float theta = 2.f * b2_pi * i / CIRCLE_SEGMENTS;
         float x = center.x + radius * cos(theta);
         float y = center.y + radius * sin(theta);
         vertices.push_back(VertexPrimitive(x, y, 0.f, color.r, color.g, color.b, color.a));
@@ -73,9 +73,9 @@ void DebugDraw::DrawSolidCircle(const b2Vec2& center, float radius, const b2Vec2
     std::vector<VertexPrimitive> vertices;
     vertices.push_back(VertexPrimitive(center.x, center.y, 0.f, fill_color.r, fill_color.g, fill_color.b, fill_color.a));
     
-    for (int32 i = 0; i < SEGMENTS; ++i)
+    for (int32 i = 0; i < CIRCLE_SEGMENTS; ++i)
     {
-        float theta = 2.f * b2_pi * i / SEGMENTS;
+        float theta = 2.f * b2_pi * i / CIRCLE_SEGMENTS;
         float x = center.x + radius * cos(theta);
         float y = center.y + radius * sin(theta);
         vertices.push_back(VertexPrimitive(x, y, 0.f, fill_color.r, fill_color.g, fill_color.b, fill_color.a));
@@ -84,7 +84,7 @@ void DebugDraw::DrawSolidCircle(const b2Vec2& center, float radius, const b2Vec2
     vertices.push_back(vertices[1]);
 
     std::vector<UINT> indices;
-    for (int32 i = 0; i < SEGMENTS; i++)
+    for (int32 i = 0; i < CIRCLE_SEGMENTS; i++)
     {
         indices.push_back(0);
         indices.push_back(i + 1);
@@ -132,9 +132,9 @@ void DebugDraw::DrawPoint(const b2Vec2& p, float size, const b2Color& color)
     std::vector<VertexPrimitive> vertices;
     vertices.push_back(VertexPrimitive(p.x, p.y, 0.f, color.r, color.g, color.b, color.a));
     
-    for (int32 i = 0; i < SEGMENTS; ++i)
+    for (int32 i = 0; i < CIRCLE_SEGMENTS; ++i)
     {
-        float theta = 2.f * b2_pi * i / SEGMENTS;
+        float theta = 2.f * b2_pi * i / CIRCLE_SEGMENTS;
         float x = p.x + size * cos(theta);
         float y = p.y + size * sin(theta);
         vertices.push_back(VertexPrimitive(x, y, 0.f, color.r, color.g, color.b, color.a));
@@ -143,7 +143,7 @@ void DebugDraw::DrawPoint(const b2Vec2& p, float size, const b2Color& color)
     vertices.push_back(vertices[1]);
 
     std::vector<UINT> indices;
-    for (int32 i = 0; i < SEGMENTS; i++)
+    for (int32 i = 0; i < CIRCLE_SEGMENTS; i++)
     {
         indices.push_back(0);
         indices.push_back(i + 1);

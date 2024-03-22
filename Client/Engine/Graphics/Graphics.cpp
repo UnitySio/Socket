@@ -197,6 +197,10 @@ bool Graphics::InitScene()
 
     sprite_batch_ = std::make_unique<SpriteBatch>(d3d_device_context_.Get());
 
+    temp_sprite_ = std::make_unique<Sprite>(L"Knight", 32);
+    if (!temp_sprite_->Load(d3d_device_.Get(), L".\\spritesheet.png")) return false;
+    temp_sprite_->Split(6, 1);
+
     return true;
 }
 

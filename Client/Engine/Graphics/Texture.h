@@ -13,7 +13,7 @@ public:
     Texture();
     virtual ~Texture() = default;
 
-    virtual bool Load(ID3D11Device* device, const std::wstring& path);
+    virtual bool Load(ID3D11Device* device, const std::wstring& kPath);
     
     inline const UINT& GetWidth() const { return width_; }
     inline const UINT& GetHeight() const { return height_; }

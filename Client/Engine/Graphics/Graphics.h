@@ -14,6 +14,7 @@
 #include "ConstantBuffer.h"
 #include "ConstantBufferTypes.h"
 #include "Shaders.h"
+#include "Sprite.h"
 #include "TempSprite.h"
 #include "SpriteBatch.h"
 #include "Texture.h"
@@ -92,5 +93,7 @@ private:
     std::unique_ptr<SpriteBatch> sprite_batch_;
 
     Microsoft::WRL::ComPtr<ID3D11Buffer> vertex_buffer_;
+
+    std::unique_ptr<Sprite> temp_sprite_;
     
 };
