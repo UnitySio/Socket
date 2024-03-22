@@ -199,7 +199,7 @@ bool Graphics::InitScene()
 
     temp_sprite_ = std::make_unique<Sprite>(L"Knight", 32);
     if (!temp_sprite_->Load(d3d_device_.Get(), L".\\spritesheet.png")) return false;
-    temp_sprite_->Split(6, 1);
+    temp_sprite_->Split(1, 6);
 
     return true;
 }
@@ -256,9 +256,10 @@ void Graphics::BeginFrame3D()
     d3d_device_context_->VSSetShader(vertex_shader_2d_.GetShader(), nullptr, 0);
     d3d_device_context_->PSSetShader(pixel_shader_2d_.GetShader(), nullptr, 0);
 
-    sprite_.Draw(camera_2d_.GetWorldMatrix() * camera_2d_.GetOrthographicMatrix());
+    // sprite_.Draw(camera_2d_.GetWorldMatrix() * camera_2d_.GetOrthographicMatrix());
 
     sprite_batch_->Begin(camera_2d_.GetWorldMatrix() * camera_2d_.GetOrthographicMatrix());
+    sprite_batch_->Draw(temp_sprite_.get(), L"Knight_0", 0.f, 0.f);
     sprite_batch_->End();
 }
 

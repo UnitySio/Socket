@@ -258,7 +258,8 @@ void Core::Tick(float delta_time)
         static float rotation[3];
         if (ImGui::InputFloat3("Rotation", rotation))
         {
-            gfx->GetCamera2D().SetRotation(rotation[0], rotation[1], rotation[2]);
+            float radian = DirectX::XMConvertToRadians(rotation[2]);
+            gfx->GetCamera2D().SetRotation(rotation[0], rotation[1], radian);
         }
     }
 

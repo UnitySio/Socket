@@ -1,6 +1,9 @@
 ﻿#pragma once
 #include <DirectXMath.h>
-#include <intsafe.h>
+#include <string>
+
+#include "ConstantBuffer.h"
+#include "ConstantBufferTypes.h"
 
 class ID3D11DeviceContext;
 
@@ -12,11 +15,14 @@ public:
 
     void Begin(DirectX::XMMATRIX orthographic_matrix);
     void End();
-    void Draw(class TempSprite* sprite, UINT frame_index = 0);
+    void Draw(class Sprite* sprite, const std::wstring& kName, float x = 0.f, float y = 0.f);
 
 private:
     ID3D11DeviceContext* device_context_;
 
     DirectX::XMMATRIX orthographic_matrix_;
+
+    ConstantBuffer<ConstantVertexBuffer2D> constant_buffer_;
+    ConstantBuffer<ConstantPixelBuffer2D> constant_pixel_buffer_;
     
 };

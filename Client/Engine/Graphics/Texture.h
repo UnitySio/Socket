@@ -20,6 +20,7 @@ public:
 
 protected:
     friend class TempSprite;
+    friend class SpriteBatch;
     
     Microsoft::WRL::ComPtr<ID3D11Resource> texture_;
     Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> texture_view_;
