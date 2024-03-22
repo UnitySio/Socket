@@ -259,12 +259,11 @@ void Graphics::BeginFrame3D()
     // sprite_.Draw(camera_2d_.GetWorldMatrix() * camera_2d_.GetOrthographicMatrix());
 
     sprite_batch_->Begin(camera_2d_.GetWorldMatrix() * camera_2d_.GetOrthographicMatrix());
-    sprite_batch_->Draw(temp_sprite_.get(), L"Knight_0", 0.f, 0.f);
-    sprite_batch_->End();
 }
 
 void Graphics::EndFrame3D()
 {
+    sprite_batch_->End();
     if (dxgi_swap_chain_->Present(1, DXGI_PRESENT_TEST) == DXGI_STATUS_OCCLUDED) return;
     dxgi_swap_chain_->Present(1, 0);
 }

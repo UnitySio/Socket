@@ -28,9 +28,16 @@ void SpriteBatch::End()
     orthographic_matrix_ = DirectX::XMMatrixIdentity();
 }
 
-void SpriteBatch::Draw(Sprite* sprite, const std::wstring& kName, float x, float y)
+void SpriteBatch::Draw(Sprite* sprite, const std::wstring& kName, float x, float y, float angle)
 {
-    DirectX::XMMATRIX world_matrix = DirectX::XMMatrixIdentity();
+    // 테스트 코드
+    x += -((64.f / 32.f) / 2.f);
+    y += -((64.f / 32.f) / 2.f);
+    
+    DirectX::XMMATRIX world_matrix = DirectX::XMMatrixScaling(64.f / 32.f, 64.f / 32.f, 1.f) *
+        DirectX::XMMatrixRotationRollPitchYaw(0.f, 0.f, angle) *
+        DirectX::XMMatrixTranslation(x + (64.f / 32.f) / 2.f, y + (64.f / 32.f) / 2.f, 0.f);
+    
     DirectX::XMMATRIX wvp_matrix = world_matrix * orthographic_matrix_;
 
     const SpriteFrame& frame = sprite->GetFrame(kName);

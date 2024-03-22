@@ -50,6 +50,10 @@ public:
     inline void EndFrame2D() const { d2d_render_target_->EndDraw(); }
     inline Camera2D& GetCamera2D() { return camera_2d_; }
 
+    // 테스트 코드
+    inline SpriteBatch* GetSpriteBatch() { return sprite_batch_.get(); }
+    inline Sprite* GetTempSprite() { return temp_sprite_.get(); }
+
 private:
     bool InitDeviceD3D();
     bool InitRenderTargetD3D();

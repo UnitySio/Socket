@@ -15,7 +15,7 @@ public:
 
     void Begin(DirectX::XMMATRIX orthographic_matrix);
     void End();
-    void Draw(class Sprite* sprite, const std::wstring& kName, float x = 0.f, float y = 0.f);
+    void Draw(class Sprite* sprite, const std::wstring& kName, float x = 0.f, float y = 0.f, float angle = 0.f);
 
 private:
     ID3D11DeviceContext* device_context_;
