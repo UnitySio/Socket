@@ -45,7 +45,7 @@ Pawn::Pawn(b2World* world, const std::wstring& kName) :
     sprite_ = std::make_unique<Sprite>(L"Knight", 32, Vector(0.f, 0.f));
     assert(sprite_->Load(gfx->GetD3DDevice(), L".\\spritesheet.png"));
     
-    sprite_->Split(3, 15, {-.05f, -.5f});
+    sprite_->Split(3, 15, {.45f, 0.f});
     
 }
 

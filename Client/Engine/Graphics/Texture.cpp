@@ -28,10 +28,10 @@ bool Texture::Load(ID3D11Device* device, const std::wstring& kPath)
     
     std::vector<Vertex2D> vertices =
     {
-        {-.5f, -.5f, 0.f, 0.f, 1.f}, // 왼쪽 아래
-        {.5f, -.5f, 0.f, 1.f, 1.f}, // 오른쪽 아래
-        {-.5f, .5f, 0.f, 0.f, 0.f}, // 왼쪽 위
-        {.5f, .5f, 0.f, 1.f, 0.f} // 오른쪽 위
+        {0.f, 0.f, 0.f, 0.f, 1.f}, // 왼쪽 아래
+        {1.f, 0.f, 0.f, 1.f, 1.f}, // 오른쪽 아래
+        {0.f, 1.f, 0.f, 0.f, 0.f}, // 왼쪽 위
+        {1.f, 1.f, 0.f, 1.f, 0.f} // 오른쪽 위
     };
 
     std::vector<DWORD> indices =
