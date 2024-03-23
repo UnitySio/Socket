@@ -35,11 +35,17 @@ void SpriteBatch::Draw(Sprite* sprite, const std::wstring& kName, Vector locatio
     const float width = (sprite->width_ * frame.scale.x) / sprite->ppu_;
     const float height = (sprite->height_ * frame.scale.y) / sprite->ppu_;
 
+    float pivot_x = width * frame.pivot.x;
+    float pivot_y = height * frame.pivot.y;
+
+    if (scale.x < 0.f) pivot_x *= -1.f;
+    if (scale.y < 0.f) pivot_y *= -1.f;
+
     DirectX::XMMATRIX world_matrix = DirectX::XMMatrixScaling(width * scale.x, height * scale.y, 1.f) * // 크기 조정
-        DirectX::XMMatrixTranslation(-width * frame.pivot.x, -height * frame.pivot.y, 0.f) * // Pivot 위치로 이동
+        DirectX::XMMatrixTranslation(-pivot_x, -pivot_y, 0.f) * // Pivot 위치로 이동
             DirectX::XMMatrixRotationZ(angle) * // 회전
-                DirectX::XMMatrixTranslation(width * frame.pivot.x, height * frame.pivot.y, 0.f) * // 원래 위치로 이동
-                    DirectX::XMMatrixTranslation(location.x - width * frame.pivot.x, location.y - height * frame.pivot.y, 0.f); // 최종 위치 조정
+                DirectX::XMMatrixTranslation(pivot_x, pivot_y, 0.f) * // 원래 위치로 이동
+                    DirectX::XMMatrixTranslation(location.x - pivot_x, location.y - pivot_y, 0.f); // 최종 위치 조정
 
     DirectX::XMMATRIX wvp_matrix = world_matrix * orthographic_matrix_;
     
