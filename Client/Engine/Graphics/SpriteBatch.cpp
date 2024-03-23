@@ -9,18 +9,36 @@ SpriteBatch::SpriteBatch(ID3D11DeviceContext* device_context)
     orthographic_matrix_ = DirectX::XMMatrixIdentity();
 
     Microsoft::WRL::ComPtr<ID3D11Device> device;
-    device_context->GetDevice(device.GetAddressOf());
+    device_context_->GetDevice(device.GetAddressOf());
 
-    HRESULT hr = constant_buffer_.Init(device.Get(), device_context);
+    HRESULT hr = constant_buffer_.Init(device.Get(), device_context_);
     assert(SUCCEEDED(hr));
 
-    hr = constant_pixel_buffer_.Init(device.Get(), device_context);
+    hr = constant_pixel_buffer_.Init(device.Get(), device_context_);
     assert(SUCCEEDED(hr));
+    
+    D3D11_INPUT_ELEMENT_DESC layout_2d[] = {
+        {"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0},
+        {"TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0}
+    };
+
+    constexpr UINT num_elements_2d = ARRAYSIZE(layout_2d);
+    bool result = vertex_shader_.Init(device, L"..\\x64\\Debug\\VertexShader2D.cso", layout_2d, num_elements_2d);
+    assert(result);
+
+    result = pixel_shader_.Init(device, L"..\\x64\\Debug\\PixelShader2D.cso");
+    assert(result);
 }
 
 void SpriteBatch::Begin(DirectX::XMMATRIX orthographic_matrix)
 {
     orthographic_matrix_ = orthographic_matrix;
+
+    device_context_->IASetInputLayout(vertex_shader_.GetInputLayout());
+    device_context_->VSSetShader(vertex_shader_.GetShader(), nullptr, 0);
+    device_context_->PSSetShader(pixel_shader_.GetShader(), nullptr, 0);
+    
+    device_context_->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 }
 
 void SpriteBatch::End()

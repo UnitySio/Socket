@@ -168,26 +168,11 @@ bool Graphics::InitRenderTargetD3D()
 
 bool Graphics::InitShaders()
 {
-    D3D11_INPUT_ELEMENT_DESC layout_2d[] = {
-        {"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0},
-        {"TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0}
-    };
-
-    constexpr UINT num_elements_2d = ARRAYSIZE(layout_2d);
-    if (!vertex_shader_2d_.Init(d3d_device_, L"..\\x64\\Debug\\VertexShader2D.cso", layout_2d, num_elements_2d)) return false;
-    if (!pixel_shader_2d_.Init(d3d_device_, L"..\\x64\\Debug\\PixelShader2D.cso")) return false;
-
     return InitScene();
 }
 
 bool Graphics::InitScene()
 {
-    HRESULT hr = constant_buffer_2d_.Init(d3d_device_.Get(), d3d_device_context_.Get());
-    if (FAILED(hr)) return false;
-
-    hr = constant_pixel_buffer_2d_.Init(d3d_device_.Get(), d3d_device_context_.Get());
-    if (FAILED(hr)) return false;
-
     camera_2d_.SetProjectionValues(5.f, .3f, 1000.f);
 
     sprite_batch_ = std::make_unique<SpriteBatch>(d3d_device_context_.Get());
@@ -239,13 +224,6 @@ void Graphics::BeginFrame3D()
     d3d_device_context_->OMSetDepthStencilState(depth_stencil_state_.Get(), 0);
     d3d_device_context_->OMSetBlendState(blend_state_.Get(), nullptr, 0xffffffff);
     d3d_device_context_->PSSetSamplers(0, 1, sampler_state_.GetAddressOf());
-    
-    d3d_device_context_->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-
-    // 2D
-    d3d_device_context_->IASetInputLayout(vertex_shader_2d_.GetInputLayout());
-    d3d_device_context_->VSSetShader(vertex_shader_2d_.GetShader(), nullptr, 0);
-    d3d_device_context_->PSSetShader(pixel_shader_2d_.GetShader(), nullptr, 0);
 
     sprite_batch_->Begin(camera_2d_.GetWorldMatrix() * camera_2d_.GetOrthographicMatrix());
 }

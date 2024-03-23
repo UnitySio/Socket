@@ -4,6 +4,7 @@
 
 #include "ConstantBuffer.h"
 #include "ConstantBufferTypes.h"
+#include "Shaders.h"
 #include "Vector.h"
 
 class ID3D11DeviceContext;
@@ -22,6 +23,10 @@ private:
     ID3D11DeviceContext* device_context_;
 
     DirectX::XMMATRIX orthographic_matrix_;
+    
+    VertexShader vertex_shader_;
+    
+    PixelShader pixel_shader_;
 
     ConstantBuffer<ConstantVertexBuffer2D> constant_buffer_;
     ConstantBuffer<ConstantPixelBuffer2D> constant_pixel_buffer_;

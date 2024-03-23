@@ -35,32 +35,32 @@ PrimitiveBatch::PrimitiveBatch(ID3D11DeviceContext* device_context) :
     };
 
     constexpr UINT num_elements_primitive = ARRAYSIZE(layout_primitive);
-    bool result = vertex_shader_primitive_.Init(device, L"..\\x64\\Debug\\VertexShaderPrimitive.cso", layout_primitive, num_elements_primitive);
+    bool result = vertex_shader_.Init(device, L"..\\x64\\Debug\\VertexShaderPrimitive.cso", layout_primitive, num_elements_primitive);
     assert(SUCCEEDED(hr));
     
-    result = pixel_shader_primitive_.Init(device, L"..\\x64\\Debug\\PixelShaderPrimitive.cso");
+    result = pixel_shader_.Init(device, L"..\\x64\\Debug\\PixelShaderPrimitive.cso");
     assert(SUCCEEDED(hr));
     
-    hr = constant_primitive_buffer_.Init(device.Get(), device_context_);
+    hr = constant_buffer_.Init(device.Get(), device_context_);
     assert(SUCCEEDED(hr));
 
-    hr = constant_pixel_primitive_buffer_.Init(device.Get(), device_context_);
+    hr = constant_pixel_buffer_.Init(device.Get(), device_context_);
     assert(SUCCEEDED(hr));
 }
 
 void PrimitiveBatch::Begin(DirectX::XMMATRIX orthographic_matrix)
 {
-    device_context_->IASetInputLayout(vertex_shader_primitive_.GetInputLayout());
-    device_context_->VSSetShader(vertex_shader_primitive_.GetShader(), nullptr, 0);
-    device_context_->PSSetShader(pixel_shader_primitive_.GetShader(), nullptr, 0);
+    device_context_->IASetInputLayout(vertex_shader_.GetInputLayout());
+    device_context_->VSSetShader(vertex_shader_.GetShader(), nullptr, 0);
+    device_context_->PSSetShader(pixel_shader_.GetShader(), nullptr, 0);
 
     DirectX::XMMATRIX wvp_matrix = DirectX::XMMatrixIdentity();
-    device_context_->VSSetConstantBuffers(0, 1, constant_primitive_buffer_.GetAddressOf());
-    constant_primitive_buffer_.data.mat = wvp_matrix * orthographic_matrix;
-    constant_primitive_buffer_.ApplyChanges();
+    device_context_->VSSetConstantBuffers(0, 1, constant_buffer_.GetAddressOf());
+    constant_buffer_.data.mat = wvp_matrix * orthographic_matrix;
+    constant_buffer_.ApplyChanges();
 
-    device_context_->PSSetConstantBuffers(0, 1, constant_pixel_primitive_buffer_.GetAddressOf());
-    constant_pixel_primitive_buffer_.ApplyChanges();
+    device_context_->PSSetConstantBuffers(0, 1, constant_pixel_buffer_.GetAddressOf());
+    constant_pixel_buffer_.ApplyChanges();
     
     constexpr UINT stride = sizeof(VertexPrimitive);
     constexpr UINT offset = 0;

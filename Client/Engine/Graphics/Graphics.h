@@ -68,14 +68,6 @@ private:
     Microsoft::WRL::ComPtr<ID2D1Factory> d2d_factory_;
     Microsoft::WRL::ComPtr<ID2D1RenderTarget> d2d_render_target_;
 
-    VertexShader vertex_shader_2d_;
-    
-    PixelShader pixel_shader_2d_;
-    
-    ConstantBuffer<ConstantVertexBuffer2D> constant_buffer_2d_;
-    
-    ConstantBuffer<ConstantPixelBuffer2D> constant_pixel_buffer_2d_;
-
     Microsoft::WRL::ComPtr<ID3D11DepthStencilView> depth_stencil_view_;
     Microsoft::WRL::ComPtr<ID3D11Texture2D> depth_stencil_buffer_;
     Microsoft::WRL::ComPtr<ID3D11DepthStencilState> depth_stencil_state_;

@@ -32,12 +32,12 @@ private:
     Microsoft::WRL::ComPtr<ID3D11Buffer> vertex_buffer_;
     Microsoft::WRL::ComPtr<ID3D11Buffer> index_buffer_;
     
-    VertexShader vertex_shader_primitive_;
+    VertexShader vertex_shader_;
     
-    PixelShader pixel_shader_primitive_;
+    PixelShader pixel_shader_;
     
-    ConstantBuffer<ConstantVertexPrimitiveBuffer> constant_primitive_buffer_;
+    ConstantBuffer<ConstantVertexPrimitiveBuffer> constant_buffer_;
     
-    ConstantBuffer<ConstantPixelPrimitiveBuffer> constant_pixel_primitive_buffer_;
+    ConstantBuffer<ConstantPixelPrimitiveBuffer> constant_pixel_buffer_;
     
 };
