@@ -6,7 +6,8 @@
 class AnimationClip
 {
 public:
-	AnimationClip() { bitmap_ = nullptr; nextClip = nullptr; }
+	AnimationClip();
+	AnimationClip(ID2D1Bitmap*);
 	ID2D1Bitmap* bitmap_;
 	AnimationClip* nextClip;
 };
@@ -15,6 +16,9 @@ class ResourceManager:public Singleton<ResourceManager>
 {
 public:
 	ResourceManager();
+	//virtual ~ResourceManager() override = default;
+	~ResourceManager();
+
 	ID2D1Bitmap* AddImage(const WCHAR* path);
 	AnimationClip* AddAnimation(const wchar_t **path,int frame);
 	ID2D1Bitmap* GetPointer(ID2D1Bitmap* target) { return target; }

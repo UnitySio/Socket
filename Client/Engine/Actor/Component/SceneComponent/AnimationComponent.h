@@ -13,7 +13,9 @@ class AnimationComponent : public SceneComponent
 {
 public:
     AnimationComponent(Actor* owner, const std::wstring& kName);
-    virtual ~AnimationComponent() override = default;
+    //virtual ~AnimationComponent() override = default;
+    ~AnimationComponent();
+
     void Render();
     void ChangeTargetAnimation(AnimationClip* AfterAni);
     void PlayAnimation();

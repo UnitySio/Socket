@@ -12,6 +12,11 @@ SpriteComponent::SpriteComponent(Actor* owner, const std::wstring& kName) : Scen
     assert(targetImage_); // bitmap_가 null일 경우 오류 발생
 }
 
+SpriteComponent::~SpriteComponent()
+{
+    targetImage_ = nullptr;
+}
+
 void SpriteComponent::Render()
 {
     Graphics* graphics = Graphics::Get();

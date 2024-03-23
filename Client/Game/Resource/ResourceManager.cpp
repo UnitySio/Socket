@@ -1,13 +1,35 @@
 #include "ResourceManager.h"
+#define _CRTDBG_MAP_ALLOC
+#include <stdlib.h>
+#include <crtdbg.h>
 
-const int FRAME24 = 25;
+AnimationClip::AnimationClip(): bitmap_(nullptr), nextClip(nullptr)
+{
+}
+AnimationClip::AnimationClip(ID2D1Bitmap* bitmap) : bitmap_(nullptr), nextClip(nullptr)
+{
+	bitmap_ = bitmap;
+}
 
-ResourceManager::ResourceManager()
+ResourceManager::ResourceManager():AppleIMG(nullptr),testAni(nullptr)
 {
 	ImagePool.clear();
 	AppleIMG = AddImage(L".\\Game\\Resource\\apple.jpg");
 	const wchar_t* RootIMG[3] = { L".\\Game\\Resource\\test1.png" , L".\\Game\\Resource\\test2.png", L".\\Game\\Resource\\test3.png"};
 	testAni = AddAnimation(RootIMG, 3);
+}
+
+ResourceManager::~ResourceManager()
+{
+	/*for (ID2D1Bitmap* Image : ImagePool)
+	{
+		free(&Image);
+	}*/
+
+	ImagePool.clear();
+
+	//_crtBreakAlloc = 417;
+	_CrtDumpMemoryLeaks();
 }
 
 ID2D1Bitmap* ResourceManager::AddImage(const WCHAR* path)
@@ -22,54 +44,30 @@ ID2D1Bitmap* ResourceManager::AddImage(const WCHAR* path)
 
 AnimationClip* ResourceManager::AddAnimation(const wchar_t **path,int frame)
 {
-	//ID2D1Bitmap* Animation[FRAME24] = {};
-	AnimationClip* head = new AnimationClip();
-	AnimationClip* current = head;
+	AnimationClip* head = nullptr;
+	AnimationClip* current = nullptr;
 
 	Graphics* graphic = Graphics::Get();
 
-	int i = 0;
-	while (i<frame)
+	while (frame--)
 	{
 		ID2D1Bitmap* frameImage = graphic->LoadTexture(*path++);
-		AnimationClip* clip = new AnimationClip();
-		clip->bitmap_ = frameImage;
+		ImagePool.push_back(frameImage);
 
-		if (head->bitmap_ == nullptr)
+		if (head == nullptr)
 		{
-			head = clip;
+			head = new AnimationClip(frameImage);
+
 			current = head;
+			continue;
 		}
-		else
+
+		while (current->nextClip != nullptr)
 		{
-			current->nextClip = clip;
 			current = current->nextClip;
 		}
-
-		i++;
-		//Animation[i++] = graphic->LoadTexture(*path++);
+		current->nextClip = new AnimationClip(frameImage);
 	}
 
 	return head;
 }
-
-//ID2D1Bitmap** ResourceManager::AddAnimation(const wchar_t** path, int frame)
-//{
-//	//ID2D1Bitmap* Animation[FRAME24] = {};
-//	AnimationClip* head;
-//	AnimationClip* clip = head;
-//
-//	Graphics* graphic = Graphics::Get();
-//
-//	int i = 0;
-//	while (i < frame)
-//	{
-//		if (path == NULL) break;
-//
-//		clip->Animation = graphic->LoadTexture(*path++);
-//		clip = clip->nextClip;
-//		//Animation[i++] = graphic->LoadTexture(*path++);
-//	}
-//
-//	return head;
-//}

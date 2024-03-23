@@ -12,8 +12,10 @@ class SpriteComponent : public SceneComponent
 {
 public:
     SpriteComponent(Actor* owner, const std::wstring& kName);
+    //virtual ~SpriteComponent() override = default;
+    ~SpriteComponent();
+
     void Render();
-    virtual ~SpriteComponent() override = default;
     void ChangeTargetImage(ID2D1Bitmap* newTarget);
     
     class ID2D1Bitmap* targetImage_ = {};

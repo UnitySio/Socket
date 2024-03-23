@@ -11,6 +11,12 @@ AnimationComponent::AnimationComponent(Actor* owner, const std::wstring& kName) 
     ChangeTargetAnimation(resourceManager->testAni);
 }
 
+AnimationComponent::~AnimationComponent()
+{
+    beginingImage_ = nullptr;
+    frameImage_ = nullptr;
+}
+
 void AnimationComponent::Render()
 {
     PlayAnimation();
@@ -23,11 +29,15 @@ void AnimationComponent::TickComponent(float delta_time)
 
 void AnimationComponent::ChangeTargetAnimation(AnimationClip* targetClip)
 {
-    assert(targetClip);
-    beginingImage_ = targetClip;
+    //assert(targetClip);
+    if (targetClip)
+    {
+        beginingImage_ = targetClip;
+        frameImage_ = targetClip;
+    }
+        
 
-    assert(beginingImage_);
-    frameImage_ = beginingImage_;
+    //assert(beginingImage_);
 }
 
 void AnimationComponent::PlayAnimation()
@@ -50,6 +60,7 @@ void AnimationComponent::PlayAnimation()
     b2Vec2 level_RenderPosition = level->GetRenderPosition({ position.x, position.y });
     Vector render_position = Vector(level_RenderPosition.x, level_RenderPosition.y) + (scaleOffset / 2.0f) * align_;
     float angle = Object->GetRootComponent()->GetRelativeRotation();
+    
     graphics->DrawTexture(frameImage_->bitmap_, b2Vec2(render_position.x, render_position.y), { .1f * scaleOffset.x, .1f * scaleOffset.y }, angle);
 
 
@@ -59,17 +70,17 @@ void AnimationComponent::PlayAnimation()
     {
         //여기부터는 Tick으로 옮길 코드
             //프레임마다 이미지를 바꾼다. 변경하려면 Tick() 메서드를 이용할 것.
-            if (frameImage_->nextClip != nullptr)
-            {
-                frameImage_ = frameImage_->nextClip;
-                frameNumber_++;
-            }
-            //애니메이션의 끝에 도달해 Linked List의 헤드로 돌아감
-            else if (frameImage_->nextClip == nullptr && repeat == true)
-            {
-                frameImage_ = beginingImage_;
-                frameNumber_ = 0;
-            }
+        if (frameImage_->nextClip != nullptr)
+        {
+            frameImage_ = frameImage_->nextClip;
+            frameNumber_++;
+        }
+        //애니메이션의 끝에 도달해 Linked List의 헤드로 돌아감
+        else if (frameImage_->nextClip == nullptr && repeat == true)
+        {
+            frameImage_ = beginingImage_;
+            frameNumber_ = 0;
+        }
         //여기까지
 
         deltaTime = 0;
