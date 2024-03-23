@@ -28,24 +28,25 @@ void SpriteBatch::End()
     orthographic_matrix_ = DirectX::XMMatrixIdentity();
 }
 
-void SpriteBatch::Draw(Sprite* sprite, const std::wstring& kName, float x, float y, float angle)
+void SpriteBatch::Draw(Sprite* sprite, const std::wstring& kName, Vector location, Vector scale, float angle)
 {
-    // 테스트 코드
-    x += -((64.f / 32.f) / 2.f);
-    y += -((64.f / 32.f) / 2.f);
+    const SpriteFrame& frame = sprite->sprites_[kName];
     
-    DirectX::XMMATRIX world_matrix = DirectX::XMMatrixScaling(64.f / 32.f, 64.f / 32.f, 1.f) *
-        DirectX::XMMatrixRotationRollPitchYaw(0.f, 0.f, angle) *
-        DirectX::XMMatrixTranslation(x + (64.f / 32.f) / 2.f, y + (64.f / 32.f) / 2.f, 0.f);
-    
+    const float width = (sprite->width_ * frame.scale.x) / sprite->ppu_;
+    const float height = (sprite->height_ * frame.scale.y) / sprite->ppu_;
+
+    DirectX::XMMATRIX world_matrix = DirectX::XMMatrixScaling(width * scale.x, height * scale.y, 1.f) * // 크기 조정
+        DirectX::XMMatrixTranslation(-width * frame.pivot.x, -height * frame.pivot.y, 0.f) * // Pivot 위치로 이동
+            DirectX::XMMatrixRotationZ(angle) * // 회전
+                DirectX::XMMatrixTranslation(width * frame.pivot.x, height * frame.pivot.y, 0.f) * // 원래 위치로 이동
+                    DirectX::XMMatrixTranslation(location.x - width * frame.pivot.x, location.y - height * frame.pivot.y, 0.f); // 최종 위치 조정
+
     DirectX::XMMATRIX wvp_matrix = world_matrix * orthographic_matrix_;
-
-    const SpriteFrame& frame = sprite->GetFrame(kName);
-
+    
     device_context_->VSSetConstantBuffers(0, 1, constant_buffer_.GetAddressOf());
     constant_buffer_.data.mat = wvp_matrix;
-    constant_buffer_.data.uv_offset = {frame.offset_x, frame.offset_y};
-    constant_buffer_.data.uv_scale = {frame.scale_x, frame.scale_y};
+    constant_buffer_.data.uv_offset = {frame.offset.x, frame.offset.y};
+    constant_buffer_.data.uv_scale = {frame.scale.x, frame.scale.y};
     constant_buffer_.ApplyChanges();
 
     device_context_->PSSetConstantBuffers(0, 1, constant_pixel_buffer_.GetAddressOf());

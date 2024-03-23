@@ -14,10 +14,7 @@
 #include "ConstantBuffer.h"
 #include "ConstantBufferTypes.h"
 #include "Shaders.h"
-#include "Sprite.h"
-#include "TempSprite.h"
 #include "SpriteBatch.h"
-#include "Texture.h"
 #include "box2d/b2_draw.h"
 
 struct b2Vec2;
@@ -51,8 +48,7 @@ public:
     inline Camera2D& GetCamera2D() { return camera_2d_; }
 
     // 테스트 코드
-    inline SpriteBatch* GetSpriteBatch() { return sprite_batch_.get(); }
-    inline Sprite* GetTempSprite() { return temp_sprite_.get(); }
+    inline SpriteBatch* GetSpriteBatch() const { return sprite_batch_.get(); }
 
 private:
     bool InitDeviceD3D();
@@ -91,13 +87,8 @@ private:
 
     Camera2D camera_2d_;
 
-    std::unique_ptr<Texture> texture_;
-    TempSprite sprite_;
-
     std::unique_ptr<SpriteBatch> sprite_batch_;
 
     Microsoft::WRL::ComPtr<ID3D11Buffer> vertex_buffer_;
-
-    std::unique_ptr<Sprite> temp_sprite_;
     
 };

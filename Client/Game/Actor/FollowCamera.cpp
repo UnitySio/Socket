@@ -15,6 +15,6 @@ void FollowCamera::Tick(float delta_time)
 {
     Actor::Tick(delta_time);
 
-    Vector new_position = Vector::Lerp(GetActorLocation(), target_->GetActorLocation(), delta_time);
+    Vector new_position = Vector::Lerp(GetActorLocation(), target_->GetActorLocation(), delta_time * 2.f);
     SetActorLocation({new_position.x, new_position.y});
 }
