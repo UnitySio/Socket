@@ -33,12 +33,6 @@ SpriteBatch::SpriteBatch(ID3D11DeviceContext* device_context)
 void SpriteBatch::Begin(DirectX::XMMATRIX orthographic_matrix)
 {
     orthographic_matrix_ = orthographic_matrix;
-
-    device_context_->IASetInputLayout(vertex_shader_.GetInputLayout());
-    device_context_->VSSetShader(vertex_shader_.GetShader(), nullptr, 0);
-    device_context_->PSSetShader(pixel_shader_.GetShader(), nullptr, 0);
-    
-    device_context_->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 }
 
 void SpriteBatch::End()
@@ -48,6 +42,12 @@ void SpriteBatch::End()
 
 void SpriteBatch::Draw(Sprite* sprite, const std::wstring& kName, Vector location, Vector scale, float angle)
 {
+    device_context_->IASetInputLayout(vertex_shader_.GetInputLayout());
+    device_context_->VSSetShader(vertex_shader_.GetShader(), nullptr, 0);
+    device_context_->PSSetShader(pixel_shader_.GetShader(), nullptr, 0);
+    
+    device_context_->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+    
     const SpriteFrame& frame = sprite->sprites_[kName];
     
     const float width = (sprite->width_ * frame.scale.x) / sprite->ppu_;
