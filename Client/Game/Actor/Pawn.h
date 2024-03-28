@@ -23,4 +23,5 @@ private:
     std::unique_ptr<Sprite> sprite_;
 
     int dir_;
+    
 };

@@ -39,10 +39,10 @@ public:
     void SetSleepMode(SleepMode mode);
     void SetCollisionDetectionMode(CollisionDetectionMode mode);
     void SetFreezeRotation(bool freeze);
-    void SetVelocity(const Vector& velocity);
+    void SetVelocity(const Vector& kVelocity);
     void SetAngularVelocity(float velocity);
-    void AddForce(const Vector& force, ForceMode mode = ForceMode::kForce);
-    void AddForceAtPosition(const Vector& force, const Vector& position, ForceMode mode = ForceMode::kForce);
+    void AddForce(const Vector& kForce, ForceMode mode = ForceMode::kForce);
+    void AddForceAtPosition(const Vector& kForce, const Vector& kLocation, ForceMode mode = ForceMode::kForce);
     void AddTorque(float torque, ForceMode mode = ForceMode::kForce);
     void Sleep();
     void WakeUp();

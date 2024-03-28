@@ -31,10 +31,10 @@ public:
 
     void AttachToActor(Actor* actor);
     void Destroy();
-    void Destroy(const Actor* other);
-    void SpawnActor(const Actor* actor);
+    void Destroy(const Actor* kOther);
+    void SpawnActor(const Actor* kActor);
     void SetActive(bool active);
-    void SetActorLocation(const struct b2Vec2& location);
+    void SetActorLocation(const struct b2Vec2& kLocation);
     void SetActorRotation(float rotation);
     
     bool SetRootComponent(SceneComponent* component);

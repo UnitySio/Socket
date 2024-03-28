@@ -19,18 +19,18 @@ void EventManager::Tick()
     events_.clear();
 }
 
-void EventManager::AddEvent(const Event& event)
+void EventManager::AddEvent(const Event& kEvent)
 {
-    events_.push_back(event);
+    events_.push_back(kEvent);
 }
 
-void EventManager::ExcuteEvent(const Event& event)
+void EventManager::ExcuteEvent(const Event& kEvent)
 {
-    switch (event.type)
+    switch (kEvent.type)
     {
     case EventType::kSpawnActor:
         {
-            Actor* actor = reinterpret_cast<Actor*>(event.wParam);
+            Actor* actor = reinterpret_cast<Actor*>(kEvent.wParam);
             Level* level = World::Get()->GetLevel();
             level->AddActor(actor);
             actor->BeginPlay();
@@ -39,7 +39,7 @@ void EventManager::ExcuteEvent(const Event& event)
         
     case EventType::kDestroyActor:
         {
-            Actor* actor = reinterpret_cast<Actor*>(event.wParam);
+            Actor* actor = reinterpret_cast<Actor*>(kEvent.wParam);
             actor->OnDestroyed();
             actor->is_destroy_ = true;
         }
@@ -47,8 +47,8 @@ void EventManager::ExcuteEvent(const Event& event)
 
     case EventType::kActiveActor:
         {
-            Actor* actor = reinterpret_cast<Actor*>(event.wParam);
-            bool active = static_cast<bool>(event.lParam);
+            Actor* actor = reinterpret_cast<Actor*>(kEvent.wParam);
+            bool active = static_cast<bool>(kEvent.lParam);
             actor->is_active_ = active;
         }
         break;

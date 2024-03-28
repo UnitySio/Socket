@@ -83,21 +83,21 @@ void Actor::Destroy()
         });
 }
 
-void Actor::Destroy(const Actor* other)
+void Actor::Destroy(const Actor* kOther)
 {
     EventManager::Get()->AddEvent(
         {
             EventType::kDestroyActor,
-            reinterpret_cast<uintptr_t>(other)
+            reinterpret_cast<uintptr_t>(kOther)
         });
 }
 
-void Actor::SpawnActor(const Actor* actor)
+void Actor::SpawnActor(const Actor* kActor)
 {
     EventManager::Get()->AddEvent(
         {
             EventType::kSpawnActor,
-            reinterpret_cast<uintptr_t>(actor)
+            reinterpret_cast<uintptr_t>(kActor)
         });
 }
 
@@ -111,12 +111,12 @@ void Actor::SetActive(bool active)
         });
 }
 
-void Actor::SetActorLocation(const b2Vec2& location)
+void Actor::SetActorLocation(const b2Vec2& kLocation)
 {
     if (!root_component_) return;
 
-    root_component_->SetRelativeLocation(location);
-    body_->SetTransform(location, body_->GetAngle());
+    root_component_->SetRelativeLocation(kLocation);
+    body_->SetTransform(kLocation, body_->GetAngle());
 }
 
 void Actor::SetActorRotation(float rotation)

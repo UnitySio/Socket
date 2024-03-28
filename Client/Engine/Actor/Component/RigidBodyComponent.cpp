@@ -95,7 +95,7 @@ void RigidBodyComponent::SetFreezeRotation(bool freeze)
     body->SetFixedRotation(freeze);
 }
 
-void RigidBodyComponent::SetVelocity(const Vector& velocity)
+void RigidBodyComponent::SetVelocity(const Vector& kVelocity)
 {
     Actor* owner = GetOwner();
     assert(owner);
@@ -103,7 +103,7 @@ void RigidBodyComponent::SetVelocity(const Vector& velocity)
     b2Body* body = owner->body_;
     assert(body);
 
-    body->SetLinearVelocity({velocity.x, velocity.y});
+    body->SetLinearVelocity({kVelocity.x, kVelocity.y});
 }
 
 void RigidBodyComponent::SetAngularVelocity(float velocity)
@@ -117,7 +117,7 @@ void RigidBodyComponent::SetAngularVelocity(float velocity)
     body->SetAngularVelocity(velocity);
 }
 
-void RigidBodyComponent::AddForce(const Vector& force, ForceMode mode)
+void RigidBodyComponent::AddForce(const Vector& kForce, ForceMode mode)
 {
     Actor* owner = GetOwner();
     assert(owner);
@@ -128,16 +128,16 @@ void RigidBodyComponent::AddForce(const Vector& force, ForceMode mode)
     switch (mode)
     {
     case ForceMode::kForce:
-        body->ApplyForce({force.x, force.y}, body->GetWorldCenter(), true);
+        body->ApplyForce({kForce.x, kForce.y}, body->GetWorldCenter(), true);
         break;
 
     case ForceMode::kImpulse:
-        body->ApplyLinearImpulse({force.x, force.y}, body->GetWorldCenter(), true);
+        body->ApplyLinearImpulse({kForce.x, kForce.y}, body->GetWorldCenter(), true);
         break;
     }
 }
 
-void RigidBodyComponent::AddForceAtPosition(const Vector& force, const Vector& position, ForceMode mode)
+void RigidBodyComponent::AddForceAtPosition(const Vector& kForce, const Vector& kLocation, ForceMode mode)
 {
     Actor* owner = GetOwner();
     assert(owner);
@@ -148,11 +148,11 @@ void RigidBodyComponent::AddForceAtPosition(const Vector& force, const Vector& p
     switch (mode)
     {
     case ForceMode::kForce:
-        body->ApplyForce({force.x, force.y}, {position.x, position.y}, true);
+        body->ApplyForce({kForce.x, kForce.y}, {kLocation.x, kLocation.y}, true);
         break;
 
     case ForceMode::kImpulse:
-        body->ApplyLinearImpulse({force.x, force.y}, {position.x, position.y}, true);
+        body->ApplyLinearImpulse({kForce.x, kForce.y}, {kLocation.x, kLocation.y}, true);
         break;
     }
 }

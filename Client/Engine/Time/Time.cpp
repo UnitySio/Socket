@@ -37,10 +37,10 @@ void Time::Tick()
     {
         fps_ = frame_count_;
 
-        const float ms = 1000.f / fps_;
+        const float kMS = 1000.f / fps_;
 
         WCHAR buffer[256];
-        swprintf_s(buffer, L"Game - FPS: %.f(%.fms)", fps_, ms);
+        swprintf_s(buffer, L"Game - FPS: %.f(%.fms)", fps_, kMS);
         SetWindowText(Core::Get()->GetWindowHandle(), buffer);
         
         frame_count_ = 0.f;

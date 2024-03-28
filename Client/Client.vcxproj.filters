@@ -48,9 +48,10 @@
     <ClCompile Include="Include\imgui\imgui_impl_win32.cpp" />
     <ClCompile Include="Include\imgui\imgui_tables.cpp" />
     <ClCompile Include="Include\imgui\imgui_widgets.cpp" />
-    <ClCompile Include="Engine\Graphics\TempSprite.cpp" />
     <ClCompile Include="Engine\Graphics\SpriteBatch.cpp" />
     <ClCompile Include="Engine\Graphics\Texture.cpp" />
+    <ClCompile Include="Engine\Audio\AudioManager.cpp" />
+    <ClCompile Include="Engine\Graphics\PrimitiveBatch.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h" />
@@ -165,8 +166,17 @@
     <ClInclude Include="Include\imgui\imstb_textedit.h" />
     <ClInclude Include="Include\imgui\imstb_truetype.h" />
     <ClInclude Include="targetver.h" />
-    <ClInclude Include="Engine\Graphics\TempSprite.h" />
     <ClInclude Include="Engine\Graphics\SpriteBatch.h" />
     <ClInclude Include="Engine\Graphics\Texture.h" />
+    <ClInclude Include="Engine\Audio\AudioManager.h" />
+    <ClInclude Include="Engine\Graphics\PrimitiveBatch.h" />
+    <ClInclude Include="Include\FMOD\fmod.h" />
+    <ClInclude Include="Include\FMOD\fmod.hpp" />
+    <ClInclude Include="Include\FMOD\fmod_codec.h" />
+    <ClInclude Include="Include\FMOD\fmod_common.h" />
+    <ClInclude Include="Include\FMOD\fmod_dsp.h" />
+    <ClInclude Include="Include\FMOD\fmod_dsp_effects.h" />
+    <ClInclude Include="Include\FMOD\fmod_errors.h" />
+    <ClInclude Include="Include\FMOD\fmod_output.h" />
   </ItemGroup>
 </Project>

@@ -190,12 +190,12 @@ bool Graphics::InitFactoryD2D()
 
 bool Graphics::InitRenderTargetD2D()
 {
-    const float dpi = GetDpiForWindow(Core::Get()->GetWindowHandle());
+    const float kDPI = GetDpiForWindow(Core::Get()->GetWindowHandle());
     const D2D1_RENDER_TARGET_PROPERTIES render_target_properties = D2D1::RenderTargetProperties(
         D2D1_RENDER_TARGET_TYPE_DEFAULT,
         D2D1::PixelFormat(DXGI_FORMAT_UNKNOWN, D2D1_ALPHA_MODE_PREMULTIPLIED),
-        dpi,
-        dpi
+        kDPI,
+        kDPI
     );
 
     Microsoft::WRL::ComPtr<IDXGISurface> back_buffer;
@@ -253,23 +253,23 @@ void Graphics::DrawLine(b2Vec2 start, b2Vec2 end, b2Color color)
 
 void Graphics::DrawBox(b2Vec2 center, b2Vec2 size, float angle, b2Color color)
 {
-    const float half_size_x = size.x / 2.f;
-    const float half_size_y = size.y / 2.f;
+    const float kHalfSizeX = size.x / 2.f;
+    const float kHalfSizeY = size.y / 2.f;
 
     const D2D1_RECT_F rectangle = D2D1::RectF(
-        center.x - half_size_x,
-        center.y - half_size_y,
-        center.x + half_size_x,
-        center.y + half_size_y
+        center.x - kHalfSizeX,
+        center.y - kHalfSizeY,
+        center.x + kHalfSizeX,
+        center.y + kHalfSizeY
     );
 
-    const D2D_COLOR_F d2d_color = D2D1::ColorF(color.r,
+    const D2D_COLOR_F kColor = D2D1::ColorF(color.r,
                                                color.g,
                                                color.b,
                                                color.a);
 
     ID2D1SolidColorBrush* brush;
-    d2d_render_target_->CreateSolidColorBrush(d2d_color, &brush);
+    d2d_render_target_->CreateSolidColorBrush(kColor, &brush);
 
     // 라디안을 각도로 변환
     angle = angle * 180.f / b2_pi;

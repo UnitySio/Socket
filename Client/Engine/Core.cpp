@@ -5,6 +5,7 @@
 
 #include "EventManager.h"
 #include "Vector.h"
+#include "Audio/AudioManager.h"
 #include "Graphics/Graphics.h"
 #include "Time/Time.h"
 #include "Level/World.h"
@@ -43,8 +44,8 @@ ATOM Core::MyRegisterClass(HINSTANCE hInstance)
 
 BOOL Core::InitInstance(HINSTANCE hInstance, int nCmdShow)
 {
-    const int screen_width = GetSystemMetrics(SM_CXSCREEN);
-    const int screen_height = GetSystemMetrics(SM_CYSCREEN);
+    const int kScreenWidth = GetSystemMetrics(SM_CXSCREEN);
+    const int kScreenHeight = GetSystemMetrics(SM_CYSCREEN);
 
     resolution_ = {1366, 768};
     window_area_ = {0, 0, resolution_.x, resolution_.y};
@@ -55,8 +56,8 @@ BOOL Core::InitInstance(HINSTANCE hInstance, int nCmdShow)
         class_name_.c_str(),
         L"Game",
         WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_THICKFRAME | WS_MINIMIZEBOX,
-        (screen_width - (window_area_.right - window_area_.left)) / 2,
-        (screen_height - (window_area_.bottom - window_area_.top)) / 2,
+        (kScreenWidth - (window_area_.right - window_area_.left)) / 2,
+        (kScreenHeight - (window_area_.bottom - window_area_.top)) / 2,
         window_area_.right - window_area_.left,
         window_area_.bottom - window_area_.top,
         nullptr,
@@ -84,6 +85,8 @@ bool Core::InitWindow(HINSTANCE hInstance, int nCmdShow)
     World::Get()->Init();
     InputManager::Get()->Init();
 
+    if (!AudioManager::Get()->Init()) return false;
+
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
 
@@ -104,6 +107,15 @@ bool Core::InitWindow(HINSTANCE hInstance, int nCmdShow)
     ImGui_ImplDX11_Init(Graphics::Get()->GetD3DDevice(), Graphics::Get()->GetD3DDeviceContext());
 
     logic_handle_ = CreateThread(nullptr, 0, LogicThread, nullptr, 0, nullptr);
+
+    // 사운드 테스트
+    AudioManager* audio = AudioManager::Get();
+    audio->AddSound(L"bgm", L".\\bgm.mp3");
+    
+    FMOD_SOUND* sound = audio->GetSound(L"bgm");
+    audio->SetLoop(sound, true);
+
+    FMOD_CHANNEL* channel = audio->PlaySound(sound);
 
     return true;
 }
@@ -155,6 +167,7 @@ LRESULT Core::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         ImGui_ImplDX11_Shutdown();
         ImGui::DestroyContext();
 
+        AudioManager::Get()->Release();
         InputManager::Get()->Release();
         World::Get()->Release();
         Time::Get()->Release();
@@ -192,6 +205,8 @@ void Core::MainLogic()
 {
     Time::Get()->Tick();
 
+    AudioManager::Get()->Tick();
+
     Graphics::Get()->BeginFrame3D();
 
     ImGui_ImplDX11_NewFrame();
@@ -221,8 +236,8 @@ void Core::Tick(float delta_time)
     
     static float accumulator = 0.f;
     // 죽음의 나선형을 방지하기 위해 최대 프레임 시간을 0.25초로 제한
-    const float frame_time = min(delta_time, .25f);
-    accumulator += frame_time;
+    const float kFrameTime = min(delta_time, .25f);
+    accumulator += kFrameTime;
 
     while (accumulator >= FIXED_TIME_STEP)
     {
@@ -231,8 +246,8 @@ void Core::Tick(float delta_time)
     }
     
     // 물리 시뮬레이션으로 인해 발생한 오차를 보정하기 위해 보간을 수행
-    const float alpha = accumulator / FIXED_TIME_STEP;
-    World::Get()->Interpolate(alpha);
+    const float kAlpha = accumulator / FIXED_TIME_STEP;
+    World::Get()->Interpolate(kAlpha);
     
     World::Get()->Tick(delta_time);
 
