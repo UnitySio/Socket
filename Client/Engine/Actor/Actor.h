@@ -73,6 +73,9 @@ private:
     std::vector<std::unique_ptr<ActorComponent>> components_;
 
     TransformComponent* transform_;
+
+    Actor* parent_;
+    std::vector<Actor*> children_;
     
 };
 

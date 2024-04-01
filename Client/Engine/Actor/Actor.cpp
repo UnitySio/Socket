@@ -11,7 +11,9 @@ Actor::Actor(b2World* world, const std::wstring& kName) :
     is_active_(true),
     is_destroy_(false),
     components_(),
-    transform_(nullptr)
+    transform_(nullptr),
+    parent_(nullptr),
+    children_()
 {
     name_ = kName;
 
@@ -56,6 +58,10 @@ void Actor::Render()
 
 void Actor::AttachToActor(Actor* actor)
 {
+    parent_ = actor;
+    actor->children_.push_back(this);
+
+    // TODO: 부모 Actor의 Transform을 기준으로 위치, 회전, 크기를 조정
 }
 
 void Actor::Destroy()

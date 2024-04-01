@@ -22,6 +22,7 @@ public:
     inline Vector GetScale() const { return scale_; }
 
 private:
+    friend class Actor;
     friend class ColliderComponent;
     friend class RigidBodyComponent;
     
