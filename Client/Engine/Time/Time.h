@@ -5,7 +5,7 @@
 #include <windows.h>
 
 // 초당 240회로 고정된 물리 시뮬레이션
-#define FIXED_TIME_STEP 0.004f
+#define FIXED_TIME_STEP .02f
 
 class Time : public Singleton<Time>
 {
