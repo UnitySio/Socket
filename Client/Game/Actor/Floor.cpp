@@ -1,6 +1,6 @@
 ﻿#include "Floor.h"
 
-#include "../../Engine/Actor/Component/BoxColliderComponent.h"
+#include "Actor/Component/BoxColliderComponent.h"
 
 Floor::Floor(b2World* world, const std::wstring& kName) :
     Actor(world, kName)

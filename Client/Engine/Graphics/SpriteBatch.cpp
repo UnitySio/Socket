@@ -42,6 +42,8 @@ void SpriteBatch::End()
 
 void SpriteBatch::Draw(Sprite* sprite, const std::wstring& kName, Vector location, Vector scale, float angle)
 {
+    const float radian = DirectX::XMConvertToRadians(angle);
+    
     device_context_->IASetInputLayout(vertex_shader_.GetInputLayout());
     device_context_->VSSetShader(vertex_shader_.GetShader(), nullptr, 0);
     device_context_->PSSetShader(pixel_shader_.GetShader(), nullptr, 0);
@@ -61,7 +63,7 @@ void SpriteBatch::Draw(Sprite* sprite, const std::wstring& kName, Vector locatio
 
     DirectX::XMMATRIX world_matrix = DirectX::XMMatrixScaling(width * scale.x, height * scale.y, 1.f) * // 크기 조정
         DirectX::XMMatrixTranslation(-pivot_x, -pivot_y, 0.f) * // Pivot 위치로 이동
-            DirectX::XMMatrixRotationZ(angle) * // 회전
+            DirectX::XMMatrixRotationZ(radian) * // 회전
                 DirectX::XMMatrixTranslation(pivot_x, pivot_y, 0.f) * // 원래 위치로 이동
                     DirectX::XMMatrixTranslation(location.x - pivot_x, location.y - pivot_y, 0.f); // 최종 위치 조정
 

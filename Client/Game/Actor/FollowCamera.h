@@ -1,5 +1,5 @@
 ﻿#pragma once
-#include "../../Engine/Actor/Actor.h"
+#include "Actor/Actor.h"
 
 class FollowCamera : public Actor
 {
@@ -14,7 +14,7 @@ public:
 
 private:
     class CameraComponent* camera_;
-
+    
     class Actor* target_;
     
 };

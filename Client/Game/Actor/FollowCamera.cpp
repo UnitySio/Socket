@@ -1,20 +1,22 @@
 ﻿#include "FollowCamera.h"
 
-#include <iostream>
-
-#include "../../Engine/Actor/Component/SceneComponent/CameraComponent.h"
+#include "Actor/Component/CameraComponent.h"
+#include "Actor/Component/TransformComponent.h"
+#include "Audio/AudioManager.h"
 
 FollowCamera::FollowCamera(b2World* world, const std::wstring& kName) :
     Actor(world, kName)
 {
     camera_ = CreateComponent<CameraComponent>(L"Camera");
-    SetRootComponent(camera_);
 }
 
 void FollowCamera::Tick(float delta_time)
 {
     Actor::Tick(delta_time);
 
-    Vector new_position = Vector::Lerp(GetActorLocation(), target_->GetActorLocation(), delta_time * 2.f);
-    SetActorLocation({new_position.x, new_position.y});
+    const Vector location = GetTransform()->GetLocation();
+    const Vector target_location = target_->GetTransform()->GetLocation();
+
+    const Vector new_position = Vector::Lerp(location, target_location, delta_time * 2.f);
+    GetTransform()->SetLocation(new_position);
 }

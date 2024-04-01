@@ -1,7 +1,7 @@
 ﻿#pragma once
-#include "SceneComponent.h"
+#include "ActorComponent.h"
 
-class CameraComponent : public SceneComponent
+class CameraComponent : public ActorComponent
 {
 public:
     CameraComponent(Actor* owner, const std::wstring& kName);

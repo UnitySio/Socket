@@ -2,9 +2,15 @@
 
 #include <ranges>
 
+#include "Vector.h"
+#include "Actor/Component/SceneComponent/SceneComponent.h"
 #include "FMOD/fmod.hpp"
 
-AudioManager::AudioManager()
+AudioManager::AudioManager() :
+    fmod_system_(nullptr),
+    channels_{},
+    sound_map_(),
+    listener_(nullptr)
 {
 }
 
@@ -43,7 +49,14 @@ bool AudioManager::AddSound(const std::wstring& kName, const std::wstring& kPath
 
 void AudioManager::Tick()
 {
-    FMOD_System_Update(fmod_system_);
+    if (Get()->listener_)
+    {
+        const Vector location = Get()->listener_->GetRelativeLocation();
+        const FMOD_VECTOR listener_location = {location.x, location.y, 0.f};
+        FMOD_System_Set3DListenerAttributes(Get()->fmod_system_, 0, &listener_location, nullptr, nullptr, nullptr);
+    }
+    
+    FMOD_System_Update(Get()->fmod_system_);
 }
 
 void AudioManager::SetLoop(FMOD_SOUND* sound, bool is_loop)
@@ -54,7 +67,7 @@ void AudioManager::SetLoop(FMOD_SOUND* sound, bool is_loop)
 void AudioManager::PlayOneShot(FMOD_SOUND* sound, float volume)
 {
     FMOD_CHANNEL* channel = nullptr;
-    FMOD_System_PlaySound(fmod_system_, sound, nullptr, false, &channel);
+    FMOD_System_PlaySound(Get()->fmod_system_, sound, nullptr, false, &channel);
     if (channel) FMOD_Channel_SetVolume(channel, volume);
 }
 
@@ -75,14 +88,14 @@ void AudioManager::StopSound(FMOD_CHANNEL* channel)
 
 FMOD_CHANNEL* AudioManager::PlaySound(FMOD_SOUND* sound, FMOD_CHANNELGROUP* channel_group)
 {
-    for (FMOD_CHANNEL* channel : channels_)
+    for (FMOD_CHANNEL* channel : Get()->channels_)
     {
         FMOD_BOOL is_playing = false;
         FMOD_Channel_IsPlaying(channel, &is_playing);
 
         if (!is_playing)
         {
-            FMOD_System_PlaySound(fmod_system_, sound, channel_group, false, &channel);
+            FMOD_System_PlaySound(Get()->fmod_system_, sound, channel_group, false, &channel);
             return channel;
         }
     }

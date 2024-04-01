@@ -1,35 +1,19 @@
 ﻿#include "Pawn.h"
 
-#include <iostream>
-#include <ostream>
-
 #include "Dummy.h"
-#include "../../Engine/Core.h"
-#include "../../Engine/Actor/Component/SceneComponent/SceneComponent.h"
-#include "../../Engine/Actor/Component/BoxColliderComponent.h"
-#include "../../Engine/Actor/Component/RigidBodyComponent.h"
-#include "../../Engine/Graphics/Graphics.h"
-#include "../../Engine/Input/InputManager.h"
-#include "../../Engine/Vector.h"
-#include "../../Engine/Level/Level.h"
-
-#include "../../Engine/Level/Listener/QueryCallback.h"
-#include "box2d/b2_fixture.h"
-#include "box2d/b2_world.h"
-
+#include "Actor/Component/BoxColliderComponent.h"
+#include "Actor/Component/RigidBodyComponent.h"
+#include "Actor/Component/TransformComponent.h"
+#include "Graphics/Graphics.h"
+#include "Input/InputManager.h"
 #include "Time/Time.h"
-
 
 Pawn::Pawn(b2World* world, const std::wstring& kName) :
     Actor(world, kName),
-    scene_(nullptr),
     box_collider_(nullptr),
     rigid_body_(nullptr),
     dir_(1)
 {
-    scene_ = CreateComponent<SceneComponent>(L"Scene");
-    SetRootComponent(scene_);
-    
     box_collider_ = CreateComponent<BoxColliderComponent>(L"BoxCollider");
     box_collider_->SetOffset({0.f, 1.45f});
     box_collider_->SetSize({1.f, 1.f});
@@ -38,7 +22,7 @@ Pawn::Pawn(b2World* world, const std::wstring& kName) :
     rigid_body_->SetBodyType(BodyType::kDynamic);
     // rigid_body_->SetFreezeRotation(true);
     
-    SetActorLocation({1.f, 5.f});
+    GetTransform()->SetLocation({1.f, 5.f});
 
     Graphics* gfx = Graphics::Get();
     
@@ -77,7 +61,7 @@ void Pawn::Tick(float delta_time)
     {
         Dummy* dummy = new Dummy(GetWorld(), L"Dummy");
         dummy->GetRigidBody()->SetBodyType(BodyType::kDynamic);
-        dummy->SetActorLocation({GetActorLocation().x, GetActorLocation().y});
+        // dummy->SetActorLocation({GetActorLocation().x, GetActorLocation().y});
         SpawnActor(dummy);
     }
     
@@ -100,6 +84,8 @@ void Pawn::Render()
         time = 0.f;
     }
 
-    batch->Draw(sprite_.get(), L"Knight_" + std::to_wstring(idx), GetActorLocation(), {1.f * -dir_, 1.f}, GetActorRotation());
+    const Vector location = GetTransform()->GetLocation();
+    const float angle = GetTransform()->GetRotation();
+    batch->Draw(sprite_.get(), L"Knight_" + std::to_wstring(idx), location, {1.f * -dir_, 1.f}, angle);
     
 }

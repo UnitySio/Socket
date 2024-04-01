@@ -1,5 +1,6 @@
 ﻿#include "ColliderComponent.h"
 
+#include "TransformComponent.h"
 #include "Actor/Actor.h"
 #include "box2d/b2_fixture.h"
 
@@ -46,7 +47,7 @@ void ColliderComponent::CreateFixture(b2Shape* shape)
         fixture_def.friction = fixture_->GetFriction();
         fixture_def.isSensor = fixture_->IsSensor();
 
-        owner_->body_->DestroyFixture(fixture_);
+        owner_->GetTransform()->body_->DestroyFixture(fixture_);
     }
     else
     {
@@ -54,5 +55,5 @@ void ColliderComponent::CreateFixture(b2Shape* shape)
         fixture_def.friction = 0.3f;
     }
 
-    fixture_ = owner_->body_->CreateFixture(&fixture_def);
+    fixture_ = owner_->GetTransform()->body_->CreateFixture(&fixture_def);
 }

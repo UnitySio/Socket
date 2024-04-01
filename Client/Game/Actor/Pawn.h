@@ -13,9 +13,6 @@ public:
     virtual void Render() override;
 
 private:
-    // Scene components
-    class SceneComponent* scene_;
-
     // Actor components
     class BoxColliderComponent* box_collider_;
     class RigidBodyComponent* rigid_body_;

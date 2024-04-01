@@ -1,10 +1,6 @@
 ﻿#include "Core.h"
 
-#include <functional>
-#include <iostream>
-
 #include "EventManager.h"
-#include "Vector.h"
 #include "Audio/AudioManager.h"
 #include "Graphics/Graphics.h"
 #include "Time/Time.h"
@@ -108,15 +104,6 @@ bool Core::InitWindow(HINSTANCE hInstance, int nCmdShow)
 
     logic_handle_ = CreateThread(nullptr, 0, LogicThread, nullptr, 0, nullptr);
 
-    // 사운드 테스트
-    AudioManager* audio = AudioManager::Get();
-    audio->AddSound(L"bgm", L".\\bgm.mp3");
-    
-    FMOD_SOUND* sound = audio->GetSound(L"bgm");
-    audio->SetLoop(sound, true);
-
-    FMOD_CHANNEL* channel = audio->PlaySound(sound);
-
     return true;
 }
 
@@ -205,8 +192,6 @@ void Core::MainLogic()
 {
     Time::Get()->Tick();
 
-    AudioManager::Get()->Tick();
-
     Graphics::Get()->BeginFrame3D();
 
     ImGui_ImplDX11_NewFrame();
@@ -214,6 +199,7 @@ void Core::MainLogic()
     ImGui::NewFrame();
 
     Tick(Time::DeltaTime());
+    AudioManager::Tick();
 
     Graphics::Get()->BeginFrame2D();
 
@@ -250,58 +236,6 @@ void Core::Tick(float delta_time)
     World::Get()->Interpolate(kAlpha);
     
     World::Get()->Tick(delta_time);
-
-    // Camera 2D 테스트
-    Graphics* gfx = Graphics::Get();
-
-    if (ImGui::Begin("Camera"))
-    {
-        ImGui::Text("Camera Settings");
-    
-        static float size = 5.f;
-        if (ImGui::SliderFloat("Size", &size, 1.f, 10.f, "%.1f"))
-        {
-            gfx->GetCamera2D().SetProjectionValues(size, .3f, 1000.f);
-        }
-
-        static float position[3];
-        if (ImGui::InputFloat3("Position", position))
-        {
-            gfx->GetCamera2D().SetPosition(position[0], position[1], position[2]);
-        }
-
-        static float rotation[3];
-        if (ImGui::InputFloat3("Rotation", rotation))
-        {
-            float radian = DirectX::XMConvertToRadians(rotation[2]);
-            gfx->GetCamera2D().SetRotation(rotation[0], rotation[1], radian);
-        }
-    }
-
-    ImGui::End();
-
-    InputManager* input = InputManager::Get();
-    float spd = 1.f;
-    
-    if (input->IsKeyPressed(0x41))
-    {
-        gfx->GetCamera2D().AdjustPosition(-spd * delta_time, 0.f, 0.f);
-    }
-
-    if (input->IsKeyPressed(0x44))
-    {
-        gfx->GetCamera2D().AdjustPosition(spd * delta_time, 0.f, 0.f);
-    }
-
-    if (input->IsKeyPressed(0x57))
-    {
-        gfx->GetCamera2D().AdjustPosition(0.f, spd * delta_time, 0.f);
-    }
-
-    if (input->IsKeyPressed(0x53))
-    {
-        gfx->GetCamera2D().AdjustPosition(0.f, -spd * delta_time, 0.f);
-    }
 }
 
 void Core::Render()
