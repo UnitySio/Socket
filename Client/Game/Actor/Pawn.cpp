@@ -4,6 +4,7 @@
 #include "Actor/Component/BoxColliderComponent.h"
 #include "Actor/Component/RigidBodyComponent.h"
 #include "Actor/Component/TransformComponent.h"
+#include "Actor/Component/AudioListenerComponent.h"
 #include "Graphics/Graphics.h"
 #include "Input/InputManager.h"
 #include "Time/Time.h"
@@ -20,7 +21,7 @@ Pawn::Pawn(b2World* world, const std::wstring& kName) :
 
     rigid_body_ = CreateComponent<RigidBodyComponent>(L"RigidBody");
     rigid_body_->SetBodyType(BodyType::kDynamic);
-    // rigid_body_->SetFreezeRotation(true);
+    rigid_body_->SetFreezeRotation(true);
     
     GetTransform()->SetLocation({1.f, 5.f});
 
@@ -30,6 +31,8 @@ Pawn::Pawn(b2World* world, const std::wstring& kName) :
     assert(sprite_->Load(gfx->GetD3DDevice(), L".\\spritesheet.png"));
     
     sprite_->Split(3, 15, {.45f, 0.f});
+    
+    audio_listener_ = CreateComponent<AudioListenerComponent>(L"AudioListener");
     
 }
 

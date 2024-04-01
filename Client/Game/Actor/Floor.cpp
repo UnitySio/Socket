@@ -11,9 +11,11 @@ Floor::Floor(b2World* world, const std::wstring& kName) :
     box_collider_->SetSize({5.f, 1.f});
     
     AudioManager::AddSound(L"BGM", L".\\bgm.mp3");
+    FMOD_SOUND* sound = AudioManager::GetSound(L"BGM");
+    // AudioManager::SetLoop(sound, true);
 
     audio_ = CreateComponent<AudioComponent>(L"Audio");
-    audio_->SetSound(AudioManager::GetSound(L"BGM"));
+    audio_->SetSound(sound);
 
     audio_->Play();
 }

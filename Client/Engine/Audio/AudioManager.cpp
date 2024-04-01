@@ -53,7 +53,13 @@ void AudioManager::Tick()
 
 void AudioManager::SetLoop(FMOD_SOUND* sound, bool is_loop)
 {
-    FMOD_Sound_SetLoopCount(sound, is_loop ? -1 : 0);
+    // FMOD_MODE mode;
+    // FMOD_Sound_GetMode(sound, &mode);
+    //
+    // if (is_loop) mode |= FMOD_LOOP_NORMAL;
+    // else mode &= ~FMOD_LOOP_NORMAL;
+    //
+    // FMOD_Sound_SetMode(sound, mode);
 }
 
 void AudioManager::PlayOneShot(FMOD_SOUND* sound, float volume)
