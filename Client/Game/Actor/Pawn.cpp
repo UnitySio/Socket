@@ -61,7 +61,7 @@ void Pawn::Tick(float delta_time)
     {
         Dummy* dummy = new Dummy(GetWorld(), L"Dummy");
         dummy->GetRigidBody()->SetBodyType(BodyType::kDynamic);
-        // dummy->SetActorLocation({GetActorLocation().x, GetActorLocation().y});
+        dummy->GetTransform()->SetLocation(GetTransform()->GetLocation());
         SpawnActor(dummy);
     }
     

@@ -2,12 +2,14 @@
 
 #include "Actor/Component/CameraComponent.h"
 #include "Actor/Component/TransformComponent.h"
+#include "Actor/Component/AudioListenerComponent.h"
 #include "Audio/AudioManager.h"
 
 FollowCamera::FollowCamera(b2World* world, const std::wstring& kName) :
     Actor(world, kName)
 {
     camera_ = CreateComponent<CameraComponent>(L"Camera");
+    audio_listener_ = CreateComponent<AudioListenerComponent>(L"AudioListener");
 }
 
 void FollowCamera::Tick(float delta_time)

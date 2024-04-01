@@ -76,12 +76,12 @@ bool Core::InitWindow(HINSTANCE hInstance, int nCmdShow)
     CoInitializeEx(nullptr, COINIT_MULTITHREADED);
 
     if (!Graphics::Get()->Init()) return false;
+    
+    if (!AudioManager::Get()->Init()) return false;
 
     Time::Get()->Init();
     World::Get()->Init();
     InputManager::Get()->Init();
-
-    if (!AudioManager::Get()->Init()) return false;
 
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
@@ -154,10 +154,10 @@ LRESULT Core::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         ImGui_ImplDX11_Shutdown();
         ImGui::DestroyContext();
 
-        AudioManager::Get()->Release();
         InputManager::Get()->Release();
         World::Get()->Release();
         Time::Get()->Release();
+        AudioManager::Get()->Release();
         Graphics::Get()->Release();
         EventManager::Get()->Release();
         Get()->Release();

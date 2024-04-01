@@ -138,6 +138,7 @@
     <ClInclude Include="Engine\Actor\Actor.h" />
     <ClInclude Include="Engine\Actor\Component\ActorComponent.h" />
     <ClInclude Include="Engine\Actor\Component\AudioComponent.h" />
+    <ClInclude Include="Engine\Actor\Component\AudioListenerComponent.h" />
     <ClInclude Include="Engine\Actor\Component\BoxColliderComponent.h" />
     <ClInclude Include="Engine\Actor\Component\CameraComponent.h" />
     <ClInclude Include="Engine\Actor\Component\CircleColliderComponent.h" />
@@ -264,6 +265,7 @@
     <ClCompile Include="Engine\Actor\Actor.cpp" />
     <ClCompile Include="Engine\Actor\Component\ActorComponent.cpp" />
     <ClCompile Include="Engine\Actor\Component\AudioComponent.cpp" />
+    <ClCompile Include="Engine\Actor\Component\AudioListenerComponent.cpp" />
     <ClCompile Include="Engine\Actor\Component\BoxColliderComponent.cpp" />
     <ClCompile Include="Engine\Actor\Component\CameraComponent.cpp">
       <RuntimeLibrary>MultiThreadedDebugDll</RuntimeLibrary>

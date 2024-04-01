@@ -11,5 +11,6 @@ public:
 
 private:
     class BoxColliderComponent* box_collider_;
+    class AudioComponent* audio_;
     
 };

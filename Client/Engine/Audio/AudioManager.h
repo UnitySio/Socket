@@ -17,7 +17,8 @@ public:
     virtual ~AudioManager() override;
 
     bool Init();
-    bool AddSound(const std::wstring& kName, const std::wstring& kPath);
+    
+    static bool AddSound(const std::wstring& kName, const std::wstring& kPath);
 
     static void Tick();
     static void SetLoop(FMOD_SOUND* sound, bool is_loop);
@@ -30,16 +31,13 @@ public:
 
     static FMOD_SOUND* GetSound(const std::wstring& kName) { return Get()->sound_map_.at(kName); }
 
-    static inline void SetListener(SceneComponent* listener) { Get()->listener_ = listener; }
-
 private:
+    friend class AudioListenerComponent;
     friend class AudioComponent;
     
     class FMOD_SYSTEM* fmod_system_;
     FMOD_CHANNEL* channels_[MAX_CHANNEL_COUNT];
 
     std::map<std::wstring, FMOD_SOUND*> sound_map_;
-
-    SceneComponent* listener_;
     
 };

@@ -9,8 +9,7 @@
 AudioManager::AudioManager() :
     fmod_system_(nullptr),
     channels_{},
-    sound_map_(),
-    listener_(nullptr)
+    sound_map_()
 {
 }
 
@@ -40,22 +39,15 @@ bool AudioManager::AddSound(const std::wstring& kName, const std::wstring& kPath
 
     const std::string kPathStr(kPath.begin(), kPath.end());
 
-    FMOD_RESULT result = FMOD_System_CreateSound(fmod_system_, kPathStr.c_str(), FMOD_DEFAULT, nullptr, &sound);
+    FMOD_RESULT result = FMOD_System_CreateSound(Get()->fmod_system_, kPathStr.c_str(), FMOD_DEFAULT, nullptr, &sound);
     if (result != FMOD_OK) return false;
 
-    sound_map_[kName] = sound;
+    Get()->sound_map_[kName] = sound;
     return true;
 }
 
 void AudioManager::Tick()
 {
-    if (Get()->listener_)
-    {
-        const Vector location = Get()->listener_->GetRelativeLocation();
-        const FMOD_VECTOR listener_location = {location.x, location.y, 0.f};
-        FMOD_System_Set3DListenerAttributes(Get()->fmod_system_, 0, &listener_location, nullptr, nullptr, nullptr);
-    }
-    
     FMOD_System_Update(Get()->fmod_system_);
 }
 

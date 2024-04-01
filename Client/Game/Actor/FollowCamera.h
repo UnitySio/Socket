@@ -14,6 +14,7 @@ public:
 
 private:
     class CameraComponent* camera_;
+    class AudioListenerComponent* audio_listener_;
     
     class Actor* target_;
     
