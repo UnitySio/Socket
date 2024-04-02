@@ -22,7 +22,7 @@ Pawn::Pawn(b2World* world, const std::wstring& kName) :
 
     rigid_body_ = CreateComponent<RigidBodyComponent>(L"RigidBody");
     rigid_body_->SetBodyType(BodyType::kDynamic);
-    rigid_body_->SetFreezeRotation(true);
+    rigid_body_->SetFreezeRotation(false);
     
     GetTransform()->SetRelativeLocation({1.f, 5.f});
 

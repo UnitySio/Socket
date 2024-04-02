@@ -1,8 +1,11 @@
 ﻿#include "Actor.h"
 
+#include <iostream>
+
 #include "EventManager.h"
 #include "Enums.h"
 #include "box2d/b2_body.h"
+#include "box2d/b2_weld_joint.h"
 #include "box2d/b2_world.h"
 #include "Component/TransformComponent.h"
 
@@ -65,8 +68,6 @@ void Actor::AttachToActor(Actor* actor)
 {
     parent_ = actor;
     actor->children_.push_back(this);
-
-    // TODO: 부모 Actor의 Transform을 기준으로 위치, 회전, 크기를 조정
 }
 
 void Actor::Destroy()

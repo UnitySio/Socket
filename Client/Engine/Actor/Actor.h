@@ -80,6 +80,8 @@ private:
 
     Actor* parent_;
     std::vector<Actor*> children_;
+
+    class b2Joint* child_joint_;
     
 };
 

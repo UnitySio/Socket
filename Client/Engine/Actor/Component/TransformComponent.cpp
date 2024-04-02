@@ -18,7 +18,7 @@ void TransformComponent::TickComponent(float delta_time)
 {
     ActorComponent::TickComponent(delta_time);
 
-    b2Body* body = GetOwner()->body_;
+    const b2Body* body = GetOwner()->body_;
     if (!body || body->GetType() == b2_staticBody) return;
     if (!GetOwner()->parent_)
     {
@@ -29,44 +29,48 @@ void TransformComponent::TickComponent(float delta_time)
         relative_rotation_z_ = angle * 180.f / b2_pi;
 
         UpdateTransform();
+        return;
     }
 }
 
 void TransformComponent::SetRelativeLocation(Vector location)
 {
-    // assert(body_);
-    // body_->SetTransform({location.x, location.y}, body_->GetAngle());
-
     relative_location_ = location;
     UpdateTransform();
+
+    if (b2Body* body = GetOwner()->body_)
+    {
+        body->SetTransform({world_location_.x, world_location_.y}, world_rotation_z_ * GE_PI / 180.f);
+    }
 }
 
 void TransformComponent::SetRelativeRotationZ(float angle)
 {
-    // assert(body_);
-    //
-    // const float radian = angle * b2_pi / 180.f;
-    // body_->SetTransform(body_->GetPosition(), radian);
+    relative_rotation_z_ = angle;
+    UpdateTransform();
+
+    if (b2Body* body = GetOwner()->body_)
+    {
+        body->SetTransform({world_location_.x, world_location_.y}, world_rotation_z_ * GE_PI / 180.f);
+    }
 }
 
 Vector TransformComponent::GetRightVector() const
 {
-    // assert(body_);
-    //
-    // b2Vec2 x = body_->GetTransform().q.GetXAxis();
-    // return {x.x, x.y};
+    const float theta = relative_rotation_z_ * GE_PI / 180.f;
+    const float c = cosf(theta);
+    const float s = sinf(theta);
 
-    return Vector::Zero();
+    return {c, s};
 }
 
 Vector TransformComponent::GetUpVector() const
 {
-    // assert(body_);
-    //
-    // b2Vec2 y = body_->GetTransform().q.GetYAxis();
-    // return {y.x, y.y};
+    const float theta = relative_rotation_z_ * GE_PI / 180.f;
+    const float c = cosf(theta);
+    const float s = sinf(theta);
 
-    return Vector::Zero();
+    return {-s, c};
 }
 
 void TransformComponent::UpdateTransform()
