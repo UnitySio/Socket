@@ -6,6 +6,7 @@
 #include "Actor/Component/TransformComponent.h"
 #include "Actor/Component/AudioListenerComponent.h"
 #include "Graphics/Graphics.h"
+#include "imgui/imgui.h"
 #include "Input/InputManager.h"
 #include "Time/Time.h"
 
@@ -23,7 +24,7 @@ Pawn::Pawn(b2World* world, const std::wstring& kName) :
     rigid_body_->SetBodyType(BodyType::kDynamic);
     rigid_body_->SetFreezeRotation(true);
     
-    GetTransform()->SetLocation({1.f, 5.f});
+    GetTransform()->SetRelativeLocation({1.f, 5.f});
 
     Graphics* gfx = Graphics::Get();
     
@@ -64,7 +65,7 @@ void Pawn::Tick(float delta_time)
     {
         Dummy* dummy = new Dummy(GetWorld(), L"Dummy");
         dummy->GetRigidBody()->SetBodyType(BodyType::kDynamic);
-        dummy->GetTransform()->SetLocation(GetTransform()->GetLocation());
+        dummy->GetTransform()->SetRelativeLocation(GetTransform()->GetRelativeLocation());
         SpawnActor(dummy);
     }
     
@@ -87,8 +88,14 @@ void Pawn::Render()
         time = 0.f;
     }
 
-    const Vector location = GetTransform()->GetLocation();
-    const float angle = GetTransform()->GetRotation();
+    const Vector location = GetTransform()->GetRelativeLocation();
+    const float angle = GetTransform()->GetRelativeRotationZ();
     batch->Draw(sprite_.get(), L"Knight_" + std::to_wstring(idx), location, {1.f * -dir_, 1.f}, angle);
+
+    const Vector world_location = GetTransform()->GetWorldLocation();
+    
+    ImGui::Begin("Pawn");
+    ImGui::Text("Location: %.2f, %.2f", world_location.x, world_location.y);
+    ImGui::End();
     
 }

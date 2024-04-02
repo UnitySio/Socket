@@ -7,7 +7,6 @@
 #include "Component/ActorComponent.h"
 
 class TransformComponent;
-class b2Body;
 
 class Actor
 {
@@ -58,10 +57,15 @@ private:
     friend class EventManager;
     friend class ColliderComponent;
     friend class RigidBodyComponent;
+    friend class TransformComponent;
+
+    void CreateBody();
     
     std::wstring name_;
 
     b2World* world_;
+
+    class b2Body* body_;
 
     Vector previous_location_;
 

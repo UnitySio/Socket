@@ -9,6 +9,7 @@ ColliderComponent::ColliderComponent(Actor* owner, const std::wstring& kName) :
     fixture_(nullptr),
     offset_(Vector::Zero())
 {
+    if (!GetOwner()->body_) GetOwner()->CreateBody();
 }
 
 void ColliderComponent::SetTrigger(bool isTrigger)
@@ -47,7 +48,7 @@ void ColliderComponent::CreateFixture(b2Shape* shape)
         fixture_def.friction = fixture_->GetFriction();
         fixture_def.isSensor = fixture_->IsSensor();
 
-        owner_->GetTransform()->body_->DestroyFixture(fixture_);
+        GetOwner()->body_->DestroyFixture(fixture_);
     }
     else
     {
@@ -55,5 +56,5 @@ void ColliderComponent::CreateFixture(b2Shape* shape)
         fixture_def.friction = 0.3f;
     }
 
-    fixture_ = owner_->GetTransform()->body_->CreateFixture(&fixture_def);
+    fixture_ = GetOwner()->body_->CreateFixture(&fixture_def);
 }

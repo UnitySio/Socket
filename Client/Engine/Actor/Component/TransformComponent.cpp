@@ -2,63 +2,99 @@
 
 #include "Actor/Actor.h"
 #include "box2d/b2_body.h"
-#include "box2d/b2_world.h"
 
 TransformComponent::TransformComponent(Actor* owner, const std::wstring& kName) :
     ActorComponent(owner, kName),
-    body_(nullptr),
-    scale_(Vector::One())
+    world_location_(Vector::Zero()),
+    world_scale_(Vector::One()),
+    relative_location_(Vector::Zero()),
+    relative_scale_(Vector::One()),
+    world_rotation_z_(0.f),
+    relative_rotation_z_(0.f)
 {
-    b2BodyDef body_def;
-    body_def.userData.pointer = reinterpret_cast<uintptr_t>(owner);
-
-    b2World* world = owner->GetWorld();
-    body_ = world->CreateBody(&body_def);
 }
 
-void TransformComponent::SetLocation(Vector location)
+void TransformComponent::TickComponent(float delta_time)
 {
-    assert(body_);
-    body_->SetTransform({location.x, location.y}, body_->GetAngle());
+    ActorComponent::TickComponent(delta_time);
+
+    b2Body* body = GetOwner()->body_;
+    if (!body || body->GetType() == b2_staticBody) return;
+    if (!GetOwner()->parent_)
+    {
+        const b2Vec2 position = body->GetPosition();
+        relative_location_ = {position.x, position.y};
+
+        const float angle = body->GetAngle();
+        relative_rotation_z_ = angle * 180.f / b2_pi;
+
+        UpdateTransform();
+    }
 }
 
-void TransformComponent::SetRotation(float angle)
+void TransformComponent::SetRelativeLocation(Vector location)
 {
-    assert(body_);
+    // assert(body_);
+    // body_->SetTransform({location.x, location.y}, body_->GetAngle());
 
-    const float radian = angle * b2_pi / 180.f;
-    body_->SetTransform(body_->GetPosition(), radian);
+    relative_location_ = location;
+    UpdateTransform();
 }
 
-Vector TransformComponent::GetLocation() const
+void TransformComponent::SetRelativeRotationZ(float angle)
 {
-    assert(body_);
-    
-    b2Vec2 position = body_->GetPosition();
-    return {position.x, position.y};
+    // assert(body_);
+    //
+    // const float radian = angle * b2_pi / 180.f;
+    // body_->SetTransform(body_->GetPosition(), radian);
 }
 
 Vector TransformComponent::GetRightVector() const
 {
-    assert(body_);
-    
-    b2Vec2 x = body_->GetTransform().q.GetXAxis();
-    return {x.x, x.y};
+    // assert(body_);
+    //
+    // b2Vec2 x = body_->GetTransform().q.GetXAxis();
+    // return {x.x, x.y};
+
+    return Vector::Zero();
 }
 
 Vector TransformComponent::GetUpVector() const
 {
-    assert(body_);
-    
-    b2Vec2 y = body_->GetTransform().q.GetYAxis();
-    return {y.x, y.y};
+    // assert(body_);
+    //
+    // b2Vec2 y = body_->GetTransform().q.GetYAxis();
+    // return {y.x, y.y};
+
+    return Vector::Zero();
 }
 
-float TransformComponent::GetRotation() const
+void TransformComponent::UpdateTransform()
 {
-    assert(body_);
+    if (GetOwner()->parent_)
+    {
+        Vector parent_location = GetOwner()->parent_->transform_->world_location_;
+        const float parent_rotation = GetOwner()->parent_->transform_->world_rotation_z_;
 
-    const float radian = body_->GetAngle();
-    const float angle = radian * 180.f / b2_pi;
-    return angle;
+        const float theta = parent_rotation * GE_PI / 180.f;
+        const float c = cosf(theta);
+        const float s = sinf(theta);
+
+        const float x = relative_location_.x * c - relative_location_.y * s + parent_location.x;
+        const float y = relative_location_.x * s + relative_location_.y * c + parent_location.y;
+
+        world_location_ = parent_location + Vector(x, y);
+        world_rotation_z_ = parent_rotation + relative_rotation_z_;
+    }
+    else
+    {
+        world_location_ = relative_location_;
+        world_rotation_z_ = relative_rotation_z_;
+    }
+
+    // 자식 Actor들의 Transform을 업데이트
+    for (const auto& child : GetOwner()->children_)
+    {
+        child->transform_->UpdateTransform();
+    }
 }

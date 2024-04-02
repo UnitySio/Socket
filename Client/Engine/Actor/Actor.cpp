@@ -2,10 +2,13 @@
 
 #include "EventManager.h"
 #include "Enums.h"
+#include "box2d/b2_body.h"
+#include "box2d/b2_world.h"
 #include "Component/TransformComponent.h"
 
 Actor::Actor(b2World* world, const std::wstring& kName) :
     world_(world),
+    body_(nullptr),
     previous_location_(Vector::Zero()),
     previous_angle_(0.f),
     is_active_(true),
@@ -34,6 +37,8 @@ void Actor::EndPlay()
     {
         component->EndPlay();
     }
+
+    if (!body_) world_->DestroyBody(body_);
 }
 
 void Actor::PhysicsTick(float delta_time)
@@ -99,4 +104,12 @@ void Actor::SetActive(bool active)
             reinterpret_cast<uintptr_t>(this),
             static_cast<bool>(active)
         });
+}
+
+void Actor::CreateBody()
+{
+    b2BodyDef body_def;
+    body_def.userData.pointer = reinterpret_cast<uintptr_t>(this);
+
+    body_ = world_->CreateBody(&body_def);
 }
