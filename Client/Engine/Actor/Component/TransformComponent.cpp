@@ -2,6 +2,10 @@
 
 #include "Actor/Actor.h"
 #include "box2d/b2_body.h"
+#include "Graphics/Graphics.h"
+#include "Graphics/PrimitiveBatch.h"
+#include "Level/Level.h"
+#include "Level/World.h"
 
 TransformComponent::TransformComponent(Actor* owner, const std::wstring& kName) :
     ActorComponent(owner, kName),
@@ -31,6 +35,49 @@ void TransformComponent::TickComponent(float delta_time)
         UpdateTransform();
         return;
     }
+}
+
+void TransformComponent::Render()
+{
+    ActorComponent::Render();
+
+    // 테스트 코드 (추후 제거)
+    const Level* level = World::Get()->GetLevel();
+    if (!level) return;
+
+    PrimitiveBatch* batch = level->GetPrimitiveBatch();
+    if (!batch) return;
+
+    const Vector center = world_location_;
+    const b2Color fill_color(1.f, 1.f, 1.f);
+
+    batch->Begin(Graphics::Get()->GetCamera2D().GetWorldMatrix() * Graphics::Get()->GetCamera2D().GetOrthographicMatrix());
+    
+    std::vector<VertexPrimitive> vertices;
+    vertices.push_back(VertexPrimitive(center.x, center.y, 0.f, fill_color.r, fill_color.g, fill_color.b, fill_color.a));
+    
+    for (int32 i = 0; i < 16; ++i)
+    {
+        constexpr float radius = .1f;
+        float theta = 2.f * b2_pi * i / 16;
+        float x = center.x + radius * cos(theta);
+        float y = center.y + radius * sin(theta);
+        vertices.push_back(VertexPrimitive(x, y, 0.f, fill_color.r, fill_color.g, fill_color.b, fill_color.a));
+    }
+
+    vertices.push_back(vertices[1]);
+
+    std::vector<UINT> indices;
+    for (int32 i = 0; i < 16; i++)
+    {
+        indices.push_back(0);
+        indices.push_back(i + 1);
+        indices.push_back(i + 2);
+    }
+    
+    batch->DrawSolidPolygon(vertices, indices);
+    
+    batch->End();
 }
 
 void TransformComponent::SetRelativeLocation(Vector location)

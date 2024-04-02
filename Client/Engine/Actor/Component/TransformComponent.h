@@ -1,4 +1,5 @@
 ﻿#pragma once
+
 #include "ActorComponent.h"
 #include "Vector.h"
 
@@ -11,6 +12,7 @@ public:
     virtual ~TransformComponent() override = default;
 
     virtual void TickComponent(float delta_time) override;
+    virtual void Render() override;
 
     void SetRelativeLocation(Vector location);
     void SetRelativeRotationZ(float angle);
