@@ -84,8 +84,8 @@ void TransformComponent::UpdateTransform()
         const float c = cosf(theta);
         const float s = sinf(theta);
 
-        const float x = relative_location_.x * c - relative_location_.y * s + parent_location.x;
-        const float y = relative_location_.x * s + relative_location_.y * c + parent_location.y;
+        const float x = relative_location_.x * c - relative_location_.y * s;
+        const float y = relative_location_.x * s + relative_location_.y * c;
 
         world_location_ = parent_location + Vector(x, y);
         world_rotation_z_ = parent_rotation + relative_rotation_z_;
