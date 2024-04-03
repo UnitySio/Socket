@@ -7,6 +7,7 @@
 #include "box2d/b2_body.h"
 #include "box2d/b2_weld_joint.h"
 #include "box2d/b2_world.h"
+#include "Component/RigidBodyComponent.h"
 #include "Component/TransformComponent.h"
 
 Actor::Actor(b2World* world, const std::wstring& kName) :
@@ -68,6 +69,27 @@ void Actor::AttachToActor(Actor* actor)
 {
     parent_ = actor;
     actor->children_.push_back(this);
+
+    transform_->SetRelativeLocation(transform_->GetWorldLocation() - actor->transform_->GetWorldLocation());
+
+    if (!body_ || !actor->body_) return;
+
+    body_->SetType(actor->body_->GetType());
+
+    RigidBodyComponent* rigid_body = GetComponent<RigidBodyComponent>();
+    RigidBodyComponent* parent_rigid_body = actor->GetComponent<RigidBodyComponent>();
+
+    if (parent_rigid_body && !rigid_body)
+    {
+        b2WeldJointDef joint_def;
+        joint_def.bodyA = actor->body_;
+        joint_def.bodyB = body_;
+        joint_def.localAnchorA = actor->body_->GetLocalCenter();
+        joint_def.localAnchorB = body_->GetLocalPoint(actor->body_->GetWorldCenter());
+        joint_def.referenceAngle = body_->GetAngle() - actor->body_->GetAngle();
+
+        world_->CreateJoint(&joint_def);
+    }
 }
 
 void Actor::Destroy()

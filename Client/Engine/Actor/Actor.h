@@ -37,6 +37,10 @@ public:
     template <typename T>
     T* CreateComponent(const std::wstring& kName);
 
+    // 추후 리플렉션으로 변경
+    template <typename T>
+    T* GetComponent();
+
     // Reflection 구현 필요
 
     // 추후 구현 예정
@@ -80,8 +84,6 @@ private:
 
     Actor* parent_;
     std::vector<Actor*> children_;
-
-    class b2Joint* child_joint_;
     
 };
 
@@ -90,4 +92,18 @@ T* Actor::CreateComponent(const std::wstring& kName)
 {
     components_.push_back(std::make_unique<T>(this, kName));
     return static_cast<T*>(components_.back().get());
+}
+
+template <typename T>
+T* Actor::GetComponent()
+{
+    for (const auto& component : components_)
+    {
+        if (T* target = dynamic_cast<T*>(component.get()))
+        {
+            return target;
+        }
+    }
+
+    return nullptr;
 }
