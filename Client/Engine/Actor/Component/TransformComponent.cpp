@@ -138,6 +138,15 @@ void TransformComponent::UpdateTransform()
 
         world_location_ = parent_location + Vector(x, y);
         world_rotation_z_ = parent_rotation + relative_rotation_z_;
+
+        const RigidBodyComponent* rigid_body = GetOwner()->GetComponent<RigidBodyComponent>();
+        if (rigid_body && rigid_body->GetBodyType() == b2_kinematicBody)
+        {
+            if (b2Body* body = GetOwner()->body_)
+            {
+                body->SetTransform({world_location_.x, world_location_.y}, world_rotation_z_ * GE_PI / 180.f);
+            }
+        }
     }
     else
     {

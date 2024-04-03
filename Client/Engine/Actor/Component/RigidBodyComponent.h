@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include "ActorComponent.h"
+#include "box2d/b2_body.h"
 
 struct Vector;
 
@@ -52,5 +53,7 @@ public:
     float GetAngularVelocity() const;
 
     bool IsAwake() const;
+
+    b2BodyType GetBodyType() const;
     
 };

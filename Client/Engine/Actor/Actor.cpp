@@ -76,13 +76,13 @@ void Actor::AttachToActor(Actor* actor)
 
     if (!body_ || !actor->body_) return;
 
-    body_->SetType(actor->body_->GetType());
-
     const RigidBodyComponent* rigid_body = GetComponent<RigidBodyComponent>();
     const RigidBodyComponent* parent_rigid_body = actor->GetComponent<RigidBodyComponent>();
 
     if (parent_rigid_body && !rigid_body)
     {
+        body_->SetType(actor->body_->GetType());
+        
         b2WeldJointDef joint_def;
         joint_def.bodyA = actor->body_;
         joint_def.bodyB = body_;

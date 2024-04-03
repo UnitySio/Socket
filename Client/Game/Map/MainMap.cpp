@@ -20,7 +20,7 @@ MainMap::MainMap(const std::wstring& kName) : Level(kName)
     Actor* dummy = new Dummy(GetWorld(), L"Dummy");
     AddActor(dummy);
     
-    dummy->GetTransform()->SetRelativeLocation({2.f, 6.f});
+    dummy->GetTransform()->SetRelativeLocation({3.f, 6.f});
     
     dummy->AttachToActor(pawn);
     

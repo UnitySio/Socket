@@ -233,3 +233,14 @@ bool RigidBodyComponent::IsAwake() const
 
     return body->IsAwake();
 }
+
+b2BodyType RigidBodyComponent::GetBodyType() const
+{
+    Actor* owner = GetOwner();
+    assert(owner);
+
+    b2Body* body = owner->body_;
+    assert(body);
+
+    return body->GetType();
+}
