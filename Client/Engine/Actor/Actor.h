@@ -29,6 +29,7 @@ public:
     virtual void Render();
 
     void AttachToActor(Actor* actor);
+    void DetachFromActor();
     void Destroy();
     void Destroy(const Actor* kOther);
     void SpawnActor(const Actor* kActor);
@@ -54,6 +55,8 @@ public:
     inline bool IsActive() const { return is_active_; }
 
     inline TransformComponent* GetTransform() const { return transform_; }
+
+    inline Actor* GetParent() const { return parent_; }
 
 private:
     // 추후 정리 예정
@@ -84,6 +87,8 @@ private:
 
     Actor* parent_;
     std::vector<Actor*> children_;
+
+    class b2Joint* parent_joint_;
     
 };
 

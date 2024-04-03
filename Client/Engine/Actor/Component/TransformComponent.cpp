@@ -6,6 +6,7 @@
 #include "Graphics/PrimitiveBatch.h"
 #include "Level/Level.h"
 #include "Level/World.h"
+#include "RigidBodyComponent.h"
 
 TransformComponent::TransformComponent(Actor* owner, const std::wstring& kName) :
     ActorComponent(owner, kName),
@@ -24,6 +25,7 @@ void TransformComponent::TickComponent(float delta_time)
 
     const b2Body* body = GetOwner()->body_;
     if (!body || body->GetType() == b2_staticBody) return;
+    
     if (!GetOwner()->parent_)
     {
         const b2Vec2 position = body->GetPosition();

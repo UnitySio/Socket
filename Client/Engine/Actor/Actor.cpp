@@ -20,7 +20,8 @@ Actor::Actor(b2World* world, const std::wstring& kName) :
     components_(),
     transform_(nullptr),
     parent_(nullptr),
-    children_()
+    children_(),
+    parent_joint_(nullptr)
 {
     name_ = kName;
 
@@ -42,6 +43,7 @@ void Actor::EndPlay()
         component->EndPlay();
     }
 
+    if (!parent_joint_) world_->DestroyJoint(parent_joint_);
     if (!body_) world_->DestroyBody(body_);
 }
 
@@ -76,8 +78,8 @@ void Actor::AttachToActor(Actor* actor)
 
     body_->SetType(actor->body_->GetType());
 
-    RigidBodyComponent* rigid_body = GetComponent<RigidBodyComponent>();
-    RigidBodyComponent* parent_rigid_body = actor->GetComponent<RigidBodyComponent>();
+    const RigidBodyComponent* rigid_body = GetComponent<RigidBodyComponent>();
+    const RigidBodyComponent* parent_rigid_body = actor->GetComponent<RigidBodyComponent>();
 
     if (parent_rigid_body && !rigid_body)
     {
@@ -88,8 +90,20 @@ void Actor::AttachToActor(Actor* actor)
         joint_def.localAnchorB = body_->GetLocalPoint(actor->body_->GetWorldCenter());
         joint_def.referenceAngle = body_->GetAngle() - actor->body_->GetAngle();
 
-        world_->CreateJoint(&joint_def);
+        parent_joint_ = world_->CreateJoint(&joint_def);
     }
+}
+
+void Actor::DetachFromActor()
+{
+    if (!parent_) return;
+
+    std::erase(parent_->children_, this);
+
+    if (!parent_joint_) world_->DestroyJoint(parent_joint_);
+
+    parent_ = nullptr;
+    parent_joint_ = nullptr;
 }
 
 void Actor::Destroy()
