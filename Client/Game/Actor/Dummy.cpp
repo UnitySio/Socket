@@ -10,5 +10,5 @@ Dummy::Dummy(b2World* world, const std::wstring& kName) :
     box_collider_->SetSize({1.f, 1.f});
 
     rigid_body_ = CreateComponent<RigidBodyComponent>(L"RigidBody");
-    rigid_body_->SetBodyType(BodyType::kKinematic);
+    rigid_body_->SetBodyType(BodyType::kStatic);
 }

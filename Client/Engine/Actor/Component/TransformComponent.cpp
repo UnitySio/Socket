@@ -37,6 +37,17 @@ void TransformComponent::TickComponent(float delta_time)
         UpdateTransform();
         return;
     }
+
+    const RigidBodyComponent* rigid_body = GetOwner()->GetComponent<RigidBodyComponent>();
+    if (!rigid_body || rigid_body->GetBodyType() == b2_kinematicBody) return;
+
+    const b2Vec2 position = body->GetPosition() - GetOwner()->parent_->body_->GetPosition();
+    relative_location_ = {position.x, position.y};
+
+    const float angle = body->GetAngle() - GetOwner()->parent_->body_->GetAngle();
+    relative_rotation_z_ = angle * 180.f / b2_pi;
+    
+    UpdateTransform();
 }
 
 void TransformComponent::Render()
@@ -140,11 +151,14 @@ void TransformComponent::UpdateTransform()
         world_rotation_z_ = parent_rotation + relative_rotation_z_;
 
         const RigidBodyComponent* rigid_body = GetOwner()->GetComponent<RigidBodyComponent>();
-        if (rigid_body && rigid_body->GetBodyType() == b2_kinematicBody)
+        if (rigid_body)
         {
-            if (b2Body* body = GetOwner()->body_)
+            if (rigid_body->GetBodyType() == b2_kinematicBody)
             {
-                body->SetTransform({world_location_.x, world_location_.y}, world_rotation_z_ * GE_PI / 180.f);
+                if (b2Body* body = GetOwner()->body_)
+                {
+                    body->SetTransform({world_location_.x, world_location_.y}, world_rotation_z_ * GE_PI / 180.f);
+                }
             }
         }
     }
