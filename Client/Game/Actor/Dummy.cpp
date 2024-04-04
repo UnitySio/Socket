@@ -3,7 +3,6 @@
 #include "Actor/Component/BoxColliderComponent.h"
 #include "Actor/Component/RigidBodyComponent.h"
 #include "Actor/Component/TransformComponent.h"
-#include "Time/Time.h"
 
 Dummy::Dummy(b2World* world, const std::wstring& kName) :
     Actor(world, kName)

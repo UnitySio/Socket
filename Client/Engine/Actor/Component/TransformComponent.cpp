@@ -109,6 +109,12 @@ void TransformComponent::UpdateTransform()
             world_rotation_z_ = parent_rotation + relative_rotation_z_;
         }
 
+        if (body && body->GetType() == b2_staticBody)
+        {
+            relative_location_ = world_location_ - GetOwner()->parent_->transform_->world_location_;
+            relative_rotation_z_ = world_rotation_z_ - GetOwner()->parent_->transform_->world_rotation_z_;
+        }
+
         if (const RigidBodyComponent* rigid_body = GetOwner()->GetComponent<RigidBodyComponent>())
         {
             if (rigid_body->GetBodyType() == b2_kinematicBody)
