@@ -9,9 +9,10 @@ enum class ActorTag : size_t
     kNone,
 };
 
-enum class ActorLayer : uint16
+enum ActorLayer : uint16
 {
     kDefault = 0x0001,
+    kPlayer = 0x0002,
 };
 
 class ProjectSettings
@@ -28,7 +29,8 @@ public:
     static inline constexpr bool kUseVSync = true;
 
     static inline const std::map<uint16, uint16> kLayerCollisionMatrix = {
-        {0x0001, 0x0001},
+        {kDefault, kDefault | kPlayer},
+        {kPlayer, kPlayer | kDefault},
     };
     
 };

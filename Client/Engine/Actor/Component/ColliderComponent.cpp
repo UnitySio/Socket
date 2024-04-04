@@ -54,11 +54,9 @@ void ColliderComponent::CreateFixture(b2Shape* shape)
     }
     else
     {
-        const uint16 layer = static_cast<uint16>(GetOwner()->GetLayer());
-        
         b2Filter filter;
-        filter.categoryBits = layer;
-        filter.maskBits = ProjectSettings::kLayerCollisionMatrix.at(layer);
+        filter.categoryBits = GetOwner()->GetLayer();
+        filter.maskBits = ProjectSettings::kLayerCollisionMatrix.at(GetOwner()->GetLayer());
         
         fixture_def.density = 1.f;
         fixture_def.friction = 0.3f;
