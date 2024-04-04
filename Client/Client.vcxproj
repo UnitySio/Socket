@@ -170,7 +170,6 @@
     <ClInclude Include="Engine\Level\World.h" />
     <ClInclude Include="Engine\Singleton.h" />
     <ClInclude Include="Engine\Time\Time.h" />
-    <ClInclude Include="Engine\Transform.h" />
     <ClInclude Include="Engine\Vector.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="Game\Actor\Dummy.h" />
@@ -290,7 +289,6 @@
     <ClCompile Include="Engine\Level\Listener\QueryCallback.cpp" />
     <ClCompile Include="Engine\Level\World.cpp" />
     <ClCompile Include="Engine\Time\Time.cpp" />
-    <ClCompile Include="Engine\Transform.cpp" />
     <ClCompile Include="Engine\Vector.cpp" />
     <ClCompile Include="Game\Actor\Dummy.cpp" />
     <ClCompile Include="Game\Actor\Floor.cpp" />
