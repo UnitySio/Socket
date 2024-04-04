@@ -1,6 +1,8 @@
 ﻿#pragma once
 #include "box2d/b2_draw.h"
 
+#define CIRCLE_SEGMENTS 64
+
 class DebugDraw : public b2Draw
 {
 public:
