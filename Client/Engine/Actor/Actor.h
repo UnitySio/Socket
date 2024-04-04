@@ -36,6 +36,8 @@ public:
     void SpawnActor(const Actor* kActor);
     void SetActive(bool active);
 
+    bool CompareTag(ActorTag tag) const;
+
     template <typename T>
     T* CreateComponent(const std::wstring& kName);
 

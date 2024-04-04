@@ -146,6 +146,11 @@ void Actor::SetActive(bool active)
         });
 }
 
+bool Actor::CompareTag(ActorTag tag) const
+{
+    return tag_ == tag;
+}
+
 void Actor::CreateBody()
 {
     b2BodyDef body_def;
