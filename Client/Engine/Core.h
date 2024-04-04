@@ -27,8 +27,6 @@ private:
     void Tick(float delta_time);
     void Render();
 
-    std::wstring class_name_;
-
     POINT resolution_;
     RECT window_area_;
 

@@ -177,6 +177,7 @@
     <ClInclude Include="Game\Actor\FollowCamera.h" />
     <ClInclude Include="Game\Actor\Pawn.h" />
     <ClInclude Include="Game\Map\MainMap.h" />
+    <ClInclude Include="Game\ProjectSettings.h" />
     <ClInclude Include="Game\Resource\ResourceManager.h" />
     <ClInclude Include="Include\box2d\b2_api.h" />
     <ClInclude Include="Include\box2d\b2_block_allocator.h" />

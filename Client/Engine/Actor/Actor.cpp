@@ -4,6 +4,7 @@
 
 #include "EventManager.h"
 #include "Enums.h"
+#include "ProjectSettings.h"
 #include "box2d/b2_body.h"
 #include "box2d/b2_weld_joint.h"
 #include "box2d/b2_world.h"
@@ -11,6 +12,8 @@
 #include "Component/TransformComponent.h"
 
 Actor::Actor(b2World* world, const std::wstring& kName) :
+    tag_(ActorTag::kNone),
+    layer_(ActorLayer::kDefault),
     world_(world),
     body_(nullptr),
     previous_location_(Vector::Zero()),

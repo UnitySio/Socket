@@ -6,6 +6,8 @@
 #include "Vector.h"
 #include "Component/ActorComponent.h"
 
+enum class ActorLayer;
+enum class ActorTag;
 class TransformComponent;
 
 class Actor
@@ -49,6 +51,9 @@ public:
     inline size_t GetTypeHash() const { return -1; }
 
     inline const std::wstring& GetName() const { return name_; }
+
+    inline ActorTag GetTag() const { return tag_; }
+    inline ActorLayer GetLayer() const { return layer_; }
     
     inline b2World* GetWorld() { return world_; }
 
@@ -69,6 +74,9 @@ private:
     void CreateBody();
     
     std::wstring name_;
+
+    ActorTag tag_;
+    ActorLayer layer_;
 
     b2World* world_;
 

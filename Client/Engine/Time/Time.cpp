@@ -3,6 +3,7 @@
 #include <iostream>
 
 #include "Core.h"
+#include "ProjectSettings.h"
 
 Time::Time() :
     frequency_{},
@@ -37,11 +38,14 @@ void Time::Tick()
     {
         fps_ = frame_count_;
 
-        const float kMS = 1000.f / fps_;
+        if (ProjectSettings::kShowFrameRate)
+        {
+            const float kMS = 1000.f / fps_;
 
-        WCHAR buffer[256];
-        swprintf_s(buffer, L"Game - FPS: %.f(%.fms)", fps_, kMS);
-        SetWindowText(Core::Get()->GetWindowHandle(), buffer);
+            WCHAR buffer[256];
+            swprintf_s(buffer, L"%s - FPS: %.f(%.fms)", ProjectSettings::kProjectName.c_str(), fps_, kMS);
+            SetWindowText(Core::Get()->GetWindowHandle(), buffer);
+        }
         
         frame_count_ = 0.f;
         frame_timer_ = 0.f;

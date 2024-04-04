@@ -1,6 +1,7 @@
 ﻿#include "Core.h"
 
 #include "EventManager.h"
+#include "ProjectSettings.h"
 #include "Audio/AudioManager.h"
 #include "Graphics/Graphics.h"
 #include "Time/Time.h"
@@ -12,7 +13,6 @@
 #include "imgui/imgui_impl_win32.h"
 
 Core::Core() :
-    class_name_(L"GAME"),
     resolution_(),
     window_area_(),
     hWnd_(nullptr),
@@ -33,7 +33,7 @@ ATOM Core::MyRegisterClass(HINSTANCE hInstance)
     wcex.hInstance = hInstance;
     wcex.hCursor = LoadCursor(nullptr, IDC_ARROW);
     wcex.hbrBackground = static_cast<HBRUSH>(GetStockObject(BLACK_BRUSH));
-    wcex.lpszClassName = class_name_.c_str();
+    wcex.lpszClassName = ProjectSettings::kProjectClassName.c_str();
 
     return RegisterClassEx(&wcex);
 }
@@ -43,14 +43,14 @@ BOOL Core::InitInstance(HINSTANCE hInstance, int nCmdShow)
     const int kScreenWidth = GetSystemMetrics(SM_CXSCREEN);
     const int kScreenHeight = GetSystemMetrics(SM_CYSCREEN);
 
-    resolution_ = {1366, 768};
+    resolution_ = {ProjectSettings::kScreenWidth, ProjectSettings::kScreenHeight};
     window_area_ = {0, 0, resolution_.x, resolution_.y};
     AdjustWindowRect(&window_area_, WS_OVERLAPPEDWINDOW, FALSE);
 
     hWnd_ = CreateWindowEx(
         0,
-        class_name_.c_str(),
-        L"Game",
+        ProjectSettings::kProjectClassName.c_str(),
+        ProjectSettings::kProjectName.c_str(),
         WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_THICKFRAME | WS_MINIMIZEBOX,
         (kScreenWidth - (window_area_.right - window_area_.left)) / 2,
         (kScreenHeight - (window_area_.bottom - window_area_.top)) / 2,

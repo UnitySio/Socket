@@ -9,6 +9,8 @@
 
 #include <wincodec.h>
 
+#include "ProjectSettings.h"
+
 Graphics::Graphics() :
     d3d_device_(nullptr),
     d3d_device_context_(nullptr),
@@ -232,7 +234,7 @@ void Graphics::EndFrame3D()
 {
     sprite_batch_->End();
     if (dxgi_swap_chain_->Present(1, DXGI_PRESENT_TEST) == DXGI_STATUS_OCCLUDED) return;
-    dxgi_swap_chain_->Present(1, 0);
+    dxgi_swap_chain_->Present(ProjectSettings::kUseVSync ? 1 : 0, 0);
 }
 
 void Graphics::DrawLine(b2Vec2 start, b2Vec2 end, b2Color color)
