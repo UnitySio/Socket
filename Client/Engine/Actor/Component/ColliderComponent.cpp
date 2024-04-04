@@ -1,5 +1,6 @@
 ﻿#include "ColliderComponent.h"
 
+#include "ProjectSettings.h"
 #include "TransformComponent.h"
 #include "Actor/Actor.h"
 #include "box2d/b2_fixture.h"
@@ -47,13 +48,21 @@ void ColliderComponent::CreateFixture(b2Shape* shape)
         fixture_def.density = fixture_->GetDensity();
         fixture_def.friction = fixture_->GetFriction();
         fixture_def.isSensor = fixture_->IsSensor();
+        fixture_def.filter = fixture_->GetFilterData();
 
         GetOwner()->body_->DestroyFixture(fixture_);
     }
     else
     {
+        const uint16 layer = static_cast<uint16>(GetOwner()->GetLayer());
+        
+        b2Filter filter;
+        filter.categoryBits = layer;
+        filter.maskBits = ProjectSettings::kLayerCollisionMatrix.at(layer);
+        
         fixture_def.density = 1.f;
         fixture_def.friction = 0.3f;
+        fixture_def.filter = filter;
     }
 
     fixture_ = GetOwner()->body_->CreateFixture(&fixture_def);

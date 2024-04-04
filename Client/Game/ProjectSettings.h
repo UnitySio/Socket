@@ -1,14 +1,17 @@
 ﻿#pragma once
+#include <map>
+
+typedef unsigned short uint16;
 
 // 현재 헤더파일에 있는 타입들은 프로젝트에 종속적인 타입들입니다.
-enum class ActorTag
+enum class ActorTag : size_t
 {
-    kNone
+    kNone,
 };
 
-enum class ActorLayer
+enum class ActorLayer : uint16
 {
-    kDefault
+    kDefault = 0x0001,
 };
 
 class ProjectSettings
@@ -23,5 +26,9 @@ public:
     
     static inline constexpr bool kShowFrameRate = true;
     static inline constexpr bool kUseVSync = true;
+
+    static inline const std::map<uint16, uint16> kLayerCollisionMatrix = {
+        {0x0001, 0x0001},
+    };
     
 };

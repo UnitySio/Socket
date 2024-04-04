@@ -1,5 +1,6 @@
 ﻿#include "Floor.h"
 
+#include "ProjectSettings.h"
 #include "Actor/Component/BoxColliderComponent.h"
 #include "Actor/Component/AudioComponent.h"
 #include "Audio/AudioManager.h"

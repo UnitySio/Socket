@@ -3,11 +3,10 @@
 #include <string>
 #include <vector>
 
+#include "ProjectSettings.h"
 #include "Vector.h"
 #include "Component/ActorComponent.h"
 
-enum class ActorLayer;
-enum class ActorTag;
 class TransformComponent;
 
 class Actor
@@ -45,6 +44,9 @@ public:
     T* GetComponent();
 
     // Reflection 구현 필요
+    
+    inline void SetTag(ActorTag tag) { tag_ = tag; }
+    inline void SetLayer(ActorLayer layer) { layer_ = layer; }
 
     // 추후 구현 예정
     inline size_t GetUniqueID() const { return -1; }
