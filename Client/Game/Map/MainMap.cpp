@@ -4,7 +4,6 @@
 #include "../Actor/Floor.h"
 #include "../Actor/Pawn.h"
 #include "Actor/Dummy.h"
-#include "Actor/Component/TransformComponent.h"
 
 MainMap::MainMap(const std::wstring& kName) : Level(kName)
 {
@@ -19,10 +18,6 @@ MainMap::MainMap(const std::wstring& kName) : Level(kName)
 
     Actor* dummy = new Dummy(GetWorld(), L"Dummy");
     AddActor(dummy);
-    
-    dummy->GetTransform()->SetRelativeLocation({3.f, 6.f});
-    
-    dummy->AttachToActor(pawn);
     
     FollowCamera* camera = dynamic_cast<FollowCamera*>(follow_camera);
     camera->SetTarget(pawn);
