@@ -1,5 +1,7 @@
 ﻿#include "Sprite.h"
 
+#include "yaml-cpp/yaml.h"
+
 Sprite::Sprite(const std::wstring& kName, UINT ppu, Vector pivot) :
     ppu_(ppu)
 {

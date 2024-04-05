@@ -14,10 +14,6 @@
     <ClCompile Include="Engine\Actor\Component\CircleColliderComponent.cpp" />
     <ClCompile Include="Engine\Actor\Component\ColliderComponent.cpp" />
     <ClCompile Include="Engine\Actor\Component\RigidBodyComponent.cpp" />
-    <ClCompile Include="Engine\Actor\Component\SceneComponent\AnimationComponent.cpp" />
-    <ClCompile Include="Engine\Actor\Component\SceneComponent\CameraComponent.cpp" />
-    <ClCompile Include="Engine\Actor\Component\SceneComponent\SceneComponent.cpp" />
-    <ClCompile Include="Engine\Actor\Component\SceneComponent\SpriteComponent.cpp" />
     <ClCompile Include="Engine\Bounds.cpp" />
     <ClCompile Include="Engine\Core.cpp" />
     <ClCompile Include="Engine\DebugDraw.cpp" />
@@ -33,7 +29,6 @@
     <ClCompile Include="Engine\Level\Listener\QueryCallback.cpp" />
     <ClCompile Include="Engine\Level\World.cpp" />
     <ClCompile Include="Engine\Time\Time.cpp" />
-    <ClCompile Include="Engine\Transform.cpp" />
     <ClCompile Include="Engine\Vector.cpp" />
     <ClCompile Include="Game\Actor\Dummy.cpp" />
     <ClCompile Include="Game\Actor\Floor.cpp" />
@@ -52,6 +47,10 @@
     <ClCompile Include="Engine\Graphics\Texture.cpp" />
     <ClCompile Include="Engine\Audio\AudioManager.cpp" />
     <ClCompile Include="Engine\Graphics\PrimitiveBatch.cpp" />
+    <ClCompile Include="Engine\Actor\Component\AudioComponent.cpp" />
+    <ClCompile Include="Engine\Actor\Component\AudioListenerComponent.cpp" />
+    <ClCompile Include="Engine\Actor\Component\CameraComponent.cpp" />
+    <ClCompile Include="Engine\Actor\Component\TransformComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h" />
@@ -61,10 +60,6 @@
     <ClInclude Include="Engine\Actor\Component\CircleColliderComponent.h" />
     <ClInclude Include="Engine\Actor\Component\ColliderComponent.h" />
     <ClInclude Include="Engine\Actor\Component\RigidBodyComponent.h" />
-    <ClInclude Include="Engine\Actor\Component\SceneComponent\AnimationComponent.h" />
-    <ClInclude Include="Engine\Actor\Component\SceneComponent\CameraComponent.h" />
-    <ClInclude Include="Engine\Actor\Component\SceneComponent\SceneComponent.h" />
-    <ClInclude Include="Engine\Actor\Component\SceneComponent\SpriteComponent.h" />
     <ClInclude Include="Engine\Bounds.h" />
     <ClInclude Include="Engine\Core.h" />
     <ClInclude Include="Engine\DebugDraw.h" />
@@ -86,7 +81,6 @@
     <ClInclude Include="Engine\Level\World.h" />
     <ClInclude Include="Engine\Singleton.h" />
     <ClInclude Include="Engine\Time\Time.h" />
-    <ClInclude Include="Engine\Transform.h" />
     <ClInclude Include="Engine\Vector.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="Game\Actor\Dummy.h" />
@@ -178,5 +172,47 @@
     <ClInclude Include="Include\FMOD\fmod_dsp_effects.h" />
     <ClInclude Include="Include\FMOD\fmod_errors.h" />
     <ClInclude Include="Include\FMOD\fmod_output.h" />
+    <ClInclude Include="Engine\Actor\Component\AudioComponent.h" />
+    <ClInclude Include="Engine\Actor\Component\AudioListenerComponent.h" />
+    <ClInclude Include="Engine\Actor\Component\CameraComponent.h" />
+    <ClInclude Include="Engine\Actor\Component\TransformComponent.h" />
+    <ClInclude Include="Game\ProjectSettings.h" />
+    <ClInclude Include="Include\yaml-cpp\anchor.h" />
+    <ClInclude Include="Include\yaml-cpp\binary.h" />
+    <ClInclude Include="Include\yaml-cpp\contrib\anchordict.h" />
+    <ClInclude Include="Include\yaml-cpp\contrib\graphbuilder.h" />
+    <ClInclude Include="Include\yaml-cpp\depthguard.h" />
+    <ClInclude Include="Include\yaml-cpp\dll.h" />
+    <ClInclude Include="Include\yaml-cpp\emitfromevents.h" />
+    <ClInclude Include="Include\yaml-cpp\emitter.h" />
+    <ClInclude Include="Include\yaml-cpp\emitterdef.h" />
+    <ClInclude Include="Include\yaml-cpp\emittermanip.h" />
+    <ClInclude Include="Include\yaml-cpp\emitterstyle.h" />
+    <ClInclude Include="Include\yaml-cpp\eventhandler.h" />
+    <ClInclude Include="Include\yaml-cpp\exceptions.h" />
+    <ClInclude Include="Include\yaml-cpp\mark.h" />
+    <ClInclude Include="Include\yaml-cpp\node\convert.h" />
+    <ClInclude Include="Include\yaml-cpp\node\detail\impl.h" />
+    <ClInclude Include="Include\yaml-cpp\node\detail\iterator.h" />
+    <ClInclude Include="Include\yaml-cpp\node\detail\iterator_fwd.h" />
+    <ClInclude Include="Include\yaml-cpp\node\detail\memory.h" />
+    <ClInclude Include="Include\yaml-cpp\node\detail\node.h" />
+    <ClInclude Include="Include\yaml-cpp\node\detail\node_data.h" />
+    <ClInclude Include="Include\yaml-cpp\node\detail\node_iterator.h" />
+    <ClInclude Include="Include\yaml-cpp\node\detail\node_ref.h" />
+    <ClInclude Include="Include\yaml-cpp\node\emit.h" />
+    <ClInclude Include="Include\yaml-cpp\node\impl.h" />
+    <ClInclude Include="Include\yaml-cpp\node\iterator.h" />
+    <ClInclude Include="Include\yaml-cpp\node\node.h" />
+    <ClInclude Include="Include\yaml-cpp\node\parse.h" />
+    <ClInclude Include="Include\yaml-cpp\node\ptr.h" />
+    <ClInclude Include="Include\yaml-cpp\node\type.h" />
+    <ClInclude Include="Include\yaml-cpp\noexcept.h" />
+    <ClInclude Include="Include\yaml-cpp\null.h" />
+    <ClInclude Include="Include\yaml-cpp\ostream_wrapper.h" />
+    <ClInclude Include="Include\yaml-cpp\parser.h" />
+    <ClInclude Include="Include\yaml-cpp\stlemitter.h" />
+    <ClInclude Include="Include\yaml-cpp\traits.h" />
+    <ClInclude Include="Include\yaml-cpp\yaml.h" />
   </ItemGroup>
 </Project>
