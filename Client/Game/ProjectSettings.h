@@ -12,14 +12,13 @@ enum class ActorTag : size_t
 enum ActorLayer : uint16
 {
     kDefault = 0x0001,
-    kPlayer = 0x0002,
 };
 
 class ProjectSettings
 {
 public:
-    static inline const std::wstring kProjectName = L"Game"; // 프로젝트 이름
-    static inline const std::wstring kProjectClassName = L"Game_GE"; // 프로젝트 클래스 이름
+    static inline const std::wstring kProjectName = L"Game Engine"; // 프로젝트 이름
+    static inline const std::wstring kProjectClassName = L"GameEngine_Class"; // 프로젝트 클래스 이름
     static inline const std::wstring kProjectVersion = L"1.0.0"; // 프로젝트 버전
 
     static inline constexpr int kScreenWidth = 640; // 화면 가로 크기
@@ -28,9 +27,10 @@ public:
     static inline constexpr bool kShowFrameRate = true; // 프레임레이트 표시 여부
     static inline constexpr bool kUseVSync = true; // 수직동기화 사용 여부
 
+    static inline constexpr float kFixedTimeStep = .02f; // 고정 프레임 간격
+
     static inline const std::map<uint16, uint16> kLayerCollisionMatrix = { // 레이어 충돌 매트릭스
-        {kDefault, kDefault | kPlayer},
-        {kPlayer, kPlayer | kDefault},
+        {kDefault, kDefault},
     };
     
 };

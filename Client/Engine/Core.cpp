@@ -90,12 +90,7 @@ bool Core::InitWindow(HINSTANCE hInstance, int nCmdShow)
     static_cast<void>(io);
     io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
     io.Fonts->AddFontFromFileTTF(".\\Fonts\\NanumBarunGothic.ttf", 16.f, nullptr, io.Fonts->GetGlyphRangesKorean());
-    io.Fonts->AddFontFromFileTTF(".\\Fonts\\NanumBarunGothicBold.ttf", 16.f, nullptr, io.Fonts->GetGlyphRangesKorean());
-    io.Fonts->AddFontFromFileTTF(".\\Fonts\\NanumBarunGothicLight.ttf", 16.f, nullptr,
-                                 io.Fonts->GetGlyphRangesKorean());
-    io.Fonts->AddFontFromFileTTF(".\\Fonts\\NanumBarunGothicUltraLight.ttf", 16.f, nullptr,
-                                 io.Fonts->GetGlyphRangesKorean());
-
+    io.Fonts->AddFontFromFileTTF(".\\Fonts\\Silver.ttf", 24.f, nullptr, io.Fonts->GetGlyphRangesKorean());
     io.FontDefault = io.Fonts->Fonts[0];
 
     ImGui::StyleColorsDark();
@@ -225,14 +220,14 @@ void Core::Tick(float delta_time)
     const float kFrameTime = min(delta_time, .25f);
     accumulator += kFrameTime;
 
-    while (accumulator >= FIXED_TIME_STEP)
+    while (accumulator >= ProjectSettings::kFixedTimeStep)
     {
-        World::Get()->PhysicsTick(FIXED_TIME_STEP);
-        accumulator -= FIXED_TIME_STEP;
+        World::Get()->PhysicsTick(ProjectSettings::kFixedTimeStep);
+        accumulator -= ProjectSettings::kFixedTimeStep;
     }
     
     // 물리 시뮬레이션으로 인해 발생한 오차를 보정하기 위해 보간을 수행
-    const float kAlpha = accumulator / FIXED_TIME_STEP;
+    const float kAlpha = accumulator / ProjectSettings::kFixedTimeStep;
     World::Get()->Interpolate(kAlpha);
     
     World::Get()->Tick(delta_time);
