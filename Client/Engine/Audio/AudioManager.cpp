@@ -2,6 +2,7 @@
 
 #include <ranges>
 
+#include "ProjectSettings.h"
 #include "FMOD/fmod.hpp"
 
 AudioManager::AudioManager() :
@@ -35,9 +36,10 @@ bool AudioManager::AddSound(const std::wstring& kName, const std::wstring& kPath
 {
     FMOD_SOUND* sound = nullptr;
 
-    const std::string kPathStr(kPath.begin(), kPath.end());
+    const std::wstring kFinalPath = ProjectSettings::kPath.at(L"GameData") + kPath;
+    const std::string kFinalPathStr(kFinalPath.begin(), kFinalPath.end());
 
-    FMOD_RESULT result = FMOD_System_CreateSound(Get()->fmod_system_, kPathStr.c_str(), FMOD_DEFAULT, nullptr, &sound);
+    FMOD_RESULT result = FMOD_System_CreateSound(Get()->fmod_system_, kFinalPathStr.c_str(), FMOD_DEFAULT, nullptr, &sound);
     if (result != FMOD_OK) return false;
 
     Get()->sound_map_[kName] = sound;

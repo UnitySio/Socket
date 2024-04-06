@@ -11,7 +11,7 @@ Floor::Floor(b2World* world, const std::wstring& kName) :
     box_collider_ = CreateComponent<BoxColliderComponent>(L"BoxCollider");
     box_collider_->SetSize({5.f, 1.f});
     
-    AudioManager::AddSound(L"BGM", L".\\bgm.mp3");
+    AudioManager::AddSound(L"BGM", L"bgm.mp3");
     FMOD_SOUND* sound = AudioManager::GetSound(L"BGM");
     // AudioManager::SetLoop(sound, true);
 

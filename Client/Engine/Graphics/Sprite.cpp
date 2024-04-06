@@ -1,5 +1,6 @@
 ﻿#include "Sprite.h"
 
+#include "ProjectSettings.h"
 #include "yaml-cpp/yaml.h"
 
 Sprite::Sprite() :
@@ -9,8 +10,9 @@ Sprite::Sprite() :
 
 bool Sprite::Load(ID3D11Device* device, const std::wstring& kPath)
 {
-    if (!Texture::Load(device, kPath)) return false;
-    if (!LoadMetaData(kPath)) return false;
+    const std::wstring kFinalPath = ProjectSettings::kPath.at(L"GameData") + kPath;
+    if (!Texture::Load(device, kFinalPath)) return false;
+    if (!LoadMetaData(kFinalPath)) return false;
     return true;
 }
 
@@ -38,9 +40,9 @@ bool Sprite::LoadMetaData(const std::wstring& kPath)
             sprite["pivot"]["y"].as<float>()
         };
 
-        const std::string name = sprite["name"].as<std::string>();
-        const std::wstring w_name(name.begin(), name.end());
-        sprites_[w_name] = frame;
+        const std::string kName = sprite["name"].as<std::string>();
+        const std::wstring kWName(kName.begin(), kName.end());
+        sprites_[kWName] = frame;
     }
 
     if (sprites_.size() == 0)
@@ -53,9 +55,9 @@ bool Sprite::LoadMetaData(const std::wstring& kPath)
             root["sprite_pivot"]["y"].as<float>()
         };
 
-        const std::string name = root["sprite_name"].as<std::string>();
-        const std::wstring w_name(name.begin(), name.end());
-        sprites_[w_name] = frame;
+        const std::string kName = root["sprite_name"].as<std::string>();
+        const std::wstring kNameWStr(kName.begin(), kName.end());
+        sprites_[kNameWStr] = frame;
     }
 
     return true;

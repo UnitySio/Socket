@@ -86,11 +86,17 @@ bool Core::InitWindow(HINSTANCE hInstance, int nCmdShow)
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
 
+    const std::wstring kPath = ProjectSettings::kPath.at(L"GameData");
+    const std::string kPathStr(kPath.begin(), kPath.end());
+
+    const std::string kFont_1 = kPathStr + "NanumBarunGothic.ttf";
+    const std::string kFont_2 = kPathStr + "Silver.ttf";
+    
     ImGuiIO& io = ImGui::GetIO();
     static_cast<void>(io);
     io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
-    io.Fonts->AddFontFromFileTTF(".\\Fonts\\NanumBarunGothic.ttf", 16.f, nullptr, io.Fonts->GetGlyphRangesKorean());
-    io.Fonts->AddFontFromFileTTF(".\\Fonts\\Silver.ttf", 24.f, nullptr, io.Fonts->GetGlyphRangesKorean());
+    io.Fonts->AddFontFromFileTTF(kFont_1.c_str(), 16.f, nullptr, io.Fonts->GetGlyphRangesKorean());
+    io.Fonts->AddFontFromFileTTF(kFont_2.c_str(), 24.f, nullptr, io.Fonts->GetGlyphRangesKorean());
     io.FontDefault = io.Fonts->Fonts[0];
 
     ImGui::StyleColorsDark();

@@ -29,7 +29,7 @@ Pawn::Pawn(b2World* world, const std::wstring& kName) :
     Graphics* gfx = Graphics::Get();
     
     sprite_ = std::make_unique<Sprite>();
-    assert(sprite_->Load(gfx->GetD3DDevice(), L".\\spritesheet.png"));
+    assert(sprite_->Load(gfx->GetD3DDevice(), L"spritesheet.png"));
     
     audio_listener_ = CreateComponent<AudioListenerComponent>(L"AudioListener");
     

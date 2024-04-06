@@ -32,5 +32,9 @@ public:
     static inline const std::map<uint16, uint16> kLayerCollisionMatrix = { // 레이어 충돌 매트릭스
         {kDefault, kDefault},
     };
+
+    static inline const std::map<std::wstring, std::wstring> kPath = { // 경로
+        {L"GameData", L".\\Game_Data\\"}
+    };
     
 };
