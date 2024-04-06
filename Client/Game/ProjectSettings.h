@@ -34,7 +34,7 @@ public:
     };
 
     static inline const std::map<std::wstring, std::wstring> kPath = { // 경로
-        {L"GameData", L".\\Game_Data\\"}
+        {L"GameData", L".\\Game_Data\\"},
     };
     
 };
