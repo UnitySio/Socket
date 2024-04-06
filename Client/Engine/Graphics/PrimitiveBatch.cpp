@@ -1,6 +1,8 @@
 ﻿#include "PrimitiveBatch.h"
 #include "DirectXTK/PrimitiveBatch.h"
 
+#include "ProjectSettings.h"
+
 PrimitiveBatch::PrimitiveBatch(ID3D11DeviceContext* device_context) :
     device_context_(device_context)
 {
@@ -34,12 +36,14 @@ PrimitiveBatch::PrimitiveBatch(ID3D11DeviceContext* device_context) :
         {"COLOR", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0}
     };
 
+    const std::wstring kPath = ProjectSettings::kPath.at(L"GameData");
+
     constexpr UINT num_elements_primitive = ARRAYSIZE(layout_primitive);
-    bool result = vertex_shader_.Init(device, L"..\\x64\\Debug\\VertexShaderPrimitive.cso", layout_primitive, num_elements_primitive);
-    assert(SUCCEEDED(hr));
+    bool result = vertex_shader_.Init(device, kPath + L"VertexShaderPrimitive.cso", layout_primitive, num_elements_primitive);
+    assert(result);
     
-    result = pixel_shader_.Init(device, L"..\\x64\\Debug\\PixelShaderPrimitive.cso");
-    assert(SUCCEEDED(hr));
+    result = pixel_shader_.Init(device, kPath + L"PixelShaderPrimitive.cso");
+    assert(result);
     
     hr = constant_buffer_.Init(device.Get(), device_context_);
     assert(SUCCEEDED(hr));

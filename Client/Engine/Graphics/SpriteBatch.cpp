@@ -1,6 +1,8 @@
 ﻿#include "SpriteBatch.h"
 
 #include <d3d11.h>
+
+#include "ProjectSettings.h"
 #include "Sprite.h"
 
 SpriteBatch::SpriteBatch(ID3D11DeviceContext* device_context)
@@ -21,12 +23,14 @@ SpriteBatch::SpriteBatch(ID3D11DeviceContext* device_context)
         {"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0},
         {"TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0}
     };
+    
+    const std::wstring kPath = ProjectSettings::kPath.at(L"GameData");
 
     constexpr UINT num_elements_2d = ARRAYSIZE(layout_2d);
-    bool result = vertex_shader_.Init(device, L"..\\x64\\Debug\\VertexShader2D.cso", layout_2d, num_elements_2d);
+    bool result = vertex_shader_.Init(device, kPath + L"VertexShader2D.cso", layout_2d, num_elements_2d);
     assert(result);
 
-    result = pixel_shader_.Init(device, L"..\\x64\\Debug\\PixelShader2D.cso");
+    result = pixel_shader_.Init(device, kPath + L"PixelShader2D.cso");
     assert(result);
 }
 
