@@ -19,7 +19,6 @@ public:
     inline const UINT& GetHeight() const { return height_; }
 
 protected:
-    friend class TempSprite;
     friend class SpriteBatch;
     
     Microsoft::WRL::ComPtr<ID3D11Resource> texture_;

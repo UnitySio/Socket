@@ -28,10 +28,8 @@ Pawn::Pawn(b2World* world, const std::wstring& kName) :
 
     Graphics* gfx = Graphics::Get();
     
-    sprite_ = std::make_unique<Sprite>(L"Knight", 32, Vector(0.f, 0.f));
+    sprite_ = std::make_unique<Sprite>();
     assert(sprite_->Load(gfx->GetD3DDevice(), L".\\spritesheet.png"));
-    
-    sprite_->Split(3, 15, {.45f, 0.f});
     
     audio_listener_ = CreateComponent<AudioListenerComponent>(L"AudioListener");
     
@@ -90,12 +88,6 @@ void Pawn::Render()
 
     const Vector location = GetTransform()->GetRelativeLocation();
     const float angle = GetTransform()->GetRelativeRotationZ();
-    batch->Draw(sprite_.get(), L"Knight_" + std::to_wstring(idx), location, {1.f * -dir_, 1.f}, angle);
-
-    const Vector world_location = GetTransform()->GetWorldLocation();
-    
-    ImGui::Begin("Pawn");
-    ImGui::Text("Location: %.2f, %.2f", world_location.x, world_location.y);
-    ImGui::End();
+    batch->Draw(sprite_.get(), L"spritesheet_" + std::to_wstring(idx), location, {1.f * -dir_, 1.f}, angle);
     
 }
