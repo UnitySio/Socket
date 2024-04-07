@@ -19,7 +19,7 @@ bool Sprite::Load(ID3D11Device* device, const std::wstring& kPath)
 bool Sprite::LoadMetaData(const std::wstring& kPath)
 {
     const std::string path(kPath.begin(), kPath.end());
-    YAML::Node root = YAML::LoadFile(path + ".meta");
+    YAML::Node root = YAML::LoadFile(path + ".yaml");
     if (!root.IsDefined()) return false;
 
     ppu_ = root["sprite_pixel_per_unit"].as<int>();
