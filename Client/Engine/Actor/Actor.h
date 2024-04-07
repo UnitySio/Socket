@@ -4,7 +4,7 @@
 #include <vector>
 
 #include "ProjectSettings.h"
-#include "Vector.h"
+#include "Math/Vector.h"
 #include "Component/ActorComponent.h"
 
 class TransformComponent;

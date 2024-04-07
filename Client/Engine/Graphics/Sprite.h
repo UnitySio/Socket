@@ -2,7 +2,7 @@
 #include <map>
 
 #include "Texture.h"
-#include "Vector.h"
+#include "Math/Vector.h"
 
 struct SpriteFrame
 {

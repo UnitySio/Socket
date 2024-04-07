@@ -1,7 +1,7 @@
 ﻿#include "AudioComponent.h"
 
 #include "TransformComponent.h"
-#include "Vector.h"
+#include "Math/Vector.h"
 #include "Actor/Actor.h"
 #include "Audio/AudioManager.h"
 #include "FMOD/fmod.h"

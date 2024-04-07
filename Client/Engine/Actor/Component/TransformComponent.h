@@ -1,7 +1,7 @@
 ﻿#pragma once
 
 #include "ActorComponent.h"
-#include "Vector.h"
+#include "Math/Vector.h"
 
 #define GE_PI 3.14159265358979323846f
 

@@ -7,7 +7,7 @@
 #include "box2d/b2_world.h"
 
 #include "DebugDraw.h"
-#include "Vector.h"
+#include "Math/Vector.h"
 #include "Graphics/PrimitiveBatch.h"
 #include "Listener/ContactListener.h"
 

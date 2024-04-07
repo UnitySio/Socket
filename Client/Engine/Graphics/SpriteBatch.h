@@ -5,7 +5,7 @@
 #include "ConstantBuffer.h"
 #include "ConstantBufferTypes.h"
 #include "Shaders.h"
-#include "Vector.h"
+#include "Math/Vector.h"
 
 class ID3D11DeviceContext;
 

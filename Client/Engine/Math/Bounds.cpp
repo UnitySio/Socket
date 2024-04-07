@@ -1,4 +1,4 @@
-﻿#include "Bounds.h"
+﻿#include "Math/Bounds.h"
 
 Bounds::Bounds(Vector center, Vector size) :
         center(center),

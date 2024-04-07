@@ -3,7 +3,7 @@
 #include "TransformComponent.h"
 #include "Actor/Actor.h"
 #include "box2d/b2_body.h"
-#include "Vector.h"
+#include "Math/Vector.h"
 
 RigidBodyComponent::RigidBodyComponent(Actor* owner, const std::wstring& kName) :
     ActorComponent(owner, kName)

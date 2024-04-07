@@ -1,5 +1,5 @@
 ﻿#pragma once
-#include "Vector.h"
+#include "Math/Vector.h"
 
 struct Bounds
 {
