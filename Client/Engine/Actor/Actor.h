@@ -15,6 +15,8 @@ public:
     Actor(class b2World* world, const std::wstring& kName);
     virtual ~Actor() = default;
 
+    virtual inline void PreInitializeComponents() {};
+    virtual inline void PostInitializeComponents() {};
     virtual inline void OnCollisionEnter(Actor* other) {};
     virtual inline void OnCollisionStay(Actor* other) {};
     virtual inline void OnCollisionExit(Actor* other) {};
@@ -23,8 +25,6 @@ public:
     virtual inline void OnTriggerExit(Actor* other) {};
     virtual inline void OnDestroyed() {};
 
-    virtual void PreInitializeComponents();
-    virtual void PostInitializeComponents();
     virtual void BeginPlay();
     virtual void EndPlay();
     virtual void PhysicsTick(float delta_time);
@@ -93,6 +93,7 @@ private:
 
     float previous_angle_;
 
+    bool has_begun_play_;
     bool is_active_;
     bool is_destroy_;
 
