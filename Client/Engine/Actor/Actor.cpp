@@ -31,6 +31,15 @@ Actor::Actor(b2World* world, const std::wstring& kName) :
     transform_ = CreateComponent<TransformComponent>(L"Transform");
 }
 
+void Actor::PreInitializeComponents()
+{
+}
+
+void Actor::PostInitializeComponents()
+{
+    if (body_ && !body_->IsEnabled()) body_->SetEnabled(true);
+}
+
 void Actor::BeginPlay()
 {
     for (const auto& component : components_)
@@ -151,10 +160,19 @@ bool Actor::CompareTag(ActorTag tag) const
     return tag_ == tag;
 }
 
+void Actor::InitializeComponents()
+{
+    for (const auto& component : components_)
+    {
+        component->InitializeComponent();
+    }
+}
+
 void Actor::CreateBody()
 {
     b2BodyDef body_def;
     body_def.userData.pointer = reinterpret_cast<uintptr_t>(this);
 
     body_ = world_->CreateBody(&body_def);
+    body_->SetEnabled(false);
 }

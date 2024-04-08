@@ -22,7 +22,7 @@ void World::OpenLevel(LevelType type)
     }
 
     current_level_ = levels_[static_cast<size_t>(type)].get();
-    current_level_->BeginPlay();
+    current_level_->InitializeActors();
 }
 
 void World::PhysicsTick(float delta_time)

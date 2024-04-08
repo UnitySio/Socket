@@ -19,7 +19,7 @@ public:
     Level(const std::wstring& kName);
     virtual ~Level() override = default;
     
-    virtual void BeginPlay();
+    virtual void InitializeActors();
     virtual void PhysicsTick(float delta_time);
     virtual void Interpolate(float alpha);
     virtual void Tick(float delta_time);

@@ -23,6 +23,8 @@ public:
     virtual inline void OnTriggerExit(Actor* other) {};
     virtual inline void OnDestroyed() {};
 
+    virtual void PreInitializeComponents();
+    virtual void PostInitializeComponents();
     virtual void BeginPlay();
     virtual void EndPlay();
     virtual void PhysicsTick(float delta_time);
@@ -75,6 +77,7 @@ private:
     friend class RigidBodyComponent;
     friend class TransformComponent;
 
+    void InitializeComponents();
     void CreateBody();
     
     std::wstring name_;

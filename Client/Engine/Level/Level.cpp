@@ -34,8 +34,23 @@ Level::Level(const std::wstring& kName) :
     primitive_batch_ = std::make_unique<PrimitiveBatch>(Graphics::Get()->GetD3DDeviceContext());
 }
 
-void Level::BeginPlay()
+void Level::InitializeActors()
 {
+    for (const auto& actor : actors_)
+    {
+        actor->PreInitializeComponents();
+    }
+    
+    for (const auto& actor : actors_)
+    {
+        actor->InitializeComponents();
+    }
+    
+    for (const auto& actor : actors_)
+    {
+        actor->PostInitializeComponents();
+    }
+    
     for (const auto& actor : actors_)
     {
         actor->BeginPlay();
