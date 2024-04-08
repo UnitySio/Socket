@@ -44,10 +44,6 @@ void Level::InitializeActors()
     for (const auto& actor : actors_)
     {
         actor->InitializeComponents();
-    }
-    
-    for (const auto& actor : actors_)
-    {
         actor->PostInitializeComponents();
     }
     

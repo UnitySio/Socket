@@ -77,6 +77,7 @@ private:
     friend class RigidBodyComponent;
     friend class TransformComponent;
 
+    void InitializeActor();
     void InitializeComponents();
     void CreateBody();
     
@@ -93,7 +94,6 @@ private:
 
     float previous_angle_;
 
-    bool has_begun_play_;
     bool is_active_;
     bool is_destroy_;
 

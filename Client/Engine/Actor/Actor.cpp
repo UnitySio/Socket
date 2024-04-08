@@ -18,7 +18,6 @@ Actor::Actor(b2World* world, const std::wstring& kName) :
     body_(nullptr),
     previous_location_(Vector::Zero()),
     previous_angle_(0.f),
-    has_begun_play_(false),
     is_active_(true),
     is_destroy_(false),
     components_(),
@@ -34,7 +33,6 @@ Actor::Actor(b2World* world, const std::wstring& kName) :
 
 void Actor::BeginPlay()
 {
-    has_begun_play_ = true;
     if (body_ && !body_->IsEnabled()) body_->SetEnabled(true);
     
     for (const auto& component : components_)
@@ -153,6 +151,14 @@ void Actor::SetActive(bool active)
 bool Actor::CompareTag(ActorTag tag) const
 {
     return tag_ == tag;
+}
+
+void Actor::InitializeActor()
+{
+    PreInitializeComponents();
+    InitializeComponents();
+    PostInitializeComponents();
+    BeginPlay();
 }
 
 void Actor::InitializeComponents()
