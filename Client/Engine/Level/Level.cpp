@@ -2,6 +2,7 @@
 
 #include <iostream>
 
+#include "Enums.h"
 #include "box2d/b2_math.h"
 #include "box2d/b2_world.h"
 
@@ -107,11 +108,11 @@ void Level::Tick(float delta_time)
     }
 }
 
-void Level::EndPlay()
+void Level::EndPlay(EndPlayReason type)
 {
     for (const auto& actor : actors_)
     {
-        actor->EndPlay();
+        actor->EndPlay(type);
     }
 }
 
@@ -128,14 +129,13 @@ void Level::Render()
     primitive_batch_->End();
 }
 
-void Level::Destroy()
+void Level::DestroyActor()
 {
     for (auto iter = actors_.begin(); iter != actors_.end();)
     {
         if ((*iter)->is_destroy_)
         {
-            (*iter)->EndPlay();
-            (*iter)->UninitializeComponents();
+            (*iter)->Destroyed();
             iter = actors_.erase(iter);
         }
         else

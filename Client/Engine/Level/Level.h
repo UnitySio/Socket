@@ -11,6 +11,7 @@
 #include "Graphics/PrimitiveBatch.h"
 #include "Listener/ContactListener.h"
 
+enum class EndPlayReason : size_t;
 class Actor;
 
 class Level : public b2ContactListener
@@ -23,9 +24,9 @@ public:
     virtual void PhysicsTick(float delta_time);
     virtual void Interpolate(float alpha);
     virtual void Tick(float delta_time);
-    virtual void EndPlay();
+    virtual void EndPlay(EndPlayReason type);
     virtual void Render();
-    virtual void Destroy();
+    virtual void DestroyActor();
 
     void AddActor(Actor* actor);
 

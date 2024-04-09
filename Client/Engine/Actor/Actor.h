@@ -7,6 +7,7 @@
 #include "Math/Vector.h"
 #include "Component/ActorComponent.h"
 
+enum class EndPlayReason : size_t;
 class TransformComponent;
 
 class Actor
@@ -23,10 +24,9 @@ public:
     virtual inline void OnTriggerEnter(Actor* other) {};
     virtual inline void OnTriggerStay(Actor* other) {};
     virtual inline void OnTriggerExit(Actor* other) {};
-    virtual inline void OnDestroyed() {};
 
     virtual void BeginPlay();
-    virtual void EndPlay();
+    virtual void EndPlay(EndPlayReason type);
     virtual void PhysicsTick(float delta_time);
     virtual void Tick(float delta_time);
     virtual void Render();
@@ -80,6 +80,7 @@ private:
     void InitializeActor();
     void InitializeComponents();
     void UninitializeComponents();
+    void Destroyed();
     void CreateBody();
     
     std::wstring name_;

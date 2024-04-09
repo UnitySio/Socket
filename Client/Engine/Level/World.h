@@ -17,7 +17,7 @@ public:
     void Interpolate(float alpha);
     void Tick(float delta_time);
     void Render();
-    void Destroy();
+    void DestroyActor();
 
     template<std::derived_from<Level> T>
     T* AddLevel(LevelType type, std::wstring name);

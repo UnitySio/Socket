@@ -20,3 +20,9 @@ enum class EventType : size_t
     kDestroyActor,
     kActiveActor,
 };
+
+enum class EndPlayReason : size_t
+{
+    kDestroyed,
+    kLevelTransition
+};

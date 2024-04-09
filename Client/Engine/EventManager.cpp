@@ -40,7 +40,6 @@ void EventManager::ExcuteEvent(const Event& kEvent)
     case EventType::kDestroyActor:
         {
             Actor* actor = reinterpret_cast<Actor*>(kEvent.wParam);
-            actor->OnDestroyed();
             actor->is_destroy_ = true;
         }
         break;

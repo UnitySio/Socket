@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include <string>
 
+enum class EndPlayReason : size_t;
 class ActorComponent
 {
 public:
@@ -10,7 +11,7 @@ public:
     virtual inline void InitializeComponent() {};
     virtual inline void UninitializeComponent() {};
     virtual inline void BeginPlay() {};
-    virtual inline void EndPlay() {};
+    virtual inline void EndPlay(EndPlayReason type) {};
     virtual inline void TickComponent(float delta_time) {};
     virtual inline void Render() {};
 

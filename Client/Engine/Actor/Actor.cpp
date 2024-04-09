@@ -41,11 +41,11 @@ void Actor::BeginPlay()
     }
 }
 
-void Actor::EndPlay()
+void Actor::EndPlay(EndPlayReason type)
 {
     for (const auto& component : components_)
     {
-        component->EndPlay();
+        component->EndPlay(type);
     }
 
     if (!parent_joint_) world_->DestroyJoint(parent_joint_);
@@ -175,6 +175,12 @@ void Actor::UninitializeComponents()
     {
         component->UninitializeComponent();
     }
+}
+
+void Actor::Destroyed()
+{
+    EndPlay(EndPlayReason::kDestroyed);
+    UninitializeComponents();
 }
 
 void Actor::CreateBody()

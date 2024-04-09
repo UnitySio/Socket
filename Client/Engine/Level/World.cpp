@@ -18,7 +18,7 @@ void World::OpenLevel(LevelType type)
 {
     if (current_level_)
     {
-        current_level_->EndPlay();
+        current_level_->EndPlay(EndPlayReason::kLevelTransition);
     }
 
     current_level_ = levels_[static_cast<size_t>(type)].get();
@@ -57,10 +57,10 @@ void World::Render()
     }
 }
 
-void World::Destroy()
+void World::DestroyActor()
 {
     if (current_level_)
     {
-        current_level_->Destroy();
+        current_level_->DestroyActor();
     }
 }

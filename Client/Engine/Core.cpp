@@ -213,7 +213,7 @@ void Core::MainLogic()
 
     Graphics::Get()->EndFrame3D();
 
-    World::Get()->Destroy();
+    World::Get()->DestroyActor();
     EventManager::Get()->Tick();
 }
 
