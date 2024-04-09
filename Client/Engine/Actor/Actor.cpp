@@ -169,6 +169,14 @@ void Actor::InitializeComponents()
     }
 }
 
+void Actor::UninitializeComponents()
+{
+    for (const auto& component : components_)
+    {
+        component->UninitializeComponent();
+    }
+}
+
 void Actor::CreateBody()
 {
     b2BodyDef body_def;

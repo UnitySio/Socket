@@ -79,6 +79,7 @@ private:
 
     void InitializeActor();
     void InitializeComponents();
+    void UninitializeComponents();
     void CreateBody();
     
     std::wstring name_;

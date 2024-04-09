@@ -135,6 +135,7 @@ void Level::Destroy()
         if ((*iter)->is_destroy_)
         {
             (*iter)->EndPlay();
+            (*iter)->UninitializeComponents();
             iter = actors_.erase(iter);
         }
         else

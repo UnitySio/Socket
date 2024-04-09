@@ -8,6 +8,8 @@ public:
     Pawn(b2World* world, const std::wstring& kName);
     virtual ~Pawn() override = default;
 
+    virtual void PreInitializeComponents() override;
+    virtual void PostInitializeComponents() override;
     virtual void PhysicsTick(float delta_time) override;
     virtual void Tick(float delta_time) override;
     virtual void Render() override;

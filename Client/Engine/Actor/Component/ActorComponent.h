@@ -8,6 +8,7 @@ public:
     virtual ~ActorComponent() = default;
 
     virtual inline void InitializeComponent() {};
+    virtual inline void UninitializeComponent() {};
     virtual inline void BeginPlay() {};
     virtual inline void EndPlay() {};
     virtual inline void TickComponent(float delta_time) {};
