@@ -171,6 +171,7 @@
     <ClInclude Include="Engine\Math\Vector.h" />
     <ClInclude Include="Engine\Physics\HitResult.h" />
     <ClInclude Include="Engine\Physics\Physics.h" />
+    <ClInclude Include="Engine\Physics\RayCastAllCallback.h" />
     <ClInclude Include="Engine\Physics\RayCastCallback.h" />
     <ClInclude Include="Engine\Singleton.h" />
     <ClInclude Include="Engine\Time\Time.h" />
@@ -330,6 +331,7 @@
     <ClCompile Include="Engine\Math\Bounds.cpp" />
     <ClCompile Include="Engine\Math\Vector.cpp" />
     <ClCompile Include="Engine\Physics\Physics.cpp" />
+    <ClCompile Include="Engine\Physics\RayCastAllCallback.cpp" />
     <ClCompile Include="Engine\Physics\RayCastCallback.cpp" />
     <ClCompile Include="Engine\Time\Time.cpp" />
     <ClCompile Include="Game\Actor\Dummy.cpp" />

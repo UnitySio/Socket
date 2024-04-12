@@ -1,8 +1,7 @@
 ﻿#pragma once
-#include "box2d/b2_world_callbacks.h"
-#include "Math/Vector.h"
 
-class Actor;
+#include "HitResult.h"
+#include "box2d/b2_world_callbacks.h"
 
 class RayCastCallback : public b2RayCastCallback
 {
@@ -13,18 +12,12 @@ public:
     float ReportFixture(b2Fixture* fixture, const b2Vec2& point, const b2Vec2& normal, float fraction) override;
 
     inline bool IsHit() const { return is_hit_; }
-
-    inline const Vector& GetLocation() const { return location_; }
-    inline const Vector& GetNormal() const { return normal_; }
-
-    inline Actor* GetActor() const { return actor_; }
+    
+    inline HitResult GetHitResult() const { return hit_result_; }
 
 private:
     bool is_hit_;
 
-    Vector location_;
-    Vector normal_;
-    
-    Actor* actor_;
+    HitResult hit_result_;
     
 };
