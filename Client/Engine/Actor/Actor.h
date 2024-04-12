@@ -18,13 +18,13 @@ public:
 
     virtual inline void PreInitializeComponents() {};
     virtual inline void PostInitializeComponents() {};
-    virtual inline void OnCollisionEnter(Actor* other) {};
-    virtual inline void OnCollisionStay(Actor* other) {};
-    virtual inline void OnCollisionExit(Actor* other) {};
-    virtual inline void OnTriggerEnter(Actor* other) {};
-    virtual inline void OnTriggerStay(Actor* other) {};
-    virtual inline void OnTriggerExit(Actor* other) {};
-
+    
+    virtual void OnCollisionEnter(Actor* other);
+    virtual void OnCollisionStay(Actor* other);
+    virtual void OnCollisionExit(Actor* other);
+    virtual void OnTriggerEnter(Actor* other);
+    virtual void OnTriggerStay(Actor* other);
+    virtual void OnTriggerExit(Actor* other);
     virtual void BeginPlay();
     virtual void EndPlay(EndPlayReason type);
     virtual void PhysicsTick(float delta_time);

@@ -31,6 +31,36 @@ Actor::Actor(b2World* world, const std::wstring& kName) :
     transform_ = CreateComponent<TransformComponent>(L"Transform");
 }
 
+void Actor::OnCollisionEnter(Actor* other)
+{
+    if (parent_) parent_->OnCollisionEnter(other);
+}
+
+void Actor::OnCollisionStay(Actor* other)
+{
+    if (parent_) parent_->OnCollisionStay(other);
+}
+
+void Actor::OnCollisionExit(Actor* other)
+{
+    if (parent_) parent_->OnCollisionExit(other);
+}
+
+void Actor::OnTriggerEnter(Actor* other)
+{
+    if (parent_) parent_->OnTriggerEnter(other);
+}
+
+void Actor::OnTriggerStay(Actor* other)
+{
+    if (parent_) parent_->OnTriggerStay(other);
+}
+
+void Actor::OnTriggerExit(Actor* other)
+{
+    if (parent_) parent_->OnTriggerExit(other);
+}
+
 void Actor::BeginPlay()
 {
     if (body_ && !body_->IsEnabled()) body_->SetEnabled(true);
