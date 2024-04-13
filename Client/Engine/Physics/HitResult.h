@@ -3,12 +3,12 @@
 
 struct HitResult
 {
-    float Distance;
+    float distance;
     
-    Vector Location;
-    Vector Normal;
-    Vector TraceStart;
-    Vector TraceEnd;
+    Vector location;
+    Vector normal;
+    Vector trace_start;
+    Vector trace_end;
     
-    class Actor* Actor;
+    class Actor* actor;
 };

@@ -1,23 +1,22 @@
 ﻿#pragma once
+#include <vector>
 
-#include "HitResult.h"
+#include "RayCastResult.h"
 #include "box2d/b2_world_callbacks.h"
 
 class RayCastCallback : public b2RayCastCallback
 {
 public:
-    RayCastCallback();
+    RayCastCallback(bool is_single);
     virtual ~RayCastCallback() override = default;
     
     float ReportFixture(b2Fixture* fixture, const b2Vec2& point, const b2Vec2& normal, float fraction) override;
 
-    inline bool IsHit() const { return is_hit_; }
-    
-    inline HitResult GetHitResult() const { return hit_result_; }
+    inline const std::vector<RayCastResult>& GetResults() const { return results_; }
 
 private:
-    bool is_hit_;
-
-    HitResult hit_result_;
+    bool is_single_;
+    
+    std::vector<RayCastResult> results_;
     
 };

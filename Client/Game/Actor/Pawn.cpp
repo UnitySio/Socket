@@ -57,6 +57,8 @@ void Pawn::PhysicsTick(float delta_time)
     
     std::vector<HitResult> hit_results;
     is_hit = Physics::RayCastMulti(hit_results, start, end);
+
+    int a = 0;
     
 }
 

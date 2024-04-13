@@ -1,11 +1,11 @@
 ﻿#include "RayCastCallback.h"
 
-#include "HitResult.h"
+#include "Actor/Actor.h"
 #include "box2d/b2_fixture.h"
 
-RayCastCallback::RayCastCallback() :
-    is_hit_(false),
-    hit_result_()
+RayCastCallback::RayCastCallback(bool is_single) :
+    is_single_(is_single),
+    results_()
 {
 }
 
@@ -13,12 +13,13 @@ float RayCastCallback::ReportFixture(b2Fixture* fixture, const b2Vec2& point, co
 {
     Actor* actor = reinterpret_cast<Actor*>(fixture->GetBody()->GetUserData().pointer);
     if (!actor) return -1.f;
+    
+    RayCastResult result;
+    result.fixture = fixture;
+    result.point = point;
+    result.normal = normal;
+    result.fraction = fraction;
 
-    is_hit_ = true;
-
-    hit_result_.Location = { point.x, point.y };
-    hit_result_.Normal = { normal.x, normal.y };
-    hit_result_.Actor = actor;
-
-    return 0.f;
+    results_.push_back(result);
+    return is_single_ ? 0.f : 1.f;
 }
