@@ -49,11 +49,15 @@ void Pawn::PhysicsTick(float delta_time)
 
     dir_ = h > 0 ? 1 : h < 0 ? -1 : dir_;
     
-    const Math::Vector2 start = GetTransform()->GetWorldLocation() + Math::Vector2::Up() * 1.45f;
-    const Math::Vector2 end = GetTransform()->GetUpVector() * -1000.f + start;
+    Math::Vector2 start = GetTransform()->GetWorldLocation() + Math::Vector2(0.f, 1.45f);
+    const Math::Vector2 end = start + Math::Vector2(0.f, -1.f);
 
     HitResult hit_result;
-    bool is_hit = Physics::RayCastSingle(hit_result, start, end);
+    bool is_hit = Physics::RayCastSingle(hit_result, start, end, ActorLayer::kFloor);
+    if (is_hit)
+    {
+        std::wcout << L"Hit: " << hit_result.actor->GetName() << std::endl;
+    }
     
     std::vector<HitResult> hit_results;
     is_hit = Physics::RayCastMulti(hit_results, start, end);

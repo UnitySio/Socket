@@ -6,9 +6,9 @@
 #include "Level/Level.h"
 #include "Level/World.h"
 
-bool Physics::RayCastSingle(HitResult& hit_result, const Math::Vector2& start, const Math::Vector2& end)
+bool Physics::RayCastSingle(HitResult& hit_result, const Math::Vector2& start, const Math::Vector2& end, MathTypes::uint16 layer)
 {
-    RayCastCallback callback(true);
+    RayCastCallback callback(true, layer);
     if (!PerformRayCast(callback, start, end)) return false;
 
     const std::vector<RayCastResult>& results = callback.GetResults();
@@ -25,9 +25,9 @@ bool Physics::RayCastSingle(HitResult& hit_result, const Math::Vector2& start, c
     return true;
 }
 
-bool Physics::RayCastMulti(std::vector<HitResult>& hit_results, const Math::Vector2& start, const Math::Vector2& end)
+bool Physics::RayCastMulti(std::vector<HitResult>& hit_results, const Math::Vector2& start, const Math::Vector2& end, MathTypes::uint16 layer)
 {
-    RayCastCallback callback(false);
+    RayCastCallback callback(false, layer);
     if (!PerformRayCast(callback, start, end)) return false;
 
     const std::vector<RayCastResult>& results = callback.GetResults();
