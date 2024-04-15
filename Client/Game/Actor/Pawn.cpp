@@ -60,7 +60,7 @@ void Pawn::PhysicsTick(float delta_time)
     }
     
     std::vector<HitResult> hit_results;
-    is_hit = Physics::RayCastMulti(hit_results, start, end);
+    is_hit = Physics::RayCastMulti(hit_results, start, end, ActorLayer::kFloor | ActorLayer::kDefault);
 
     int a = 0;
     
