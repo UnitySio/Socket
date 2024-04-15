@@ -44,6 +44,9 @@ void World::PhysicsTick(float delta_time)
 {
     if (current_level_)
     {
+        physics_world_->Step(delta_time, 8, 3);
+        contact_listener_.Tick();
+        
         current_level_->PhysicsTick(delta_time);
     }
 }

@@ -3,6 +3,7 @@
 #include <iostream>
 
 #include "Enums.h"
+#include "World.h"
 #include "box2d/b2_math.h"
 #include "box2d/b2_world.h"
 
@@ -11,26 +12,11 @@
 #include "Graphics/Graphics.h"
 
 Level::Level(World* world, const std::wstring& kName) :
-    world_(nullptr),
     actors_(),
-    debug_draw_(),
-    screen_position_(Math::Vector2::Zero())
+    debug_draw_()
 {
     name_ = kName;
-
-    b2Vec2 gravity(0.f, -9.81f);
-    world_ = std::make_unique<b2World>(gravity);
-    world_->SetContactListener(&contact_listener_);
-
-    uint32 flags = 0;
-    flags += b2Draw::e_shapeBit;
-    // flags += b2Draw::e_jointBit;
-    // flags += b2Draw::e_aabbBit;
-    // flags += b2Draw::e_pairBit;
-    // flags += b2Draw::e_centerOfMassBit;
-    debug_draw_.SetFlags(flags);
-
-    world_->SetDebugDraw(&debug_draw_);
+    physics_world_ = world->physics_world_.get();
 
     primitive_batch_ = std::make_unique<PrimitiveBatch>(Graphics::Get()->GetD3DDeviceContext());
 }
@@ -65,10 +51,6 @@ void Level::PhysicsTick(float delta_time)
     //     actor->previous_angle_ = actor->body_->GetAngle();
     // }
 
-    world_->Step(delta_time, 8, 3);
-
-    contact_listener_.Tick();
-
     for (const auto& actor : actors_)
     {
         if (!actor->is_active_ || actor->is_destroy_) continue;
@@ -78,7 +60,7 @@ void Level::PhysicsTick(float delta_time)
 
 void Level::Interpolate(float alpha)
 {
-    for (b2Body* body = world_->GetBodyList(); body; body = body->GetNext())
+    for (b2Body* body = physics_world_->GetBodyList(); body; body = body->GetNext())
     {
         if (body->GetType() == b2_staticBody) continue;
 
@@ -125,7 +107,7 @@ void Level::Render()
     }
 
     primitive_batch_->Begin(Graphics::Get()->GetCamera2D().GetWorldMatrix() * Graphics::Get()->GetCamera2D().GetOrthographicMatrix());
-    world_->DebugDraw();
+    physics_world_->DebugDraw();
     primitive_batch_->End();
 }
 
@@ -148,16 +130,4 @@ void Level::DestroyActor()
 void Level::AddActor(Actor* actor)
 {
     actors_.push_back(std::unique_ptr<Actor>(actor));
-}
-
-b2Vec2 Level::GetRenderPosition(b2Vec2 world_position)
-{
-    const b2Vec2 screen_position = {screen_position_.x, screen_position_.y};
-    return world_position - screen_position;
-}
-
-b2Vec2 Level::GetWorldPosition(b2Vec2 render_position)
-{
-    const b2Vec2 screen_position = {screen_position_.x, screen_position_.y};
-    return render_position + screen_position;
 }

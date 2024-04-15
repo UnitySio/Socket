@@ -14,11 +14,11 @@
 enum class EndPlayReason : size_t;
 class Actor;
 
-class Level : public b2ContactListener
+class Level
 {
 public:
     Level(class World* world, const std::wstring& kName);
-    virtual ~Level() override = default;
+    virtual ~Level() = default;
     
     virtual void InitializeActors();
     virtual void PhysicsTick(float delta_time);
@@ -32,10 +32,7 @@ public:
 
     inline const std::wstring& GetName() const { return name_; }
 
-    inline b2World* GetWorld() const { return world_.get(); }
-
-    inline void SetScreenPosition(Math::Vector2 screen_position) { screen_position_ = screen_position; }
-    inline Math::Vector2 GetScreenPosition() const { return screen_position_; }
+    inline b2World* GetPhysicsWorld() const { return physics_world_; }
 
     b2Vec2 GetRenderPosition(b2Vec2 world_position);
     b2Vec2 GetWorldPosition(b2Vec2 render_position);
@@ -45,15 +42,11 @@ public:
 private:
     std::wstring name_;
 
-    std::unique_ptr<b2World> world_;
+    b2World* physics_world_;
 
     std::vector<std::unique_ptr<Actor>> actors_;
 
     DebugDraw debug_draw_;
-
-    Math::Vector2 screen_position_;
-
-    ContactListener contact_listener_;
 
     std::unique_ptr<PrimitiveBatch> primitive_batch_;
 };

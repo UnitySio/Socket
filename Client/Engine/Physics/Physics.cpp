@@ -55,6 +55,6 @@ bool Physics::PerformRayCast(RayCastCallback& callback, const Math::Vector2& sta
     Level* level = World::Get()->GetLevel();
     if (!level) return false;
     
-    level->GetWorld()->RayCast(&callback, {start.x, start.y}, {end.x, end.y});
+    level->GetPhysicsWorld()->RayCast(&callback, {start.x, start.y}, {end.x, end.y});
     return true;
 }
