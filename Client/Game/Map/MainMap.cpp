@@ -5,7 +5,7 @@
 #include "../Actor/Pawn.h"
 #include "Actor/Dummy.h"
 
-MainMap::MainMap(const std::wstring& kName) : Level(kName)
+MainMap::MainMap(World* world, const std::wstring& kName) : Level(world, kName)
 {
     Actor* follow_camera = new FollowCamera(GetWorld(), L"FollowCamera");
     AddActor(follow_camera);

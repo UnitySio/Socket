@@ -4,7 +4,7 @@
 class MainMap : public Level
 {
 public:
-    MainMap(const std::wstring& kName);
+    MainMap(class World* world, const std::wstring& kName);
     virtual ~MainMap() override = default;
     
 };

@@ -17,7 +17,7 @@ class Actor;
 class Level : public b2ContactListener
 {
 public:
-    Level(const std::wstring& kName);
+    Level(class World* world, const std::wstring& kName);
     virtual ~Level() override = default;
     
     virtual void InitializeActors();

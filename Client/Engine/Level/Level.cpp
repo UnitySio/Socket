@@ -10,7 +10,7 @@
 #include "box2d/b2_contact.h"
 #include "Graphics/Graphics.h"
 
-Level::Level(const std::wstring& kName) :
+Level::Level(World* world, const std::wstring& kName) :
     world_(nullptr),
     actors_(),
     debug_draw_(),

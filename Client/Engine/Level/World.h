@@ -1,6 +1,9 @@
 ﻿#pragma once
+#include "DebugDraw.h"
 #include "Enums.h"
 #include "Singleton.h"
+#include "box2d/b2_world.h"
+#include "Listener/ContactListener.h"
 
 enum class LevelType : size_t;
 class Level;
@@ -25,6 +28,14 @@ public:
     inline Level* GetLevel() const { return current_level_; }
 
 private:
+    friend class Level;
+    
+    std::unique_ptr<b2World> physics_world_;
+    
+    ContactListener contact_listener_;
+    
+    DebugDraw debug_draw_;
+    
     Level* current_level_;
     std::unique_ptr<Level> levels_[static_cast<size_t>(LevelType::kEnd)];
     
@@ -33,6 +44,6 @@ private:
 template <std::derived_from<Level> T>
 T* World::AddLevel(LevelType type, std::wstring name)
 {
-    levels_[static_cast<size_t>(type)] = std::make_unique<T>(name);
+    levels_[static_cast<size_t>(type)] = std::make_unique<T>(this, name);
     return static_cast<T*>(levels_[static_cast<size_t>(type)].get());
 }
