@@ -1,7 +1,7 @@
 ﻿#include "AudioListenerComponent.h"
 
 #include "TransformComponent.h"
-#include "Math/Vector.h"
+#include "Math/Vector2.h"
 #include "Actor/Actor.h"
 #include "Audio/AudioManager.h"
 #include "FMOD/fmod.h"
@@ -16,7 +16,7 @@ void AudioListenerComponent::TickComponent(float delta_time)
 {
     ActorComponent::TickComponent(delta_time);
 
-    const Math::Vector location = GetOwner()->GetTransform()->GetRelativeLocation();
+    const Math::Vector2 location = GetOwner()->GetTransform()->GetRelativeLocation();
     const FMOD_VECTOR sound_location = {location.x, location.y, 0.f};
     FMOD_System_Set3DListenerAttributes(AudioManager::Get()->fmod_system_, 0, &sound_location, nullptr, nullptr, nullptr);
 }

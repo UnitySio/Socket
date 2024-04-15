@@ -4,7 +4,7 @@
 
 namespace Math
 {
-    struct Vector;
+    struct Vector2;
 }
 
 enum class BodyType : size_t
@@ -43,15 +43,15 @@ public:
     void SetSleepMode(SleepMode mode);
     void SetCollisionDetectionMode(CollisionDetectionMode mode);
     void SetFreezeRotation(bool freeze);
-    void SetVelocity(const Math::Vector& kVelocity);
+    void SetVelocity(const Math::Vector2& kVelocity);
     void SetAngularVelocity(float velocity);
-    void AddForce(const Math::Vector& kForce, ForceMode mode = ForceMode::kForce);
-    void AddForceAtPosition(const Math::Vector& kForce, const Math::Vector& kLocation, ForceMode mode = ForceMode::kForce);
+    void AddForce(const Math::Vector2& kForce, ForceMode mode = ForceMode::kForce);
+    void AddForceAtPosition(const Math::Vector2& kForce, const Math::Vector2& kLocation, ForceMode mode = ForceMode::kForce);
     void AddTorque(float torque, ForceMode mode = ForceMode::kForce);
     void Sleep();
     void WakeUp();
 
-    Math::Vector GetVelocity() const;
+    Math::Vector2 GetVelocity() const;
     
     float GetAngularVelocity() const;
 

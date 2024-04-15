@@ -44,7 +44,7 @@ void SpriteBatch::End()
     orthographic_matrix_ = DirectX::XMMatrixIdentity();
 }
 
-void SpriteBatch::Draw(Sprite* sprite, const std::wstring& kName, Math::Vector location, Math::Vector scale, float angle)
+void SpriteBatch::Draw(Sprite* sprite, const std::wstring& kName, Math::Vector2 location, Math::Vector2 scale, float angle)
 {
     const float radian = DirectX::XMConvertToRadians(angle);
     

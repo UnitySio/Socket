@@ -49,8 +49,8 @@ void Pawn::PhysicsTick(float delta_time)
 
     dir_ = h > 0 ? 1 : h < 0 ? -1 : dir_;
     
-    const Math::Vector start = GetTransform()->GetWorldLocation() + Math::Vector::Up() * 1.45f;
-    const Math::Vector end = GetTransform()->GetUpVector() * -1000.f + start;
+    const Math::Vector2 start = GetTransform()->GetWorldLocation() + Math::Vector2::Up() * 1.45f;
+    const Math::Vector2 end = GetTransform()->GetUpVector() * -1000.f + start;
 
     HitResult hit_result;
     bool is_hit = Physics::RayCastSingle(hit_result, start, end);
@@ -70,8 +70,8 @@ void Pawn::Tick(float delta_time)
 
     if (input->IsKeyDown(VK_UP))
     {
-        rigid_body_->SetVelocity(Math::Vector::Zero());
-        rigid_body_->AddForce(Math::Vector::Up() * 5.f, ForceMode::kImpulse);
+        rigid_body_->SetVelocity(Math::Vector2::Zero());
+        rigid_body_->AddForce(Math::Vector2::Up() * 5.f, ForceMode::kImpulse);
     }
 
     if (input->IsKeyDown(VK_SPACE))
@@ -101,7 +101,7 @@ void Pawn::Render()
         time = 0.f;
     }
 
-    const Math::Vector location = GetTransform()->GetRelativeLocation();
+    const Math::Vector2 location = GetTransform()->GetRelativeLocation();
     const float angle = GetTransform()->GetRelativeRotationZ();
     batch->Draw(sprite_.get(), L"spritesheet_" + std::to_wstring(idx), location, {1.f * -dir_, 1.f}, angle);
     

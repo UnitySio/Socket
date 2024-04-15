@@ -1,20 +1,20 @@
-﻿#include "Math/Vector.h"
+﻿#include "Math/Vector2.h"
 
 #include <algorithm>
 
-Math::Vector::Vector() :
+Math::Vector2::Vector2() :
     x(),
     y()
 {
 }
 
-Math::Vector::Vector(float x, float y) :
+Math::Vector2::Vector2(float x, float y) :
     x(x),
     y(y)
 {
 }
 
-Math::Vector& Math::Vector::operator+=(const Vector& kVector)
+Math::Vector2& Math::Vector2::operator+=(const Vector2& kVector)
 {
     x += kVector.x;
     y += kVector.y;
@@ -22,7 +22,7 @@ Math::Vector& Math::Vector::operator+=(const Vector& kVector)
     return *this;
 }
 
-Math::Vector& Math::Vector::operator-=(const Vector& kVector)
+Math::Vector2& Math::Vector2::operator-=(const Vector2& kVector)
 {
     x -= kVector.x;
     y -= kVector.y;
@@ -30,7 +30,7 @@ Math::Vector& Math::Vector::operator-=(const Vector& kVector)
     return *this;
 }
 
-Math::Vector& Math::Vector::operator*=(const Vector& kVector)
+Math::Vector2& Math::Vector2::operator*=(const Vector2& kVector)
 {
     x *= kVector.x;
     y *= kVector.y;
@@ -38,7 +38,7 @@ Math::Vector& Math::Vector::operator*=(const Vector& kVector)
     return *this;
 }
 
-Math::Vector& Math::Vector::operator/=(const Vector& kVector)
+Math::Vector2& Math::Vector2::operator/=(const Vector2& kVector)
 {
     x /= kVector.x;
     y /= kVector.y;
@@ -46,7 +46,7 @@ Math::Vector& Math::Vector::operator/=(const Vector& kVector)
     return *this;
 }
 
-Math::Vector& Math::Vector::operator=(const Vector& kVector)
+Math::Vector2& Math::Vector2::operator=(const Vector2& kVector)
 {
     x = kVector.x;
     y = kVector.y;
@@ -54,47 +54,47 @@ Math::Vector& Math::Vector::operator=(const Vector& kVector)
     return *this;
 }
 
-Math::Vector Math::Vector::operator+(const Vector& kVector)
+Math::Vector2 Math::Vector2::operator+(const Vector2& kVector)
 {
     return {x + kVector.x, y + kVector.y};
 }
 
-Math::Vector Math::Vector::operator-(const Vector& kVector)
+Math::Vector2 Math::Vector2::operator-(const Vector2& kVector)
 {
     return {x - kVector.x, y - kVector.y};
 }
 
-Math::Vector Math::Vector::operator*(const Vector& kVector)
+Math::Vector2 Math::Vector2::operator*(const Vector2& kVector)
 {
     return {x * kVector.x, y * kVector.y};
 }
 
-Math::Vector Math::Vector::operator/(const Vector& kVector)
+Math::Vector2 Math::Vector2::operator/(const Vector2& kVector)
 {
     return {x / kVector.x, y / kVector.y};
 }
 
-Math::Vector Math::Vector::operator+(float val)
+Math::Vector2 Math::Vector2::operator+(float val)
 {
     return {x + val, y + val};
 }
 
-Math::Vector Math::Vector::operator-(float val)
+Math::Vector2 Math::Vector2::operator-(float val)
 {
     return {x - val, y - val};
 }
 
-Math::Vector Math::Vector::operator*(float val)
+Math::Vector2 Math::Vector2::operator*(float val)
 {
     return {x * val, y * val};
 }
 
-Math::Vector Math::Vector::operator/(float val)
+Math::Vector2 Math::Vector2::operator/(float val)
 {
     return {x / val, y / val};
 }
 
-bool Math::Vector::operator==(const Vector& kVector) const
+bool Math::Vector2::operator==(const Vector2& kVector) const
 {
     if (fabsf(x - kVector.x) <= FLT_EPSILON &&
         fabsf(y - kVector.y) <= FLT_EPSILON)
@@ -105,7 +105,7 @@ bool Math::Vector::operator==(const Vector& kVector) const
     return false;
 }
 
-bool Math::Vector::operator!=(const Vector& kVector) const
+bool Math::Vector2::operator!=(const Vector2& kVector) const
 {
     if (fabsf(x - kVector.x) > FLT_EPSILON ||
         fabsf(y - kVector.y) > FLT_EPSILON)
@@ -116,7 +116,7 @@ bool Math::Vector::operator!=(const Vector& kVector) const
     return false;
 }
 
-bool Math::Vector::operator==(float val) const
+bool Math::Vector2::operator==(float val) const
 {
     if (fabsf(x - val) <= FLT_EPSILON &&
         fabsf(y - val) <= FLT_EPSILON)
@@ -127,7 +127,7 @@ bool Math::Vector::operator==(float val) const
     return false;
 }
 
-bool Math::Vector::operator!=(float val) const
+bool Math::Vector2::operator!=(float val) const
 {
     if (fabsf(x - val) > FLT_EPSILON ||
         fabsf(y - val) > FLT_EPSILON)
@@ -138,55 +138,55 @@ bool Math::Vector::operator!=(float val) const
     return false;
 }
 
-Math::Vector Math::Vector::Zero()
+Math::Vector2 Math::Vector2::Zero()
 {
     return {0.f, 0.f};
 }
 
-Math::Vector Math::Vector::One()
+Math::Vector2 Math::Vector2::One()
 {
     return {1.f, 1.f};
 }
 
-Math::Vector Math::Vector::Left()
+Math::Vector2 Math::Vector2::Left()
 {
     return {-1.f, 0.f};
 }
 
-Math::Vector Math::Vector::Up()
+Math::Vector2 Math::Vector2::Up()
 {
     return {0.f, 1.f};
 }
 
-Math::Vector Math::Vector::Right()
+Math::Vector2 Math::Vector2::Right()
 {
     return {1.f, 0.f};
 }
 
-Math::Vector Math::Vector::Down()
+Math::Vector2 Math::Vector2::Down()
 {
     return {0.f, -1.f};
 }
 
-Math::Vector Math::Vector::Lerp(Vector a, Vector b, float t)
+Math::Vector2 Math::Vector2::Lerp(Vector2 a, Vector2 b, float t)
 {
     t = std::clamp(t, 0.f, 1.f);
     return a + (b - a) * t;
 }
 
-float Math::Vector::Distance(Vector a, Vector b)
+float Math::Vector2::Distance(Vector2 a, Vector2 b)
 {
-    Math::Vector diff = a - b;
+    Math::Vector2 diff = a - b;
     return diff.Magnitude();
 }
 
-float Math::Vector::Dot(Vector a, Vector b)
+float Math::Vector2::Dot(Vector2 a, Vector2 b)
 {
     const float theta = (a.x * b.x) + (a.y * b.y);
     return theta;
 }
 
-Math::Vector Math::Vector::Max(Vector a, Vector b)
+Math::Vector2 Math::Vector2::Max(Vector2 a, Vector2 b)
 {
     const float max_x = std::max(a.x, b.x);
     const float max_y = std::max(a.y, b.y);
@@ -194,7 +194,7 @@ Math::Vector Math::Vector::Max(Vector a, Vector b)
     return {max_x, max_y};
 }
 
-Math::Vector Math::Vector::Min(Vector a, Vector b)
+Math::Vector2 Math::Vector2::Min(Vector2 a, Vector2 b)
 {
     const float min_x = std::min(a.x, b.x);
     const float min_y = std::min(a.y, b.y);
@@ -202,7 +202,7 @@ Math::Vector Math::Vector::Min(Vector a, Vector b)
     return {min_x, min_y};
 }
 
-Math::Vector Math::Vector::Normalized()
+Math::Vector2 Math::Vector2::Normalized()
 {
     float m = Magnitude();
 
@@ -214,7 +214,7 @@ Math::Vector Math::Vector::Normalized()
     return Zero();
 }
 
-float Math::Vector::Magnitude()
+float Math::Vector2::Magnitude()
 {
     const auto temp_x = static_cast<double>(x);
     const auto temp_y = static_cast<double>(y);
@@ -222,7 +222,7 @@ float Math::Vector::Magnitude()
     return static_cast<float>(sqrt(pow(temp_x, 2) + pow(temp_y, 2)));
 }
 
-void Math::Vector::Normalize()
+void Math::Vector2::Normalize()
 {
     float m = Magnitude();
 

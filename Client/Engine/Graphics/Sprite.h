@@ -2,13 +2,13 @@
 #include <map>
 
 #include "Texture.h"
-#include "Math/Vector.h"
+#include "Math/Vector2.h"
 
 struct SpriteFrame
 {
-    Math::Vector offset;
-    Math::Vector scale;
-    Math::Vector pivot;
+    Math::Vector2 offset;
+    Math::Vector2 scale;
+    Math::Vector2 pivot;
 };
 
 class Sprite : public Texture

@@ -1,10 +1,10 @@
 ﻿#pragma once
-#include "Math/Vector.h"
+#include "Vector2.h"
 
 struct Bounds
 {
     Bounds() = default;
-    Bounds(Math::Vector center, Math::Vector size);
+    Bounds(Math::Vector2 center, Math::Vector2 size);
     
     /**
      * \brief 두 바운드의 교차점을 반환합니다.
@@ -14,9 +14,9 @@ struct Bounds
      */
     static Bounds Intersect(Bounds a, Bounds b);
     
-    Math::Vector center;
-    Math::Vector size;
-    Math::Vector extents;
-    Math::Vector min;
-    Math::Vector max;
+    Math::Vector2 center;
+    Math::Vector2 size;
+    Math::Vector2 extents;
+    Math::Vector2 min;
+    Math::Vector2 max;
 };

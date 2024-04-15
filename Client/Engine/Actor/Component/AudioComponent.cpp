@@ -1,7 +1,7 @@
 ﻿#include "AudioComponent.h"
 
 #include "TransformComponent.h"
-#include "Math/Vector.h"
+#include "Math/Vector2.h"
 #include "Actor/Actor.h"
 #include "Audio/AudioManager.h"
 #include "FMOD/fmod.h"
@@ -27,7 +27,7 @@ void AudioComponent::Play()
 
     channel_ = AudioManager::PlaySound(sound_);
     
-    const Math::Vector location = GetOwner()->GetTransform()->GetRelativeLocation();
+    const Math::Vector2 location = GetOwner()->GetTransform()->GetRelativeLocation();
     const FMOD_VECTOR sound_location = {location.x, location.y, 0.f};
     FMOD_Channel_Set3DAttributes(channel_, &sound_location, nullptr);
 }

@@ -169,7 +169,7 @@
     <ClInclude Include="Engine\Level\World.h" />
     <ClInclude Include="Engine\Math\Bounds.h" />
     <ClInclude Include="Engine\Math\MathTypes.h" />
-    <ClInclude Include="Engine\Math\Vector.h" />
+    <ClInclude Include="Engine\Math\Vector2.h" />
     <ClInclude Include="Engine\Physics\HitResult.h" />
     <ClInclude Include="Engine\Physics\Physics.h" />
     <ClInclude Include="Engine\Physics\RayCastCallback.h" />
@@ -330,7 +330,7 @@
     <ClCompile Include="Engine\Level\Listener\QueryCallback.cpp" />
     <ClCompile Include="Engine\Level\World.cpp" />
     <ClCompile Include="Engine\Math\Bounds.cpp" />
-    <ClCompile Include="Engine\Math\Vector.cpp" />
+    <ClCompile Include="Engine\Math\Vector2.cpp" />
     <ClCompile Include="Engine\Physics\Physics.cpp" />
     <ClCompile Include="Engine\Physics\RayCastCallback.cpp" />
     <ClCompile Include="Engine\Time\Time.cpp" />

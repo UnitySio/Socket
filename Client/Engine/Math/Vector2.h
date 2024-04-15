@@ -2,69 +2,69 @@
 
 namespace Math
 {
-    struct Vector
+    struct Vector2
     {
-        Vector();
-        Vector(float x, float y);
+        Vector2();
+        Vector2(float x, float y);
 
-        Vector& operator+=(const Vector& kVector);
-        Vector& operator-=(const Vector& kVector);
-        Vector& operator*=(const Vector& kVector);
-        Vector& operator/=(const Vector& kVector);
-        Vector& operator=(const Vector& kVector);
+        Vector2& operator+=(const Vector2& kVector);
+        Vector2& operator-=(const Vector2& kVector);
+        Vector2& operator*=(const Vector2& kVector);
+        Vector2& operator/=(const Vector2& kVector);
+        Vector2& operator=(const Vector2& kVector);
 
-        Vector operator+(const Vector& kVector);
-        Vector operator-(const Vector& kVector);
-        Vector operator*(const Vector& kVector);
-        Vector operator/(const Vector& kVector);
+        Vector2 operator+(const Vector2& kVector);
+        Vector2 operator-(const Vector2& kVector);
+        Vector2 operator*(const Vector2& kVector);
+        Vector2 operator/(const Vector2& kVector);
 
-        Vector operator+(float val);
-        Vector operator-(float val);
-        Vector operator*(float val);
-        Vector operator/(float val);
+        Vector2 operator+(float val);
+        Vector2 operator-(float val);
+        Vector2 operator*(float val);
+        Vector2 operator/(float val);
 
-        bool operator==(const Vector& kVector) const;
-        bool operator!=(const Vector& kVector) const;
+        bool operator==(const Vector2& kVector) const;
+        bool operator!=(const Vector2& kVector) const;
         bool operator==(float val) const;
         bool operator!=(float val) const;
 
-        ~Vector() = default;
+        ~Vector2() = default;
 
         /**
          * \brief Vector(0.f, 0.f)
          * \return Vector
          */
-        static Vector Zero();
+        static Vector2 Zero();
 
         /**
          * \brief Vector(1.f, 1.f)
          * \return Vector
          */
-        static Vector One();
+        static Vector2 One();
 
         /**
          * \brief Vector(-1.f, 0.f)
          * \return Vector
          */
-        static Vector Left();
+        static Vector2 Left();
 
         /**
          * \brief Vector(0.f, -1.f)
          * \return Vector
          */
-        static Vector Up();
+        static Vector2 Up();
 
         /**
          * \brief Vector(1.f, 0.f)
          * \return Vector
          */
-        static Vector Right();
+        static Vector2 Right();
 
         /**
          * \brief Vector(0.f, 1.f)
          * \return Vector
          */
-        static Vector Down();
+        static Vector2 Down();
 
         /**
          * \brief 두 백터를 선형 보간합니다.
@@ -73,7 +73,7 @@ namespace Math
          * \param t 비율
          * \return Vector
          */
-        static Vector Lerp(Vector a, Vector b, float t);
+        static Vector2 Lerp(Vector2 a, Vector2 b, float t);
 
         /**
          * \brief 두 백터의 거리를 반환합니다.
@@ -81,7 +81,7 @@ namespace Math
          * \param b 두번째 백터
          * \return float
          */
-        static float Distance(Vector a, Vector b);
+        static float Distance(Vector2 a, Vector2 b);
 
         /**
          * \brief 두 백터의 내적을 반환합니다.
@@ -89,7 +89,7 @@ namespace Math
          * \param b 두번째 백터
          * \return float
          */
-        static float Dot(Vector a, Vector b);
+        static float Dot(Vector2 a, Vector2 b);
 
         /**
          * \brief 두 백터의 가장 큰 값으로 이루어진 백터를 반환합니다.
@@ -97,7 +97,7 @@ namespace Math
          * \param b 두번째 백터
          * \return float
          */
-        static Vector Max(Vector a, Vector b);
+        static Vector2 Max(Vector2 a, Vector2 b);
 
         /**
          * \brief 두 백터의 가장 작은 값으로 이루어진 백터를 반환합니다.
@@ -105,13 +105,13 @@ namespace Math
          * \param b 두번째 백터
          * \return float
          */
-        static Vector Min(Vector a, Vector b);
+        static Vector2 Min(Vector2 a, Vector2 b);
 
         /**
          * \brief 백터를 정규화된 값으로 반환합니다.
          * \return Vector
          */
-        Vector Normalized();
+        Vector2 Normalized();
 
         /**
          * \brief 백터의 길이를 반환합니다.

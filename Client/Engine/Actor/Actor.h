@@ -4,7 +4,7 @@
 #include <vector>
 
 #include "ProjectSettings.h"
-#include "Math/Vector.h"
+#include "Math/Vector2.h"
 #include "Component/ActorComponent.h"
 
 enum class EndPlayReason : size_t;
@@ -92,7 +92,7 @@ private:
 
     class b2Body* body_;
 
-    Math::Vector previous_location_;
+    Math::Vector2 previous_location_;
 
     float previous_angle_;
 

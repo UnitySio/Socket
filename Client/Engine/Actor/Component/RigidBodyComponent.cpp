@@ -3,7 +3,7 @@
 #include "TransformComponent.h"
 #include "Actor/Actor.h"
 #include "box2d/b2_body.h"
-#include "Math/Vector.h"
+#include "Math/Vector2.h"
 
 RigidBodyComponent::RigidBodyComponent(Actor* owner, const std::wstring& kName) :
     ActorComponent(owner, kName)
@@ -97,7 +97,7 @@ void RigidBodyComponent::SetFreezeRotation(bool freeze)
     body->SetFixedRotation(freeze);
 }
 
-void RigidBodyComponent::SetVelocity(const Math::Vector& kVelocity)
+void RigidBodyComponent::SetVelocity(const Math::Vector2& kVelocity)
 {
     Actor* owner = GetOwner();
     assert(owner);
@@ -119,7 +119,7 @@ void RigidBodyComponent::SetAngularVelocity(float velocity)
     body->SetAngularVelocity(velocity);
 }
 
-void RigidBodyComponent::AddForce(const Math::Vector& kForce, ForceMode mode)
+void RigidBodyComponent::AddForce(const Math::Vector2& kForce, ForceMode mode)
 {
     Actor* owner = GetOwner();
     assert(owner);
@@ -139,7 +139,7 @@ void RigidBodyComponent::AddForce(const Math::Vector& kForce, ForceMode mode)
     }
 }
 
-void RigidBodyComponent::AddForceAtPosition(const Math::Vector& kForce, const Math::Vector& kLocation, ForceMode mode)
+void RigidBodyComponent::AddForceAtPosition(const Math::Vector2& kForce, const Math::Vector2& kLocation, ForceMode mode)
 {
     Actor* owner = GetOwner();
     assert(owner);
@@ -201,7 +201,7 @@ void RigidBodyComponent::WakeUp()
     body->SetAwake(true);
 }
 
-Math::Vector RigidBodyComponent::GetVelocity() const
+Math::Vector2 RigidBodyComponent::GetVelocity() const
 {
     Actor* owner = GetOwner();
     assert(owner);

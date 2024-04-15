@@ -7,7 +7,7 @@
 #include "box2d/b2_world.h"
 
 #include "DebugDraw.h"
-#include "Math/Vector.h"
+#include "Math/Vector2.h"
 #include "Graphics/PrimitiveBatch.h"
 #include "Listener/ContactListener.h"
 
@@ -34,8 +34,8 @@ public:
 
     inline b2World* GetWorld() const { return world_.get(); }
 
-    inline void SetScreenPosition(Math::Vector screen_position) { screen_position_ = screen_position; }
-    inline Math::Vector GetScreenPosition() const { return screen_position_; }
+    inline void SetScreenPosition(Math::Vector2 screen_position) { screen_position_ = screen_position; }
+    inline Math::Vector2 GetScreenPosition() const { return screen_position_; }
 
     b2Vec2 GetRenderPosition(b2Vec2 world_position);
     b2Vec2 GetWorldPosition(b2Vec2 render_position);
@@ -51,7 +51,7 @@ private:
 
     DebugDraw debug_draw_;
 
-    Math::Vector screen_position_;
+    Math::Vector2 screen_position_;
 
     ContactListener contact_listener_;
 

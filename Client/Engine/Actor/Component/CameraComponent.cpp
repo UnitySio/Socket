@@ -15,6 +15,6 @@ void CameraComponent::TickComponent(float delta_time)
     Graphics* gfx = Graphics::Get();
     Camera2D& camera = gfx->GetCamera2D();
 
-    const Math::Vector location = GetOwner()->GetTransform()->GetRelativeLocation();
+    const Math::Vector2 location = GetOwner()->GetTransform()->GetRelativeLocation();
     camera.SetPosition(location.x, location.y, 0.f);
 }
