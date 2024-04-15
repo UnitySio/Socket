@@ -49,7 +49,7 @@ namespace Math
         static Vector2 Left();
 
         /**
-         * \brief Vector(0.f, -1.f)
+         * \brief Vector(0.f, 1.f)
          * \return Vector
          */
         static Vector2 Up();
@@ -61,7 +61,7 @@ namespace Math
         static Vector2 Right();
 
         /**
-         * \brief Vector(0.f, 1.f)
+         * \brief Vector(0.f, -1.f)
          * \return Vector
          */
         static Vector2 Down();
