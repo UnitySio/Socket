@@ -97,7 +97,7 @@ void RigidBodyComponent::SetFreezeRotation(bool freeze)
     body->SetFixedRotation(freeze);
 }
 
-void RigidBodyComponent::SetVelocity(const Vector& kVelocity)
+void RigidBodyComponent::SetVelocity(const Math::Vector& kVelocity)
 {
     Actor* owner = GetOwner();
     assert(owner);
@@ -119,7 +119,7 @@ void RigidBodyComponent::SetAngularVelocity(float velocity)
     body->SetAngularVelocity(velocity);
 }
 
-void RigidBodyComponent::AddForce(const Vector& kForce, ForceMode mode)
+void RigidBodyComponent::AddForce(const Math::Vector& kForce, ForceMode mode)
 {
     Actor* owner = GetOwner();
     assert(owner);
@@ -139,7 +139,7 @@ void RigidBodyComponent::AddForce(const Vector& kForce, ForceMode mode)
     }
 }
 
-void RigidBodyComponent::AddForceAtPosition(const Vector& kForce, const Vector& kLocation, ForceMode mode)
+void RigidBodyComponent::AddForceAtPosition(const Math::Vector& kForce, const Math::Vector& kLocation, ForceMode mode)
 {
     Actor* owner = GetOwner();
     assert(owner);
@@ -201,7 +201,7 @@ void RigidBodyComponent::WakeUp()
     body->SetAwake(true);
 }
 
-Vector RigidBodyComponent::GetVelocity() const
+Math::Vector RigidBodyComponent::GetVelocity() const
 {
     Actor* owner = GetOwner();
     assert(owner);

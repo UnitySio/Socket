@@ -168,6 +168,7 @@
     <ClInclude Include="Engine\Level\Listener\QueryCallback.h" />
     <ClInclude Include="Engine\Level\World.h" />
     <ClInclude Include="Engine\Math\Bounds.h" />
+    <ClInclude Include="Engine\Math\MathTypes.h" />
     <ClInclude Include="Engine\Math\Vector.h" />
     <ClInclude Include="Engine\Physics\HitResult.h" />
     <ClInclude Include="Engine\Physics\Physics.h" />

@@ -4,19 +4,19 @@
 
 BoxColliderComponent::BoxColliderComponent(Actor* owner, const std::wstring& kName) :
     ColliderComponent(owner, kName),
-    size_(Vector::One())
+    size_(Math::Vector::One())
 {
     SetBox();
 }
 
-void BoxColliderComponent::SetOffset(const Vector& kOffset)
+void BoxColliderComponent::SetOffset(const Math::Vector& kOffset)
 {
     ColliderComponent::SetOffset(kOffset);
     
     SetBox();
 }
 
-void BoxColliderComponent::SetSize(Vector size)
+void BoxColliderComponent::SetSize(Math::Vector size)
 {
     size_ = size;
     SetBox();
@@ -24,7 +24,7 @@ void BoxColliderComponent::SetSize(Vector size)
 
 void BoxColliderComponent::SetBox()
 {
-    const Vector half_size = size_ * .5f;
+    const Math::Vector half_size = size_ * .5f;
     
     b2PolygonShape box;
     box.SetAsBox(half_size.x, half_size.y, {offset_.x, offset_.y}, 0.f);

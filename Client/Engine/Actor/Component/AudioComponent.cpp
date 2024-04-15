@@ -27,7 +27,7 @@ void AudioComponent::Play()
 
     channel_ = AudioManager::PlaySound(sound_);
     
-    const Vector location = GetOwner()->GetTransform()->GetRelativeLocation();
+    const Math::Vector location = GetOwner()->GetTransform()->GetRelativeLocation();
     const FMOD_VECTOR sound_location = {location.x, location.y, 0.f};
     FMOD_Channel_Set3DAttributes(channel_, &sound_location, nullptr);
 }

@@ -34,8 +34,8 @@ public:
 
     inline b2World* GetWorld() const { return world_.get(); }
 
-    inline void SetScreenPosition(Vector screen_position) { screen_position_ = screen_position; }
-    inline Vector GetScreenPosition() const { return screen_position_; }
+    inline void SetScreenPosition(Math::Vector screen_position) { screen_position_ = screen_position; }
+    inline Math::Vector GetScreenPosition() const { return screen_position_; }
 
     b2Vec2 GetRenderPosition(b2Vec2 world_position);
     b2Vec2 GetWorldPosition(b2Vec2 render_position);
@@ -51,7 +51,7 @@ private:
 
     DebugDraw debug_draw_;
 
-    Vector screen_position_;
+    Math::Vector screen_position_;
 
     ContactListener contact_listener_;
 

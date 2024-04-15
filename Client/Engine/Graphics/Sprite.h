@@ -6,9 +6,9 @@
 
 struct SpriteFrame
 {
-    Vector offset;
-    Vector scale;
-    Vector pivot;
+    Math::Vector offset;
+    Math::Vector scale;
+    Math::Vector pivot;
 };
 
 class Sprite : public Texture

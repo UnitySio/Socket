@@ -8,7 +8,7 @@
 ColliderComponent::ColliderComponent(Actor* owner, const std::wstring& kName) :
     ActorComponent(owner, kName),
     fixture_(nullptr),
-    offset_(Vector::Zero())
+    offset_(Math::Vector::Zero())
 {
     if (!GetOwner()->body_) GetOwner()->CreateBody();
 }
@@ -19,7 +19,7 @@ void ColliderComponent::SetTrigger(bool isTrigger)
     fixture_->SetSensor(isTrigger);
 }
 
-void ColliderComponent::SetOffset(const Vector& kOffset)
+void ColliderComponent::SetOffset(const Math::Vector& kOffset)
 {
     offset_ = kOffset;
 }

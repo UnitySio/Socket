@@ -9,7 +9,7 @@ CircleColliderComponent::CircleColliderComponent(Actor* owner, const std::wstrin
     SetCircle();
 }
 
-void CircleColliderComponent::SetOffset(const Vector& kOffset)
+void CircleColliderComponent::SetOffset(const Math::Vector& kOffset)
 {
     ColliderComponent::SetOffset(kOffset);
 

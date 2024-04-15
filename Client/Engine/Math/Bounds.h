@@ -4,7 +4,7 @@
 struct Bounds
 {
     Bounds() = default;
-    Bounds(Vector center, Vector size);
+    Bounds(Math::Vector center, Math::Vector size);
     
     /**
      * \brief 두 바운드의 교차점을 반환합니다.
@@ -14,9 +14,9 @@ struct Bounds
      */
     static Bounds Intersect(Bounds a, Bounds b);
     
-    Vector center;
-    Vector size;
-    Vector extents;
-    Vector min;
-    Vector max;
+    Math::Vector center;
+    Math::Vector size;
+    Math::Vector extents;
+    Math::Vector min;
+    Math::Vector max;
 };

@@ -11,7 +11,7 @@ public:
 
     void SetTrigger(bool isTrigger);
 
-    virtual void SetOffset(const Vector& kOffset);
+    virtual void SetOffset(const Math::Vector& kOffset);
 
     const Bounds& GetBounds();
 
@@ -20,6 +20,6 @@ protected:
     
     class b2Fixture* fixture_;
 
-    Vector offset_;
+    Math::Vector offset_;
     
 };

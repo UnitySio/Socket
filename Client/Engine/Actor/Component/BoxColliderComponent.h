@@ -7,13 +7,13 @@ public:
     BoxColliderComponent(Actor* owner, const std::wstring& kName);
     virtual ~BoxColliderComponent() override = default;
 
-    virtual void SetOffset(const Vector& kOffset) override;
+    virtual void SetOffset(const Math::Vector& kOffset) override;
 
-    void SetSize(Vector size);
+    void SetSize(Math::Vector size);
 
 private:
     void SetBox();
     
-    Vector size_;
+    Math::Vector size_;
     
 };

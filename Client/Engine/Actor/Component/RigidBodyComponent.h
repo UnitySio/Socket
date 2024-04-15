@@ -2,7 +2,10 @@
 #include "ActorComponent.h"
 #include "box2d/b2_body.h"
 
-struct Vector;
+namespace Math
+{
+    struct Vector;
+}
 
 enum class BodyType : size_t
 {
@@ -40,15 +43,15 @@ public:
     void SetSleepMode(SleepMode mode);
     void SetCollisionDetectionMode(CollisionDetectionMode mode);
     void SetFreezeRotation(bool freeze);
-    void SetVelocity(const Vector& kVelocity);
+    void SetVelocity(const Math::Vector& kVelocity);
     void SetAngularVelocity(float velocity);
-    void AddForce(const Vector& kForce, ForceMode mode = ForceMode::kForce);
-    void AddForceAtPosition(const Vector& kForce, const Vector& kLocation, ForceMode mode = ForceMode::kForce);
+    void AddForce(const Math::Vector& kForce, ForceMode mode = ForceMode::kForce);
+    void AddForceAtPosition(const Math::Vector& kForce, const Math::Vector& kLocation, ForceMode mode = ForceMode::kForce);
     void AddTorque(float torque, ForceMode mode = ForceMode::kForce);
     void Sleep();
     void WakeUp();
 
-    Vector GetVelocity() const;
+    Math::Vector GetVelocity() const;
     
     float GetAngularVelocity() const;
 

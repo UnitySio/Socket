@@ -8,10 +8,10 @@
 
 TransformComponent::TransformComponent(Actor* owner, const std::wstring& kName) :
     ActorComponent(owner, kName),
-    world_location_(Vector::Zero()),
-    world_scale_(Vector::One()),
-    relative_location_(Vector::Zero()),
-    relative_scale_(Vector::One()),
+    world_location_(Math::Vector::Zero()),
+    world_scale_(Math::Vector::One()),
+    relative_location_(Math::Vector::Zero()),
+    relative_scale_(Math::Vector::One()),
     world_rotation_z_(0.f),
     relative_rotation_z_(0.f)
 {
@@ -48,7 +48,7 @@ void TransformComponent::TickComponent(float delta_time)
     UpdateTransform();
 }
 
-void TransformComponent::SetRelativeLocation(Vector location)
+void TransformComponent::SetRelativeLocation(Math::Vector location)
 {
     relative_location_ = location;
     UpdateTransform();
@@ -70,7 +70,7 @@ void TransformComponent::SetRelativeRotationZ(float angle)
     }
 }
 
-Vector TransformComponent::GetRightVector() const
+Math::Vector TransformComponent::GetRightVector() const
 {
     const float theta = relative_rotation_z_ * GE_PI / 180.f;
     const float c = cosf(theta);
@@ -79,7 +79,7 @@ Vector TransformComponent::GetRightVector() const
     return {c, s};
 }
 
-Vector TransformComponent::GetUpVector() const
+Math::Vector TransformComponent::GetUpVector() const
 {
     const float theta = relative_rotation_z_ * GE_PI / 180.f;
     const float c = cosf(theta);
@@ -95,7 +95,7 @@ void TransformComponent::UpdateTransform()
         const b2Body* body = GetOwner()->body_;
         if (!body || body->GetType() != b2_staticBody)
         {
-            Vector parent_location = GetOwner()->parent_->transform_->world_location_;
+            Math::Vector parent_location = GetOwner()->parent_->transform_->world_location_;
             const float parent_rotation = GetOwner()->parent_->transform_->world_rotation_z_;
 
             const float theta = parent_rotation * GE_PI / 180.f;
@@ -105,7 +105,7 @@ void TransformComponent::UpdateTransform()
             const float x = relative_location_.x * c - relative_location_.y * s;
             const float y = relative_location_.x * s + relative_location_.y * c;
 
-            world_location_ = parent_location + Vector(x, y);
+            world_location_ = parent_location + Math::Vector(x, y);
             world_rotation_z_ = parent_rotation + relative_rotation_z_;
         }
 
@@ -121,7 +121,7 @@ void TransformComponent::UpdateTransform()
             {
                 if (b2Body* body = GetOwner()->body_)
                 {
-                    body->SetTransform({world_location_.x, world_location_.y}, world_rotation_z_ * GE_PI / 180.f);
+                    body->SetTransform({world_location_.x, world_location_.y}, world_rotation_z_ * MATH_PI / 180.f);
                 }
             }
         }

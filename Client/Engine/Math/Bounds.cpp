@@ -1,6 +1,6 @@
 ﻿#include "Math/Bounds.h"
 
-Bounds::Bounds(Vector center, Vector size) :
+Bounds::Bounds(Math::Vector center, Math::Vector size) :
         center(center),
         size(size),
         extents(size * .5f)
@@ -11,8 +11,8 @@ Bounds::Bounds(Vector center, Vector size) :
 
 Bounds Bounds::Intersect(Bounds a, Bounds b)
 {
-    Vector min = Vector::Max(a.min, b.min);
-    Vector max = Vector::Min(a.max, b.max);
+    Math::Vector min = Math::Vector::Max(a.min, b.min);
+    Math::Vector max = Math::Vector::Min(a.max, b.max);
 
     return {(min + max) * .5f, max - min};
 }

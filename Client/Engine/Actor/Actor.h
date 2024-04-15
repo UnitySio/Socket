@@ -92,7 +92,7 @@ private:
 
     class b2Body* body_;
 
-    Vector previous_location_;
+    Math::Vector previous_location_;
 
     float previous_angle_;
 

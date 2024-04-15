@@ -1,7 +1,7 @@
 ﻿#pragma once
 #include <map>
 
-typedef unsigned short uint16;
+#include "Math/MathTypes.h"
 
 // 현재 헤더파일에 있는 타입들은 프로젝트에 종속적인 타입들입니다.
 enum class ActorTag : size_t
@@ -9,7 +9,7 @@ enum class ActorTag : size_t
     kNone,
 };
 
-enum ActorLayer : uint16
+enum ActorLayer : MathTypes::uint16
 {
     kDefault = 0x0001,
 };
@@ -29,7 +29,7 @@ public:
 
     static inline constexpr float kFixedTimeStep = .02f; // 고정 프레임 간격
 
-    static inline const std::map<uint16, uint16> kLayerCollisionMatrix = { // 레이어 충돌 매트릭스
+    static inline const std::map<MathTypes::uint16, MathTypes::uint16> kLayerCollisionMatrix = { // 레이어 충돌 매트릭스
         {kDefault, kDefault},
     };
 

@@ -6,7 +6,7 @@
 #include "Level/Level.h"
 #include "Level/World.h"
 
-bool Physics::RayCastSingle(HitResult& hit_result, const Vector& start, const Vector& end)
+bool Physics::RayCastSingle(HitResult& hit_result, const Math::Vector& start, const Math::Vector& end)
 {
     RayCastCallback callback(true);
     if (!PerformRayCast(callback, start, end)) return false;
@@ -14,8 +14,8 @@ bool Physics::RayCastSingle(HitResult& hit_result, const Vector& start, const Ve
     const std::vector<RayCastResult>& results = callback.GetResults();
     if (results.empty()) return false;
 
-    Vector location = {results[0].point.x, results[0].point.y};
-    hit_result.distance = Vector::Distance(start, location);
+    Math::Vector location = {results[0].point.x, results[0].point.y};
+    hit_result.distance = Math::Vector::Distance(start, location);
     hit_result.location = location;
     hit_result.normal = {results[0].normal.x, results[0].normal.y};
     hit_result.trace_start = start;
@@ -25,7 +25,7 @@ bool Physics::RayCastSingle(HitResult& hit_result, const Vector& start, const Ve
     return true;
 }
 
-bool Physics::RayCastMulti(std::vector<HitResult>& hit_results, const Vector& start, const Vector& end)
+bool Physics::RayCastMulti(std::vector<HitResult>& hit_results, const Math::Vector& start, const Math::Vector& end)
 {
     RayCastCallback callback(false);
     if (!PerformRayCast(callback, start, end)) return false;
@@ -36,8 +36,8 @@ bool Physics::RayCastMulti(std::vector<HitResult>& hit_results, const Vector& st
     for (const auto& result : results)
     {
         HitResult hit_result;
-        Vector location = {result.point.x, result.point.y};
-        hit_result.distance = Vector::Distance(start, location);
+        Math::Vector location = {result.point.x, result.point.y};
+        hit_result.distance = Math::Vector::Distance(start, location);
         hit_result.location = location;
         hit_result.normal = {result.normal.x, result.normal.y};
         hit_result.trace_start = start;
@@ -50,7 +50,7 @@ bool Physics::RayCastMulti(std::vector<HitResult>& hit_results, const Vector& st
     return true;
 }
 
-bool Physics::PerformRayCast(RayCastCallback& callback, const Vector& start, const Vector& end)
+bool Physics::PerformRayCast(RayCastCallback& callback, const Math::Vector& start, const Math::Vector& end)
 {
     Level* level = World::Get()->GetLevel();
     if (!level) return false;

@@ -14,9 +14,9 @@ void FollowCamera::Tick(float delta_time)
 {
     Actor::Tick(delta_time);
 
-    const Vector location = GetTransform()->GetRelativeLocation();
-    const Vector target_location = target_->GetTransform()->GetRelativeLocation();
+    const Math::Vector location = GetTransform()->GetRelativeLocation();
+    const Math::Vector target_location = target_->GetTransform()->GetRelativeLocation();
 
-    const Vector new_position = Vector::Lerp(location, target_location, delta_time * 2.f);
+    const Math::Vector new_position = Math::Vector::Lerp(location, target_location, delta_time * 2.f);
     GetTransform()->SetRelativeLocation(new_position);
 }

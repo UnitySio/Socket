@@ -14,7 +14,7 @@ Level::Level(const std::wstring& kName) :
     world_(nullptr),
     actors_(),
     debug_draw_(),
-    screen_position_(Vector::Zero())
+    screen_position_(Math::Vector::Zero())
 {
     name_ = kName;
 

@@ -5,10 +5,10 @@ struct HitResult
 {
     float distance;
     
-    Vector location;
-    Vector normal;
-    Vector trace_start;
-    Vector trace_end;
+    Math::Vector location;
+    Math::Vector normal;
+    Math::Vector trace_start;
+    Math::Vector trace_end;
     
     class Actor* actor;
 };
