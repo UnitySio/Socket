@@ -19,12 +19,14 @@ class Level
 public:
     Level(const std::wstring& kName);
     virtual ~Level() = default;
+
+    virtual void Load() = 0;
     
+    virtual void Unload();
     virtual void InitializeActors();
     virtual void PhysicsTick(float delta_time);
     virtual void Interpolate(float alpha);
     virtual void Tick(float delta_time);
-    virtual void EndPlay(EndPlayReason type);
     virtual void Render();
     virtual void DestroyActor();
 

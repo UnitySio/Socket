@@ -177,7 +177,6 @@
     <ClInclude Include="Engine\Singleton.h" />
     <ClInclude Include="Engine\Time\Time.h" />
     <ClInclude Include="framework.h" />
-    <ClInclude Include="Game\Actor\Dummy.h" />
     <ClInclude Include="Game\Actor\Floor.h" />
     <ClInclude Include="Game\Actor\FollowCamera.h" />
     <ClInclude Include="Game\Actor\Pawn.h" />
@@ -334,7 +333,6 @@
     <ClCompile Include="Engine\Physics\Physics.cpp" />
     <ClCompile Include="Engine\Physics\RayCastCallback.cpp" />
     <ClCompile Include="Engine\Time\Time.cpp" />
-    <ClCompile Include="Game\Actor\Dummy.cpp" />
     <ClCompile Include="Game\Actor\Floor.cpp" />
     <ClCompile Include="Game\Actor\FollowCamera.cpp" />
     <ClCompile Include="Game\Actor\Pawn.cpp" />

@@ -78,9 +78,20 @@ void Actor::EndPlay(EndPlayReason type)
         component->EndPlay(type);
     }
 
+    components_.clear();
+
     const World* world = World::Get();
-    if (!parent_joint_) world->physics_world_->DestroyJoint(parent_joint_);
-    if (!body_) world->physics_world_->DestroyBody(body_);
+    if (parent_joint_)
+    {
+        world->physics_world_->DestroyJoint(parent_joint_);
+        parent_joint_ = nullptr;
+    }
+    
+    if (body_)
+    {
+        world->physics_world_->DestroyBody(body_);
+        body_ = nullptr;
+    }
 }
 
 void Actor::PhysicsTick(float delta_time)
@@ -138,7 +149,7 @@ void Actor::DetachFromActor()
     std::erase(parent_->children_, this);
 
     const World* world = World::Get();
-    if (!parent_joint_) world->physics_world_->DestroyJoint(parent_joint_);
+    if (parent_joint_) world->physics_world_->DestroyJoint(parent_joint_);
 
     parent_ = nullptr;
     parent_joint_ = nullptr;

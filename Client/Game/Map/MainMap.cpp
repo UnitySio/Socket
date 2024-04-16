@@ -3,9 +3,12 @@
 #include "../Actor/FollowCamera.h"
 #include "../Actor/Floor.h"
 #include "../Actor/Pawn.h"
-#include "Actor/Dummy.h"
 
 MainMap::MainMap(const std::wstring& kName) : Level(kName)
+{
+}
+
+void MainMap::Load()
 {
     Actor* follow_camera = new FollowCamera(L"FollowCamera");
     AddActor(follow_camera);
@@ -15,9 +18,6 @@ MainMap::MainMap(const std::wstring& kName) : Level(kName)
 
     Actor* pawn = new Pawn(L"Pawn");
     AddActor(pawn);
-
-    Actor* dummy = new Dummy(L"Dummy");
-    AddActor(dummy);
     
     FollowCamera* camera = dynamic_cast<FollowCamera*>(follow_camera);
     camera->SetTarget(pawn);

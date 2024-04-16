@@ -74,6 +74,7 @@ private:
     friend class ColliderComponent;
     friend class RigidBodyComponent;
     friend class TransformComponent;
+    friend class Pawn;
 
     void InitializeActor();
     void InitializeComponents();

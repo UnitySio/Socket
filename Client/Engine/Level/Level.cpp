@@ -18,6 +18,16 @@ Level::Level(const std::wstring& kName) :
     name_ = kName;
 }
 
+void Level::Unload()
+{
+    for (const auto& actor : actors_)
+    {
+        actor->EndPlay(EndPlayReason::kLevelTransition);
+    }
+
+    actors_.clear();
+}
+
 void Level::InitializeActors()
 {
     for (const auto& actor : actors_)
@@ -85,14 +95,6 @@ void Level::Tick(float delta_time)
     {
         if (!actor->is_active_ || actor->is_destroy_) continue;
         actor->Tick(delta_time);
-    }
-}
-
-void Level::EndPlay(EndPlayReason type)
-{
-    for (const auto& actor : actors_)
-    {
-        actor->EndPlay(type);
     }
 }
 

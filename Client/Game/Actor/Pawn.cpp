@@ -2,11 +2,13 @@
 
 #include <iostream>
 
-#include "Dummy.h"
+#include "Enums.h"
+#include "EventManager.h"
 #include "Actor/Component/BoxColliderComponent.h"
 #include "Actor/Component/RigidBodyComponent.h"
 #include "Actor/Component/TransformComponent.h"
 #include "Actor/Component/AudioListenerComponent.h"
+#include "box2d/b2_fixture.h"
 #include "Graphics/Graphics.h"
 #include "imgui/imgui.h"
 #include "Input/InputManager.h"
@@ -80,10 +82,11 @@ void Pawn::Tick(float delta_time)
 
     if (input->IsKeyDown(VK_SPACE))
     {
-        Dummy* dummy = new Dummy(L"Dummy");
-        dummy->GetRigidBody()->SetBodyType(BodyType::kDynamic);
-        dummy->GetTransform()->SetRelativeLocation(GetTransform()->GetRelativeLocation());
-        SpawnActor(dummy);
+        EventManager::Get()->AddEvent(
+            {
+                EventType::kLevelTransition,
+                static_cast<uintptr_t>(LevelType::kDefault)
+            });
     }
     
 }

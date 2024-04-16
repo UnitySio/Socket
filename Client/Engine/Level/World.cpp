@@ -36,10 +36,11 @@ void World::OpenLevel(LevelType type)
 {
     if (current_level_)
     {
-        current_level_->EndPlay(EndPlayReason::kLevelTransition);
+        current_level_->Unload();
     }
 
     current_level_ = levels_[static_cast<size_t>(type)].get();
+    current_level_->Load();
     current_level_->InitializeActors();
 }
 
