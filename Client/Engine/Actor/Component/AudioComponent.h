@@ -9,6 +9,8 @@ public:
     AudioComponent(class Actor* owner, const std::wstring& kName);
     virtual ~AudioComponent() override = default;
 
+    virtual void EndPlay(EndPlayReason type) override;
+
     void SetSound(FMOD_SOUND* sound);
     void Play();
 

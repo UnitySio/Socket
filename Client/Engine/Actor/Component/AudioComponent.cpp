@@ -13,6 +13,17 @@ AudioComponent::AudioComponent(Actor* owner, const std::wstring& kName) :
 {
 }
 
+void AudioComponent::EndPlay(EndPlayReason type)
+{
+    ActorComponent::EndPlay(type);
+
+    if (channel_)
+    {
+        FMOD_Channel_Stop(channel_);
+        channel_ = nullptr;
+    }
+}
+
 void AudioComponent::SetSound(FMOD_SOUND* sound)
 {
     sound_ = sound;
