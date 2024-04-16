@@ -4,8 +4,8 @@
 #include "Actor/Component/RigidBodyComponent.h"
 #include "Actor/Component/TransformComponent.h"
 
-Dummy::Dummy(b2World* world, const std::wstring& kName) :
-    Actor(world, kName)
+Dummy::Dummy(const std::wstring& kName) :
+    Actor(kName)
 {
     box_collider_ = CreateComponent<BoxColliderComponent>(L"BoxCollider");
     box_collider_->SetSize({1.f, 1.f});

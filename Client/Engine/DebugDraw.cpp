@@ -38,8 +38,7 @@ void DebugDraw::DrawSolidPolygon(const b2Vec2* vertices, int32 vertexCount, cons
         indices.push_back(i + 1);
     }
 
-    const Level* level = World::Get()->GetLevel();
-    PrimitiveBatch* batch = level->GetPrimitiveBatch();
+    PrimitiveBatch* batch = World::Get()->primitive_batch_.get();
     batch->DrawSolidPolygon(vertex_primitives, indices);
 
     DrawPolygon(vertices, vertexCount, color);
@@ -59,8 +58,7 @@ void DebugDraw::DrawCircle(const b2Vec2& center, float radius, const b2Color& co
 
     vertices.push_back(vertices[0]);
     
-    Level* level = World::Get()->GetLevel();
-    PrimitiveBatch* batch = level->GetPrimitiveBatch();
+    PrimitiveBatch* batch = World::Get()->primitive_batch_.get();
     batch->DrawPolygon(vertices);
 }
 
@@ -88,9 +86,8 @@ void DebugDraw::DrawSolidCircle(const b2Vec2& center, float radius, const b2Vec2
         indices.push_back(i + 1);
         indices.push_back(i + 2);
     }
-
-    const Level* level = World::Get()->GetLevel();
-    PrimitiveBatch* batch = level->GetPrimitiveBatch();
+    
+    PrimitiveBatch* batch = World::Get()->primitive_batch_.get();
     batch->DrawSolidPolygon(vertices, indices);
 
     DrawCircle(center, radius, color);
@@ -104,8 +101,7 @@ void DebugDraw::DrawSegment(const b2Vec2& p1, const b2Vec2& p2, const b2Color& c
         VertexPrimitive(p2.x, p2.y, 0.f, color.r, color.g, color.b, color.a)
     };
 
-    const Level* level = World::Get()->GetLevel();
-    PrimitiveBatch* batch = level->GetPrimitiveBatch();
+    PrimitiveBatch* batch = World::Get()->primitive_batch_.get();
     batch->DrawLine(vertices);
 }
 
@@ -148,7 +144,6 @@ void DebugDraw::DrawPoint(const b2Vec2& p, float size, const b2Color& color)
         indices.push_back(i + 2);
     }
     
-    const Level* level = World::Get()->GetLevel();
-    PrimitiveBatch* batch = level->GetPrimitiveBatch();
+    PrimitiveBatch* batch = World::Get()->primitive_batch_.get();
     batch->DrawSolidPolygon(vertices, indices);
 }

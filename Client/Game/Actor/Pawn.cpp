@@ -14,8 +14,8 @@
 #include "Physics/Physics.h"
 #include "Time/Time.h"
 
-Pawn::Pawn(b2World* world, const std::wstring& kName) :
-    Actor(world, kName),
+Pawn::Pawn(const std::wstring& kName) :
+    Actor(kName),
     box_collider_(nullptr),
     rigid_body_(nullptr),
     dir_(1)
@@ -80,7 +80,7 @@ void Pawn::Tick(float delta_time)
 
     if (input->IsKeyDown(VK_SPACE))
     {
-        Dummy* dummy = new Dummy(GetWorld(), L"Dummy");
+        Dummy* dummy = new Dummy(L"Dummy");
         dummy->GetRigidBody()->SetBodyType(BodyType::kDynamic);
         dummy->GetTransform()->SetRelativeLocation(GetTransform()->GetRelativeLocation());
         SpawnActor(dummy);

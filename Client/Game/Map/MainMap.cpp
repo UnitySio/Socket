@@ -5,18 +5,18 @@
 #include "../Actor/Pawn.h"
 #include "Actor/Dummy.h"
 
-MainMap::MainMap(World* world, const std::wstring& kName) : Level(world, kName)
+MainMap::MainMap(const std::wstring& kName) : Level(kName)
 {
-    Actor* follow_camera = new FollowCamera(GetPhysicsWorld(), L"FollowCamera");
+    Actor* follow_camera = new FollowCamera(L"FollowCamera");
     AddActor(follow_camera);
     
-    Actor* floor = new Floor(GetPhysicsWorld(), L"Floor");
+    Actor* floor = new Floor(L"Floor");
     AddActor(floor);
 
-    Actor* pawn = new Pawn(GetPhysicsWorld(), L"Pawn");
+    Actor* pawn = new Pawn(L"Pawn");
     AddActor(pawn);
 
-    Actor* dummy = new Dummy(GetPhysicsWorld(), L"Dummy");
+    Actor* dummy = new Dummy(L"Dummy");
     AddActor(dummy);
     
     FollowCamera* camera = dynamic_cast<FollowCamera*>(follow_camera);

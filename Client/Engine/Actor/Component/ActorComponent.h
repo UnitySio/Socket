@@ -15,8 +15,6 @@ public:
     virtual inline void TickComponent(float delta_time) {};
     virtual inline void Render() {};
 
-    class b2World* GetWorld() const;
-
     inline Actor* GetOwner() const { return owner_; }
 
     inline std::wstring GetName() const { return name_; }

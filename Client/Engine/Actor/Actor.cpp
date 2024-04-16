@@ -10,11 +10,11 @@
 #include "box2d/b2_world.h"
 #include "Component/RigidBodyComponent.h"
 #include "Component/TransformComponent.h"
+#include "Level/World.h"
 
-Actor::Actor(b2World* world, const std::wstring& kName) :
+Actor::Actor(const std::wstring& kName) :
     tag_(ActorTag::kNone),
     layer_(ActorLayer::kDefault),
-    world_(world),
     body_(nullptr),
     previous_location_(Math::Vector2::Zero()),
     previous_angle_(0.f),
@@ -78,8 +78,9 @@ void Actor::EndPlay(EndPlayReason type)
         component->EndPlay(type);
     }
 
-    if (!parent_joint_) world_->DestroyJoint(parent_joint_);
-    if (!body_) world_->DestroyBody(body_);
+    const World* world = World::Get();
+    if (!parent_joint_) world->physics_world_->DestroyJoint(parent_joint_);
+    if (!body_) world->physics_world_->DestroyBody(body_);
 }
 
 void Actor::PhysicsTick(float delta_time)
@@ -125,7 +126,8 @@ void Actor::AttachToActor(Actor* actor)
         joint_def.localAnchorB = body_->GetLocalPoint(actor->body_->GetWorldCenter());
         joint_def.referenceAngle = body_->GetAngle() - actor->body_->GetAngle();
 
-        parent_joint_ = world_->CreateJoint(&joint_def);
+        const World* world = World::Get();
+        parent_joint_ = world->physics_world_->CreateJoint(&joint_def);
     }
 }
 
@@ -135,7 +137,8 @@ void Actor::DetachFromActor()
 
     std::erase(parent_->children_, this);
 
-    if (!parent_joint_) world_->DestroyJoint(parent_joint_);
+    const World* world = World::Get();
+    if (!parent_joint_) world->physics_world_->DestroyJoint(parent_joint_);
 
     parent_ = nullptr;
     parent_joint_ = nullptr;
@@ -218,6 +221,7 @@ void Actor::CreateBody()
     b2BodyDef body_def;
     body_def.userData.pointer = reinterpret_cast<uintptr_t>(this);
 
-    body_ = world_->CreateBody(&body_def);
+    const World* world = World::Get();
+    body_ = world->physics_world_->CreateBody(&body_def);
     body_->SetEnabled(false);
 }

@@ -11,14 +11,11 @@
 #include "box2d/b2_contact.h"
 #include "Graphics/Graphics.h"
 
-Level::Level(World* world, const std::wstring& kName) :
+Level::Level(const std::wstring& kName) :
     actors_(),
     debug_draw_()
 {
     name_ = kName;
-    physics_world_ = world->physics_world_.get();
-
-    primitive_batch_ = std::make_unique<PrimitiveBatch>(Graphics::Get()->GetD3DDeviceContext());
 }
 
 void Level::InitializeActors()
@@ -60,7 +57,8 @@ void Level::PhysicsTick(float delta_time)
 
 void Level::Interpolate(float alpha)
 {
-    for (b2Body* body = physics_world_->GetBodyList(); body; body = body->GetNext())
+    const World* world = World::Get();
+    for (b2Body* body = world->physics_world_->GetBodyList(); body; body = body->GetNext())
     {
         if (body->GetType() == b2_staticBody) continue;
 
@@ -105,10 +103,6 @@ void Level::Render()
         if (!actor->is_active_ || actor->is_destroy_) continue;
         actor->Render();
     }
-
-    primitive_batch_->Begin(Graphics::Get()->GetCamera2D().GetWorldMatrix() * Graphics::Get()->GetCamera2D().GetOrthographicMatrix());
-    physics_world_->DebugDraw();
-    primitive_batch_->End();
 }
 
 void Level::DestroyActor()

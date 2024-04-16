@@ -4,7 +4,7 @@
 class Dummy : public Actor
 {
 public:
-    Dummy(b2World* world, const std::wstring& kName);
+    Dummy(const std::wstring& kName);
     virtual ~Dummy() override = default;
 
     inline class BoxColliderComponent* GetBoxCollider() const { return box_collider_; }

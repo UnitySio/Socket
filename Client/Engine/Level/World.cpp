@@ -1,6 +1,7 @@
 ﻿#include "World.h"
 
 #include "Level.h"
+#include "Graphics/Graphics.h"
 #include "Map/MainMap.h"
 
 World::World() :
@@ -20,6 +21,8 @@ World::World() :
     debug_draw_.SetFlags(flags);
 
     physics_world_->SetDebugDraw(&debug_draw_);
+    
+    primitive_batch_ = std::make_unique<PrimitiveBatch>(Graphics::Get()->GetD3DDeviceContext());
 }
 
 void World::Init()
@@ -72,6 +75,10 @@ void World::Render()
     if (current_level_)
     {
         current_level_->Render();
+        
+        primitive_batch_->Begin(Graphics::Get()->GetCamera2D().GetWorldMatrix() * Graphics::Get()->GetCamera2D().GetOrthographicMatrix());
+        physics_world_->DebugDraw();
+        primitive_batch_->End();
     }
 }
 

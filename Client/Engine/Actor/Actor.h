@@ -13,7 +13,7 @@ class TransformComponent;
 class Actor
 {
 public:
-    Actor(class b2World* world, const std::wstring& kName);
+    Actor(const std::wstring& kName);
     virtual ~Actor() = default;
 
     virtual inline void PreInitializeComponents() {};
@@ -60,8 +60,6 @@ public:
 
     inline ActorTag GetTag() const { return tag_; }
     inline ActorLayer GetLayer() const { return layer_; }
-    
-    inline b2World* GetWorld() { return world_; }
 
     inline bool IsActive() const { return is_active_; }
 
@@ -87,8 +85,6 @@ private:
 
     ActorTag tag_;
     ActorLayer layer_;
-
-    b2World* world_;
 
     class b2Body* body_;
 

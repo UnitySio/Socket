@@ -5,7 +5,7 @@
 class Pawn : public Actor
 {
 public:
-    Pawn(b2World* world, const std::wstring& kName);
+    Pawn(const std::wstring& kName);
     virtual ~Pawn() override = default;
 
     virtual void PhysicsTick(float delta_time) override;

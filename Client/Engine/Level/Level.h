@@ -17,7 +17,7 @@ class Actor;
 class Level
 {
 public:
-    Level(class World* world, const std::wstring& kName);
+    Level(const std::wstring& kName);
     virtual ~Level() = default;
     
     virtual void InitializeActors();
@@ -32,21 +32,10 @@ public:
 
     inline const std::wstring& GetName() const { return name_; }
 
-    inline b2World* GetPhysicsWorld() const { return physics_world_; }
-
-    b2Vec2 GetRenderPosition(b2Vec2 world_position);
-    b2Vec2 GetWorldPosition(b2Vec2 render_position);
-
-    inline PrimitiveBatch* GetPrimitiveBatch() const { return primitive_batch_.get(); }
-
 private:
     std::wstring name_;
-
-    b2World* physics_world_;
 
     std::vector<std::unique_ptr<Actor>> actors_;
 
     DebugDraw debug_draw_;
-
-    std::unique_ptr<PrimitiveBatch> primitive_batch_;
 };
