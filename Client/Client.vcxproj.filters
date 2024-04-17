@@ -14,7 +14,6 @@
     <ClCompile Include="Engine\Actor\Component\CircleColliderComponent.cpp" />
     <ClCompile Include="Engine\Actor\Component\ColliderComponent.cpp" />
     <ClCompile Include="Engine\Actor\Component\RigidBodyComponent.cpp" />
-    <ClCompile Include="Engine\Bounds.cpp" />
     <ClCompile Include="Engine\Core.cpp" />
     <ClCompile Include="Engine\DebugDraw.cpp" />
     <ClCompile Include="Engine\EventManager.cpp" />
@@ -29,13 +28,10 @@
     <ClCompile Include="Engine\Level\Listener\QueryCallback.cpp" />
     <ClCompile Include="Engine\Level\World.cpp" />
     <ClCompile Include="Engine\Time\Time.cpp" />
-    <ClCompile Include="Engine\Vector.cpp" />
-    <ClCompile Include="Game\Actor\Dummy.cpp" />
     <ClCompile Include="Game\Actor\Floor.cpp" />
     <ClCompile Include="Game\Actor\FollowCamera.cpp" />
     <ClCompile Include="Game\Actor\Pawn.cpp" />
     <ClCompile Include="Game\Map\MainMap.cpp" />
-    <ClCompile Include="Game\Resource\ResourceManager.cpp" />
     <ClCompile Include="Include\imgui\imgui.cpp" />
     <ClCompile Include="Include\imgui\imgui_demo.cpp" />
     <ClCompile Include="Include\imgui\imgui_draw.cpp" />
@@ -51,6 +47,11 @@
     <ClCompile Include="Engine\Actor\Component\AudioListenerComponent.cpp" />
     <ClCompile Include="Engine\Actor\Component\CameraComponent.cpp" />
     <ClCompile Include="Engine\Actor\Component\TransformComponent.cpp" />
+    <ClCompile Include="Engine\Math\Bounds.cpp" />
+    <ClCompile Include="Engine\Math\Vector2.cpp" />
+    <ClCompile Include="Engine\Physics\Physics.cpp" />
+    <ClCompile Include="Engine\Physics\RayCastCallback.cpp" />
+    <ClCompile Include="Game\Map\TempMap.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h" />
@@ -60,7 +61,6 @@
     <ClInclude Include="Engine\Actor\Component\CircleColliderComponent.h" />
     <ClInclude Include="Engine\Actor\Component\ColliderComponent.h" />
     <ClInclude Include="Engine\Actor\Component\RigidBodyComponent.h" />
-    <ClInclude Include="Engine\Bounds.h" />
     <ClInclude Include="Engine\Core.h" />
     <ClInclude Include="Engine\DebugDraw.h" />
     <ClInclude Include="Engine\Enums.h" />
@@ -81,14 +81,11 @@
     <ClInclude Include="Engine\Level\World.h" />
     <ClInclude Include="Engine\Singleton.h" />
     <ClInclude Include="Engine\Time\Time.h" />
-    <ClInclude Include="Engine\Vector.h" />
     <ClInclude Include="framework.h" />
-    <ClInclude Include="Game\Actor\Dummy.h" />
     <ClInclude Include="Game\Actor\Floor.h" />
     <ClInclude Include="Game\Actor\FollowCamera.h" />
     <ClInclude Include="Game\Actor\Pawn.h" />
     <ClInclude Include="Game\Map\MainMap.h" />
-    <ClInclude Include="Game\Resource\ResourceManager.h" />
     <ClInclude Include="Include\box2d\b2_api.h" />
     <ClInclude Include="Include\box2d\b2_block_allocator.h" />
     <ClInclude Include="Include\box2d\b2_body.h" />
@@ -214,5 +211,13 @@
     <ClInclude Include="Include\yaml-cpp\stlemitter.h" />
     <ClInclude Include="Include\yaml-cpp\traits.h" />
     <ClInclude Include="Include\yaml-cpp\yaml.h" />
+    <ClInclude Include="Engine\Math\Bounds.h" />
+    <ClInclude Include="Engine\Math\MathTypes.h" />
+    <ClInclude Include="Engine\Math\Vector2.h" />
+    <ClInclude Include="Engine\Physics\HitResult.h" />
+    <ClInclude Include="Engine\Physics\Physics.h" />
+    <ClInclude Include="Engine\Physics\RayCastCallback.h" />
+    <ClInclude Include="Engine\Physics\RayCastResult.h" />
+    <ClInclude Include="Game\Map\TempMap.h" />
   </ItemGroup>
 </Project>

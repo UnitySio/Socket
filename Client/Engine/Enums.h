@@ -11,6 +11,7 @@ enum class KeyState : size_t
 enum class LevelType : size_t
 {
     kDefault = 0,
+    kTemp = 1,
     kEnd
 };
 

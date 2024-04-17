@@ -1,8 +1,11 @@
 ﻿#include "World.h"
 
+#include "EventManager.h"
 #include "Level.h"
 #include "Graphics/Graphics.h"
+#include "Input/InputManager.h"
 #include "Map/MainMap.h"
+#include "Map/TempMap.h"
 
 World::World() :
     current_level_(nullptr),
@@ -28,6 +31,7 @@ World::World() :
 void World::Init()
 {
     AddLevel<MainMap>(LevelType::kDefault, L"MainMap");
+    AddLevel<TempMap>(LevelType::kTemp, L"TempMap");
 
     OpenLevel(LevelType::kDefault);
 }
@@ -65,6 +69,24 @@ void World::Interpolate(float alpha)
 
 void World::Tick(float delta_time)
 {
+    InputManager* input_manager = InputManager::Get();
+    if (input_manager->IsKeyPressed(VK_F1))
+    {
+        EventManager::Get()->AddEvent(
+            {
+                EventType::kLevelTransition,
+                static_cast<uintptr_t>(LevelType::kDefault)
+            });
+    }
+    else if (input_manager->IsKeyPressed(VK_F2))
+    {
+        EventManager::Get()->AddEvent(
+            {
+                EventType::kLevelTransition,
+                static_cast<uintptr_t>(LevelType::kTemp)
+            });
+    }
+    
     if (current_level_)
     {
         current_level_->Tick(delta_time);

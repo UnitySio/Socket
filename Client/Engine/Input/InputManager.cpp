@@ -18,6 +18,8 @@ void InputManager::Init()
     key_map_[VK_LEFT] = Key();
     key_map_[VK_RIGHT] = Key();
     key_map_[VK_SPACE] = Key();
+    key_map_[VK_F1] = Key();
+    key_map_[VK_F2] = Key();
     key_map_[MK_LBUTTON] = Key();
     key_map_[0x57] = Key(); // W
     key_map_[0x41] = Key(); // A

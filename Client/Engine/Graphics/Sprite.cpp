@@ -1,10 +1,9 @@
 ﻿#include "Sprite.h"
 
 #include "ProjectSettings.h"
-#include "yaml-cpp/yaml.h"
 
 Sprite::Sprite() :
-    ppu_(0)
+    ppu_(32)
 {
 }
 
@@ -12,53 +11,30 @@ bool Sprite::Load(ID3D11Device* device, const std::wstring& kPath)
 {
     const std::wstring kFinalPath = ProjectSettings::kPath.at(L"GameData") + kPath;
     if (!Texture::Load(device, kFinalPath)) return false;
-    if (!LoadMetaData(kFinalPath)) return false;
+    
+    const std::wstring kFileName = kPath.substr(kPath.find_last_of(L"/\\") + 1, kPath.find_last_of(L".") - kPath.find_last_of(L"/\\") - 1);
+    file_name_ = kFileName;
+    
     return true;
 }
 
-bool Sprite::LoadMetaData(const std::wstring& kPath)
+void Sprite::Split(MathTypes::uint32 rows, MathTypes::uint32 cols, Math::Vector2 pivot)
 {
-    const std::string path(kPath.begin(), kPath.end());
-    YAML::Node root = YAML::LoadFile(path + ".yaml");
-    if (!root.IsDefined()) return false;
+    const float frame_width = width_ / cols;
+    const float frame_height = height_ / rows;
 
-    ppu_ = root["sprite_pixel_per_unit"].as<int>();
+    sprites_.clear();
 
-    for (const auto sprite : root["sprite_sheet"]["sprites"])
+    for (UINT i = 0; i < rows; ++i)
     {
-        SpriteFrame frame;
-        frame.offset = {
-            sprite["offset"]["x"].as<float>(),
-            sprite["offset"]["y"].as<float>()
-        };
-        frame.scale = {
-            sprite["scale"]["x"].as<float>(),
-            sprite["scale"]["y"].as<float>()
-        };
-        frame.pivot = {
-            sprite["pivot"]["x"].as<float>(),
-            sprite["pivot"]["y"].as<float>()
-        };
-
-        const std::string kName = sprite["name"].as<std::string>();
-        const std::wstring kWName(kName.begin(), kName.end());
-        sprites_[kWName] = frame;
+        for (UINT j = 0; j < cols; ++j)
+        {
+            SpriteFrame frame;
+            frame.offset = {static_cast<float>(j), static_cast<float>(i)};
+            frame.scale = {frame_width / width_, frame_height / height_};
+            frame.pivot = pivot;
+            
+            sprites_[file_name_ + L"_" + std::to_wstring(i * cols + j)] = frame;
+        }
     }
-
-    if (sprites_.size() == 0)
-    {
-        SpriteFrame frame;
-        frame.offset = {0.f, 0.f};
-        frame.scale = {1.f, 1.f};
-        frame.pivot = {
-            root["sprite_pivot"]["x"].as<float>(),
-            root["sprite_pivot"]["y"].as<float>()
-        };
-
-        const std::string kName = root["sprite_name"].as<std::string>();
-        const std::wstring kNameWStr(kName.begin(), kName.end());
-        sprites_[kNameWStr] = frame;
-    }
-
-    return true;
 }

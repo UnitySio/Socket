@@ -111,7 +111,7 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)\Client\Lib\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>box2d.lib;DirectXTK.lib;fmod_vc.lib;yaml-cppd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>box2d.lib;DirectXTK.lib;fmod_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -130,7 +130,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)\Client\Lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>box2d.lib;DirectXTK.lib;fmod_vc.lib;yaml-cpp.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>box2d.lib;DirectXTK.lib;fmod_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -181,6 +181,7 @@
     <ClInclude Include="Game\Actor\FollowCamera.h" />
     <ClInclude Include="Game\Actor\Pawn.h" />
     <ClInclude Include="Game\Map\MainMap.h" />
+    <ClInclude Include="Game\Map\TempMap.h" />
     <ClInclude Include="Game\ProjectSettings.h" />
     <ClInclude Include="Include\box2d\b2_api.h" />
     <ClInclude Include="Include\box2d\b2_block_allocator.h" />
@@ -260,43 +261,6 @@
     <ClInclude Include="Include\imgui\imstb_rectpack.h" />
     <ClInclude Include="Include\imgui\imstb_textedit.h" />
     <ClInclude Include="Include\imgui\imstb_truetype.h" />
-    <ClInclude Include="Include\yaml-cpp\anchor.h" />
-    <ClInclude Include="Include\yaml-cpp\binary.h" />
-    <ClInclude Include="Include\yaml-cpp\contrib\anchordict.h" />
-    <ClInclude Include="Include\yaml-cpp\contrib\graphbuilder.h" />
-    <ClInclude Include="Include\yaml-cpp\depthguard.h" />
-    <ClInclude Include="Include\yaml-cpp\dll.h" />
-    <ClInclude Include="Include\yaml-cpp\emitfromevents.h" />
-    <ClInclude Include="Include\yaml-cpp\emitter.h" />
-    <ClInclude Include="Include\yaml-cpp\emitterdef.h" />
-    <ClInclude Include="Include\yaml-cpp\emittermanip.h" />
-    <ClInclude Include="Include\yaml-cpp\emitterstyle.h" />
-    <ClInclude Include="Include\yaml-cpp\eventhandler.h" />
-    <ClInclude Include="Include\yaml-cpp\exceptions.h" />
-    <ClInclude Include="Include\yaml-cpp\mark.h" />
-    <ClInclude Include="Include\yaml-cpp\node\convert.h" />
-    <ClInclude Include="Include\yaml-cpp\node\detail\impl.h" />
-    <ClInclude Include="Include\yaml-cpp\node\detail\iterator.h" />
-    <ClInclude Include="Include\yaml-cpp\node\detail\iterator_fwd.h" />
-    <ClInclude Include="Include\yaml-cpp\node\detail\memory.h" />
-    <ClInclude Include="Include\yaml-cpp\node\detail\node.h" />
-    <ClInclude Include="Include\yaml-cpp\node\detail\node_data.h" />
-    <ClInclude Include="Include\yaml-cpp\node\detail\node_iterator.h" />
-    <ClInclude Include="Include\yaml-cpp\node\detail\node_ref.h" />
-    <ClInclude Include="Include\yaml-cpp\node\emit.h" />
-    <ClInclude Include="Include\yaml-cpp\node\impl.h" />
-    <ClInclude Include="Include\yaml-cpp\node\iterator.h" />
-    <ClInclude Include="Include\yaml-cpp\node\node.h" />
-    <ClInclude Include="Include\yaml-cpp\node\parse.h" />
-    <ClInclude Include="Include\yaml-cpp\node\ptr.h" />
-    <ClInclude Include="Include\yaml-cpp\node\type.h" />
-    <ClInclude Include="Include\yaml-cpp\noexcept.h" />
-    <ClInclude Include="Include\yaml-cpp\null.h" />
-    <ClInclude Include="Include\yaml-cpp\ostream_wrapper.h" />
-    <ClInclude Include="Include\yaml-cpp\parser.h" />
-    <ClInclude Include="Include\yaml-cpp\stlemitter.h" />
-    <ClInclude Include="Include\yaml-cpp\traits.h" />
-    <ClInclude Include="Include\yaml-cpp\yaml.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
@@ -337,6 +301,7 @@
     <ClCompile Include="Game\Actor\FollowCamera.cpp" />
     <ClCompile Include="Game\Actor\Pawn.cpp" />
     <ClCompile Include="Game\Map\MainMap.cpp" />
+    <ClCompile Include="Game\Map\TempMap.cpp" />
     <ClCompile Include="Include\imgui\imgui.cpp" />
     <ClCompile Include="Include\imgui\imgui_demo.cpp" />
     <ClCompile Include="Include\imgui\imgui_draw.cpp" />
@@ -408,13 +373,11 @@
     <Content Include="Lib\Debug\fmodL.dll" />
     <Content Include="Lib\Debug\fmodL_vc.lib" />
     <Content Include="Lib\Debug\fmod_vc.lib" />
-    <Content Include="Lib\Debug\yaml-cppd.lib" />
     <Content Include="Lib\DirectXTK.lib" />
     <Content Include="Lib\fmod.dll" />
     <Content Include="Lib\fmodL.dll" />
     <Content Include="Lib\fmodL_vc.lib" />
     <Content Include="Lib\fmod_vc.lib" />
-    <Content Include="Lib\yaml-cpp.lib" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

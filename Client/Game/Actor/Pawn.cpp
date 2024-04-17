@@ -36,6 +36,7 @@ Pawn::Pawn(const std::wstring& kName) :
     
     sprite_ = std::make_unique<Sprite>();
     assert(sprite_->Load(gfx->GetD3DDevice(), L"spritesheet.png"));
+    sprite_->Split(3, 15, {.5f, 0.f});
     
     audio_listener_ = CreateComponent<AudioListenerComponent>(L"AudioListener");
     
@@ -85,7 +86,7 @@ void Pawn::Tick(float delta_time)
         EventManager::Get()->AddEvent(
             {
                 EventType::kLevelTransition,
-                static_cast<uintptr_t>(LevelType::kDefault)
+                static_cast<uintptr_t>(LevelType::kTemp)
             });
     }
     
