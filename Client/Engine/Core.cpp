@@ -19,7 +19,8 @@ Core::Core() :
     hWnd_(nullptr),
     focus_(nullptr),
     logic_handle_(nullptr),
-    is_running_(false)
+    is_running_(false),
+    alpha_(0.f)
 {
 }
 
@@ -207,7 +208,7 @@ void Core::MainLogic()
 
     Graphics::Get()->BeginFrame2D();
 
-    Render();
+    Render(alpha_);
 
     Graphics::Get()->EndFrame2D();
 
@@ -236,13 +237,12 @@ void Core::Tick(float delta_time)
     }
     
     // 물리 시뮬레이션으로 인해 발생한 오차를 보정하기 위해 보간을 수행
-    const float kAlpha = accumulator / ProjectSettings::kFixedTimeStep;
-    // World::Get()->Interpolate(kAlpha);
+    alpha_ = accumulator / ProjectSettings::kFixedTimeStep;
     
     World::Get()->Tick(delta_time);
 }
 
-void Core::Render()
+void Core::Render(float alpha)
 {
-    World::Get()->Render();
+    World::Get()->Render(alpha);
 }

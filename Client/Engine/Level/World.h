@@ -17,9 +17,8 @@ public:
     void Init();
     void OpenLevel(LevelType type);
     void PhysicsTick(float delta_time);
-    void Interpolate(float alpha);
     void Tick(float delta_time);
-    void Render();
+    void Render(float alpha);
     void DestroyActor();
 
     template<std::derived_from<Level> T>

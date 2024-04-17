@@ -94,9 +94,9 @@ void Pawn::Tick(float delta_time)
     
 }
 
-void Pawn::Render()
+void Pawn::Render(float alpha)
 {
-    Actor::Render();
+    Actor::Render(alpha);
 
     Graphics* gfx = Graphics::Get();
     SpriteBatch* batch = gfx->GetSpriteBatch();

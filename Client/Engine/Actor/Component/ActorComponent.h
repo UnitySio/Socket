@@ -13,7 +13,7 @@ public:
     virtual inline void BeginPlay() {};
     virtual inline void EndPlay(EndPlayReason type) {};
     virtual inline void TickComponent(float delta_time) {};
-    virtual inline void Render() {};
+    virtual inline void Render(float alpha) {};
 
     inline Actor* GetOwner() const { return owner_; }
 

@@ -29,7 +29,7 @@ public:
     virtual void EndPlay(EndPlayReason type);
     virtual void PhysicsTick(float delta_time);
     virtual void Tick(float delta_time);
-    virtual void Render();
+    virtual void Render(float alpha);
 
     void AttachToActor(Actor* actor);
     void DetachFromActor();
@@ -88,10 +88,6 @@ private:
     ActorLayer layer_;
 
     class b2Body* body_;
-
-    Math::Vector2 previous_location_;
-
-    float previous_angle_;
 
     bool is_active_;
     bool is_destroy_;

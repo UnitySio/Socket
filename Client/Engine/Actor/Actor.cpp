@@ -16,8 +16,6 @@ Actor::Actor(const std::wstring& kName) :
     tag_(ActorTag::kNone),
     layer_(ActorLayer::kDefault),
     body_(nullptr),
-    previous_location_(Math::Vector2::Zero()),
-    previous_angle_(0.f),
     is_active_(true),
     is_destroy_(false),
     components_(),
@@ -106,11 +104,11 @@ void Actor::Tick(float delta_time)
     }
 }
 
-void Actor::Render()
+void Actor::Render(float alpha)
 {
     for (const auto& component : components_)
     {
-        component->Render();
+        component->Render(alpha);
     }
 }
 

@@ -25,9 +25,8 @@ public:
     virtual void Unload(EndPlayReason type);
     virtual void InitializeActors();
     virtual void PhysicsTick(float delta_time);
-    virtual void Interpolate(float alpha);
     virtual void Tick(float delta_time);
-    virtual void Render();
+    virtual void Render(float alpha);
     virtual void DestroyActor();
 
     void AddActor(Actor* actor);

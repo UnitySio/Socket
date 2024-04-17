@@ -10,7 +10,7 @@ public:
 
     virtual void PhysicsTick(float delta_time) override;
     virtual void Tick(float delta_time) override;
-    virtual void Render() override;
+    virtual void Render(float alpha) override;
     virtual void EndPlay(EndPlayReason type) override;
 
 private:

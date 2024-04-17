@@ -59,14 +59,6 @@ void World::PhysicsTick(float delta_time)
     }
 }
 
-void World::Interpolate(float alpha)
-{
-    if (current_level_)
-    {
-        current_level_->Interpolate(alpha);
-    }
-}
-
 void World::Tick(float delta_time)
 {
     InputManager* input_manager = InputManager::Get();
@@ -93,11 +85,11 @@ void World::Tick(float delta_time)
     }
 }
 
-void World::Render()
+void World::Render(float alpha)
 {
     if (current_level_)
     {
-        current_level_->Render();
+        current_level_->Render(alpha);
         
         primitive_batch_->Begin(Graphics::Get()->GetCamera2D().GetWorldMatrix() * Graphics::Get()->GetCamera2D().GetOrthographicMatrix());
         physics_world_->DebugDraw();

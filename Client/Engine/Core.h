@@ -25,7 +25,7 @@ private:
     
     void MainLogic();
     void Tick(float delta_time);
-    void Render();
+    void Render(float alpha);
 
     POINT resolution_;
     RECT window_area_;
@@ -36,5 +36,7 @@ private:
     HANDLE logic_handle_;
 
     bool is_running_;
+
+    float alpha_;
     
 };
