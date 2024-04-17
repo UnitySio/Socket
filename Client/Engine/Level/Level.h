@@ -22,7 +22,7 @@ public:
 
     virtual void Load() = 0;
     
-    virtual void Unload();
+    virtual void Unload(EndPlayReason type);
     virtual void InitializeActors();
     virtual void PhysicsTick(float delta_time);
     virtual void Interpolate(float alpha);

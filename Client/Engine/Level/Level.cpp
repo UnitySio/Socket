@@ -18,11 +18,11 @@ Level::Level(const std::wstring& kName) :
     name_ = kName;
 }
 
-void Level::Unload()
+void Level::Unload(EndPlayReason type)
 {
     for (const auto& actor : actors_)
     {
-        actor->EndPlay(EndPlayReason::kLevelTransition);
+        actor->EndPlay(type);
     }
 
     actors_.clear();

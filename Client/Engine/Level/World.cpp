@@ -30,8 +30,8 @@ World::World() :
 
 void World::Init()
 {
-    AddLevel<MainMap>(LevelType::kDefault, L"MainMap");
-    AddLevel<TempMap>(LevelType::kTemp, L"TempMap");
+    AddLevel<MainMap>(LevelType::kDefault, L"Map 0");
+    AddLevel<TempMap>(LevelType::kTemp, L"Map 1");
 
     OpenLevel(LevelType::kDefault);
 }
@@ -40,7 +40,7 @@ void World::OpenLevel(LevelType type)
 {
     if (current_level_)
     {
-        current_level_->Unload();
+        current_level_->Unload(EndPlayReason::kLevelTransition);
     }
 
     current_level_ = levels_[static_cast<size_t>(type)].get();

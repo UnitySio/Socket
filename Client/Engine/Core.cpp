@@ -11,6 +11,7 @@
 #include "imgui/imgui.h"
 #include "imgui/imgui_impl_dx11.h"
 #include "imgui/imgui_impl_win32.h"
+#include "Level/Level.h"
 
 Core::Core() :
     resolution_(),
@@ -151,6 +152,8 @@ LRESULT Core::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         is_running_ = false;
         WaitForSingleObject(logic_handle_, INFINITE);
 
+        World::Get()->GetLevel()->Unload(EndPlayReason::kQuit);
+
         ImGui_ImplWin32_Shutdown();
         ImGui_ImplDX11_Shutdown();
         ImGui::DestroyContext();
@@ -234,7 +237,7 @@ void Core::Tick(float delta_time)
     
     // 물리 시뮬레이션으로 인해 발생한 오차를 보정하기 위해 보간을 수행
     const float kAlpha = accumulator / ProjectSettings::kFixedTimeStep;
-    World::Get()->Interpolate(kAlpha);
+    // World::Get()->Interpolate(kAlpha);
     
     World::Get()->Tick(delta_time);
 }

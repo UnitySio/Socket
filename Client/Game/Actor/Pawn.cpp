@@ -1,5 +1,7 @@
 ﻿#include "Pawn.h"
 
+#include <filesystem>
+#include <fstream>
 #include <iostream>
 
 #include "Enums.h"
@@ -113,4 +115,26 @@ void Pawn::Render()
     const float angle = GetTransform()->GetRelativeRotationZ();
     batch->Draw(sprite_.get(), L"spritesheet_" + std::to_wstring(idx), location, {1.f * -dir_, 1.f}, angle);
     
+}
+
+void Pawn::EndPlay(EndPlayReason type)
+{
+    Actor::EndPlay(type);
+
+    if (type == EndPlayReason::kDestroyed)
+    {
+        std::wcout << L"Destroyed: " << GetName() << std::endl;
+    }
+    else if (type == EndPlayReason::kLevelTransition)
+    {
+        std::wcout << L"Transition: " << GetName() << std::endl;
+    }
+    else if (type == EndPlayReason::kQuit)
+    {
+        // 외부에 txt 파일 생성
+        std::filesystem::path path = std::filesystem::current_path() / "log.txt";
+        std::wofstream file(path, std::ios::app);
+        file << L"Quit: " << GetName() << std::endl;
+        file.close();
+    }
 }

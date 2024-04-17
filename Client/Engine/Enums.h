@@ -26,5 +26,6 @@ enum class EventType : size_t
 enum class EndPlayReason : size_t
 {
     kDestroyed,
-    kLevelTransition
+    kLevelTransition,
+    kQuit
 };

@@ -4,6 +4,8 @@
 
 #include "Core.h"
 #include "ProjectSettings.h"
+#include "Level/Level.h"
+#include "Level/World.h"
 
 Time::Time() :
     frequency_{},
@@ -42,8 +44,10 @@ void Time::Tick()
         {
             const float kMS = 1000.f / fps_;
 
+            const std::wstring kLevelName = World::Get()->GetLevel()->GetName();
+
             WCHAR buffer[256];
-            swprintf_s(buffer, L"%s - FPS: %.f(%.fms)", ProjectSettings::kProjectName.c_str(), fps_, kMS);
+            swprintf_s(buffer, L"%s - FPS: %.f(%.fms)", kLevelName.c_str(), fps_, kMS);
             SetWindowText(Core::Get()->GetWindowHandle(), buffer);
         }
         
