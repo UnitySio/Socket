@@ -41,13 +41,13 @@ private:
     std::unique_ptr<class PrimitiveBatch> primitive_batch_;
     
     Level* current_level_;
-    std::unique_ptr<Level> levels_[static_cast<size_t>(LevelType::kEnd)];
+    std::shared_ptr<Level> levels_[static_cast<size_t>(LevelType::kEnd)];
     
 };
 
 template <std::derived_from<Level> T>
 T* World::AddLevel(LevelType type, std::wstring name)
 {
-    levels_[static_cast<size_t>(type)] = std::make_unique<T>(name);
+    levels_[static_cast<size_t>(type)] = std::make_shared<T>(name);
     return static_cast<T*>(levels_[static_cast<size_t>(type)].get());
 }

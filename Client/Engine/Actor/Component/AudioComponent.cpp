@@ -17,8 +17,12 @@ void AudioComponent::EndPlay(EndPlayReason type)
 {
     ActorComponent::EndPlay(type);
 
+    FMOD_BOOL is_playing = false;
     if (channel_)
     {
+        FMOD_Channel_IsPlaying(channel_, &is_playing);
+        if (!is_playing) return;
+        
         FMOD_Channel_Stop(channel_);
         channel_ = nullptr;
     }

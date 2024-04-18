@@ -36,7 +36,7 @@ public:
 private:
     std::wstring name_;
 
-    std::vector<std::unique_ptr<Actor>> actors_;
+    std::vector<std::shared_ptr<Actor>> actors_;
 
     DebugDraw debug_draw_;
 };
