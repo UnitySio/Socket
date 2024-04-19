@@ -1,6 +1,6 @@
 ﻿#include "Camera2D.h"
 
-#include "WindowsApplication.h"
+#include "Windows/WindowsApplication.h"
 
 Camera2D::Camera2D()
 {

@@ -8,6 +8,10 @@ WindowsWindow::WindowsWindow() :
 {
 }
 
+WindowsWindow::~WindowsWindow()
+{
+}
+
 void WindowsWindow::Initialize(WindowsApplication* const application, HINSTANCE instance_handle)
 {
     application_ = application;
@@ -26,8 +30,8 @@ void WindowsWindow::Initialize(WindowsApplication* const application, HINSTANCE 
 
     MathTypes::uint32 window_x = 100;
     MathTypes::uint32 window_y = 100;
-    MathTypes::uint32 window_width = 960;
-    MathTypes::uint32 window_height = 540;
+    MathTypes::uint32 window_width = 640;
+    MathTypes::uint32 window_height = 480;
 
     window_x += border_rect.left;
     window_y += border_rect.top;

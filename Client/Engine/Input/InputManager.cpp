@@ -1,6 +1,6 @@
 ﻿#include "InputManager.h"
 
-#include "WindowsApplication.h"
+#include "Windows/WindowsApplication.h"
 #include "Enums.h"
 
 InputManager::InputManager() :

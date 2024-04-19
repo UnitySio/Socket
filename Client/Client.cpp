@@ -1,9 +1,12 @@
 ﻿#define _CRTDBG_MAP_ALLOC
 
 #include "Client.h"
-#include "Engine/WindowsApplication.h"
+#include "Engine/Windows/WindowsApplication.h"
 
 #include <crtdbg.h>
+
+#include "Windows/WindowDefinition.h"
+#include "Windows/WindowsWindow.h"
 
 int APIENTRY wWinMain(
     _In_ HINSTANCE hInstance,
@@ -15,17 +18,13 @@ int APIENTRY wWinMain(
     UNREFERENCED_PARAMETER(hPrevInstance);
     UNREFERENCED_PARAMETER(lpCmdLine);
     UNREFERENCED_PARAMETER(nCmdShow);
-
-    WindowsApplication* application = new WindowsApplication(hInstance, nullptr);
-    application->InitializeWindow();
-    application->InitializeWindow();
-    application->InitializeWindow();
-    application->InitializeWindow();
-    application->InitializeWindow();
-
+    
 #ifdef _DEBUG
     _CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 #endif
+
+    WindowsApplication* application = WindowsApplication::CreateWindowsApplication(hInstance, nullptr);
+    application->InitializeWindow();
 
     MSG msg = {};
     while (GetMessage(&msg, nullptr, 0, 0) > 0)
@@ -34,10 +33,11 @@ int APIENTRY wWinMain(
         DispatchMessageW(&msg);
     }
 
+    delete application;
+    
 #ifdef _DEBUG
     _CrtDumpMemoryLeaks();
 #endif
-
-    delete application;
+    
     return 0;
 }
