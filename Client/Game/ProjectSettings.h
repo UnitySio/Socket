@@ -18,7 +18,7 @@ enum ActorLayer : MathTypes::uint16
 class ProjectSettings
 {
 public:
-    static inline const std::wstring kProjectName = L"AGame Engine"; // 프로젝트 이름
+    static inline const std::wstring kProjectName = L"Game Engine"; // 프로젝트 이름
     static inline const std::wstring kProjectClassName = L"GameEngine_Class"; // 프로젝트 클래스 이름
     static inline const std::wstring kProjectVersion = L"1.0.0"; // 프로젝트 버전
 

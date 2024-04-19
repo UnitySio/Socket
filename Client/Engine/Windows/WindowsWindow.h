@@ -1,4 +1,6 @@
 ﻿#pragma once
+#include <memory>
+
 #include "WindowDefinition.h"
 #include "../framework.h"
 
@@ -10,7 +12,7 @@ public:
     WindowsWindow();
     ~WindowsWindow();
 
-    void Initialize(WindowsApplication* application, HINSTANCE instance_handle);
+    void Initialize(WindowsApplication* application, HINSTANCE instance_handle, const std::shared_ptr<WindowsWindow>& parent_window);
 
     inline HWND GetHWnd() const { return hWnd_; }
 

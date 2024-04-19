@@ -12,7 +12,7 @@ WindowsWindow::~WindowsWindow()
 {
 }
 
-void WindowsWindow::Initialize(WindowsApplication* const application, HINSTANCE instance_handle)
+void WindowsWindow::Initialize(WindowsApplication* const application, HINSTANCE instance_handle, const std::shared_ptr<WindowsWindow>& parent_window)
 {
     application_ = application;
 
@@ -45,7 +45,7 @@ void WindowsWindow::Initialize(WindowsApplication* const application, HINSTANCE 
         window_style,
         window_x, window_y,
         window_width, window_height,
-        nullptr,
+        parent_window ? parent_window->GetHWnd() : nullptr,
         nullptr,
         instance_handle,
         nullptr

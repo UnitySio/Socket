@@ -38,12 +38,10 @@ ATOM WindowsApplication::RegisterClass(HINSTANCE instance_handle, HICON icon_han
     return RegisterClassEx(&wcex);
 }
 
-void WindowsApplication::InitializeWindow()
+void WindowsApplication::InitializeWindow(const std::shared_ptr<WindowsWindow>& window, const std::shared_ptr<WindowsWindow>& parent_window)
 {
-    std::shared_ptr<WindowsWindow> window = std::make_shared<WindowsWindow>();
-    
     windows_.push_back(window);
-    window->Initialize(this, instance_handle_);
+    window->Initialize(this, instance_handle_, parent_window);
 }
 
 LRESULT WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)

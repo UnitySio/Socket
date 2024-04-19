@@ -18,7 +18,7 @@ public:
 
     ATOM RegisterClass(HINSTANCE instance_handle, HICON icon_handle);
 
-    void InitializeWindow();
+    void InitializeWindow(const std::shared_ptr<WindowsWindow>& window, const std::shared_ptr<WindowsWindow>& parent_window);
 
 private:
     friend LRESULT WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);

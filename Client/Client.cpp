@@ -5,7 +5,6 @@
 
 #include <crtdbg.h>
 
-#include "Windows/WindowDefinition.h"
 #include "Windows/WindowsWindow.h"
 
 int APIENTRY wWinMain(
@@ -24,7 +23,9 @@ int APIENTRY wWinMain(
 #endif
 
     WindowsApplication* application = WindowsApplication::CreateWindowsApplication(hInstance, nullptr);
-    application->InitializeWindow();
+
+    std::shared_ptr<WindowsWindow> window = std::make_shared<WindowsWindow>();
+    application->InitializeWindow(window, nullptr);
 
     MSG msg = {};
     while (GetMessage(&msg, nullptr, 0, 0) > 0)

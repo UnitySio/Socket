@@ -14,7 +14,6 @@
     <ClCompile Include="Engine\Actor\Component\CircleColliderComponent.cpp" />
     <ClCompile Include="Engine\Actor\Component\ColliderComponent.cpp" />
     <ClCompile Include="Engine\Actor\Component\RigidBodyComponent.cpp" />
-    <ClCompile Include="Engine\Core.cpp" />
     <ClCompile Include="Engine\DebugDraw.cpp" />
     <ClCompile Include="Engine\EventManager.cpp" />
     <ClCompile Include="Engine\Graphics\Camera2D.cpp" />
@@ -52,6 +51,9 @@
     <ClCompile Include="Engine\Physics\Physics.cpp" />
     <ClCompile Include="Engine\Physics\RayCastCallback.cpp" />
     <ClCompile Include="Game\Map\TempMap.cpp" />
+    <ClCompile Include="Engine\GameEngine.cpp" />
+    <ClCompile Include="Engine\Windows\WindowsApplication.cpp" />
+    <ClCompile Include="Engine\Windows\WindowsWindow.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h" />
@@ -61,7 +63,6 @@
     <ClInclude Include="Engine\Actor\Component\CircleColliderComponent.h" />
     <ClInclude Include="Engine\Actor\Component\ColliderComponent.h" />
     <ClInclude Include="Engine\Actor\Component\RigidBodyComponent.h" />
-    <ClInclude Include="Engine\Core.h" />
     <ClInclude Include="Engine\DebugDraw.h" />
     <ClInclude Include="Engine\Enums.h" />
     <ClInclude Include="Engine\EventManager.h" />
@@ -174,43 +175,6 @@
     <ClInclude Include="Engine\Actor\Component\CameraComponent.h" />
     <ClInclude Include="Engine\Actor\Component\TransformComponent.h" />
     <ClInclude Include="Game\ProjectSettings.h" />
-    <ClInclude Include="Include\yaml-cpp\anchor.h" />
-    <ClInclude Include="Include\yaml-cpp\binary.h" />
-    <ClInclude Include="Include\yaml-cpp\contrib\anchordict.h" />
-    <ClInclude Include="Include\yaml-cpp\contrib\graphbuilder.h" />
-    <ClInclude Include="Include\yaml-cpp\depthguard.h" />
-    <ClInclude Include="Include\yaml-cpp\dll.h" />
-    <ClInclude Include="Include\yaml-cpp\emitfromevents.h" />
-    <ClInclude Include="Include\yaml-cpp\emitter.h" />
-    <ClInclude Include="Include\yaml-cpp\emitterdef.h" />
-    <ClInclude Include="Include\yaml-cpp\emittermanip.h" />
-    <ClInclude Include="Include\yaml-cpp\emitterstyle.h" />
-    <ClInclude Include="Include\yaml-cpp\eventhandler.h" />
-    <ClInclude Include="Include\yaml-cpp\exceptions.h" />
-    <ClInclude Include="Include\yaml-cpp\mark.h" />
-    <ClInclude Include="Include\yaml-cpp\node\convert.h" />
-    <ClInclude Include="Include\yaml-cpp\node\detail\impl.h" />
-    <ClInclude Include="Include\yaml-cpp\node\detail\iterator.h" />
-    <ClInclude Include="Include\yaml-cpp\node\detail\iterator_fwd.h" />
-    <ClInclude Include="Include\yaml-cpp\node\detail\memory.h" />
-    <ClInclude Include="Include\yaml-cpp\node\detail\node.h" />
-    <ClInclude Include="Include\yaml-cpp\node\detail\node_data.h" />
-    <ClInclude Include="Include\yaml-cpp\node\detail\node_iterator.h" />
-    <ClInclude Include="Include\yaml-cpp\node\detail\node_ref.h" />
-    <ClInclude Include="Include\yaml-cpp\node\emit.h" />
-    <ClInclude Include="Include\yaml-cpp\node\impl.h" />
-    <ClInclude Include="Include\yaml-cpp\node\iterator.h" />
-    <ClInclude Include="Include\yaml-cpp\node\node.h" />
-    <ClInclude Include="Include\yaml-cpp\node\parse.h" />
-    <ClInclude Include="Include\yaml-cpp\node\ptr.h" />
-    <ClInclude Include="Include\yaml-cpp\node\type.h" />
-    <ClInclude Include="Include\yaml-cpp\noexcept.h" />
-    <ClInclude Include="Include\yaml-cpp\null.h" />
-    <ClInclude Include="Include\yaml-cpp\ostream_wrapper.h" />
-    <ClInclude Include="Include\yaml-cpp\parser.h" />
-    <ClInclude Include="Include\yaml-cpp\stlemitter.h" />
-    <ClInclude Include="Include\yaml-cpp\traits.h" />
-    <ClInclude Include="Include\yaml-cpp\yaml.h" />
     <ClInclude Include="Engine\Math\Bounds.h" />
     <ClInclude Include="Engine\Math\MathTypes.h" />
     <ClInclude Include="Engine\Math\Vector2.h" />
@@ -219,5 +183,16 @@
     <ClInclude Include="Engine\Physics\RayCastCallback.h" />
     <ClInclude Include="Engine\Physics\RayCastResult.h" />
     <ClInclude Include="Game\Map\TempMap.h" />
+    <ClInclude Include="Engine\GameEngine.h" />
+    <ClInclude Include="Engine\Windows\WindowDefinition.h" />
+    <ClInclude Include="Engine\Windows\WindowsApplication.h" />
+    <ClInclude Include="Engine\Windows\WindowsWindow.h" />
+    <ClInclude Include="resource.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Resource.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\..\..\Downloads\Icon.ico" />
   </ItemGroup>
 </Project>
