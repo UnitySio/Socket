@@ -146,7 +146,7 @@
     <ClInclude Include="Engine\Actor\Component\RigidBodyComponent.h" />
     <ClInclude Include="Engine\Actor\Component\TransformComponent.h" />
     <ClInclude Include="Engine\Audio\AudioManager.h" />
-    <ClInclude Include="Engine\Core.h" />
+    <ClInclude Include="Engine\WindowsApplication.h" />
     <ClInclude Include="Engine\DebugDraw.h" />
     <ClInclude Include="Engine\Enums.h" />
     <ClInclude Include="Engine\EventManager.h" />
@@ -176,6 +176,7 @@
     <ClInclude Include="Engine\Physics\RayCastResult.h" />
     <ClInclude Include="Engine\Singleton.h" />
     <ClInclude Include="Engine\Time\Time.h" />
+    <ClInclude Include="Engine\WindowsWindow.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="Game\Actor\Floor.h" />
     <ClInclude Include="Game\Actor\FollowCamera.h" />
@@ -276,7 +277,7 @@
     <ClCompile Include="Engine\Actor\Component\RigidBodyComponent.cpp" />
     <ClCompile Include="Engine\Actor\Component\TransformComponent.cpp" />
     <ClCompile Include="Engine\Audio\AudioManager.cpp" />
-    <ClCompile Include="Engine\Core.cpp" />
+    <ClCompile Include="Engine\WindowsApplication.cpp" />
     <ClCompile Include="Engine\DebugDraw.cpp" />
     <ClCompile Include="Engine\EventManager.cpp" />
     <ClCompile Include="Engine\Graphics\Camera2D.cpp" />
@@ -297,6 +298,7 @@
     <ClCompile Include="Engine\Physics\Physics.cpp" />
     <ClCompile Include="Engine\Physics\RayCastCallback.cpp" />
     <ClCompile Include="Engine\Time\Time.cpp" />
+    <ClCompile Include="Engine\WindowsWindow.cpp" />
     <ClCompile Include="Game\Actor\Floor.cpp" />
     <ClCompile Include="Game\Actor\FollowCamera.cpp" />
     <ClCompile Include="Game\Actor\Pawn.cpp" />

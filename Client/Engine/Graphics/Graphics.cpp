@@ -4,7 +4,7 @@
 
 #include <iostream>
 
-#include "Core.h"
+#include "WindowsApplication.h"
 #include "box2d/b2_math.h"
 
 #include <wincodec.h>
@@ -31,23 +31,23 @@ bool Graphics::InitDeviceD3D()
     DXGI_SWAP_CHAIN_DESC swap_chain_desc;
     ZeroMemory(&swap_chain_desc, sizeof(DXGI_SWAP_CHAIN_DESC));
 
-    swap_chain_desc.BufferDesc.Width = Core::Get()->GetResolution().x;
-    swap_chain_desc.BufferDesc.Height = Core::Get()->GetResolution().y;
-    swap_chain_desc.BufferDesc.RefreshRate.Numerator = 60;
-    swap_chain_desc.BufferDesc.RefreshRate.Denominator = 1;
-    swap_chain_desc.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
-    swap_chain_desc.BufferDesc.ScanlineOrdering = DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED;
-    swap_chain_desc.BufferDesc.Scaling = DXGI_MODE_SCALING_UNSPECIFIED;
-
-    swap_chain_desc.SampleDesc.Count = 1;
-    swap_chain_desc.SampleDesc.Quality = 0;
-
-    swap_chain_desc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
-    swap_chain_desc.BufferCount = 1;
-    swap_chain_desc.OutputWindow = Core::Get()->GetWindowHandle();
-    swap_chain_desc.Windowed = TRUE;
-    swap_chain_desc.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;
-    swap_chain_desc.Flags = 0;
+    // swap_chain_desc.BufferDesc.Width = WindowsApplication::Get()->GetResolution().x;
+    // swap_chain_desc.BufferDesc.Height = WindowsApplication::Get()->GetResolution().y;
+    // swap_chain_desc.BufferDesc.RefreshRate.Numerator = 60;
+    // swap_chain_desc.BufferDesc.RefreshRate.Denominator = 1;
+    // swap_chain_desc.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+    // swap_chain_desc.BufferDesc.ScanlineOrdering = DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED;
+    // swap_chain_desc.BufferDesc.Scaling = DXGI_MODE_SCALING_UNSPECIFIED;
+    //
+    // swap_chain_desc.SampleDesc.Count = 1;
+    // swap_chain_desc.SampleDesc.Quality = 0;
+    //
+    // swap_chain_desc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
+    // swap_chain_desc.BufferCount = 1;
+    // swap_chain_desc.OutputWindow = WindowsApplication::Get()->GetWindowHandle();
+    // swap_chain_desc.Windowed = TRUE;
+    // swap_chain_desc.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;
+    // swap_chain_desc.Flags = 0;
 
     constexpr D3D_FEATURE_LEVEL feature_levels[] = {
         D3D_FEATURE_LEVEL_11_0,
@@ -84,17 +84,17 @@ bool Graphics::InitRenderTargetD3D()
     if (FAILED(hr)) return false;
 
     D3D11_TEXTURE2D_DESC depth_stencil_desc;
-    depth_stencil_desc.Width = Core::Get()->GetResolution().x;
-    depth_stencil_desc.Height = Core::Get()->GetResolution().y;
-    depth_stencil_desc.MipLevels = 1;
-    depth_stencil_desc.ArraySize = 1;
-    depth_stencil_desc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
-    depth_stencil_desc.SampleDesc.Count = 1;
-    depth_stencil_desc.SampleDesc.Quality = 0;
-    depth_stencil_desc.Usage = D3D11_USAGE_DEFAULT;
-    depth_stencil_desc.BindFlags = D3D11_BIND_DEPTH_STENCIL;
-    depth_stencil_desc.CPUAccessFlags = 0;
-    depth_stencil_desc.MiscFlags = 0;
+    // depth_stencil_desc.Width = WindowsApplication::Get()->GetResolution().x;
+    // depth_stencil_desc.Height = WindowsApplication::Get()->GetResolution().y;
+    // depth_stencil_desc.MipLevels = 1;
+    // depth_stencil_desc.ArraySize = 1;
+    // depth_stencil_desc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
+    // depth_stencil_desc.SampleDesc.Count = 1;
+    // depth_stencil_desc.SampleDesc.Quality = 0;
+    // depth_stencil_desc.Usage = D3D11_USAGE_DEFAULT;
+    // depth_stencil_desc.BindFlags = D3D11_BIND_DEPTH_STENCIL;
+    // depth_stencil_desc.CPUAccessFlags = 0;
+    // depth_stencil_desc.MiscFlags = 0;
 
     hr = d3d_device_->CreateTexture2D(&depth_stencil_desc, nullptr, depth_stencil_buffer_.GetAddressOf());
     if (FAILED(hr)) return false;
@@ -116,8 +116,8 @@ bool Graphics::InitRenderTargetD3D()
 
     d3d_viewport_.TopLeftX = 0;
     d3d_viewport_.TopLeftY = 0;
-    d3d_viewport_.Width = static_cast<float>(Core::Get()->GetResolution().x);
-    d3d_viewport_.Height = static_cast<float>(Core::Get()->GetResolution().y);
+    // d3d_viewport_.Width = static_cast<float>(WindowsApplication::Get()->GetResolution().x);
+    // d3d_viewport_.Height = static_cast<float>(WindowsApplication::Get()->GetResolution().y);
     d3d_viewport_.MinDepth = 0.0f;
     d3d_viewport_.MaxDepth = 1.0f;
 
@@ -192,7 +192,8 @@ bool Graphics::InitFactoryD2D()
 
 bool Graphics::InitRenderTargetD2D()
 {
-    const float kDPI = GetDpiForWindow(Core::Get()->GetWindowHandle());
+    // const float kDPI = GetDpiForWindow(WindowsApplication::Get()->GetWindowHandle());
+    const float kDPI = 0.f;
     const D2D1_RENDER_TARGET_PROPERTIES render_target_properties = D2D1::RenderTargetProperties(
         D2D1_RENDER_TARGET_TYPE_DEFAULT,
         D2D1::PixelFormat(DXGI_FORMAT_UNKNOWN, D2D1_ALPHA_MODE_PREMULTIPLIED),

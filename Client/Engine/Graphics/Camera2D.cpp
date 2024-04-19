@@ -1,6 +1,6 @@
 ﻿#include "Camera2D.h"
 
-#include "Core.h"
+#include "WindowsApplication.h"
 
 Camera2D::Camera2D()
 {
@@ -13,15 +13,15 @@ Camera2D::Camera2D()
 
 void Camera2D::SetProjectionValues(float size, float near_z, float far_z)
 {
-    Core* core = Core::Get();
-
-    const float width = static_cast<float>(core->GetResolution().x);
-    const float height = static_cast<float>(core->GetResolution().y);
-    const float aspect_ratio = width / height;
-    const float left = -size * aspect_ratio;
-    const float right = size * aspect_ratio;
-
-    orthographic_matrix_ = DirectX::XMMatrixOrthographicOffCenterLH(left, right, -size, size, near_z, far_z);
+    // WindowsApplication* core = WindowsApplication::Get();
+    //
+    // const float width = static_cast<float>(core->GetResolution().x);
+    // const float height = static_cast<float>(core->GetResolution().y);
+    // const float aspect_ratio = width / height;
+    // const float left = -size * aspect_ratio;
+    // const float right = size * aspect_ratio;
+    //
+    // orthographic_matrix_ = DirectX::XMMatrixOrthographicOffCenterLH(left, right, -size, size, near_z, far_z);
 }
 
 void Camera2D::SetPosition(float x, float y, float z)

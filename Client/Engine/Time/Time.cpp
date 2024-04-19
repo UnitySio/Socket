@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-#include "Core.h"
+#include "WindowsApplication.h"
 #include "ProjectSettings.h"
 #include "Level/Level.h"
 #include "Level/World.h"
@@ -40,16 +40,16 @@ void Time::Tick()
     {
         fps_ = frame_count_;
 
-        if (ProjectSettings::kShowFrameRate)
-        {
-            const float kMS = 1000.f / fps_;
-
-            const std::wstring kLevelName = World::Get()->GetLevel()->GetName();
-
-            WCHAR buffer[256];
-            swprintf_s(buffer, L"%s - FPS: %.f(%.fms)", kLevelName.c_str(), fps_, kMS);
-            SetWindowText(Core::Get()->GetWindowHandle(), buffer);
-        }
+        // if (ProjectSettings::kShowFrameRate)
+        // {
+        //     const float kMS = 1000.f / fps_;
+        //
+        //     const std::wstring kLevelName = World::Get()->GetLevel()->GetName();
+        //
+        //     WCHAR buffer[256];
+        //     swprintf_s(buffer, L"%s - FPS: %.f(%.fms)", kLevelName.c_str(), fps_, kMS);
+        //     SetWindowText(WindowsApplication::Get()->GetWindowHandle(), buffer);
+        // }
         
         frame_count_ = 0.f;
         frame_timer_ = 0.f;

@@ -1,6 +1,6 @@
 ﻿#include "InputManager.h"
 
-#include "Core.h"
+#include "WindowsApplication.h"
 #include "Enums.h"
 
 InputManager::InputManager() :
@@ -29,55 +29,55 @@ void InputManager::Init()
 
 void InputManager::Tick()
 {
-    Core* core = Core::Get();
-    
-    for (auto& key : key_map_)
-    {
-        if (core->GetFocusHandle())
-        {
-            if (GetAsyncKeyState(key.first) & 0x8000)
-            {
-                if (key.second.is_down)
-                    key.second.state = KeyState::kPressed;
-                else key.second.state = KeyState::kDown;
-                
-                key.second.is_down = true;
-            }
-            else
-            {
-                if (key.second.is_down)
-                    key.second.state = KeyState::kUp;
-                else key.second.state = KeyState::kNone;
-                
-                key.second.is_down = false;
-            }
-        }
-        else
-        {
-            if (key.second.state == KeyState::kDown || key.second.state == KeyState::kPressed)
-                key.second.state = KeyState::kUp;
-            else key.second.state = KeyState::kNone;
-
-            key.second.is_down = false;
-        }
-    }
-
-    if (core->GetFocusHandle())
-    {
-        POINT mouse_position;
-        GetCursorPos(&mouse_position);
-        ScreenToClient(core->GetFocusHandle(), &mouse_position);
-
-        mouse_position_.Set(static_cast<float>(mouse_position.x), static_cast<float>(mouse_position.y));
-        mouse_delta_ = mouse_position_ - mouse_previous_position_;
-        mouse_previous_position_ = mouse_position_;
-    }
-    else
-    {
-        mouse_position_.SetZero();
-        mouse_previous_position_.SetZero();
-        mouse_delta_.SetZero();
-    }
+    // WindowsApplication* core = WindowsApplication::Get();
+    //
+    // for (auto& key : key_map_)
+    // {
+    //     if (core->GetFocusHandle())
+    //     {
+    //         if (GetAsyncKeyState(key.first) & 0x8000)
+    //         {
+    //             if (key.second.is_down)
+    //                 key.second.state = KeyState::kPressed;
+    //             else key.second.state = KeyState::kDown;
+    //             
+    //             key.second.is_down = true;
+    //         }
+    //         else
+    //         {
+    //             if (key.second.is_down)
+    //                 key.second.state = KeyState::kUp;
+    //             else key.second.state = KeyState::kNone;
+    //             
+    //             key.second.is_down = false;
+    //         }
+    //     }
+    //     else
+    //     {
+    //         if (key.second.state == KeyState::kDown || key.second.state == KeyState::kPressed)
+    //             key.second.state = KeyState::kUp;
+    //         else key.second.state = KeyState::kNone;
+    //
+    //         key.second.is_down = false;
+    //     }
+    // }
+    //
+    // if (core->GetFocusHandle())
+    // {
+    //     POINT mouse_position;
+    //     GetCursorPos(&mouse_position);
+    //     ScreenToClient(core->GetFocusHandle(), &mouse_position);
+    //
+    //     mouse_position_.Set(static_cast<float>(mouse_position.x), static_cast<float>(mouse_position.y));
+    //     mouse_delta_ = mouse_position_ - mouse_previous_position_;
+    //     mouse_previous_position_ = mouse_position_;
+    // }
+    // else
+    // {
+    //     mouse_position_.SetZero();
+    //     mouse_previous_position_.SetZero();
+    //     mouse_delta_.SetZero();
+    // }
 }
 
 bool InputManager::IsKeyDown(int key) const

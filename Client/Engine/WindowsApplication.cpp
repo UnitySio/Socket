@@ -1,7 +1,8 @@
-﻿#include "Core.h"
+﻿#include "WindowsApplication.h"
 
 #include "EventManager.h"
 #include "ProjectSettings.h"
+#include "WindowsWindow.h"
 #include "Audio/AudioManager.h"
 #include "Graphics/Graphics.h"
 #include "Time/Time.h"
@@ -13,7 +14,17 @@
 #include "imgui/imgui_impl_win32.h"
 #include "Level/Level.h"
 
-Core::Core() :
+WindowsApplication* windows_application = nullptr;
+
+WindowsApplication* WindowsApplication::CreateWindowsApplication(HINSTANCE instance_handle, HICON icon_handle)
+{
+    windows_application = new WindowsApplication(instance_handle, icon_handle);
+    return windows_application;
+}
+
+WindowsApplication::WindowsApplication(HINSTANCE instance_handle, HICON icon_handle) :
+    instance_handle_(instance_handle),
+    windows_(),
     resolution_(),
     window_area_(),
     hWnd_(nullptr),
@@ -22,9 +33,10 @@ Core::Core() :
     is_running_(false),
     alpha_(0.f)
 {
+    RegisterClass(instance_handle, icon_handle);
 }
 
-ATOM Core::MyRegisterClass(HINSTANCE hInstance)
+ATOM WindowsApplication::RegisterClass(HINSTANCE instance_handle, HICON icon_handle)
 {
     WNDCLASSEX wcex;
     ZeroMemory(&wcex, sizeof(WNDCLASSEX));
@@ -32,51 +44,17 @@ ATOM Core::MyRegisterClass(HINSTANCE hInstance)
     wcex.cbSize = sizeof(WNDCLASSEX);
     wcex.style = CS_HREDRAW | CS_VREDRAW;
     wcex.lpfnWndProc = StaticWndProc;
-    wcex.hInstance = hInstance;
+    wcex.hInstance = instance_handle;
+    wcex.hIcon = icon_handle;
     wcex.hCursor = LoadCursor(nullptr, IDC_ARROW);
     wcex.hbrBackground = static_cast<HBRUSH>(GetStockObject(BLACK_BRUSH));
-    wcex.lpszClassName = ProjectSettings::kProjectClassName.c_str();
+    wcex.lpszClassName = L"GEWindow";
 
     return RegisterClassEx(&wcex);
 }
 
-BOOL Core::InitInstance(HINSTANCE hInstance, int nCmdShow)
+bool WindowsApplication::InitWindow()
 {
-    const int kScreenWidth = GetSystemMetrics(SM_CXSCREEN);
-    const int kScreenHeight = GetSystemMetrics(SM_CYSCREEN);
-
-    resolution_ = {ProjectSettings::kScreenWidth, ProjectSettings::kScreenHeight};
-    window_area_ = {0, 0, resolution_.x, resolution_.y};
-    AdjustWindowRect(&window_area_, WS_OVERLAPPEDWINDOW, FALSE);
-
-    hWnd_ = CreateWindowEx(
-        0,
-        ProjectSettings::kProjectClassName.c_str(),
-        ProjectSettings::kProjectName.c_str(),
-        WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_THICKFRAME | WS_MINIMIZEBOX,
-        (kScreenWidth - (window_area_.right - window_area_.left)) / 2,
-        (kScreenHeight - (window_area_.bottom - window_area_.top)) / 2,
-        window_area_.right - window_area_.left,
-        window_area_.bottom - window_area_.top,
-        nullptr,
-        nullptr,
-        hInstance,
-        nullptr
-    );
-
-    if (!hWnd_) return FALSE;
-    ShowWindow(hWnd_, nCmdShow);
-
-    return TRUE;
-}
-
-bool Core::InitWindow(HINSTANCE hInstance, int nCmdShow)
-{
-    MyRegisterClass(hInstance);
-
-    if (!InitInstance(hInstance, nCmdShow)) return false;
-    CoInitializeEx(nullptr, COINIT_MULTITHREADED);
-
     if (!Graphics::Get()->Init()) return false;
     
     if (!AudioManager::Get()->Init()) return false;
@@ -110,14 +88,17 @@ bool Core::InitWindow(HINSTANCE hInstance, int nCmdShow)
     return true;
 }
 
-LRESULT Core::StaticWndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
+void WindowsApplication::InitializeWindow()
 {
-    return Get()->WndProc(hWnd, message, wParam, lParam);
+    const std::shared_ptr<WindowsWindow> window = std::make_shared<WindowsWindow>();
+    
+    windows_.push_back(window);
+    window->Initialize(this, instance_handle_);
 }
 
 extern LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
-LRESULT Core::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
+LRESULT WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
     if (ImGui_ImplWin32_WndProcHandler(hWnd, message, wParam, lParam)) return 0;
 
@@ -134,38 +115,37 @@ LRESULT Core::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
     if (message == WM_SETFOCUS || message == WM_KILLFOCUS)
     {
-        focus_ = GetFocus();
+        // focus_ = GetFocus();
         return 0;
     }
 
     if (message == WM_GETMINMAXINFO)
     {
-        reinterpret_cast<MINMAXINFO*>(lParam)->ptMinTrackSize.x = window_area_.right - window_area_.left;
-        reinterpret_cast<MINMAXINFO*>(lParam)->ptMinTrackSize.y = window_area_.bottom - window_area_.top;
-        reinterpret_cast<MINMAXINFO*>(lParam)->ptMaxTrackSize.x = window_area_.right - window_area_.left;
-        reinterpret_cast<MINMAXINFO*>(lParam)->ptMaxTrackSize.y = window_area_.bottom - window_area_.top;
+        // reinterpret_cast<MINMAXINFO*>(lParam)->ptMinTrackSize.x = window_area_.right - window_area_.left;
+        // reinterpret_cast<MINMAXINFO*>(lParam)->ptMinTrackSize.y = window_area_.bottom - window_area_.top;
+        // reinterpret_cast<MINMAXINFO*>(lParam)->ptMaxTrackSize.x = window_area_.right - window_area_.left;
+        // reinterpret_cast<MINMAXINFO*>(lParam)->ptMaxTrackSize.y = window_area_.bottom - window_area_.top;
 
         return 0;
     }
 
     if (message == WM_DESTROY)
     {
-        is_running_ = false;
-        WaitForSingleObject(logic_handle_, INFINITE);
+        // is_running_ = false;
+        // WaitForSingleObject(logic_handle_, INFINITE);
 
-        World::Get()->GetLevel()->Unload(EndPlayReason::kQuit);
-
-        ImGui_ImplWin32_Shutdown();
-        ImGui_ImplDX11_Shutdown();
-        ImGui::DestroyContext();
-
-        InputManager::Get()->Release();
-        World::Get()->Release();
-        Time::Get()->Release();
-        AudioManager::Get()->Release();
-        Graphics::Get()->Release();
-        EventManager::Get()->Release();
-        Get()->Release();
+        // World::Get()->GetLevel()->Unload(EndPlayReason::kQuit);
+        //
+        // ImGui_ImplWin32_Shutdown();
+        // ImGui_ImplDX11_Shutdown();
+        // ImGui::DestroyContext();
+        //
+        // InputManager::Get()->Release();
+        // World::Get()->Release();
+        // Time::Get()->Release();
+        // AudioManager::Get()->Release();
+        // Graphics::Get()->Release();
+        // EventManager::Get()->Release();
 
         CoUninitialize();
         PostQuitMessage(0);
@@ -182,18 +162,23 @@ LRESULT Core::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
     return DefWindowProc(hWnd, message, wParam, lParam);
 }
 
-DWORD Core::LogicThread(LPVOID lpParam)
+LRESULT WindowsApplication::StaticWndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-    Get()->is_running_ = true;
-    while (Get()->is_running_)
-    {
-        Get()->MainLogic();
-    }
+    return WndProc(hWnd, message, wParam, lParam);
+}
+
+DWORD WindowsApplication::LogicThread(LPVOID lpParam)
+{
+    // Get()->is_running_ = true;
+    // while (Get()->is_running_)
+    // {
+    //     Get()->MainLogic();
+    // }
 
     return 0;
 }
 
-void Core::MainLogic()
+void WindowsApplication::MainLogic()
 {
     Time::Get()->Tick();
 
@@ -221,7 +206,7 @@ void Core::MainLogic()
     EventManager::Get()->Tick();
 }
 
-void Core::Tick(float delta_time)
+void WindowsApplication::Tick(float delta_time)
 {
     InputManager::Get()->Tick();
     
@@ -242,7 +227,7 @@ void Core::Tick(float delta_time)
     World::Get()->Tick(delta_time);
 }
 
-void Core::Render(float alpha)
+void WindowsApplication::Render(float alpha)
 {
     World::Get()->Render(alpha);
 }
