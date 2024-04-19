@@ -7,6 +7,9 @@
 
 #include "Windows/WindowsWindow.h"
 
+HANDLE engine_thread;
+DWORD WINAPI EngineThread(LPVOID lpParam);
+
 int APIENTRY wWinMain(
     _In_ HINSTANCE hInstance,
     _In_opt_ HINSTANCE hPrevInstance,
@@ -27,6 +30,8 @@ int APIENTRY wWinMain(
     std::shared_ptr<WindowsWindow> window = std::make_shared<WindowsWindow>();
     application->InitializeWindow(window, nullptr);
 
+    engine_thread = CreateThread(nullptr, 0, EngineThread, nullptr, 0, nullptr);
+
     MSG msg = {};
     while (GetMessage(&msg, nullptr, 0, 0) > 0)
     {
@@ -34,11 +39,18 @@ int APIENTRY wWinMain(
         DispatchMessageW(&msg);
     }
 
+    WaitForSingleObject(engine_thread, INFINITE);
+
     delete application;
     
 #ifdef _DEBUG
     _CrtDumpMemoryLeaks();
 #endif
     
+    return 0;
+}
+
+DWORD EngineThread(LPVOID lpParam)
+{
     return 0;
 }
