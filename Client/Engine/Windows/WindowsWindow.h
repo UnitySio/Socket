@@ -12,6 +12,8 @@ public:
     WindowsWindow();
     ~WindowsWindow();
 
+    static std::shared_ptr<WindowsWindow> Make();
+
     void Initialize(WindowsApplication* application, HINSTANCE instance_handle, const std::shared_ptr<WindowsWindow>& parent_window);
 
     inline HWND GetHWnd() const { return hWnd_; }

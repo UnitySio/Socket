@@ -17,10 +17,6 @@ WindowsApplication::WindowsApplication(HINSTANCE instance_handle, HICON icon_han
     RegisterClass(instance_handle, icon_handle);
 }
 
-WindowsApplication::~WindowsApplication()
-{
-}
-
 ATOM WindowsApplication::RegisterClass(HINSTANCE instance_handle, HICON icon_handle)
 {
     WNDCLASSEX wcex;
@@ -38,6 +34,11 @@ ATOM WindowsApplication::RegisterClass(HINSTANCE instance_handle, HICON icon_han
     return RegisterClassEx(&wcex);
 }
 
+std::shared_ptr<WindowsWindow> WindowsApplication::MakeWindow()
+{
+    return WindowsWindow::Make();
+}
+
 void WindowsApplication::InitializeWindow(const std::shared_ptr<WindowsWindow>& window, const std::shared_ptr<WindowsWindow>& parent_window)
 {
     windows_.push_back(window);
@@ -53,15 +54,19 @@ LRESULT WindowsApplication::StaticWndProc(HWND hWnd, UINT message, WPARAM wParam
 {
     return WndProc(hWnd, message, wParam, lParam);
 }
-
-extern LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 MathTypes::uint32 WindowsApplication::ProcessMessage(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-    std::shared_ptr<WindowsWindow> window = FindWindowByHWND(hWnd);
+    const std::shared_ptr<WindowsWindow> window = FindWindowByHWND(hWnd);
     if (window)
     {
-        if (ImGui_ImplWin32_WndProcHandler(hWnd, message, wParam, lParam)) return 0;
-
+        for (const auto& handler : message_handlers_)
+        {
+            MathTypes::uint32 handler_result = 0;
+            if (handler->ProcessMessage(hWnd, message, wParam, lParam, handler_result))
+            {
+            }
+        }
+        
         if (message == WM_DESTROY)
         {
             std::erase(windows_, window);
@@ -82,4 +87,19 @@ std::shared_ptr<WindowsWindow> WindowsApplication::FindWindowByHWND(HWND hWnd) c
     }
     
     return nullptr;
+}
+
+void WindowsApplication::AddMessageHandler(IWindowsMessageHandler& message_handler)
+{
+    for (const auto& handler : message_handlers_)
+    {
+        if (handler == &message_handler) return;
+    }
+    
+    windows_application->message_handlers_.push_back(&message_handler);
+}
+
+void WindowsApplication::RemoveMessageHandler(IWindowsMessageHandler& message_handler)
+{
+    std::erase(windows_application->message_handlers_, &message_handler);
 }

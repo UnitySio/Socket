@@ -27,16 +27,20 @@ int APIENTRY wWinMain(
 
     WindowsApplication* application = WindowsApplication::CreateWindowsApplication(hInstance, nullptr);
 
-    std::shared_ptr<WindowsWindow> window = std::make_shared<WindowsWindow>();
-    application->InitializeWindow(window, nullptr);
+    std::shared_ptr<WindowsWindow> main_window = WindowsWindow::Make();
+    application->InitializeWindow(main_window, nullptr);
+    main_window.reset();
 
     engine_thread = CreateThread(nullptr, 0, EngineThread, nullptr, 0, nullptr);
 
     MSG msg = {};
-    while (GetMessage(&msg, nullptr, 0, 0) > 0)
+    while (msg.message != WM_QUIT)
     {
-        TranslateMessage(&msg);
-        DispatchMessageW(&msg);
+        if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
+        {
+            TranslateMessage(&msg);
+            DispatchMessage(&msg);
+        }
     }
 
     WaitForSingleObject(engine_thread, INFINITE);
