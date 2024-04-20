@@ -54,6 +54,7 @@
     <ClCompile Include="Engine\GameEngine.cpp" />
     <ClCompile Include="Engine\Windows\WindowsApplication.cpp" />
     <ClCompile Include="Engine\Windows\WindowsWindow.cpp" />
+    <ClCompile Include="Engine\EngineLoop.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h" />
@@ -188,11 +189,13 @@
     <ClInclude Include="Engine\Windows\WindowsApplication.h" />
     <ClInclude Include="Engine\Windows\WindowsWindow.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="Engine\EngineLoop.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Resource.rc" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="..\..\..\Downloads\Icon.ico" />
+    <Image Include="Client.ico" />
   </ItemGroup>
 </Project>

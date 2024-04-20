@@ -4,6 +4,7 @@
 #include "Engine/Windows/WindowsApplication.h"
 
 #include <crtdbg.h>
+#include <iostream>
 
 #include "Windows/WindowsWindow.h"
 
@@ -25,13 +26,16 @@ int APIENTRY wWinMain(
     _CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 #endif
 
-    WindowsApplication* application = WindowsApplication::CreateWindowsApplication(hInstance, nullptr);
+    HICON hIcon = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_ICON1));
+    WindowsApplication* application = WindowsApplication::CreateWindowsApplication(hInstance, hIcon);
 
     std::shared_ptr<WindowsWindow> main_window = WindowsWindow::Make();
     application->InitializeWindow(main_window, nullptr);
     main_window.reset();
 
-    engine_thread = CreateThread(nullptr, 0, EngineThread, nullptr, 0, nullptr);
+    // 콘솔 로그 출력
+    // OutputDebugString(L"Hello, World!");
+    // std::cout << "Hello, World!" << std::endl;
 
     MSG msg = {};
     while (msg.message != WM_QUIT)
@@ -51,10 +55,5 @@ int APIENTRY wWinMain(
     _CrtDumpMemoryLeaks();
 #endif
     
-    return 0;
-}
-
-DWORD EngineThread(LPVOID lpParam)
-{
     return 0;
 }
