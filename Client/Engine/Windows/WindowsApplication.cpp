@@ -75,11 +75,19 @@ MathTypes::uint32 WindowsApplication::ProcessMessage(HWND hWnd, UINT message, WP
     const std::shared_ptr<WindowsWindow> window = FindWindowByHWND(hWnd);
     if (window)
     {
+        bool is_external_handled = false;
+        MathTypes::uint32 external_handler_result = 0;
+        
         for (const auto& handler : message_handlers_)
         {
             MathTypes::uint32 handler_result = 0;
             if (handler->ProcessMessage(hWnd, message, wParam, lParam, handler_result))
             {
+                if (!is_external_handled)
+                {
+                    is_external_handled = true;
+                    external_handler_result = handler_result;
+                }
             }
         }
         
@@ -90,6 +98,8 @@ MathTypes::uint32 WindowsApplication::ProcessMessage(HWND hWnd, UINT message, WP
             if (windows_.empty()) PostQuitMessage(0);
             return 0;
         }
+
+        if (is_external_handled) return external_handler_result;
     }
     
     return DefWindowProc(hWnd, message, wParam, lParam);
