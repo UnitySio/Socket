@@ -27,7 +27,9 @@ public:
 
     std::shared_ptr<WindowsWindow> MakeWindow();
     
-    void InitializeWindow(const std::shared_ptr<WindowsWindow>& window, const std::shared_ptr<WindowsWindow>& parent_window);
+    void InitWindow(const std::shared_ptr<WindowsWindow>& window, const std::shared_ptr<WindowsWindow>& parent_window);
+    void AddMessageHandler(IWindowsMessageHandler& message_handler);
+    void RemoveMessageHandler(IWindowsMessageHandler& message_handler);
 
 private:
     friend LRESULT WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
@@ -36,9 +38,6 @@ private:
     MathTypes::uint32 ProcessMessage(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 
     std::shared_ptr<WindowsWindow> FindWindowByHWND(HWND hWnd) const;
-
-    void AddMessageHandler(IWindowsMessageHandler& message_handler);
-    void RemoveMessageHandler(IWindowsMessageHandler& message_handler);
 
     HINSTANCE instance_handle_;
 

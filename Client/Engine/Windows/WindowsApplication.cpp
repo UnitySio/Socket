@@ -39,10 +39,25 @@ std::shared_ptr<WindowsWindow> WindowsApplication::MakeWindow()
     return WindowsWindow::Make();
 }
 
-void WindowsApplication::InitializeWindow(const std::shared_ptr<WindowsWindow>& window, const std::shared_ptr<WindowsWindow>& parent_window)
+void WindowsApplication::InitWindow(const std::shared_ptr<WindowsWindow>& window, const std::shared_ptr<WindowsWindow>& parent_window)
 {
     windows_.push_back(window);
-    window->Initialize(this, instance_handle_, parent_window);
+    window->Init(this, instance_handle_, parent_window);
+}
+
+void WindowsApplication::AddMessageHandler(IWindowsMessageHandler& message_handler)
+{
+    for (const auto& handler : message_handlers_)
+    {
+        if (handler == &message_handler) return;
+    }
+    
+    windows_application->message_handlers_.push_back(&message_handler);
+}
+
+void WindowsApplication::RemoveMessageHandler(IWindowsMessageHandler& message_handler)
+{
+    std::erase(windows_application->message_handlers_, &message_handler);
 }
 
 LRESULT WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
@@ -54,6 +69,7 @@ LRESULT WindowsApplication::StaticWndProc(HWND hWnd, UINT message, WPARAM wParam
 {
     return WndProc(hWnd, message, wParam, lParam);
 }
+
 MathTypes::uint32 WindowsApplication::ProcessMessage(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
     const std::shared_ptr<WindowsWindow> window = FindWindowByHWND(hWnd);
@@ -87,19 +103,4 @@ std::shared_ptr<WindowsWindow> WindowsApplication::FindWindowByHWND(HWND hWnd) c
     }
     
     return nullptr;
-}
-
-void WindowsApplication::AddMessageHandler(IWindowsMessageHandler& message_handler)
-{
-    for (const auto& handler : message_handlers_)
-    {
-        if (handler == &message_handler) return;
-    }
-    
-    windows_application->message_handlers_.push_back(&message_handler);
-}
-
-void WindowsApplication::RemoveMessageHandler(IWindowsMessageHandler& message_handler)
-{
-    std::erase(windows_application->message_handlers_, &message_handler);
 }

@@ -147,10 +147,8 @@
     <ClInclude Include="Engine\Actor\Component\TransformComponent.h" />
     <ClInclude Include="Engine\Audio\AudioManager.h" />
     <ClInclude Include="Engine\DebugDraw.h" />
-    <ClInclude Include="Engine\EngineLoop.h" />
     <ClInclude Include="Engine\Enums.h" />
     <ClInclude Include="Engine\EventManager.h" />
-    <ClInclude Include="Engine\GameEngine.h" />
     <ClInclude Include="Engine\Graphics\Camera2D.h" />
     <ClInclude Include="Engine\Graphics\ConstantBuffer.h" />
     <ClInclude Include="Engine\Graphics\ConstantBufferTypes.h" />
@@ -282,9 +280,7 @@
     <ClCompile Include="Engine\Actor\Component\TransformComponent.cpp" />
     <ClCompile Include="Engine\Audio\AudioManager.cpp" />
     <ClCompile Include="Engine\DebugDraw.cpp" />
-    <ClCompile Include="Engine\EngineLoop.cpp" />
     <ClCompile Include="Engine\EventManager.cpp" />
-    <ClCompile Include="Engine\GameEngine.cpp" />
     <ClCompile Include="Engine\Graphics\Camera2D.cpp" />
     <ClCompile Include="Engine\Graphics\Graphics.cpp" />
     <ClCompile Include="Engine\Graphics\IndexBuffer.cpp" />

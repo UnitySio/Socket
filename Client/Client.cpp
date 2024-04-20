@@ -8,9 +8,6 @@
 
 #include "Windows/WindowsWindow.h"
 
-HANDLE engine_thread;
-DWORD WINAPI EngineThread(LPVOID lpParam);
-
 int APIENTRY wWinMain(
     _In_ HINSTANCE hInstance,
     _In_opt_ HINSTANCE hPrevInstance,
@@ -30,7 +27,7 @@ int APIENTRY wWinMain(
     WindowsApplication* application = WindowsApplication::CreateWindowsApplication(hInstance, hIcon);
 
     std::shared_ptr<WindowsWindow> main_window = WindowsWindow::Make();
-    application->InitializeWindow(main_window, nullptr);
+    application->InitWindow(main_window, nullptr);
     main_window.reset();
 
     // 콘솔 로그 출력
@@ -46,8 +43,6 @@ int APIENTRY wWinMain(
             DispatchMessage(&msg);
         }
     }
-
-    WaitForSingleObject(engine_thread, INFINITE);
 
     delete application;
     
