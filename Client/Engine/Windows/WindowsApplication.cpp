@@ -29,7 +29,7 @@ ATOM WindowsApplication::RegisterClass(HINSTANCE instance_handle, HICON icon_han
     wcex.hIcon = icon_handle;
     wcex.hCursor = LoadCursor(nullptr, IDC_ARROW);
     wcex.hbrBackground = static_cast<HBRUSH>(GetStockObject(BLACK_BRUSH));
-    wcex.lpszClassName = L"GEWindow";
+    wcex.lpszClassName = WindowsWindow::window_class;
 
     return RegisterClassEx(&wcex);
 }
@@ -72,7 +72,8 @@ LRESULT WindowsApplication::StaticWndProc(HWND hWnd, UINT message, WPARAM wParam
 
 MathTypes::uint32 WindowsApplication::ProcessMessage(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-    const std::shared_ptr<WindowsWindow> window = FindWindowByHWND(hWnd);
+    std::shared_ptr<WindowsWindow> window = FindWindowByHWND(hWnd);
+    
     if (window)
     {
         bool is_external_handled = false;

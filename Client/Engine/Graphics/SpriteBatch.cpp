@@ -24,7 +24,7 @@ SpriteBatch::SpriteBatch(ID3D11DeviceContext* device_context)
         {"TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0}
     };
     
-    const std::wstring kPath = ProjectSettings::kPath.at(L"GameData");
+    const std::wstring kPath = L".\\Game_Data\\";
 
     constexpr UINT num_elements_2d = ARRAYSIZE(layout_2d);
     bool result = vertex_shader_.Init(device, kPath + L"VertexShader2D.cso", layout_2d, num_elements_2d);

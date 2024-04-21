@@ -9,7 +9,7 @@ Sprite::Sprite() :
 
 bool Sprite::Load(ID3D11Device* device, const std::wstring& kPath)
 {
-    const std::wstring kFinalPath = ProjectSettings::kPath.at(L"GameData") + kPath;
+    const std::wstring kFinalPath = L".\\Game_Data\\" + kPath;
     if (!Texture::Load(device, kFinalPath)) return false;
     
     const std::wstring kFileName = kPath.substr(kPath.find_last_of(L"/\\") + 1, kPath.find_last_of(L".") - kPath.find_last_of(L"/\\") - 1);

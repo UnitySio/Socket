@@ -12,6 +12,8 @@ WindowsWindow::~WindowsWindow()
 {
 }
 
+WCHAR WindowsWindow::window_class[] = L"GEWindow";
+
 std::shared_ptr<WindowsWindow> WindowsWindow::Make()
 {
     return std::make_shared<WindowsWindow>();
@@ -45,7 +47,7 @@ void WindowsWindow::Init(WindowsApplication* const application, HINSTANCE instan
 
     hWnd_ = CreateWindowEx(
         window_ex_style,
-        L"GEWindow",
+        window_class,
         L"Game Engine",
         window_style,
         window_x, window_y,
@@ -58,4 +60,9 @@ void WindowsWindow::Init(WindowsApplication* const application, HINSTANCE instan
 
     if (!hWnd_) return;
     ShowWindow(hWnd_, SW_SHOW);
+}
+
+void WindowsWindow::SetWindowFocus()
+{
+    if (GetFocus() != hWnd_) SetFocus(hWnd_);
 }

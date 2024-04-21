@@ -36,7 +36,7 @@ PrimitiveBatch::PrimitiveBatch(ID3D11DeviceContext* device_context) :
         {"COLOR", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0}
     };
 
-    const std::wstring kPath = ProjectSettings::kPath.at(L"GameData");
+    const std::wstring kPath = L".\\Game_Data\\";
 
     constexpr UINT num_elements_primitive = ARRAYSIZE(layout_primitive);
     bool result = vertex_shader_.Init(device, kPath + L"VertexShaderPrimitive.cso", layout_primitive, num_elements_primitive);

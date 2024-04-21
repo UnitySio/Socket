@@ -36,7 +36,7 @@ int APIENTRY wWinMain(
     // std::cout << "Hello, World!" << std::endl;
 
     GameEngine* game_engine = new GameEngine();
-    application->AddMessageHandler(*game_engine);
+    game_engine->Init(application);
 
     MSG msg = {};
     while (msg.message != WM_QUIT)
