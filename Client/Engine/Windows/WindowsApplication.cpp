@@ -4,20 +4,20 @@
 
 WindowsApplication* windows_application = nullptr;
 
-WindowsApplication* WindowsApplication::CreateWindowsApplication(HINSTANCE instance_handle, HICON icon_handle)
+WindowsApplication* WindowsApplication::CreateWindowsApplication(const HINSTANCE instance_handle, const HICON icon_handle)
 {
     windows_application = new WindowsApplication(instance_handle, icon_handle);
     return windows_application;
 }
 
-WindowsApplication::WindowsApplication(HINSTANCE instance_handle, HICON icon_handle) :
+WindowsApplication::WindowsApplication(const HINSTANCE instance_handle, const HICON icon_handle) :
     instance_handle_(instance_handle),
     windows_()
 {
     RegisterClass(instance_handle, icon_handle);
 }
 
-ATOM WindowsApplication::RegisterClass(HINSTANCE instance_handle, HICON icon_handle)
+ATOM WindowsApplication::RegisterClass(const HINSTANCE instance_handle, const HICON icon_handle)
 {
     WNDCLASSEX wcex;
     ZeroMemory(&wcex, sizeof(WNDCLASSEX));
@@ -39,10 +39,10 @@ std::shared_ptr<WindowsWindow> WindowsApplication::MakeWindow()
     return WindowsWindow::Make();
 }
 
-void WindowsApplication::InitWindow(const std::shared_ptr<WindowsWindow>& window, const std::shared_ptr<WindowsWindow>& parent_window)
+void WindowsApplication::InitWindow(const std::shared_ptr<WindowsWindow>& kWindow, const std::shared_ptr<WindowsWindow>& kParentWindow)
 {
-    windows_.push_back(window);
-    window->Init(this, instance_handle_, parent_window);
+    windows_.push_back(kWindow);
+    kWindow->Init(this, instance_handle_, kParentWindow);
 }
 
 void WindowsApplication::AddMessageHandler(IWindowsMessageHandler& message_handler)

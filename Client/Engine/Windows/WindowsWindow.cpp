@@ -19,7 +19,7 @@ std::shared_ptr<WindowsWindow> WindowsWindow::Make()
     return std::make_shared<WindowsWindow>();
 }
 
-void WindowsWindow::Init(WindowsApplication* const application, HINSTANCE instance_handle, const std::shared_ptr<WindowsWindow>& parent_window)
+void WindowsWindow::Init(WindowsApplication* const application, HINSTANCE instance_handle, const std::shared_ptr<WindowsWindow>& kParentWindow)
 {
     application_ = application;
 
@@ -52,7 +52,7 @@ void WindowsWindow::Init(WindowsApplication* const application, HINSTANCE instan
         window_style,
         window_x, window_y,
         window_width, window_height,
-        parent_window ? parent_window->GetHWnd() : nullptr,
+        kParentWindow ? kParentWindow->GetHWnd() : nullptr,
         nullptr,
         instance_handle,
         nullptr

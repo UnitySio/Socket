@@ -6,7 +6,8 @@
 #include <crtdbg.h>
 #include <iostream>
 
-#include "GameEngine.h"
+#include "Core.h"
+#include "Misc/EngineMacros.h"
 #include "Windows/WindowsWindow.h"
 
 int APIENTRY wWinMain(
@@ -24,19 +25,12 @@ int APIENTRY wWinMain(
     _CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 #endif
 
-    HICON hIcon = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_ICON1));
-    WindowsApplication* application = WindowsApplication::CreateWindowsApplication(hInstance, hIcon);
-
-    // std::shared_ptr<WindowsWindow> main_window = WindowsWindow::Make();
-    // application->InitWindow(main_window, nullptr);
-    // main_window.reset();
+    Core* core = Core::Create();
+    core->Init(hInstance);
 
     // 콘솔 로그 출력
     // OutputDebugString(L"Hello, World!");
     // std::cout << "Hello, World!" << std::endl;
-
-    GameEngine* game_engine = new GameEngine();
-    game_engine->Init(application);
 
     MSG msg = {};
     while (msg.message != WM_QUIT)
@@ -48,8 +42,7 @@ int APIENTRY wWinMain(
         }
     }
 
-    delete game_engine;
-    delete application;
+    SAFE_RELEASE(core);
     
 #ifdef _DEBUG
     _CrtDumpMemoryLeaks();

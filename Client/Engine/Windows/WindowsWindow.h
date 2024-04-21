@@ -15,7 +15,7 @@ public:
 
     static std::shared_ptr<WindowsWindow> Make();
 
-    void Init(WindowsApplication* application, HINSTANCE instance_handle, const std::shared_ptr<WindowsWindow>& parent_window);
+    void Init(WindowsApplication* const application, HINSTANCE instance_handle, const std::shared_ptr<WindowsWindow>& kParentWindow);
     void SetWindowFocus();
 
     inline HWND GetHWnd() const { return hWnd_; }

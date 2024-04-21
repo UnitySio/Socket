@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include <vector>
 
+#include "..\resource.h"
 #include "Singleton.h"
 #include "../framework.h"
 #include "Math/MathTypes.h"
@@ -18,16 +19,16 @@ public:
 class WindowsApplication
 {
 public:
-    static WindowsApplication* CreateWindowsApplication(HINSTANCE instance_handle, HICON icon_handle);
+    static WindowsApplication* CreateWindowsApplication(const HINSTANCE instance_handle, const HICON icon_handle);
     
-    WindowsApplication(HINSTANCE instance_handle, HICON icon_handle);
+    WindowsApplication(const HINSTANCE instance_handle, const HICON icon_handle);
     ~WindowsApplication() = default;
 
-    ATOM RegisterClass(HINSTANCE instance_handle, HICON icon_handle);
+    ATOM RegisterClass(const HINSTANCE instance_handle, const HICON icon_handle);
 
     std::shared_ptr<WindowsWindow> MakeWindow();
     
-    void InitWindow(const std::shared_ptr<WindowsWindow>& window, const std::shared_ptr<WindowsWindow>& parent_window);
+    void InitWindow(const std::shared_ptr<WindowsWindow>& kWindow, const std::shared_ptr<WindowsWindow>& kParentWindow);
     void AddMessageHandler(IWindowsMessageHandler& message_handler);
     void RemoveMessageHandler(IWindowsMessageHandler& message_handler);
 
