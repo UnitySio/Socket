@@ -179,6 +179,7 @@
     <ClInclude Include="Engine\Singleton.h" />
     <ClInclude Include="Engine\Time\Time.h" />
     <ClInclude Include="Engine\Windows\D3D\Renderer.h" />
+    <ClInclude Include="Engine\Windows\D3D\RenderingPolicy.h" />
     <ClInclude Include="Engine\Windows\WindowDefinition.h" />
     <ClInclude Include="Engine\Windows\WindowsApplication.h" />
     <ClInclude Include="Engine\Windows\WindowsWindow.h" />
@@ -306,6 +307,7 @@
     <ClCompile Include="Engine\Physics\RayCastCallback.cpp" />
     <ClCompile Include="Engine\Time\Time.cpp" />
     <ClCompile Include="Engine\Windows\D3D\Renderer.cpp" />
+    <ClCompile Include="Engine\Windows\D3D\RenderingPolicy.cpp" />
     <ClCompile Include="Engine\Windows\WindowsApplication.cpp" />
     <ClCompile Include="Engine\Windows\WindowsWindow.cpp" />
     <ClCompile Include="Game\Actor\Floor.cpp" />

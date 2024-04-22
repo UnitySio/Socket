@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include "Windows/WindowsApplication.h"
 
+class Renderer;
 class GameEngine;
 
 class Core : public IWindowsMessageHandler
@@ -19,6 +20,7 @@ private:
     std::shared_ptr<WindowsApplication> current_application_;
     std::weak_ptr<WindowsWindow> game_window_;
 
+    std::shared_ptr<Renderer> renderer_;
     std::shared_ptr<GameEngine> game_engine_;
 
     HANDLE game_thread_handle_;

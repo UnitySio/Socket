@@ -1,11 +1,14 @@
 ﻿#include "Core.h"
 
 #include "GameEngine.h"
+#include "Math/Vector2.h"
 #include "Windows/WindowsWindow.h"
+#include "Windows/D3D/Renderer.h"
 
 Core::Core() :
     current_application_(nullptr),
     game_window_(),
+    renderer_(nullptr),
     game_thread_handle_(nullptr),
     is_game_running_(false)
 {
@@ -22,9 +25,17 @@ void Core::Init(const HINSTANCE instance_handle)
     current_application_ = std::shared_ptr<WindowsApplication>(WindowsApplication::CreateWindowsApplication(instance_handle, icon_handle));
     current_application_->AddMessageHandler(*this);
 
+    // DirectX 11 렌더러 생성
+    renderer_ = std::make_shared<Renderer>();
+    renderer_->Init();
+
     // 게임 윈도우 생성
     std::shared_ptr<WindowsWindow> new_window = current_application_->MakeWindow();
     current_application_->InitWindow(new_window, nullptr);
+
+    // 렌더러에 뷰포트 생성
+    renderer_->CreateViewport(new_window, {640, 480});
+    
     game_window_ = new_window;
 
     // 게임 스레드 생성
@@ -48,9 +59,6 @@ bool Core::ProcessMessage(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam,
                 
                 // 게임 스레드가 종료될 때까지 대기
                 WaitForSingleObject(game_thread_handle_, INFINITE);
-
-                // 게임 스레드가 종료된 후 나머지 정리
-                // ...
             }
         }
     }
