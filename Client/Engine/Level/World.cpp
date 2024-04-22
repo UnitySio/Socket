@@ -25,7 +25,7 @@ World::World() :
 
     physics_world_->SetDebugDraw(&debug_draw_);
     
-    primitive_batch_ = std::make_unique<PrimitiveBatch>(Graphics::Get()->GetD3DDeviceContext());
+    // primitive_batch_ = std::make_unique<PrimitiveBatch>(Graphics::Get()->GetD3DDeviceContext());
 }
 
 void World::Init()
@@ -91,9 +91,9 @@ void World::Render(float alpha)
     {
         current_level_->Render(alpha);
         
-        primitive_batch_->Begin(Graphics::Get()->GetCamera2D().GetWorldMatrix() * Graphics::Get()->GetCamera2D().GetOrthographicMatrix());
-        physics_world_->DebugDraw();
-        primitive_batch_->End();
+        // primitive_batch_->Begin(Graphics::Get()->GetCamera2D().GetWorldMatrix() * Graphics::Get()->GetCamera2D().GetOrthographicMatrix());
+        // physics_world_->DebugDraw();
+        // primitive_batch_->End();
     }
 }
 

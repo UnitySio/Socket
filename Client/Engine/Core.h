@@ -1,11 +1,11 @@
 ﻿#pragma once
 #include "Windows/WindowsApplication.h"
 
+class GameEngine;
+
 class Core : public IWindowsMessageHandler
 {
 public:
-    static Core* Create();
-    
     Core();
     ~Core();
 
@@ -18,6 +18,8 @@ private:
     
     std::shared_ptr<WindowsApplication> current_application_;
     std::weak_ptr<WindowsWindow> game_window_;
+
+    std::shared_ptr<GameEngine> game_engine_;
 
     HANDLE game_thread_handle_;
 

@@ -34,11 +34,11 @@ Pawn::Pawn(const std::wstring& kName) :
     
     GetTransform()->SetRelativeLocation({1.f, 5.f});
 
-    Graphics* gfx = Graphics::Get();
-    
-    sprite_ = std::make_unique<Sprite>();
-    assert(sprite_->Load(gfx->GetD3DDevice(), L"spritesheet.png"));
-    sprite_->Split(3, 15, {.5f, 0.f});
+    // Graphics* gfx = Graphics::Get();
+    //
+    // sprite_ = std::make_unique<Sprite>();
+    // assert(sprite_->Load(gfx->GetD3DDevice(), L"spritesheet.png"));
+    // sprite_->Split(3, 15, {.5f, 0.f});
     
     audio_listener_ = CreateComponent<AudioListenerComponent>(L"AudioListener");
     
@@ -98,22 +98,22 @@ void Pawn::Render(float alpha)
 {
     Actor::Render(alpha);
 
-    Graphics* gfx = Graphics::Get();
-    SpriteBatch* batch = gfx->GetSpriteBatch();
-
-    static int idx = 0;
-
-    static float time = 0.f;
-    time += Time::DeltaTime();
-    if (time > 1.f / 5.f)
-    {
-        idx = (idx + 1) % 6;
-        time = 0.f;
-    }
-
-    const Math::Vector2 location = GetTransform()->GetRelativeLocation();
-    const float angle = GetTransform()->GetRelativeRotationZ();
-    batch->Draw(sprite_.get(), L"spritesheet_" + std::to_wstring(idx), location, {1.f * -dir_, 1.f}, angle);
+    // Graphics* gfx = Graphics::Get();
+    // SpriteBatch* batch = gfx->GetSpriteBatch();
+    //
+    // static int idx = 0;
+    //
+    // static float time = 0.f;
+    // time += Time::DeltaTime();
+    // if (time > 1.f / 5.f)
+    // {
+    //     idx = (idx + 1) % 6;
+    //     time = 0.f;
+    // }
+    //
+    // const Math::Vector2 location = GetTransform()->GetRelativeLocation();
+    // const float angle = GetTransform()->GetRelativeRotationZ();
+    // batch->Draw(sprite_.get(), L"spritesheet_" + std::to_wstring(idx), location, {1.f * -dir_, 1.f}, angle);
     
 }
 

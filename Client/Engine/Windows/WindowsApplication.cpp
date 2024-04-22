@@ -1,6 +1,7 @@
 ﻿#include "WindowsApplication.h"
 
 #include "WindowsWindow.h"
+#include "DirectXTK/Audio.h"
 
 WindowsApplication* windows_application = nullptr;
 
@@ -15,6 +16,12 @@ WindowsApplication::WindowsApplication(const HINSTANCE instance_handle, const HI
     windows_()
 {
     RegisterClass(instance_handle, icon_handle);
+    CoInitializeEx(nullptr, COINIT_MULTITHREADED);
+}
+
+WindowsApplication::~WindowsApplication()
+{
+    CoUninitialize();
 }
 
 ATOM WindowsApplication::RegisterClass(const HINSTANCE instance_handle, const HICON icon_handle)

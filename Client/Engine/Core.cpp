@@ -1,14 +1,7 @@
 ﻿#include "Core.h"
 
+#include "GameEngine.h"
 #include "Windows/WindowsWindow.h"
-
-Core* core = nullptr;
-
-Core* Core::Create()
-{
-    core = new Core();
-    return core;
-}
 
 Core::Core() :
     current_application_(nullptr),
@@ -35,7 +28,10 @@ void Core::Init(const HINSTANCE instance_handle)
     game_window_ = new_window;
 
     // 게임 스레드 생성
-    game_thread_handle_ = CreateThread(nullptr, 0, GameThread, nullptr, 0, nullptr);
+    game_thread_handle_ = CreateThread(nullptr, 0, GameThread, this, 0, nullptr);
+
+    // 게임 엔진 생성
+    game_engine_ = std::make_shared<GameEngine>();
 }
 
 extern LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
@@ -52,6 +48,9 @@ bool Core::ProcessMessage(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam,
                 
                 // 게임 스레드가 종료될 때까지 대기
                 WaitForSingleObject(game_thread_handle_, INFINITE);
+
+                // 게임 스레드가 종료된 후 나머지 정리
+                // ...
             }
         }
     }
@@ -61,10 +60,15 @@ bool Core::ProcessMessage(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam,
 
 DWORD Core::GameThread(LPVOID lpParam)
 {
+    Core* core = static_cast<Core*>(lpParam);
+    if (!core) return 0;
+
+    GameEngine* game_engine = core->game_engine_.get();
     core->is_game_running_ = true;
     
     while (true)
     {
+        game_engine->Tick();
         if (!core->is_game_running_) break;
     }
     

@@ -17,29 +17,19 @@
 #include "SpriteBatch.h"
 #include "box2d/b2_draw.h"
 
+class WindowsWindow;
 struct b2Vec2;
 
-class Graphics : public Singleton<Graphics>
+class Graphics
 {
 public:
     Graphics();
-    virtual ~Graphics() override = default;
+    ~Graphics() = default;
 
-    bool Init();
+    bool Init(const std::shared_ptr<WindowsWindow>& window);
     
     void BeginFrame3D();
     void EndFrame3D();
-
-    void DrawLine(b2Vec2 start, b2Vec2 end, b2Color color = b2Color(1.f, 1.f, 1.f));
-    void DrawBox(b2Vec2 center, b2Vec2 size, float angle, b2Color color = b2Color(1.f, 1.f, 1.f));
-    void DrawSolidBox(b2Vec2 center, b2Vec2 size, float angle, b2Color color = b2Color(1.f, 1.f, 1.f));
-    void DrawCircle(b2Vec2 center, float radius, b2Color color = b2Color(1.f, 1.f, 1.f));
-    void DrawSolidCircle(b2Vec2 center, float radius, b2Color color = b2Color(1.f, 1.f, 1.f));
-    void DrawPolygon(const b2Vec2* kVertices, int32 vertex_count, b2Color color = b2Color(1.f, 1.f, 1.f));
-    void DrawSolidPolygon(const b2Vec2* kVertices, int32 vertex_count, b2Color color = b2Color(1.f, 1.f, 1.f));
-    void DrawTexture(ID2D1Bitmap* texture, b2Vec2 center, b2Vec2 scale = b2Vec2(1.f, 1.f), float angle = 0.f, float opacity = 1.f);
-
-    ID2D1Bitmap* LoadTexture(const WCHAR* kFileName);
 
     inline ID3D11Device* GetD3DDevice() const { return d3d_device_.Get(); }
     inline ID3D11DeviceContext* GetD3DDeviceContext() const { return d3d_device_context_.Get(); }
@@ -57,6 +47,8 @@ private:
     bool InitScene();
     bool InitFactoryD2D();
     bool InitRenderTargetD2D();
+
+    std::shared_ptr<WindowsWindow> window_;
     
     Microsoft::WRL::ComPtr<ID3D11Device> d3d_device_;
     Microsoft::WRL::ComPtr<ID3D11DeviceContext> d3d_device_context_;

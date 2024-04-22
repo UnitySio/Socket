@@ -22,7 +22,7 @@ public:
     static WindowsApplication* CreateWindowsApplication(const HINSTANCE instance_handle, const HICON icon_handle);
     
     WindowsApplication(const HINSTANCE instance_handle, const HICON icon_handle);
-    ~WindowsApplication() = default;
+    ~WindowsApplication();
 
     ATOM RegisterClass(const HINSTANCE instance_handle, const HICON icon_handle);
 
