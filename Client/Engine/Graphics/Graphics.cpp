@@ -218,8 +218,7 @@ void Graphics::BeginFrame3D()
     };
 
     d3d_device_context_->ClearRenderTargetView(d3d_render_target_view_.Get(), clear_color);
-    d3d_device_context_->ClearDepthStencilView(depth_stencil_view_.Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.f,
-                                               0);
+    d3d_device_context_->ClearDepthStencilView(depth_stencil_view_.Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.f, 0);
 
     d3d_device_context_->RSSetState(rasterizer_state_.Get());
     d3d_device_context_->OMSetDepthStencilState(depth_stencil_state_.Get(), 0);

@@ -27,7 +27,7 @@ public:
     //     {kDefault, kDefault | kFloor},
     //     {kFloor, kDefault | kFloor},
     // };
-
+    //
     // static inline const std::map<std::wstring, std::wstring> kPath = { // 경로
     //     {L"GameData", L".\\Game_Data\\"},
     // };

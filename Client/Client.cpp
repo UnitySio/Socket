@@ -44,9 +44,5 @@ int APIENTRY wWinMain(
 
     SAFE_RELEASE(core);
     
-#ifdef _DEBUG
-    _CrtDumpMemoryLeaks();
-#endif
-    
     return 0;
 }

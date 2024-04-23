@@ -1,12 +1,7 @@
 ﻿#include "Renderer.h"
 
 #include <cassert>
-#include <DirectXColors.h>
-#include <ranges>
 
-#include "imgui/imgui.h"
-#include "imgui/imgui_impl_dx11.h"
-#include "imgui/imgui_impl_win32.h"
 #include "Math/Vector2.h"
 #include "Windows/WindowsWindow.h"
 
@@ -19,21 +14,11 @@ Renderer::Renderer()
 
 Renderer::~Renderer()
 {
-    ImGui_ImplWin32_Shutdown();
-    ImGui_ImplDX11_Shutdown();
-    
-    for (const auto& val : viewports_ | std::views::values)
-    {
-        ImGui::DestroyContext(val.imgui_context);
-    }
 }
 
 bool Renderer::Init()
 {
     if (!CreateDevice()) return false;
-
-    IMGUI_CHECKVERSION();
-    
     if (!InitResources()) return false;
 
     return true;
@@ -185,12 +170,6 @@ bool Renderer::CreateViewport(std::shared_ptr<WindowsWindow> window, Math::Vecto
     hr = CreateBackBufferResources(viewport.dxgi_swap_chain, viewport.back_buffer, viewport.d3d_render_target_view);
     if (FAILED(hr)) return false;
 
-    ImGuiContext* imgui_context = ImGui::CreateContext();
-    ImGui::SetCurrentContext(imgui_context);
-    ImGui_ImplWin32_Init(window->GetHWnd());
-    ImGui_ImplDX11_Init(g_d3d_device.Get(), g_d3d_device_context.Get());
-
-    viewport.imgui_context = imgui_context;
     viewports_[window.get()] = viewport;
 
     return true;
@@ -231,34 +210,34 @@ Viewport* Renderer::FindViewport(WindowsWindow* window)
     return &it->second;
 }
 
-void Renderer::DrawWindows(const std::vector<std::shared_ptr<WindowsWindow>>& kWindows)
+void Renderer::BeginRender(const std::shared_ptr<WindowsWindow>& kWindow)
 {
-    for (const auto& window : kWindows)
-    {
-        Viewport* viewport = FindViewport(window.get());
-        assert(viewport);
+    Viewport* viewport = FindViewport(kWindow.get());
+    assert(viewport);
 
-        g_d3d_device_context->ClearRenderTargetView(viewport->d3d_render_target_view.Get(), DirectX::Colors::CornflowerBlue);
-        g_d3d_device_context->RSSetViewports(1, &viewport->d3d_viewport);
+    constexpr float clear_color[4] = {
+        49.f / 255.f,
+        77.f / 255.f,
+        121.f / 255.f,
+        1.f
+    };
 
-        ID3D11RenderTargetView* render_target_view = viewport->d3d_render_target_view.Get();
-        ID3D11DepthStencilView* depth_stencil_view = viewport->depth_stencil_view.Get();
+    g_d3d_device_context->ClearRenderTargetView(viewport->d3d_render_target_view.Get(), clear_color);
+    g_d3d_device_context->RSSetViewports(1, &viewport->d3d_viewport);
 
-        g_d3d_device_context->OMSetRenderTargets(1, &render_target_view, depth_stencil_view);
+    ID3D11RenderTargetView* render_target_view = viewport->d3d_render_target_view.Get();
+    ID3D11DepthStencilView* depth_stencil_view = viewport->depth_stencil_view.Get();
 
-        ImGui::SetCurrentContext(viewport->imgui_context);
-        ImGui_ImplDX11_NewFrame();
-        ImGui_ImplWin32_NewFrame();
-        ImGui::NewFrame();
+    g_d3d_device_context->OMSetRenderTargets(1, &render_target_view, depth_stencil_view);
+}
 
-        ImGui::ShowDemoWindow();
-
-        ImGui::Render();
-        ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
-
-        g_d3d_device_context->OMSetRenderTargets(0, nullptr, nullptr);
-        viewport->dxgi_swap_chain->Present(1, 0);
-    }
+void Renderer::EndRender(const std::shared_ptr<WindowsWindow>& kWindow)
+{
+    Viewport* viewport = FindViewport(kWindow.get());
+    assert(viewport);
+    
+    g_d3d_device_context->OMSetRenderTargets(0, nullptr, nullptr);
+    viewport->dxgi_swap_chain->Present(1, 0);
 }
 
 bool Renderer::CreateBackBufferResources(Microsoft::WRL::ComPtr<IDXGISwapChain>& dxgi_swap_chain,

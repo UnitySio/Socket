@@ -43,7 +43,8 @@ public:
 
     Viewport* FindViewport(WindowsWindow* window);
 
-    void DrawWindows(const std::vector<std::shared_ptr<WindowsWindow>>& kWindows);
+    void BeginRender(const std::shared_ptr<WindowsWindow>& kWindow);
+    void EndRender(const std::shared_ptr<WindowsWindow>& kWindow);
 
 private:
     bool CreateBackBufferResources(Microsoft::WRL::ComPtr<IDXGISwapChain>& dxgi_swap_chain, Microsoft::WRL::ComPtr<ID3D11Texture2D>& back_buffer, Microsoft::WRL::ComPtr<ID3D11RenderTargetView>& d3d_render_target_view);
