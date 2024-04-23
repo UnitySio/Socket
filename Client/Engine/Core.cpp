@@ -35,8 +35,22 @@ void Core::Init(const HINSTANCE instance_handle)
 
     // 렌더러에 뷰포트 생성
     renderer_->CreateViewport(new_window, {640, 480});
+
+    // 뷰포트에 깊이 스텐실 버퍼 생성
+    if (const auto viewport = renderer_->FindViewport(new_window.get()))
+    {
+        renderer_->CreateDepthStencilBuffer(*viewport);
+    }
     
     game_window_ = new_window;
+
+    std::shared_ptr<WindowsWindow> new_window2 = current_application_->MakeWindow();
+    current_application_->InitWindow(new_window2, nullptr);
+    renderer_->CreateViewport(new_window2, {640, 480});
+    if (const auto viewport = renderer_->FindViewport(new_window2.get()))
+    {
+        renderer_->CreateDepthStencilBuffer(*viewport);
+    }
 
     // 게임 스레드 생성
     game_thread_handle_ = CreateThread(nullptr, 0, GameThread, this, 0, nullptr);
@@ -49,6 +63,7 @@ extern LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam
 bool Core::ProcessMessage(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam, MathTypes::uint32 handler_result)
 {
     if (ImGui_ImplWin32_WndProcHandler(hWnd, message, wParam, lParam)) return true;
+    
     if (message == WM_DESTROY)
     {
         if (const auto window = game_window_.lock())
@@ -76,6 +91,7 @@ DWORD Core::GameThread(LPVOID lpParam)
     
     while (true)
     {
+        core->renderer_->DrawWindows(core->current_application_->GetWindows());
         game_engine->Tick();
         if (!core->is_game_running_) break;
     }

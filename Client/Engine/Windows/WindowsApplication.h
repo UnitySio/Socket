@@ -32,6 +32,8 @@ public:
     void AddMessageHandler(IWindowsMessageHandler& message_handler);
     void RemoveMessageHandler(IWindowsMessageHandler& message_handler);
 
+    const std::vector<std::shared_ptr<WindowsWindow>>& GetWindows() const { return windows_; }
+
 private:
     friend LRESULT WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
     static LRESULT CALLBACK StaticWndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
