@@ -3,7 +3,7 @@
 #include <d3d11.h>
 #include <string>
 
-#include "IndexBuffer.h"
+#include "IndexBuffer_Temp.h"
 #include "Vertex.h"
 #include "VertexBuffer.h"
 
@@ -27,7 +27,7 @@ protected:
     UINT width_;
     UINT height_;
 
-    IndexBuffer indices_;
+    IndexBuffer_Temp indices_;
     VertexBuffer<Vertex2D> vertices_;
     
 };

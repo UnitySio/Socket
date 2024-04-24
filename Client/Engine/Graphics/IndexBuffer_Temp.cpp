@@ -1,10 +1,10 @@
-﻿#include "IndexBuffer.h"
+﻿#include "IndexBuffer_Temp.h"
 
-IndexBuffer::IndexBuffer() : buffer_size_(0)
+IndexBuffer_Temp::IndexBuffer_Temp() : buffer_size_(0)
 {
 }
 
-HRESULT IndexBuffer::Init(ID3D11Device* device, DWORD* data, UINT num_indices)
+HRESULT IndexBuffer_Temp::Init(ID3D11Device* device, DWORD* data, UINT num_indices)
 {
     if (buffer_.Get()) buffer_.Reset();
     

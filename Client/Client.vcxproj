@@ -155,7 +155,7 @@
     <ClInclude Include="Engine\Graphics\ConstantBuffer.h" />
     <ClInclude Include="Engine\Graphics\ConstantBufferTypes.h" />
     <ClInclude Include="Engine\Graphics\Graphics.h" />
-    <ClInclude Include="Engine\Graphics\IndexBuffer.h" />
+    <ClInclude Include="Engine\Graphics\IndexBuffer_Temp.h" />
     <ClInclude Include="Engine\Graphics\PrimitiveBatch.h" />
     <ClInclude Include="Engine\Graphics\Sprite.h" />
     <ClInclude Include="Engine\Graphics\SpriteBatch.h" />
@@ -178,7 +178,10 @@
     <ClInclude Include="Engine\Physics\RayCastResult.h" />
     <ClInclude Include="Engine\Singleton.h" />
     <ClInclude Include="Engine\Time\Time.h" />
+    <ClInclude Include="Engine\Windows\D3D\IndexBuffer.h" />
     <ClInclude Include="Engine\Windows\D3D\Renderer.h" />
+    <ClInclude Include="Engine\Windows\D3D\Vertex.h" />
+    <ClInclude Include="Engine\Windows\D3D\VertexBuffer.h" />
     <ClInclude Include="Engine\Windows\WindowDefinition.h" />
     <ClInclude Include="Engine\Windows\WindowsApplication.h" />
     <ClInclude Include="Engine\Windows\WindowsWindow.h" />
@@ -289,7 +292,7 @@
     <ClCompile Include="Engine\GameEngine.cpp" />
     <ClCompile Include="Engine\Graphics\Camera2D.cpp" />
     <ClCompile Include="Engine\Graphics\Graphics.cpp" />
-    <ClCompile Include="Engine\Graphics\IndexBuffer.cpp" />
+    <ClCompile Include="Engine\Graphics\IndexBuffer_Temp.cpp" />
     <ClCompile Include="Engine\Graphics\PrimitiveBatch.cpp" />
     <ClCompile Include="Engine\Graphics\Shaders.cpp" />
     <ClCompile Include="Engine\Graphics\Sprite.cpp" />
@@ -305,7 +308,9 @@
     <ClCompile Include="Engine\Physics\Physics.cpp" />
     <ClCompile Include="Engine\Physics\RayCastCallback.cpp" />
     <ClCompile Include="Engine\Time\Time.cpp" />
+    <ClCompile Include="Engine\Windows\D3D\IndexBuffer.cpp" />
     <ClCompile Include="Engine\Windows\D3D\Renderer.cpp" />
+    <ClCompile Include="Engine\Windows\D3D\VertexBuffer.cpp" />
     <ClCompile Include="Engine\Windows\WindowsApplication.cpp" />
     <ClCompile Include="Engine\Windows\WindowsWindow.cpp" />
     <ClCompile Include="Game\Actor\Floor.cpp" />

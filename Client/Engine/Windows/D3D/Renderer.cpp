@@ -1,14 +1,24 @@
 ﻿#include "Renderer.h"
 
 #include <cassert>
+#include <vector>
 
+#include "Vertex.h"
 #include "Math/Vector2.h"
+#include "Misc/EngineMacros.h"
 #include "Windows/WindowsWindow.h"
 
 Microsoft::WRL::ComPtr<ID3D11Device> g_d3d_device;
 Microsoft::WRL::ComPtr<ID3D11DeviceContext> g_d3d_device_context;
 
-Renderer::Renderer()
+Renderer::Renderer() :
+    point_sampler_state_wrap_(nullptr),
+    blend_state_(nullptr),
+    rasterizer_state_(nullptr),
+    depth_stencil_state_(nullptr),
+    vertex_buffer_(),
+    viewports_(),
+    current_viewport_(nullptr)
 {
 }
 
@@ -40,20 +50,8 @@ bool Renderer::InitResources()
     HRESULT hr = g_d3d_device->CreateSamplerState(&sampler_desc, point_sampler_state_wrap_.GetAddressOf());
     if (FAILED(hr)) return false;
 
-    sampler_desc.Filter = D3D11_FILTER_MIN_MAG_LINEAR_MIP_POINT;
-    hr = g_d3d_device->CreateSamplerState(&sampler_desc, bilinear_sampler_state_wrap_.GetAddressOf());
-    if (FAILED(hr)) return false;
-
-    sampler_desc.AddressU = D3D11_TEXTURE_ADDRESS_CLAMP;
-    sampler_desc.AddressV = D3D11_TEXTURE_ADDRESS_CLAMP;
-    sampler_desc.AddressW = D3D11_TEXTURE_ADDRESS_CLAMP;
-
-    hr = g_d3d_device->CreateSamplerState(&sampler_desc, bilinear_sampler_state_clamp_.GetAddressOf());
-    if (FAILED(hr)) return false;
-
-    sampler_desc.Filter = D3D11_FILTER_MIN_MAG_MIP_POINT;
-    hr = g_d3d_device->CreateSamplerState(&sampler_desc, point_sampler_state_clamp_.GetAddressOf());
-    if (FAILED(hr)) return false;
+    if (!vertex_buffer_.CreateBuffer(sizeof(DefaultVertex))) return false;
+    if (!index_buffer_.CreateBuffer()) return false;
     
     D3D11_BLEND_DESC blend_desc;
     ZeroMemory(&blend_desc, sizeof(D3D11_BLEND_DESC));
@@ -212,8 +210,9 @@ Viewport* Renderer::FindViewport(WindowsWindow* window)
 
 void Renderer::BeginRender(const std::shared_ptr<WindowsWindow>& kWindow)
 {
-    Viewport* viewport = FindViewport(kWindow.get());
-    assert(viewport);
+    current_viewport_ = FindViewport(kWindow.get());
+    current_viewport_ = nullptr;
+    CHECK(current_viewport_, "Viewport not found");
 
     constexpr float clear_color[4] = {
         49.f / 255.f,
@@ -222,22 +221,23 @@ void Renderer::BeginRender(const std::shared_ptr<WindowsWindow>& kWindow)
         1.f
     };
 
-    g_d3d_device_context->ClearRenderTargetView(viewport->d3d_render_target_view.Get(), clear_color);
-    g_d3d_device_context->RSSetViewports(1, &viewport->d3d_viewport);
+    g_d3d_device_context->ClearRenderTargetView(current_viewport_->d3d_render_target_view.Get(), clear_color);
+    g_d3d_device_context->RSSetViewports(1, &current_viewport_->d3d_viewport);
 
-    ID3D11RenderTargetView* render_target_view = viewport->d3d_render_target_view.Get();
-    ID3D11DepthStencilView* depth_stencil_view = viewport->depth_stencil_view.Get();
+    ID3D11RenderTargetView* render_target_view = current_viewport_->d3d_render_target_view.Get();
+    ID3D11DepthStencilView* depth_stencil_view = current_viewport_->depth_stencil_view.Get();
 
     g_d3d_device_context->OMSetRenderTargets(1, &render_target_view, depth_stencil_view);
 }
 
-void Renderer::EndRender(const std::shared_ptr<WindowsWindow>& kWindow)
+void Renderer::EndRender()
 {
-    Viewport* viewport = FindViewport(kWindow.get());
-    assert(viewport);
+    CHECK(current_viewport_, "Viewport not found");
     
     g_d3d_device_context->OMSetRenderTargets(0, nullptr, nullptr);
-    viewport->dxgi_swap_chain->Present(1, 0);
+    current_viewport_->dxgi_swap_chain->Present(1, 0);
+
+    current_viewport_ = nullptr;
 }
 
 bool Renderer::CreateBackBufferResources(Microsoft::WRL::ComPtr<IDXGISwapChain>& dxgi_swap_chain,

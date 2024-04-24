@@ -118,7 +118,7 @@ DWORD Core::GameThread(LPVOID lpParam)
             ImGui::Render();
             ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
             
-            renderer->EndRender(window);
+            renderer->EndRender();
         }
         
         game_engine->Tick();

@@ -2,11 +2,11 @@
 #include <d3d11.h>
 #include <wrl/client.h>
 
-class IndexBuffer
+class IndexBuffer_Temp
 {
 public:
-    IndexBuffer();
-    ~IndexBuffer() = default;
+    IndexBuffer_Temp();
+    ~IndexBuffer_Temp() = default;
 
     HRESULT Init(ID3D11Device* device, DWORD* data, UINT num_indices);
 
