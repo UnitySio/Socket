@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include <d3d11.h>
+#include <DirectXMath.h>
 #include <map>
 #include <memory>
 #include <wrl/client.h>
@@ -22,8 +23,8 @@ struct Viewport
     Microsoft::WRL::ComPtr<ID3D11DepthStencilView> depth_stencil_view;
     
     D3D11_VIEWPORT d3d_viewport;
-
-    struct ImGuiContext* imgui_context;
+    
+    DirectX::XMMATRIX projection_matrix;
 };
 
 extern Microsoft::WRL::ComPtr<ID3D11Device> g_d3d_device;

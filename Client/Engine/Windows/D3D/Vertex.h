@@ -3,7 +3,7 @@
 
 struct DefaultVertex
 {
-    DirectX::XMFLOAT2 tex_coord;
     DirectX::XMFLOAT3 position;
+    DirectX::XMFLOAT2 texcoord;
     DirectX::XMFLOAT4 color;
 };

@@ -168,6 +168,8 @@ bool Renderer::CreateViewport(std::shared_ptr<WindowsWindow> window, Math::Vecto
     hr = CreateBackBufferResources(viewport.dxgi_swap_chain, viewport.back_buffer, viewport.d3d_render_target_view);
     if (FAILED(hr)) return false;
 
+    viewport.projection_matrix = DirectX::XMMatrixOrthographicOffCenterLH(0.f, window_size.x, window_size.y, 0.f, 0.f, 1.f);
+
     viewports_[window.get()] = viewport;
 
     return true;
@@ -211,8 +213,7 @@ Viewport* Renderer::FindViewport(WindowsWindow* window)
 void Renderer::BeginRender(const std::shared_ptr<WindowsWindow>& kWindow)
 {
     current_viewport_ = FindViewport(kWindow.get());
-    current_viewport_ = nullptr;
-    CHECK(current_viewport_, "Viewport not found");
+    CHECK(current_viewport_);
 
     constexpr float clear_color[4] = {
         49.f / 255.f,
@@ -232,7 +233,7 @@ void Renderer::BeginRender(const std::shared_ptr<WindowsWindow>& kWindow)
 
 void Renderer::EndRender()
 {
-    CHECK(current_viewport_, "Viewport not found");
+    CHECK(current_viewport_);
     
     g_d3d_device_context->OMSetRenderTargets(0, nullptr, nullptr);
     current_viewport_->dxgi_swap_chain->Present(1, 0);
