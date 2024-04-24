@@ -26,12 +26,12 @@ SpriteBatch::SpriteBatch(ID3D11DeviceContext* device_context)
     
     const std::wstring kPath = L".\\Game_Data\\";
 
-    constexpr UINT num_elements_2d = ARRAYSIZE(layout_2d);
-    bool result = vertex_shader_.Init(device, kPath + L"VertexShader2D.cso", layout_2d, num_elements_2d);
-    assert(result);
-
-    result = pixel_shader_.Init(device, kPath + L"PixelShader2D.cso");
-    assert(result);
+    // constexpr UINT num_elements_2d = ARRAYSIZE(layout_2d);
+    // bool result = vertex_shader_.Create(device, kPath + L"VertexShader2D.cso", layout_2d, num_elements_2d);
+    // assert(result);
+    //
+    // result = pixel_shader_.Create(device, kPath + L"PixelShader2D.cso");
+    // assert(result);
 }
 
 void SpriteBatch::Begin(DirectX::XMMATRIX orthographic_matrix)

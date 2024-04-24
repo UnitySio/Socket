@@ -38,12 +38,12 @@ PrimitiveBatch::PrimitiveBatch(ID3D11DeviceContext* device_context) :
 
     const std::wstring kPath = L".\\Game_Data\\";
 
-    constexpr UINT num_elements_primitive = ARRAYSIZE(layout_primitive);
-    bool result = vertex_shader_.Init(device, kPath + L"VertexShaderPrimitive.cso", layout_primitive, num_elements_primitive);
-    assert(result);
-    
-    result = pixel_shader_.Init(device, kPath + L"PixelShaderPrimitive.cso");
-    assert(result);
+    // constexpr UINT num_elements_primitive = ARRAYSIZE(layout_primitive);
+    // bool result = vertex_shader_.Create(device, kPath + L"VertexShaderPrimitive.cso", layout_primitive, num_elements_primitive);
+    // assert(result);
+    //
+    // result = pixel_shader_.Create(device, kPath + L"PixelShaderPrimitive.cso");
+    // assert(result);
     
     hr = constant_buffer_.Init(device.Get(), device_context_);
     assert(SUCCEEDED(hr));

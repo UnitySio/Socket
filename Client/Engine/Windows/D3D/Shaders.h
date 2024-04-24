@@ -12,7 +12,9 @@ public:
     VertexShader();
     ~VertexShader() = default;
 
-    bool Init(Microsoft::WRL::ComPtr<ID3D11Device>& device, const std::wstring& path, const D3D11_INPUT_ELEMENT_DESC* layout, UINT num_elements);
+    bool Create(const std::wstring& path, const D3D11_INPUT_ELEMENT_DESC* layout, UINT layout_count);
+
+    void BindShader();
 
     inline ID3D11VertexShader* GetShader() const { return shader_.Get(); }
     inline ID3D10Blob* GetShaderBuffer() const { return shader_buffer_.Get(); }
@@ -31,7 +33,9 @@ public:
     PixelShader();
     ~PixelShader() = default;
 
-    bool Init(Microsoft::WRL::ComPtr<ID3D11Device>& device, const std::wstring& path);
+    bool Create(const std::wstring& path);
+
+    void BindShader();
 
     inline ID3D11PixelShader* GetShader() const { return shader_.Get(); }
     inline ID3D10Blob* GetShaderBuffer() const { return shader_buffer_.Get(); }

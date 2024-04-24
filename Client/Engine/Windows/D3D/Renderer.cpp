@@ -4,6 +4,7 @@
 #include <vector>
 
 #include "Vertex.h"
+#include "Shaders.h"
 #include "Math/Vector2.h"
 #include "Misc/EngineMacros.h"
 #include "Windows/WindowsWindow.h"
@@ -17,6 +18,9 @@ Renderer::Renderer() :
     rasterizer_state_(nullptr),
     depth_stencil_state_(nullptr),
     vertex_buffer_(),
+    index_buffer_(),
+    vertex_shader_(nullptr),
+    pixel_shader_(nullptr),
     viewports_(),
     current_viewport_(nullptr)
 {
@@ -52,6 +56,9 @@ bool Renderer::InitResources()
 
     if (!vertex_buffer_.CreateBuffer(sizeof(DefaultVertex))) return false;
     if (!index_buffer_.CreateBuffer()) return false;
+
+    vertex_shader_ = std::make_shared<VertexShader>();
+    pixel_shader_ = std::make_shared<PixelShader>();
     
     D3D11_BLEND_DESC blend_desc;
     ZeroMemory(&blend_desc, sizeof(D3D11_BLEND_DESC));
