@@ -10,8 +10,8 @@
 #include "IndexBuffer.h"
 #include "VertexBuffer.h"
 
-class VertexShader;
-class PixelShader;
+class DefaultPixelShader;
+class DefaultVertexShader;
 
 namespace Math
 {
@@ -63,8 +63,8 @@ private:
     VertexBuffer vertex_buffer_;
     IndexBuffer index_buffer_;
 
-    std::shared_ptr<VertexShader> vertex_shader_;
-    std::shared_ptr<PixelShader> pixel_shader_;
+    std::shared_ptr<DefaultVertexShader> vertex_shader_;
+    std::shared_ptr<DefaultPixelShader> pixel_shader_;
     
     std::map<WindowsWindow*, Viewport> viewports_;
     Viewport* current_viewport_;

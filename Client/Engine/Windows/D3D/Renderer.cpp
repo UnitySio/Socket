@@ -57,8 +57,8 @@ bool Renderer::InitResources()
     if (!vertex_buffer_.CreateBuffer(sizeof(DefaultVertex))) return false;
     if (!index_buffer_.CreateBuffer()) return false;
 
-    vertex_shader_ = std::make_shared<VertexShader>();
-    pixel_shader_ = std::make_shared<PixelShader>();
+    vertex_shader_ = std::make_shared<DefaultVertexShader>();
+    pixel_shader_ = std::make_shared<DefaultPixelShader>();
     
     D3D11_BLEND_DESC blend_desc;
     ZeroMemory(&blend_desc, sizeof(D3D11_BLEND_DESC));
