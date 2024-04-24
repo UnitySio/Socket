@@ -10,15 +10,6 @@ VertexShader::VertexShader() :
     shader_buffer_(nullptr),
     input_layout_(nullptr)
 {
-    D3D11_INPUT_ELEMENT_DESC layout[] =
-    {
-        {"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0},
-        {"TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0},
-        {"COLOR", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0}
-    };
-    
-    bool r = Create(L".\\Game_Data\\VertexShader2D.cso", layout, ARRAYSIZE(layout));
-    CHECK(r);
 }
 
 bool VertexShader::Create(const std::wstring& path, const D3D11_INPUT_ELEMENT_DESC* layout, UINT layout_count)
@@ -45,8 +36,6 @@ PixelShader::PixelShader() :
     shader_(nullptr),
     shader_buffer_(nullptr)
 {
-    bool r = Create(L".\\Game_Data\\PixelShader2D.cso");
-    CHECK(r);
 }
 
 bool PixelShader::Create(const std::wstring& path)
@@ -63,4 +52,37 @@ bool PixelShader::Create(const std::wstring& path)
 void PixelShader::BindShader()
 {
     g_d3d_device_context->PSSetShader(shader_.Get(), nullptr, 0);
+}
+
+DefaultVertexShader::DefaultVertexShader()
+{
+    CHECK(constant_buffer_.Create());
+    
+    D3D11_INPUT_ELEMENT_DESC layout[] =
+    {
+        {"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0},
+        {"TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0},
+        {"COLOR", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0}
+    };
+    
+    bool r = Create(L".\\Game_Data\\DefaultVertexShader.cso", layout, ARRAYSIZE(layout));
+    CHECK(r);
+}
+
+void DefaultVertexShader::Update()
+{
+    constant_buffer_.UpdateBuffer();
+}
+
+DefaultPixelShader::DefaultPixelShader()
+{
+    CHECK(constant_buffer_.Create());
+    
+    bool r = Create(L".\\Game_Data\\DefaultPixelShader.cso");
+    CHECK(r);
+}
+
+void DefaultPixelShader::Update()
+{
+    constant_buffer_.UpdateBuffer();
 }

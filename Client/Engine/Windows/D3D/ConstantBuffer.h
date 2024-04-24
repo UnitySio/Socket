@@ -2,6 +2,8 @@
 #include <d3d11.h>
 #include <wrl/client.h>
 
+#include "Renderer.h"
+
 template <typename T>
 class ConstantBuffer
 {
