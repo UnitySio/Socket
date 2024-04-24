@@ -3,14 +3,8 @@
 #include <string>
 #include <vector>
 
-#include "box2d/b2_world_callbacks.h"
-#include "box2d/b2_world.h"
-
 #include "DebugDraw.h"
 #include "Actor/Actor.h"
-#include "Math/Vector2.h"
-#include "Graphics/PrimitiveBatch.h"
-#include "Listener/ContactListener.h"
 
 enum class EndPlayReason : size_t;
 

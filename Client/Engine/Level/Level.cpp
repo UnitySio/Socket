@@ -4,7 +4,6 @@
 #include "World.h"
 
 #include "Actor/Actor.h"
-#include "Graphics/Graphics.h"
 
 Level::Level(const std::wstring& kName) :
     actors_(),

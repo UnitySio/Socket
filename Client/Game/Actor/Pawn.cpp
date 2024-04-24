@@ -11,7 +11,6 @@
 #include "Actor/Component/TransformComponent.h"
 #include "Actor/Component/AudioListenerComponent.h"
 #include "box2d/b2_fixture.h"
-#include "Graphics/Graphics.h"
 #include "imgui/imgui.h"
 #include "Input/InputManager.h"
 #include "Physics/HitResult.h"
@@ -33,12 +32,6 @@ Pawn::Pawn(const std::wstring& kName) :
     rigid_body_->SetFreezeRotation(false);
     
     GetTransform()->SetRelativeLocation({1.f, 5.f});
-
-    // Graphics* gfx = Graphics::Get();
-    //
-    // sprite_ = std::make_unique<Sprite>();
-    // assert(sprite_->Load(gfx->GetD3DDevice(), L"spritesheet.png"));
-    // sprite_->Split(3, 15, {.5f, 0.f});
     
     audio_listener_ = CreateComponent<AudioListenerComponent>(L"AudioListener");
     
@@ -97,23 +90,6 @@ void Pawn::Tick(float delta_time)
 void Pawn::Render(float alpha)
 {
     Actor::Render(alpha);
-
-    // Graphics* gfx = Graphics::Get();
-    // SpriteBatch* batch = gfx->GetSpriteBatch();
-    //
-    // static int idx = 0;
-    //
-    // static float time = 0.f;
-    // time += Time::DeltaTime();
-    // if (time > 1.f / 5.f)
-    // {
-    //     idx = (idx + 1) % 6;
-    //     time = 0.f;
-    // }
-    //
-    // const Math::Vector2 location = GetTransform()->GetRelativeLocation();
-    // const float angle = GetTransform()->GetRelativeRotationZ();
-    // batch->Draw(sprite_.get(), L"spritesheet_" + std::to_wstring(idx), location, {1.f * -dir_, 1.f}, angle);
     
 }
 

@@ -3,6 +3,7 @@
 #include "HitResult.h"
 #include "RayCastCallback.h"
 #include "box2d/b2_fixture.h"
+#include "box2d/b2_world.h"
 #include "Level/Level.h"
 #include "Level/World.h"
 

@@ -1,6 +1,5 @@
 ﻿#pragma once
-#include "../../Engine/Actor/Actor.h"
-#include "Graphics/Sprite.h"
+#include "Actor/Actor.h"
 
 class Pawn : public Actor
 {
@@ -18,8 +17,6 @@ private:
     class BoxColliderComponent* box_collider_;
     class RigidBodyComponent* rigid_body_;
     class AudioListenerComponent* audio_listener_;
-
-    std::unique_ptr<Sprite> sprite_;
 
     int dir_;
     

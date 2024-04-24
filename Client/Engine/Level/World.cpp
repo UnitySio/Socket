@@ -2,7 +2,7 @@
 
 #include "EventManager.h"
 #include "Level.h"
-#include "Graphics/Graphics.h"
+#include "box2d/b2_world.h"
 #include "Input/InputManager.h"
 #include "Map/MainMap.h"
 #include "Map/TempMap.h"
@@ -62,22 +62,22 @@ void World::PhysicsTick(float delta_time)
 void World::Tick(float delta_time)
 {
     InputManager* input_manager = InputManager::Get();
-    if (input_manager->IsKeyPressed(VK_F1))
-    {
-        EventManager::Get()->AddEvent(
-            {
-                EventType::kLevelTransition,
-                static_cast<uintptr_t>(LevelType::kDefault)
-            });
-    }
-    else if (input_manager->IsKeyPressed(VK_F2))
-    {
-        EventManager::Get()->AddEvent(
-            {
-                EventType::kLevelTransition,
-                static_cast<uintptr_t>(LevelType::kTemp)
-            });
-    }
+    // if (input_manager->IsKeyPressed(VK_F1))
+    // {
+    //     EventManager::Get()->AddEvent(
+    //         {
+    //             EventType::kLevelTransition,
+    //             static_cast<uintptr_t>(LevelType::kDefault)
+    //         });
+    // }
+    // else if (input_manager->IsKeyPressed(VK_F2))
+    // {
+    //     EventManager::Get()->AddEvent(
+    //         {
+    //             EventType::kLevelTransition,
+    //             static_cast<uintptr_t>(LevelType::kTemp)
+    //         });
+    // }
     
     if (current_level_)
     {
