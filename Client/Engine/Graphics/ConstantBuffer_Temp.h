@@ -3,11 +3,11 @@
 #include <wrl/client.h>
 
 template <typename T>
-class ConstantBuffer
+class ConstantBuffer_Temp
 {
 public:
-    ConstantBuffer() = default;
-    virtual ~ConstantBuffer() = default;
+    ConstantBuffer_Temp() = default;
+    virtual ~ConstantBuffer_Temp() = default;
 
     T data;
 

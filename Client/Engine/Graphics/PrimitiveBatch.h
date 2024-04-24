@@ -6,7 +6,7 @@
 
 #include "Windows/D3D/Shaders.h"
 #include "Vertex.h"
-#include "ConstantBuffer.h"
+#include "ConstantBuffer_Temp.h"
 #include "ConstantBufferTypes.h"
 
 class PrimitiveBatch
@@ -36,8 +36,8 @@ private:
     
     PixelShader pixel_shader_;
     
-    ConstantBuffer<ConstantVertexPrimitiveBuffer> constant_buffer_;
+    ConstantBuffer_Temp<ConstantVertexPrimitiveBuffer> constant_buffer_;
     
-    ConstantBuffer<ConstantPixelPrimitiveBuffer> constant_pixel_buffer_;
+    ConstantBuffer_Temp<ConstantPixelPrimitiveBuffer> constant_pixel_buffer_;
     
 };

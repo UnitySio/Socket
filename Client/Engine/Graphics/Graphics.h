@@ -11,7 +11,7 @@
 #include <wrl/client.h>
 
 #include "Camera2D.h"
-#include "ConstantBuffer.h"
+#include "ConstantBuffer_Temp.h"
 #include "ConstantBufferTypes.h"
 #include "Windows/D3D/Shaders.h"
 #include "SpriteBatch.h"

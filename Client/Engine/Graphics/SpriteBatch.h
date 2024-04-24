@@ -2,7 +2,7 @@
 #include <DirectXMath.h>
 #include <string>
 
-#include "ConstantBuffer.h"
+#include "ConstantBuffer_Temp.h"
 #include "ConstantBufferTypes.h"
 #include "Windows/D3D/Shaders.h"
 #include "Math/Vector2.h"
@@ -28,7 +28,7 @@ private:
     
     PixelShader pixel_shader_;
 
-    ConstantBuffer<ConstantVertexBuffer2D> constant_buffer_;
-    ConstantBuffer<ConstantPixelBuffer2D> constant_pixel_buffer_;
+    ConstantBuffer_Temp<ConstantVertexBuffer2D> constant_buffer_;
+    ConstantBuffer_Temp<ConstantPixelBuffer2D> constant_pixel_buffer_;
     
 };
