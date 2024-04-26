@@ -24,9 +24,10 @@ public:
         return SUCCEEDED(hr);
     }
 
-    ID3D11Buffer* GetResource() const { return buffer_.Get(); }
+    inline ID3D11Buffer* GetResource() const { return buffer_.Get(); }
+    inline ID3D11Buffer* const* GetResourceAddress() const { return buffer_.GetAddressOf(); }
     
-    T& GetBufferData() { return buffer_data_; }
+    inline T& GetBufferData() { return buffer_data_; }
 
     void UpdateBuffer()
     {

@@ -16,6 +16,10 @@ public:
     bool Create(const std::wstring& path, const D3D11_INPUT_ELEMENT_DESC* layout, UINT layout_count);
 
     void BindShader();
+    void BindParameters();
+
+protected:
+    virtual void UpdateParameters() {}
 
 private:
     Microsoft::WRL::ComPtr<ID3D11VertexShader> shader_;
@@ -32,6 +36,10 @@ public:
     bool Create(const std::wstring& path);
 
     void BindShader();
+    void BindParameters();
+    
+protected:
+    virtual void UpdateParameters() {}
 
 private:
     Microsoft::WRL::ComPtr<ID3D11PixelShader> shader_;
@@ -44,8 +52,10 @@ public:
     DefaultVertexShader();
     virtual ~DefaultVertexShader() override = default;
 
+    void SetWorldMatrix(const DirectX::XMMATRIX& mat);
+
 protected:
-    void Update();
+    virtual void UpdateParameters() override;
 
 private:
     struct Constants
@@ -65,7 +75,7 @@ public:
     virtual ~DefaultPixelShader() override = default;
 
 protected:
-    void Update();
+    virtual void UpdateParameters() override;
 
 private:
     struct Constants

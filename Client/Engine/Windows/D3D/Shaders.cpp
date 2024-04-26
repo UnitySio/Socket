@@ -32,6 +32,11 @@ void VertexShader::BindShader()
     g_d3d_device_context->VSSetShader(shader_.Get(), nullptr, 0);
 }
 
+void VertexShader::BindParameters()
+{
+    UpdateParameters();
+}
+
 PixelShader::PixelShader() :
     shader_(nullptr),
     shader_buffer_(nullptr)
@@ -54,6 +59,11 @@ void PixelShader::BindShader()
     g_d3d_device_context->PSSetShader(shader_.Get(), nullptr, 0);
 }
 
+void PixelShader::BindParameters()
+{
+    UpdateParameters();
+}
+
 DefaultVertexShader::DefaultVertexShader()
 {
     CHECK(constant_buffer_.Create());
@@ -61,7 +71,6 @@ DefaultVertexShader::DefaultVertexShader()
     D3D11_INPUT_ELEMENT_DESC layout[] =
     {
         {"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0},
-        {"TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0},
         {"COLOR", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0}
     };
     
@@ -69,8 +78,16 @@ DefaultVertexShader::DefaultVertexShader()
     CHECK(r);
 }
 
-void DefaultVertexShader::Update()
+void DefaultVertexShader::SetWorldMatrix(const DirectX::XMMATRIX& mat)
 {
+    constant_buffer_.GetBufferData().mat = mat;
+}
+
+void DefaultVertexShader::UpdateParameters()
+{
+    VertexShader::UpdateParameters();
+
+    g_d3d_device_context->VSSetConstantBuffers(0, 1, constant_buffer_.GetResourceAddress());
     constant_buffer_.UpdateBuffer();
 }
 
@@ -82,7 +99,10 @@ DefaultPixelShader::DefaultPixelShader()
     CHECK(r);
 }
 
-void DefaultPixelShader::Update()
+void DefaultPixelShader::UpdateParameters()
 {
+    PixelShader::UpdateParameters();
+
+    g_d3d_device_context->PSSetConstantBuffers(0, 1, constant_buffer_.GetResourceAddress());
     constant_buffer_.UpdateBuffer();
 }

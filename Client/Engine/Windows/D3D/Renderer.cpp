@@ -222,6 +222,38 @@ void Renderer::BeginRender(const std::shared_ptr<WindowsWindow>& kWindow)
     current_viewport_ = FindViewport(kWindow.get());
     CHECK(current_viewport_);
 
+    std::vector<DefaultVertex> vertices;
+    vertices.push_back({{100.f, 100.f, 0.f}, {1.f, 1.f, 1.f, 1.f}});
+    
+    for (MathTypes::uint32 i = 0; i < 64; ++i)
+    {
+        const float theta = 2.f * MATH_PI * i / 64;
+        const float x = 100.f + 50.f * cosf(theta);
+        const float y = 100.f + 50.f * sinf(theta);
+        vertices.push_back({{x, y, 0.f}, {1.f, 1.f, 1.f, 1.f}});
+    }
+
+    vertices.push_back(vertices[1]);
+
+    std::vector<MathTypes::uint32> indices;
+    for (MathTypes::uint32 i = 0; i < 64; ++i)
+    {
+        indices.push_back(0);
+        indices.push_back(i + 1);
+        indices.push_back(i + 2);
+    }
+
+#pragma region Buffer
+    void* vertices_ptr = vertex_buffer_.Lock();
+    void* indices_ptr = index_buffer_.Lock();
+
+    CopyMemory(vertices_ptr, vertices.data(), sizeof(DefaultVertex) * vertices.size());
+    CopyMemory(indices_ptr, indices.data(), sizeof(MathTypes::uint32) * indices.size());
+
+    vertex_buffer_.Unlock();
+    index_buffer_.Unlock();
+#pragma endregion
+
     constexpr float clear_color[4] = {
         49.f / 255.f,
         77.f / 255.f,
@@ -230,12 +262,40 @@ void Renderer::BeginRender(const std::shared_ptr<WindowsWindow>& kWindow)
     };
 
     g_d3d_device_context->ClearRenderTargetView(current_viewport_->d3d_render_target_view.Get(), clear_color);
+    g_d3d_device_context->ClearDepthStencilView(current_viewport_->depth_stencil_view.Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.f, 0);
     g_d3d_device_context->RSSetViewports(1, &current_viewport_->d3d_viewport);
 
     ID3D11RenderTargetView* render_target_view = current_viewport_->d3d_render_target_view.Get();
     ID3D11DepthStencilView* depth_stencil_view = current_viewport_->depth_stencil_view.Get();
 
     g_d3d_device_context->OMSetRenderTargets(1, &render_target_view, depth_stencil_view);
+
+#pragma region Render
+    vertex_shader_->BindShader();
+    ID3D11Buffer* buffer = vertex_buffer_.GetResource();
+    constexpr MathTypes::uint32 stride = sizeof(DefaultVertex);
+
+    g_d3d_device_context->IASetIndexBuffer(index_buffer_.GetResource(), DXGI_FORMAT_R32_UINT, 0);
+
+    vertex_shader_->SetWorldMatrix(DirectX::XMMatrixIdentity() * current_viewport_->projection_matrix);
+
+    pixel_shader_->BindShader();
+    vertex_shader_->BindParameters();
+
+    g_d3d_device_context->OMSetBlendState(blend_state_.Get(), nullptr, 0xffffffff);
+    g_d3d_device_context->RSSetState(rasterizer_state_.Get());
+    g_d3d_device_context->OMSetDepthStencilState(depth_stencil_state_.Get(), 0);
+
+    pixel_shader_->BindParameters();
+
+    constexpr MathTypes::uint32 offset = 0;
+    
+    g_d3d_device_context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
+    g_d3d_device_context->IASetVertexBuffers(0, 1, &buffer, &stride, &offset);
+    g_d3d_device_context->DrawIndexed(indices.size(), 0, 0);
+    // g_d3d_device_context->Draw(vertices.size(), 0);
+#pragma endregion
 }
 
 void Renderer::EndRender()
