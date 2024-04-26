@@ -18,9 +18,5 @@ private:
     class BoxColliderComponent* box_collider_;
     class RigidBodyComponent* rigid_body_;
     class AudioListenerComponent* audio_listener_;
-
-    std::unique_ptr<Sprite> sprite_;
-
-    int dir_;
-    
+    class SpriteRendererComponent* sprite_renderer_;
 };

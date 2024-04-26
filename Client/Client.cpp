@@ -29,7 +29,7 @@ int APIENTRY wWinMain(
     }
 
 #ifdef _DEBUG
-    _CrtDumpMemoryLeaks();
+    //_CrtDumpMemoryLeaks();
 #endif
 
     return 0;

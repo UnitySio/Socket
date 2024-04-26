@@ -52,6 +52,8 @@
     <ClCompile Include="Engine\Physics\Physics.cpp" />
     <ClCompile Include="Engine\Physics\RayCastCallback.cpp" />
     <ClCompile Include="Game\Map\TempMap.cpp" />
+    <ClCompile Include="Engine\Actor\Component\SpriteRendererComponent.cpp" />
+    <ClCompile Include="Engine\Actor\Component\AnimatorComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h" />
@@ -174,43 +176,6 @@
     <ClInclude Include="Engine\Actor\Component\CameraComponent.h" />
     <ClInclude Include="Engine\Actor\Component\TransformComponent.h" />
     <ClInclude Include="Game\ProjectSettings.h" />
-    <ClInclude Include="Include\yaml-cpp\anchor.h" />
-    <ClInclude Include="Include\yaml-cpp\binary.h" />
-    <ClInclude Include="Include\yaml-cpp\contrib\anchordict.h" />
-    <ClInclude Include="Include\yaml-cpp\contrib\graphbuilder.h" />
-    <ClInclude Include="Include\yaml-cpp\depthguard.h" />
-    <ClInclude Include="Include\yaml-cpp\dll.h" />
-    <ClInclude Include="Include\yaml-cpp\emitfromevents.h" />
-    <ClInclude Include="Include\yaml-cpp\emitter.h" />
-    <ClInclude Include="Include\yaml-cpp\emitterdef.h" />
-    <ClInclude Include="Include\yaml-cpp\emittermanip.h" />
-    <ClInclude Include="Include\yaml-cpp\emitterstyle.h" />
-    <ClInclude Include="Include\yaml-cpp\eventhandler.h" />
-    <ClInclude Include="Include\yaml-cpp\exceptions.h" />
-    <ClInclude Include="Include\yaml-cpp\mark.h" />
-    <ClInclude Include="Include\yaml-cpp\node\convert.h" />
-    <ClInclude Include="Include\yaml-cpp\node\detail\impl.h" />
-    <ClInclude Include="Include\yaml-cpp\node\detail\iterator.h" />
-    <ClInclude Include="Include\yaml-cpp\node\detail\iterator_fwd.h" />
-    <ClInclude Include="Include\yaml-cpp\node\detail\memory.h" />
-    <ClInclude Include="Include\yaml-cpp\node\detail\node.h" />
-    <ClInclude Include="Include\yaml-cpp\node\detail\node_data.h" />
-    <ClInclude Include="Include\yaml-cpp\node\detail\node_iterator.h" />
-    <ClInclude Include="Include\yaml-cpp\node\detail\node_ref.h" />
-    <ClInclude Include="Include\yaml-cpp\node\emit.h" />
-    <ClInclude Include="Include\yaml-cpp\node\impl.h" />
-    <ClInclude Include="Include\yaml-cpp\node\iterator.h" />
-    <ClInclude Include="Include\yaml-cpp\node\node.h" />
-    <ClInclude Include="Include\yaml-cpp\node\parse.h" />
-    <ClInclude Include="Include\yaml-cpp\node\ptr.h" />
-    <ClInclude Include="Include\yaml-cpp\node\type.h" />
-    <ClInclude Include="Include\yaml-cpp\noexcept.h" />
-    <ClInclude Include="Include\yaml-cpp\null.h" />
-    <ClInclude Include="Include\yaml-cpp\ostream_wrapper.h" />
-    <ClInclude Include="Include\yaml-cpp\parser.h" />
-    <ClInclude Include="Include\yaml-cpp\stlemitter.h" />
-    <ClInclude Include="Include\yaml-cpp\traits.h" />
-    <ClInclude Include="Include\yaml-cpp\yaml.h" />
     <ClInclude Include="Engine\Math\Bounds.h" />
     <ClInclude Include="Engine\Math\MathTypes.h" />
     <ClInclude Include="Engine\Math\Vector2.h" />
@@ -219,5 +184,7 @@
     <ClInclude Include="Engine\Physics\RayCastCallback.h" />
     <ClInclude Include="Engine\Physics\RayCastResult.h" />
     <ClInclude Include="Game\Map\TempMap.h" />
+    <ClInclude Include="Engine\Actor\Component\SpriteRendererComponent.h" />
+    <ClInclude Include="Engine\Actor\Component\AnimatorComponent.h" />
   </ItemGroup>
 </Project>
