@@ -11,6 +11,7 @@
 #include "Actor/Component/TransformComponent.h"
 #include "Actor/Component/AudioListenerComponent.h"
 #include "Actor/Component/SpriteRendererComponent.h"
+#include "Actor/Component/AnimatorComponent.h"
 #include "box2d/b2_fixture.h"
 #include "Graphics/Graphics.h"
 #include "imgui/imgui.h"
@@ -23,7 +24,9 @@ Pawn::Pawn(const std::wstring& kName) :
     Actor(kName),
     box_collider_(nullptr),
     rigid_body_(nullptr),
-    sprite_renderer_(nullptr)
+    sprite_renderer_(nullptr),
+    animator_(nullptr),
+    dir_(1)
 {
     box_collider_ = CreateComponent<BoxColliderComponent>(L"BoxCollider");
     box_collider_->SetOffset({ 0.f, 1.45f });
@@ -37,7 +40,9 @@ Pawn::Pawn(const std::wstring& kName) :
 
     audio_listener_ = CreateComponent<AudioListenerComponent>(L"AudioListener");
 
-    sprite_renderer_ = CreateComponent<SpriteRendererComponent>(L"SpriteRenderer");
+    //sprite_renderer_ = CreateComponent<SpriteRendererComponent>(L"SpriteRenderer");
+
+    animator_ = CreateComponent<AnimatorComponent>(L"Animator");
 }
 
 void Pawn::PhysicsTick(float delta_time)
@@ -48,8 +53,9 @@ void Pawn::PhysicsTick(float delta_time)
     float h = input->IsKeyPressed(VK_RIGHT) - input->IsKeyPressed(VK_LEFT);
     if (h != 0) rigid_body_->SetVelocity({ h * 2.f, rigid_body_->GetVelocity().y });
 
-    if (h > 0) sprite_renderer_->SetFlipX(false);
-    else if (h < 0) sprite_renderer_->SetFlipX(true);
+    //if (h > 0) sprite_renderer_->SetFlipX(false);
+    //else if (h < 0) sprite_renderer_->SetFlipX(true);
+    dir_ = h > 0 ? 1 : h < 0 ? -1 : dir_;
 
     Math::Vector2 start = GetTransform()->GetWorldLocation() + Math::Vector2(0.f, 1.45f);
     const Math::Vector2 end = start + Math::Vector2(0.f, -1.f);
@@ -95,7 +101,8 @@ void Pawn::Render(float alpha)
 {
     Actor::Render(alpha);
 
-    sprite_renderer_->RenderSprite();   
+    //sprite_renderer_->RenderSprite();   
+    animator_->PlayAnimation();
 }
 
 void Pawn::EndPlay(EndPlayReason type)
