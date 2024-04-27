@@ -113,7 +113,7 @@ DWORD Core::GameThread(LPVOID lpParam)
             ImGui_ImplWin32_NewFrame();
             ImGui::NewFrame();
 
-            ImGui::ShowDemoWindow();
+            // ...
 
             ImGui::Render();
             ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());

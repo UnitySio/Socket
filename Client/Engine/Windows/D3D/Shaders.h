@@ -1,5 +1,4 @@
 ﻿#pragma once
-#pragma comment(lib, "D3DCompiler.lib")
 
 #include <string>
 #include <wrl/client.h>

@@ -12,16 +12,16 @@ bool Physics::RayCastSingle(HitResult& hit_result, const Math::Vector2& start, c
     RayCastCallback callback(true, layer);
     if (!PerformRayCast(callback, start, end)) return false;
 
-    const std::vector<RayCastResult>& results = callback.GetResults();
-    if (results.empty()) return false;
+    const std::vector<RayCastResult>& kResults = callback.GetResults();
+    if (kResults.empty()) return false;
 
-    Math::Vector2 location = {results[0].point.x, results[0].point.y};
+    Math::Vector2 location = {kResults[0].point.x, kResults[0].point.y};
     hit_result.distance = Math::Vector2::Distance(start, location);
     hit_result.location = location;
-    hit_result.normal = {results[0].normal.x, results[0].normal.y};
+    hit_result.normal = {kResults[0].normal.x, kResults[0].normal.y};
     hit_result.trace_start = start;
     hit_result.trace_end = end;
-    hit_result.actor = reinterpret_cast<Actor*>(results[0].fixture->GetBody()->GetUserData().pointer);
+    hit_result.actor = reinterpret_cast<Actor*>(kResults[0].fixture->GetBody()->GetUserData().pointer);
     
     return true;
 }
@@ -31,10 +31,10 @@ bool Physics::RayCastMulti(std::vector<HitResult>& hit_results, const Math::Vect
     RayCastCallback callback(false, layer);
     if (!PerformRayCast(callback, start, end)) return false;
 
-    const std::vector<RayCastResult>& results = callback.GetResults();
-    if (results.empty()) return false;
+    const std::vector<RayCastResult>& kResults = callback.GetResults();
+    if (kResults.empty()) return false;
 
-    for (const auto& result : results)
+    for (const auto& result : kResults)
     {
         HitResult hit_result;
         Math::Vector2 location = {result.point.x, result.point.y};

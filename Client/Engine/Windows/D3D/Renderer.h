@@ -1,14 +1,12 @@
 ﻿#pragma once
 #pragma comment(lib, "d3d11.lib")
+#pragma comment(lib, "D3DCompiler.lib")
 
 #include <d3d11.h>
 #include <DirectXMath.h>
 #include <map>
 #include <memory>
 #include <wrl/client.h>
-
-#include "IndexBuffer.h"
-#include "VertexBuffer.h"
 
 class DefaultPixelShader;
 class DefaultVertexShader;
@@ -42,7 +40,6 @@ public:
     ~Renderer();
 
     bool Init();
-    bool InitResources();
     bool CreateDevice();
     bool CreateViewport(std::shared_ptr<WindowsWindow> window, Math::Vector2 window_size);
     bool CreateDepthStencilBuffer(Viewport& viewport);
@@ -54,17 +51,6 @@ public:
 
 private:
     bool CreateBackBufferResources(Microsoft::WRL::ComPtr<IDXGISwapChain>& dxgi_swap_chain, Microsoft::WRL::ComPtr<ID3D11Texture2D>& back_buffer, Microsoft::WRL::ComPtr<ID3D11RenderTargetView>& d3d_render_target_view);
-
-    Microsoft::WRL::ComPtr<ID3D11SamplerState> point_sampler_state_wrap_;
-    Microsoft::WRL::ComPtr<ID3D11BlendState> blend_state_;
-    Microsoft::WRL::ComPtr<ID3D11RasterizerState> rasterizer_state_;
-    Microsoft::WRL::ComPtr<ID3D11DepthStencilState> depth_stencil_state_;
-
-    VertexBuffer vertex_buffer_;
-    IndexBuffer index_buffer_;
-
-    std::shared_ptr<DefaultVertexShader> vertex_shader_;
-    std::shared_ptr<DefaultPixelShader> pixel_shader_;
     
     std::map<WindowsWindow*, Viewport> viewports_;
     Viewport* current_viewport_;
