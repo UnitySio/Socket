@@ -17,7 +17,7 @@ public:
 
     bool Init();
 
-    void DrawShape();
+    void DrawShape(std::shared_ptr<Shape>& shape);
 
 private:
     Microsoft::WRL::ComPtr<ID3D11SamplerState> point_sampler_state_wrap_;
