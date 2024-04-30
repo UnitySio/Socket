@@ -12,6 +12,8 @@
 Microsoft::WRL::ComPtr<ID3D11Device> g_d3d_device;
 Microsoft::WRL::ComPtr<ID3D11DeviceContext> g_d3d_device_context;
 
+Renderer* g_renderer = nullptr;
+
 Renderer::Renderer() :
     viewports_(),
     current_viewport_(nullptr)

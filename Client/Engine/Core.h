@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include "Windows/WindowsApplication.h"
 
+class ShapeBatch;
 class Renderer;
 class GameEngine;
 
@@ -21,6 +22,7 @@ private:
     std::weak_ptr<WindowsWindow> game_window_;
 
     std::shared_ptr<Renderer> renderer_;
+    std::shared_ptr<ShapeBatch> shape_batch_;
     std::shared_ptr<GameEngine> game_engine_;
 
     HANDLE game_thread_handle_;

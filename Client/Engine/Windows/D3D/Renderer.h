@@ -56,3 +56,5 @@ private:
     Viewport* current_viewport_;
     
 };
+
+extern Renderer* g_renderer;

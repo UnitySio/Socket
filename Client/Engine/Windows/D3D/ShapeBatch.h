@@ -5,6 +5,7 @@
 #include "IndexBuffer.h"
 #include "VertexBuffer.h"
 
+class WindowsWindow;
 class Shape;
 class DefaultVertexShader;
 class DefaultPixelShader;
@@ -17,7 +18,7 @@ public:
 
     bool Init();
 
-    void DrawShape(std::shared_ptr<Shape>& shape);
+    void DrawShape(const std::shared_ptr<WindowsWindow>& kWindow, std::shared_ptr<Shape>& shape);
 
 private:
     Microsoft::WRL::ComPtr<ID3D11SamplerState> point_sampler_state_wrap_;

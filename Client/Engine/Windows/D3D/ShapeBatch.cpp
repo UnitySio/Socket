@@ -83,8 +83,11 @@ bool ShapeBatch::Init()
     return SUCCEEDED(hr);
 }
 
-void ShapeBatch::DrawShape(std::shared_ptr<Shape>& shape)
+void ShapeBatch::DrawShape(const std::shared_ptr<WindowsWindow>& kWindow, std::shared_ptr<Shape>& shape)
 {
+    Viewport* viewport = g_renderer->FindViewport(kWindow.get());
+    CHECK(viewport);
+    
 #pragma region 초기화 및 버퍼 업데이트
     // Buffer 메모리 잠금
     void* vertices_ptr = vertex_buffer_.Lock();
@@ -102,7 +105,7 @@ void ShapeBatch::DrawShape(std::shared_ptr<Shape>& shape)
     vertex_shader_->BindShader();
     pixel_shader_->BindShader();
 
-    vertex_shader_->SetWorldMatrix(shape->GetWorldMatrix()/*orthographic_matrix*/);
+    vertex_shader_->SetWorldMatrix(shape->GetWorldMatrix() * viewport->projection_matrix);
     vertex_shader_->BindParameters();
 
     pixel_shader_->BindParameters();

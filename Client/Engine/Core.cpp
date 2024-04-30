@@ -7,6 +7,8 @@
 #include "Math/Vector2.h"
 #include "Windows/WindowsWindow.h"
 #include "Windows/D3D/Renderer.h"
+#include "Windows/D3D/Shape.h"
+#include "Windows/D3D/ShapeBatch.h"
 
 Core::Core() :
     current_application_(nullptr),
@@ -32,6 +34,8 @@ void Core::Init(const HINSTANCE instance_handle)
     renderer_ = std::make_shared<Renderer>();
     renderer_->Init();
 
+    g_renderer = renderer_.get();
+
     // 게임 윈도우 생성
     std::shared_ptr<WindowsWindow> new_window = current_application_->MakeWindow();
     current_application_->InitWindow(new_window, nullptr);
@@ -44,6 +48,9 @@ void Core::Init(const HINSTANCE instance_handle)
     {
         renderer_->CreateDepthStencilBuffer(*viewport);
     }
+
+    shape_batch_ = std::make_shared<ShapeBatch>();
+    shape_batch_->Init();
 
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
@@ -108,6 +115,34 @@ DWORD Core::GameThread(LPVOID lpParam)
         if (const auto window = core->game_window_.lock())
         {
             renderer->BeginRender(window);
+            std::shared_ptr<Shape> shape = std::make_shared<Shape>();
+
+            std::vector<DefaultVertex> vertices;
+            vertices.push_back({{100.f, 100.f, 0.f}, {1.f, 1.f, 1.f, 1.f}});
+
+            for (MathTypes::uint32 i = 0; i < 64; ++i)
+            {
+                const float theta = 2.f * MATH_PI * i / 64;
+                const float x = 100.f + 50.f * cosf(theta);
+                const float y = 100.f + 50.f * sinf(theta);
+                vertices.push_back({{x, y, 0.f}, {1.f, 1.f, 1.f, 1.f}});
+            }
+
+            vertices.push_back(vertices[1]);
+
+            std::vector<MathTypes::uint32> indices;
+            for (MathTypes::uint32 i = 0; i < 64; ++i)
+            {
+                indices.push_back(0);
+                indices.push_back(i + 1);
+                indices.push_back(i + 2);
+            }
+
+            shape->SetVertices(vertices);
+            shape->SetIndices(indices);
+            
+            core->shape_batch_->DrawShape(window, shape);
+            shape.reset();
 
             ImGui_ImplDX11_NewFrame();
             ImGui_ImplWin32_NewFrame();
