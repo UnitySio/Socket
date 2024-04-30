@@ -1,4 +1,6 @@
 ﻿#pragma once
+#include "DirectXTK/SpriteBatch.h"
+#include "DirectXTK/SpriteFont.h"
 #include "Windows/WindowsApplication.h"
 
 class ShapeBatch;
@@ -28,5 +30,8 @@ private:
     HANDLE game_thread_handle_;
 
     bool is_game_running_;
+
+    std::unique_ptr<DirectX::DX11::SpriteBatch> sprite_batch_;
+    std::unique_ptr<DirectX::DX11::SpriteFont> sprite_font_;
     
 };

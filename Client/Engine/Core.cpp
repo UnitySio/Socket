@@ -52,6 +52,9 @@ void Core::Init(const HINSTANCE instance_handle)
     shape_batch_ = std::make_shared<ShapeBatch>();
     shape_batch_->Init();
 
+    sprite_batch_ = std::make_unique<DirectX::DX11::SpriteBatch>(g_d3d_device_context.Get());
+    sprite_font_ = std::make_unique<DirectX::DX11::SpriteFont>(g_d3d_device.Get(), L".\\Game_Data\\Silver.spritefont");
+
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
 
@@ -142,7 +145,7 @@ DWORD Core::GameThread(LPVOID lpParam)
             shape->SetIndices(indices);
 
             static float x = 0.f;
-            x += .01f;
+            x += .05f;
             shape->SetPosition({320.f, 240.f});
             shape->SetRotation(x);
             
@@ -157,6 +160,10 @@ DWORD Core::GameThread(LPVOID lpParam)
 
             ImGui::Render();
             ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
+
+            core->sprite_batch_->Begin();
+            core->sprite_font_->DrawString(core->sprite_batch_.get(), L"This is Test Map.", DirectX::XMFLOAT2(320.f, 240.f));
+            core->sprite_batch_->End();
             
             renderer->EndRender();
         }
