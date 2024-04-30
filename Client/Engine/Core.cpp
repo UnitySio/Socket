@@ -140,6 +140,11 @@ DWORD Core::GameThread(LPVOID lpParam)
 
             shape->SetVertices(vertices);
             shape->SetIndices(indices);
+
+            static float x = 0.f;
+            x += .01f;
+            shape->SetPosition({320.f, 240.f});
+            shape->SetRotation(x);
             
             core->shape_batch_->DrawShape(window, shape);
             shape.reset();
