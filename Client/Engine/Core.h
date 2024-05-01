@@ -1,9 +1,6 @@
 ﻿#pragma once
-#include "DirectXTK/SpriteBatch.h"
-#include "DirectXTK/SpriteFont.h"
 #include "Windows/WindowsApplication.h"
 
-class ShapeBatch;
 class Renderer;
 class GameEngine;
 
@@ -17,6 +14,8 @@ public:
     
     virtual bool ProcessMessage(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam, MathTypes::uint32 handler_result) override;
 
+    static float GetDeltaTime();
+
 private:
     static DWORD WINAPI GameThread(LPVOID lpParam);
     
@@ -24,14 +23,13 @@ private:
     std::weak_ptr<WindowsWindow> game_window_;
 
     std::shared_ptr<Renderer> renderer_;
-    std::shared_ptr<ShapeBatch> shape_batch_;
     std::shared_ptr<GameEngine> game_engine_;
 
     HANDLE game_thread_handle_;
 
     bool is_game_running_;
 
-    std::unique_ptr<DirectX::DX11::SpriteBatch> sprite_batch_;
-    std::unique_ptr<DirectX::DX11::SpriteFont> sprite_font_;
+    static float current_time_;
+    static float last_time_;
     
 };

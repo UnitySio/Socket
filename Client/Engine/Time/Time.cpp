@@ -7,64 +7,24 @@
 #include "Level/Level.h"
 #include "Level/World.h"
 
-Time::Time() :
-    frequency_{},
-    previous_count_{},
-    current_count_{},
-    delta_time_(0.f),
-    time_scale_(1.f),
-    frame_count_(0.f),
-    frame_timer_(0.f),
-    fps_(0.f)
+float Time::frequency_ = 0.f;
+
+Time::Time()
 {
 }
 
-void Time::Init()
+float Time::Init()
 {
-    QueryPerformanceFrequency(&frequency_);
-    QueryPerformanceCounter(&previous_count_);
-    QueryPerformanceCounter(&start_count_);
+    LARGE_INTEGER frequency;
+    QueryPerformanceFrequency(&frequency);
+    frequency_ = 1.f / frequency.QuadPart;
+
+    return Seconds();
 }
 
-void Time::Tick()
+float Time::Seconds()
 {
-    QueryPerformanceCounter(&current_count_);
-    
-    delta_time_ = static_cast<float>(current_count_.QuadPart - previous_count_.QuadPart) / frequency_.QuadPart;
-    previous_count_ = current_count_;
-    
-    frame_count_++;
-    frame_timer_ += delta_time_;
-    
-    if (frame_timer_ >= 1.f)
-    {
-        fps_ = frame_count_;
-
-        // if (ProjectSettings::kShowFrameRate)
-        // {
-        //     const float kMS = 1000.f / fps_;
-        //
-        //     const std::wstring kLevelName = World::Get()->GetLevel()->GetName();
-        //
-        //     WCHAR buffer[256];
-        //     swprintf_s(buffer, L"%s - FPS: %.f(%.fms)", kLevelName.c_str(), fps_, kMS);
-        //     SetWindowText(WindowsApplication::Get()->GetWindowHandle(), buffer);
-        // }
-        
-        frame_count_ = 0.f;
-        frame_timer_ = 0.f;
-    }
-
-    // constexpr float limit = 1.f / 60.f;
-    // if (delta_time_ < limit)
-    // {
-    //     const DWORD sleep_time = static_cast<DWORD>((limit - delta_time_) * 1000.f);
-    //     Sleep(sleep_time);
-    // }
-}
-
-float Time::RealTime()
-{
-    QueryPerformanceCounter(&Get()->end_count_);
-    return static_cast<float>(Get()->end_count_.QuadPart - Get()->start_count_.QuadPart) / Get()->frequency_.QuadPart;
+    LARGE_INTEGER count;
+    QueryPerformanceCounter(&count);
+    return static_cast<float>(count.QuadPart) * frequency_;
 }
