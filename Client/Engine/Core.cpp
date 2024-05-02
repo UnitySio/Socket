@@ -50,15 +50,15 @@ void Core::Init(const HINSTANCE instance_handle)
     }
     
     game_window_ = new_window;
-
-    // 게임 스레드 생성
-    game_thread_handle_ = CreateThread(nullptr, 0, GameThread, this, 0, nullptr);
-
+    
     // 게임 엔진 생성
     game_engine_ = std::make_shared<GameEngine>();
     game_engine_->Init(new_window);
 
     current_time_ = Time::Init();
+
+    // 게임 스레드 생성
+    game_thread_handle_ = CreateThread(nullptr, 0, GameThread, this, 0, nullptr);
 }
 
 extern LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
@@ -102,14 +102,15 @@ DWORD Core::GameThread(LPVOID lpParam)
     
     while (true)
     {
+#pragma region DeltaTime
         last_time_ = current_time_;
         current_time_ = Time::Seconds();
+#pragma endregion
         
         if (const auto& window = core->game_window_.lock())
         {
             renderer->BeginRender(window);
-            game_engine->Tick(GetDeltaTime());
-            game_engine->Render();
+            game_engine->GameLoop(GetDeltaTime());
             renderer->EndRender();
         }
         

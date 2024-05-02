@@ -2,7 +2,6 @@
 
 #include "EventManager.h"
 #include "Level.h"
-#include "box2d/b2_world.h"
 #include "Input/InputManager.h"
 #include "Map/MainMap.h"
 #include "Map/TempMap.h"
@@ -30,10 +29,10 @@ World::World() :
 
 void World::Init()
 {
-    AddLevel<MainMap>(LevelType::kDefault, L"Map 0");
-    AddLevel<TempMap>(LevelType::kTemp, L"Map 1");
-
-    OpenLevel(LevelType::kDefault);
+    // AddLevel<MainMap>(LevelType::kDefault, L"Map 0");
+    // AddLevel<TempMap>(LevelType::kTemp, L"Map 1");
+    //
+    // OpenLevel(LevelType::kDefault);
 }
 
 void World::OpenLevel(LevelType type)

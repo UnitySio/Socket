@@ -53,10 +53,10 @@ bool Physics::RayCastMulti(std::vector<HitResult>& hit_results, const Math::Vect
 
 bool Physics::PerformRayCast(RayCastCallback& callback, const Math::Vector2& start, const Math::Vector2& end)
 {
-    Level* level = World::Get()->GetLevel();
-    if (!level) return false;
-    
-    const World* world = World::Get();
-    world->physics_world_->RayCast(&callback, {start.x, start.y}, {end.x, end.y});
+    // Level* level = World::Get()->GetLevel();
+    // if (!level) return false;
+    //
+    // const World* world = World::Get();
+    // world->physics_world_->RayCast(&callback, {start.x, start.y}, {end.x, end.y});
     return true;
 }

@@ -2,17 +2,17 @@
 #include "DebugDraw.h"
 #include "Enums.h"
 #include "Singleton.h"
+#include "box2d/b2_world.h"
 #include "Listener/ContactListener.h"
 
-class b2World;
 enum class LevelType : size_t;
 class Level;
 
-class World : public Singleton<World>
+class World
 {
 public:
     World();
-    virtual ~World() override = default;
+    ~World() = default;
 
     void Init();
     void OpenLevel(LevelType type);

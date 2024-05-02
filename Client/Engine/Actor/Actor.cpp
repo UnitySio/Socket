@@ -78,18 +78,18 @@ void Actor::EndPlay(EndPlayReason type)
 
     components_.clear();
 
-    const World* world = World::Get();
-    if (parent_joint_)
-    {
-        world->physics_world_->DestroyJoint(parent_joint_);
-        parent_joint_ = nullptr;
-    }
-    
-    if (body_)
-    {
-        world->physics_world_->DestroyBody(body_);
-        body_ = nullptr;
-    }
+    // const World* world = World::Get();
+    // if (parent_joint_)
+    // {
+    //     world->physics_world_->DestroyJoint(parent_joint_);
+    //     parent_joint_ = nullptr;
+    // }
+    //
+    // if (body_)
+    // {
+    //     world->physics_world_->DestroyBody(body_);
+    //     body_ = nullptr;
+    // }
 }
 
 void Actor::PhysicsTick(float delta_time)
@@ -135,8 +135,8 @@ void Actor::AttachToActor(Actor* actor)
         joint_def.localAnchorB = body_->GetLocalPoint(actor->body_->GetWorldCenter());
         joint_def.referenceAngle = body_->GetAngle() - actor->body_->GetAngle();
 
-        const World* world = World::Get();
-        parent_joint_ = world->physics_world_->CreateJoint(&joint_def);
+        // const World* world = World::Get();
+        // parent_joint_ = world->physics_world_->CreateJoint(&joint_def);
     }
 }
 
@@ -146,8 +146,8 @@ void Actor::DetachFromActor()
 
     std::erase(parent_->children_, this);
 
-    const World* world = World::Get();
-    if (parent_joint_) world->physics_world_->DestroyJoint(parent_joint_);
+    // const World* world = World::Get();
+    // if (parent_joint_) world->physics_world_->DestroyJoint(parent_joint_);
 
     parent_ = nullptr;
     parent_joint_ = nullptr;
@@ -230,7 +230,7 @@ void Actor::CreateBody()
     b2BodyDef body_def;
     body_def.userData.pointer = reinterpret_cast<uintptr_t>(this);
 
-    const World* world = World::Get();
-    body_ = world->physics_world_->CreateBody(&body_def);
-    body_->SetEnabled(false);
+    // const World* world = World::Get();
+    // body_ = world->physics_world_->CreateBody(&body_def);
+    // body_->SetEnabled(false);
 }
