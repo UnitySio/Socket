@@ -24,7 +24,7 @@ public:
     virtual void Render(float alpha);
     virtual void DestroyActor();
 
-    void AddActor(Actor* actor);
+    void AddActor(const std::shared_ptr<Actor>& actor);
 
     inline World* GetWorld() const { return world_; }
     inline const std::wstring& GetName() const { return name_; }
