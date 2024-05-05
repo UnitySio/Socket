@@ -10,10 +10,11 @@
 enum class EndPlayReason : size_t;
 class TransformComponent;
 
+class World;
 class Actor
 {
 public:
-    Actor(const std::wstring& kName);
+    Actor(World* world, const std::wstring& kName);
     virtual ~Actor() = default;
 
     virtual inline void PreInitializeComponents() {};
@@ -56,6 +57,7 @@ public:
     inline size_t GetUniqueID() const { return -1; }
     inline size_t GetTypeHash() const { return -1; }
 
+    inline World* GetWorld() const { return world_; }
     inline const std::wstring& GetName() const { return name_; }
 
     inline ActorTag GetTag() const { return tag_; }
@@ -81,7 +83,8 @@ private:
     void UninitializeComponents();
     void Destroyed();
     void CreateBody();
-    
+
+    World* world_;
     std::wstring name_;
 
     ActorTag tag_;

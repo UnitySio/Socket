@@ -1,24 +1,13 @@
 ﻿#include "MainMap.h"
 
-#include "../Actor/FollowCamera.h"
-#include "../Actor/Floor.h"
-#include "../Actor/Pawn.h"
+#include "Actor/Pawn.h"
 
-MainMap::MainMap(const std::wstring& kName) : Level(kName)
+MainMap::MainMap(World* world, const std::wstring& kName) : Level(world, kName)
 {
 }
 
 void MainMap::Load()
 {
-    Actor* follow_camera = new FollowCamera(L"FollowCamera");
-    AddActor(follow_camera);
-    
-    Actor* floor = new Floor(L"Floor");
-    AddActor(floor);
-
-    Actor* pawn = new Pawn(L"Pawn");
+    Actor* pawn = new Pawn(GetWorld(), L"Pawn");
     AddActor(pawn);
-    
-    FollowCamera* camera = dynamic_cast<FollowCamera*>(follow_camera);
-    camera->SetTarget(pawn);
 }

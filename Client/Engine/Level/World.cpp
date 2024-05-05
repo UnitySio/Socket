@@ -4,7 +4,6 @@
 #include "Level.h"
 #include "Input/InputManager.h"
 #include "Map/MainMap.h"
-#include "Map/TempMap.h"
 
 World::World() :
     current_level_(nullptr),
@@ -29,10 +28,9 @@ World::World() :
 
 void World::Init()
 {
-    // AddLevel<MainMap>(LevelType::kDefault, L"Map 0");
-    // AddLevel<TempMap>(LevelType::kTemp, L"Map 1");
-    //
-    // OpenLevel(LevelType::kDefault);
+    AddLevel<MainMap>(LevelType::kDefault, L"Map 0");
+    
+    OpenLevel(LevelType::kDefault);
 }
 
 void World::OpenLevel(LevelType type)

@@ -5,7 +5,8 @@
 
 #include "Actor/Actor.h"
 
-Level::Level(const std::wstring& kName) :
+Level::Level(World* world, const std::wstring& kName) :
+    world_(world),
     actors_(),
     debug_draw_()
 {

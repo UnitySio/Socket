@@ -5,8 +5,8 @@
 #include "Actor/Component/AudioComponent.h"
 #include "Audio/AudioManager.h"
 
-Floor::Floor(const std::wstring& kName) :
-    Actor(kName)
+Floor::Floor(World* world, const std::wstring& kName) :
+    Actor(world, kName)
 {
     SetLayer(ActorLayer::kFloor);
     

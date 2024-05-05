@@ -46,6 +46,6 @@ private:
 template <std::derived_from<Level> T>
 T* World::AddLevel(LevelType type, std::wstring name)
 {
-    levels_[static_cast<size_t>(type)] = std::make_shared<T>(name);
+    levels_[static_cast<size_t>(type)] = std::make_shared<T>(this, name);
     return static_cast<T*>(levels_[static_cast<size_t>(type)].get());
 }

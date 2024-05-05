@@ -12,7 +12,8 @@
 #include "Component/TransformComponent.h"
 #include "Level/World.h"
 
-Actor::Actor(const std::wstring& kName) :
+Actor::Actor(World* world, const std::wstring& kName) :
+    world_(world),
     tag_(ActorTag::kNone),
     layer_(ActorLayer::kDefault),
     body_(nullptr),

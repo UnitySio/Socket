@@ -4,7 +4,7 @@
 class Floor : public Actor
 {
 public:
-    Floor(const std::wstring& kName);
+    Floor(World* world, const std::wstring& kName);
     virtual ~Floor() override = default;
 
     class BoxColliderComponent* GetBoxCollider() const { return box_collider_; }

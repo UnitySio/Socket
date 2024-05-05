@@ -4,7 +4,7 @@
 class FollowCamera : public Actor
 {
 public:
-    FollowCamera(const std::wstring& kName);
+    FollowCamera(World* world, const std::wstring& kName);
     virtual ~FollowCamera() override = default;
 
     virtual void Tick(float delta_time) override;

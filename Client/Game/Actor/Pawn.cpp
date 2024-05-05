@@ -17,8 +17,8 @@
 #include "Physics/Physics.h"
 #include "Time/Time.h"
 
-Pawn::Pawn(const std::wstring& kName) :
-    Actor(kName),
+Pawn::Pawn(World* world, const std::wstring& kName) :
+    Actor(world, kName),
     box_collider_(nullptr),
     rigid_body_(nullptr),
     dir_(1)
