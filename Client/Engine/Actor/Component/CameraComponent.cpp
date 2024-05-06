@@ -13,6 +13,10 @@ void CameraComponent::TickComponent(float delta_time)
 {
     ActorComponent::TickComponent(delta_time);
 
-    Viewport* viewport = g_renderer->FindViewport(GetWorld()->GetWindow());
+    if (Viewport* viewport = g_renderer->FindViewport(GetWorld()->GetWindow()))
+    {
+        viewport->view_matrix = DirectX::XMMatrixTranslation(-0.f, -0.f, 0.f)
+            * DirectX::XMMatrixRotationRollPitchYaw(-0.f, -0.f, -0.f);
+    }
 
 }
