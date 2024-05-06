@@ -17,5 +17,6 @@ public:
 private:
     std::shared_ptr<WindowsWindow> game_window_;
     std::shared_ptr<World> game_world_;
+    std::shared_ptr<ShapeBatch> shape_batch_;
     
 };
