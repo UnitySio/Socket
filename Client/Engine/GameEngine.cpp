@@ -15,7 +15,7 @@ void GameEngine::Init(const std::shared_ptr<WindowsWindow>& window)
 {
     game_window_ = window;
 
-    game_world_ = std::make_shared<World>();
+    game_world_ = std::make_shared<World>(game_window_);
     CHECK_IF(game_world_, L"Failed to create World.");
 
     game_world_->Init();

@@ -5,7 +5,8 @@
 #include "Input/InputManager.h"
 #include "Map/MainMap.h"
 
-World::World() :
+World::World(const std::shared_ptr<WindowsWindow>& window) :
+    window_(window),
     current_level_(nullptr),
     levels_{}
 {

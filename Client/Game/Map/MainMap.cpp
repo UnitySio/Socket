@@ -8,6 +8,6 @@ MainMap::MainMap(World* world, const std::wstring& kName) : Level(world, kName)
 
 void MainMap::Load()
 {
-    std::shared_ptr<Actor> pawn = std::make_shared<Pawn>(GetWorld(), L"Pawn");
-    AddActor(pawn);
+    // std::shared_ptr<Actor> pawn = std::make_shared<Pawn>(GetWorld(), L"Pawn");
+    // AddActor(pawn);
 }

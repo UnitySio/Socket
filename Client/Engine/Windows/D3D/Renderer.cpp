@@ -106,6 +106,7 @@ bool Renderer::CreateViewport(std::shared_ptr<WindowsWindow> window, Math::Vecto
     hr = CreateBackBufferResources(viewport.dxgi_swap_chain, viewport.back_buffer, viewport.d3d_render_target_view);
     if (FAILED(hr)) return false;
 
+    viewport.view_matrix = DirectX::XMMatrixIdentity();
     viewport.projection_matrix = DirectX::XMMatrixOrthographicOffCenterLH(0.f, window_size.x, window_size.y, 0.f, 0.f, 1.f);
 
     viewports_[window.get()] = viewport;

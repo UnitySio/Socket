@@ -26,7 +26,8 @@ struct Viewport
     Microsoft::WRL::ComPtr<ID3D11DepthStencilView> depth_stencil_view;
     
     D3D11_VIEWPORT d3d_viewport;
-    
+
+    DirectX::XMMATRIX view_matrix;
     DirectX::XMMATRIX projection_matrix;
 };
 

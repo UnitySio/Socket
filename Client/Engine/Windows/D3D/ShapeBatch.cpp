@@ -105,7 +105,8 @@ void ShapeBatch::DrawShape(const std::shared_ptr<WindowsWindow>& kWindow, std::s
     vertex_shader_->BindShader();
     pixel_shader_->BindShader();
 
-    vertex_shader_->SetWorldMatrix(shape->GetWorldMatrix() * viewport->projection_matrix);
+    DirectX::XMMATRIX wvp_matrix = shape->GetWorldMatrix() * viewport->view_matrix * viewport->projection_matrix;
+    vertex_shader_->SetWorldMatrix(wvp_matrix);
     vertex_shader_->BindParameters();
 
     pixel_shader_->BindParameters();

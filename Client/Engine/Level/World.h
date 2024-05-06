@@ -5,13 +5,14 @@
 #include "box2d/b2_world.h"
 #include "Listener/ContactListener.h"
 
+class WindowsWindow;
 enum class LevelType : size_t;
 class Level;
 
 class World
 {
 public:
-    World();
+    World(const std::shared_ptr<WindowsWindow>& window);
     ~World() = default;
 
     void Init();
@@ -24,6 +25,7 @@ public:
     template<std::derived_from<Level> T>
     T* AddLevel(LevelType type, std::wstring name);
 
+    inline WindowsWindow* GetWindow() const { return window_.get(); }
     inline Level* GetLevel() const { return current_level_; }
 
 private:
@@ -31,7 +33,8 @@ private:
     friend class Level;
     friend class DebugDraw;
     friend class Actor;
-    
+
+    std::shared_ptr<WindowsWindow> window_;
     std::unique_ptr<b2World> physics_world_;
     
     ContactListener contact_listener_;

@@ -7,8 +7,10 @@
 #include "Windows/WindowsWindow.h"
 #include "Windows/D3D/Renderer.h"
 
-float Core::current_time_ = 0.0f;
-float Core::last_time_ = 0.0f;
+float Core::current_time_ = 0.f;
+float Core::last_time_ = 0.f;
+
+std::shared_ptr<WindowsWindow> g_game_window;
 
 Core::Core() :
     current_application_(nullptr),
