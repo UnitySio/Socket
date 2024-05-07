@@ -2,9 +2,7 @@
 
 #include "EventManager.h"
 #include "Level.h"
-#include "Input/InputManager.h"
 #include "Map/MainMap.h"
-#include "Misc/EngineMacros.h"
 #include "Windows/D3D/ShapeBatch.h"
 
 World::World(const std::shared_ptr<WindowsWindow>& window) :

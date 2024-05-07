@@ -63,9 +63,6 @@ void Core::Init(const HINSTANCE instance_handle)
 
     // 게임 스레드 생성
     game_thread_handle_ = CreateThread(nullptr, 0, GameThread, this, 0, nullptr);
-
-    std::shared_ptr<WindowsWindow> new_window2 = current_application_->MakeWindow();
-    current_application_->InitWindow(new_window2, nullptr);
 }
 
 extern LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);

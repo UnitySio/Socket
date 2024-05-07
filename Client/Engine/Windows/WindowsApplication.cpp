@@ -2,6 +2,7 @@
 
 #include "WindowsWindow.h"
 #include "DirectXTK/Audio.h"
+#include "Input/Keyboard.h"
 
 WindowsApplication* windows_application = nullptr;
 
@@ -97,6 +98,17 @@ MathTypes::uint32 WindowsApplication::ProcessMessage(HWND hWnd, UINT message, WP
                     external_handler_result = handler_result;
                 }
             }
+        }
+
+        if (message == WM_SYSKEYUP ||
+            message == WM_SYSKEYDOWN ||
+            message == WM_KEYUP ||
+            message == WM_KEYDOWN)
+        {
+            bool was_down = (lParam & (1 << 30)) != 0;
+            bool is_down = (lParam & (1 << 31)) == 0;
+            
+            Keyboard::Process(wParam, was_down, is_down);
         }
         
         if (message == WM_DESTROY)
