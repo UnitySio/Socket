@@ -20,6 +20,6 @@ void Time::Tick()
     LARGE_INTEGER current_count;
     QueryPerformanceCounter(&current_count);
 
-    delta_time_ = static_cast<float>(current_count.QuadPart - previous_count_.QuadPart) / frequency_.QuadPart;
+    delta_time_ = static_cast<float>(current_count.QuadPart - previous_count_.QuadPart) / static_cast<float>(frequency_.QuadPart);
     previous_count_ = current_count;
 }
