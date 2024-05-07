@@ -20,3 +20,5 @@ private:
     std::shared_ptr<ShapeBatch> shape_batch_;
     
 };
+
+extern World* g_game_world;

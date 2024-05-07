@@ -83,57 +83,60 @@ bool ShapeBatch::Init()
     return SUCCEEDED(hr);
 }
 
-void ShapeBatch::DrawShape(const std::shared_ptr<WindowsWindow>& kWindow, std::shared_ptr<Shape>& shape)
+void ShapeBatch::DrawShapes(const std::shared_ptr<WindowsWindow>& kWindow, const std::vector<std::shared_ptr<Shape>>& kShapes)
 {
     Viewport* viewport = g_renderer->FindViewport(kWindow.get());
     CHECK(viewport);
-    
+
+    for (auto& shape : kShapes)
+    {    
 #pragma region 초기화 및 버퍼 업데이트
-    // Buffer 메모리 잠금
-    void* vertices_ptr = vertex_buffer_.Lock();
-    void* indices_ptr = index_buffer_.Lock();
+        // Buffer 메모리 잠금
+        void* vertices_ptr = vertex_buffer_.Lock();
+        void* indices_ptr = index_buffer_.Lock();
 
-    CopyMemory(vertices_ptr, shape->GetVertices().data(), sizeof(DefaultVertex) * shape->GetVertices().size());
-    CopyMemory(indices_ptr, shape->GetIndices().data(), sizeof(MathTypes::uint32) * shape->GetIndices().size());
+        CopyMemory(vertices_ptr, shape->GetVertices().data(), sizeof(DefaultVertex) * shape->GetVertices().size());
+        CopyMemory(indices_ptr, shape->GetIndices().data(), sizeof(MathTypes::uint32) * shape->GetIndices().size());
 
-    // Buffer 메모리 잠금 해제
-    vertex_buffer_.Unlock();
-    index_buffer_.Unlock();
+        // Buffer 메모리 잠금 해제
+        vertex_buffer_.Unlock();
+        index_buffer_.Unlock();
 #pragma endregion
 
 #pragma region 쉐이더 및 상태 설정
-    vertex_shader_->BindShader();
-    pixel_shader_->BindShader();
+        vertex_shader_->BindShader();
+        pixel_shader_->BindShader();
 
-    DirectX::XMMATRIX wvp_matrix = shape->GetWorldMatrix() * viewport->view_matrix * viewport->projection_matrix;
-    vertex_shader_->SetWorldMatrix(wvp_matrix);
-    vertex_shader_->BindParameters();
+        DirectX::XMMATRIX wvp_matrix = shape->GetWorldMatrix() * viewport->view_matrix * viewport->projection_matrix;
+        vertex_shader_->SetWorldMatrix(wvp_matrix);
+        vertex_shader_->BindParameters();
 
-    pixel_shader_->BindParameters();
+        pixel_shader_->BindParameters();
 
-    g_d3d_device_context->OMSetBlendState(blend_state_.Get(), nullptr, 0xffffffff);
-    g_d3d_device_context->RSSetState(rasterizer_state_.Get());
-    g_d3d_device_context->OMSetDepthStencilState(depth_stencil_state_.Get(), 0);
+        g_d3d_device_context->OMSetBlendState(blend_state_.Get(), nullptr, 0xffffffff);
+        g_d3d_device_context->RSSetState(rasterizer_state_.Get());
+        g_d3d_device_context->OMSetDepthStencilState(depth_stencil_state_.Get(), 0);
 
-    g_d3d_device_context->IASetPrimitiveTopology(shape->GetPrimitiveTopology());
+        g_d3d_device_context->IASetPrimitiveTopology(shape->GetPrimitiveTopology());
 #pragma endregion
 
 #pragma region 드로우 콜
-    ID3D11Buffer* buffer = vertex_buffer_.GetResource();
+        ID3D11Buffer* buffer = vertex_buffer_.GetResource();
 
-    constexpr MathTypes::uint32 stride = sizeof(DefaultVertex);
-    constexpr MathTypes::uint32 offset = 0;
+        constexpr MathTypes::uint32 stride = sizeof(DefaultVertex);
+        constexpr MathTypes::uint32 offset = 0;
 
-    g_d3d_device_context->IASetVertexBuffers(0, 1, &buffer, &stride, &offset);
-    g_d3d_device_context->IASetIndexBuffer(index_buffer_.GetResource(), DXGI_FORMAT_R32_UINT, 0);
+        g_d3d_device_context->IASetVertexBuffers(0, 1, &buffer, &stride, &offset);
+        g_d3d_device_context->IASetIndexBuffer(index_buffer_.GetResource(), DXGI_FORMAT_R32_UINT, 0);
 
-    if (!shape->GetIndices().empty())
-    {
-        g_d3d_device_context->DrawIndexed(shape->GetIndices().size(), 0, 0);
-    }
-    else
-    {
-        g_d3d_device_context->Draw(shape->GetVertices().size(), 0);
-    }
+        if (!shape->GetIndices().empty())
+        {
+            g_d3d_device_context->DrawIndexed(shape->GetIndices().size(), 0, 0);
+        }
+        else
+        {
+            g_d3d_device_context->Draw(shape->GetVertices().size(), 0);
+        }
 #pragma endregion
+    }
 }

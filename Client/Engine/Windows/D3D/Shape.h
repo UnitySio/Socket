@@ -18,6 +18,7 @@ public:
 
     inline void SetVertices(const std::vector<DefaultVertex>& vertices) { vertices_ = vertices; }
     inline void SetIndices(const std::vector<MathTypes::uint32>& indices) { indices_ = indices; }
+    inline void SetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY primitive_topology) { primitive_topology_ = primitive_topology; }
 
     inline const std::vector<DefaultVertex>& GetVertices() const { return vertices_; }
     inline const std::vector<MathTypes::uint32>& GetIndices() const { return indices_; }

@@ -5,6 +5,8 @@
 #include "box2d/b2_world.h"
 #include "Listener/ContactListener.h"
 
+class Shape;
+class ShapeBatch;
 class WindowsWindow;
 enum class LevelType : size_t;
 class Level;
@@ -28,13 +30,18 @@ public:
     inline WindowsWindow* GetWindow() const { return window_.get(); }
     inline Level* GetLevel() const { return current_level_; }
 
+    void AddShape(const std::shared_ptr<Shape>& shape);
+
 private:
     friend class Physics;
     friend class Level;
-    friend class DebugDraw;
     friend class Actor;
 
     std::shared_ptr<WindowsWindow> window_;
+    std::shared_ptr<ShapeBatch> shape_batch_;
+    
+    std::vector<std::shared_ptr<Shape>> shapes_;
+    
     std::unique_ptr<b2World> physics_world_;
     
     ContactListener contact_listener_;

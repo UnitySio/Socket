@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include <memory>
+#include <vector>
 
 #include "IndexBuffer.h"
 #include "VertexBuffer.h"
@@ -17,7 +18,7 @@ public:
 
     bool Init();
 
-    void DrawShape(const std::shared_ptr<WindowsWindow>& kWindow, std::shared_ptr<Shape>& shape);
+    void DrawShapes(const std::shared_ptr<WindowsWindow>& kWindow, const std::vector<std::shared_ptr<Shape>>& kShapes);
 
 private:
     Microsoft::WRL::ComPtr<ID3D11SamplerState> point_sampler_state_wrap_;
