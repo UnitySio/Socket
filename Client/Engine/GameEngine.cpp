@@ -52,13 +52,13 @@ void GameEngine::GameLoop(float delta_time)
     std::shared_ptr<Shape> shape = std::make_shared<Shape>();
 
     std::vector<DefaultVertex> vertices;
-    vertices.push_back({{100.f, 100.f, 0.f}, {1.f, 1.f, 1.f, 1.f}});
+    vertices.push_back({{0.f, 0.f, 0.f}, {1.f, 1.f, 1.f, 1.f}});
 
     for (MathTypes::uint32 i = 0; i < 64; ++i)
     {
         const float theta = 2.f * MATH_PI * i / 64;
-        const float x = 100.f + 50.f * cosf(theta);
-        const float y = 100.f + 50.f * sinf(theta);
+        const float x = 1.f * cosf(theta);
+        const float y = 1.f * sinf(theta);
         vertices.push_back({{x, y, 0.f}, {1.f, 1.f, 1.f, 1.f}});
     }
 
@@ -74,11 +74,6 @@ void GameEngine::GameLoop(float delta_time)
 
     shape->SetVertices(vertices);
     shape->SetIndices(indices);
-
-    static float x = 0.f;
-    x += .01f;
-    shape->SetPosition({320.f, 240.f});
-    shape->SetRotation(x);
 
     shape_batch_->DrawShape(game_window_, shape);
     shape.reset();
