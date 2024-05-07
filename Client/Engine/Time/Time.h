@@ -2,8 +2,6 @@
 
 #include "Singleton.h"
 
-#include <windows.h>
-
 class Time : public Singleton<Time>
 {
 public:

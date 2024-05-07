@@ -1,11 +1,6 @@
 ﻿#include "Time.h"
 
-#include <iostream>
-
 #include "Windows/WindowsApplication.h"
-#include "ProjectSettings.h"
-#include "Level/Level.h"
-#include "Level/World.h"
 
 float Time::frequency_ = 0.f;
 
