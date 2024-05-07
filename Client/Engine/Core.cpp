@@ -7,11 +7,6 @@
 #include "Windows/WindowsWindow.h"
 #include "Windows/D3D/Renderer.h"
 
-float Core::current_time_ = 0.f;
-float Core::last_time_ = 0.f;
-float Core::frame_timer_ = 0.f;
-float Core::frame_count_ = 0.f;
-
 std::shared_ptr<WindowsWindow> g_game_window;
 
 Core::Core() :
@@ -59,7 +54,7 @@ void Core::Init(const HINSTANCE instance_handle)
     game_engine_ = std::make_shared<GameEngine>();
     game_engine_->Init(new_window);
 
-    current_time_ = Time::Init();
+    Time::Init();
 
     // 게임 스레드 생성
     game_thread_handle_ = CreateThread(nullptr, 0, GameThread, this, 0, nullptr);
@@ -89,11 +84,6 @@ bool Core::ProcessMessage(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam,
     return false;
 }
 
-float Core::GetDeltaTime()
-{
-    return current_time_ - last_time_;
-}
-
 DWORD Core::GameThread(LPVOID lpParam)
 {
     Core* core = static_cast<Core*>(lpParam);
@@ -106,31 +96,12 @@ DWORD Core::GameThread(LPVOID lpParam)
     
     while (true)
     {
-#pragma region DeltaTime
-        last_time_ = current_time_;
-        current_time_ = Time::Seconds();
-#pragma endregion
+        Time::Tick();
         
         if (const auto& window = core->game_window_.lock())
         {
-#pragma region FPS
-            frame_count_++;
-            frame_timer_ += GetDeltaTime();
-            if (frame_timer_ >= 1.f)
-            {
-                const float kMS = 1000.f / frame_count_;
-                
-                WCHAR buffer[256];
-                swprintf_s(buffer, L"Game Engine - FPS: %.f(%.fms)", frame_count_, kMS);
-                SetWindowText(window->GetHWnd(), buffer);
-            
-                frame_count_ = 0.f;
-                frame_timer_ = 0.f;
-            }
-#pragma endregion
-            
             renderer->BeginRender(window);
-            game_engine->GameLoop(GetDeltaTime());
+            game_engine->GameLoop(Time::DeltaTime());
             renderer->EndRender();
         }
         

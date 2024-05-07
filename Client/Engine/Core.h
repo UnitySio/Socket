@@ -14,8 +14,6 @@ public:
     
     virtual bool ProcessMessage(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam, MathTypes::uint32 handler_result) override;
 
-    static float GetDeltaTime();
-
 private:
     static DWORD WINAPI GameThread(LPVOID lpParam);
     
@@ -28,10 +26,5 @@ private:
     HANDLE game_thread_handle_;
 
     bool is_game_running_;
-
-    static float current_time_;
-    static float last_time_;
-    static float frame_timer_;
-    static float frame_count_;
     
 };

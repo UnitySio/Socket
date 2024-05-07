@@ -1,18 +1,22 @@
 ﻿#pragma once
 
-#include "Singleton.h"
+#include <Windows.h>
 
-class Time : public Singleton<Time>
+class Time
 {
 public:
     Time();
-    virtual ~Time() override = default;
+    ~Time() = default;
 
-    static float Init();
+    static void Init();
+    static void Tick();
 
-    static float Seconds();
+    static float DeltaTime() { return delta_time_; }
 
 private:
-    static float frequency_;
+    static LARGE_INTEGER frequency_;
+    static LARGE_INTEGER previous_count_;
+
+    static float delta_time_;
     
 };

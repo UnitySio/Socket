@@ -1,25 +1,25 @@
 ﻿#include "Time.h"
 
-#include "Windows/WindowsApplication.h"
+LARGE_INTEGER Time::frequency_;
+LARGE_INTEGER Time::previous_count_;
 
-float Time::frequency_ = 0.f;
+float Time::delta_time_ = 0.f;
 
 Time::Time()
 {
 }
 
-float Time::Init()
+void Time::Init()
 {
-    LARGE_INTEGER frequency;
-    QueryPerformanceFrequency(&frequency);
-    frequency_ = 1.f / frequency.QuadPart;
-
-    return Seconds();
+    QueryPerformanceFrequency(&frequency_);
+    QueryPerformanceCounter(&previous_count_);
 }
 
-float Time::Seconds()
+void Time::Tick()
 {
-    LARGE_INTEGER count;
-    QueryPerformanceCounter(&count);
-    return static_cast<float>(count.QuadPart) * frequency_;
+    LARGE_INTEGER current_count;
+    QueryPerformanceCounter(&current_count);
+
+    delta_time_ = static_cast<float>(current_count.QuadPart - previous_count_.QuadPart) / frequency_.QuadPart;
+    previous_count_ = current_count;
 }
