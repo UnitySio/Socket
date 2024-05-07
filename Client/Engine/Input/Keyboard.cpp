@@ -23,7 +23,13 @@ void Keyboard::Process(MathTypes::uint32 vk_code, bool was_down, bool is_down)
 
 bool Keyboard::IsKeyDown(MathTypes::uint32 key_code)
 {
-    return !keys[key_code].was_down && keys[key_code].is_down;
+    if (!keys[key_code].was_down && keys[key_code].is_down)
+    {
+        keys[key_code].was_down = true;
+        return true;
+    }
+    
+    return false;
 }
 
 bool Keyboard::IsKeyPressed(MathTypes::uint32 key_code)
@@ -33,5 +39,11 @@ bool Keyboard::IsKeyPressed(MathTypes::uint32 key_code)
 
 bool Keyboard::IsKeyUp(MathTypes::uint32 key_code)
 {
-    return keys[key_code].was_down && !keys[key_code].is_down;
+    if (keys[key_code].was_down && !keys[key_code].is_down)
+    {
+        keys[key_code].was_down = false;
+        return true;
+    }
+    
+    return false;
 }
