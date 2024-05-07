@@ -9,12 +9,11 @@ public:
 
     virtual void Tick(float delta_time) override;
 
-    inline class Actor* GetTarget() const { return target_; }
-    inline void SetTarget(class Actor* target) { target_ = target; }
+    inline void SetFollow(class Actor* target) { follow_ = target; }
 
 private:
     class CameraComponent* camera_;
     
-    class Actor* target_;
+    class Actor* follow_;
     
 };
