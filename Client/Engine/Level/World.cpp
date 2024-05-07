@@ -23,10 +23,10 @@ World::World(const std::shared_ptr<WindowsWindow>& window) :
     
     uint32 flags = 0;
     flags += b2Draw::e_shapeBit;
-    flags += b2Draw::e_jointBit;
-    flags += b2Draw::e_aabbBit;
-    flags += b2Draw::e_pairBit;
-    flags += b2Draw::e_centerOfMassBit;
+    // flags += b2Draw::e_jointBit;
+    // flags += b2Draw::e_aabbBit;
+    // flags += b2Draw::e_pairBit;
+    // flags += b2Draw::e_centerOfMassBit;
     debug_draw_.SetFlags(flags);
 
     physics_world_->SetDebugDraw(&debug_draw_);
