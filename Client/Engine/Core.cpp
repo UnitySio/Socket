@@ -9,6 +9,8 @@
 
 float Core::current_time_ = 0.f;
 float Core::last_time_ = 0.f;
+float Core::frame_timer_ = 0.f;
+float Core::frame_count_ = 0.f;
 
 std::shared_ptr<WindowsWindow> g_game_window;
 
@@ -61,6 +63,9 @@ void Core::Init(const HINSTANCE instance_handle)
 
     // 게임 스레드 생성
     game_thread_handle_ = CreateThread(nullptr, 0, GameThread, this, 0, nullptr);
+
+    std::shared_ptr<WindowsWindow> new_window2 = current_application_->MakeWindow();
+    current_application_->InitWindow(new_window2, nullptr);
 }
 
 extern LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
@@ -111,6 +116,22 @@ DWORD Core::GameThread(LPVOID lpParam)
         
         if (const auto& window = core->game_window_.lock())
         {
+#pragma region FPS
+            frame_count_++;
+            frame_timer_ += GetDeltaTime();
+            if (frame_timer_ >= 1.f)
+            {
+                const float kMS = 1000.f / frame_count_;
+                
+                WCHAR buffer[256];
+                swprintf_s(buffer, L"Game Engine - FPS: %.f(%.fms)", frame_count_, kMS);
+                SetWindowText(window->GetHWnd(), buffer);
+            
+                frame_count_ = 0.f;
+                frame_timer_ = 0.f;
+            }
+#pragma endregion
+            
             renderer->BeginRender(window);
             game_engine->GameLoop(GetDeltaTime());
             renderer->EndRender();

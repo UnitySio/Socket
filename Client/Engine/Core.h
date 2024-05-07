@@ -31,5 +31,7 @@ private:
 
     static float current_time_;
     static float last_time_;
+    static float frame_timer_;
+    static float frame_count_;
     
 };
