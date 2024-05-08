@@ -7,7 +7,7 @@
 #include "Windows/WindowsWindow.h"
 #include "Windows/D3D/Renderer.h"
 
-std::shared_ptr<WindowsWindow> g_game_window;
+SharedPtr<WindowsWindow> g_game_window;
 
 double Core::current_time_ = 0.;
 double Core::last_time_ = 0.;
@@ -30,17 +30,17 @@ void Core::Init(const HINSTANCE instance_handle)
 {
     // 윈도우 애플리케이션을 생성하고 메시지 핸들러로 등록
     HICON icon_handle = LoadIcon(instance_handle, MAKEINTRESOURCE(IDI_ICON1));
-    current_application_ = std::shared_ptr<WindowsApplication>(WindowsApplication::CreateWindowsApplication(instance_handle, icon_handle));
+    current_application_ = SharedPtr<WindowsApplication>(WindowsApplication::CreateWindowsApplication(instance_handle, icon_handle));
     current_application_->AddMessageHandler(*this);
 
     // DirectX 11 렌더러 생성
-    renderer_ = std::make_shared<Renderer>();
+    renderer_ = MakeShared<Renderer>();
     renderer_->Init();
 
     g_renderer = renderer_.get();
 
     // 게임 윈도우 생성
-    std::shared_ptr<WindowsWindow> new_window = current_application_->MakeWindow();
+    SharedPtr<WindowsWindow> new_window = current_application_->MakeWindow();
     current_application_->InitWindow(new_window, nullptr);
 
     // 렌더러에 뷰포트 생성
@@ -55,7 +55,7 @@ void Core::Init(const HINSTANCE instance_handle)
     game_window_ = new_window;
     
     // 게임 엔진 생성
-    game_engine_ = std::make_shared<GameEngine>();
+    game_engine_ = MakeShared<GameEngine>();
     game_engine_->Init(new_window);
 
     current_time_ = Time::Init();

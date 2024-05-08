@@ -1,8 +1,7 @@
 ﻿#include "WindowsApplication.h"
 
 #include "WindowsWindow.h"
-#include "DirectXTK/Audio.h"
-#include "Input/Keyboard.h"
+#include "combaseapi.h"
 
 WindowsApplication* windows_application = nullptr;
 
@@ -42,12 +41,12 @@ ATOM WindowsApplication::RegisterClass(const HINSTANCE instance_handle, const HI
     return RegisterClassEx(&wcex);
 }
 
-std::shared_ptr<WindowsWindow> WindowsApplication::MakeWindow()
+SharedPtr<WindowsWindow> WindowsApplication::MakeWindow()
 {
     return WindowsWindow::Make();
 }
 
-void WindowsApplication::InitWindow(const std::shared_ptr<WindowsWindow>& kWindow, const std::shared_ptr<WindowsWindow>& kParentWindow)
+void WindowsApplication::InitWindow(const SharedPtr<WindowsWindow>& kWindow, const SharedPtr<WindowsWindow>& kParentWindow)
 {
     windows_.push_back(kWindow);
     kWindow->Init(this, instance_handle_, kParentWindow);
@@ -80,7 +79,7 @@ LRESULT WindowsApplication::StaticWndProc(HWND hWnd, UINT message, WPARAM wParam
 
 MathTypes::uint32 WindowsApplication::ProcessMessage(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-    std::shared_ptr<WindowsWindow> window = FindWindowByHWND(hWnd);
+    SharedPtr<WindowsWindow> window = FindWindowByHWND(hWnd);
     
     if (window)
     {
@@ -99,17 +98,6 @@ MathTypes::uint32 WindowsApplication::ProcessMessage(HWND hWnd, UINT message, WP
                 }
             }
         }
-
-        if (message == WM_SYSKEYUP ||
-            message == WM_SYSKEYDOWN ||
-            message == WM_KEYUP ||
-            message == WM_KEYDOWN)
-        {
-            bool was_down = (lParam & (1 << 30)) != 0;
-            bool is_down = (lParam & (1 << 31)) == 0;
-            
-            Keyboard::Process(wParam, was_down, is_down);
-        }
         
         if (message == WM_DESTROY)
         {
@@ -125,7 +113,7 @@ MathTypes::uint32 WindowsApplication::ProcessMessage(HWND hWnd, UINT message, WP
     return DefWindowProc(hWnd, message, wParam, lParam);
 }
 
-std::shared_ptr<WindowsWindow> WindowsApplication::FindWindowByHWND(HWND hWnd) const
+SharedPtr<WindowsWindow> WindowsApplication::FindWindowByHWND(HWND hWnd) const
 {
     for (const auto& window : windows_)
     {

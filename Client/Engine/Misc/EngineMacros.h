@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include <iostream>
+#include <memory>
 
 #define SAFE_RELEASE(p) \
     if (p) \
@@ -27,3 +28,8 @@
         std::abort(); \
     }
 
+#define UniquePtr std::unique_ptr
+#define SharedPtr std::shared_ptr
+#define WeakPtr std::weak_ptr
+#define MakeUnique std::make_unique
+#define MakeShared std::make_shared

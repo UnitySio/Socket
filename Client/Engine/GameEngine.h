@@ -1,5 +1,5 @@
 ﻿#pragma once
-#include <memory>
+#include "Misc/EngineMacros.h"
 
 class World;
 class ShapeBatch;
@@ -11,13 +11,13 @@ public:
     GameEngine();
     ~GameEngine() = default;
 
-    void Init(const std::shared_ptr<WindowsWindow>& window);
+    void Init(const SharedPtr<WindowsWindow>& window);
     void GameLoop(float delta_time);
 
 private:
-    std::shared_ptr<WindowsWindow> game_window_;
-    std::shared_ptr<World> game_world_;
-    std::shared_ptr<ShapeBatch> shape_batch_;
+    SharedPtr<WindowsWindow> game_window_;
+    SharedPtr<World> game_world_;
+    SharedPtr<ShapeBatch> shape_batch_;
     
 };
 

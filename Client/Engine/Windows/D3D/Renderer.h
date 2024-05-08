@@ -5,8 +5,9 @@
 #include <d3d11.h>
 #include <DirectXMath.h>
 #include <map>
-#include <memory>
 #include <wrl/client.h>
+
+#include "Misc/EngineMacros.h"
 
 class DefaultPixelShader;
 class DefaultVertexShader;
@@ -42,12 +43,12 @@ public:
 
     bool Init();
     bool CreateDevice();
-    bool CreateViewport(std::shared_ptr<WindowsWindow> window, Math::Vector2 window_size);
+    bool CreateViewport(SharedPtr<WindowsWindow> window, Math::Vector2 window_size);
     bool CreateDepthStencilBuffer(Viewport& viewport);
 
     Viewport* FindViewport(WindowsWindow* window);
 
-    void BeginRender(const std::shared_ptr<WindowsWindow>& kWindow);
+    void BeginRender(const SharedPtr<WindowsWindow>& kWindow);
     void EndRender();
 
 private:

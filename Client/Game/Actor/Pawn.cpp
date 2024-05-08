@@ -9,8 +9,6 @@
 #include "Actor/Component/RigidBodyComponent.h"
 #include "Actor/Component/TransformComponent.h"
 #include "Actor/Component/AudioListenerComponent.h"
-#include "Input/Keyboard.h"
-#include "Windows.h"
 
 Pawn::Pawn(World* world, const std::wstring& kName) :
     Actor(world, kName),
@@ -39,21 +37,6 @@ void Pawn::PhysicsTick(float delta_time)
 void Pawn::Tick(float delta_time)
 {
     Actor::Tick(delta_time);
-
-    if (Keyboard::IsKeyDown(0))
-    {
-        OutputDebugString(L"Key 0 is down\n");
-    }
-
-    if (Keyboard::IsKeyPressed(0))
-    {
-        OutputDebugString(L"Key 0 was pressed\n");
-    }
-
-    if (Keyboard::IsKeyUp(0))
-    {
-        OutputDebugString(L"Key 0 was up\n");
-    }
     
 }
 

@@ -5,18 +5,18 @@
 #include "Map/MainMap.h"
 #include "Windows/D3D/ShapeBatch.h"
 
-World::World(const std::shared_ptr<WindowsWindow>& window) :
+World::World(const SharedPtr<WindowsWindow>& window) :
     window_(window),
     shape_batch_(),
     shapes_{},
     current_level_(nullptr),
     levels_{}
 {
-    shape_batch_ = std::make_shared<ShapeBatch>();
+    shape_batch_ = MakeShared<ShapeBatch>();
     shape_batch_->Init();
     
     b2Vec2 gravity(0.f, -9.81f);
-    physics_world_ = std::make_unique<b2World>(gravity);
+    physics_world_ = MakeUnique<b2World>(gravity);
     physics_world_->SetContactListener(&contact_listener_);
     
     uint32 flags = 0;
@@ -89,7 +89,7 @@ void World::DestroyActor()
     }
 }
 
-void World::AddShape(const std::shared_ptr<Shape>& shape)
+void World::AddShape(const SharedPtr<Shape>& shape)
 {
     shapes_.push_back(shape);
 }

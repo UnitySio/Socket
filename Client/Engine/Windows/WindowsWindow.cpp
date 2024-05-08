@@ -14,12 +14,12 @@ WindowsWindow::~WindowsWindow()
 
 WCHAR WindowsWindow::window_class[] = L"GEWindow";
 
-std::shared_ptr<WindowsWindow> WindowsWindow::Make()
+SharedPtr<WindowsWindow> WindowsWindow::Make()
 {
-    return std::make_shared<WindowsWindow>();
+    return MakeShared<WindowsWindow>();
 }
 
-void WindowsWindow::Init(WindowsApplication* const application, HINSTANCE instance_handle, const std::shared_ptr<WindowsWindow>& kParentWindow)
+void WindowsWindow::Init(WindowsApplication* const application, HINSTANCE instance_handle, const SharedPtr<WindowsWindow>& kParentWindow)
 {
     application_ = application;
 

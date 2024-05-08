@@ -17,11 +17,11 @@ public:
 private:
     static DWORD WINAPI GameThread(LPVOID lpParam);
     
-    std::shared_ptr<WindowsApplication> current_application_;
+    SharedPtr<WindowsApplication> current_application_;
     std::weak_ptr<WindowsWindow> game_window_;
 
-    std::shared_ptr<Renderer> renderer_;
-    std::shared_ptr<GameEngine> game_engine_;
+    SharedPtr<Renderer> renderer_;
+    SharedPtr<GameEngine> game_engine_;
 
     HANDLE game_thread_handle_;
 

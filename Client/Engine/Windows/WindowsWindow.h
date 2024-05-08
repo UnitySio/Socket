@@ -1,7 +1,7 @@
 ﻿#pragma once
-#include <memory>
 
 #include "../framework.h"
+#include "Misc/EngineMacros.h"
 
 class WindowsApplication;
 
@@ -13,9 +13,9 @@ public:
 
     static WCHAR window_class[];
 
-    static std::shared_ptr<WindowsWindow> Make();
+    static SharedPtr<WindowsWindow> Make();
 
-    void Init(WindowsApplication* const application, HINSTANCE instance_handle, const std::shared_ptr<WindowsWindow>& kParentWindow);
+    void Init(WindowsApplication* const application, HINSTANCE instance_handle, const SharedPtr<WindowsWindow>& kParentWindow);
     void SetWindowFocus();
 
     inline HWND GetHWnd() const { return hWnd_; }
