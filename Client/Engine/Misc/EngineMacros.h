@@ -2,6 +2,8 @@
 #include <iostream>
 #include <memory>
 
+#define START int APIENTRY wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPWSTR lpCmdLine, _In_ int nCmdShow)
+
 #define SAFE_RELEASE(p) \
     if (p) \
     { \
@@ -28,8 +30,8 @@
         std::abort(); \
     }
 
-#define UniquePtr std::unique_ptr
-#define SharedPtr std::shared_ptr
-#define WeakPtr std::weak_ptr
-#define MakeUnique std::make_unique
-#define MakeShared std::make_shared
+#define UNIQUE_PTR std::unique_ptr
+#define SHARED_PTR std::shared_ptr
+#define WEAK_PTR std::weak_ptr
+#define MAKE_UNIQUE std::make_unique
+#define MAKE_SHARED std::make_shared

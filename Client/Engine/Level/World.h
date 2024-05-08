@@ -14,7 +14,7 @@ class Level;
 class World
 {
 public:
-    World(const SharedPtr<WindowsWindow>& window);
+    World(const SHARED_PTR<WindowsWindow>& window);
     ~World() = default;
 
     void Init();
@@ -30,32 +30,32 @@ public:
     inline WindowsWindow* GetWindow() const { return window_.get(); }
     inline Level* GetLevel() const { return current_level_; }
 
-    void AddShape(const SharedPtr<Shape>& shape);
+    void AddShape(const SHARED_PTR<Shape>& shape);
 
 private:
     friend class Physics;
     friend class Level;
     friend class Actor;
 
-    SharedPtr<WindowsWindow> window_;
-    SharedPtr<ShapeBatch> shape_batch_;
+    SHARED_PTR<WindowsWindow> window_;
+    SHARED_PTR<ShapeBatch> shape_batch_;
     
-    std::vector<SharedPtr<Shape>> shapes_;
+    std::vector<SHARED_PTR<Shape>> shapes_;
     
-    UniquePtr<b2World> physics_world_;
+    UNIQUE_PTR<b2World> physics_world_;
     
     ContactListener contact_listener_;
     
     DebugDraw debug_draw_;
     
     Level* current_level_;
-    SharedPtr<Level> levels_[static_cast<size_t>(LevelType::kEnd)];
+    SHARED_PTR<Level> levels_[static_cast<size_t>(LevelType::kEnd)];
     
 };
 
 template <std::derived_from<Level> T>
 T* World::AddLevel(LevelType type, std::wstring name)
 {
-    levels_[static_cast<size_t>(type)] = MakeShared<T>(this, name);
+    levels_[static_cast<size_t>(type)] = MAKE_SHARED<T>(this, name);
     return static_cast<T*>(levels_[static_cast<size_t>(type)].get());
 }

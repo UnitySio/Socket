@@ -24,7 +24,7 @@ public:
     virtual void Render(float alpha);
     virtual void DestroyActor();
 
-    void AddActor(const SharedPtr<Actor>& actor);
+    void AddActor(const SHARED_PTR<Actor>& actor);
 
     inline World* GetWorld() const { return world_; }
     inline const std::wstring& GetName() const { return name_; }
@@ -33,7 +33,7 @@ private:
     World* world_;
     std::wstring name_;
 
-    std::vector<SharedPtr<Actor>> actors_;
+    std::vector<SHARED_PTR<Actor>> actors_;
 
     DebugDraw debug_draw_;
 };

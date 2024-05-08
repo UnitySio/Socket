@@ -43,12 +43,12 @@ public:
 
     bool Init();
     bool CreateDevice();
-    bool CreateViewport(SharedPtr<WindowsWindow> window, Math::Vector2 window_size);
+    bool CreateViewport(SHARED_PTR<WindowsWindow> window, Math::Vector2 window_size);
     bool CreateDepthStencilBuffer(Viewport& viewport);
 
     Viewport* FindViewport(WindowsWindow* window);
 
-    void BeginRender(const SharedPtr<WindowsWindow>& kWindow);
+    void BeginRender(const SHARED_PTR<WindowsWindow>& kWindow);
     void EndRender();
 
 private:

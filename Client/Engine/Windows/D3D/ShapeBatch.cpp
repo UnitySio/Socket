@@ -40,8 +40,8 @@ bool ShapeBatch::Init()
     if (!vertex_buffer_.CreateBuffer(sizeof(DefaultVertex))) return false;
     if (!index_buffer_.CreateBuffer()) return false;
 
-    vertex_shader_ = MakeShared<DefaultVertexShader>();
-    pixel_shader_ = MakeShared<DefaultPixelShader>();
+    vertex_shader_ = MAKE_SHARED<DefaultVertexShader>();
+    pixel_shader_ = MAKE_SHARED<DefaultPixelShader>();
 
     D3D11_BLEND_DESC blend_desc;
     ZeroMemory(&blend_desc, sizeof(D3D11_BLEND_DESC));
@@ -83,7 +83,7 @@ bool ShapeBatch::Init()
     return SUCCEEDED(hr);
 }
 
-void ShapeBatch::DrawShapes(const SharedPtr<WindowsWindow>& kWindow, const std::vector<SharedPtr<Shape>>& kShapes)
+void ShapeBatch::DrawShapes(const SHARED_PTR<WindowsWindow>& kWindow, const std::vector<SHARED_PTR<Shape>>& kShapes)
 {
     Viewport* viewport = g_renderer->FindViewport(kWindow.get());
     CHECK(viewport);

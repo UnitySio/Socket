@@ -94,7 +94,7 @@ void Level::DestroyActor()
     }
 }
 
-void Level::AddActor(const SharedPtr<Actor>& actor)
+void Level::AddActor(const SHARED_PTR<Actor>& actor)
 {
     actors_.push_back(actor);
 }

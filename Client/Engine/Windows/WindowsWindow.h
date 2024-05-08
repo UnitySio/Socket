@@ -13,9 +13,9 @@ public:
 
     static WCHAR window_class[];
 
-    static SharedPtr<WindowsWindow> Make();
+    static SHARED_PTR<WindowsWindow> Make();
 
-    void Init(WindowsApplication* const application, HINSTANCE instance_handle, const SharedPtr<WindowsWindow>& kParentWindow);
+    void Init(WindowsApplication* const application, HINSTANCE instance_handle, const SHARED_PTR<WindowsWindow>& kParentWindow);
     void SetWindowFocus();
 
     inline HWND GetHWnd() const { return hWnd_; }

@@ -14,17 +14,17 @@ GameEngine::GameEngine() :
 {
 }
 
-void GameEngine::Init(const SharedPtr<WindowsWindow>& window)
+void GameEngine::Init(const SHARED_PTR<WindowsWindow>& window)
 {
     game_window_ = window;
 
-    game_world_ = MakeShared<World>(game_window_);
+    game_world_ = MAKE_SHARED<World>(game_window_);
     CHECK_IF(game_world_, L"Failed to create World.");
     game_world_->Init();
     
     g_game_world = game_world_.get();
 
-    shape_batch_ = MakeShared<ShapeBatch>();
+    shape_batch_ = MAKE_SHARED<ShapeBatch>();
     CHECK_IF(shape_batch_, L"Failed to create ShapeBatch.");
     shape_batch_->Init();
 }

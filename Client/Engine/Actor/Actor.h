@@ -95,7 +95,7 @@ private:
     bool is_active_;
     bool is_destroy_;
 
-    std::vector<SharedPtr<ActorComponent>> components_;
+    std::vector<SHARED_PTR<ActorComponent>> components_;
 
     TransformComponent* transform_;
 
@@ -109,7 +109,7 @@ private:
 template <typename T>
 T* Actor::CreateComponent(const std::wstring& kName)
 {
-    components_.push_back(MakeShared<T>(this, kName));
+    components_.push_back(MAKE_SHARED<T>(this, kName));
     return static_cast<T*>(components_.back().get());
 }
 

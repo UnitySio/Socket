@@ -11,13 +11,13 @@ public:
     GameEngine();
     ~GameEngine() = default;
 
-    void Init(const SharedPtr<WindowsWindow>& window);
+    void Init(const SHARED_PTR<WindowsWindow>& window);
     void GameLoop(float delta_time);
 
 private:
-    SharedPtr<WindowsWindow> game_window_;
-    SharedPtr<World> game_world_;
-    SharedPtr<ShapeBatch> shape_batch_;
+    SHARED_PTR<WindowsWindow> game_window_;
+    SHARED_PTR<World> game_world_;
+    SHARED_PTR<ShapeBatch> shape_batch_;
     
 };
 

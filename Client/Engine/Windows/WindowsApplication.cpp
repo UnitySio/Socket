@@ -41,12 +41,12 @@ ATOM WindowsApplication::RegisterClass(const HINSTANCE instance_handle, const HI
     return RegisterClassEx(&wcex);
 }
 
-SharedPtr<WindowsWindow> WindowsApplication::MakeWindow()
+SHARED_PTR<WindowsWindow> WindowsApplication::MakeWindow()
 {
     return WindowsWindow::Make();
 }
 
-void WindowsApplication::InitWindow(const SharedPtr<WindowsWindow>& kWindow, const SharedPtr<WindowsWindow>& kParentWindow)
+void WindowsApplication::InitWindow(const SHARED_PTR<WindowsWindow>& kWindow, const SHARED_PTR<WindowsWindow>& kParentWindow)
 {
     windows_.push_back(kWindow);
     kWindow->Init(this, instance_handle_, kParentWindow);
@@ -79,7 +79,7 @@ LRESULT WindowsApplication::StaticWndProc(HWND hWnd, UINT message, WPARAM wParam
 
 MathTypes::uint32 WindowsApplication::ProcessMessage(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-    SharedPtr<WindowsWindow> window = FindWindowByHWND(hWnd);
+    SHARED_PTR<WindowsWindow> window = FindWindowByHWND(hWnd);
     
     if (window)
     {
@@ -113,7 +113,7 @@ MathTypes::uint32 WindowsApplication::ProcessMessage(HWND hWnd, UINT message, WP
     return DefWindowProc(hWnd, message, wParam, lParam);
 }
 
-SharedPtr<WindowsWindow> WindowsApplication::FindWindowByHWND(HWND hWnd) const
+SHARED_PTR<WindowsWindow> WindowsApplication::FindWindowByHWND(HWND hWnd) const
 {
     for (const auto& window : windows_)
     {
