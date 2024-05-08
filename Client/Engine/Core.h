@@ -26,5 +26,9 @@ private:
     HANDLE game_thread_handle_;
 
     bool is_game_running_;
+
+    static double current_time_;
+    static double last_time_;
+    static double delta_time_;
     
 };

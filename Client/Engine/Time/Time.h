@@ -8,17 +8,10 @@ public:
     Time();
     ~Time() = default;
 
-    static void Init();
-    static void Tick();
-
-    static float Seconds();
-    
-    inline static float DeltaTime() { return delta_time_; }
+    static double Init();
+    static double Seconds();
 
 private:
-    static LARGE_INTEGER previous_count_;
-
-    static float second_per_count_;
-    static float delta_time_;
+    static double second_per_count_;
     
 };

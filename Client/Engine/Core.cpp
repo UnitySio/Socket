@@ -9,6 +9,10 @@
 
 std::shared_ptr<WindowsWindow> g_game_window;
 
+double Core::current_time_ = 0.;
+double Core::last_time_ = 0.;
+double Core::delta_time_ = 0.;
+
 Core::Core() :
     current_application_(nullptr),
     game_window_(),
@@ -54,7 +58,7 @@ void Core::Init(const HINSTANCE instance_handle)
     game_engine_ = std::make_shared<GameEngine>();
     game_engine_->Init(new_window);
 
-    Time::Init();
+    current_time_ = Time::Init();
 
     // 게임 스레드 생성
     game_thread_handle_ = CreateThread(nullptr, 0, GameThread, this, 0, nullptr);
@@ -96,12 +100,16 @@ DWORD Core::GameThread(LPVOID lpParam)
     
     while (true)
     {
-        Time::Tick();
+#pragma region DeltaTime
+        last_time_ = current_time_;
+        current_time_ = Time::Seconds();
+        delta_time_ = current_time_ - last_time_;
+#pragma endregion
         
         if (const auto& window = core->game_window_.lock())
         {
             renderer->BeginRender(window);
-            game_engine->GameLoop(Time::DeltaTime());
+            game_engine->GameLoop(delta_time_);
             renderer->EndRender();
         }
         
