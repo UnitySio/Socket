@@ -13,8 +13,7 @@
 Pawn::Pawn(World* world, const std::wstring& kName) :
     Actor(world, kName),
     box_collider_(nullptr),
-    rigid_body_(nullptr),
-    dir_(1)
+    rigid_body_(nullptr)
 {
     box_collider_ = CreateComponent<BoxColliderComponent>(L"BoxCollider");
     box_collider_->SetOffset({0.f, 1.45f});
@@ -25,6 +24,12 @@ Pawn::Pawn(World* world, const std::wstring& kName) :
     rigid_body_->SetFreezeRotation(false);
     
     audio_listener_ = CreateComponent<AudioListenerComponent>(L"AudioListener");
+    
+}
+
+void Pawn::BeginPlay()
+{
+    Actor::BeginPlay();
     
 }
 
