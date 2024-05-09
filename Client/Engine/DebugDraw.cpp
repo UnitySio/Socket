@@ -27,14 +27,14 @@ void DebugDraw::DrawSolidPolygon(const b2Vec2* vertices, int32 vertexCount, cons
     const b2Color fill_color(color.r * .5f, color.g * .5f, color.b * .5f, color.a * .5f);
 
     std::vector<DefaultVertex> fill_vertices;
-    for (int32 i = 0; i < vertexCount; ++i)
+    for (int32 i = 0; i < vertexCount; i++)
     {
         const b2Vec2 p = vertices[i];
         fill_vertices.push_back({ { p.x, p.y, 0.f }, { fill_color.r, fill_color.g, fill_color.b, fill_color.a } });
     }
 
     std::vector<uint32> fill_indices;
-    for (int32 i = 1; i < vertexCount - 1; ++i)
+    for (int32 i = 1; i < vertexCount - 1; i++)
     {
         fill_indices.push_back(0);
         fill_indices.push_back(i);
@@ -53,7 +53,7 @@ void DebugDraw::DrawSolidPolygon(const b2Vec2* vertices, int32 vertexCount, cons
 void DebugDraw::DrawCircle(const b2Vec2& center, float radius, const b2Color& color)
 {
     std::vector<DefaultVertex> vertices;
-    for (int32 i = 0; i < CIRCLE_SEGMENTS; ++i)
+    for (int32 i = 0; i < CIRCLE_SEGMENTS; i++)
     {
         const float theta = 2.f * b2_pi * i / CIRCLE_SEGMENTS;
         const float x = center.x + radius * cosf(theta);
@@ -77,7 +77,7 @@ void DebugDraw::DrawSolidCircle(const b2Vec2& center, float radius, const b2Vec2
     std::vector<DefaultVertex> fill_vertices;
     fill_vertices.push_back({ { center.x, center.y, 0.f }, { fill_color.r, fill_color.g, fill_color.b, fill_color.a } });
 
-    for (int32 i = 0; i < CIRCLE_SEGMENTS; ++i)
+    for (int32 i = 0; i < CIRCLE_SEGMENTS; i++)
     {
         const float theta = 2.f * b2_pi * i / CIRCLE_SEGMENTS;
         const float x = center.x + radius * cosf(theta);
@@ -138,7 +138,7 @@ void DebugDraw::DrawPoint(const b2Vec2& p, float size, const b2Color& color)
     std::vector<DefaultVertex> fill_vertices;
     fill_vertices.push_back({ { p.x, p.y, 0.f }, { color.r, color.g, color.b, color.a } });
 
-    for (int32 i = 0; i < CIRCLE_SEGMENTS; ++i)
+    for (int32 i = 0; i < CIRCLE_SEGMENTS; i++)
     {
         const float theta = 2.f * b2_pi * i / CIRCLE_SEGMENTS;
         const float x = p.x + size * cosf(theta);

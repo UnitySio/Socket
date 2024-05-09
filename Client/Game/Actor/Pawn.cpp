@@ -4,11 +4,14 @@
 #include <fstream>
 #include <iostream>
 
+#include "Windows.h"
+
 #include "Enums.h"
 #include "Actor/Component/BoxColliderComponent.h"
 #include "Actor/Component/RigidBodyComponent.h"
 #include "Actor/Component/TransformComponent.h"
 #include "Actor/Component/AudioListenerComponent.h"
+#include "Input/Keyboard.h"
 
 Pawn::Pawn(World* world, const std::wstring& kName) :
     Actor(world, kName),
@@ -36,12 +39,28 @@ void Pawn::BeginPlay()
 void Pawn::PhysicsTick(float delta_time)
 {
     Actor::PhysicsTick(delta_time);
+
+    Keyboard* keyboard = Keyboard::Get();
+    if (keyboard)
+    {
+        float h = keyboard->IsKeyPressed(VK_RIGHT) - keyboard->IsKeyPressed(VK_LEFT);
+        float v = keyboard->IsKeyPressed(VK_DOWN) - keyboard->IsKeyPressed(VK_UP);
+
+        rigid_body_->SetVelocity({h * 2.f, rigid_body_->GetVelocity().y});
+    }
     
 }
 
 void Pawn::Tick(float delta_time)
 {
     Actor::Tick(delta_time);
+    
+    Keyboard* keyboard = Keyboard::Get();
+    if (keyboard->IsKeyDown(VK_SPACE))
+    {
+        rigid_body_->SetVelocity(Math::Vector2::Zero());
+        rigid_body_->AddForce(Math::Vector2::Up() * 5.f, ForceMode::kImpulse);
+    }
     
 }
 
@@ -71,12 +90,4 @@ void Pawn::EndPlay(EndPlayReason type)
         file << L"Quit: " << GetName() << std::endl;
         file.close();
     }
-}
-
-void Pawn::OnCollisionEnter(Actor* other)
-{
-    Actor::OnCollisionEnter(other);
-
-    rigid_body_->SetVelocity(Math::Vector2::Zero());
-    rigid_body_->AddForce(Math::Vector2::Up() * 5.f, ForceMode::kImpulse);
 }

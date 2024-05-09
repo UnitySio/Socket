@@ -11,7 +11,7 @@ public:
 
     static T* Get()
     {
-        std::call_once(flag_, []() { instance_.reset(new T()); });
+        if (!instance_) instance_ = MAKE_UNIQUE<T>();
         return instance_.get();
     }
 
@@ -26,12 +26,8 @@ protected:
     
 private:
     static UNIQUE_PTR<T> instance_;
-    static std::once_flag flag_;
     
 };
 
 template <typename T>
 UNIQUE_PTR<T> Singleton<T>::instance_ = nullptr;
-
-template <typename T>
-std::once_flag Singleton<T>::flag_;

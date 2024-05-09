@@ -3,6 +3,7 @@
 #include <cassert>
 #include <vector>
 
+#include "ProjectSettings.h"
 #include "Vertex.h"
 #include "Shaders.h"
 #include "Math/Vector2.h"
@@ -170,7 +171,7 @@ void Renderer::EndRender()
     CHECK_IF(current_viewport_, L"Not Set current viewport.");
     
     g_d3d_device_context->OMSetRenderTargets(0, nullptr, nullptr);
-    current_viewport_->dxgi_swap_chain->Present(1, 0);
+    current_viewport_->dxgi_swap_chain->Present(ProjectSettings::kUseVSync, 0);
 
     current_viewport_ = nullptr;
 }
