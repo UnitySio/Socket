@@ -1,7 +1,6 @@
 ﻿#include "Core.h"
 
 #include "GameEngine.h"
-#include "Input/Keyboard.h"
 #include "Math/Vector2.h"
 #include "Time/Time.h"
 #include "Windows/WindowsWindow.h"
@@ -60,12 +59,6 @@ void Core::Init(const HINSTANCE instance_handle)
 
     current_time_ = Time::Init();
 
-    Keyboard::Get()->RegisterKey(VK_RIGHT);
-    Keyboard::Get()->RegisterKey(VK_LEFT);
-    Keyboard::Get()->RegisterKey(VK_UP);
-    Keyboard::Get()->RegisterKey(VK_DOWN);
-    Keyboard::Get()->RegisterKey(VK_SPACE);
-
     // 게임 스레드 생성
     game_thread_handle_ = CreateThread(nullptr, 0, GameThread, this, 0, nullptr);
 }
@@ -111,8 +104,6 @@ DWORD Core::GameThread(LPVOID lpParam)
         current_time_ = Time::Seconds();
         delta_time_ = current_time_ - last_time_;
 #pragma endregion
-
-        Keyboard::Get()->Tick();
         
         if (const auto& window = core->game_window_.lock())
         {

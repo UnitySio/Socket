@@ -7,17 +7,22 @@
 #include "Windows.h"
 
 #include "Enums.h"
+#include "Actor/Component/InputComponent.h"
 #include "Actor/Component/BoxColliderComponent.h"
 #include "Actor/Component/RigidBodyComponent.h"
 #include "Actor/Component/TransformComponent.h"
 #include "Actor/Component/AudioListenerComponent.h"
-#include "Input/Keyboard.h"
 
 Pawn::Pawn(World* world, const std::wstring& kName) :
     Actor(world, kName),
     box_collider_(nullptr),
     rigid_body_(nullptr)
 {
+    input_ = CreateComponent<InputComponent>(L"Input");
+    input_->RegisterKey(VK_RIGHT);
+    input_->RegisterKey(VK_LEFT);
+    input_->RegisterKey(VK_SPACE);
+    
     box_collider_ = CreateComponent<BoxColliderComponent>(L"BoxCollider");
     box_collider_->SetOffset({0.f, 1.45f});
     box_collider_->SetSize({1.f, 1.f});
@@ -40,14 +45,9 @@ void Pawn::PhysicsTick(float delta_time)
 {
     Actor::PhysicsTick(delta_time);
 
-    Keyboard* keyboard = Keyboard::Get();
-    if (keyboard)
-    {
-        float h = keyboard->IsKeyPressed(VK_RIGHT) - keyboard->IsKeyPressed(VK_LEFT);
-        float v = keyboard->IsKeyPressed(VK_DOWN) - keyboard->IsKeyPressed(VK_UP);
-
-        rigid_body_->SetVelocity({h * 2.f, rigid_body_->GetVelocity().y});
-    }
+    float h = input_->IsKeyPressed(VK_RIGHT) - input_->IsKeyPressed(VK_LEFT);
+    
+    rigid_body_->SetVelocity({h * 2.f, rigid_body_->GetVelocity().y});
     
 }
 
@@ -55,8 +55,7 @@ void Pawn::Tick(float delta_time)
 {
     Actor::Tick(delta_time);
     
-    Keyboard* keyboard = Keyboard::Get();
-    if (keyboard->IsKeyDown(VK_SPACE))
+    if (input_->IsKeyDown(VK_SPACE))
     {
         rigid_body_->SetVelocity(Math::Vector2::Zero());
         rigid_body_->AddForce(Math::Vector2::Up() * 5.f, ForceMode::kImpulse);

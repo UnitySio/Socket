@@ -143,6 +143,7 @@
     <ClInclude Include="Engine\Actor\Component\CameraComponent.h" />
     <ClInclude Include="Engine\Actor\Component\CircleColliderComponent.h" />
     <ClInclude Include="Engine\Actor\Component\ColliderComponent.h" />
+    <ClInclude Include="Engine\Actor\Component\InputComponent.h" />
     <ClInclude Include="Engine\Actor\Component\RigidBodyComponent.h" />
     <ClInclude Include="Engine\Actor\Component\TransformComponent.h" />
     <ClInclude Include="Engine\Audio\AudioManager.h" />
@@ -151,7 +152,6 @@
     <ClInclude Include="Engine\Enums.h" />
     <ClInclude Include="Engine\EventManager.h" />
     <ClInclude Include="Engine\GameEngine.h" />
-    <ClInclude Include="Engine\Input\Keyboard.h" />
     <ClInclude Include="Engine\Level\Level.h" />
     <ClInclude Include="Engine\Level\Listener\ContactListener.h" />
     <ClInclude Include="Engine\Level\Listener\QueryCallback.h" />
@@ -274,6 +274,7 @@
     <ClCompile Include="Engine\Actor\Component\CameraComponent.cpp" />
     <ClCompile Include="Engine\Actor\Component\CircleColliderComponent.cpp" />
     <ClCompile Include="Engine\Actor\Component\ColliderComponent.cpp" />
+    <ClCompile Include="Engine\Actor\Component\InputComponent.cpp" />
     <ClCompile Include="Engine\Actor\Component\RigidBodyComponent.cpp" />
     <ClCompile Include="Engine\Actor\Component\TransformComponent.cpp" />
     <ClCompile Include="Engine\Audio\AudioManager.cpp" />
@@ -281,7 +282,6 @@
     <ClCompile Include="Engine\DebugDraw.cpp" />
     <ClCompile Include="Engine\EventManager.cpp" />
     <ClCompile Include="Engine\GameEngine.cpp" />
-    <ClCompile Include="Engine\Input\Keyboard.cpp" />
     <ClCompile Include="Engine\Level\Level.cpp" />
     <ClCompile Include="Engine\Level\Listener\ContactListener.cpp" />
     <ClCompile Include="Engine\Level\Listener\QueryCallback.cpp" />

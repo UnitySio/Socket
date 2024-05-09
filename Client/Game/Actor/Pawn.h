@@ -15,6 +15,7 @@ public:
 
 private:
     // Actor components
+    class InputComponent* input_;
     class BoxColliderComponent* box_collider_;
     class RigidBodyComponent* rigid_body_;
     class AudioListenerComponent* audio_listener_;

@@ -1,23 +1,17 @@
 ﻿#pragma once
 #include <map>
 
-#include "Singleton.h"
+#include "ActorComponent.h"
 #include "Math/MathTypes.h"
 
-struct KeyState
-{
-    bool was_down = false;
-    bool is_down = false;
-};
-
-class Keyboard : public Singleton<Keyboard>
+class InputComponent : public ActorComponent
 {
 public:
-    Keyboard();
-    virtual ~Keyboard() override = default;
+    InputComponent(class Actor* owner, const std::wstring& kName);
+    virtual ~InputComponent() override = default;
 
-    void Tick();
-
+    virtual void TickComponent(float delta_time) override;
+    
     void RegisterKey(MathTypes::uint32 key_code);
     void UnregisterKey(MathTypes::uint32 key_code);
 
@@ -26,6 +20,12 @@ public:
     bool IsKeyPressed(MathTypes::uint32 key_code) const;
 
 private:
+    struct KeyState
+    {
+        bool was_down = false;
+        bool is_down = false;
+    };
+    
     std::map<MathTypes::uint32, KeyState> key_states_;
     
 };

@@ -1,32 +1,36 @@
-﻿#include "Keyboard.h"
+﻿#include "InputComponent.h"
 
-#include <ranges>
 #include <Windows.h>
 
-Keyboard::Keyboard()
+InputComponent::InputComponent(Actor* owner, const std::wstring& kName) :
+    ActorComponent(owner, kName),
+    key_states_()
 {
 }
 
-void Keyboard::Tick()
+void InputComponent::TickComponent(float delta_time)
 {
+    ActorComponent::TickComponent(delta_time);
+    
     for (auto& key_state : key_states_)
     {
         key_state.second.was_down = key_state.second.is_down;
         key_state.second.is_down = GetAsyncKeyState(key_state.first) & 0x8000;
     }
+    
 }
 
-void Keyboard::RegisterKey(MathTypes::uint32 key_code)
+void InputComponent::RegisterKey(MathTypes::uint32 key_code)
 {
     key_states_[key_code] = KeyState();
 }
 
-void Keyboard::UnregisterKey(MathTypes::uint32 key_code)
+void InputComponent::UnregisterKey(MathTypes::uint32 key_code)
 {
     key_states_.erase(key_code);
 }
 
-bool Keyboard::IsKeyDown(MathTypes::uint32 key_code) const
+bool InputComponent::IsKeyDown(MathTypes::uint32 key_code) const
 {
     if (key_states_.contains(key_code))
     {
@@ -36,7 +40,7 @@ bool Keyboard::IsKeyDown(MathTypes::uint32 key_code) const
     return false;
 }
 
-bool Keyboard::IsKeyUp(MathTypes::uint32 key_code) const
+bool InputComponent::IsKeyUp(MathTypes::uint32 key_code) const
 {
     if (key_states_.contains(key_code))
     {
@@ -46,7 +50,7 @@ bool Keyboard::IsKeyUp(MathTypes::uint32 key_code) const
     return false;
 }
 
-bool Keyboard::IsKeyPressed(MathTypes::uint32 key_code) const
+bool InputComponent::IsKeyPressed(MathTypes::uint32 key_code) const
 {
     if (key_states_.contains(key_code))
     {
