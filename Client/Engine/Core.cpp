@@ -79,7 +79,7 @@ bool Core::ProcessMessage(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam,
                 // 게임 스레드가 종료될 때까지 대기
                 WaitForSingleObject(game_thread_handle_, INFINITE);
 
-                // ...
+                game_engine_->OnQuit();
             }
         }
     }

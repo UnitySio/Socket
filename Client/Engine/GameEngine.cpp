@@ -1,6 +1,7 @@
 ﻿#include "GameEngine.h"
 
 #include "ProjectSettings.h"
+#include "Level/Level.h"
 #include "Level/World.h"
 #include "Misc/EngineMacros.h"
 #include "Windows/WindowsWindow.h"
@@ -53,4 +54,9 @@ void GameEngine::GameLoop(float delta_time)
 #pragma region Render
     game_world_->Render(alpha);
 #pragma endregion
+}
+
+void GameEngine::OnQuit()
+{
+    game_world_->GetLevel()->Unload(EndPlayReason::kQuit);
 }
