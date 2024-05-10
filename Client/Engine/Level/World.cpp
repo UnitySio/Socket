@@ -8,9 +8,9 @@
 World::World(const SHARED_PTR<WindowsWindow>& window) :
     window_(window),
     shape_batch_(),
-    shapes_{},
+    shapes_(),
     current_level_(nullptr),
-    levels_{}
+    levels_()
 {
     shape_batch_ = MAKE_SHARED<ShapeBatch>();
     shape_batch_->Init();

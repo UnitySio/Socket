@@ -166,6 +166,7 @@
     <ClInclude Include="Engine\Physics\RayCastResult.h" />
     <ClInclude Include="Engine\Singleton.h" />
     <ClInclude Include="Engine\Time\Time.h" />
+    <ClInclude Include="Engine\Time\TimerManager.h" />
     <ClInclude Include="Engine\Windows\D3D\ConstantBuffer.h" />
     <ClInclude Include="Engine\Windows\D3D\IndexBuffer.h" />
     <ClInclude Include="Engine\Windows\D3D\Renderer.h" />
@@ -292,6 +293,7 @@
     <ClCompile Include="Engine\Physics\Physics.cpp" />
     <ClCompile Include="Engine\Physics\RayCastCallback.cpp" />
     <ClCompile Include="Engine\Time\Time.cpp" />
+    <ClCompile Include="Engine\Time\TimerManager.cpp" />
     <ClCompile Include="Engine\Windows\D3D\IndexBuffer.cpp" />
     <ClCompile Include="Engine\Windows\D3D\Renderer.cpp" />
     <ClCompile Include="Engine\Windows\D3D\Shaders.cpp" />

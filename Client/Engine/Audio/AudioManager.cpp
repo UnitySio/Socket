@@ -7,7 +7,7 @@
 
 AudioManager::AudioManager() :
     fmod_system_(nullptr),
-    channels_{},
+    channels_(),
     sound_map_()
 {
 }
