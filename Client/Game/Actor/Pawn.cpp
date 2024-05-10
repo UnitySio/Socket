@@ -12,6 +12,8 @@
 #include "Actor/Component/RigidBodyComponent.h"
 #include "Actor/Component/TransformComponent.h"
 #include "Actor/Component/AudioListenerComponent.h"
+#include "Physics/HitResult.h"
+#include "Physics/Physics.h"
 
 Pawn::Pawn(World* world, const std::wstring& kName) :
     Actor(world, kName),
@@ -47,6 +49,12 @@ void Pawn::PhysicsTick(float delta_time)
     float h = input_->IsKeyPressed(VK_RIGHT) - input_->IsKeyPressed(VK_LEFT);
     
     rigid_body_->SetVelocity({h * 2.f, rigid_body_->GetVelocity().y});
+
+    HitResult hit_result;
+    Math::Vector2 start = GetTransform()->GetWorldLocation();
+    Math::Vector2 end = start + Math::Vector2::Down();
+    
+    bool is_hit = Physics::RayCastSingle(GetWorld(), hit_result, start, end, ActorLayer::kFloor);
     
 }
 
