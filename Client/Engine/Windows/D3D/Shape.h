@@ -10,7 +10,7 @@ class Shape
 {
 public:
     Shape();
-    ~Shape();
+    virtual ~Shape();
 
     void SetPosition(Math::Vector2 position);
     void SetScale(Math::Vector2 scale);

@@ -5,13 +5,14 @@
 #include "Level/World.h"
 #include "Misc/EngineMacros.h"
 #include "Windows/WindowsWindow.h"
-#include "Windows/D3D/Shape.h"
 #include "Windows/D3D/ShapeBatch.h"
 
 World* g_game_world = nullptr;
 
 GameEngine::GameEngine() :
-    game_window_(nullptr)
+    game_window_(nullptr),
+    game_world_(nullptr),
+    shape_batch_(nullptr)
 {
 }
 

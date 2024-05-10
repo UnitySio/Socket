@@ -24,7 +24,6 @@ Pawn::Pawn(World* world, const std::wstring& kName) :
     input_->RegisterKey(VK_SPACE);
     
     box_collider_ = CreateComponent<BoxColliderComponent>(L"BoxCollider");
-    box_collider_->SetOffset({0.f, 1.45f});
     box_collider_->SetSize({1.f, 1.f});
 
     rigid_body_ = CreateComponent<RigidBodyComponent>(L"RigidBody");

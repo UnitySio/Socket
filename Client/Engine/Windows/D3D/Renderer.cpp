@@ -155,7 +155,13 @@ void Renderer::BeginRender(const SHARED_PTR<WindowsWindow>& kWindow)
     current_viewport_ = FindViewport(kWindow.get());
     CHECK_IF(current_viewport_, L"Not found viewport for window.");
 
-    constexpr float clear_color[4] = {0.f, 0.f, 0.f, 1.f};
+    constexpr float clear_color[4] = {
+        49.f / 255.f,
+        77.f / 255.f,
+        121.f / 255.f,
+        1.f
+    };
+    
     g_d3d_device_context->ClearRenderTargetView(current_viewport_->d3d_render_target_view.Get(), clear_color);
     g_d3d_device_context->ClearDepthStencilView(current_viewport_->depth_stencil_view.Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.f, 0);
     g_d3d_device_context->RSSetViewports(1, &current_viewport_->d3d_viewport);

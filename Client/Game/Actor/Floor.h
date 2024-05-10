@@ -1,6 +1,8 @@
 ﻿#pragma once
 #include "Actor/Actor.h"
 
+class Texture;
+
 class Floor : public Actor
 {
 public:

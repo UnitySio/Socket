@@ -125,7 +125,7 @@ void ShapeBatch::DrawShapes(const SHARED_PTR<WindowsWindow>& kWindow, const std:
 
         constexpr MathTypes::uint32 stride = sizeof(DefaultVertex);
         constexpr MathTypes::uint32 offset = 0;
-
+        
         g_d3d_device_context->IASetVertexBuffers(0, 1, &buffer, &stride, &offset);
         g_d3d_device_context->IASetIndexBuffer(index_buffer_.GetResource(), DXGI_FORMAT_R32_UINT, 0);
 
