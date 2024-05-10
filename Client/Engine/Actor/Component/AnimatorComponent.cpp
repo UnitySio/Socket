@@ -5,32 +5,61 @@
 #include "TransformComponent.h"
 #include "Time/time.h"
 
-AnimationClip::AnimationClip(/*int firstIndex, int lastIndex*/)
+AnimationClip::AnimationClip(std::wstring clipName, int firstIndex, int lastIndex)
 {
-    Image = std::make_unique<Sprite>();
+    clipName_ = clipName;
     isRepeat = false;
     playbackSpeed = .25f;
-    //firstIndex_ = firstIndex;
-    //lastIndex_ = lastIndex;
+    firstIndex_ = firstIndex;
+    lastIndex_ = lastIndex;
+    frameNumber_ = 0;
+    maxFrame_ = lastIndex - firstIndex;
 }
 
 AnimatorComponent::AnimatorComponent(Actor* owner, const std::wstring& kName) 
-	:ActorComponent(owner, kName),clip_(nullptr), frameNumber_(0), playTime(0)
+	:ActorComponent(owner, kName),targetClip_(nullptr), frameNumber_(0), playTime(0)
 {
-    SetAnimationClip();
+    originSheet_ = std::make_unique<Sprite>();
+
+    Graphics* gfx = Graphics::Get();
+    assert(originSheet_->Load(gfx->GetD3DDevice(), L"spritesheet.png"));
+
+    originSheet_->Split(3, 15, { .5f, 0.f });
+
+    MakeAnimationClip(L"Idle", 0, 5);
+    MakeAnimationClip(L"Attack", 15, 41);
+
+    assert(SetAnimationClip(L"Attack",0.125f));
 }
 
-void AnimatorComponent::SetAnimationClip(/*파라미터 추가*/)
+void AnimatorComponent::MakeAnimationClip(std::wstring clipName, int firstIndex, int lastIndex)
 {
-	clip_ = std::make_unique<AnimationClip>();
+    std::unique_ptr<AnimationClip> clip = std::make_unique<AnimationClip>(clipName,firstIndex,lastIndex);
+    clips_.push_back(move(clip));
+}
 
-    //리소스 매니저 구현 필요?
-    Graphics* gfx = Graphics::Get();
+bool AnimatorComponent::SetAnimationClip(std::wstring clipName,float speed)
+{
+    frameNumber_ = 0;
+    for (short i = 0;i < clips_.size();i++)
+    {
+        if (clips_[i]->clipName_ == clipName)
+        {
+            targetClip_ = clips_[i].get();
+            targetClip_->playbackSpeed = speed;
+            return true;
+        }
+    }
+    
+    return false;
+}
+bool AnimatorComponent::SetAnimationClip(int index)
+{
+    frameNumber_ = 0;
+    targetClip_ = clips_[index].get();
 
-    clip_->Image = std::make_unique<Sprite>();
-    assert(clip_->Image->Load(gfx->GetD3DDevice(), L"spritesheet.png"));
-
-    clip_->Image->Split(3, 15, { .5f, 0.f });
+    if (targetClip_ != nullptr) return true;
+    else return false;
 }
 
 void AnimatorComponent::PlayAnimation()
@@ -46,13 +75,16 @@ void AnimatorComponent::PlayAnimation()
 
     Math::Vector2 dir = { -1.f ,1.f };
 
-    Time time;
-    playTime += time.DeltaTime();
-    if(playTime >= clip_->playbackSpeed)
+    if (targetClip_ != nullptr)
     {
-        playTime = 0;
-        frameNumber_ > 4 ? frameNumber_ = 0 : frameNumber_++;
-    }
+        batch->Draw(originSheet_.get(), L"spritesheet_" + std::to_wstring(targetClip_->firstIndex_ + frameNumber_), location, { 1.f, 1.f }, angle);
 
-    batch->Draw(clip_->Image.get(), L"spritesheet_" + std::to_wstring(frameNumber_), location, { 1.f, 1.f }, angle);
+        Time time;
+        playTime += time.DeltaTime();
+        if (playTime >= targetClip_->playbackSpeed)
+        {
+            playTime = 0;
+            frameNumber_ < targetClip_->maxFrame_ ? frameNumber_++ : frameNumber_ = 0;
+        }
+    }    
 }
