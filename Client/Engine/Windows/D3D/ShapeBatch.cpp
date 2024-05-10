@@ -2,6 +2,7 @@
 
 #include "Shaders.h"
 #include "Shape.h"
+#include "Texture.h"
 #include "Vertex.h"
 #include "Misc/EngineMacros.h"
 
@@ -118,10 +119,17 @@ void ShapeBatch::DrawShapes(const SHARED_PTR<WindowsWindow>& kWindow, const std:
         g_d3d_device_context->OMSetDepthStencilState(depth_stencil_state_.Get(), 0);
 
         g_d3d_device_context->IASetPrimitiveTopology(shape->GetPrimitiveTopology());
+
+        g_d3d_device_context->PSSetSamplers(0, 1, point_sampler_state_wrap_.GetAddressOf());
 #pragma endregion
 
 #pragma region 드로우 콜
         ID3D11Buffer* buffer = vertex_buffer_.GetResource();
+
+        if (shape->GetTexture())
+        {
+            g_d3d_device_context->PSSetShaderResources(0, 1, shape->GetTexture()->resource_view_.GetAddressOf());
+        }
 
         constexpr MathTypes::uint32 stride = sizeof(DefaultVertex);
         constexpr MathTypes::uint32 offset = 0;

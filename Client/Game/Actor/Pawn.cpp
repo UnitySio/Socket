@@ -7,13 +7,16 @@
 #include "Windows.h"
 
 #include "Enums.h"
+#include "GameEngine.h"
 #include "Actor/Component/InputComponent.h"
 #include "Actor/Component/BoxColliderComponent.h"
 #include "Actor/Component/RigidBodyComponent.h"
 #include "Actor/Component/TransformComponent.h"
 #include "Actor/Component/AudioListenerComponent.h"
+#include "Level/World.h"
 #include "Physics/HitResult.h"
 #include "Physics/Physics.h"
+#include "Windows/D3D/Texture.h"
 
 Pawn::Pawn(World* world, const std::wstring& kName) :
     Actor(world, kName),
@@ -33,6 +36,9 @@ Pawn::Pawn(World* world, const std::wstring& kName) :
     rigid_body_->SetFreezeRotation(false);
     
     audio_listener_ = CreateComponent<AudioListenerComponent>(L"AudioListener");
+
+    texture_ = MAKE_SHARED<Texture>();
+    CHECK_IF(texture_->Load(L".\\Game_Data\\spritesheet.png"), L"Failed to load texture");
     
 }
 
@@ -73,6 +79,29 @@ void Pawn::Tick(float delta_time)
 void Pawn::Render(float alpha)
 {
     Actor::Render(alpha);
+
+    std::vector<DefaultVertex> vertices = {
+        {{0.f, 0.f, 0.f}, {}, {0.f, 1.f}},
+        {{1.f, 0.f, 0.f}, {}, {1.f, 1.f}},
+        {{0.f, 1.f, 0.f}, {}, {0.f, 0.f}},
+        {{1.f, 1.f, 0.f}, {}, {1.f, 0.f}}
+    };
+
+    std::vector<MathTypes::uint32> indices = {
+        0, 1, 2,
+        2, 1, 3
+    };
+    
+    SHARED_PTR<Shape> shape = MAKE_SHARED<Shape>();
+    shape->SetVertices(vertices);
+    shape->SetIndices(indices);
+    shape->SetTexture(texture_);
+
+    shape->SetPosition(GetTransform()->GetWorldLocation());
+    shape->SetRotation(DirectX::XMConvertToRadians(GetTransform()->GetWorldRotationZ()));
+    shape->SetScale({120.f, 24.f});
+
+    g_game_world->AddShape(shape);
     
 }
 

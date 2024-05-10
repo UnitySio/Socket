@@ -60,6 +60,8 @@ private:
     struct Constants
     {
         DirectX::XMMATRIX mat;
+        DirectX::XMFLOAT2 uv_offset = {0.f, 0.f};
+        DirectX::XMFLOAT2 uv_scale = {1.f, 1.f};
     };
 
     ConstantBuffer<Constants> constant_buffer_;

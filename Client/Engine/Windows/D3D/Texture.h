@@ -18,6 +18,8 @@ public:
     MathTypes::uint32 GetHeight() const { return height_; }
 
 private:
+    friend class ShapeBatch;
+    
     Microsoft::WRL::ComPtr<ID3D11Resource> resource_;
     Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> resource_view_;
 

@@ -5,6 +5,9 @@
 #include "Vertex.h"
 #include "Math/MathTypes.h"
 #include "Math/Vector2.h"
+#include "Misc/EngineMacros.h"
+
+class Texture;
 
 class Shape
 {
@@ -27,6 +30,9 @@ public:
 
     inline D3D11_PRIMITIVE_TOPOLOGY GetPrimitiveTopology() const { return primitive_topology_; }
 
+    inline void SetTexture(const SHARED_PTR<Texture>& texture) { texture_ = texture; }
+    inline const Texture* GetTexture() const { return texture_.get(); }
+
 private:
     void UpdateMatrixx();
     
@@ -41,5 +47,7 @@ private:
     Math::Vector2 scale_;
     
     float rotation_;
+
+    SHARED_PTR<Texture> texture_;
     
 };

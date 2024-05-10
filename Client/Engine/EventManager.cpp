@@ -1,6 +1,7 @@
 ﻿#include "EventManager.h"
 
 #include "Enums.h"
+#include "GameEngine.h"
 #include "Actor/Actor.h"
 #include "Level/Level.h"
 #include "Level/World.h"
@@ -31,8 +32,8 @@ void EventManager::ExcuteEvent(const Event& kEvent)
     case EventType::kSpawnActor:
         {
             Actor* actor = reinterpret_cast<Actor*>(kEvent.wParam);
-            // Level* level = World::Get()->GetLevel();
-            // level->AddActor(actor);
+            Level* level = g_game_world->GetLevel();
+            level->AddActor(SHARED_PTR<Actor>(actor));
             actor->InitializeActor();
         }
         break;
@@ -54,8 +55,8 @@ void EventManager::ExcuteEvent(const Event& kEvent)
 
     case EventType::kLevelTransition:
         {
-            // LevelType level_type = static_cast<LevelType>(kEvent.wParam);
-            // World::Get()->OpenLevel(level_type);
+            LevelType level_type = static_cast<LevelType>(kEvent.wParam);
+            g_game_world->OpenLevel(level_type);
         }
     }
 }

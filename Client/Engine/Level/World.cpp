@@ -7,7 +7,7 @@
 
 World::World(const SHARED_PTR<WindowsWindow>& window) :
     window_(window),
-    shape_batch_(),
+    shape_batch_(nullptr),
     shapes_(),
     current_level_(nullptr),
     levels_()

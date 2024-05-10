@@ -3,6 +3,7 @@
 #include "Actor/Floor.h"
 #include "Actor/FollowCamera.h"
 #include "Actor/Pawn.h"
+#include "Actor/Component/TransformComponent.h"
 
 MainMap::MainMap(World* world, const std::wstring& kName) : Level(world, kName)
 {
@@ -18,6 +19,8 @@ void MainMap::Load()
 
     std::shared_ptr<Actor> pawn = std::make_shared<Pawn>(GetWorld(), L"Pawn");
     AddActor(pawn);
+
+    pawn->GetTransform()->SetRelativeLocation({0.f, 2.f});
 
     FollowCamera* follow_camera = dynamic_cast<FollowCamera*>(camera.get());
     follow_camera->SetFollow(pawn.get());
