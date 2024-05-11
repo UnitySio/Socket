@@ -13,10 +13,6 @@ Shape::Shape() :
     UpdateMatrixx();
 }
 
-Shape::~Shape()
-{
-}
-
 void Shape::SetPosition(Math::Vector2 position)
 {
     position_ = position;

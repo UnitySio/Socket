@@ -8,6 +8,9 @@
 
 ShapeBatch::ShapeBatch() :
     point_sampler_state_wrap_(nullptr),
+    bilinear_sampler_state_wrap_(nullptr),
+    bilinear_sampler_state_clamp_(nullptr),
+    point_sampler_state_clamp_(nullptr),
     blend_state_(nullptr),
     rasterizer_state_(nullptr),
     depth_stencil_state_(nullptr),
@@ -36,6 +39,21 @@ bool ShapeBatch::Init()
     sampler_desc.MaxLOD = D3D11_FLOAT32_MAX;
 
     HRESULT hr = g_d3d_device->CreateSamplerState(&sampler_desc, point_sampler_state_wrap_.GetAddressOf());
+    if (FAILED(hr)) return false;
+
+    sampler_desc.Filter = D3D11_FILTER_MIN_MAG_LINEAR_MIP_POINT;
+    hr = g_d3d_device->CreateSamplerState(&sampler_desc, bilinear_sampler_state_wrap_.GetAddressOf());
+    if (FAILED(hr)) return false;
+
+    sampler_desc.AddressU = D3D11_TEXTURE_ADDRESS_CLAMP;
+    sampler_desc.AddressV = D3D11_TEXTURE_ADDRESS_CLAMP;
+    sampler_desc.AddressW = D3D11_TEXTURE_ADDRESS_CLAMP;
+
+    hr = g_d3d_device->CreateSamplerState(&sampler_desc, bilinear_sampler_state_clamp_.GetAddressOf());
+    if (FAILED(hr)) return false;
+
+    sampler_desc.Filter = D3D11_FILTER_MIN_MAG_MIP_POINT;
+    hr = g_d3d_device->CreateSamplerState(&sampler_desc, point_sampler_state_clamp_.GetAddressOf());
     if (FAILED(hr)) return false;
 
     if (!vertex_buffer_.CreateBuffer(sizeof(DefaultVertex))) return false;
@@ -119,15 +137,37 @@ void ShapeBatch::DrawShapes(const SHARED_PTR<WindowsWindow>& kWindow, const std:
         g_d3d_device_context->OMSetDepthStencilState(depth_stencil_state_.Get(), 0);
 
         g_d3d_device_context->IASetPrimitiveTopology(shape->GetPrimitiveTopology());
-
-        g_d3d_device_context->PSSetSamplers(0, 1, point_sampler_state_wrap_.GetAddressOf());
 #pragma endregion
 
 #pragma region 드로우 콜
         ID3D11Buffer* buffer = vertex_buffer_.GetResource();
 
-        if (shape->GetTexture())
+        const Texture* texture = shape->GetTexture();
+        if (texture)
         {
+            if (texture->GetWrapMode() == WrapMode::kReapet)
+            {
+                if (texture->GetFilterMode() == FilterMode::kPoint)
+                {
+                    g_d3d_device_context->PSSetSamplers(0, 1, point_sampler_state_wrap_.GetAddressOf());
+                }
+                else if (texture->GetFilterMode() == FilterMode::kBilinear)
+                {
+                    g_d3d_device_context->PSSetSamplers(0, 1, bilinear_sampler_state_wrap_.GetAddressOf());
+                }
+            }
+            else if (texture->GetWrapMode() == WrapMode::kClamp)
+            {
+                if (texture->GetFilterMode() == FilterMode::kPoint)
+                {
+                    g_d3d_device_context->PSSetSamplers(0, 1, point_sampler_state_clamp_.GetAddressOf());
+                }
+                else if (texture->GetFilterMode() == FilterMode::kBilinear)
+                {
+                    g_d3d_device_context->PSSetSamplers(0, 1, bilinear_sampler_state_clamp_.GetAddressOf());
+                }
+            }
+            
             g_d3d_device_context->PSSetShaderResources(0, 1, shape->GetTexture()->resource_view_.GetAddressOf());
         }
 

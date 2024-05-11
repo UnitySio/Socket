@@ -7,8 +7,23 @@ Texture::Texture() :
     resource_(nullptr),
     resource_view_(nullptr),
     width_(0),
-    height_(0)
+    height_(0),
+    vertices_(),
+    indices_(),
+    wrap_mode_(WrapMode::kClamp),
+    filter_mode_(FilterMode::kPoint)
 {
+    vertices_ = {
+        {{0.f, 0.f, 0.f}, {}, {0.f, 1.f}},
+        {{1.f, 0.f, 0.f}, {}, {1.f, 1.f}},
+        {{0.f, 1.f, 0.f}, {}, {0.f, 0.f}},
+        {{1.f, 1.f, 0.f}, {}, {1.f, 0.f}}
+    };
+
+    indices_ = {
+        0, 1, 2,
+        2, 1, 3
+    };
 }
 
 bool Texture::Load(const std::wstring& kFileName)

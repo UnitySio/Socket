@@ -79,27 +79,15 @@ void Pawn::Tick(float delta_time)
 void Pawn::Render(float alpha)
 {
     Actor::Render(alpha);
-
-    std::vector<DefaultVertex> vertices = {
-        {{0.f, 0.f, 0.f}, {}, {0.f, 1.f}},
-        {{1.f, 0.f, 0.f}, {}, {1.f, 1.f}},
-        {{0.f, 1.f, 0.f}, {}, {0.f, 0.f}},
-        {{1.f, 1.f, 0.f}, {}, {1.f, 0.f}}
-    };
-
-    std::vector<MathTypes::uint32> indices = {
-        0, 1, 2,
-        2, 1, 3
-    };
     
     SHARED_PTR<Shape> shape = MAKE_SHARED<Shape>();
-    shape->SetVertices(vertices);
-    shape->SetIndices(indices);
+    shape->SetVertices(texture_->vertices_);
+    shape->SetIndices(texture_->indices_);
     shape->SetTexture(texture_);
 
-    shape->SetPosition(GetTransform()->GetWorldLocation());
-    shape->SetRotation(DirectX::XMConvertToRadians(GetTransform()->GetWorldRotationZ()));
-    shape->SetScale({120.f, 24.f});
+    // shape->SetPosition(GetTransform()->GetWorldLocation());
+    // shape->SetRotation(DirectX::XMConvertToRadians(GetTransform()->GetWorldRotationZ()));
+    shape->SetScale({128.f, 24.f});
 
     g_game_world->AddShape(shape);
     
