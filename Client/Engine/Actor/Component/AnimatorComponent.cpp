@@ -14,6 +14,18 @@ AnimationClip::AnimationClip(std::wstring clipName, int firstIndex, int lastInde
     lastIndex_ = lastIndex;
     frameNumber_ = 0;
     maxFrame_ = lastIndex - firstIndex;
+    connected_OtherClip_ = ' ';
+}
+
+void AnimationClip::ConnectToOther(std::wstring clipName)
+{
+    connected_OtherClip_ = clipName;
+}
+
+bool AnimationClip::TransToOther(std::wstring clipName)
+{
+    //이후 애니메이션 전환시 전환 조건에 대해 수행할 함수
+    return true;
 }
 
 AnimatorComponent::AnimatorComponent(Actor* owner, const std::wstring& kName) 
@@ -28,8 +40,9 @@ AnimatorComponent::AnimatorComponent(Actor* owner, const std::wstring& kName)
 
     MakeAnimationClip(L"Idle", 0, 5);
     MakeAnimationClip(L"Attack", 15, 41);
+    clips_[1]->ConnectToOther(L"Idle");
 
-    assert(SetAnimationClip(L"Attack",0.125f));
+    assert(SetAnimationClip(L"Idle",0.25f));
 }
 
 void AnimatorComponent::MakeAnimationClip(std::wstring clipName, int firstIndex, int lastIndex)
@@ -84,7 +97,24 @@ void AnimatorComponent::PlayAnimation()
         if (playTime >= targetClip_->playbackSpeed)
         {
             playTime = 0;
-            frameNumber_ < targetClip_->maxFrame_ ? frameNumber_++ : frameNumber_ = 0;
+
+            if (frameNumber_ < targetClip_->maxFrame_)
+            {
+                frameNumber_++;
+            }
+            else
+            {
+                if (targetClip_->isRepeat)
+                {
+                    frameNumber_ = 0;
+                }
+                
+                //애니메이션 전환 임시
+                if (targetClip_->TransToOther(L"Idle"))
+                {
+                    SetAnimationClip(L"Idle", 0.25f);
+                }
+            }
         }
     }    
 }

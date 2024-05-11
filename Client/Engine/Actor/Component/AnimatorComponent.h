@@ -9,9 +9,12 @@ struct AnimationClip
 	float playbackSpeed;
 	int frameNumber_,maxFrame_;
 	int firstIndex_,lastIndex_;
+	std::wstring connected_OtherClip_;
 
 	AnimationClip(std::wstring clipName,int firstIndex, int lastIndex);
 	void SetPlaySpeed(float speed) {playbackSpeed = speed;}
+	void ConnectToOther(std::wstring clipName);
+	bool TransToOther(std::wstring clipName);
 };
 
 class AnimatorComponent :public ActorComponent
