@@ -1,9 +1,10 @@
 ﻿#pragma once
 #include <d3d11.h>
 #include <string>
+#include <vector>
 #include <wrl/client.h>
 
-#include "Shape.h"
+#include "Vertex.h"
 #include "Math/MathTypes.h"
 
 enum class WrapMode
@@ -18,11 +19,11 @@ enum class FilterMode
     kBilinear
 };
 
-class Texture : public Shape
+class Texture
 {
 public:
     Texture();
-    virtual ~Texture() override = default;
+    virtual ~Texture() = default;
     
     virtual bool Load(const std::wstring& kFileName);
 
@@ -37,9 +38,6 @@ public:
 
 private:
     friend class ShapeBatch;
-    friend class Sprite;
-    // 테스트
-    friend class Pawn;
     
     Microsoft::WRL::ComPtr<ID3D11Resource> resource_;
     Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> resource_view_;

@@ -1,10 +1,12 @@
 ﻿#include "WindowsWindow.h"
 
+#include "WindowDefinition.h"
 #include "Math/MathTypes.h"
 
 WindowsWindow::WindowsWindow() :
     application_(nullptr),
-    hWnd_(nullptr)
+    hWnd_(nullptr),
+    definition_(nullptr)
 {
 }
 
@@ -19,9 +21,10 @@ SHARED_PTR<WindowsWindow> WindowsWindow::Make()
     return MAKE_SHARED<WindowsWindow>();
 }
 
-void WindowsWindow::Init(WindowsApplication* const application, HINSTANCE instance_handle, const SHARED_PTR<WindowsWindow>& kParentWindow)
+void WindowsWindow::Init(WindowsApplication* const application, const SHARED_PTR<WindowDefinition>& kDefinition, HINSTANCE instance_handle, const SHARED_PTR<WindowsWindow>& kParentWindow)
 {
     application_ = application;
+    definition_ = kDefinition;
 
     MathTypes::uint32 window_ex_style = 0;
     MathTypes::uint32 window_style = 0;
@@ -35,10 +38,10 @@ void WindowsWindow::Init(WindowsApplication* const application, HINSTANCE instan
     RECT border_rect = {0, 0, 0, 0};
     AdjustWindowRectEx(&border_rect, window_style, false, window_ex_style);
 
-    MathTypes::uint32 window_x = 100;
-    MathTypes::uint32 window_y = 100;
-    MathTypes::uint32 window_width = 640;
-    MathTypes::uint32 window_height = 480;
+    MathTypes::uint32 window_x = kDefinition->screen_x;
+    MathTypes::uint32 window_y = kDefinition->screen_y;
+    MathTypes::uint32 window_width = kDefinition->width;
+    MathTypes::uint32 window_height = kDefinition->height;
 
     window_x += border_rect.left;
     window_y += border_rect.top;
@@ -48,7 +51,7 @@ void WindowsWindow::Init(WindowsApplication* const application, HINSTANCE instan
     hWnd_ = CreateWindowEx(
         window_ex_style,
         window_class,
-        L"Game Engine",
+        kDefinition->title.c_str(),
         window_style,
         window_x, window_y,
         window_width, window_height,

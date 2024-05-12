@@ -3,6 +3,7 @@
 #include "GameEngine.h"
 #include "Math/Vector2.h"
 #include "Time/Time.h"
+#include "Windows/WindowDefinition.h"
 #include "Windows/WindowsWindow.h"
 #include "Windows/D3D/Renderer.h"
 
@@ -38,12 +39,20 @@ void Core::Init(const HINSTANCE instance_handle)
 
     g_renderer = renderer_.get();
 
+    // 윈도우 정의 생성
+    SHARED_PTR<WindowDefinition> definition = MAKE_SHARED<WindowDefinition>();
+    definition->title = L"Game";
+    definition->screen_x = 100;
+    definition->screen_y = 100;
+    definition->width = 960;
+    definition->height = 540;
+
     // 게임 윈도우 생성
     SHARED_PTR<WindowsWindow> new_window = current_application_->MakeWindow();
-    current_application_->InitWindow(new_window, nullptr);
+    current_application_->InitWindow(new_window, definition, nullptr);
 
     // 렌더러에 뷰포트 생성
-    renderer_->CreateViewport(new_window, {640, 480});
+    renderer_->CreateViewport(new_window, {definition->width, definition->height});
 
     // 뷰포트에 깊이 스텐실 버퍼 생성
     if (const auto viewport = renderer_->FindViewport(new_window.get()))

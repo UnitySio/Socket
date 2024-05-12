@@ -4,6 +4,8 @@
 #include "Actor/Actor.h"
 #include "Level/World.h"
 #include "Misc/EngineMacros.h"
+#include "Windows/WindowDefinition.h"
+#include "Windows/WindowsWindow.h"
 #include "Windows/D3D/Renderer.h"
 
 CameraComponent::CameraComponent(Actor* owner, const std::wstring& kName) :
@@ -55,14 +57,16 @@ void CameraComponent::SetCameraFarZ(float far_z)
 
 void CameraComponent::UpdateProjectionMatrix()
 {
-    const float screen_width = 640.f;
-    const float screen_height = 480.f;
-    const float aspect_ratio = screen_width / screen_height;
-    const float left = -camera_size_ * aspect_ratio;
-    const float right = camera_size_ * aspect_ratio;
-
     if (Viewport* viewport = g_renderer->FindViewport(GetWorld()->GetWindow()))
     {
+        const WindowDefinition* definition = GetWorld()->GetWindow()->GetDefinition();
+        
+        const float screen_width = definition->width;
+        const float screen_height = definition->height;
+        const float aspect_ratio = screen_width / screen_height;
+        const float left = -camera_size_ * aspect_ratio;
+        const float right = camera_size_ * aspect_ratio;
+        
         viewport->projection_matrix = DirectX::XMMatrixOrthographicOffCenterLH(left, right, -camera_size_, camera_size_, camera_near_z, camera_far_z);
     }
 }

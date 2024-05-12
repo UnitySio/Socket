@@ -21,7 +21,5 @@ private:
     class BoxColliderComponent* box_collider_;
     class RigidBodyComponent* rigid_body_;
     class AudioListenerComponent* audio_listener_;
-
-    SHARED_PTR<class Texture> texture_;
     
 };

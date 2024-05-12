@@ -76,7 +76,7 @@ bool Renderer::CreateViewport(SHARED_PTR<WindowsWindow> window, Math::Vector2 wi
     swap_chain_desc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
     swap_chain_desc.BufferCount = 1;
     swap_chain_desc.OutputWindow = window->GetHWnd();
-    swap_chain_desc.Windowed = TRUE;
+    swap_chain_desc.Windowed = FALSE;
     swap_chain_desc.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;
     swap_chain_desc.Flags = 0;
 
@@ -94,8 +94,13 @@ bool Renderer::CreateViewport(SHARED_PTR<WindowsWindow> window, Math::Vector2 wi
     if (FAILED(hr)) return false;
 
     Viewport viewport;
+    
     hr = dxgi_factory->CreateSwapChain(g_d3d_device.Get(), &swap_chain_desc, viewport.dxgi_swap_chain.GetAddressOf());
     if (FAILED(hr)) return false;
+
+    // Alt + Enter 키를 눌러 전체 화면으로 전환하는 기능을 비활성화
+    // hr = dxgi_factory->MakeWindowAssociation(window->GetHWnd(), DXGI_MWA_NO_ALT_ENTER);
+    // if (FAILED(hr)) return false;
 
     viewport.d3d_viewport.TopLeftX = 0;
     viewport.d3d_viewport.TopLeftY = 0;

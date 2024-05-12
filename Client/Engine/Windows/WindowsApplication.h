@@ -28,7 +28,7 @@ public:
 
     SHARED_PTR<WindowsWindow> MakeWindow();
     
-    void InitWindow(const SHARED_PTR<WindowsWindow>& kWindow, const SHARED_PTR<WindowsWindow>& kParentWindow);
+    void InitWindow(const SHARED_PTR<WindowsWindow>& kWindow, const SHARED_PTR<WindowDefinition>& kDefinition, const SHARED_PTR<WindowsWindow>& kParentWindow);
     void AddMessageHandler(IWindowsMessageHandler& message_handler);
     void RemoveMessageHandler(IWindowsMessageHandler& message_handler);
 

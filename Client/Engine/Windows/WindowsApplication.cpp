@@ -46,10 +46,10 @@ SHARED_PTR<WindowsWindow> WindowsApplication::MakeWindow()
     return WindowsWindow::Make();
 }
 
-void WindowsApplication::InitWindow(const SHARED_PTR<WindowsWindow>& kWindow, const SHARED_PTR<WindowsWindow>& kParentWindow)
+void WindowsApplication::InitWindow(const SHARED_PTR<WindowsWindow>& kWindow, const SHARED_PTR<WindowDefinition>& kDefinition, const SHARED_PTR<WindowsWindow>& kParentWindow)
 {
     windows_.push_back(kWindow);
-    kWindow->Init(this, instance_handle_, kParentWindow);
+    kWindow->Init(this, kDefinition, instance_handle_, kParentWindow);
 }
 
 void WindowsApplication::AddMessageHandler(IWindowsMessageHandler& message_handler)

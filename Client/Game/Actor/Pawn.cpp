@@ -7,7 +7,6 @@
 #include "Windows.h"
 
 #include "Enums.h"
-#include "GameEngine.h"
 #include "Actor/Component/InputComponent.h"
 #include "Actor/Component/BoxColliderComponent.h"
 #include "Actor/Component/RigidBodyComponent.h"
@@ -16,7 +15,6 @@
 #include "Level/World.h"
 #include "Physics/HitResult.h"
 #include "Physics/Physics.h"
-#include "Windows/D3D/Texture.h"
 
 Pawn::Pawn(World* world, const std::wstring& kName) :
     Actor(world, kName),
@@ -36,9 +34,6 @@ Pawn::Pawn(World* world, const std::wstring& kName) :
     rigid_body_->SetFreezeRotation(false);
     
     audio_listener_ = CreateComponent<AudioListenerComponent>(L"AudioListener");
-
-    texture_ = MAKE_SHARED<Texture>();
-    CHECK_IF(texture_->Load(L".\\Game_Data\\spritesheet.png"), L"Failed to load texture");
     
 }
 
@@ -54,7 +49,7 @@ void Pawn::PhysicsTick(float delta_time)
 
     float h = input_->IsKeyPressed(VK_RIGHT) - input_->IsKeyPressed(VK_LEFT);
     
-    rigid_body_->SetVelocity({h * 5.f, rigid_body_->GetVelocity().y});
+    rigid_body_->SetVelocity({h * 2.f, rigid_body_->GetVelocity().y});
 
     HitResult hit_result;
     Math::Vector2 start = GetTransform()->GetWorldLocation();
@@ -79,17 +74,6 @@ void Pawn::Tick(float delta_time)
 void Pawn::Render(float alpha)
 {
     Actor::Render(alpha);
-    
-    SHARED_PTR<Shape> shape = MAKE_SHARED<Shape>();
-    shape->SetVertices(texture_->vertices_);
-    shape->SetIndices(texture_->indices_);
-    shape->SetTexture(texture_);
-
-    // shape->SetPosition(GetTransform()->GetWorldLocation());
-    // shape->SetRotation(DirectX::XMConvertToRadians(GetTransform()->GetWorldRotationZ()));
-    shape->SetScale({5.f, 5.f});
-
-    g_game_world->AddShape(shape);
     
 }
 

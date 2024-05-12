@@ -172,7 +172,6 @@
     <ClInclude Include="Engine\Windows\D3D\Shaders.h" />
     <ClInclude Include="Engine\Windows\D3D\Shape.h" />
     <ClInclude Include="Engine\Windows\D3D\ShapeBatch.h" />
-    <ClInclude Include="Engine\Windows\D3D\Sprite.h" />
     <ClInclude Include="Engine\Windows\D3D\Texture.h" />
     <ClInclude Include="Engine\Windows\D3D\Vertex.h" />
     <ClInclude Include="Engine\Windows\D3D\VertexBuffer.h" />
@@ -298,7 +297,6 @@
     <ClCompile Include="Engine\Windows\D3D\Shaders.cpp" />
     <ClCompile Include="Engine\Windows\D3D\Shape.cpp" />
     <ClCompile Include="Engine\Windows\D3D\ShapeBatch.cpp" />
-    <ClCompile Include="Engine\Windows\D3D\Sprite.cpp" />
     <ClCompile Include="Engine\Windows\D3D\Texture.cpp" />
     <ClCompile Include="Engine\Windows\D3D\VertexBuffer.cpp" />
     <ClCompile Include="Engine\Windows\WindowsApplication.cpp" />
