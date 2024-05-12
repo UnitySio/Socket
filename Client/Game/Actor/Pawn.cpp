@@ -54,7 +54,7 @@ void Pawn::PhysicsTick(float delta_time)
 
     float h = input_->IsKeyPressed(VK_RIGHT) - input_->IsKeyPressed(VK_LEFT);
     
-    rigid_body_->SetVelocity({h * 2.f, rigid_body_->GetVelocity().y});
+    rigid_body_->SetVelocity({h * 5.f, rigid_body_->GetVelocity().y});
 
     HitResult hit_result;
     Math::Vector2 start = GetTransform()->GetWorldLocation();
@@ -87,7 +87,7 @@ void Pawn::Render(float alpha)
 
     // shape->SetPosition(GetTransform()->GetWorldLocation());
     // shape->SetRotation(DirectX::XMConvertToRadians(GetTransform()->GetWorldRotationZ()));
-    shape->SetScale({412.5f, 55.5f});
+    shape->SetScale({5.f, 5.f});
 
     g_game_world->AddShape(shape);
     

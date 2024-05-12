@@ -10,7 +10,7 @@ Texture::Texture() :
     height_(0),
     vertices_(),
     indices_(),
-    wrap_mode_(WrapMode::kClamp),
+    wrap_mode_(WrapMode::kReapet),
     filter_mode_(FilterMode::kPoint)
 {
     vertices_ = {

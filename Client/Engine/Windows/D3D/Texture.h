@@ -37,6 +37,7 @@ public:
 
 private:
     friend class ShapeBatch;
+    friend class Sprite;
     // 테스트
     friend class Pawn;
     

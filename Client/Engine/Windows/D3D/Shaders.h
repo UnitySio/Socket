@@ -52,6 +52,8 @@ public:
     virtual ~DefaultVertexShader() override = default;
 
     void SetWorldMatrix(const DirectX::XMMATRIX& mat);
+    void SetUVOffset(const DirectX::XMFLOAT2& offset);
+    void SetUVScale(const DirectX::XMFLOAT2& scale);
 
 protected:
     virtual void UpdateParameters() override;
@@ -61,7 +63,7 @@ private:
     {
         DirectX::XMMATRIX mat;
         DirectX::XMFLOAT2 uv_offset = {0.f, 0.f};
-        DirectX::XMFLOAT2 uv_scale = {1.f, 1.f};
+        DirectX::XMFLOAT2 uv_scale = {.06667f, .33334f};
     };
 
     ConstantBuffer<Constants> constant_buffer_;

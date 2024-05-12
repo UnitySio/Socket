@@ -128,7 +128,6 @@ void ShapeBatch::DrawShapes(const SHARED_PTR<WindowsWindow>& kWindow, const std:
 
         DirectX::XMMATRIX wvp_matrix = shape->GetWorldMatrix() * viewport->view_matrix * viewport->projection_matrix;
         vertex_shader_->SetWorldMatrix(wvp_matrix);
-        vertex_shader_->BindParameters();
 
         pixel_shader_->BindParameters();
 
@@ -167,9 +166,24 @@ void ShapeBatch::DrawShapes(const SHARED_PTR<WindowsWindow>& kWindow, const std:
                     g_d3d_device_context->PSSetSamplers(0, 1, bilinear_sampler_state_clamp_.GetAddressOf());
                 }
             }
+
+            static float x = 0.f;
+            static float y = 0.f;
+            x += 0.01f;
+            y += 0.01f;
+
+            vertex_shader_->SetUVOffset({x, y});
+            vertex_shader_->SetUVScale({.06667f, .33334f});
             
             g_d3d_device_context->PSSetShaderResources(0, 1, shape->GetTexture()->resource_view_.GetAddressOf());
         }
+        else
+        {
+            vertex_shader_->SetUVOffset({0.f, 0.f});
+            vertex_shader_->SetUVScale({1.f, 1.f});
+        }
+        
+        vertex_shader_->BindParameters();
 
         constexpr MathTypes::uint32 stride = sizeof(DefaultVertex);
         constexpr MathTypes::uint32 offset = 0;
