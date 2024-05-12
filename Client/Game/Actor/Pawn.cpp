@@ -87,7 +87,7 @@ void Pawn::Render(float alpha)
 
     // shape->SetPosition(GetTransform()->GetWorldLocation());
     // shape->SetRotation(DirectX::XMConvertToRadians(GetTransform()->GetWorldRotationZ()));
-    shape->SetScale({128.f, 24.f});
+    shape->SetScale({412.5f, 55.5f});
 
     g_game_world->AddShape(shape);
     

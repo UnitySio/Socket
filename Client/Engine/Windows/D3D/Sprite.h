@@ -1,19 +1,22 @@
 ﻿#pragma once
 #include <map>
 
-#include "Shape.h"
+#include "Texture.h"
 
 struct SpriteFrame
 {
+    Math::Vector2 offset;
+    Math::Vector2 scale;
+    Math::Vector2 pivot;
 };
 
-class Sprite : public Shape
+class Sprite : public Texture
 {
 public:
     Sprite();
     virtual ~Sprite() override = default;
 
-    void AddSprite();
+    virtual bool Load(const std::wstring& kFileName) override;
 
 private:
     std::map<std::wstring, SpriteFrame> sprite_frames_;

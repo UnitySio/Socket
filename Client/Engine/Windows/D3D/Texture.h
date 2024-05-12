@@ -22,9 +22,9 @@ class Texture : public Shape
 {
 public:
     Texture();
-    ~Texture() = default;
+    virtual ~Texture() override = default;
     
-    bool Load(const std::wstring& kFileName);
+    virtual bool Load(const std::wstring& kFileName);
 
     inline MathTypes::uint32 GetWidth() const { return width_; }
     inline MathTypes::uint32 GetHeight() const { return height_; }
