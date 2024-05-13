@@ -19,7 +19,7 @@ public:
 
 private:
     float size_;
-    float near_z;
+    float near_z_;
     float far_z_;
     float aspect_;
 

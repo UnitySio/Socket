@@ -7,6 +7,7 @@
 #include <map>
 #include <wrl/client.h>
 
+#include "Math/MathTypes.h"
 #include "Misc/EngineMacros.h"
 
 class DefaultPixelShader;
