@@ -82,8 +82,6 @@ void GameEngine::GameLoop(float delta_time)
 #pragma endregion
 
 #pragma region Render
-    ImGui::ShowDemoWindow();
-    
     game_world_->Render(alpha);
     
     ImGui::Render();
