@@ -4,8 +4,10 @@
 #include <vector>
 #include <wrl/client.h>
 
+#include "Renderer.h"
 #include "Vertex.h"
 #include "Math/MathTypes.h"
+#include "Math/Vector2.h"
 
 enum class WrapMode
 {
@@ -36,14 +38,18 @@ public:
     inline FilterMode GetFilterMode() const { return filter_mode_; }
     inline void SetFilterMode(FilterMode mode) { filter_mode_ = mode; }
 
-private:
+protected:
     friend class ShapeBatch;
     
-    Microsoft::WRL::ComPtr<ID3D11Resource> resource_;
-    Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> resource_view_;
-
     MathTypes::uint32 width_;
     MathTypes::uint32 height_;
+    
+    Math::Vector2 uv_offset_;
+    Math::Vector2 uv_scale_;
+
+private:
+    Microsoft::WRL::ComPtr<ID3D11Resource> resource_;
+    Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> resource_view_;
 
     std::vector<DefaultVertex> vertices_;
     std::vector<MathTypes::uint32> indices_;

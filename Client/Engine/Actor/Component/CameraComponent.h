@@ -10,15 +10,20 @@ public:
     virtual void InitializeComponent() override;
     virtual void TickComponent(float delta_time) override;
 
-    void SetCameraSize(float size);
-    void SetCameraNearZ(float near_z);
-    void SetCameraFarZ(float far_z);
+    void SetSize(float size);
+    void SetNearZ(float near_z);
+    void SetFarZ(float far_z);
+
+    inline float GetSize() const { return size_; }
+    inline float GetAspect() const { return aspect_; }
 
 private:
-    float camera_size_;
-    float camera_near_z;
-    float camera_far_z;
+    float size_;
+    float near_z;
+    float far_z_;
+    float aspect_;
 
+    void UpdateAspect();
     void UpdateProjectionMatrix();
     
 };

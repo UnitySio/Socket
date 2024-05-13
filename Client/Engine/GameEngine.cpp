@@ -55,6 +55,7 @@ void GameEngine::GameLoop(float delta_time)
 #pragma region Render
     game_world_->Render(alpha);
 #pragma endregion
+    
 }
 
 void GameEngine::OnQuit()

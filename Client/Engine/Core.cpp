@@ -41,7 +41,7 @@ void Core::Init(const HINSTANCE instance_handle)
 
     // 윈도우 정의 생성
     SHARED_PTR<WindowDefinition> definition = MAKE_SHARED<WindowDefinition>();
-    definition->title = L"Game";
+    definition->title = L"Fusion2D";
     definition->screen_x = 100;
     definition->screen_y = 100;
     definition->width = 960;
@@ -116,25 +116,6 @@ DWORD Core::GameThread(LPVOID lpParam)
         
         if (const auto& window = core->game_window_.lock())
         {
-#pragma region FPS
-            static int frame_count = 0;
-            static float elapsed_time = 0.f;
-
-            frame_count++;
-            elapsed_time += delta_time_;
-            if (elapsed_time >= 1.f)
-            {
-                const float kMS = 1000.f / frame_count;
-
-                WCHAR title[256];
-                swprintf_s(title, L"Game - FPS: %d (%.fms)", frame_count, kMS);
-                SetWindowText(window->GetHWnd(), title);
-
-                frame_count = 0;
-                elapsed_time = 0.f;
-            }
-#pragma endregion
-            
             renderer->BeginRender(window);
             game_engine->GameLoop(delta_time_);
             renderer->EndRender();

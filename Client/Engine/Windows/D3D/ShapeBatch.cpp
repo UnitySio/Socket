@@ -167,11 +167,16 @@ void ShapeBatch::DrawShapes(const SHARED_PTR<WindowsWindow>& kWindow, const std:
                 }
             }
             
+            vertex_shader_->SetUVOffset({texture->uv_offset_.x, texture->uv_offset_.y});
+            vertex_shader_->SetUVScale({texture->uv_scale_.x, texture->uv_scale_.y});
+            
             g_d3d_device_context->PSSetShaderResources(0, 1, shape->GetTexture()->resource_view_.GetAddressOf());
         }
-        
-        vertex_shader_->SetUVOffset({0.f, 0.f});
-        vertex_shader_->SetUVScale({1.f, 1.f});
+        else
+        {
+            vertex_shader_->SetUVOffset({0.f, 0.f});
+            vertex_shader_->SetUVScale({1.f, 1.f});
+        }
         
         vertex_shader_->BindParameters();
 

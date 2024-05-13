@@ -10,10 +10,12 @@
 
 CameraComponent::CameraComponent(Actor* owner, const std::wstring& kName) :
     ActorComponent(owner, kName),
-    camera_size_(5.f),
-    camera_near_z(.3f),
-    camera_far_z(1000.f)
+    size_(5.f),
+    near_z(.3f),
+    far_z_(1000.f),
+    aspect_(0.f)
 {
+    UpdateAspect();
 }
 
 void CameraComponent::InitializeComponent()
@@ -37,22 +39,30 @@ void CameraComponent::TickComponent(float delta_time)
     }
 }
 
-void CameraComponent::SetCameraSize(float size)
+void CameraComponent::SetSize(float size)
 {
-    camera_size_ = size;
+    size_ = size;
+
+    UpdateAspect();
     UpdateProjectionMatrix();
 }
 
-void CameraComponent::SetCameraNearZ(float near_z)
+void CameraComponent::SetNearZ(float near_z)
 {
-    camera_near_z = near_z;
+    near_z = near_z;
     UpdateProjectionMatrix();
 }
 
-void CameraComponent::SetCameraFarZ(float far_z)
+void CameraComponent::SetFarZ(float far_z)
 {
-    camera_far_z = far_z;
+    far_z_ = far_z;
     UpdateProjectionMatrix();
+}
+
+void CameraComponent::UpdateAspect()
+{
+    const WindowDefinition* definition = GetWorld()->GetWindow()->GetDefinition();
+    aspect_ = size_ * definition->width / definition->height;
 }
 
 void CameraComponent::UpdateProjectionMatrix()
@@ -64,9 +74,9 @@ void CameraComponent::UpdateProjectionMatrix()
         const float screen_width = definition->width;
         const float screen_height = definition->height;
         const float aspect_ratio = screen_width / screen_height;
-        const float left = -camera_size_ * aspect_ratio;
-        const float right = camera_size_ * aspect_ratio;
+        const float left = -size_ * aspect_ratio;
+        const float right = size_ * aspect_ratio;
         
-        viewport->projection_matrix = DirectX::XMMatrixOrthographicOffCenterLH(left, right, -camera_size_, camera_size_, camera_near_z, camera_far_z);
+        viewport->projection_matrix = DirectX::XMMatrixOrthographicOffCenterLH(left, right, -size_, size_, near_z, far_z_);
     }
 }

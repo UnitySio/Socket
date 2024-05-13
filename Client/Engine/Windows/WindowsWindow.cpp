@@ -14,7 +14,7 @@ WindowsWindow::~WindowsWindow()
 {
 }
 
-WCHAR WindowsWindow::window_class[] = L"GEWindow";
+WCHAR WindowsWindow::window_class[] = L"Fusion2DWindow";
 
 SHARED_PTR<WindowsWindow> WindowsWindow::Make()
 {
