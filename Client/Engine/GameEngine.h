@@ -9,7 +9,7 @@ class GameEngine
 {
 public:
     GameEngine();
-    ~GameEngine() = default;
+    ~GameEngine();
 
     void Init(const SHARED_PTR<WindowsWindow>& window);
     void GameLoop(float delta_time);

@@ -6,6 +6,7 @@
 #include "ProjectSettings.h"
 #include "Vertex.h"
 #include "Shaders.h"
+#include "imgui/imgui.h"
 #include "Math/Vector2.h"
 #include "Misc/EngineMacros.h"
 #include "Windows/WindowsWindow.h"

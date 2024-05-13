@@ -39,7 +39,7 @@ void Core::Init(const HINSTANCE instance_handle)
 
     g_renderer = renderer_.get();
 
-    // 윈도우 정의 생성
+    // 게임 윈도우 정의 생성
     SHARED_PTR<WindowDefinition> definition = MAKE_SHARED<WindowDefinition>();
     definition->title = L"Fusion2D";
     definition->screen_x = 100;
