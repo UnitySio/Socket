@@ -5,7 +5,6 @@
 #include "Actor/Component/CameraComponent.h"
 #include "Actor/Component/TransformComponent.h"
 #include "Audio/AudioManager.h"
-#include "imgui/imgui.h"
 
 FollowCamera::FollowCamera(World* world, const std::wstring& kName) :
     Actor(world, kName),
@@ -17,6 +16,7 @@ FollowCamera::FollowCamera(World* world, const std::wstring& kName) :
     follow_offset(Math::Vector2::Zero())
 {
     camera_ = CreateComponent<CameraComponent>(L"Camera");
+    camera_->SetSize(10.f);
 }
 
 void FollowCamera::Tick(float delta_time)
@@ -45,17 +45,5 @@ void FollowCamera::Tick(float delta_time)
         
         GetTransform()->SetRelativeLocation({ clamp_x, clamp_y });;
     }
-
-    ImGui::SetNextWindowSize({ 200, 100 }, ImGuiCond_FirstUseEver);
-    if (ImGui::Begin("Camera"))
-    {
-        float camera_size = camera_->GetSize();
-        if (ImGui::SliderFloat("Size", &camera_size, 0.f, 10.f))
-        {
-            camera_->SetSize(camera_size);
-        }
-    }
-
-    ImGui::End();
     
 }
