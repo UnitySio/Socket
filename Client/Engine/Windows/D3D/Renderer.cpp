@@ -153,6 +153,9 @@ bool Renderer::ResizeViewport(const std::shared_ptr<WindowsWindow>& window, Math
     Viewport* viewport = FindViewport(window.get());
     if (viewport && (viewport->d3d_viewport.Width != width || viewport->d3d_viewport.Height != height))
     {
+        g_d3d_device_context->ClearState();
+        g_d3d_device_context->Flush();
+        
         g_d3d_device_context->OMSetRenderTargets(0, nullptr, nullptr);
         
         viewport->back_buffer.Reset();
