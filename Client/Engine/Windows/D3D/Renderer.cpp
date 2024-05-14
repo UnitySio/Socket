@@ -75,10 +75,10 @@ bool Renderer::CreateViewport(SHARED_PTR<WindowsWindow> window, Math::Vector2 wi
     swap_chain_desc.SampleDesc.Quality = 0;
 
     swap_chain_desc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
-    swap_chain_desc.BufferCount = 1;
+    swap_chain_desc.BufferCount = 2;
     swap_chain_desc.OutputWindow = window->GetHWnd();
     swap_chain_desc.Windowed = TRUE;
-    swap_chain_desc.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;
+    swap_chain_desc.SwapEffect = DXGI_SWAP_EFFECT_FLIP_DISCARD;
     swap_chain_desc.Flags = 0;
 
     Microsoft::WRL::ComPtr<IDXGIDevice> dxgi_device;

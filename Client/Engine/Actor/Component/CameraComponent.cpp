@@ -34,6 +34,8 @@ void CameraComponent::TickComponent(float delta_time)
         viewport->view_matrix = DirectX::XMMatrixTranslation(-location.x, -location.y, 0.f)
             * DirectX::XMMatrixRotationZ(-transform->GetWorldRotationZ());
     }
+
+    UpdateProjectionMatrix();
 }
 
 void CameraComponent::SetSize(float size)

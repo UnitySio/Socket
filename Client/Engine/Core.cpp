@@ -13,6 +13,9 @@ double Core::current_time_ = 0.;
 double Core::last_time_ = 0.;
 double Core::delta_time_ = 0.;
 
+MathTypes::uint32 Core::resize_width_ = 0;
+MathTypes::uint32 Core::resize_height_ = 0;
+
 Core::Core() :
     current_application_(nullptr),
     game_window_(),
@@ -76,6 +79,14 @@ extern LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam
 bool Core::ProcessMessage(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam, MathTypes::uint32 handler_result)
 {
     if (ImGui_ImplWin32_WndProcHandler(hWnd, message, wParam, lParam)) return true;
+
+    if (message == WM_SIZE)
+    {
+        if (wParam == SIZE_MINIMIZED) return false;
+        
+        resize_width_ = LOWORD(lParam);
+        resize_height_ = HIWORD(lParam);
+    }
     
     if (message == WM_DESTROY)
     {
@@ -116,6 +127,14 @@ DWORD Core::GameThread(LPVOID lpParam)
         
         if (const auto& window = core->game_window_.lock())
         {
+            if (resize_width_ > 0 && resize_height_ > 0)
+            {
+                renderer->ResizeViewport(window, resize_width_, resize_height_);
+                
+                resize_width_ = 0;
+                resize_height_ = 0;
+            }
+            
             renderer->BeginRender(window);
             game_engine->GameLoop(delta_time_);
             renderer->EndRender();

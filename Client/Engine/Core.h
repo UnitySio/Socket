@@ -1,7 +1,6 @@
 ﻿#pragma once
 #include "Windows/WindowsApplication.h"
 
-class Keyboard;
 class Renderer;
 class GameEngine;
 
@@ -23,7 +22,6 @@ private:
 
     SHARED_PTR<Renderer> renderer_;
     SHARED_PTR<GameEngine> game_engine_;
-    SHARED_PTR<Keyboard> keyboard_;
 
     HANDLE game_thread_handle_;
 
@@ -32,5 +30,8 @@ private:
     static double current_time_;
     static double last_time_;
     static double delta_time_;
+    
+    static MathTypes::uint32 resize_width_;
+    static MathTypes::uint32 resize_height_;
     
 };
