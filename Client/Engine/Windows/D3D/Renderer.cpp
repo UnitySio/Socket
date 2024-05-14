@@ -151,7 +151,7 @@ bool Renderer::CreateDepthStencilBuffer(Viewport& viewport)
 bool Renderer::ResizeViewport(const std::shared_ptr<WindowsWindow>& window, MathTypes::uint32 width, MathTypes::uint32 height)
 {
     Viewport* viewport = FindViewport(window.get());
-    if (viewport)
+    if (viewport && (viewport->d3d_viewport.Width != width || viewport->d3d_viewport.Height != height))
     {
         g_d3d_device_context->OMSetRenderTargets(0, nullptr, nullptr);
         
