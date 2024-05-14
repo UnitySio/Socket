@@ -46,6 +46,7 @@ public:
     bool CreateDevice();
     bool CreateViewport(SHARED_PTR<WindowsWindow> window, Math::Vector2 window_size);
     bool CreateDepthStencilBuffer(Viewport& viewport);
+    bool ResizeViewport(const SHARED_PTR<WindowsWindow>& window, MathTypes::uint32 width, MathTypes::uint32 height);
 
     Viewport* FindViewport(WindowsWindow* window);
 

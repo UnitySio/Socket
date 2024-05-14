@@ -148,6 +148,31 @@ bool Renderer::CreateDepthStencilBuffer(Viewport& viewport)
     return SUCCEEDED(hr);
 }
 
+bool Renderer::ResizeViewport(const std::shared_ptr<WindowsWindow>& window, MathTypes::uint32 width, MathTypes::uint32 height)
+{
+    Viewport* viewport = FindViewport(window.get());
+    if (viewport)
+    {
+        g_d3d_device_context->OMSetRenderTargets(0, nullptr, nullptr);
+        
+        viewport->back_buffer.Reset();
+        viewport->d3d_render_target_view.Reset();
+        viewport->depth_stencil_view.Reset();
+
+        viewport->d3d_viewport.Width = width;
+        viewport->d3d_viewport.Height = height;
+
+        DXGI_SWAP_CHAIN_DESC swap_chain_desc;
+        HRESULT hr = viewport->dxgi_swap_chain->GetDesc(&swap_chain_desc);
+        if (FAILED(hr)) return false;
+
+        hr = viewport->dxgi_swap_chain->ResizeBuffers(swap_chain_desc.BufferCount, width, height, swap_chain_desc.BufferDesc.Format, swap_chain_desc.Flags);
+        if (FAILED(hr)) return false;
+
+        return CreateBackBufferResources(viewport->dxgi_swap_chain, viewport->back_buffer, viewport->d3d_render_target_view);
+    }
+}
+
 Viewport* Renderer::FindViewport(WindowsWindow* window)
 {
     const auto it = viewports_.find(window);

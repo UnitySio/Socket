@@ -3,9 +3,6 @@
 #include "TransformComponent.h"
 #include "Actor/Actor.h"
 #include "Level/World.h"
-#include "Misc/EngineMacros.h"
-#include "Windows/WindowDefinition.h"
-#include "Windows/WindowsWindow.h"
 #include "Windows/D3D/Renderer.h"
 
 CameraComponent::CameraComponent(Actor* owner, const std::wstring& kName) :
