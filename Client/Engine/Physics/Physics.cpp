@@ -7,10 +7,10 @@
 #include "Level/Level.h"
 #include "Level/World.h"
 
-bool Physics::RayCastSingle(const World* world, HitResult& hit_result, const Math::Vector2& start, const Math::Vector2& end, MathTypes::uint16 layer)
+bool Physics::RayCastSingle(HitResult& hit_result, const Math::Vector2& start, const Math::Vector2& end, MathTypes::uint16 layer)
 {
     RayCastCallback callback(true, layer);
-    if (!PerformRayCast(world, callback, start, end)) return false;
+    if (!PerformRayCast(callback, start, end)) return false;
 
     const std::vector<RayCastResult>& kResults = callback.GetResults();
     if (kResults.empty()) return false;
@@ -26,10 +26,10 @@ bool Physics::RayCastSingle(const World* world, HitResult& hit_result, const Mat
     return true;
 }
 
-bool Physics::RayCastMulti(const World* world, std::vector<HitResult>& hit_results, const Math::Vector2& start, const Math::Vector2& end, MathTypes::uint16 layer)
+bool Physics::RayCastMulti(std::vector<HitResult>& hit_results, const Math::Vector2& start, const Math::Vector2& end, MathTypes::uint16 layer)
 {
     RayCastCallback callback(false, layer);
-    if (!PerformRayCast(world, callback, start, end)) return false;
+    if (!PerformRayCast(callback, start, end)) return false;
 
     const std::vector<RayCastResult>& kResults = callback.GetResults();
     if (kResults.empty()) return false;
@@ -51,8 +51,8 @@ bool Physics::RayCastMulti(const World* world, std::vector<HitResult>& hit_resul
     return true;
 }
 
-bool Physics::PerformRayCast(const World* world, RayCastCallback& callback, const Math::Vector2& start, const Math::Vector2& end)
+bool Physics::PerformRayCast(RayCastCallback& callback, const Math::Vector2& start, const Math::Vector2& end)
 {
-    world->physics_world_->RayCast(&callback, {start.x, start.y}, {end.x, end.y});
+    World::Get()->physics_world_->RayCast(&callback, {start.x, start.y}, {end.x, end.y});
     return true;
 }

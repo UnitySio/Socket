@@ -45,7 +45,7 @@ void DebugDraw::DrawSolidPolygon(const b2Vec2* vertices, int32 vertexCount, cons
     shape->SetVertices(fill_vertices);
     shape->SetIndices(fill_indices);
     
-    g_game_world->AddShape(shape);
+    World::Get()->AddShape(shape);
 
     DrawPolygon(vertices, vertexCount, color);
 }
@@ -67,7 +67,7 @@ void DebugDraw::DrawCircle(const b2Vec2& center, float radius, const b2Color& co
     shape->SetVertices(vertices);
     shape->SetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_LINELIST);
     
-    g_game_world->AddShape(shape);
+    World::Get()->AddShape(shape);
 }
 
 void DebugDraw::DrawSolidCircle(const b2Vec2& center, float radius, const b2Vec2& axis, const b2Color& color)
@@ -99,7 +99,7 @@ void DebugDraw::DrawSolidCircle(const b2Vec2& center, float radius, const b2Vec2
     shape->SetVertices(fill_vertices);
     shape->SetIndices(fill_indices);
 
-    g_game_world->AddShape(shape);
+    World::Get()->AddShape(shape);
     
     DrawCircle(center, radius, color);
     DrawSegment(center, center + radius * axis, color);
@@ -116,7 +116,7 @@ void DebugDraw::DrawSegment(const b2Vec2& p1, const b2Vec2& p2, const b2Color& c
     shape->SetVertices(vertices);
     shape->SetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_LINELIST);
     
-    g_game_world->AddShape(shape);
+    World::Get()->AddShape(shape);
 }
 
 void DebugDraw::DrawTransform(const b2Transform& xf)
@@ -160,5 +160,5 @@ void DebugDraw::DrawPoint(const b2Vec2& p, float size, const b2Color& color)
     shape->SetVertices(fill_vertices);
     shape->SetIndices(fill_indices);
 
-    g_game_world->AddShape(shape);
+    World::Get()->AddShape(shape);
 }

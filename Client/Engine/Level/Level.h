@@ -8,11 +8,10 @@
 
 enum class EndPlayReason : size_t;
 
-class World;
 class Level
 {
 public:
-    Level(World* world, const std::wstring& kName);
+    Level(const std::wstring& kName);
     virtual ~Level() = default;
 
     virtual void Load() = 0;
@@ -26,11 +25,9 @@ public:
 
     void AddActor(const SHARED_PTR<Actor>& actor);
 
-    inline World* GetWorld() const { return world_; }
     inline const std::wstring& GetName() const { return name_; }
 
 private:
-    World* world_;
     std::wstring name_;
 
     std::vector<SHARED_PTR<Actor>> actors_;

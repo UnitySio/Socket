@@ -17,11 +17,11 @@ bool VertexShader::Create(const std::wstring& path, const D3D11_INPUT_ELEMENT_DE
     HRESULT hr = D3DReadFileToBlob(path.c_str(), shader_buffer_.GetAddressOf());
     if (FAILED(hr)) return false;
 
-    hr = g_d3d_device->CreateVertexShader(shader_buffer_->GetBufferPointer(), shader_buffer_->GetBufferSize(), nullptr,
+    hr = Renderer::Get()->GetDevice()->CreateVertexShader(shader_buffer_->GetBufferPointer(), shader_buffer_->GetBufferSize(), nullptr,
                                           shader_.GetAddressOf());
     if (FAILED(hr)) return false;
 
-    hr = g_d3d_device->CreateInputLayout(layout, layout_count, shader_buffer_->GetBufferPointer(),
+    hr = Renderer::Get()->GetDevice()->CreateInputLayout(layout, layout_count, shader_buffer_->GetBufferPointer(),
                                          shader_buffer_->GetBufferSize(), input_layout_.GetAddressOf());
     if (FAILED(hr)) return false;
 
@@ -30,8 +30,8 @@ bool VertexShader::Create(const std::wstring& path, const D3D11_INPUT_ELEMENT_DE
 
 void VertexShader::BindShader()
 {
-    g_d3d_device_context->IASetInputLayout(input_layout_.Get());
-    g_d3d_device_context->VSSetShader(shader_.Get(), nullptr, 0);
+    Renderer::Get()->GetDeviceContext()->IASetInputLayout(input_layout_.Get());
+    Renderer::Get()->GetDeviceContext()->VSSetShader(shader_.Get(), nullptr, 0);
 }
 
 void VertexShader::BindParameters()
@@ -50,7 +50,7 @@ bool PixelShader::Create(const std::wstring& path)
     HRESULT hr = D3DReadFileToBlob(path.c_str(), shader_buffer_.GetAddressOf());
     if (FAILED(hr)) return false;
 
-    hr = g_d3d_device->CreatePixelShader(shader_buffer_->GetBufferPointer(), shader_buffer_->GetBufferSize(), nullptr,
+    hr = Renderer::Get()->GetDevice()->CreatePixelShader(shader_buffer_->GetBufferPointer(), shader_buffer_->GetBufferSize(), nullptr,
                                          shader_.GetAddressOf());
     if (FAILED(hr)) return false;
 
@@ -59,7 +59,7 @@ bool PixelShader::Create(const std::wstring& path)
 
 void PixelShader::BindShader()
 {
-    g_d3d_device_context->PSSetShader(shader_.Get(), nullptr, 0);
+    Renderer::Get()->GetDeviceContext()->PSSetShader(shader_.Get(), nullptr, 0);
 }
 
 void PixelShader::BindParameters()
@@ -101,7 +101,7 @@ void DefaultVertexShader::UpdateParameters()
 {
     VertexShader::UpdateParameters();
 
-    g_d3d_device_context->VSSetConstantBuffers(0, 1, constant_buffer_.GetResourceAddress());
+    Renderer::Get()->GetDeviceContext()->VSSetConstantBuffers(0, 1, constant_buffer_.GetResourceAddress());
     constant_buffer_.UpdateBuffer();
 }
 
@@ -117,6 +117,6 @@ void DefaultPixelShader::UpdateParameters()
 {
     PixelShader::UpdateParameters();
 
-    g_d3d_device_context->PSSetConstantBuffers(0, 1, constant_buffer_.GetResourceAddress());
+    Renderer::Get()->GetDeviceContext()->PSSetConstantBuffers(0, 1, constant_buffer_.GetResourceAddress());
     constant_buffer_.UpdateBuffer();
 }

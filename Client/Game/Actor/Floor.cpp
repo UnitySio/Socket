@@ -4,8 +4,8 @@
 #include "ProjectSettings.h"
 #include "Actor/Component/BoxColliderComponent.h"
 
-Floor::Floor(World* world, const std::wstring& kName) :
-    Actor(world, kName)
+Floor::Floor(const std::wstring& kName) :
+    Actor(kName)
 {
     SetLayer(ActorLayer::kFloor);
 

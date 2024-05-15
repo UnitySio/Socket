@@ -7,6 +7,7 @@
 #include <map>
 #include <wrl/client.h>
 
+#include "Singleton.h"
 #include "Math/MathTypes.h"
 #include "Misc/EngineMacros.h"
 
@@ -33,14 +34,11 @@ struct Viewport
     DirectX::XMMATRIX projection_matrix;
 };
 
-extern Microsoft::WRL::ComPtr<ID3D11Device> g_d3d_device;
-extern Microsoft::WRL::ComPtr<ID3D11DeviceContext> g_d3d_device_context;
-
-class Renderer
+class Renderer : public Singleton<Renderer>
 {
 public:
     Renderer();
-    ~Renderer();
+    virtual ~Renderer() override;
 
     bool Init();
     bool CreateDevice();
@@ -53,12 +51,16 @@ public:
     void BeginRender(const SHARED_PTR<WindowsWindow>& kWindow);
     void EndRender();
 
+    inline ID3D11Device* GetDevice() const { return d3d_device_.Get(); }
+    inline ID3D11DeviceContext* GetDeviceContext() const { return d3d_device_context_.Get(); }
+
 private:
     bool CreateBackBufferResources(Microsoft::WRL::ComPtr<IDXGISwapChain>& dxgi_swap_chain, Microsoft::WRL::ComPtr<ID3D11Texture2D>& back_buffer, Microsoft::WRL::ComPtr<ID3D11RenderTargetView>& d3d_render_target_view);
+
+    Microsoft::WRL::ComPtr<ID3D11Device> d3d_device_;
+    Microsoft::WRL::ComPtr<ID3D11DeviceContext> d3d_device_context_;
     
     std::map<WindowsWindow*, Viewport> viewports_;
     Viewport* current_viewport_;
     
 };
-
-extern Renderer* g_renderer;

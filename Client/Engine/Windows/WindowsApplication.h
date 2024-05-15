@@ -19,8 +19,6 @@ public:
 class WindowsApplication
 {
 public:
-    static WindowsApplication* CreateWindowsApplication(const HINSTANCE instance_handle, const HICON icon_handle);
-    
     WindowsApplication(const HINSTANCE instance_handle, const HICON icon_handle);
     ~WindowsApplication();
 
@@ -35,7 +33,6 @@ public:
     const std::vector<SHARED_PTR<WindowsWindow>>& GetWindows() const { return windows_; }
 
 private:
-    friend LRESULT WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
     static LRESULT CALLBACK StaticWndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 
     MathTypes::uint32 ProcessMessage(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);

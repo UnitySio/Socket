@@ -6,8 +6,8 @@
 #include "Actor/Component/TransformComponent.h"
 #include "Audio/AudioManager.h"
 
-FollowCamera::FollowCamera(World* world, const std::wstring& kName) :
-    Actor(world, kName),
+FollowCamera::FollowCamera(const std::wstring& kName) :
+    Actor(kName),
     follow_(nullptr),
     width_(0.f),
     height_(0.f),

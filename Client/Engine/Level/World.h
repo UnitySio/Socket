@@ -5,19 +5,20 @@
 #include "box2d/b2_world.h"
 #include "Listener/ContactListener.h"
 
+enum class LevelType : size_t;
+
 class Shape;
 class ShapeBatch;
 class WindowsWindow;
-enum class LevelType : size_t;
 class Level;
 
-class World
+class World : public Singleton<World>
 {
 public:
-    World(const SHARED_PTR<WindowsWindow>& window);
-    ~World() = default;
+    World();
+    virtual ~World() override = default;
 
-    void Init();
+    void Init(const SHARED_PTR<WindowsWindow>& window);
     void OpenLevel(LevelType type);
     void PhysicsTick(float delta_time);
     void Tick(float delta_time);
@@ -56,6 +57,6 @@ private:
 template <std::derived_from<Level> T>
 T* World::AddLevel(LevelType type, std::wstring name)
 {
-    levels_[static_cast<size_t>(type)] = MAKE_SHARED<T>(this, name);
+    levels_[static_cast<size_t>(type)] = MAKE_SHARED<T>(name);
     return static_cast<T*>(levels_[static_cast<size_t>(type)].get());
 }

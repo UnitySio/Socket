@@ -6,8 +6,3 @@ ActorComponent::ActorComponent(Actor* owner, const std::wstring& kName) : owner_
 {
     name_ = kName;
 }
-
-World* ActorComponent::GetWorld() const
-{
-    return owner_->GetWorld();
-}

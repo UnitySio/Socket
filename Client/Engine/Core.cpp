@@ -19,7 +19,6 @@ MathTypes::uint32 Core::resize_height_ = 0;
 Core::Core() :
     current_application_(nullptr),
     game_window_(),
-    renderer_(nullptr),
     game_thread_handle_(nullptr),
     is_game_running_(false)
 {
@@ -33,14 +32,11 @@ void Core::Init(const HINSTANCE instance_handle)
 {
     // 윈도우 애플리케이션을 생성하고 메시지 핸들러로 등록
     HICON icon_handle = LoadIcon(instance_handle, MAKEINTRESOURCE(IDI_ICON1));
-    current_application_ = SHARED_PTR<WindowsApplication>(WindowsApplication::CreateWindowsApplication(instance_handle, icon_handle));
+    current_application_ = MAKE_SHARED<WindowsApplication>(instance_handle, icon_handle);
     current_application_->AddMessageHandler(*this);
 
-    // DirectX 11 렌더러 생성
-    renderer_ = MAKE_SHARED<Renderer>();
-    renderer_->Init();
-
-    g_renderer = renderer_.get();
+    // DirectX 11 렌더러 초기화
+    Renderer::Get()->Init();
 
     // 게임 윈도우 정의 생성
     SHARED_PTR<WindowDefinition> definition = MAKE_SHARED<WindowDefinition>();
@@ -55,7 +51,7 @@ void Core::Init(const HINSTANCE instance_handle)
     current_application_->InitWindow(new_window, definition, nullptr);
 
     // 렌더러에 뷰포트 생성
-    renderer_->CreateViewport(new_window, {definition->width, definition->height});
+    Renderer::Get()->CreateViewport(new_window, {definition->width, definition->height});
     
     game_window_ = new_window;
     
@@ -108,8 +104,6 @@ DWORD Core::GameThread(LPVOID lpParam)
 
     GameEngine* game_engine = core->game_engine_.get();
     core->is_game_running_ = true;
-
-    Renderer* renderer = core->renderer_.get();
     
     while (true)
     {
@@ -123,15 +117,15 @@ DWORD Core::GameThread(LPVOID lpParam)
         {
             if (resize_width_ > 0 && resize_height_ > 0)
             {
-                renderer->ResizeViewport(window, resize_width_, resize_height_);
+                Renderer::Get()->ResizeViewport(window, resize_width_, resize_height_);
                 
                 resize_width_ = 0;
                 resize_height_ = 0;
             }
             
-            renderer->BeginRender(window);
+            Renderer::Get()->BeginRender(window);
             game_engine->GameLoop(delta_time_);
-            renderer->EndRender();
+            Renderer::Get()->EndRender();
         }
         
         if (!core->is_game_running_) break;

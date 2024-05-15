@@ -5,19 +5,19 @@
 #include "Actor/Pawn.h"
 #include "Actor/Component/TransformComponent.h"
 
-MainMap::MainMap(World* world, const std::wstring& kName) : Level(world, kName)
+MainMap::MainMap(const std::wstring& kName) : Level(kName)
 {
 }
 
 void MainMap::Load()
 {
-    std::shared_ptr<Actor> camera = std::make_shared<FollowCamera>(GetWorld(), L"FollowCamera");
+    SHARED_PTR<Actor> camera = MAKE_SHARED<FollowCamera>(L"FollowCamera");
     AddActor(camera);
 
-    std::shared_ptr<Actor> floor = std::make_shared<Floor>(GetWorld(), L"Floor");
+    SHARED_PTR<Actor> floor = MAKE_SHARED<Floor>(L"Floor");
     AddActor(floor);
 
-    std::shared_ptr<Actor> pawn = std::make_shared<Pawn>(GetWorld(), L"Pawn");
+    SHARED_PTR<Actor> pawn = MAKE_SHARED<Pawn>(L"Pawn");
     AddActor(pawn);
 
     pawn->GetTransform()->SetRelativeLocation({0.f, 2.f});

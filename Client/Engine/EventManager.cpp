@@ -32,7 +32,7 @@ void EventManager::ExcuteEvent(const Event& kEvent)
     case EventType::kSpawnActor:
         {
             Actor* actor = reinterpret_cast<Actor*>(kEvent.wParam);
-            Level* level = g_game_world->GetLevel();
+            Level* level = World::Get()->GetLevel();
             level->AddActor(SHARED_PTR<Actor>(actor));
             actor->InitializeActor();
         }
@@ -56,7 +56,7 @@ void EventManager::ExcuteEvent(const Event& kEvent)
     case EventType::kLevelTransition:
         {
             LevelType level_type = static_cast<LevelType>(kEvent.wParam);
-            g_game_world->OpenLevel(level_type);
+            World::Get()->OpenLevel(level_type);
         }
     }
 }

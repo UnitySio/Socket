@@ -6,7 +6,7 @@ class Texture;
 class Floor : public Actor
 {
 public:
-    Floor(World* world, const std::wstring& kName);
+    Floor(const std::wstring& kName);
     virtual ~Floor() override = default;
 
     class BoxColliderComponent* GetBoxCollider() const { return box_collider_; }

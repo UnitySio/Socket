@@ -38,22 +38,22 @@ bool ShapeBatch::Init()
     sampler_desc.MinLOD = 0;
     sampler_desc.MaxLOD = D3D11_FLOAT32_MAX;
 
-    HRESULT hr = g_d3d_device->CreateSamplerState(&sampler_desc, point_sampler_state_wrap_.GetAddressOf());
+    HRESULT hr = Renderer::Get()->GetDevice()->CreateSamplerState(&sampler_desc, point_sampler_state_wrap_.GetAddressOf());
     if (FAILED(hr)) return false;
 
     sampler_desc.Filter = D3D11_FILTER_MIN_MAG_LINEAR_MIP_POINT;
-    hr = g_d3d_device->CreateSamplerState(&sampler_desc, bilinear_sampler_state_wrap_.GetAddressOf());
+    hr = Renderer::Get()->GetDevice()->CreateSamplerState(&sampler_desc, bilinear_sampler_state_wrap_.GetAddressOf());
     if (FAILED(hr)) return false;
 
     sampler_desc.AddressU = D3D11_TEXTURE_ADDRESS_CLAMP;
     sampler_desc.AddressV = D3D11_TEXTURE_ADDRESS_CLAMP;
     sampler_desc.AddressW = D3D11_TEXTURE_ADDRESS_CLAMP;
 
-    hr = g_d3d_device->CreateSamplerState(&sampler_desc, bilinear_sampler_state_clamp_.GetAddressOf());
+    hr = Renderer::Get()->GetDevice()->CreateSamplerState(&sampler_desc, bilinear_sampler_state_clamp_.GetAddressOf());
     if (FAILED(hr)) return false;
 
     sampler_desc.Filter = D3D11_FILTER_MIN_MAG_MIP_POINT;
-    hr = g_d3d_device->CreateSamplerState(&sampler_desc, point_sampler_state_clamp_.GetAddressOf());
+    hr = Renderer::Get()->GetDevice()->CreateSamplerState(&sampler_desc, point_sampler_state_clamp_.GetAddressOf());
     if (FAILED(hr)) return false;
 
     if (!vertex_buffer_.CreateBuffer(sizeof(DefaultVertex))) return false;
@@ -79,7 +79,7 @@ bool ShapeBatch::Init()
 
     blend_desc.RenderTarget[0] = render_target_blend_desc;
 
-    hr = g_d3d_device->CreateBlendState(&blend_desc, blend_state_.GetAddressOf());
+    hr = Renderer::Get()->GetDevice()->CreateBlendState(&blend_desc, blend_state_.GetAddressOf());
     if (FAILED(hr)) return false;
 
     D3D11_RASTERIZER_DESC rasterizer_desc;
@@ -88,7 +88,7 @@ bool ShapeBatch::Init()
     rasterizer_desc.FillMode = D3D11_FILL_SOLID;
     rasterizer_desc.CullMode = D3D11_CULL_NONE;
 
-    hr = g_d3d_device->CreateRasterizerState(&rasterizer_desc, rasterizer_state_.GetAddressOf());
+    hr = Renderer::Get()->GetDevice()->CreateRasterizerState(&rasterizer_desc, rasterizer_state_.GetAddressOf());
     if (FAILED(hr)) return false;
 
     D3D11_DEPTH_STENCIL_DESC depth_stencil_state_desc;
@@ -98,13 +98,13 @@ bool ShapeBatch::Init()
     depth_stencil_state_desc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
     depth_stencil_state_desc.DepthFunc = D3D11_COMPARISON_LESS_EQUAL;
 
-    hr = g_d3d_device->CreateDepthStencilState(&depth_stencil_state_desc, depth_stencil_state_.GetAddressOf());
+    hr = Renderer::Get()->GetDevice()->CreateDepthStencilState(&depth_stencil_state_desc, depth_stencil_state_.GetAddressOf());
     return SUCCEEDED(hr);
 }
 
 void ShapeBatch::DrawShapes(const SHARED_PTR<WindowsWindow>& kWindow, const std::vector<SHARED_PTR<Shape>>& kShapes)
 {
-    Viewport* viewport = g_renderer->FindViewport(kWindow.get());
+    Viewport* viewport = Renderer::Get()->FindViewport(kWindow.get());
     CHECK(viewport);
 
     for (auto& shape : kShapes)
@@ -131,11 +131,11 @@ void ShapeBatch::DrawShapes(const SHARED_PTR<WindowsWindow>& kWindow, const std:
 
         pixel_shader_->BindParameters();
 
-        g_d3d_device_context->OMSetBlendState(blend_state_.Get(), nullptr, 0xffffffff);
-        g_d3d_device_context->RSSetState(rasterizer_state_.Get());
-        g_d3d_device_context->OMSetDepthStencilState(depth_stencil_state_.Get(), 0);
+        Renderer::Get()->GetDeviceContext()->OMSetBlendState(blend_state_.Get(), nullptr, 0xffffffff);
+        Renderer::Get()->GetDeviceContext()->RSSetState(rasterizer_state_.Get());
+        Renderer::Get()->GetDeviceContext()->OMSetDepthStencilState(depth_stencil_state_.Get(), 0);
 
-        g_d3d_device_context->IASetPrimitiveTopology(shape->GetPrimitiveTopology());
+        Renderer::Get()->GetDeviceContext()->IASetPrimitiveTopology(shape->GetPrimitiveTopology());
 #pragma endregion
 
 #pragma region 드로우 콜
@@ -148,29 +148,29 @@ void ShapeBatch::DrawShapes(const SHARED_PTR<WindowsWindow>& kWindow, const std:
             {
                 if (texture->GetFilterMode() == FilterMode::kPoint)
                 {
-                    g_d3d_device_context->PSSetSamplers(0, 1, point_sampler_state_wrap_.GetAddressOf());
+                    Renderer::Get()->GetDeviceContext()->PSSetSamplers(0, 1, point_sampler_state_wrap_.GetAddressOf());
                 }
                 else if (texture->GetFilterMode() == FilterMode::kBilinear)
                 {
-                    g_d3d_device_context->PSSetSamplers(0, 1, bilinear_sampler_state_wrap_.GetAddressOf());
+                    Renderer::Get()->GetDeviceContext()->PSSetSamplers(0, 1, bilinear_sampler_state_wrap_.GetAddressOf());
                 }
             }
             else if (texture->GetWrapMode() == WrapMode::kClamp)
             {
                 if (texture->GetFilterMode() == FilterMode::kPoint)
                 {
-                    g_d3d_device_context->PSSetSamplers(0, 1, point_sampler_state_clamp_.GetAddressOf());
+                    Renderer::Get()->GetDeviceContext()->PSSetSamplers(0, 1, point_sampler_state_clamp_.GetAddressOf());
                 }
                 else if (texture->GetFilterMode() == FilterMode::kBilinear)
                 {
-                    g_d3d_device_context->PSSetSamplers(0, 1, bilinear_sampler_state_clamp_.GetAddressOf());
+                    Renderer::Get()->GetDeviceContext()->PSSetSamplers(0, 1, bilinear_sampler_state_clamp_.GetAddressOf());
                 }
             }
             
             vertex_shader_->SetUVOffset({texture->uv_offset_.x, texture->uv_offset_.y});
             vertex_shader_->SetUVScale({texture->uv_scale_.x, texture->uv_scale_.y});
             
-            g_d3d_device_context->PSSetShaderResources(0, 1, shape->GetTexture()->resource_view_.GetAddressOf());
+            Renderer::Get()->GetDeviceContext()->PSSetShaderResources(0, 1, shape->GetTexture()->resource_view_.GetAddressOf());
         }
         else
         {
@@ -183,16 +183,16 @@ void ShapeBatch::DrawShapes(const SHARED_PTR<WindowsWindow>& kWindow, const std:
         constexpr MathTypes::uint32 stride = sizeof(DefaultVertex);
         constexpr MathTypes::uint32 offset = 0;
         
-        g_d3d_device_context->IASetVertexBuffers(0, 1, &buffer, &stride, &offset);
-        g_d3d_device_context->IASetIndexBuffer(index_buffer_.GetResource(), DXGI_FORMAT_R32_UINT, 0);
+        Renderer::Get()->GetDeviceContext()->IASetVertexBuffers(0, 1, &buffer, &stride, &offset);
+        Renderer::Get()->GetDeviceContext()->IASetIndexBuffer(index_buffer_.GetResource(), DXGI_FORMAT_R32_UINT, 0);
 
         if (!shape->GetIndices().empty())
         {
-            g_d3d_device_context->DrawIndexed(shape->GetIndices().size(), 0, 0);
+            Renderer::Get()->GetDeviceContext()->DrawIndexed(shape->GetIndices().size(), 0, 0);
         }
         else
         {
-            g_d3d_device_context->Draw(shape->GetVertices().size(), 0);
+            Renderer::Get()->GetDeviceContext()->Draw(shape->GetVertices().size(), 0);
         }
 #pragma endregion
     }

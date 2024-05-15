@@ -29,7 +29,7 @@ void CameraComponent::TickComponent(float delta_time)
     TransformComponent* transform = GetOwner()->GetTransform();
     Math::Vector2 location = transform->GetWorldLocation();
 
-    if (Viewport* viewport = g_renderer->FindViewport(GetWorld()->GetWindow()))
+    if (Viewport* viewport = Renderer::Get()->FindViewport(World::Get()->GetWindow()))
     {
         viewport->view_matrix = DirectX::XMMatrixTranslation(-location.x, -location.y, 0.f)
             * DirectX::XMMatrixRotationZ(-transform->GetWorldRotationZ());
@@ -60,7 +60,7 @@ void CameraComponent::SetFarZ(float far_z)
 
 void CameraComponent::UpdateAspect()
 {
-    if (Viewport* viewport = g_renderer->FindViewport(GetWorld()->GetWindow()))
+    if (Viewport* viewport = Renderer::Get()->FindViewport(World::Get()->GetWindow()))
     {
         aspect_ = size_ * viewport->d3d_viewport.Width / viewport->d3d_viewport.Height;
     }
@@ -68,7 +68,7 @@ void CameraComponent::UpdateAspect()
 
 void CameraComponent::UpdateProjectionMatrix()
 {
-    if (Viewport* viewport = g_renderer->FindViewport(GetWorld()->GetWindow()))
+    if (Viewport* viewport = Renderer::Get()->FindViewport(World::Get()->GetWindow()))
     {
         const float screen_width = viewport->d3d_viewport.Width;
         const float screen_height = viewport->d3d_viewport.Height;

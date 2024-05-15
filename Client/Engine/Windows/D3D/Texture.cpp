@@ -31,7 +31,7 @@ Texture::Texture() :
 bool Texture::Load(const std::wstring& kFileName)
 {
     HRESULT hr = DirectX::CreateWICTextureFromFile(
-        g_d3d_device.Get(),
+        Renderer::Get()->GetDevice(),
         kFileName.c_str(),
         resource_.GetAddressOf(),
         resource_view_.GetAddressOf()

@@ -20,7 +20,6 @@ private:
     SHARED_PTR<WindowsApplication> current_application_;
     WEAK_PTR<WindowsWindow> game_window_;
 
-    SHARED_PTR<Renderer> renderer_;
     SHARED_PTR<GameEngine> game_engine_;
 
     HANDLE game_thread_handle_;

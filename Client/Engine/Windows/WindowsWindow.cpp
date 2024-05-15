@@ -58,7 +58,7 @@ void WindowsWindow::Init(WindowsApplication* const application, const SHARED_PTR
         kParentWindow ? kParentWindow->GetHWnd() : nullptr,
         nullptr,
         instance_handle,
-        nullptr
+        application
         );
 
     if (!hWnd_) return;

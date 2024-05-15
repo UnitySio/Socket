@@ -11,12 +11,9 @@
 #include "Misc/EngineMacros.h"
 #include "Windows/WindowsWindow.h"
 
-Microsoft::WRL::ComPtr<ID3D11Device> g_d3d_device;
-Microsoft::WRL::ComPtr<ID3D11DeviceContext> g_d3d_device_context;
-
-Renderer* g_renderer = nullptr;
-
 Renderer::Renderer() :
+    d3d_device_(nullptr),
+    d3d_device_context_(nullptr),
     viewports_(),
     current_viewport_(nullptr)
 {
@@ -48,9 +45,9 @@ bool Renderer::CreateDevice()
         feature_levels,
         ARRAYSIZE(feature_levels),
         D3D11_SDK_VERSION,
-        g_d3d_device.GetAddressOf(),
+        d3d_device_.GetAddressOf(),
         nullptr,
-        g_d3d_device_context.GetAddressOf()
+        d3d_device_context_.GetAddressOf()
     );
 
     if (FAILED(hr)) return false;
@@ -82,7 +79,7 @@ bool Renderer::CreateViewport(SHARED_PTR<WindowsWindow> window, Math::Vector2 wi
     swap_chain_desc.Flags = 0;
 
     Microsoft::WRL::ComPtr<IDXGIDevice> dxgi_device;
-    HRESULT hr = g_d3d_device->QueryInterface(__uuidof(IDXGIDevice),
+    HRESULT hr = d3d_device_->QueryInterface(__uuidof(IDXGIDevice),
                                              reinterpret_cast<void**>(dxgi_device.GetAddressOf()));
     if (FAILED(hr)) return false;
 
@@ -96,7 +93,7 @@ bool Renderer::CreateViewport(SHARED_PTR<WindowsWindow> window, Math::Vector2 wi
 
     Viewport viewport;
     
-    hr = dxgi_factory->CreateSwapChain(g_d3d_device.Get(), &swap_chain_desc, viewport.dxgi_swap_chain.GetAddressOf());
+    hr = dxgi_factory->CreateSwapChain(d3d_device_.Get(), &swap_chain_desc, viewport.dxgi_swap_chain.GetAddressOf());
     if (FAILED(hr)) return false;
 
     // Alt + Enter 키를 눌러 전체 화면으로 전환하는 기능을 비활성화
@@ -140,10 +137,10 @@ bool Renderer::CreateDepthStencilBuffer(Viewport& viewport)
     depth_stencil_desc.CPUAccessFlags = 0;
     depth_stencil_desc.MiscFlags = 0;
 
-    HRESULT hr = g_d3d_device->CreateTexture2D(&depth_stencil_desc, nullptr, depth_stencil_buffer.GetAddressOf());
+    HRESULT hr = d3d_device_->CreateTexture2D(&depth_stencil_desc, nullptr, depth_stencil_buffer.GetAddressOf());
     if (FAILED(hr)) return false;
 
-    hr = g_d3d_device->CreateDepthStencilView(depth_stencil_buffer.Get(), nullptr,
+    hr = d3d_device_->CreateDepthStencilView(depth_stencil_buffer.Get(), nullptr,
                                              viewport.depth_stencil_view.GetAddressOf());
     return SUCCEEDED(hr);
 }
@@ -153,10 +150,10 @@ bool Renderer::ResizeViewport(const std::shared_ptr<WindowsWindow>& window, Math
     Viewport* viewport = FindViewport(window.get());
     if (viewport && (viewport->d3d_viewport.Width != width || viewport->d3d_viewport.Height != height))
     {
-        g_d3d_device_context->ClearState();
-        g_d3d_device_context->Flush();
+        d3d_device_context_->ClearState();
+        d3d_device_context_->Flush();
         
-        g_d3d_device_context->OMSetRenderTargets(0, nullptr, nullptr);
+        d3d_device_context_->OMSetRenderTargets(0, nullptr, nullptr);
         
         viewport->back_buffer.Reset();
         viewport->d3d_render_target_view.Reset();
@@ -196,21 +193,21 @@ void Renderer::BeginRender(const SHARED_PTR<WindowsWindow>& kWindow)
         1.f
     };
     
-    g_d3d_device_context->ClearRenderTargetView(current_viewport_->d3d_render_target_view.Get(), clear_color);
-    g_d3d_device_context->ClearDepthStencilView(current_viewport_->depth_stencil_view.Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.f, 0);
-    g_d3d_device_context->RSSetViewports(1, &current_viewport_->d3d_viewport);
+    d3d_device_context_->ClearRenderTargetView(current_viewport_->d3d_render_target_view.Get(), clear_color);
+    d3d_device_context_->ClearDepthStencilView(current_viewport_->depth_stencil_view.Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.f, 0);
+    d3d_device_context_->RSSetViewports(1, &current_viewport_->d3d_viewport);
 
     ID3D11RenderTargetView* render_target_view = current_viewport_->d3d_render_target_view.Get();
     ID3D11DepthStencilView* depth_stencil_view = current_viewport_->depth_stencil_view.Get();
 
-    g_d3d_device_context->OMSetRenderTargets(1, &render_target_view, depth_stencil_view);
+    d3d_device_context_->OMSetRenderTargets(1, &render_target_view, depth_stencil_view);
 }
 
 void Renderer::EndRender()
 {
     CHECK_IF(current_viewport_, L"Not Set current viewport.");
     
-    g_d3d_device_context->OMSetRenderTargets(0, nullptr, nullptr);
+    d3d_device_context_->OMSetRenderTargets(0, nullptr, nullptr);
     current_viewport_->dxgi_swap_chain->Present(ProjectSettings::kUseVSync, 0);
 
     current_viewport_ = nullptr;
@@ -224,6 +221,6 @@ bool Renderer::CreateBackBufferResources(Microsoft::WRL::ComPtr<IDXGISwapChain>&
                                             reinterpret_cast<void**>(back_buffer.GetAddressOf()));
     if (FAILED(hr)) return false;
 
-    hr = g_d3d_device->CreateRenderTargetView(back_buffer.Get(), nullptr, d3d_render_target_view.GetAddressOf());
+    hr = d3d_device_->CreateRenderTargetView(back_buffer.Get(), nullptr, d3d_render_target_view.GetAddressOf());
     return SUCCEEDED(hr);
 }

@@ -11,11 +11,8 @@
 #include "Windows/D3D/Renderer.h"
 #include "Windows/D3D/ShapeBatch.h"
 
-World* g_game_world = nullptr;
-
 GameEngine::GameEngine() :
     game_window_(nullptr),
-    game_world_(nullptr),
     shape_batch_(nullptr)
 {
 }
@@ -30,12 +27,7 @@ GameEngine::~GameEngine()
 void GameEngine::Init(const SHARED_PTR<WindowsWindow>& window)
 {
     game_window_ = window;
-
-    game_world_ = MAKE_SHARED<World>(game_window_);
-    CHECK_IF(game_world_, L"Failed to create World.");
-    game_world_->Init();
-    
-    g_game_world = game_world_.get();
+    World::Get()->Init(game_window_);
 
     shape_batch_ = MAKE_SHARED<ShapeBatch>();
     CHECK_IF(shape_batch_, L"Failed to create ShapeBatch.");
@@ -52,7 +44,7 @@ void GameEngine::Init(const SHARED_PTR<WindowsWindow>& window)
 
     ImGui::StyleColorsDark();
     ImGui_ImplWin32_Init(game_window_->GetHWnd());
-    ImGui_ImplDX11_Init(g_d3d_device.Get(), g_d3d_device_context.Get());
+    ImGui_ImplDX11_Init(Renderer::Get()->GetDevice(), Renderer::Get()->GetDeviceContext());
 #pragma endregion
 }
 
@@ -72,17 +64,17 @@ void GameEngine::GameLoop(float delta_time)
 
     while (accumulator >= ProjectSettings::kFixedTimeStep)
     {
-        game_world_->PhysicsTick(ProjectSettings::kFixedTimeStep);
+        World::Get()->PhysicsTick(ProjectSettings::kFixedTimeStep);
         accumulator -= ProjectSettings::kFixedTimeStep;
     }
 
     // 물리 시뮬레이션으로 인해 발생한 오차를 보정하기 위해 alpha를 계산
     alpha = accumulator / ProjectSettings::kFixedTimeStep;
-    game_world_->Tick(delta_time);
+    World::Get()->Tick(delta_time);
 #pragma endregion
 
 #pragma region Render
-    game_world_->Render(alpha);
+    World::Get()->Render(alpha);
     
     ImGui::Render();
     ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
@@ -92,5 +84,5 @@ void GameEngine::GameLoop(float delta_time)
 
 void GameEngine::OnQuit()
 {
-    game_world_->GetLevel()->Unload(EndPlayReason::kQuit);
+    World::Get()->GetLevel()->Unload(EndPlayReason::kQuit);
 }

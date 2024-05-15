@@ -19,8 +19,6 @@ public:
 
     inline std::wstring GetName() const { return name_; }
 
-    class World* GetWorld() const;
-
 private:
     Actor* owner_;
 

@@ -20,7 +20,7 @@ public:
         buffer_desc.MiscFlags = 0;
         buffer_desc.StructureByteStride = 0;
 
-        HRESULT hr = g_d3d_device->CreateBuffer(&buffer_desc, nullptr, buffer_.GetAddressOf());
+        HRESULT hr = Renderer::Get()->GetDevice()->CreateBuffer(&buffer_desc, nullptr, buffer_.GetAddressOf());
         return SUCCEEDED(hr);
     }
 
@@ -40,13 +40,13 @@ private:
     void* Lock()
     {
         D3D11_MAPPED_SUBRESOURCE mapped_resource;
-        g_d3d_device_context->Map(buffer_.Get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &mapped_resource);
+        Renderer::Get()->GetDeviceContext()->Map(buffer_.Get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &mapped_resource);
         return mapped_resource.pData;
     }
 
     void Unlock()
     {
-        g_d3d_device_context->Unmap(buffer_.Get(), 0);
+        Renderer::Get()->GetDeviceContext()->Unmap(buffer_.Get(), 0);
     }
     
     Microsoft::WRL::ComPtr<ID3D11Buffer> buffer_;

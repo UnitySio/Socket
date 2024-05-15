@@ -3,14 +3,6 @@
 #include "WindowsWindow.h"
 #include "combaseapi.h"
 
-WindowsApplication* windows_application = nullptr;
-
-WindowsApplication* WindowsApplication::CreateWindowsApplication(const HINSTANCE instance_handle, const HICON icon_handle)
-{
-    windows_application = new WindowsApplication(instance_handle, icon_handle);
-    return windows_application;
-}
-
 WindowsApplication::WindowsApplication(const HINSTANCE instance_handle, const HICON icon_handle) :
     instance_handle_(instance_handle),
     windows_()
@@ -59,22 +51,28 @@ void WindowsApplication::AddMessageHandler(IWindowsMessageHandler& message_handl
         if (handler == &message_handler) return;
     }
     
-    windows_application->message_handlers_.push_back(&message_handler);
+    message_handlers_.push_back(&message_handler);
 }
 
 void WindowsApplication::RemoveMessageHandler(IWindowsMessageHandler& message_handler)
 {
-    std::erase(windows_application->message_handlers_, &message_handler);
-}
-
-LRESULT WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
-{
-    return windows_application->ProcessMessage(hWnd, message, wParam, lParam);
+    std::erase(message_handlers_, &message_handler);
 }
 
 LRESULT WindowsApplication::StaticWndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-    return WndProc(hWnd, message, wParam, lParam);
+    WindowsApplication* application = nullptr;
+
+    if (message == WM_NCCREATE)
+    {
+        LPCREATESTRUCT create_struct = reinterpret_cast<LPCREATESTRUCT>(lParam);
+        application = static_cast<WindowsApplication*>(create_struct->lpCreateParams);
+        SetWindowLongPtr(hWnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(application));
+    }
+    else application = reinterpret_cast<WindowsApplication*>(GetWindowLongPtr(hWnd, GWLP_USERDATA));
+
+    if (application) return application->ProcessMessage(hWnd, message, wParam, lParam);
+    return DefWindowProc(hWnd, message, wParam, lParam);
 }
 
 MathTypes::uint32 WindowsApplication::ProcessMessage(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)

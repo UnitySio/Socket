@@ -5,8 +5,7 @@
 #include "Map/MainMap.h"
 #include "Windows/D3D/ShapeBatch.h"
 
-World::World(const SHARED_PTR<WindowsWindow>& window) :
-    window_(window),
+World::World() :
     shape_batch_(nullptr),
     shapes_(),
     current_level_(nullptr),
@@ -31,10 +30,11 @@ World::World(const SHARED_PTR<WindowsWindow>& window) :
     
 }
 
-void World::Init()
+void World::Init(const SHARED_PTR<WindowsWindow>& window)
 {
-    AddLevel<MainMap>(LevelType::kDefault, L"Map 0");
+    window_ = window;
     
+    AddLevel<MainMap>(LevelType::kDefault, L"Map 0");
     OpenLevel(LevelType::kDefault);
 }
 
