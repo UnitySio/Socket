@@ -36,7 +36,7 @@ void Core::Init(const HINSTANCE instance_handle)
     current_application_->AddMessageHandler(*this);
 
     // DirectX 11 렌더러 초기화
-    Renderer::Get()->Init();
+    CHECK_IF(Renderer::Get()->Init(), L"Failed to initialize renderer.");
 
     // 게임 윈도우 정의 생성
     SHARED_PTR<WindowDefinition> definition = MAKE_SHARED<WindowDefinition>();
@@ -51,7 +51,8 @@ void Core::Init(const HINSTANCE instance_handle)
     current_application_->InitWindow(new_window, definition, nullptr);
 
     // 렌더러에 뷰포트 생성
-    Renderer::Get()->CreateViewport(new_window, {definition->width, definition->height});
+    CHECK_IF(Renderer::Get()->CreateViewport(new_window, {definition->width, definition->height}), L"Failed to create viewport.");
+    CHECK_IF(Renderer::Get()->CreateD2DViewport(new_window), L"Failed to create D2D viewport.");
     
     game_window_ = new_window;
     
@@ -126,6 +127,9 @@ DWORD Core::GameThread(LPVOID lpParam)
             Renderer::Get()->BeginRender(window);
             game_engine->GameLoop(delta_time_);
             Renderer::Get()->EndRender();
+            
+            Renderer::Get()->BeginRenderD2D(window);
+            Renderer::Get()->EndRenderD2D();
         }
         
         if (!core->is_game_running_) break;

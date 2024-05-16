@@ -14,8 +14,11 @@
 Renderer::Renderer() :
     d3d_device_(nullptr),
     d3d_device_context_(nullptr),
+    d2d_factory_(nullptr),
     viewports_(),
-    current_viewport_(nullptr)
+    d2d_viewports_(),
+    current_viewport_(nullptr),
+    current_d2d_viewport_(nullptr)
 {
 }
 
@@ -26,6 +29,7 @@ Renderer::~Renderer()
 bool Renderer::Init()
 {
     if (!CreateDevice()) return false;
+    if (!CreateD2DFactory()) return false;
 
     return true;
 }
@@ -55,6 +59,12 @@ bool Renderer::CreateDevice()
     return true;
 }
 
+bool Renderer::CreateD2DFactory()
+{
+    HRESULT hr = D2D1CreateFactory(D2D1_FACTORY_TYPE_SINGLE_THREADED, d2d_factory_.GetAddressOf());
+    return SUCCEEDED(hr);
+}
+
 bool Renderer::CreateViewport(SHARED_PTR<WindowsWindow> window, Math::Vector2 window_size)
 {
     DXGI_SWAP_CHAIN_DESC swap_chain_desc;
@@ -79,16 +89,15 @@ bool Renderer::CreateViewport(SHARED_PTR<WindowsWindow> window, Math::Vector2 wi
     swap_chain_desc.Flags = 0;
 
     Microsoft::WRL::ComPtr<IDXGIDevice> dxgi_device;
-    HRESULT hr = d3d_device_->QueryInterface(__uuidof(IDXGIDevice),
-                                             reinterpret_cast<void**>(dxgi_device.GetAddressOf()));
+    HRESULT hr = d3d_device_->QueryInterface(IID_PPV_ARGS(dxgi_device.GetAddressOf()));
     if (FAILED(hr)) return false;
 
     Microsoft::WRL::ComPtr<IDXGIAdapter> dxgi_adapter;
-    hr = dxgi_device->GetParent(__uuidof(IDXGIAdapter), reinterpret_cast<void**>(dxgi_adapter.GetAddressOf()));
+    hr = dxgi_device->GetParent(IID_PPV_ARGS(dxgi_adapter.GetAddressOf()));
     if (FAILED(hr)) return false;
 
     Microsoft::WRL::ComPtr<IDXGIFactory> dxgi_factory;
-    hr = dxgi_adapter->GetParent(__uuidof(IDXGIFactory), reinterpret_cast<void**>(dxgi_factory.GetAddressOf()));
+    hr = dxgi_adapter->GetParent(IID_PPV_ARGS(dxgi_factory.GetAddressOf()));
     if (FAILED(hr)) return false;
 
     Viewport viewport;
@@ -115,6 +124,35 @@ bool Renderer::CreateViewport(SHARED_PTR<WindowsWindow> window, Math::Vector2 wi
 
     viewports_[window.get()] = viewport;
     return true;
+}
+
+bool Renderer::CreateD2DViewport(std::shared_ptr<WindowsWindow> window)
+{
+    Viewport* viewport = FindViewport(window.get());
+    if (viewport)
+    {
+        const MathTypes::uint32 kDPI = GetDpiForWindow(window->GetHWnd());
+        const D2D1_RENDER_TARGET_PROPERTIES render_target_properties = D2D1::RenderTargetProperties(
+            D2D1_RENDER_TARGET_TYPE_DEFAULT,
+            D2D1::PixelFormat(DXGI_FORMAT_UNKNOWN, D2D1_ALPHA_MODE_PREMULTIPLIED),
+            kDPI,
+            kDPI
+        );
+
+        Microsoft::WRL::ComPtr<IDXGISurface> dxgi_back_buffer;
+        HRESULT hr = viewport->dxgi_swap_chain->GetBuffer(0, IID_PPV_ARGS(dxgi_back_buffer.GetAddressOf()));
+        if (FAILED(hr)) return false;
+
+        D2DViewport d2d_viewport;
+        hr = d2d_factory_->CreateDxgiSurfaceRenderTarget(dxgi_back_buffer.Get(), &render_target_properties, d2d_viewport.d2d_render_target.GetAddressOf());
+        if (FAILED(hr)) return false;
+
+        d2d_viewports_[window.get()] = d2d_viewport;
+
+        return true;
+    }
+
+    return false;
 }
 
 bool Renderer::CreateDepthStencilBuffer(Viewport& viewport)
@@ -149,10 +187,12 @@ bool Renderer::ResizeViewport(const std::shared_ptr<WindowsWindow>& window, Math
     Viewport* viewport = FindViewport(window.get());
     if (viewport && (viewport->d3d_viewport.Width != width || viewport->d3d_viewport.Height != height))
     {
+        d3d_device_context_->OMSetRenderTargets(0, nullptr, nullptr);
         d3d_device_context_->ClearState();
         d3d_device_context_->Flush();
         
-        d3d_device_context_->OMSetRenderTargets(0, nullptr, nullptr);
+        D2DViewport* d2d_viewport = FindD2DViewport(window.get());
+        if (d2d_viewport) d2d_viewport->d2d_render_target.Reset();
         
         viewport->back_buffer.Reset();
         viewport->d3d_render_target_view.Reset();
@@ -168,7 +208,24 @@ bool Renderer::ResizeViewport(const std::shared_ptr<WindowsWindow>& window, Math
         hr = viewport->dxgi_swap_chain->ResizeBuffers(swap_chain_desc.BufferCount, width, height, swap_chain_desc.BufferDesc.Format, swap_chain_desc.Flags);
         if (FAILED(hr)) return false;
 
-        return CreateBackBufferResources(viewport->dxgi_swap_chain, viewport->back_buffer, viewport->d3d_render_target_view);
+        if (!CreateBackBufferResources(viewport->dxgi_swap_chain, viewport->back_buffer, viewport->d3d_render_target_view)) return false;
+
+#pragma region D2D Resize
+        const MathTypes::uint32 kDPI = GetDpiForWindow(window->GetHWnd());
+        const D2D1_RENDER_TARGET_PROPERTIES render_target_properties = D2D1::RenderTargetProperties(
+            D2D1_RENDER_TARGET_TYPE_DEFAULT,
+            D2D1::PixelFormat(DXGI_FORMAT_UNKNOWN, D2D1_ALPHA_MODE_PREMULTIPLIED),
+            kDPI,
+            kDPI
+        );
+
+        Microsoft::WRL::ComPtr<IDXGISurface> dxgi_back_buffer;
+        hr = viewport->dxgi_swap_chain->GetBuffer(0, IID_PPV_ARGS(dxgi_back_buffer.GetAddressOf()));
+        if (FAILED(hr)) return false;
+
+        hr = d2d_factory_->CreateDxgiSurfaceRenderTarget(dxgi_back_buffer.Get(), &render_target_properties, d2d_viewport->d2d_render_target.GetAddressOf());
+        return SUCCEEDED(hr);
+#pragma endregion
     }
 
     return false;
@@ -178,6 +235,14 @@ Viewport* Renderer::FindViewport(WindowsWindow* window)
 {
     const auto it = viewports_.find(window);
     if (it == viewports_.end()) return nullptr;
+
+    return &it->second;
+}
+
+D2DViewport* Renderer::FindD2DViewport(WindowsWindow* window)
+{
+    const auto it = d2d_viewports_.find(window);
+    if (it == d2d_viewports_.end()) return nullptr;
 
     return &it->second;
 }
@@ -214,12 +279,25 @@ void Renderer::EndRender()
     current_viewport_ = nullptr;
 }
 
+void Renderer::BeginRenderD2D(const std::shared_ptr<WindowsWindow>& kWindow)
+{
+    current_d2d_viewport_ = FindD2DViewport(kWindow.get());
+    CHECK_IF(current_d2d_viewport_, L"Not found D2D viewport for window.");
+
+    current_d2d_viewport_->d2d_render_target->BeginDraw();
+}
+
+void Renderer::EndRenderD2D()
+{
+    current_d2d_viewport_->d2d_render_target->EndDraw();
+    current_d2d_viewport_ = nullptr;
+}
+
 bool Renderer::CreateBackBufferResources(Microsoft::WRL::ComPtr<IDXGISwapChain>& dxgi_swap_chain,
                                          Microsoft::WRL::ComPtr<ID3D11Texture2D>& back_buffer,
                                          Microsoft::WRL::ComPtr<ID3D11RenderTargetView>& d3d_render_target_view)
 {
-    HRESULT hr = dxgi_swap_chain->GetBuffer(0, __uuidof(ID3D11Texture2D),
-                                            reinterpret_cast<void**>(back_buffer.GetAddressOf()));
+    HRESULT hr = dxgi_swap_chain->GetBuffer(0, IID_PPV_ARGS(back_buffer.GetAddressOf()));
     if (FAILED(hr)) return false;
 
     hr = d3d_device_->CreateRenderTargetView(back_buffer.Get(), nullptr, d3d_render_target_view.GetAddressOf());

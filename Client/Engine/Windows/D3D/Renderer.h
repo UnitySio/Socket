@@ -37,6 +37,11 @@ struct Viewport
     DirectX::XMMATRIX projection_matrix;
 };
 
+struct D2DViewport
+{
+    Microsoft::WRL::ComPtr<ID2D1RenderTarget> d2d_render_target;
+};
+
 class Renderer : public Singleton<Renderer>
 {
 public:
@@ -45,14 +50,19 @@ public:
 
     bool Init();
     bool CreateDevice();
+    bool CreateD2DFactory();
     bool CreateViewport(SHARED_PTR<WindowsWindow> window, Math::Vector2 window_size);
+    bool CreateD2DViewport(SHARED_PTR<WindowsWindow> window);
     bool CreateDepthStencilBuffer(Viewport& viewport);
     bool ResizeViewport(const SHARED_PTR<WindowsWindow>& window, MathTypes::uint32 width, MathTypes::uint32 height);
 
     Viewport* FindViewport(WindowsWindow* window);
+    D2DViewport* FindD2DViewport(WindowsWindow* window);
 
     void BeginRender(const SHARED_PTR<WindowsWindow>& kWindow);
     void EndRender();
+    void BeginRenderD2D(const SHARED_PTR<WindowsWindow>& kWindow);
+    void EndRenderD2D();
 
     inline ID3D11Device* GetDevice() const { return d3d_device_.Get(); }
     inline ID3D11DeviceContext* GetDeviceContext() const { return d3d_device_context_.Get(); }
@@ -62,9 +72,13 @@ private:
 
     Microsoft::WRL::ComPtr<ID3D11Device> d3d_device_;
     Microsoft::WRL::ComPtr<ID3D11DeviceContext> d3d_device_context_;
+
+    Microsoft::WRL::ComPtr<ID2D1Factory> d2d_factory_;
     
     std::map<WindowsWindow*, Viewport> viewports_;
+    std::map<WindowsWindow*, D2DViewport> d2d_viewports_;
     
     Viewport* current_viewport_;
+    D2DViewport* current_d2d_viewport_;
     
 };
