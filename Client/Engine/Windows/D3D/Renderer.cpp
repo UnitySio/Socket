@@ -1,5 +1,6 @@
 ﻿#include "Renderer.h"
 
+#include <algorithm>
 #include <cassert>
 #include <vector>
 
@@ -291,6 +292,24 @@ void Renderer::EndRenderD2D()
 {
     current_d2d_viewport_->d2d_render_target->EndDraw();
     current_d2d_viewport_ = nullptr;
+}
+
+void Renderer::DrawRectangle(Math::Vector2 position, Math::Vector2 size, float rotation_z)
+{
+    rotation_z = std::clamp(rotation_z, 0.f, 360.f);
+
+    const float half_width = size.x * 0.5f;
+    const float half_height = size.y * 0.5f;
+
+    const D2D1_RECT_F rect = D2D1::RectF(position.x - half_width, position.y - half_height, position.x + half_width, position.y + half_height);
+
+    Microsoft::WRL::ComPtr<ID2D1SolidColorBrush> brush;
+    current_d2d_viewport_->d2d_render_target->CreateSolidColorBrush(D2D1::ColorF(D2D1::ColorF::White), brush.GetAddressOf());
+
+    const D2D1_POINT_2F center = D2D1::Point2F(position.x, position.y);
+
+    current_d2d_viewport_->d2d_render_target->SetTransform(D2D1::Matrix3x2F::Rotation(rotation_z, center));
+    current_d2d_viewport_->d2d_render_target->DrawRectangle(rect, brush.Get(), 1.f);
 }
 
 bool Renderer::CreateBackBufferResources(Microsoft::WRL::ComPtr<IDXGISwapChain>& dxgi_swap_chain,

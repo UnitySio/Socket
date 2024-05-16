@@ -126,10 +126,11 @@ DWORD Core::GameThread(LPVOID lpParam)
             
             Renderer::Get()->BeginRender(window);
             game_engine->GameLoop(delta_time_);
-            Renderer::Get()->EndRender();
             
             Renderer::Get()->BeginRenderD2D(window);
+            Renderer::Get()->DrawRectangle({100, 100}, {100, 100}, 0);
             Renderer::Get()->EndRenderD2D();
+            Renderer::Get()->EndRender();
         }
         
         if (!core->is_game_running_) break;
