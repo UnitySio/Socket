@@ -10,7 +10,7 @@ public:
     IndexBuffer();
     ~IndexBuffer();
 
-    bool CreateBuffer();
+    bool CreateBuffer(bool cpu_access = false, bool gpu_access = true);
 
     void* Lock();
 

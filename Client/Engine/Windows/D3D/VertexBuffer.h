@@ -10,8 +10,7 @@ public:
     VertexBuffer();
     ~VertexBuffer();
 
-    bool CreateBuffer(MathTypes::uint32 stride);
-    bool ResizeBuffer(MathTypes::uint32 size);
+    bool CreateBuffer(MathTypes::uint32 stride, bool cpu_access = false, bool gpu_access = true);
 
     void* Lock();
     

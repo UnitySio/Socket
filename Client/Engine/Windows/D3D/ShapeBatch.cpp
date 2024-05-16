@@ -56,8 +56,8 @@ bool ShapeBatch::Init()
     hr = Renderer::Get()->GetDevice()->CreateSamplerState(&sampler_desc, point_sampler_state_clamp_.GetAddressOf());
     if (FAILED(hr)) return false;
 
-    if (!vertex_buffer_.CreateBuffer(sizeof(DefaultVertex))) return false;
-    if (!index_buffer_.CreateBuffer()) return false;
+    if (!vertex_buffer_.CreateBuffer(sizeof(DefaultVertex), true, false)) return false;
+    if (!index_buffer_.CreateBuffer(true, false)) return false;
 
     vertex_shader_ = MAKE_SHARED<DefaultVertexShader>();
     pixel_shader_ = MAKE_SHARED<DefaultPixelShader>();

@@ -13,7 +13,7 @@ VertexBuffer::~VertexBuffer()
 {
 }
 
-bool VertexBuffer::CreateBuffer(MathTypes::uint32 stride)
+bool VertexBuffer::CreateBuffer(MathTypes::uint32 stride, bool cpu_access, bool gpu_access)
 {
     stride_ = stride;
     buffer_size_ = stride * 2048;
@@ -22,10 +22,27 @@ bool VertexBuffer::CreateBuffer(MathTypes::uint32 stride)
     ZeroMemory(&buffer_desc, sizeof(D3D11_BUFFER_DESC));
 
     buffer_desc.ByteWidth = buffer_size_;
-    buffer_desc.Usage = D3D11_USAGE_DYNAMIC;
     buffer_desc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-    buffer_desc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
     buffer_desc.MiscFlags = 0;
+
+    if (!cpu_access && gpu_access)
+    {
+        buffer_desc.Usage = D3D11_USAGE_DEFAULT;
+    }
+    else if (!cpu_access && !gpu_access)
+    {
+        buffer_desc.Usage = D3D11_USAGE_IMMUTABLE;
+    }
+    else if (cpu_access && !gpu_access)
+    {
+        buffer_desc.Usage = D3D11_USAGE_DYNAMIC;
+        buffer_desc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+    }
+    else
+    {
+        buffer_desc.Usage = D3D11_USAGE_STAGING;
+        buffer_desc.CPUAccessFlags = D3D11_CPU_ACCESS_READ | D3D11_CPU_ACCESS_WRITE;
+    }
 
     HRESULT hr = Renderer::Get()->GetDevice()->CreateBuffer(&buffer_desc, nullptr, buffer_.GetAddressOf());
     return SUCCEEDED(hr);
