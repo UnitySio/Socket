@@ -52,7 +52,6 @@ void Core::Init(const HINSTANCE instance_handle)
 
     // 렌더러에 뷰포트 생성
     Renderer::Get()->CreateViewport(new_window, {definition->width, definition->height});
-    // Renderer::Get()->CreateD2DViewport(new_window);
     
     game_window_ = new_window;
     
@@ -118,15 +117,7 @@ DWORD Core::GameThread(LPVOID lpParam)
         {
             if (resize_width_ > 0 && resize_height_ > 0)
             {
-                if (Renderer::Get()->ResizeViewport(window, resize_width_, resize_height_))
-                {
-                    int aa = 0;
-                    
-                    if (Renderer::Get()->ResizeD2DViewport(window))
-                    {
-                        int a = 0;
-                    }
-                }
+                Renderer::Get()->ResizeViewport(window, resize_width_, resize_height_);
                 
                 resize_width_ = 0;
                 resize_height_ = 0;
@@ -135,8 +126,6 @@ DWORD Core::GameThread(LPVOID lpParam)
             Renderer::Get()->BeginRender(window);
             game_engine->GameLoop(delta_time_);
             Renderer::Get()->EndRender();
-            // Renderer::Get()->BeginRenderD2D(window);
-            // Renderer::Get()->EndRenderD2D();
         }
         
         if (!core->is_game_running_) break;

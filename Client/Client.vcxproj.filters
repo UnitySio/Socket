@@ -1,10 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <FxCompile Include="Engine\Shader\PixelShader2D.hlsl" />
-    <FxCompile Include="Engine\Shader\VertexShader2D.hlsl" />
-    <FxCompile Include="Engine\Shader\PixelShaderPrimitive.hlsl" />
-    <FxCompile Include="Engine\Shader\VertexShaderPrimitive.hlsl" />
+    <FxCompile Include="Engine\Shader\DefaultPixelShader.hlsl" />
+    <FxCompile Include="Engine\Shader\DefaultVertexShader.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp" />
@@ -16,12 +14,6 @@
     <ClCompile Include="Engine\Actor\Component\RigidBodyComponent.cpp" />
     <ClCompile Include="Engine\DebugDraw.cpp" />
     <ClCompile Include="Engine\EventManager.cpp" />
-    <ClCompile Include="Engine\Graphics\Camera2D.cpp" />
-    <ClCompile Include="Engine\Graphics\Graphics.cpp" />
-    <ClCompile Include="Engine\Graphics\IndexBuffer.cpp" />
-    <ClCompile Include="Engine\Graphics\Shaders.cpp" />
-    <ClCompile Include="Engine\Graphics\Sprite.cpp" />
-    <ClCompile Include="Engine\Input\InputManager.cpp" />
     <ClCompile Include="Engine\Level\Level.cpp" />
     <ClCompile Include="Engine\Level\Listener\ContactListener.cpp" />
     <ClCompile Include="Engine\Level\Listener\QueryCallback.cpp" />
@@ -38,10 +30,7 @@
     <ClCompile Include="Include\imgui\imgui_impl_win32.cpp" />
     <ClCompile Include="Include\imgui\imgui_tables.cpp" />
     <ClCompile Include="Include\imgui\imgui_widgets.cpp" />
-    <ClCompile Include="Engine\Graphics\SpriteBatch.cpp" />
-    <ClCompile Include="Engine\Graphics\Texture.cpp" />
     <ClCompile Include="Engine\Audio\AudioManager.cpp" />
-    <ClCompile Include="Engine\Graphics\PrimitiveBatch.cpp" />
     <ClCompile Include="Engine\Actor\Component\AudioComponent.cpp" />
     <ClCompile Include="Engine\Actor\Component\AudioListenerComponent.cpp" />
     <ClCompile Include="Engine\Actor\Component\CameraComponent.cpp" />
@@ -50,11 +39,18 @@
     <ClCompile Include="Engine\Math\Vector2.cpp" />
     <ClCompile Include="Engine\Physics\Physics.cpp" />
     <ClCompile Include="Engine\Physics\RayCastCallback.cpp" />
-    <ClCompile Include="Game\Map\TempMap.cpp" />
     <ClCompile Include="Engine\GameEngine.cpp" />
     <ClCompile Include="Engine\Windows\WindowsApplication.cpp" />
     <ClCompile Include="Engine\Windows\WindowsWindow.cpp" />
-    <ClCompile Include="Engine\EngineLoop.cpp" />
+    <ClCompile Include="Engine\Actor\Component\InputComponent.cpp" />
+    <ClCompile Include="Engine\Core.cpp" />
+    <ClCompile Include="Engine\Windows\D3D\IndexBuffer.cpp" />
+    <ClCompile Include="Engine\Windows\D3D\Renderer.cpp" />
+    <ClCompile Include="Engine\Windows\D3D\Shaders.cpp" />
+    <ClCompile Include="Engine\Windows\D3D\Shape.cpp" />
+    <ClCompile Include="Engine\Windows\D3D\ShapeBatch.cpp" />
+    <ClCompile Include="Engine\Windows\D3D\Texture.cpp" />
+    <ClCompile Include="Engine\Windows\D3D\VertexBuffer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h" />
@@ -67,16 +63,6 @@
     <ClInclude Include="Engine\DebugDraw.h" />
     <ClInclude Include="Engine\Enums.h" />
     <ClInclude Include="Engine\EventManager.h" />
-    <ClInclude Include="Engine\Graphics\Camera2D.h" />
-    <ClInclude Include="Engine\Graphics\ConstantBuffer.h" />
-    <ClInclude Include="Engine\Graphics\ConstantBufferTypes.h" />
-    <ClInclude Include="Engine\Graphics\Graphics.h" />
-    <ClInclude Include="Engine\Graphics\IndexBuffer.h" />
-    <ClInclude Include="Engine\Graphics\Sprite.h" />
-    <ClInclude Include="Engine\Graphics\Vertex.h" />
-    <ClInclude Include="Engine\Graphics\Shaders.h" />
-    <ClInclude Include="Engine\Graphics\VertexBuffer.h" />
-    <ClInclude Include="Engine\Input\InputManager.h" />
     <ClInclude Include="Engine\Level\Level.h" />
     <ClInclude Include="Engine\Level\Listener\ContactListener.h" />
     <ClInclude Include="Engine\Level\Listener\QueryCallback.h" />
@@ -159,10 +145,7 @@
     <ClInclude Include="Include\imgui\imstb_textedit.h" />
     <ClInclude Include="Include\imgui\imstb_truetype.h" />
     <ClInclude Include="targetver.h" />
-    <ClInclude Include="Engine\Graphics\SpriteBatch.h" />
-    <ClInclude Include="Engine\Graphics\Texture.h" />
     <ClInclude Include="Engine\Audio\AudioManager.h" />
-    <ClInclude Include="Engine\Graphics\PrimitiveBatch.h" />
     <ClInclude Include="Include\FMOD\fmod.h" />
     <ClInclude Include="Include\FMOD\fmod.hpp" />
     <ClInclude Include="Include\FMOD\fmod_codec.h" />
@@ -183,19 +166,28 @@
     <ClInclude Include="Engine\Physics\Physics.h" />
     <ClInclude Include="Engine\Physics\RayCastCallback.h" />
     <ClInclude Include="Engine\Physics\RayCastResult.h" />
-    <ClInclude Include="Game\Map\TempMap.h" />
     <ClInclude Include="Engine\GameEngine.h" />
     <ClInclude Include="Engine\Windows\WindowDefinition.h" />
     <ClInclude Include="Engine\Windows\WindowsApplication.h" />
     <ClInclude Include="Engine\Windows\WindowsWindow.h" />
     <ClInclude Include="resource.h" />
-    <ClInclude Include="Engine\EngineLoop.h" />
+    <ClInclude Include="Engine\Actor\Component\InputComponent.h" />
+    <ClInclude Include="Engine\Core.h" />
+    <ClInclude Include="Engine\Misc\EngineMacros.h" />
+    <ClInclude Include="Engine\Windows\D3D\ConstantBuffer.h" />
+    <ClInclude Include="Engine\Windows\D3D\IndexBuffer.h" />
+    <ClInclude Include="Engine\Windows\D3D\Renderer.h" />
+    <ClInclude Include="Engine\Windows\D3D\Shaders.h" />
+    <ClInclude Include="Engine\Windows\D3D\Shape.h" />
+    <ClInclude Include="Engine\Windows\D3D\ShapeBatch.h" />
+    <ClInclude Include="Engine\Windows\D3D\Texture.h" />
+    <ClInclude Include="Engine\Windows\D3D\Vertex.h" />
+    <ClInclude Include="Engine\Windows\D3D\VertexBuffer.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Resource.rc" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="..\..\..\Downloads\Icon.ico" />
     <Image Include="Client.ico" />
   </ItemGroup>
 </Project>

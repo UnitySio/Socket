@@ -14,11 +14,8 @@
 Renderer::Renderer() :
     d3d_device_(nullptr),
     d3d_device_context_(nullptr),
-    d2d_factory_(nullptr),
     viewports_(),
-    d2d_viewports_(),
-    current_viewport_(nullptr),
-    current_d2d_viewport_(nullptr)
+    current_viewport_(nullptr)
 {
 }
 
@@ -29,7 +26,6 @@ Renderer::~Renderer()
 bool Renderer::Init()
 {
     if (!CreateDevice()) return false;
-    // if (!CreateD2DFactory()) return false;
 
     return true;
 }
@@ -178,76 +174,10 @@ bool Renderer::ResizeViewport(const std::shared_ptr<WindowsWindow>& window, Math
     return false;
 }
 
-bool Renderer::CreateD2DFactory()
-{
-    HRESULT hr = D2D1CreateFactory(D2D1_FACTORY_TYPE_SINGLE_THREADED, d2d_factory_.GetAddressOf());
-    return SUCCEEDED(hr);
-}
-
-bool Renderer::CreateD2DViewport(std::shared_ptr<WindowsWindow> window)
-{
-    Viewport* viewport = FindViewport(window.get());
-    if (!viewport) return false;
-
-    const MathTypes::uint32 kDPI = GetDpiForWindow(window->GetHWnd());
-    const D2D1_RENDER_TARGET_PROPERTIES render_target_properties = D2D1::RenderTargetProperties(
-        D2D1_RENDER_TARGET_TYPE_DEFAULT,
-        D2D1::PixelFormat(DXGI_FORMAT_UNKNOWN, D2D1_ALPHA_MODE_PREMULTIPLIED),
-        kDPI,
-        kDPI
-    );
-
-    Microsoft::WRL::ComPtr<IDXGISurface> dxgi_surface;
-    HRESULT hr = viewport->dxgi_swap_chain->GetBuffer(0, __uuidof(IDXGISurface), reinterpret_cast<void**>(dxgi_surface.GetAddressOf()));
-    if (FAILED(hr)) return false;
-
-    D2DViewport d2d_viewport;
-    hr = d2d_factory_->CreateDxgiSurfaceRenderTarget(dxgi_surface.Get(), &render_target_properties, d2d_viewport.d2d_render_target.GetAddressOf());
-    if (FAILED(hr)) return false;
-
-    d2d_viewports_[window.get()] = d2d_viewport;
-    return true;
-}
-
-bool Renderer::ResizeD2DViewport(const std::shared_ptr<WindowsWindow>& window)
-{
-    Viewport* viewport = FindViewport(window.get());
-    D2DViewport* d2d_viewport = FindD2DViewport(window.get());
-    if (viewport && d2d_viewport)
-    {
-        d2d_viewport->d2d_render_target.Reset();
-        
-        const MathTypes::uint32 kDPI = GetDpiForWindow(window->GetHWnd());
-        const D2D1_RENDER_TARGET_PROPERTIES render_target_properties = D2D1::RenderTargetProperties(
-            D2D1_RENDER_TARGET_TYPE_DEFAULT,
-            D2D1::PixelFormat(DXGI_FORMAT_UNKNOWN, D2D1_ALPHA_MODE_PREMULTIPLIED),
-            kDPI,
-            kDPI
-        );
-
-        Microsoft::WRL::ComPtr<IDXGISurface> dxgi_surface;
-        HRESULT hr = viewport->dxgi_swap_chain->GetBuffer(0, __uuidof(IDXGISurface), reinterpret_cast<void**>(dxgi_surface.GetAddressOf()));
-        if (FAILED(hr)) return false;
-
-        hr = d2d_factory_->CreateDxgiSurfaceRenderTarget(dxgi_surface.Get(), &render_target_properties, d2d_viewport->d2d_render_target.GetAddressOf());
-        return SUCCEEDED(hr);
-    }
-
-    return false;
-}
-
 Viewport* Renderer::FindViewport(WindowsWindow* window)
 {
     const auto it = viewports_.find(window);
     if (it == viewports_.end()) return nullptr;
-
-    return &it->second;
-}
-
-D2DViewport* Renderer::FindD2DViewport(WindowsWindow* window)
-{
-    const auto it = d2d_viewports_.find(window);
-    if (it == d2d_viewports_.end()) return nullptr;
 
     return &it->second;
 }
@@ -282,22 +212,6 @@ void Renderer::EndRender()
     current_viewport_->dxgi_swap_chain->Present(ProjectSettings::kUseVSync, 0);
 
     current_viewport_ = nullptr;
-}
-
-void Renderer::BeginRenderD2D(const std::shared_ptr<WindowsWindow>& kWindow)
-{
-    current_d2d_viewport_ = FindD2DViewport(kWindow.get());
-    CHECK_IF(current_d2d_viewport_, L"Not found D2D viewport for window.");
-
-    current_d2d_viewport_->d2d_render_target->BeginDraw();
-}
-
-void Renderer::EndRenderD2D()
-{
-    CHECK_IF(current_d2d_viewport_, L"Not Set current D2D viewport.");
-    
-    current_d2d_viewport_->d2d_render_target->EndDraw();
-    current_d2d_viewport_ = nullptr;
 }
 
 bool Renderer::CreateBackBufferResources(Microsoft::WRL::ComPtr<IDXGISwapChain>& dxgi_swap_chain,
