@@ -74,8 +74,7 @@ DefaultVertexShader::DefaultVertexShader()
     D3D11_INPUT_ELEMENT_DESC layout[] =
     {
         {"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0},
-        {"COLOR", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0},
-        {"TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0}
+        {"COLOR", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0}
     };
 
     bool r = Create(L"..\\x64\\Debug\\DefaultVertexShader.cso", layout, ARRAYSIZE(layout));
@@ -85,16 +84,6 @@ DefaultVertexShader::DefaultVertexShader()
 void DefaultVertexShader::SetWorldMatrix(const DirectX::XMMATRIX& mat)
 {
     constant_buffer_.GetBufferData().mat = mat;
-}
-
-void DefaultVertexShader::SetUVOffset(const DirectX::XMFLOAT2& offset)
-{
-    constant_buffer_.GetBufferData().uv_offset = offset;
-}
-
-void DefaultVertexShader::SetUVScale(const DirectX::XMFLOAT2& scale)
-{
-    constant_buffer_.GetBufferData().uv_scale = scale;
 }
 
 void DefaultVertexShader::UpdateParameters()

@@ -140,44 +140,6 @@ void ShapeBatch::DrawShapes(const SHARED_PTR<WindowsWindow>& kWindow, const std:
 
 #pragma region 드로우 콜
         ID3D11Buffer* buffer = vertex_buffer_.GetResource();
-
-        const Texture* texture = shape->GetTexture();
-        if (texture)
-        {
-            if (texture->GetWrapMode() == WrapMode::kReapet)
-            {
-                if (texture->GetFilterMode() == FilterMode::kPoint)
-                {
-                    Renderer::Get()->GetDeviceContext()->PSSetSamplers(0, 1, point_sampler_state_wrap_.GetAddressOf());
-                }
-                else if (texture->GetFilterMode() == FilterMode::kBilinear)
-                {
-                    Renderer::Get()->GetDeviceContext()->PSSetSamplers(0, 1, bilinear_sampler_state_wrap_.GetAddressOf());
-                }
-            }
-            else if (texture->GetWrapMode() == WrapMode::kClamp)
-            {
-                if (texture->GetFilterMode() == FilterMode::kPoint)
-                {
-                    Renderer::Get()->GetDeviceContext()->PSSetSamplers(0, 1, point_sampler_state_clamp_.GetAddressOf());
-                }
-                else if (texture->GetFilterMode() == FilterMode::kBilinear)
-                {
-                    Renderer::Get()->GetDeviceContext()->PSSetSamplers(0, 1, bilinear_sampler_state_clamp_.GetAddressOf());
-                }
-            }
-            
-            vertex_shader_->SetUVOffset({texture->uv_offset_.x, texture->uv_offset_.y});
-            vertex_shader_->SetUVScale({texture->uv_scale_.x, texture->uv_scale_.y});
-            
-            Renderer::Get()->GetDeviceContext()->PSSetShaderResources(0, 1, shape->GetTexture()->resource_view_.GetAddressOf());
-        }
-        else
-        {
-            vertex_shader_->SetUVOffset({0.f, 0.f});
-            vertex_shader_->SetUVScale({1.f, 1.f});
-        }
-        
         vertex_shader_->BindParameters();
 
         constexpr MathTypes::uint32 stride = sizeof(DefaultVertex);
