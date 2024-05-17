@@ -7,6 +7,7 @@
 #include <d3d11.h>
 #include <d2d1.h>
 #include <DirectXMath.h>
+#include <dwrite.h>
 #include <map>
 #include <wrl/client.h>
 
@@ -63,9 +64,6 @@ public:
     void EndRender();
     void BeginRenderD2D(const SHARED_PTR<WindowsWindow>& kWindow);
     void EndRenderD2D();
-
-    // Direct2D
-    void DrawRectangle(Math::Vector2 position, Math::Vector2 size, float rotation_z);
 
     inline ID3D11Device* GetDevice() const { return d3d_device_.Get(); }
     inline ID3D11DeviceContext* GetDeviceContext() const { return d3d_device_context_.Get(); }

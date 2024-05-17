@@ -4,6 +4,7 @@
 #include "Singleton.h"
 #include "box2d/b2_world.h"
 #include "Listener/ContactListener.h"
+#include "Windows/D3D/Renderer.h"
 
 enum class LevelType : size_t;
 
@@ -23,6 +24,7 @@ public:
     void PhysicsTick(float delta_time);
     void Tick(float delta_time);
     void Render(float alpha);
+    void RenderUI();
     void DestroyActor();
 
     template<std::derived_from<Level> T>

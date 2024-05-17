@@ -157,6 +157,7 @@
     <ClInclude Include="Engine\Level\Listener\QueryCallback.h" />
     <ClInclude Include="Engine\Level\World.h" />
     <ClInclude Include="Engine\Math\Bounds.h" />
+    <ClInclude Include="Engine\Math\Color.h" />
     <ClInclude Include="Engine\Math\MathTypes.h" />
     <ClInclude Include="Engine\Math\Vector2.h" />
     <ClInclude Include="Engine\Misc\EngineMacros.h" />
@@ -288,6 +289,7 @@
     <ClCompile Include="Engine\Level\Listener\QueryCallback.cpp" />
     <ClCompile Include="Engine\Level\World.cpp" />
     <ClCompile Include="Engine\Math\Bounds.cpp" />
+    <ClCompile Include="Engine\Math\Color.cpp" />
     <ClCompile Include="Engine\Math\Vector2.cpp" />
     <ClCompile Include="Engine\Physics\Physics.cpp" />
     <ClCompile Include="Engine\Physics\RayCastCallback.cpp" />

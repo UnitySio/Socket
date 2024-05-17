@@ -3,6 +3,9 @@
 #include "EventManager.h"
 #include "Level.h"
 #include "Map/MainMap.h"
+#include "Math/Vector2.h"
+#include "Windows/D3D/Renderer.h"
+#include "Windows/D3D/Shape.h"
 #include "Windows/D3D/ShapeBatch.h"
 
 World::World() :
@@ -79,6 +82,10 @@ void World::Render(float alpha)
 
     shape_batch_->DrawShapes(window_, shapes_);
     shapes_.clear();
+}
+
+void World::RenderUI()
+{
 }
 
 void World::DestroyActor()

@@ -1,6 +1,7 @@
 ﻿#include "Core.h"
 
 #include "GameEngine.h"
+#include "Math/Color.h"
 #include "Math/Vector2.h"
 #include "Time/Time.h"
 #include "Windows/WindowDefinition.h"
@@ -124,13 +125,7 @@ DWORD Core::GameThread(LPVOID lpParam)
                 resize_height_ = 0;
             }
             
-            Renderer::Get()->BeginRender(window);
             game_engine->GameLoop(delta_time_);
-            
-            Renderer::Get()->BeginRenderD2D(window);
-            Renderer::Get()->DrawRectangle({100, 100}, {100, 100}, 0);
-            Renderer::Get()->EndRenderD2D();
-            Renderer::Get()->EndRender();
         }
         
         if (!core->is_game_running_) break;
