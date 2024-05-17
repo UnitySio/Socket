@@ -4,7 +4,7 @@
 #include "Singleton.h"
 #include "box2d/b2_world.h"
 #include "Listener/ContactListener.h"
-#include "Windows/D3D/Renderer.h"
+#include "Windows/DX/Renderer.h"
 
 enum class LevelType : size_t;
 

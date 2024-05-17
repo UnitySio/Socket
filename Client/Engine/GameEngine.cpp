@@ -8,8 +8,8 @@
 #include "Level/World.h"
 #include "Misc/EngineMacros.h"
 #include "Windows/WindowsWindow.h"
-#include "Windows/D3D/Renderer.h"
-#include "Windows/D3D/ShapeBatch.h"
+#include "Windows/DX/Renderer.h"
+#include "Windows/DX/ShapeBatch.h"
 
 GameEngine::GameEngine() :
     game_window_(nullptr),

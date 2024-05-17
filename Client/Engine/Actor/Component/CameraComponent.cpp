@@ -3,7 +3,7 @@
 #include "TransformComponent.h"
 #include "Actor/Actor.h"
 #include "Level/World.h"
-#include "Windows/D3D/Renderer.h"
+#include "Windows/DX/Renderer.h"
 
 CameraComponent::CameraComponent(Actor* owner, const std::wstring& kName) :
     ActorComponent(owner, kName),

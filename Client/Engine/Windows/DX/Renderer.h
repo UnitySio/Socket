@@ -4,17 +4,15 @@
 #pragma comment(lib, "d2d1.lib")
 #pragma comment(lib, "dwrite.lib")
 
+#include <wrl/client.h>
 #include <d3d11.h>
 #include <d2d1.h>
+#include <dwrite_3.h>
 #include <DirectXMath.h>
-#include <dwrite.h>
 #include <map>
-#include <wrl/client.h>
 
 #include "Singleton.h"
-#include "Math/Color.h"
 #include "Math/MathTypes.h"
-#include "Misc/EngineMacros.h"
 
 class DefaultPixelShader;
 class DefaultVertexShader;
@@ -54,6 +52,7 @@ public:
     bool Init();
     bool CreateDevice();
     bool CreateD2DFactory();
+    bool CreateDWrite();
     bool CreateViewport(SHARED_PTR<WindowsWindow> window, Math::Vector2 window_size);
     bool CreateD2DViewport(SHARED_PTR<WindowsWindow> window);
     bool CreateDepthStencilBuffer(Viewport& viewport);
@@ -68,7 +67,7 @@ public:
     void EndRenderD2D();
 
     // Direct2D
-    void DrawSolidRectangle(Math::Vector2 position, Math::Vector2 size, Math::Color color);
+    void DrawString(const SHARED_PTR<WindowsWindow>& kWindow, const std::wstring& kString, Math::Vector2 position, Math::Vector2 size, float font_size, Math::Color color);
 
     inline ID3D11Device* GetDevice() const { return d3d_device_.Get(); }
     inline ID3D11DeviceContext* GetDeviceContext() const { return d3d_device_context_.Get(); }
@@ -80,6 +79,9 @@ private:
     Microsoft::WRL::ComPtr<ID3D11DeviceContext> d3d_device_context_;
 
     Microsoft::WRL::ComPtr<ID2D1Factory> d2d_factory_;
+
+    Microsoft::WRL::ComPtr<IDWriteFactory5> dwrite_factory_;
+    Microsoft::WRL::ComPtr<IDWriteFontCollection1> dwrite_font_collection_;
     
     std::map<WindowsWindow*, Viewport> viewports_;
     std::map<WindowsWindow*, D2DViewport> d2d_viewports_;

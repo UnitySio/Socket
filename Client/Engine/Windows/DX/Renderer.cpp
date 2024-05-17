@@ -1,21 +1,16 @@
 ﻿#include "Renderer.h"
 
-#include <algorithm>
-#include <cassert>
-#include <vector>
-
 #include "ProjectSettings.h"
-#include "Vertex.h"
-#include "Shaders.h"
-#include "imgui/imgui.h"
+#include "Math/Color.h"
 #include "Math/Vector2.h"
-#include "Misc/EngineMacros.h"
 #include "Windows/WindowsWindow.h"
 
 Renderer::Renderer() :
     d3d_device_(nullptr),
     d3d_device_context_(nullptr),
     d2d_factory_(nullptr),
+    dwrite_factory_(nullptr),
+    dwrite_font_collection_(nullptr),
     viewports_(),
     d2d_viewports_(),
     current_viewport_(nullptr),
@@ -31,6 +26,7 @@ bool Renderer::Init()
 {
     if (!CreateDevice()) return false;
     if (!CreateD2DFactory()) return false;
+    if (!CreateDWrite()) return false;
 
     return true;
 }
@@ -56,13 +52,38 @@ bool Renderer::CreateDevice()
     );
 
     if (FAILED(hr)) return false;
-    
+
     return true;
 }
 
 bool Renderer::CreateD2DFactory()
 {
     HRESULT hr = D2D1CreateFactory(D2D1_FACTORY_TYPE_SINGLE_THREADED, d2d_factory_.GetAddressOf());
+    return SUCCEEDED(hr);
+}
+
+bool Renderer::CreateDWrite()
+{
+    HRESULT hr = DWriteCreateFactory(DWRITE_FACTORY_TYPE_SHARED, __uuidof(IDWriteFactory5),
+                                     reinterpret_cast<IUnknown**>(dwrite_factory_.GetAddressOf()));
+    if (FAILED(hr)) return false;
+
+    Microsoft::WRL::ComPtr<IDWriteFontSetBuilder1> font_set_builder;
+    hr = dwrite_factory_->CreateFontSetBuilder(font_set_builder.GetAddressOf());
+    if (FAILED(hr)) return false;
+
+    Microsoft::WRL::ComPtr<IDWriteFontFile> font_file;
+    hr = dwrite_factory_->CreateFontFileReference(L".\\Game_Data\\Silver.ttf", nullptr, font_file.GetAddressOf());
+    if (FAILED(hr)) return false;
+
+    hr = font_set_builder->AddFontFile(font_file.Get());
+    if (FAILED(hr)) return false;
+
+    Microsoft::WRL::ComPtr<IDWriteFontSet> font_set;
+    hr = font_set_builder->CreateFontSet(font_set.GetAddressOf());
+    if (FAILED(hr)) return false;
+
+    hr = dwrite_factory_->CreateFontCollectionFromFontSet(font_set.Get(), dwrite_font_collection_.GetAddressOf());
     return SUCCEEDED(hr);
 }
 
@@ -102,7 +123,7 @@ bool Renderer::CreateViewport(SHARED_PTR<WindowsWindow> window, Math::Vector2 wi
     if (FAILED(hr)) return false;
 
     Viewport viewport;
-    
+
     hr = dxgi_factory->CreateSwapChain(d3d_device_.Get(), &swap_chain_desc, viewport.dxgi_swap_chain.GetAddressOf());
     if (FAILED(hr)) return false;
 
@@ -121,7 +142,8 @@ bool Renderer::CreateViewport(SHARED_PTR<WindowsWindow> window, Math::Vector2 wi
     if (FAILED(hr)) return false;
 
     viewport.view_matrix = DirectX::XMMatrixIdentity();
-    viewport.projection_matrix = DirectX::XMMatrixOrthographicOffCenterLH(0.f, window_size.x, window_size.y, 0.f, 0.f, 1.f);
+    viewport.projection_matrix = DirectX::XMMatrixOrthographicOffCenterLH(
+        0.f, window_size.x, window_size.y, 0.f, 0.f, 1.f);
 
     viewports_[window.get()] = viewport;
     return true;
@@ -145,7 +167,8 @@ bool Renderer::CreateD2DViewport(std::shared_ptr<WindowsWindow> window)
         if (FAILED(hr)) return false;
 
         D2DViewport d2d_viewport;
-        hr = d2d_factory_->CreateDxgiSurfaceRenderTarget(dxgi_back_buffer.Get(), &render_target_properties, d2d_viewport.d2d_render_target.GetAddressOf());
+        hr = d2d_factory_->CreateDxgiSurfaceRenderTarget(dxgi_back_buffer.Get(), &render_target_properties,
+                                                         d2d_viewport.d2d_render_target.GetAddressOf());
         if (FAILED(hr)) return false;
 
         d2d_viewports_[window.get()] = d2d_viewport;
@@ -183,7 +206,8 @@ bool Renderer::CreateDepthStencilBuffer(Viewport& viewport)
     return SUCCEEDED(hr);
 }
 
-bool Renderer::ResizeViewport(const std::shared_ptr<WindowsWindow>& window, MathTypes::uint32 width, MathTypes::uint32 height)
+bool Renderer::ResizeViewport(const std::shared_ptr<WindowsWindow>& window, MathTypes::uint32 width,
+                              MathTypes::uint32 height)
 {
     Viewport* viewport = FindViewport(window.get());
     if (viewport && (viewport->d3d_viewport.Width != width || viewport->d3d_viewport.Height != height))
@@ -191,10 +215,10 @@ bool Renderer::ResizeViewport(const std::shared_ptr<WindowsWindow>& window, Math
         d3d_device_context_->OMSetRenderTargets(0, nullptr, nullptr);
         d3d_device_context_->ClearState();
         d3d_device_context_->Flush();
-        
+
         D2DViewport* d2d_viewport = FindD2DViewport(window.get());
         if (d2d_viewport) d2d_viewport->d2d_render_target.Reset();
-        
+
         viewport->back_buffer.Reset();
         viewport->d3d_render_target_view.Reset();
         viewport->depth_stencil_view.Reset();
@@ -206,10 +230,12 @@ bool Renderer::ResizeViewport(const std::shared_ptr<WindowsWindow>& window, Math
         HRESULT hr = viewport->dxgi_swap_chain->GetDesc(&swap_chain_desc);
         if (FAILED(hr)) return false;
 
-        hr = viewport->dxgi_swap_chain->ResizeBuffers(swap_chain_desc.BufferCount, width, height, swap_chain_desc.BufferDesc.Format, swap_chain_desc.Flags);
+        hr = viewport->dxgi_swap_chain->ResizeBuffers(swap_chain_desc.BufferCount, width, height,
+                                                      swap_chain_desc.BufferDesc.Format, swap_chain_desc.Flags);
         if (FAILED(hr)) return false;
 
-        if (!CreateBackBufferResources(viewport->dxgi_swap_chain, viewport->back_buffer, viewport->d3d_render_target_view)) return false;
+        if (!CreateBackBufferResources(viewport->dxgi_swap_chain, viewport->back_buffer,
+                                       viewport->d3d_render_target_view)) return false;
 
 #pragma region D2D Resize
         const MathTypes::uint32 kDPI = GetDpiForWindow(window->GetHWnd());
@@ -224,7 +250,8 @@ bool Renderer::ResizeViewport(const std::shared_ptr<WindowsWindow>& window, Math
         hr = viewport->dxgi_swap_chain->GetBuffer(0, IID_PPV_ARGS(dxgi_back_buffer.GetAddressOf()));
         if (FAILED(hr)) return false;
 
-        hr = d2d_factory_->CreateDxgiSurfaceRenderTarget(dxgi_back_buffer.Get(), &render_target_properties, d2d_viewport->d2d_render_target.GetAddressOf());
+        hr = d2d_factory_->CreateDxgiSurfaceRenderTarget(dxgi_back_buffer.Get(), &render_target_properties,
+                                                         d2d_viewport->d2d_render_target.GetAddressOf());
         return SUCCEEDED(hr);
 #pragma endregion
     }
@@ -259,9 +286,10 @@ void Renderer::BeginRender(const SHARED_PTR<WindowsWindow>& kWindow)
         121.f / 255.f,
         1.f
     };
-    
+
     d3d_device_context_->ClearRenderTargetView(current_viewport_->d3d_render_target_view.Get(), clear_color);
-    d3d_device_context_->ClearDepthStencilView(current_viewport_->depth_stencil_view.Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.f, 0);
+    d3d_device_context_->ClearDepthStencilView(current_viewport_->depth_stencil_view.Get(),
+                                               D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.f, 0);
     d3d_device_context_->RSSetViewports(1, &current_viewport_->d3d_viewport);
 
     ID3D11RenderTargetView* render_target_view = current_viewport_->d3d_render_target_view.Get();
@@ -273,7 +301,7 @@ void Renderer::BeginRender(const SHARED_PTR<WindowsWindow>& kWindow)
 void Renderer::EndRender()
 {
     CHECK_IF(current_viewport_, L"Not Set current viewport.");
-    
+
     d3d_device_context_->OMSetRenderTargets(0, nullptr, nullptr);
     current_viewport_->dxgi_swap_chain->Present(ProjectSettings::kUseVSync, 0);
 
@@ -294,17 +322,28 @@ void Renderer::EndRenderD2D()
     current_d2d_viewport_ = nullptr;
 }
 
-void Renderer::DrawSolidRectangle(Math::Vector2 position, Math::Vector2 size, Math::Color color)
+void Renderer::DrawString(const std::shared_ptr<WindowsWindow>& kWindow, const std::wstring& kString, Math::Vector2 position, Math::Vector2 size, float font_size, Math::Color color)
 {
-    const float half_width = size.x * 0.5f;
-    const float half_height = size.y * 0.5f;
-    
-    const D2D1_RECT_F rect = D2D1::RectF(position.x - half_width, position.y - half_height, position.x + half_width, position.y + half_height);
+    D2DViewport* d2d_viewport = FindD2DViewport(kWindow.get());
+    if (d2d_viewport)
+    {
+        const D2D1_RECT_F rect = D2D1::RectF(position.x, position.y, position.x + size.x, position.y + size.y);
+        
+        Microsoft::WRL::ComPtr<IDWriteTextFormat> text_format;
+        HRESULT hr = dwrite_factory_->CreateTextFormat(L"Silver", dwrite_font_collection_.Get(),
+                                                       DWRITE_FONT_WEIGHT_REGULAR, DWRITE_FONT_STYLE_NORMAL,
+                                                       DWRITE_FONT_STRETCH_NORMAL, font_size, L"en-us",
+                                                       text_format.GetAddressOf());
+        if (FAILED(hr)) return;
 
-    Microsoft::WRL::ComPtr<ID2D1SolidColorBrush> brush;
-    current_d2d_viewport_->d2d_render_target->CreateSolidColorBrush(D2D1::ColorF(color.r / 255.f, color.g / 255.f, color.b / 255.f, color.a / 255.f), brush.GetAddressOf());
+        Microsoft::WRL::ComPtr<ID2D1SolidColorBrush> brush;
+        hr = d2d_viewport->d2d_render_target->CreateSolidColorBrush(D2D1::ColorF(color.r / 255.f, color.g / 255.f, color.b / 255.f, color.a / 255.f),
+                                                                   brush.GetAddressOf());
+        if (FAILED(hr)) return;
 
-    current_d2d_viewport_->d2d_render_target->FillRectangle(rect, brush.Get());
+        d2d_viewport->d2d_render_target->DrawTextW(kString.c_str(), static_cast<UINT32>(kString.size()),
+                                                  text_format.Get(), rect, brush.Get());
+    }
 }
 
 bool Renderer::CreateBackBufferResources(Microsoft::WRL::ComPtr<IDXGISwapChain>& dxgi_swap_chain,

@@ -3,10 +3,11 @@
 #include "EventManager.h"
 #include "Level.h"
 #include "Map/MainMap.h"
+#include "Math/Color.h"
 #include "Math/Vector2.h"
-#include "Windows/D3D/Renderer.h"
-#include "Windows/D3D/Shape.h"
-#include "Windows/D3D/ShapeBatch.h"
+#include "Windows/DX/Renderer.h"
+#include "Windows/DX/Shape.h"
+#include "Windows/DX/ShapeBatch.h"
 
 World::World() :
     shape_batch_(nullptr),
@@ -86,7 +87,7 @@ void World::Render(float alpha)
 
 void World::RenderUI()
 {
-    Renderer::Get()->DrawSolidRectangle({200.f, 200.f}, {100.f, 100.f}, {255, 255, 255, 255});
+    Renderer::Get()->DrawString(window_, L"안녕, 세계!", {10.f, 10.f}, {100.f, 30.f}, 24.f, {255, 255, 255, 255});
 }
 
 void World::DestroyActor()

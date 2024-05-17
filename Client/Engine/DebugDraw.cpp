@@ -4,8 +4,8 @@
 
 #include "GameEngine.h"
 #include "Level/World.h"
-#include "Windows/D3D/Shape.h"
-#include "Windows/D3D/Vertex.h"
+#include "Windows/DX/Shape.h"
+#include "Windows/DX/Vertex.h"
 
 DebugDraw::DebugDraw()
 {

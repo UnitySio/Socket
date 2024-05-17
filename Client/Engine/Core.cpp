@@ -6,7 +6,7 @@
 #include "Time/Time.h"
 #include "Windows/WindowDefinition.h"
 #include "Windows/WindowsWindow.h"
-#include "Windows/D3D/Renderer.h"
+#include "Windows/DX/Renderer.h"
 
 SHARED_PTR<WindowsWindow> g_game_window;
 
