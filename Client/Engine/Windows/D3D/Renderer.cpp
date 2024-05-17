@@ -294,6 +294,19 @@ void Renderer::EndRenderD2D()
     current_d2d_viewport_ = nullptr;
 }
 
+void Renderer::DrawSolidRectangle(Math::Vector2 position, Math::Vector2 size, Math::Color color)
+{
+    const float half_width = size.x * 0.5f;
+    const float half_height = size.y * 0.5f;
+    
+    const D2D1_RECT_F rect = D2D1::RectF(position.x - half_width, position.y - half_height, position.x + half_width, position.y + half_height);
+
+    Microsoft::WRL::ComPtr<ID2D1SolidColorBrush> brush;
+    current_d2d_viewport_->d2d_render_target->CreateSolidColorBrush(D2D1::ColorF(color.r / 255.f, color.g / 255.f, color.b / 255.f, color.a / 255.f), brush.GetAddressOf());
+
+    current_d2d_viewport_->d2d_render_target->FillRectangle(rect, brush.Get());
+}
+
 bool Renderer::CreateBackBufferResources(Microsoft::WRL::ComPtr<IDXGISwapChain>& dxgi_swap_chain,
                                          Microsoft::WRL::ComPtr<ID3D11Texture2D>& back_buffer,
                                          Microsoft::WRL::ComPtr<ID3D11RenderTargetView>& d3d_render_target_view)

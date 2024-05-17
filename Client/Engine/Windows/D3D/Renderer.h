@@ -12,6 +12,7 @@
 #include <wrl/client.h>
 
 #include "Singleton.h"
+#include "Math/Color.h"
 #include "Math/MathTypes.h"
 #include "Misc/EngineMacros.h"
 
@@ -21,6 +22,7 @@ class DefaultVertexShader;
 namespace Math
 {
     struct Vector2;
+    struct Color;
 }
 
 class WindowsWindow;
@@ -64,6 +66,9 @@ public:
     void EndRender();
     void BeginRenderD2D(const SHARED_PTR<WindowsWindow>& kWindow);
     void EndRenderD2D();
+
+    // Direct2D
+    void DrawSolidRectangle(Math::Vector2 position, Math::Vector2 size, Math::Color color);
 
     inline ID3D11Device* GetDevice() const { return d3d_device_.Get(); }
     inline ID3D11DeviceContext* GetDeviceContext() const { return d3d_device_context_.Get(); }

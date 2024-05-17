@@ -86,6 +86,7 @@ void World::Render(float alpha)
 
 void World::RenderUI()
 {
+    Renderer::Get()->DrawSolidRectangle({200.f, 200.f}, {100.f, 100.f}, {255, 255, 255, 255});
 }
 
 void World::DestroyActor()
