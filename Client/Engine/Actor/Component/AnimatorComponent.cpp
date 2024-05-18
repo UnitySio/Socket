@@ -7,14 +7,14 @@
 
 AnimationClip::AnimationClip(std::wstring clipName, int firstIndex, int lastIndex)
 {
-    clipName_ = clipName;
-    isRepeat = false;
-    playbackSpeed = .25f;
-    firstIndex_ = firstIndex;
-    lastIndex_ = lastIndex;
-    frameNumber_ = 0;
-    maxFrame_ = lastIndex - firstIndex;
-    connected_OtherClip_ = ' ';
+    clipName_ = clipName;//이름
+    isRepeat = false;//반복
+    playbackSpeed = 1.0f/2.0f;//재생속도
+    firstIndex_ = firstIndex;//시트의 몇 번째 칸부터
+    lastIndex_ = lastIndex;//시트의 몇 번째 칸까지
+    frameNumber_ = 0;//현재 프레임
+    maxFrame_ = lastIndex - firstIndex;//프레임 수
+    connected_OtherClip_ = ' ';//전환될 다음 클립
 }
 
 void AnimationClip::ConnectToOther(std::wstring clipName)
@@ -42,7 +42,7 @@ AnimatorComponent::AnimatorComponent(Actor* owner, const std::wstring& kName)
     MakeAnimationClip(L"Attack", 15, 41);
     clips_[1]->ConnectToOther(L"Idle");
 
-    assert(SetAnimationClip(L"Idle",0.25f));
+    assert(SetAnimationClip(L"Idle", 4.0f));
 }
 
 void AnimatorComponent::MakeAnimationClip(std::wstring clipName, int firstIndex, int lastIndex)
@@ -59,7 +59,7 @@ bool AnimatorComponent::SetAnimationClip(std::wstring clipName,float speed)
         if (clips_[i]->clipName_ == clipName)
         {
             targetClip_ = clips_[i].get();
-            targetClip_->playbackSpeed = speed;
+            targetClip_->playbackSpeed = 1.0f / speed;
             return true;
         }
     }
@@ -112,7 +112,7 @@ void AnimatorComponent::PlayAnimation()
                 //애니메이션 전환 임시
                 if (targetClip_->TransToOther(L"Idle"))
                 {
-                    SetAnimationClip(L"Idle", 0.25f);
+                    SetAnimationClip(L"Idle", 4.0f);
                 }
             }
         }

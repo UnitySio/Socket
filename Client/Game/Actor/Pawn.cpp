@@ -73,7 +73,7 @@ void Pawn::PhysicsTick(float delta_time)
     int a = 0;
 
     //임시 공격키
-    if (input->IsKeyDown(0x41)) animator_->SetAnimationClip(L"Attack", 0.125f);
+    if (input->IsKeyDown(0x41)) animator_->SetAnimationClip(L"Attack", 8.0f);
 }
 
 void Pawn::Tick(float delta_time)
