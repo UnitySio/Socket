@@ -13,7 +13,8 @@ World::World() :
     shape_batch_(nullptr),
     shapes_(),
     current_level_(nullptr),
-    levels_()
+    levels_(),
+    fps_(0)
 {
     shape_batch_ = MAKE_SHARED<ShapeBatch>();
     shape_batch_->Init();
@@ -71,6 +72,20 @@ void World::Tick(float delta_time)
     {
         current_level_->Tick(delta_time);
     }
+
+    static float timer = 0.f;
+    static int frame_count = 0;
+    
+    timer += delta_time;
+    frame_count++;
+
+    if (timer >= 1.f)
+    {
+        fps_ = frame_count;
+
+        frame_count = 0;
+        timer = 0.f;
+    }
 }
 
 void World::Render(float alpha)
@@ -87,7 +102,11 @@ void World::Render(float alpha)
 
 void World::RenderUI()
 {
-    Renderer::Get()->DrawString(window_, L"안녕, 세계!", {10.f, 10.f}, {100.f, 30.f}, 24.f, {255, 255, 255, 255});
+    const float kMS = 1000.f / fps_;
+    
+    wchar_t buffer[256];
+    swprintf_s(buffer, L"FPS: %d(%.fms)", fps_, kMS);
+    Renderer::Get()->DrawString(window_, buffer, {10.f, 10.f}, {300.f, 100.f}, 36.f, {255, 255, 255, 255});
 }
 
 void World::DestroyActor()

@@ -72,11 +72,18 @@ bool Renderer::CreateDWrite()
     hr = dwrite_factory_->CreateFontSetBuilder(font_set_builder.GetAddressOf());
     if (FAILED(hr)) return false;
 
-    Microsoft::WRL::ComPtr<IDWriteFontFile> font_file;
-    hr = dwrite_factory_->CreateFontFileReference(L".\\Game_Data\\Silver.ttf", nullptr, font_file.GetAddressOf());
+    Microsoft::WRL::ComPtr<IDWriteFontFile> silver_font;
+    hr = dwrite_factory_->CreateFontFileReference(L".\\Game_Data\\Silver.ttf", nullptr, silver_font.GetAddressOf());
     if (FAILED(hr)) return false;
 
-    hr = font_set_builder->AddFontFile(font_file.Get());
+    hr = font_set_builder->AddFontFile(silver_font.Get());
+    if (FAILED(hr)) return false;
+
+    Microsoft::WRL::ComPtr<IDWriteFontFile> nanum_font;
+    hr = dwrite_factory_->CreateFontFileReference(L".\\Game_Data\\NanumBarunGothic.ttf", nullptr, nanum_font.GetAddressOf());
+    if (FAILED(hr)) return false;
+
+    hr = font_set_builder->AddFontFile(nanum_font.Get());
     if (FAILED(hr)) return false;
 
     Microsoft::WRL::ComPtr<IDWriteFontSet> font_set;

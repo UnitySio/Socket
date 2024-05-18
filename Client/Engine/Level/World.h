@@ -53,6 +53,8 @@ private:
     
     Level* current_level_;
     SHARED_PTR<Level> levels_[static_cast<size_t>(LevelType::kEnd)];
+
+    int fps_;
     
 };
 
