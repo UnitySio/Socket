@@ -79,6 +79,17 @@ bool Core::ProcessMessage(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam,
         resize_width_ = LOWORD(lParam);
         resize_height_ = HIWORD(lParam);
     }
+
+    if (message == WM_KEYDOWN || message == WM_SYSKEYDOWN ||
+        message == WM_KEYUP || message == WM_SYSKEYUP)
+    {
+        bool is_down = GetKeyState(wParam) & 0x8000;
+    }
+
+    if (message == WM_CHAR)
+    {
+        wchar_t ch = static_cast<wchar_t>(wParam);
+    }
     
     if (message == WM_DESTROY)
     {
