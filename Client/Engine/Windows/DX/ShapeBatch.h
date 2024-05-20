@@ -5,6 +5,8 @@
 #include "VertexBuffer.h"
 #include "Misc/EngineMacros.h"
 
+class TexturePixelShader;
+class TextureVertexShader;
 class WindowsWindow;
 class Shape;
 class DefaultVertexShader;

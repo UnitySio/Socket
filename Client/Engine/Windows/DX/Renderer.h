@@ -68,6 +68,9 @@ public:
 
     // Direct2D
     void DrawString(const SHARED_PTR<WindowsWindow>& kWindow, const std::wstring& kString, Math::Vector2 position, Math::Vector2 size, float font_size, Math::Color color);
+    void DrawBox(const SHARED_PTR<WindowsWindow>& kWindow, Math::Vector2 position, Math::Vector2 size, Math::Color color, float rotation_z = 0.f, float stroke = 1.f);
+    void DrawCircle(const SHARED_PTR<WindowsWindow>& kWindow, Math::Vector2 position, float radius, Math::Color color, float stroke = 1.f);
+    void DrawLine(const SHARED_PTR<WindowsWindow>& kWindow, Math::Vector2 start, Math::Vector2 end, Math::Color color, float stroke = 1.f);
 
     inline ID3D11Device* GetDevice() const { return d3d_device_.Get(); }
     inline ID3D11DeviceContext* GetDeviceContext() const { return d3d_device_context_.Get(); }

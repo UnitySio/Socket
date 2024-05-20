@@ -7,6 +7,8 @@
 #include "Math/Vector2.h"
 #include "Misc/EngineMacros.h"
 
+class PixelShader;
+class VertexShader;
 class Texture;
 
 class Shape

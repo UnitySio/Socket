@@ -106,7 +106,7 @@ void World::RenderUI()
     
     wchar_t buffer[256];
     swprintf_s(buffer, L"FPS: %d(%.fms)", fps_, kMS);
-    Renderer::Get()->DrawString(window_, buffer, {10.f, 10.f}, {300.f, 100.f}, 36.f, {255, 255, 255, 255});
+    Renderer::Get()->DrawString(window_, buffer, {10.f, 10.f}, {300.f, 100.f}, 24.f, {255, 255, 255, 255});
 }
 
 void World::DestroyActor()
