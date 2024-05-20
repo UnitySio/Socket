@@ -85,3 +85,46 @@ private:
 
     ConstantBuffer<Constants> constant_buffer_;
 };
+
+class TextureVertexShader : public VertexShader
+{
+public:
+    TextureVertexShader();
+    virtual ~TextureVertexShader() override = default;
+
+    void SetWorldMatrix(const DirectX::XMMATRIX& mat);
+
+protected:
+    virtual void UpdateParameters() override;
+
+private:
+    struct Constants
+    {
+        DirectX::XMMATRIX mat;
+        DirectX::XMFLOAT2 uv_offset;
+        DirectX::XMFLOAT2 uv_scale;
+    };
+
+    ConstantBuffer<Constants> constant_buffer_;
+};
+
+class TexturePixelShader : public PixelShader
+{
+public:
+    TexturePixelShader();
+    virtual ~TexturePixelShader() override = default;
+
+protected:
+    virtual void UpdateParameters() override;
+
+private:
+    struct Constants
+    {
+        float r = 1.f;
+        float g = 1.f;
+        float b = 1.f;
+        float a = 1.f;
+    };
+
+    ConstantBuffer<Constants> constant_buffer_;
+};

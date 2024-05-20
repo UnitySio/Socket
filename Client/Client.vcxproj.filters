@@ -3,6 +3,8 @@
   <ItemGroup>
     <FxCompile Include="Engine\Shader\DefaultPixelShader.hlsl" />
     <FxCompile Include="Engine\Shader\DefaultVertexShader.hlsl" />
+    <FxCompile Include="Engine\Shader\TextureVertexShader.hlsl" />
+    <FxCompile Include="Engine\Shader\TexturePixelShader.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp" />
@@ -44,13 +46,14 @@
     <ClCompile Include="Engine\Windows\WindowsWindow.cpp" />
     <ClCompile Include="Engine\Actor\Component\InputComponent.cpp" />
     <ClCompile Include="Engine\Core.cpp" />
-    <ClCompile Include="Engine\Windows\D3D\IndexBuffer.cpp" />
-    <ClCompile Include="Engine\Windows\D3D\Renderer.cpp" />
-    <ClCompile Include="Engine\Windows\D3D\Shaders.cpp" />
-    <ClCompile Include="Engine\Windows\D3D\Shape.cpp" />
-    <ClCompile Include="Engine\Windows\D3D\ShapeBatch.cpp" />
-    <ClCompile Include="Engine\Windows\D3D\Texture.cpp" />
-    <ClCompile Include="Engine\Windows\D3D\VertexBuffer.cpp" />
+    <ClCompile Include="Engine\Math\Color.cpp" />
+    <ClCompile Include="Engine\Windows\DX\IndexBuffer.cpp" />
+    <ClCompile Include="Engine\Windows\DX\Renderer.cpp" />
+    <ClCompile Include="Engine\Windows\DX\Shaders.cpp" />
+    <ClCompile Include="Engine\Windows\DX\Shape.cpp" />
+    <ClCompile Include="Engine\Windows\DX\ShapeBatch.cpp" />
+    <ClCompile Include="Engine\Windows\DX\Texture.cpp" />
+    <ClCompile Include="Engine\Windows\DX\VertexBuffer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h" />
@@ -174,15 +177,16 @@
     <ClInclude Include="Engine\Actor\Component\InputComponent.h" />
     <ClInclude Include="Engine\Core.h" />
     <ClInclude Include="Engine\Misc\EngineMacros.h" />
-    <ClInclude Include="Engine\Windows\D3D\ConstantBuffer.h" />
-    <ClInclude Include="Engine\Windows\D3D\IndexBuffer.h" />
-    <ClInclude Include="Engine\Windows\D3D\Renderer.h" />
-    <ClInclude Include="Engine\Windows\D3D\Shaders.h" />
-    <ClInclude Include="Engine\Windows\D3D\Shape.h" />
-    <ClInclude Include="Engine\Windows\D3D\ShapeBatch.h" />
-    <ClInclude Include="Engine\Windows\D3D\Texture.h" />
-    <ClInclude Include="Engine\Windows\D3D\Vertex.h" />
-    <ClInclude Include="Engine\Windows\D3D\VertexBuffer.h" />
+    <ClInclude Include="Engine\Math\Color.h" />
+    <ClInclude Include="Engine\Windows\DX\ConstantBuffer.h" />
+    <ClInclude Include="Engine\Windows\DX\IndexBuffer.h" />
+    <ClInclude Include="Engine\Windows\DX\Renderer.h" />
+    <ClInclude Include="Engine\Windows\DX\Shaders.h" />
+    <ClInclude Include="Engine\Windows\DX\Shape.h" />
+    <ClInclude Include="Engine\Windows\DX\ShapeBatch.h" />
+    <ClInclude Include="Engine\Windows\DX\Texture.h" />
+    <ClInclude Include="Engine\Windows\DX\Vertex.h" />
+    <ClInclude Include="Engine\Windows\DX\VertexBuffer.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Resource.rc" />

@@ -8,8 +8,6 @@
 #include "Windows/WindowsWindow.h"
 #include "Windows/DX/Renderer.h"
 
-SHARED_PTR<WindowsWindow> g_game_window;
-
 double Core::current_time_ = 0.;
 double Core::last_time_ = 0.;
 double Core::delta_time_ = 0.;
@@ -22,10 +20,6 @@ Core::Core() :
     game_window_(),
     game_thread_handle_(nullptr),
     is_game_running_(false)
-{
-}
-
-Core::~Core()
 {
 }
 
@@ -78,17 +72,6 @@ bool Core::ProcessMessage(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam,
         
         resize_width_ = LOWORD(lParam);
         resize_height_ = HIWORD(lParam);
-    }
-
-    if (message == WM_KEYDOWN || message == WM_SYSKEYDOWN ||
-        message == WM_KEYUP || message == WM_SYSKEYUP)
-    {
-        bool is_down = GetKeyState(wParam) & 0x8000;
-    }
-
-    if (message == WM_CHAR)
-    {
-        wchar_t ch = static_cast<wchar_t>(wParam);
     }
     
     if (message == WM_DESTROY)

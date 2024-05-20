@@ -109,3 +109,46 @@ void DefaultPixelShader::UpdateParameters()
     Renderer::Get()->GetDeviceContext()->PSSetConstantBuffers(0, 1, constant_buffer_.GetResourceAddress());
     constant_buffer_.UpdateBuffer();
 }
+
+TextureVertexShader::TextureVertexShader()
+{
+    CHECK(constant_buffer_.Create());
+
+    D3D11_INPUT_ELEMENT_DESC layout[] =
+    {
+        {"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0},
+        {"TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0}
+    };
+
+    bool r = Create(L"..\\x64\\Debug\\TextureVertexShader.cso", layout, ARRAYSIZE(layout));
+    CHECK(r);
+}
+
+void TextureVertexShader::SetWorldMatrix(const DirectX::XMMATRIX& mat)
+{
+    constant_buffer_.GetBufferData().mat = mat;
+}
+
+void TextureVertexShader::UpdateParameters()
+{
+    VertexShader::UpdateParameters();
+    
+    Renderer::Get()->GetDeviceContext()->VSSetConstantBuffers(0, 1, constant_buffer_.GetResourceAddress());
+    constant_buffer_.UpdateBuffer();
+}
+
+TexturePixelShader::TexturePixelShader()
+{
+    CHECK(constant_buffer_.Create());
+
+    bool r = Create(L"..\\x64\\Debug\\TexturePixelShader.cso");
+    CHECK(r);
+}
+
+void TexturePixelShader::UpdateParameters()
+{
+    PixelShader::UpdateParameters();
+    
+    Renderer::Get()->GetDeviceContext()->PSSetConstantBuffers(0, 1, constant_buffer_.GetResourceAddress());
+    constant_buffer_.UpdateBuffer();
+}

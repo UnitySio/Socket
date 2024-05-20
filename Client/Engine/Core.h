@@ -8,7 +8,7 @@ class Core : public IWindowsMessageHandler
 {
 public:
     Core();
-    ~Core();
+    ~Core() = default;
 
     void Init(const HINSTANCE instance_handle);
     
