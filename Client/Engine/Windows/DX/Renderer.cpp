@@ -397,7 +397,7 @@ void Renderer::DrawString(const std::shared_ptr<WindowsWindow>& kWindow, const s
     D2D1_MATRIX_3X2_F transform;
     d2d_viewport->d2d_render_target->GetTransform(&transform);
 
-    const D2D1_RECT_F rect = D2D1::RectF(position.x, position.y, position.x + size.x, position.y + size.y);
+    const D2D1_RECT_F rect = D2D1::RectF(position.x - size.x, position.y + size.y, position.x, position.y);
 
     Microsoft::WRL::ComPtr<IDWriteTextFormat> text_format;
     HRESULT hr = dwrite_factory_->CreateTextFormat(L"Silver", dwrite_font_collection_.Get(),
@@ -405,6 +405,9 @@ void Renderer::DrawString(const std::shared_ptr<WindowsWindow>& kWindow, const s
                                                    DWRITE_FONT_STRETCH_NORMAL, font_size, L"en-us",
                                                    text_format.GetAddressOf());
     if (FAILED(hr)) return;
+
+    text_format->SetTextAlignment(DWRITE_TEXT_ALIGNMENT_TRAILING);
+    text_format->SetParagraphAlignment(DWRITE_PARAGRAPH_ALIGNMENT_NEAR);
 
     Microsoft::WRL::ComPtr<ID2D1SolidColorBrush> brush;
     hr = d2d_viewport->d2d_render_target->CreateSolidColorBrush(

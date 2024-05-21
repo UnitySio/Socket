@@ -103,11 +103,13 @@ void World::Render(float alpha)
 
 void World::RenderUI()
 {
+    Viewport* viewport = Renderer::Get()->FindViewport(window_.get());
+    
     const float kMS = 1000.f / fps_;
     
     wchar_t buffer[256];
     swprintf_s(buffer, L"FPS: %d(%.fms)", fps_, kMS);
-    Renderer::Get()->DrawString(window_, buffer, {10.f, 10.f}, {300.f, 100.f}, 24.f, {255, 255, 255, 255});
+    Renderer::Get()->DrawString(window_, buffer, {viewport->d3d_viewport.Width, 10.f}, {300.f, 100.f}, 24.f, {255, 255, 255, 255});
 }
 
 void World::DestroyActor()
