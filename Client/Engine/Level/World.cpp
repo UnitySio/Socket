@@ -14,7 +14,8 @@ World::World() :
     shapes_(),
     current_level_(nullptr),
     levels_(),
-    fps_(0)
+    fps_(0),
+    window_(nullptr)
 {
     shape_batch_ = MAKE_SHARED<ShapeBatch>();
     shape_batch_->Init();
@@ -41,6 +42,8 @@ void World::Init(const SHARED_PTR<WindowsWindow>& window)
     
     AddLevel<MainMap>(LevelType::kDefault, L"Map 0");
     OpenLevel(LevelType::kDefault);
+
+    Renderer::Get()->LoadBitmap(window_, L".\\Game_Data\\spritesheet.png", bitmap_);
 }
 
 void World::OpenLevel(LevelType type)
@@ -107,6 +110,9 @@ void World::RenderUI()
     wchar_t buffer[256];
     swprintf_s(buffer, L"FPS: %d(%.fms)", fps_, kMS);
     Renderer::Get()->DrawString(window_, buffer, {10.f, 10.f}, {300.f, 100.f}, 24.f, {255, 255, 255, 255});
+
+    D2D1_SIZE_F size = bitmap_->GetSize();
+    Renderer::Get()->DrawBitmap(window_, bitmap_, {size.width / 2.f, size.height / 2.f}, {size.width, size.height});
 }
 
 void World::DestroyActor()
