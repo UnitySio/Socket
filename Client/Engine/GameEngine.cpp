@@ -78,12 +78,12 @@ void GameEngine::GameLoop(float delta_time)
     
     Renderer::Get()->BeginRender(game_window_);
     World::Get()->Render(alpha);
+    
+    ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
 
     Renderer::Get()->BeginRenderD2D(game_window_);
     World::Get()->RenderUI();
     Renderer::Get()->EndRenderD2D();
-    
-    ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
     Renderer::Get()->EndRender();
 #pragma endregion
     

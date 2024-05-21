@@ -2,6 +2,7 @@
 
 #include "EventManager.h"
 #include "Level.h"
+#include "imgui/imgui.h"
 #include "Map/MainMap.h"
 #include "Math/Color.h"
 #include "Math/Vector2.h"
@@ -69,6 +70,8 @@ void World::PhysicsTick(float delta_time)
 
 void World::Tick(float delta_time)
 {
+    ImGui::ShowDemoWindow();
+    
     if (current_level_)
     {
         current_level_->Tick(delta_time);
