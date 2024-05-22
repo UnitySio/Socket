@@ -7,10 +7,6 @@
 #include "Misc/EngineMacros.h"
 
 ShapeBatch::ShapeBatch() :
-    point_sampler_state_wrap_(nullptr),
-    bilinear_sampler_state_wrap_(nullptr),
-    bilinear_sampler_state_clamp_(nullptr),
-    point_sampler_state_clamp_(nullptr),
     blend_state_(nullptr),
     rasterizer_state_(nullptr),
     depth_stencil_state_(nullptr),
@@ -21,41 +17,8 @@ ShapeBatch::ShapeBatch() :
 {
 }
 
-ShapeBatch::~ShapeBatch()
-{
-}
-
 bool ShapeBatch::Init()
 {
-    D3D11_SAMPLER_DESC sampler_desc;
-    ZeroMemory(&sampler_desc, sizeof(D3D11_SAMPLER_DESC));
-
-    sampler_desc.Filter = D3D11_FILTER_MIN_MAG_MIP_POINT;
-    sampler_desc.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
-    sampler_desc.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
-    sampler_desc.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
-    sampler_desc.ComparisonFunc = D3D11_COMPARISON_NEVER;
-    sampler_desc.MinLOD = 0;
-    sampler_desc.MaxLOD = D3D11_FLOAT32_MAX;
-
-    HRESULT hr = Renderer::Get()->GetDevice()->CreateSamplerState(&sampler_desc, point_sampler_state_wrap_.GetAddressOf());
-    if (FAILED(hr)) return false;
-
-    sampler_desc.Filter = D3D11_FILTER_MIN_MAG_LINEAR_MIP_POINT;
-    hr = Renderer::Get()->GetDevice()->CreateSamplerState(&sampler_desc, bilinear_sampler_state_wrap_.GetAddressOf());
-    if (FAILED(hr)) return false;
-
-    sampler_desc.AddressU = D3D11_TEXTURE_ADDRESS_CLAMP;
-    sampler_desc.AddressV = D3D11_TEXTURE_ADDRESS_CLAMP;
-    sampler_desc.AddressW = D3D11_TEXTURE_ADDRESS_CLAMP;
-
-    hr = Renderer::Get()->GetDevice()->CreateSamplerState(&sampler_desc, bilinear_sampler_state_clamp_.GetAddressOf());
-    if (FAILED(hr)) return false;
-
-    sampler_desc.Filter = D3D11_FILTER_MIN_MAG_MIP_POINT;
-    hr = Renderer::Get()->GetDevice()->CreateSamplerState(&sampler_desc, point_sampler_state_clamp_.GetAddressOf());
-    if (FAILED(hr)) return false;
-
     if (!vertex_buffer_.CreateBuffer(sizeof(DefaultVertex), true, false)) return false;
     if (!index_buffer_.CreateBuffer(true, false)) return false;
 
@@ -79,7 +42,7 @@ bool ShapeBatch::Init()
 
     blend_desc.RenderTarget[0] = render_target_blend_desc;
 
-    hr = Renderer::Get()->GetDevice()->CreateBlendState(&blend_desc, blend_state_.GetAddressOf());
+    HRESULT hr = Renderer::Get()->GetDevice()->CreateBlendState(&blend_desc, blend_state_.GetAddressOf());
     if (FAILED(hr)) return false;
 
     D3D11_RASTERIZER_DESC rasterizer_desc;
@@ -125,7 +88,7 @@ void ShapeBatch::DrawShapes(const SHARED_PTR<WindowsWindow>& kWindow, const std:
 #pragma region 쉐이더 및 상태 설정
         vertex_shader_->BindShader();
         pixel_shader_->BindShader();
-
+        
         DirectX::XMMATRIX wvp_matrix = shape->GetWorldMatrix() * viewport->view_matrix * viewport->projection_matrix;
         vertex_shader_->SetWorldMatrix(wvp_matrix);
 

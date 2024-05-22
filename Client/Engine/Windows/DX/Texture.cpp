@@ -49,3 +49,8 @@ bool Texture::Load(const std::wstring& kFileName)
     width_ = texture_desc.Width;
     height_ = texture_desc.Height;
 }
+
+void Texture::Bind()
+{
+    Renderer::Get()->GetDeviceContext()->PSSetShaderResources(0, 1, resource_view_.GetAddressOf());
+}

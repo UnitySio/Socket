@@ -2,12 +2,12 @@
 
 #include "EventManager.h"
 #include "Level.h"
-#include "imgui/imgui.h"
 #include "Map/MainMap.h"
 #include "Math/Color.h"
 #include "Math/Vector2.h"
 #include "Windows/DX/Renderer.h"
 #include "Windows/DX/Shape.h"
+#include "Windows/DX/SpriteBatch.h"
 #include "Windows/DX/ShapeBatch.h"
 
 World::World() :
@@ -18,6 +18,9 @@ World::World() :
     fps_(0),
     window_(nullptr)
 {
+    sprite_batch_ = MAKE_SHARED<SpriteBatch>();
+    sprite_batch_->Init();
+    
     shape_batch_ = MAKE_SHARED<ShapeBatch>();
     shape_batch_->Init();
     
@@ -70,8 +73,6 @@ void World::PhysicsTick(float delta_time)
 
 void World::Tick(float delta_time)
 {
-    ImGui::ShowDemoWindow();
-    
     if (current_level_)
     {
         current_level_->Tick(delta_time);
@@ -99,6 +100,9 @@ void World::Render(float alpha)
         current_level_->Render(alpha);
         physics_world_->DebugDraw();
     }
+
+    sprite_batch_->DrawSprites(window_, sprites_);
+    sprites_.clear();
 
     shape_batch_->DrawShapes(window_, shapes_);
     shapes_.clear();

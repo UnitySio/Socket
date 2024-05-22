@@ -21,8 +21,8 @@ public:
     void SetScale(Math::Vector2 scale);
     void SetRotation(float rotation);
 
-    inline void SetVertices(const std::vector<DefaultVertex>& vertices) { vertices_ = vertices; }
-    inline void SetIndices(const std::vector<MathTypes::uint32>& indices) { indices_ = indices; }
+    inline void SetVertices(const std::vector<DefaultVertex>& kVertices) { vertices_ = kVertices; }
+    inline void SetIndices(const std::vector<MathTypes::uint32>& kIndices) { indices_ = kIndices; }
     inline void SetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY primitive_topology) { primitive_topology_ = primitive_topology; }
 
     inline const std::vector<DefaultVertex>& GetVertices() const { return vertices_; }
@@ -32,11 +32,8 @@ public:
 
     inline D3D11_PRIMITIVE_TOPOLOGY GetPrimitiveTopology() const { return primitive_topology_; }
 
-    inline void SetTexture(const SHARED_PTR<Texture>& texture) { texture_ = texture; }
-    inline const Texture* GetTexture() const { return texture_.get(); }
-
-private:
-    void UpdateMatrixx();
+protected:
+    virtual void UpdateMatrixx();
     
     std::vector<DefaultVertex> vertices_;
     std::vector<MathTypes::uint32> indices_;
@@ -49,7 +46,5 @@ private:
     Math::Vector2 scale_;
     
     float rotation_;
-
-    SHARED_PTR<Texture> texture_;
     
 };

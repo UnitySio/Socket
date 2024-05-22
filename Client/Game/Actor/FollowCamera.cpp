@@ -16,7 +16,6 @@ FollowCamera::FollowCamera(const std::wstring& kName) :
     follow_offset(Math::Vector2::Zero())
 {
     camera_ = CreateComponent<CameraComponent>(L"Camera");
-    camera_->SetSize(10.f);
 }
 
 void FollowCamera::Tick(float delta_time)

@@ -6,11 +6,10 @@
 #include "Listener/ContactListener.h"
 #include "Windows/DX/Renderer.h"
 
-enum class LevelType : size_t;
-
+class Sprite;
+class SpriteBatch;
 class Shape;
 class ShapeBatch;
-class WindowsWindow;
 class Level;
 
 class World : public Singleton<World>
@@ -41,8 +40,11 @@ private:
     friend class Actor;
 
     SHARED_PTR<WindowsWindow> window_;
+    
+    SHARED_PTR<SpriteBatch> sprite_batch_;
     SHARED_PTR<ShapeBatch> shape_batch_;
     
+    std::vector<SHARED_PTR<Sprite>> sprites_;
     std::vector<SHARED_PTR<Shape>> shapes_;
     
     UNIQUE_PTR<b2World> physics_world_;
