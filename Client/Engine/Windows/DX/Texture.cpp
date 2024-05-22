@@ -4,12 +4,10 @@
 #include "DirectXTK/WICTextureLoader.h"
 
 Texture::Texture() :
-    width_(0),
-    height_(0),
-    uv_offset_(Math::Vector2::Zero()),
-    uv_scale_(Math::Vector2::One()),
     resource_(nullptr),
     resource_view_(nullptr),
+    width_(0),
+    height_(0),
     vertices_(),
     indices_(),
     wrap_mode_(WrapMode::kReapet),

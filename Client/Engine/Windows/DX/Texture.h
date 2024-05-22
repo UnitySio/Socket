@@ -44,15 +44,11 @@ public:
     inline void SetFilterMode(FilterMode mode) { filter_mode_ = mode; }
 
 protected:
-    MathTypes::uint32 width_;
-    MathTypes::uint32 height_;
-    
-    Math::Vector2 uv_offset_;
-    Math::Vector2 uv_scale_;
-
-private:
     Microsoft::WRL::ComPtr<ID3D11Resource> resource_;
     Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> resource_view_;
+    
+    MathTypes::uint32 width_;
+    MathTypes::uint32 height_;
 
     std::vector<DefaultVertex> vertices_;
     std::vector<MathTypes::uint32> indices_;

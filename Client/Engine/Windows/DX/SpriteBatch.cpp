@@ -77,7 +77,7 @@ bool SpriteBatch::Init()
     return SUCCEEDED(hr);
 }
 
-void SpriteBatch::DrawSprites(const std::shared_ptr<WindowsWindow>& kWindow, const std::vector<std::shared_ptr<Sprite>>& kSprites)
+void SpriteBatch::DrawSprites(const SHARED_PTR<WindowsWindow>& kWindow, const std::vector<SHARED_PTR<Sprite>>& kSprites)
 {
     Viewport* viewport = Renderer::Get()->FindViewport(kWindow.get());
     CHECK(viewport);
