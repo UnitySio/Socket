@@ -162,7 +162,7 @@
     <ClCompile Include="FrictionJointComponent.cpp">
       <Filter>Components</Filter>
     </ClCompile>
-    <ClCompile Include="HingeJointComponent.cpp">
+    <ClCompile Include="GearJointComponent.cpp">
       <Filter>Components</Filter>
     </ClCompile>
   </ItemGroup>
@@ -563,7 +563,7 @@
     <ClInclude Include="FrictionJointComponent.h">
       <Filter>Components</Filter>
     </ClInclude>
-    <ClInclude Include="HingeJointComponent.h">
+    <ClInclude Include="GearJointComponent.h">
       <Filter>Components</Filter>
     </ClInclude>
   </ItemGroup>

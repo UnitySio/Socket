@@ -77,6 +77,8 @@ private:
     friend class Pawn;
     friend class DistanceJointComponent;
     friend class FrictionJointComponent;
+    friend class GearJointComponent;
+
 
     void InitializeActor();
     void InitializeComponents();

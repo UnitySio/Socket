@@ -33,6 +33,7 @@ private:
     friend class Actor;
     friend class DistanceJointComponent;
     friend class FrictionJointComponent;
+    friend class GearJointComponent;
     
     std::unique_ptr<b2World> physics_world_;
     

@@ -2,17 +2,17 @@
 #include "../Engine/Actor/Component/ActorComponent.h"
 #include "../Engine/Math/Vector2.h"
 
-class b2HingeJointDef;
+class b2GearJointDef;
 class b2Body;
-class b2HingeJoint;
+class b2GearJoint;
 class b2World;
 
 
-class HingeJointComponent : public ActorComponent
+class GearJointComponent : public ActorComponent
 {
 public:
-	HingeJointComponent(class Actor* owner, const std::wstring& kName);
-	virtual ~HingeJointComponent() = default;
+	GearJointComponent(class Actor* owner, const std::wstring& kName);
+	virtual ~GearJointComponent() = default;
 
 
 protected:
@@ -22,8 +22,8 @@ protected:
 
 
 private:
-	b2HingeJointDef* jointDef_;
-	b2HingeJoint* joint_;
+	b2GearJointDef* jointDef_;
+	b2GearJoint* joint_;
 	Actor* owner_;
 	b2World* world_;
 
