@@ -165,6 +165,12 @@
     <ClCompile Include="GearJointComponent.cpp">
       <Filter>Components</Filter>
     </ClCompile>
+    <ClCompile Include="MotorJointComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="HingeJointComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Actor\Actor.h">
@@ -564,6 +570,12 @@
       <Filter>Components</Filter>
     </ClInclude>
     <ClInclude Include="GearJointComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="MotorJointComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="HingeJointComponent.h">
       <Filter>Components</Filter>
     </ClInclude>
   </ItemGroup>

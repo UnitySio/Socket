@@ -7,12 +7,14 @@
 #include "../Engine/Actor/Component/RigidBodyComponent.h"
 #include "../DistanceJointComponent.h"
 #include "../FrictionJointComponent.h"
-
+#include "../GearJointComponent.h"
+#include "../HingeJointComponent.h"
 
 MainMap::MainMap(const std::wstring& kName) : Level(kName),
     pawn2(nullptr),
     pawn3(nullptr),
-    pawn(nullptr)
+    pawn(nullptr),
+    flag(false)
 {
 }
 
@@ -20,10 +22,19 @@ void MainMap::Tick(float dt)
 {
     Level::Tick(dt);
     timer += dt;
+
+
+    if (timer > 3.0f && !flag)
+    {
+        pawn->GetComponent<HingeJointComponent>()->SetMotorSpeed(10.0f);
+        flag = true;
+    }
+
+
     if (timer > 6.0f)
     {
         timer = 0.0f;
-        pawn->GetComponent<FrictionJointComponent>()->ConnectedRigidBody(pawn3);
+        pawn->GetComponent<HingeJointComponent>()->ConnectedRigidBody(pawn3);
     }
 }
 
@@ -41,7 +52,7 @@ void MainMap::Load()
 
     pawn3 = new Pawn(L"Pawn");
     AddActor(pawn3);
-    pawn3->GetTransform()->SetRelativeLocation(Math::Vector2(2.5f, 3.5f));
+    pawn3->GetTransform()->SetRelativeLocation(Math::Vector2(5.5f, 3.5f));
     pawn3->GetComponent<RigidBodyComponent>()->SetBodyType(BodyType::kStatic);
 
     pawn2 = new Pawn(L"Pawn");
@@ -56,9 +67,10 @@ void MainMap::Load()
     //pawn->GetComponent<DistanceJointComponent>()->SetStiffness(0.2f);
     //pawn->GetComponent<DistanceJointComponent>()->SetDampingValue(0.4f);
    
-    pawn->CreateComponent<FrictionJointComponent>(L"FrictionJoint");
-    pawn->GetComponent<FrictionJointComponent>()->ConnectedRigidBody(pawn2);
-    pawn->GetComponent<FrictionJointComponent>()->Anchor(pawn->GetTransform()->GetWorldLocation());
+    pawn->CreateComponent<HingeJointComponent>(L"HingeJoint");
+    pawn->GetComponent<HingeJointComponent>()->ConnectedRigidBody(pawn2);
+
+    
     
     
 

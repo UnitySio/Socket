@@ -14,6 +14,9 @@ public:
 	GearJointComponent(class Actor* owner, const std::wstring& kName);
 	virtual ~GearJointComponent() = default;
 
+	void EnableCollision(const bool& flag);
+	void ConnectedRigidBody(Actor* target);
+	void SetRatio(const float& value);
 
 protected:
 	virtual inline void InitializeComponent() override;

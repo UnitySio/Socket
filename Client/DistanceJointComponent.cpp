@@ -18,9 +18,6 @@ DistanceJointComponent::DistanceJointComponent(Actor* owner, const std::wstring&
 inline void DistanceJointComponent::InitializeComponent()
 {
 	ActorComponent::InitializeComponent();
-	jointDef_->bodyA = owner_->body_;
-	if (jointDef_->bodyB != nullptr)
-		joint_ = static_cast<b2DistanceJoint*>(world_->CreateJoint(jointDef_));
 }
 
 inline void DistanceJointComponent::UninitializeComponent()

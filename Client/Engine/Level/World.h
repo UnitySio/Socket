@@ -34,6 +34,7 @@ private:
     friend class DistanceJointComponent;
     friend class FrictionJointComponent;
     friend class GearJointComponent;
+    friend class HingeJointComponent;
     
     std::unique_ptr<b2World> physics_world_;
     

@@ -3,7 +3,6 @@
 #include "../Engine/Math/Vector2.h"
 
 class b2DistanceJointDef;
-class b2Body;
 class b2DistanceJoint;
 class b2World;
 

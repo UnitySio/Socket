@@ -15,4 +15,6 @@ private:
     Actor* pawn2;
     Actor* pawn3;
     Actor* pawn;
+
+    bool flag;
 };
