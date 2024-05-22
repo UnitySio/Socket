@@ -31,6 +31,8 @@ private:
     friend class Level;
     friend class DebugDraw;
     friend class Actor;
+    friend class DistanceJointComponent;
+    friend class FrictionJointComponent;
     
     std::unique_ptr<b2World> physics_world_;
     

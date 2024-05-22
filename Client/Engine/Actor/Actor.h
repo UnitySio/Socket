@@ -75,6 +75,8 @@ private:
     friend class RigidBodyComponent;
     friend class TransformComponent;
     friend class Pawn;
+    friend class DistanceJointComponent;
+    friend class FrictionJointComponent;
 
     void InitializeActor();
     void InitializeComponents();
