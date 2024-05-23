@@ -31,6 +31,8 @@ private:
     friend class Level;
     friend class DebugDraw;
     friend class Actor;
+    
+   
     friend class DistanceJointComponent;
     friend class FrictionJointComponent;
     friend class GearJointComponent;
@@ -39,8 +41,12 @@ private:
     template<typename j, typename d>
     friend class BaseJointComponent;
 
-    template<typename Ty, typename Fy>
+    template<typename T, typename U, typename V>
     friend class BaseJoint;
+
+    friend class MainMap;
+
+
     
     std::unique_ptr<b2World> physics_world_;
     

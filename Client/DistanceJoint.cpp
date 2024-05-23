@@ -1,6 +1,8 @@
 #include "DistanceJoint.h"
 #include "../Engine/Level/World.h"
 #include "../Engine/Actor/Actor.h"
+#include "../Client/Game/Map/MainMap.h"
+#include "DistanceJointComponent.h"
 
 void DistanceJoint::EnableCollision(const bool& flag)
 {
@@ -19,8 +21,10 @@ void DistanceJoint::ConnectedRigidBody(Actor* target)
 	jointDef_->bodyB = target->body_;
 
 	if (joint_ != nullptr)
-		world_->DestroyJoint(joint_);
-	joint_ = static_cast<b2DistanceJoint*>(world_->CreateJoint(jointDef_));
+		static_cast<MainMap*>(World::Get()->GetLevel())->ReserveDestroyJoint(joint_);
+	
+	//joint_ = static_cast<DistanceJoint*>(world_->CreateJoint(jointDef_));
+	static_cast<MainMap*>(World::Get()->GetLevel())->ReserveCreateJoint(joint_, jointDef_, std::bind(&DistanceJoint::ResetJoint, this, std::placeholders::_1, std::placeholders::_2));
 }
 
 void DistanceJoint::ConnectedAnchor(const Math::Vector2& pos)
@@ -79,5 +83,11 @@ void DistanceJoint::SetStiffness(const float& value)
 	jointDef_->stiffness = value;
 	if (joint_ != nullptr)
 		joint_->SetStiffness(value);
+}
+
+void DistanceJoint::ResetJoint(b2Joint* joint, b2JointDef* jointDef)
+{
+	joint_ = static_cast<DistanceJoint*>(joint);
+	jointDef_ = static_cast<b2DistanceJointDef*>(jointDef);
 }
 

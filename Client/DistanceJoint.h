@@ -4,9 +4,9 @@
 #include "../Engine/Math/Vector2.h"
 
 class Actor;
+class DistanceJointComponent;
 
-
-class DistanceJoint : private BaseJoint<b2DistanceJoint, b2DistanceJointDef>
+class DistanceJoint : private BaseJoint<b2DistanceJoint, b2DistanceJointDef, DistanceJointComponent>
 {
 public:
 	DistanceJoint(b2DistanceJointDef* def) :
@@ -28,8 +28,14 @@ public:
 	void SetDampingValue(const float& value);
 	void SetStiffness(const float& value);
 	
+	void ResetJoint(b2Joint* joint, b2JointDef* jointDef);
+
+	b2JointUserData& GetUserData() { return joint_->GetUserData(); };
+
 	b2DistanceJoint* GetJoint() { return joint_; }
 	const b2DistanceJointDef* GetJointDef() { return jointDef_; }
+	void SetJoint(b2DistanceJoint* input) { joint_ = input; }
+	void SetJointDef(b2DistanceJointDef* input) { jointDef_ = input; }
 
 private:
 	using BaseJoint::Draw;

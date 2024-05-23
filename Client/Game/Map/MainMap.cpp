@@ -6,7 +6,8 @@
 #include "../Engine/Actor/Component/TransformComponent.h"
 #include "../Engine/Actor/Component/RigidBodyComponent.h"
 #include "../DistanceJointComponent.h"
-
+#include "../FixedJointComponent.h"
+#include "../BaseJointComponent.h"
 
 MainMap::MainMap(const std::wstring& kName) : Level(kName),
     pawn2(nullptr),
@@ -24,13 +25,15 @@ void MainMap::Tick(float dt)
 
     if (timer > 3.0f && !flag)
     {
+        pawn->GetComponent<DistanceJointComponent>()->GetJoint()->ConnectedRigidBody(pawn3);
         flag = true;
     }
 
 
     if (timer > 6.0f)
     {
-        pawn->GetComponent<DistanceJointComponent>()->GetJoint()->ConnectedRigidBody(pawn3);
+        pawn->GetComponent<DistanceJointComponent>()->GetJoint()->Distance(0.2f);
+        pawn->GetComponent<DistanceJointComponent>()->GetJoint()->SetMaxDistance(0.2f);
         timer = 0.0f;
     }
 }
@@ -54,13 +57,13 @@ void MainMap::Load()
 
     pawn2 = new Pawn(L"Pawn");
     AddActor(pawn2);
-    pawn2->GetTransform()->SetRelativeLocation(Math::Vector2(0.0f, 5.5f));
+    pawn2->GetTransform()->SetRelativeLocation(Math::Vector2(0.0f, 7.5f));
     pawn2->GetComponent<RigidBodyComponent>()->SetBodyType(BodyType::kStatic);
     
-    pawn->CreateComponent<DistanceJointComponent>(L"DistanceJoint");
+    pawn->CreateComponent<DistanceJointComponent>(L"Fixed");
     pawn->GetComponent<DistanceJointComponent>()->CreateJointDef(pawn2);
-    pawn->GetComponent<DistanceJointComponent>()->GetJoint()->Distance(0.8f);
-    pawn->GetComponent<DistanceJointComponent>()->GetJoint()->SetMaxDistance(0.8f);
+    pawn->GetComponent<DistanceJointComponent>()->GetJoint()->Distance(0.2f);
+    
     
     
     
@@ -79,4 +82,53 @@ void MainMap::Load()
     camera->SetTarget(pawn);
 
     
+}
+
+void MainMap::PhysicsTick(float dt)
+{
+    Level::PhysicsTick(dt);
+    DestroyReservedJoint();
+    CreateReservedJoint();
+}
+
+void MainMap::ReserveDestroyJoint(b2Joint* joint)
+{
+    destroyContainer_.push_back(joint);
+}
+
+
+void MainMap::DestroyReservedJoint()
+{
+    if (destroyContainer_.size() > 0)
+    {
+        for (auto& temp : destroyContainer_)
+        {
+            World::Get()->physics_world_->DestroyJoint(temp);
+        }
+        destroyContainer_.clear();
+    }
+}
+
+void MainMap::ReserveCreateJoint(b2Joint* joint, b2JointDef* jointDef, std::function<void(b2Joint*, b2JointDef*)> func)
+{
+    createContainer_.push_back(std::tuple<b2Joint*, b2JointDef*, std::function<void(b2Joint*, b2JointDef*)>>(joint, jointDef, func));
+}
+
+void MainMap::CreateReservedJoint()
+{
+    if (createContainer_.size() > 0)
+    {
+        for (auto& temp : createContainer_)
+        {
+            auto joint = std::get<0>(temp);
+            auto jointDef = std::get<1>(temp);
+            auto functor = std::get<2>(temp);
+            
+            
+            joint = World::Get()->physics_world_->CreateJoint(jointDef);
+            functor(joint, jointDef);
+            
+        }
+        createContainer_.clear();
+    }
 }

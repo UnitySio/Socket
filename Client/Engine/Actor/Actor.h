@@ -80,7 +80,7 @@ private:
     friend class GearJointComponent;
     friend class HingeJointComponent;
     friend class DistanceJoint;
-
+    friend class FixedJoint;
     template<typename J, typename D>
     friend class BaseJointComponent;
 

@@ -6,17 +6,21 @@
 #include <type_traits>
 
 template<typename T, typename U>
-class BaseJointComponent : public ActorComponent
+class BaseJointComponent : public ActorComponent, public b2JointUserData
 {
+	using Super = ActorComponent;
 public:
 	BaseJointComponent(class Actor* owner, const std::wstring& kName) :
 		ActorComponent(owner, kName),
 		joint_(nullptr),
 		jointDef_(nullptr),
 		owner_(owner),
+		target_(nullptr),
 		world_(World::Get()->physics_world_.get())
 	{};
 	virtual ~BaseJointComponent() {};
+
+
 
 	T* GetJoint() { return joint_; }
 	U* GetJointDef() { return jointDef_; }
@@ -26,21 +30,26 @@ public:
 	void CreateJointDef(Actor* target);
 
 protected:
+	virtual void SetDefaultProperties() = 0;
+
+
 	T* joint_;
 	U* jointDef_;
 	Actor* owner_;
+	Actor* target_;
 	b2World* world_;
 };
 
 template<typename T, typename U>
 inline void BaseJointComponent<T, U>::CreateJointDef(Actor* target)
 {
-	jointDef_ = new U;
-	jointDef_->bodyA = owner_->body_;
-	jointDef_->bodyB = target->body_;
-
-	joint_ = static_cast<T*>(world_->CreateJoint(jointDef_));
-
-	joint_->SetJoint(joint_);
-	joint_->SetJointDef(jointDef_);
+	if(jointDef_ == nullptr)
+		jointDef_ = new U;
+	target_ = target;
+	
+	SetDefaultProperties();
+	
 }
+
+
+constexpr uintptr_t DistanceJointComponent_Pointer = 1;

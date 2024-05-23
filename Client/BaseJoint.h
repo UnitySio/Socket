@@ -3,7 +3,7 @@
 #include "../Engine/Level/World.h"
 #include <type_traits>
 
-template<typename T, typename U>
+template<typename T, typename U, typename V>
 class BaseJoint : public T
 {
 public:
@@ -11,13 +11,19 @@ public:
 		T(def),
 		joint_(nullptr),
 		jointDef_(def),
+		jointComponent_(nullptr),
 		world_(World::Get()->physics_world_.get())
 	{};
 	virtual ~BaseJoint() 
 	{
 		delete jointDef_;
-		delete joint_;
+		world_->DestroyJoint(joint_);
 	};
+
+
+
+	void SetJointComponent(V* jointComp) { jointComponent_ = jointComp; };
+	V* GetJointComponent() { return jointComponent_; };
 
 	void SetJoint(T* input) { joint_ = input; }
 	void SetJointDef(U* input) { jointDef_ = input; }
@@ -28,9 +34,11 @@ protected:
 	T* joint_;
 	U* jointDef_;
 	b2World* world_;
+	V* jointComponent_;
 
 private:
 	template<typename Ty, typename Fy>
 	friend class BaseJointComponent;
+	friend class DistanceJointComponent;
 };
 

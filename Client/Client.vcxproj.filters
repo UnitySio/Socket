@@ -105,9 +105,6 @@
     <ClCompile Include="Engine\Level\Level.cpp">
       <Filter>Others</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Map\MainMap.cpp">
-      <Filter>Others</Filter>
-    </ClCompile>
     <ClCompile Include="Game\Actor\Pawn.cpp">
       <Filter>Others</Filter>
     </ClCompile>
@@ -156,16 +153,25 @@
     <ClCompile Include="Engine\Level\World.cpp">
       <Filter>Others</Filter>
     </ClCompile>
-    <ClCompile Include="DistanceJointComponent.cpp">
-      <Filter>Components</Filter>
-    </ClCompile>
     <ClCompile Include="BaseJoint.cpp">
       <Filter>Components</Filter>
     </ClCompile>
-    <ClCompile Include="DistanceJoint.cpp">
+    <ClCompile Include="BaseJointComponent.cpp">
       <Filter>Components</Filter>
     </ClCompile>
-    <ClCompile Include="BaseJointComponent.cpp">
+    <ClCompile Include="DistanceJoint.cpp">
+      <Filter>Components\Distance</Filter>
+    </ClCompile>
+    <ClCompile Include="DistanceJointComponent.cpp">
+      <Filter>Components\Distance</Filter>
+    </ClCompile>
+    <ClCompile Include="FixedJoint.cpp">
+      <Filter>Components\Fixed</Filter>
+    </ClCompile>
+    <ClCompile Include="FixedJointComponent.cpp">
+      <Filter>Components\Fixed</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Map\MainMap.cpp">
       <Filter>Components</Filter>
     </ClCompile>
   </ItemGroup>
@@ -452,9 +458,6 @@
     <ClInclude Include="Engine\Level\Level.h">
       <Filter>Others</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Map\MainMap.h">
-      <Filter>Others</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\Math\MathTypes.h">
       <Filter>Others</Filter>
     </ClInclude>
@@ -560,16 +563,25 @@
     <ClInclude Include="Include\DirectXTK\XboxDDSTextureLoader.h">
       <Filter>Others</Filter>
     </ClInclude>
-    <ClInclude Include="DistanceJointComponent.h">
-      <Filter>Components</Filter>
-    </ClInclude>
     <ClInclude Include="BaseJoint.h">
       <Filter>Components</Filter>
     </ClInclude>
-    <ClInclude Include="DistanceJoint.h">
+    <ClInclude Include="BaseJointComponent.h">
       <Filter>Components</Filter>
     </ClInclude>
-    <ClInclude Include="BaseJointComponent.h">
+    <ClInclude Include="DistanceJoint.h">
+      <Filter>Components\Distance</Filter>
+    </ClInclude>
+    <ClInclude Include="DistanceJointComponent.h">
+      <Filter>Components\Distance</Filter>
+    </ClInclude>
+    <ClInclude Include="FixedJoint.h">
+      <Filter>Components\Fixed</Filter>
+    </ClInclude>
+    <ClInclude Include="FixedJointComponent.h">
+      <Filter>Components\Fixed</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Map\MainMap.h">
       <Filter>Components</Filter>
     </ClInclude>
   </ItemGroup>
@@ -579,6 +591,12 @@
     </Filter>
     <Filter Include="Components">
       <UniqueIdentifier>{28a1a451-c635-4631-b2c8-7d3f90853568}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Components\Distance">
+      <UniqueIdentifier>{ed6d74a1-0637-45a5-8a32-f5340826f268}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Components\Fixed">
+      <UniqueIdentifier>{c60e57a9-cf2f-4755-a9cf-6b39710d2545}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

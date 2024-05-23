@@ -185,6 +185,8 @@
     <ClInclude Include="Engine\Physics\RayCastResult.h" />
     <ClInclude Include="Engine\Singleton.h" />
     <ClInclude Include="Engine\Time\Time.h" />
+    <ClInclude Include="FixedJoint.h" />
+    <ClInclude Include="FixedJointComponent.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="Game\Actor\Floor.h" />
     <ClInclude Include="Game\Actor\FollowCamera.h" />
@@ -312,6 +314,8 @@
     <ClCompile Include="Engine\Physics\Physics.cpp" />
     <ClCompile Include="Engine\Physics\RayCastCallback.cpp" />
     <ClCompile Include="Engine\Time\Time.cpp" />
+    <ClCompile Include="FixedJoint.cpp" />
+    <ClCompile Include="FixedJointComponent.cpp" />
     <ClCompile Include="Game\Actor\Floor.cpp" />
     <ClCompile Include="Game\Actor\FollowCamera.cpp" />
     <ClCompile Include="Game\Actor\Pawn.cpp" />
