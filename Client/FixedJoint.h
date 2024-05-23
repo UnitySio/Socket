@@ -1,6 +1,7 @@
 #pragma once
 #include "BaseJoint.h"
 #include "../Engine/Math/Vector2.h"
+
 class Actor;
 class FixedJointComponent;
 
@@ -18,12 +19,14 @@ public:
 	void Anchor(const Math::Vector2& pos);
 	void Distance(const float& distance);
 
-
+protected:
+	void ResetJoint(b2Joint* joint, b2JointDef* jointDef, b2World* world);
 	b2DistanceJoint* GetJoint() { return joint_; }
 	const b2DistanceJointDef* GetJointDef() { return jointDef_; }
 
 private:
 	template<typename Ty, typename Fy>
 	friend class BaseJointComponent;
+	friend class FixedJointComponent;
 };
 

@@ -28,20 +28,21 @@ public:
 	void SetDampingValue(const float& value);
 	void SetStiffness(const float& value);
 	
+
+protected:
 	void ResetJoint(b2Joint* joint, b2JointDef* jointDef, b2World* world);
-
 	b2JointUserData& GetUserData() { return joint_->GetUserData(); };
-
 	b2DistanceJoint* GetJoint() { return joint_; }
 	const b2DistanceJointDef* GetJointDef() { return jointDef_; }
 	void SetJoint(b2DistanceJoint* input) { joint_ = input; }
 	void SetJointDef(b2DistanceJointDef* input) { jointDef_ = input; }
 
 private:
-	using BaseJoint::Draw;
 
 	template<typename Ty, typename Fy>
 	friend class BaseJointComponent;
+	friend class DistanceJointComponent;
+
 
 };
 

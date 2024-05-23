@@ -1,13 +1,12 @@
 #include "FixedJoint.h"
-#include "../Engine/Actor/Actor.h"
+#include "FixedJointComponent.h"
+#include "../Engine/Level/World.h"
 
 void FixedJoint::EnableCollision(const bool& flag)
 {
 	jointDef_->collideConnected = flag;
 
-	if (joint_ != nullptr)
-		world_->DestroyJoint(joint_);
-	joint_ = static_cast<b2DistanceJoint*>(world_->CreateJoint(jointDef_));
+	
 }
 
 void FixedJoint::ConnectedRigidBody(Actor* target)
@@ -17,9 +16,7 @@ void FixedJoint::ConnectedRigidBody(Actor* target)
 
 	jointDef_->bodyB = target->body_;
 
-	if (joint_ != nullptr)
-		world_->DestroyJoint(joint_);
-	joint_ = static_cast<b2DistanceJoint*>(world_->CreateJoint(jointDef_));
+	
 }
 
 void FixedJoint::ConnectedAnchor(const Math::Vector2& pos)
@@ -45,4 +42,9 @@ void FixedJoint::Distance(const float& distance)
 		joint_->SetMaxLength(distance);
 	}
 		
+}
+
+void FixedJoint::ResetJoint(b2Joint* joint, b2JointDef* jointDef, b2World* world)
+{
+
 }

@@ -11,10 +11,7 @@ void DistanceJoint::EnableCollision(const bool& flag)
 
 	jointDef_->collideConnected = flag;
 
-	if (joint_ != nullptr)
-		static_cast<MainMap*>(World::Get()->GetLevel())->ReserveDestroyJoint(joint_);
-
-	static_cast<MainMap*>(World::Get()->GetLevel())->ReserveCreateJoint(joint_, jointDef_, std::bind(&DistanceJoint::ResetJoint, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
+	RESETOR
 }
 
 void DistanceJoint::ConnectedRigidBody(Actor* target)
@@ -24,10 +21,7 @@ void DistanceJoint::ConnectedRigidBody(Actor* target)
 
 	jointDef_->bodyB = target->body_;
 
-	if (joint_ != nullptr)
-		static_cast<MainMap*>(World::Get()->GetLevel())->ReserveDestroyJoint(joint_);
-	
-	static_cast<MainMap*>(World::Get()->GetLevel())->ReserveCreateJoint(joint_, jointDef_, std::bind(&DistanceJoint::ResetJoint, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
+	RESETOR
 }
 
 void DistanceJoint::ConnectedAnchor(const Math::Vector2& pos)
