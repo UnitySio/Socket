@@ -14,7 +14,7 @@ void DistanceJoint::EnableCollision(const bool& flag)
 	if (joint_ != nullptr)
 		static_cast<MainMap*>(World::Get()->GetLevel())->ReserveDestroyJoint(joint_);
 
-	static_cast<MainMap*>(World::Get()->GetLevel())->ReserveCreateJoint(joint_, jointDef_, std::bind(&DistanceJoint::ResetJoint, this, std::placeholders::_1, std::placeholders::_2));
+	static_cast<MainMap*>(World::Get()->GetLevel())->ReserveCreateJoint(joint_, jointDef_, std::bind(&DistanceJoint::ResetJoint, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
 }
 
 void DistanceJoint::ConnectedRigidBody(Actor* target)
@@ -27,7 +27,7 @@ void DistanceJoint::ConnectedRigidBody(Actor* target)
 	if (joint_ != nullptr)
 		static_cast<MainMap*>(World::Get()->GetLevel())->ReserveDestroyJoint(joint_);
 	
-	static_cast<MainMap*>(World::Get()->GetLevel())->ReserveCreateJoint(joint_, jointDef_, std::bind(&DistanceJoint::ResetJoint, this, std::placeholders::_1, std::placeholders::_2));
+	static_cast<MainMap*>(World::Get()->GetLevel())->ReserveCreateJoint(joint_, jointDef_, std::bind(&DistanceJoint::ResetJoint, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
 }
 
 void DistanceJoint::ConnectedAnchor(const Math::Vector2& pos)
@@ -88,9 +88,10 @@ void DistanceJoint::SetStiffness(const float& value)
 		joint_->SetStiffness(value);
 }
 
-void DistanceJoint::ResetJoint(b2Joint* joint, b2JointDef* jointDef)
+void DistanceJoint::ResetJoint(b2Joint* joint, b2JointDef* jointDef, b2World* world)
 {
 	joint_ = static_cast<DistanceJoint*>(joint);
 	jointDef_ = static_cast<b2DistanceJointDef*>(jointDef);
+	world_ = world;
 }
 

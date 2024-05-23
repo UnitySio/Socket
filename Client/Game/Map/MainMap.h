@@ -14,7 +14,7 @@ public:
 
 #pragma region Joint
     void ReserveDestroyJoint(b2Joint* joint);
-    void ReserveCreateJoint(b2Joint* joint, b2JointDef* jointDef, std::function<void(b2Joint*, b2JointDef*)> func);
+    void ReserveCreateJoint(b2Joint* joint, b2JointDef* jointDef, std::function<void(b2Joint*, b2JointDef*, b2World*)> func);
 #pragma endregion
 
 private:
@@ -24,7 +24,7 @@ private:
     void CreateReservedJoint();
     float timer = 0.0f;
     std::vector<b2Joint*> destroyContainer_;
-    std::vector<std::tuple<b2Joint*, b2JointDef*, std::function<void(b2Joint*, b2JointDef*)>>> createContainer_;
+    std::vector<std::tuple<b2Joint*, b2JointDef*, std::function<void(b2Joint*, b2JointDef*, b2World*)>>> createContainer_;
     bool flag;
 #pragma endregion
 

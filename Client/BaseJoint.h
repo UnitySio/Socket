@@ -21,7 +21,6 @@ public:
 	};
 
 
-
 	void SetJointComponent(V* jointComp) { jointComponent_ = jointComp; };
 	V* GetJointComponent() { return jointComponent_; };
 

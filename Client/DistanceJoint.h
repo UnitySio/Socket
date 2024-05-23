@@ -28,7 +28,7 @@ public:
 	void SetDampingValue(const float& value);
 	void SetStiffness(const float& value);
 	
-	void ResetJoint(b2Joint* joint, b2JointDef* jointDef);
+	void ResetJoint(b2Joint* joint, b2JointDef* jointDef, b2World* world);
 
 	b2JointUserData& GetUserData() { return joint_->GetUserData(); };
 

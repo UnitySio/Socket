@@ -101,9 +101,9 @@ void MainMap::DestroyReservedJoint()
     }
 }
 
-void MainMap::ReserveCreateJoint(b2Joint* joint, b2JointDef* jointDef, std::function<void(b2Joint*, b2JointDef*)> func)
+void MainMap::ReserveCreateJoint(b2Joint* joint, b2JointDef* jointDef, std::function<void(b2Joint*, b2JointDef*, b2World*)> func)
 {
-    createContainer_.push_back(std::tuple<b2Joint*, b2JointDef*, std::function<void(b2Joint*, b2JointDef*)>>(joint, jointDef, func));
+    createContainer_.push_back(std::tuple<b2Joint*, b2JointDef*, std::function<void(b2Joint*, b2JointDef*, b2World*)>>(joint, jointDef, func));
 }
 
 void MainMap::CreateReservedJoint()
@@ -118,7 +118,7 @@ void MainMap::CreateReservedJoint()
             
             
             joint = World::Get()->physics_world_->CreateJoint(jointDef);
-            functor(joint, jointDef);
+            functor(joint, jointDef, World::Get()->physics_world_.get());
             
         }
         createContainer_.clear();
