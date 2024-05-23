@@ -13,6 +13,9 @@ void DistanceJoint::EnableCollision(const bool& flag)
 
 void DistanceJoint::ConnectedRigidBody(Actor* target)
 {
+	if (jointDef_ == nullptr)
+		jointDef_ = new b2DistanceJointDef;
+
 	jointDef_->bodyB = target->body_;
 
 	if (joint_ != nullptr)

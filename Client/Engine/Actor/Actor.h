@@ -81,6 +81,9 @@ private:
     friend class HingeJointComponent;
     friend class DistanceJoint;
 
+    template<typename J, typename D>
+    friend class BaseJointComponent;
+
 
     void InitializeActor();
     void InitializeComponents();

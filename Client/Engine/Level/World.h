@@ -35,6 +35,12 @@ private:
     friend class FrictionJointComponent;
     friend class GearJointComponent;
     friend class HingeJointComponent;
+
+    template<typename j, typename d>
+    friend class BaseJointComponent;
+
+    template<typename Ty, typename Fy>
+    friend class BaseJoint;
     
     std::unique_ptr<b2World> physics_world_;
     

@@ -19,6 +19,5 @@ protected:
 
 private:
 	Actor* owner_;
-	b2World* world_;
 
 };

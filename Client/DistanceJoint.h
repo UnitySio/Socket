@@ -12,7 +12,7 @@ public:
 	DistanceJoint(b2DistanceJointDef* def) :
 		BaseJoint(def)
 	{
-		jointDef_ = def;
+		
 	};
 	virtual ~DistanceJoint() {};
 

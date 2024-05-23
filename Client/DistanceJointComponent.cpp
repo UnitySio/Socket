@@ -8,12 +8,9 @@
 
 DistanceJointComponent::DistanceJointComponent(Actor* owner, const std::wstring& kName) :
 	BaseJointComponent(owner, kName),
-	owner_(owner),
-	world_(World::Get()->physics_world_.get())
+	owner_(owner)
 {
-	//joint_ = new DistanceJoint(new b2DistanceJointDef);
-	//jointDef_ = joint_->GetJointDef();
-	//jointDef_ = new b2DistanceJointDef;
+
 }
 
 inline void DistanceJointComponent::InitializeComponent()
