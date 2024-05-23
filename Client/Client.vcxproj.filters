@@ -159,16 +159,13 @@
     <ClCompile Include="DistanceJointComponent.cpp">
       <Filter>Components</Filter>
     </ClCompile>
-    <ClCompile Include="FrictionJointComponent.cpp">
+    <ClCompile Include="BaseJoint.cpp">
       <Filter>Components</Filter>
     </ClCompile>
-    <ClCompile Include="GearJointComponent.cpp">
+    <ClCompile Include="DistanceJoint.cpp">
       <Filter>Components</Filter>
     </ClCompile>
-    <ClCompile Include="MotorJointComponent.cpp">
-      <Filter>Components</Filter>
-    </ClCompile>
-    <ClCompile Include="HingeJointComponent.cpp">
+    <ClCompile Include="BaseJointComponent.cpp">
       <Filter>Components</Filter>
     </ClCompile>
   </ItemGroup>
@@ -566,16 +563,13 @@
     <ClInclude Include="DistanceJointComponent.h">
       <Filter>Components</Filter>
     </ClInclude>
-    <ClInclude Include="FrictionJointComponent.h">
+    <ClInclude Include="BaseJoint.h">
       <Filter>Components</Filter>
     </ClInclude>
-    <ClInclude Include="GearJointComponent.h">
+    <ClInclude Include="DistanceJoint.h">
       <Filter>Components</Filter>
     </ClInclude>
-    <ClInclude Include="MotorJointComponent.h">
-      <Filter>Components</Filter>
-    </ClInclude>
-    <ClInclude Include="HingeJointComponent.h">
+    <ClInclude Include="BaseJointComponent.h">
       <Filter>Components</Filter>
     </ClInclude>
   </ItemGroup>

@@ -1,12 +1,10 @@
 #pragma once
-#include "../Engine/Actor/Component/ActorComponent.h"
+#include "BaseJointComponent.h"
 #include "../Engine/Math/Vector2.h"
+#include "DistanceJoint.h"
 
-class b2DistanceJointDef;
-class b2DistanceJoint;
-class b2World;
 
-class DistanceJointComponent : public ActorComponent
+class DistanceJointComponent : public BaseJointComponent<DistanceJoint>
 {
 public:
 	DistanceJointComponent(class Actor* owner, const std::wstring& kName);
@@ -30,8 +28,7 @@ protected:
 
 
 private:
-	b2DistanceJointDef* jointDef_;
-	b2DistanceJoint* joint_;
 	Actor* owner_;
 	b2World* world_;
+	b2DistanceJointDef* jointDef_;
 };

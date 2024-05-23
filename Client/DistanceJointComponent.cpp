@@ -5,14 +5,14 @@
 #include "Actor/Actor.h"
 #include "../Engine/Level/World.h"
 
+
 DistanceJointComponent::DistanceJointComponent(Actor* owner, const std::wstring& kName) :
-	ActorComponent(owner, kName),
-	jointDef_(new b2DistanceJointDef),
+	BaseJointComponent(owner, kName),
 	owner_(owner),
-	joint_(nullptr),
 	world_(World::Get()->physics_world_.get())
 {
-	jointDef_->bodyA = owner_->body_;
+	joint_ = new DistanceJoint(new b2DistanceJointDef);
+	jointDef_ = joint_->GetJointDef();
 }
 
 inline void DistanceJointComponent::InitializeComponent()
@@ -23,10 +23,12 @@ inline void DistanceJointComponent::InitializeComponent()
 inline void DistanceJointComponent::UninitializeComponent()
 {
 	ActorComponent::UninitializeComponent();
-	delete jointDef_;
+	delete joint_->GetJoint();
+	
 	if (joint_ != nullptr)
 	{
-		world_->DestroyJoint(joint_);
+		world_->DestroyJoint(joint_->GetJoint());
+		delete joint_;
 		joint_ = nullptr;
 	}
 }
@@ -37,7 +39,7 @@ void DistanceJointComponent::EnableCollision(const bool& flag)
 
 	if (joint_ != nullptr)
 		world_->DestroyJoint(joint_);
-	joint_ = static_cast<b2DistanceJoint*>(world_->CreateJoint(jointDef_));
+	joint_->SetJoint(static_cast<b2DistanceJoint*>(world_->CreateJoint(jointDef_)));
 }
 
 void DistanceJointComponent::ConnectedRigidBody(Actor* target)
@@ -46,7 +48,7 @@ void DistanceJointComponent::ConnectedRigidBody(Actor* target)
 
 	if(joint_ != nullptr)
 		world_->DestroyJoint(joint_);
-	joint_ = static_cast<b2DistanceJoint*>(world_->CreateJoint(jointDef_));
+	joint_->SetJoint(static_cast<b2DistanceJoint*>(world_->CreateJoint(jointDef_)));
 }
 
 void DistanceJointComponent::ConnectedAnchor(const Math::Vector2& pos)
