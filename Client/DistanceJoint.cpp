@@ -6,11 +6,15 @@
 
 void DistanceJoint::EnableCollision(const bool& flag)
 {
+	if (jointDef_ == nullptr)
+		jointDef_ = new b2DistanceJointDef;
+
 	jointDef_->collideConnected = flag;
 
 	if (joint_ != nullptr)
-		world_->DestroyJoint(joint_);
-	joint_ = static_cast<b2DistanceJoint*>(world_->CreateJoint(jointDef_));
+		static_cast<MainMap*>(World::Get()->GetLevel())->ReserveDestroyJoint(joint_);
+
+	static_cast<MainMap*>(World::Get()->GetLevel())->ReserveCreateJoint(joint_, jointDef_, std::bind(&DistanceJoint::ResetJoint, this, std::placeholders::_1, std::placeholders::_2));
 }
 
 void DistanceJoint::ConnectedRigidBody(Actor* target)
@@ -23,7 +27,6 @@ void DistanceJoint::ConnectedRigidBody(Actor* target)
 	if (joint_ != nullptr)
 		static_cast<MainMap*>(World::Get()->GetLevel())->ReserveDestroyJoint(joint_);
 	
-	//joint_ = static_cast<DistanceJoint*>(world_->CreateJoint(jointDef_));
 	static_cast<MainMap*>(World::Get()->GetLevel())->ReserveCreateJoint(joint_, jointDef_, std::bind(&DistanceJoint::ResetJoint, this, std::placeholders::_1, std::placeholders::_2));
 }
 

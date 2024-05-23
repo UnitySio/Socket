@@ -64,16 +64,6 @@ void MainMap::Load()
     pawn->GetComponent<DistanceJointComponent>()->CreateJointDef(pawn2);
     pawn->GetComponent<DistanceJointComponent>()->GetJoint()->Distance(0.2f);
     
-    
-    
-    
-    
-    
-    
-
-    
-    
-    
 
 
     pawn->GetComponent<RigidBodyComponent>()->AddForce(Math::Vector2(5.0f, 0.0f));
@@ -84,6 +74,8 @@ void MainMap::Load()
     
 }
 
+
+#pragma region Joint
 void MainMap::PhysicsTick(float dt)
 {
     Level::PhysicsTick(dt);
@@ -132,3 +124,4 @@ void MainMap::CreateReservedJoint()
         createContainer_.clear();
     }
 }
+#pragma endregion

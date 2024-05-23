@@ -11,21 +11,26 @@ public:
     virtual void Load() override;
     virtual void PhysicsTick(float dt) override;
 
+
+#pragma region Joint
     void ReserveDestroyJoint(b2Joint* joint);
     void ReserveCreateJoint(b2Joint* joint, b2JointDef* jointDef, std::function<void(b2Joint*, b2JointDef*)> func);
+#pragma endregion
 
 private:
+
+#pragma region Joint
     void DestroyReservedJoint();
     void CreateReservedJoint();
-
     float timer = 0.0f;
+    std::vector<b2Joint*> destroyContainer_;
+    std::vector<std::tuple<b2Joint*, b2JointDef*, std::function<void(b2Joint*, b2JointDef*)>>> createContainer_;
+    bool flag;
+#pragma endregion
+
     Actor* pawn2;
     Actor* pawn3;
     Actor* pawn;
     
-    std::vector<b2Joint*> destroyContainer_;
-
-    std::vector<std::tuple<b2Joint*, b2JointDef*, std::function<void(b2Joint*, b2JointDef*)>>> createContainer_;
-
-    bool flag;
+    
 };
