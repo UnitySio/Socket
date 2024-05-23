@@ -79,6 +79,7 @@ private:
     friend class FrictionJointComponent;
     friend class GearJointComponent;
     friend class HingeJointComponent;
+    friend class DistanceJoint;
 
 
     void InitializeActor();
