@@ -63,6 +63,10 @@ void MainMap::Load()
     pawn->GetComponent<DistanceJointComponent>()->GetJoint()->SetMaxDistance(0.8f);
     
     
+    
+    
+    
+    
 
     
     

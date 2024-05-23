@@ -6,7 +6,7 @@
 class Actor;
 
 
-class DistanceJoint : public BaseJoint<b2DistanceJoint, b2DistanceJointDef>
+class DistanceJoint : private BaseJoint<b2DistanceJoint, b2DistanceJointDef>
 {
 public:
 	DistanceJoint(b2DistanceJointDef* def) :
@@ -27,7 +27,15 @@ public:
 	void SetMinDistance(const float& distance);
 	void SetDampingValue(const float& value);
 	void SetStiffness(const float& value);
+	
+	b2DistanceJoint* GetJoint() { return joint_; }
+	const b2DistanceJointDef* GetJointDef() { return jointDef_; }
 
+private:
+	using BaseJoint::Draw;
+
+	template<typename Ty, typename Fy>
+	friend class BaseJointComponent;
 
 };
 
