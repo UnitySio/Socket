@@ -1,30 +1,31 @@
 #pragma once
 #include "BaseJoint.h"
 
-class HingeJointComponent;
+class SpringJointComponent;
 
-class HingeJoint : private BaseJoint<b2RevoluteJoint, b2RevoluteJointDef, HingeJointComponent>
+class SpringJoint : private BaseJoint<b2DistanceJoint, b2DistanceJointDef, SpringJointComponent>
 {
 public:
-	HingeJoint(b2RevoluteJointDef* def);
-	virtual ~HingeJoint() {};
+	SpringJoint(b2DistanceJointDef* def);
+	virtual ~SpringJoint() {};
 
 	void EnableCollision(const bool& flag);
 	void ConnectedRigidBody(Actor* target);
 	void ConnectedAnchor(const Math::Vector2& pos);
 	void Anchor(const Math::Vector2& pos);
 	void AutoConfigureConnectedAnchor();
-	void MotorSpeed(const float& value);
-
 
 
 protected:
 	void ResetJoint(b2Joint* joint, b2JointDef* jointDef, b2World* world);
-	
-	
+
+
+
+
+
+
 
 private:
-
-	friend class HingeJointComponent;
+	friend class SpringJointComponent;
 };
 

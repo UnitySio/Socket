@@ -16,10 +16,7 @@ void FixedJoint::ConnectedRigidBody(Actor* target)
 	jointDef_->bodyB = target->body_;
 
 	RESETOR(FixedJoint)
-<<<<<<< Updated upstream
-=======
 	
->>>>>>> Stashed changes
 }
 
 void FixedJoint::ConnectedAnchor(const Math::Vector2& pos)

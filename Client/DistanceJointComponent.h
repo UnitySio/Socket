@@ -15,13 +15,10 @@ public:
 protected:
 	virtual inline void InitializeComponent() override;
 	virtual inline void UninitializeComponent() override;
-	void SetDefaultProperties() override;
-
+	virtual void SetDefaultProperties() override;
+	virtual void CreateJoint() override;
 
 private:
 	Actor* owner_;
-
-
-	// Inherited via BaseJointComponent
 
 };

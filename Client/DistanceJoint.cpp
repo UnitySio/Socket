@@ -5,44 +5,35 @@
 #include "DistanceJointComponent.h"
 
 
-
-
-
-
-
 DistanceJoint::DistanceJoint(b2DistanceJointDef* def):
 	Super(def)
 {
+	
 }
 
 void DistanceJoint::EnableCollision(const bool& flag)
 {
-	if (jointDef_ == nullptr)
-		jointDef_ = new b2DistanceJointDef;
-
 	jointDef_->collideConnected = flag;
-
+	
 	RESETOR(DistanceJoint)
 }
 
 void DistanceJoint::ConnectedRigidBody(Actor* target)
 {
-	if (jointDef_ == nullptr)
-		jointDef_ = new b2DistanceJointDef;
-
 	jointDef_->bodyB = target->body_;
-
 	RESETOR(DistanceJoint)
 }
 
 void DistanceJoint::ConnectedAnchor(const Math::Vector2& pos)
 {
 	jointDef_->localAnchorB = b2Vec2(pos.x, pos.y);
+	RESETOR(DistanceJoint)
 }
 
 void DistanceJoint::Anchor(const Math::Vector2& pos)
 {
 	jointDef_->localAnchorA = b2Vec2(pos.x, pos.y);
+	RESETOR(DistanceJoint)
 }
 
 void DistanceJoint::AutoConfigureConnectedAnchor()
@@ -92,6 +83,7 @@ void DistanceJoint::SetStiffness(const float& value)
 	if (joint_ != nullptr)
 		joint_->SetStiffness(value);
 }
+
 
 void DistanceJoint::ResetJoint(b2Joint* joint, b2JointDef* jointDef, b2World* world)
 {

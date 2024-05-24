@@ -41,16 +41,15 @@ void DistanceJointComponent::SetDefaultProperties()
 	
 
 
+	
+	
+}
+
+void DistanceJointComponent::CreateJoint()
+{
 	auto temp = static_cast<BaseJoint<b2DistanceJoint, b2DistanceJointDef, DistanceJointComponent>*>(world_->CreateJoint(jointDef_));
-	
-	
-	
 	joint_ = (DistanceJoint*)(temp);
-
-
 	joint_->SetJoint((b2DistanceJoint*)joint_);
 	joint_->SetJointDef(jointDef_);
-	
-	//temp->SetJointComponent(this);
 }
 

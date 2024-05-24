@@ -9,7 +9,6 @@
 template<typename T, typename U>
 class BaseJointComponent : public ActorComponent, public b2JointUserData
 {
-	using Super = ActorComponent;
 public:
 	BaseJointComponent(class Actor* owner, const std::wstring& kName) :
 		ActorComponent(owner, kName),
@@ -28,9 +27,11 @@ public:
 	void SetJointDef(U* input) { jointDef_ = input; }
 
 
-	void CreateJointDef(Actor* target);
-
+	void CreateJointDefWithTarget(Actor* target);
+	virtual void CreateJoint() = 0;
 protected:
+	using Super = BaseJointComponent;
+
 	virtual void SetDefaultProperties() = 0;
 
 
@@ -42,14 +43,12 @@ protected:
 };
 
 template<typename T, typename U>
-inline void BaseJointComponent<T, U>::CreateJointDef(Actor* target)
+inline void BaseJointComponent<T, U>::CreateJointDefWithTarget(Actor* target)
 {
 	if(jointDef_ == nullptr)
 		jointDef_ = new U;
 	target_ = target;
-	
 	SetDefaultProperties();
-	
 }
 
 

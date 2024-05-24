@@ -23,7 +23,14 @@ void HingeJointComponent::SetDefaultProperties()
 	jointDef_->collideConnected = false;
 	jointDef_->bodyA = owner_->body_;
 	jointDef_->bodyB = target_->body_;
+	jointDef_->enableLimit = false;
+	jointDef_->enableMotor = true;
+	
+	
+}
 
+void HingeJointComponent::CreateJoint()
+{
 	auto temp = static_cast<BaseJoint<b2RevoluteJoint, b2DistanceJointDef, HingeJointComponent>*>(world_->CreateJoint(jointDef_));
 
 	joint_ = (HingeJoint*)(temp);

@@ -8,6 +8,8 @@
 #include "../DistanceJointComponent.h"
 #include "../FixedJointComponent.h"
 #include "../BaseJointComponent.h"
+#include "../HingeJointComponent.h"
+#include "../SpringJointComponent.h"
 
 MainMap::MainMap(const std::wstring& kName) : Level(kName),
     pawn2(nullptr),
@@ -26,14 +28,14 @@ void MainMap::Tick(float dt)
 
     if (timer > 3.0f && !flag1)
     {
-        pawn->GetComponent<FixedJointComponent>()->GetJoint()->ConnectedRigidBody(pawn3);
+        pawn->GetComponent<SpringJointComponent>()->GetJoint()->ConnectedRigidBody(pawn3);
         flag1 = true;
     }
 
 
     if (timer > 6.0f && !flag2)
     {
-        pawn->GetComponent<FixedJointComponent>()->GetJoint()->Distance(0.2f);
+        //pawn->GetComponent<SpringJointComponent>()->GetJoint()->MotorSpeed(3.5f);
         timer = 0.0f;
         flag2 = true;
     }
@@ -61,13 +63,13 @@ void MainMap::Load()
     pawn2->GetTransform()->SetRelativeLocation(Math::Vector2(0.0f, 7.5f));
     pawn2->GetComponent<RigidBodyComponent>()->SetBodyType(BodyType::kStatic);
     
-    pawn->CreateComponent<FixedJointComponent>(L"Fixed");
-    pawn->GetComponent<FixedJointComponent>()->CreateJointDef(pawn2);
-    pawn->GetComponent<FixedJointComponent>()->GetJoint()->Distance(0.2f);
+    pawn->CreateComponent<SpringJointComponent>(L"Fixed");
+    pawn->GetComponent<SpringJointComponent>()->CreateJointDefWithTarget(pawn2);
+    pawn->GetComponent<SpringJointComponent>()->CreateJoint();
     
 
 
-    pawn->GetComponent<RigidBodyComponent>()->AddForce(Math::Vector2(5.0f, 0.0f));
+    pawn->GetComponent<RigidBodyComponent>()->AddForce(Math::Vector2(10.0f, 0.0f));
 
     FollowCamera* camera = dynamic_cast<FollowCamera*>(follow_camera);
     camera->SetTarget(pawn);
@@ -80,8 +82,12 @@ void MainMap::Load()
 void MainMap::PhysicsTick(float dt)
 {
     Level::PhysicsTick(dt);
-    DestroyReservedJoint();
-    CreateReservedJoint();
+    
+    if(destroyContainer_.size() > 0)
+        DestroyReservedJoint();
+
+    if(createContainer_.size() > 0)
+        CreateReservedJoint();
 }
 
 void MainMap::ReserveDestroyJoint(b2Joint* joint)

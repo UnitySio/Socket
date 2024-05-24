@@ -82,8 +82,11 @@ private:
     friend class DistanceJoint;
     friend class FixedJoint;
     friend class FixedJointComponent;
+    friend class HingeJoint;
     template<typename J, typename D>
     friend class BaseJointComponent;
+    friend class SpringJointComponent;
+    friend class SpringJoint;
 
 
     void InitializeActor();
