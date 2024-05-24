@@ -6,7 +6,8 @@ void FixedJoint::EnableCollision(const bool& flag)
 {
 	jointDef_->collideConnected = flag;
 
-	
+	RESETOR(FixedJoint)
+
 }
 
 void FixedJoint::ConnectedRigidBody(Actor* target)
@@ -16,7 +17,7 @@ void FixedJoint::ConnectedRigidBody(Actor* target)
 
 	jointDef_->bodyB = target->body_;
 
-	
+	RESETOR(FixedJoint)
 }
 
 void FixedJoint::ConnectedAnchor(const Math::Vector2& pos)
@@ -46,5 +47,7 @@ void FixedJoint::Distance(const float& distance)
 
 void FixedJoint::ResetJoint(b2Joint* joint, b2JointDef* jointDef, b2World* world)
 {
-
+	joint_ = static_cast<FixedJoint*>(joint);
+	jointDef_ = static_cast<b2DistanceJointDef*>(jointDef);
+	world_ = world;
 }

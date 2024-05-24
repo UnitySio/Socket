@@ -53,8 +53,7 @@ inline void BaseJointComponent<T, U>::CreateJointDef(Actor* target)
 }
 
 
-constexpr uintptr_t DistanceJointComponent_Pointer = 1;
 
-#define RESETOR if (joint_ != nullptr)\
+#define RESETOR(_JointType) if (joint_ != nullptr)\
 static_cast<MainMap*>(World::Get()->GetLevel())->ReserveDestroyJoint(joint_);\
-static_cast<MainMap*>(World::Get()->GetLevel())->ReserveCreateJoint(joint_, jointDef_, std::bind(&DistanceJoint::ResetJoint, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
+static_cast<MainMap*>(World::Get()->GetLevel())->ReserveCreateJoint(joint_, jointDef_, std::bind(&_JointType::ResetJoint, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));

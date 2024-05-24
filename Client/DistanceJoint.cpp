@@ -11,7 +11,7 @@ void DistanceJoint::EnableCollision(const bool& flag)
 
 	jointDef_->collideConnected = flag;
 
-	RESETOR
+	RESETOR(DistanceJoint)
 }
 
 void DistanceJoint::ConnectedRigidBody(Actor* target)
@@ -21,7 +21,7 @@ void DistanceJoint::ConnectedRigidBody(Actor* target)
 
 	jointDef_->bodyB = target->body_;
 
-	RESETOR
+	RESETOR(DistanceJoint)
 }
 
 void DistanceJoint::ConnectedAnchor(const Math::Vector2& pos)
