@@ -4,6 +4,17 @@
 #include "../Client/Game/Map/MainMap.h"
 #include "DistanceJointComponent.h"
 
+
+
+
+
+
+
+DistanceJoint::DistanceJoint(b2DistanceJointDef* def):
+	Super(def)
+{
+}
+
 void DistanceJoint::EnableCollision(const bool& flag)
 {
 	if (jointDef_ == nullptr)

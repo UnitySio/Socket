@@ -194,6 +194,8 @@
     <ClInclude Include="Game\Map\MainMap.h" />
     <ClInclude Include="Game\Map\TempMap.h" />
     <ClInclude Include="Game\ProjectSettings.h" />
+    <ClInclude Include="HingeJoint.h" />
+    <ClInclude Include="HingeJointComponent.h" />
     <ClInclude Include="Include\box2d\b2_api.h" />
     <ClInclude Include="Include\box2d\b2_block_allocator.h" />
     <ClInclude Include="Include\box2d\b2_body.h" />
@@ -321,6 +323,8 @@
     <ClCompile Include="Game\Actor\Pawn.cpp" />
     <ClCompile Include="Game\Map\MainMap.cpp" />
     <ClCompile Include="Game\Map\TempMap.cpp" />
+    <ClCompile Include="HingeJoint.cpp" />
+    <ClCompile Include="HingeJointComponent.cpp" />
     <ClCompile Include="Include\imgui\imgui.cpp" />
     <ClCompile Include="Include\imgui\imgui_demo.cpp" />
     <ClCompile Include="Include\imgui\imgui_draw.cpp" />

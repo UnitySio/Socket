@@ -12,12 +12,14 @@ void FixedJoint::EnableCollision(const bool& flag)
 
 void FixedJoint::ConnectedRigidBody(Actor* target)
 {
-	if (jointDef_ == nullptr)
-		jointDef_ = new b2DistanceJointDef;
-
+	
 	jointDef_->bodyB = target->body_;
 
 	RESETOR(FixedJoint)
+<<<<<<< Updated upstream
+=======
+	
+>>>>>>> Stashed changes
 }
 
 void FixedJoint::ConnectedAnchor(const Math::Vector2& pos)
