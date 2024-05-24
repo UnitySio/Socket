@@ -8,6 +8,7 @@ class DistanceJointComponent;
 
 class DistanceJoint : private BaseJoint<b2DistanceJoint, b2DistanceJointDef, DistanceJointComponent>
 {
+	using Super = BaseJoint;
 public:
 	DistanceJoint(b2DistanceJointDef* def) :
 		BaseJoint(def)
@@ -27,7 +28,7 @@ public:
 	void SetMinDistance(const float& distance);
 	void SetDampingValue(const float& value);
 	void SetStiffness(const float& value);
-	
+
 
 protected:
 	void ResetJoint(b2Joint* joint, b2JointDef* jointDef, b2World* world);
@@ -38,6 +39,8 @@ protected:
 	void SetJointDef(b2DistanceJointDef* input) { jointDef_ = input; }
 
 private:
+	
+
 
 	template<typename Ty, typename Fy>
 	friend class BaseJointComponent;

@@ -13,7 +13,8 @@ MainMap::MainMap(const std::wstring& kName) : Level(kName),
     pawn2(nullptr),
     pawn3(nullptr),
     pawn(nullptr),
-    flag(false)
+    flag1(false),
+    flag2(false)
 {
 }
 
@@ -23,18 +24,18 @@ void MainMap::Tick(float dt)
     timer += dt;
 
 
-    if (timer > 3.0f && !flag)
+    if (timer > 3.0f && !flag1)
     {
-        pawn->GetComponent<DistanceJointComponent>()->GetJoint()->ConnectedRigidBody(pawn3);
-        flag = true;
+        pawn->GetComponent<FixedJointComponent>()->GetJoint()->ConnectedRigidBody(pawn3);
+        flag1 = true;
     }
 
 
-    if (timer > 6.0f)
+    if (timer > 6.0f && !flag2)
     {
-        pawn->GetComponent<DistanceJointComponent>()->GetJoint()->Distance(0.2f);
-        pawn->GetComponent<DistanceJointComponent>()->GetJoint()->SetMaxDistance(0.2f);
+        pawn->GetComponent<FixedJointComponent>()->GetJoint()->Distance(0.2f);
         timer = 0.0f;
+        flag2 = true;
     }
 }
 
@@ -60,9 +61,9 @@ void MainMap::Load()
     pawn2->GetTransform()->SetRelativeLocation(Math::Vector2(0.0f, 7.5f));
     pawn2->GetComponent<RigidBodyComponent>()->SetBodyType(BodyType::kStatic);
     
-    pawn->CreateComponent<DistanceJointComponent>(L"Fixed");
-    pawn->GetComponent<DistanceJointComponent>()->CreateJointDef(pawn2);
-    pawn->GetComponent<DistanceJointComponent>()->GetJoint()->Distance(0.2f);
+    pawn->CreateComponent<FixedJointComponent>(L"Fixed");
+    pawn->GetComponent<FixedJointComponent>()->CreateJointDef(pawn2);
+    pawn->GetComponent<FixedJointComponent>()->GetJoint()->Distance(0.2f);
     
 
 

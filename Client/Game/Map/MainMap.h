@@ -25,7 +25,8 @@ private:
     float timer = 0.0f;
     std::vector<b2Joint*> destroyContainer_;
     std::vector<std::tuple<b2Joint*, b2JointDef*, std::function<void(b2Joint*, b2JointDef*, b2World*)>>> createContainer_;
-    bool flag;
+    bool flag1;
+    bool flag2;
 #pragma endregion
 
     Actor* pawn2;

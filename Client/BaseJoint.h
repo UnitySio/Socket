@@ -19,6 +19,9 @@ public:
 		delete jointDef_;
 		world_->DestroyJoint(joint_);
 	};
+	
+	
+
 
 
 	void SetJointComponent(V* jointComp) { jointComponent_ = jointComp; };
@@ -39,5 +42,6 @@ private:
 	template<typename Ty, typename Fy>
 	friend class BaseJointComponent;
 	friend class DistanceJointComponent;
+	friend class DistanceJoint;
 };
 

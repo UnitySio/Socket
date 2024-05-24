@@ -19,5 +19,9 @@ protected:
 private:
 	Actor* owner_;
 
+
+	// Inherited via BaseJointComponent
+	virtual void SetDefaultProperties() override;
+
 };
 

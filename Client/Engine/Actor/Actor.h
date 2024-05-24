@@ -81,6 +81,7 @@ private:
     friend class HingeJointComponent;
     friend class DistanceJoint;
     friend class FixedJoint;
+    friend class FixedJointComponent;
     template<typename J, typename D>
     friend class BaseJointComponent;
 
