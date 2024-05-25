@@ -83,7 +83,7 @@ private:
     friend class FixedJoint;
     friend class FixedJointComponent;
     friend class HingeJoint;
-    template<typename J, typename D>
+    template<typename T, typename U>
     friend class BaseJointComponent;
     friend class SpringJointComponent;
     friend class SpringJoint;

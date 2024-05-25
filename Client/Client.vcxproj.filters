@@ -154,13 +154,16 @@
       <Filter>Others</Filter>
     </ClCompile>
     <ClCompile Include="BaseJointComponent.cpp">
-      <Filter>Components</Filter>
+      <Filter>JointComponents</Filter>
     </ClCompile>
     <ClCompile Include="DistanceJointComponent.cpp">
-      <Filter>Components\Distance</Filter>
+      <Filter>JointComponents\Distance</Filter>
     </ClCompile>
     <ClCompile Include="Game\Map\MainMap.cpp">
-      <Filter>Components</Filter>
+      <Filter>JointComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="HingeJointComponent.cpp">
+      <Filter>JointComponents\Hinge</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -552,24 +555,30 @@
       <Filter>Others</Filter>
     </ClInclude>
     <ClInclude Include="BaseJointComponent.h">
-      <Filter>Components</Filter>
+      <Filter>JointComponents</Filter>
     </ClInclude>
     <ClInclude Include="DistanceJointComponent.h">
-      <Filter>Components\Distance</Filter>
+      <Filter>JointComponents\Distance</Filter>
     </ClInclude>
     <ClInclude Include="Game\Map\MainMap.h">
-      <Filter>Components</Filter>
+      <Filter>JointComponents</Filter>
+    </ClInclude>
+    <ClInclude Include="HingeJointComponent.h">
+      <Filter>JointComponents\Hinge</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Others">
       <UniqueIdentifier>{30f85ba2-6285-4555-ac7e-80df40bd7963}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Components">
+    <Filter Include="JointComponents">
       <UniqueIdentifier>{28a1a451-c635-4631-b2c8-7d3f90853568}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Components\Distance">
+    <Filter Include="JointComponents\Distance">
       <UniqueIdentifier>{ed6d74a1-0637-45a5-8a32-f5340826f268}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="JointComponents\Hinge">
+      <UniqueIdentifier>{a296aa6e-6208-41b4-90d9-f59cef350725}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

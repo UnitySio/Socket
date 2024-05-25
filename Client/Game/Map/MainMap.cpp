@@ -65,7 +65,8 @@ void MainMap::Load()
     pawn2->GetComponent<RigidBodyComponent>()->SetBodyType(BodyType::kStatic);
     
     pawn->CreateComponent<DistanceJointComponent>(L"Fixed");
-    pawn->GetComponent<DistanceJointComponent>()->CreateJointDefWithTarget(pawn2, true);
+    pawn->GetComponent<DistanceJointComponent>()->CreateJointDefWithTarget(pawn2);
+    pawn->GetComponent<DistanceJointComponent>()->GetJoint()->CreateJoint();
     
     
 

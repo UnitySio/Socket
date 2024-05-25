@@ -1,6 +1,6 @@
 #include "HingeJointComponent.h"
-#include "HingeJoint.h"
-HingeJointComponent::HingeJointComponent(class Actor* owner, const std::wstring& kName):
+
+HingeJointComponent::HingeJointComponent(Actor* owner, const std::wstring& kName):
 	Super(owner, kName)
 {
 	owner_ = owner;
@@ -9,7 +9,6 @@ HingeJointComponent::HingeJointComponent(class Actor* owner, const std::wstring&
 inline void HingeJointComponent::InitializeComponent()
 {
 	Super::InitializeComponent();
-
 }
 
 inline void HingeJointComponent::UninitializeComponent()
@@ -18,22 +17,17 @@ inline void HingeJointComponent::UninitializeComponent()
 
 }
 
-void HingeJointComponent::SetDefaultProperties()
+void HingeJointComponent::SetDefaultProperties(const bool& flag)
 {
-	jointDef_->collideConnected = false;
 	jointDef_->bodyA = owner_->body_;
 	jointDef_->bodyB = target_->body_;
+	jointDef_->collideConnected = false;
 	jointDef_->enableLimit = false;
 	jointDef_->enableMotor = true;
-	
-	
+	jointDef_->maxMotorTorque = 1000.0f;
 }
 
 void HingeJointComponent::CreateJoint()
 {
-	auto temp = static_cast<BaseJoint<b2RevoluteJoint, b2DistanceJointDef, HingeJointComponent>*>(world_->CreateJoint(jointDef_));
 
-	joint_ = (HingeJoint*)(temp);
-	joint_->SetJoint((b2RevoluteJoint*)joint_);
-	joint_->SetJointDef(jointDef_);
 }

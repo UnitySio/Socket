@@ -2,17 +2,24 @@
 #include "BaseJointComponent.h"
 #include "../Engine/Math/Vector2.h"
 
-
 class DistanceJointComponent : public BaseJointComponent<b2DistanceJoint, b2DistanceJointDef>
 {
 	class DistanceJoint
 	{
-		DistanceJoint(DistanceJointComponent* component, b2DistanceJoint* joint) :
+		DistanceJoint(DistanceJointComponent* component, b2DistanceJoint* joint, const bool& flag = false) :
 			component_(component),
 			joint_(joint)
-		{};
+		{
+			if(flag)
+				static_cast<MainMap*>(World::Get()->GetLevel())->ReserveCreateJoint(std::bind(&DistanceJointComponent::CreateJoint, this->component_));
+		};
 		
 	public:
+		/// <summary>
+		/// Set True if you want to create Joint Additive
+		/// </summary>
+		/// <param name="flag"></param>
+		void CreateJoint(const bool& flag = false);
 		void EnableCollision(const bool& flag);
 		void ConnectedRigidBody(Actor* target);
 		void Anchor(const Math::Vector2& pos);
@@ -34,14 +41,14 @@ public:
 	virtual ~DistanceJointComponent() = default;
 	DistanceJoint* GetJoint() { return jointBody_; }
 
+
 protected:
 	virtual void CreateJoint() override;
 	virtual inline void InitializeComponent() override;
 	virtual inline void UninitializeComponent() override;
-	virtual void SetDefaultProperties() override;
+	virtual void SetDefaultProperties(const bool& flag) override;
 
 private:
-	Actor* owner_;
 	DistanceJoint* jointBody_;
 };
 
