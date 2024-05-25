@@ -153,32 +153,14 @@
     <ClCompile Include="Engine\Level\World.cpp">
       <Filter>Others</Filter>
     </ClCompile>
-    <ClCompile Include="BaseJoint.cpp">
-      <Filter>Components</Filter>
-    </ClCompile>
     <ClCompile Include="BaseJointComponent.cpp">
       <Filter>Components</Filter>
-    </ClCompile>
-    <ClCompile Include="DistanceJoint.cpp">
-      <Filter>Components\Distance</Filter>
     </ClCompile>
     <ClCompile Include="DistanceJointComponent.cpp">
       <Filter>Components\Distance</Filter>
     </ClCompile>
-    <ClCompile Include="FixedJoint.cpp">
-      <Filter>Components\Fixed</Filter>
-    </ClCompile>
-    <ClCompile Include="FixedJointComponent.cpp">
-      <Filter>Components\Fixed</Filter>
-    </ClCompile>
     <ClCompile Include="Game\Map\MainMap.cpp">
       <Filter>Components</Filter>
-    </ClCompile>
-    <ClCompile Include="HingeJoint.cpp">
-      <Filter>Components\Hinge</Filter>
-    </ClCompile>
-    <ClCompile Include="HingeJointComponent.cpp">
-      <Filter>Components\Hinge</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -569,32 +551,14 @@
     <ClInclude Include="Include\DirectXTK\XboxDDSTextureLoader.h">
       <Filter>Others</Filter>
     </ClInclude>
-    <ClInclude Include="BaseJoint.h">
-      <Filter>Components</Filter>
-    </ClInclude>
     <ClInclude Include="BaseJointComponent.h">
       <Filter>Components</Filter>
-    </ClInclude>
-    <ClInclude Include="DistanceJoint.h">
-      <Filter>Components\Distance</Filter>
     </ClInclude>
     <ClInclude Include="DistanceJointComponent.h">
       <Filter>Components\Distance</Filter>
     </ClInclude>
-    <ClInclude Include="FixedJoint.h">
-      <Filter>Components\Fixed</Filter>
-    </ClInclude>
-    <ClInclude Include="FixedJointComponent.h">
-      <Filter>Components\Fixed</Filter>
-    </ClInclude>
     <ClInclude Include="Game\Map\MainMap.h">
       <Filter>Components</Filter>
-    </ClInclude>
-    <ClInclude Include="HingeJoint.h">
-      <Filter>Components\Hinge</Filter>
-    </ClInclude>
-    <ClInclude Include="HingeJointComponent.h">
-      <Filter>Components\Hinge</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -606,12 +570,6 @@
     </Filter>
     <Filter Include="Components\Distance">
       <UniqueIdentifier>{ed6d74a1-0637-45a5-8a32-f5340826f268}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Components\Fixed">
-      <UniqueIdentifier>{c60e57a9-cf2f-4755-a9cf-6b39710d2545}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Components\Hinge">
-      <UniqueIdentifier>{098e35b2-70bf-49f2-9dc4-7029019874dc}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

@@ -38,11 +38,10 @@ private:
     friend class GearJointComponent;
     friend class HingeJointComponent;
 
-    template<typename j, typename d>
-    friend class BaseJointComponent;
 
-    template<typename T, typename U, typename V>
-    friend class BaseJoint;
+    friend class FixedJoint;
+    template<typename T, typename U>
+    friend class BaseJointComponent;
 
     friend class MainMap;
 

@@ -6,10 +6,7 @@
 #include "../Engine/Actor/Component/TransformComponent.h"
 #include "../Engine/Actor/Component/RigidBodyComponent.h"
 #include "../DistanceJointComponent.h"
-#include "../FixedJointComponent.h"
-#include "../BaseJointComponent.h"
-#include "../HingeJointComponent.h"
-#include "../SpringJointComponent.h"
+
 
 MainMap::MainMap(const std::wstring& kName) : Level(kName),
     pawn2(nullptr),
@@ -28,14 +25,15 @@ void MainMap::Tick(float dt)
 
     if (timer > 3.0f && !flag1)
     {
-        pawn->GetComponent<SpringJointComponent>()->GetJoint()->ConnectedRigidBody(pawn3);
+        pawn->GetComponent<DistanceJointComponent>()->GetJoint()->ConnectedRigidBody(pawn3);
         flag1 = true;
     }
 
 
     if (timer > 6.0f && !flag2)
     {
-        //pawn->GetComponent<SpringJointComponent>()->GetJoint()->MotorSpeed(3.5f);
+        pawn->GetComponent<DistanceJointComponent>()->ConnectedRigidBody(pawn2);
+
         timer = 0.0f;
         flag2 = true;
     }
@@ -63,9 +61,10 @@ void MainMap::Load()
     pawn2->GetTransform()->SetRelativeLocation(Math::Vector2(0.0f, 7.5f));
     pawn2->GetComponent<RigidBodyComponent>()->SetBodyType(BodyType::kStatic);
     
-    pawn->CreateComponent<SpringJointComponent>(L"Fixed");
-    pawn->GetComponent<SpringJointComponent>()->CreateJointDefWithTarget(pawn2);
-    pawn->GetComponent<SpringJointComponent>()->CreateJoint();
+    pawn->CreateComponent<DistanceJointComponent>(L"Fixed");
+    pawn->GetComponent<DistanceJointComponent>()->CreateJointDefWithTarget(pawn2);
+    pawn->GetComponent<DistanceJointComponent>()->CreateJoint();
+    
     
 
 
@@ -108,9 +107,9 @@ void MainMap::DestroyReservedJoint()
     }
 }
 
-void MainMap::ReserveCreateJoint(b2Joint* joint, b2JointDef* jointDef, std::function<void(b2Joint*, b2JointDef*, b2World*)> func)
+void MainMap::ReserveCreateJoint(std::function<void()> func)
 {
-    createContainer_.push_back(std::tuple<b2Joint*, b2JointDef*, std::function<void(b2Joint*, b2JointDef*, b2World*)>>(joint, jointDef, func));
+    createContainer_.push_back(func);
 }
 
 void MainMap::CreateReservedJoint()
@@ -119,14 +118,7 @@ void MainMap::CreateReservedJoint()
     {
         for (auto& temp : createContainer_)
         {
-            auto joint = std::get<0>(temp);
-            auto jointDef = std::get<1>(temp);
-            auto functor = std::get<2>(temp);
-            
-            
-            joint = World::Get()->physics_world_->CreateJoint(jointDef);
-            functor(joint, jointDef, World::Get()->physics_world_.get());
-            
+            temp();
         }
         createContainer_.clear();
     }

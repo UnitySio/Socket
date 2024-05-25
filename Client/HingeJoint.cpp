@@ -47,9 +47,7 @@ void HingeJoint::MotorSpeed(const float& value)
 
 
 
-void HingeJoint::ResetJoint(b2Joint* joint, b2JointDef* jointDef, b2World* world)
+void HingeJoint::ResetJoint()
 {
-	joint_ = static_cast<HingeJoint*>(joint);
-	jointDef_ = static_cast<b2RevoluteJointDef*>(jointDef);
-	world_ = world;
+	joint_ = static_cast<b2RevoluteJoint*>(world_->CreateJoint(jointDef_));
 }

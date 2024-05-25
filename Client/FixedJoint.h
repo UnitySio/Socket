@@ -20,9 +20,8 @@ public:
 	void Distance(const float& distance);
 
 protected:
-	void ResetJoint(b2Joint* joint, b2JointDef* jointDef, b2World* world);
-	b2DistanceJoint* GetJoint() { return joint_; }
-	const b2DistanceJointDef* GetJointDef() { return jointDef_; }
+	void ResetJoint();
+	
 
 private:
 	template<typename Ty, typename Fy>

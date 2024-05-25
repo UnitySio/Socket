@@ -14,10 +14,16 @@ public:
 	void ConnectedAnchor(const Math::Vector2& pos);
 	void Anchor(const Math::Vector2& pos);
 	void AutoConfigureConnectedAnchor();
+	void SetDistance(const float& value);
+	void SetDampingRatio(const float& value);
+	void SetFrequency(const float& value);
+	void SetMaxDistance(const float& value);
+	void SetMinDistance(const float& value);
+
 
 
 protected:
-	void ResetJoint(b2Joint* joint, b2JointDef* jointDef, b2World* world);
+	void ResetJoint();
 
 
 

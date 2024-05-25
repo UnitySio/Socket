@@ -16,25 +16,18 @@ public:
 		jointDef_(nullptr),
 		owner_(owner),
 		target_(nullptr),
-		world_(World::Get()->physics_world_.get())
-	{};
-	virtual ~BaseJointComponent() {};
-
-
-
-	T* GetJoint() { return joint_; }
-	U* GetJointDef() { return jointDef_; }
-	void SetJointDef(U* input) { jointDef_ = input; }
-
-
+		world_(World::Get()->physics_world_.get()),
+		origin_(nullptr)
+	{}
+	virtual ~BaseJointComponent() {}
 	void CreateJointDefWithTarget(Actor* target);
-	virtual void CreateJoint() = 0;
+	virtual void CreateJoint() abstract;
+
 protected:
 	using Super = BaseJointComponent;
+	virtual void SetDefaultProperties() abstract;
 
-	virtual void SetDefaultProperties() = 0;
-
-
+	b2Joint* origin_;
 	T* joint_;
 	U* jointDef_;
 	Actor* owner_;
@@ -42,17 +35,15 @@ protected:
 	b2World* world_;
 };
 
+
+
 template<typename T, typename U>
 inline void BaseJointComponent<T, U>::CreateJointDefWithTarget(Actor* target)
 {
-	if(jointDef_ == nullptr)
+	if (jointDef_ == nullptr)
 		jointDef_ = new U;
 	target_ = target;
 	SetDefaultProperties();
 }
 
 
-
-#define RESETOR(_JointType) if (joint_ != nullptr)\
-static_cast<MainMap*>(World::Get()->GetLevel())->ReserveDestroyJoint(joint_);\
-static_cast<MainMap*>(World::Get()->GetLevel())->ReserveCreateJoint(joint_, jointDef_, std::bind(&_JointType::ResetJoint, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));

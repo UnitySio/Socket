@@ -8,6 +8,7 @@ class FixedJointComponent : public BaseJointComponent<FixedJoint, b2DistanceJoin
 public:
 	FixedJointComponent(class Actor* owner, const std::wstring& kName);
 	virtual ~FixedJointComponent() = default;
+	virtual void CreateJoint() override;
 
 
 
@@ -20,8 +21,9 @@ private:
 	Actor* owner_;
 
 
-	// Inherited via BaseJointComponent
 	virtual void SetDefaultProperties() override;
+
+
 
 };
 

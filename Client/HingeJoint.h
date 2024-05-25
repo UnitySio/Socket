@@ -19,7 +19,7 @@ public:
 
 
 protected:
-	void ResetJoint(b2Joint* joint, b2JointDef* jointDef, b2World* world);
+	void ResetJoint();
 	
 	
 
