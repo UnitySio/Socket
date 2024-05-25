@@ -12,12 +12,10 @@ class BaseJointComponent : public ActorComponent, public b2JointUserData
 public:
 	BaseJointComponent(class Actor* owner, const std::wstring& kName) :
 		ActorComponent(owner, kName),
-		joint_(nullptr),
 		jointDef_(nullptr),
 		owner_(owner),
 		target_(nullptr),
-		world_(World::Get()->physics_world_.get()),
-		origin_(nullptr)
+		world_(World::Get()->physics_world_.get())
 	{}
 	virtual ~BaseJointComponent() {}
 	void CreateJointDefWithTarget(Actor* target, const bool& flag = false);

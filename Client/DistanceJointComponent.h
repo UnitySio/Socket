@@ -38,7 +38,6 @@ protected:
 	virtual void CreateJoint() override;
 	virtual inline void InitializeComponent() override;
 	virtual inline void UninitializeComponent() override;
-	
 	virtual void SetDefaultProperties() override;
 
 private:

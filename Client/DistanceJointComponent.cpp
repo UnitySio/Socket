@@ -37,6 +37,7 @@ void DistanceJointComponent::SetDefaultProperties()
 	jointDef_->maxLength = 3.0f;
 	jointDef_->bodyA = owner_->body_;
 	jointDef_->bodyB = target_->body_;
+	
 }
 
 void DistanceJointComponent::CreateJoint()
