@@ -5,7 +5,6 @@
 
 class DistanceJointComponent : public BaseJointComponent<b2DistanceJoint, b2DistanceJointDef>
 {
-public:
 	class DistanceJoint
 	{
 		DistanceJoint(DistanceJointComponent* component, b2DistanceJoint* joint) :
@@ -16,7 +15,13 @@ public:
 	public:
 		void EnableCollision(const bool& flag);
 		void ConnectedRigidBody(Actor* target);
-
+		void Anchor(const Math::Vector2& pos);
+		void ConnectedAnchor(const Math::Vector2& pos);
+		void Distance(const float& value);
+		void SetMaxDistance(const float& value);
+		void SetMinDistance(const float& value);
+		void SetDampingRatio(const float& value);
+		void SetStiffness(const float& value);
 
 	private:
 		b2DistanceJoint* joint_;

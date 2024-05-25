@@ -24,10 +24,10 @@ inline void DistanceJointComponent::UninitializeComponent()
 {
 	ActorComponent::UninitializeComponent();
 	
-	if (joint_ != nullptr)
+	if (jointBody_ != nullptr)
 	{
-		delete joint_;
-		joint_ = nullptr;
+		delete jointBody_;
+		jointBody_ = nullptr;
 	}
 }
 
@@ -53,12 +53,54 @@ void DistanceJointComponent::CreateJoint()
 
 void DistanceJointComponent::DistanceJoint::EnableCollision(const bool& flag)
 {
-	component_->jointDef_->collideConnected = flag;
+	JOINT_DEF->collideConnected = flag;
 	JOINT_RESETOR(DistanceJointComponent)
 }
 
 void DistanceJointComponent::DistanceJoint::ConnectedRigidBody(Actor* target)
 {
-	component_->jointDef_->bodyB = target->body_;
+	JOINT_DEF->bodyB = target->body_;
 	JOINT_RESETOR(DistanceJointComponent)
+}
+
+void DistanceJointComponent::DistanceJoint::Anchor(const Math::Vector2& pos)
+{
+	JOINT_DEF->localAnchorA = b2Vec2(pos.x, pos.y);
+	JOINT_RESETOR(DistanceJointComponent)
+}
+
+void DistanceJointComponent::DistanceJoint::ConnectedAnchor(const Math::Vector2& pos)
+{
+	JOINT_DEF->localAnchorB = b2Vec2(pos.x, pos.y);
+	JOINT_RESETOR(DistanceJointComponent)
+}
+
+void DistanceJointComponent::DistanceJoint::Distance(const float& value)
+{
+	JOINT_DEF->length = value;
+	joint_->SetLength(value);
+}
+
+void DistanceJointComponent::DistanceJoint::SetMaxDistance(const float& value)
+{
+	JOINT_DEF->maxLength = value;
+	joint_->SetMaxLength(value);
+}
+
+void DistanceJointComponent::DistanceJoint::SetMinDistance(const float& value)
+{
+	JOINT_DEF->minLength = value;
+	joint_->SetMinLength(value);
+}
+
+void DistanceJointComponent::DistanceJoint::SetDampingRatio(const float& value)
+{
+	JOINT_DEF->damping = value;
+	joint_->SetDamping(value);
+}
+
+void DistanceJointComponent::DistanceJoint::SetStiffness(const float& value)
+{
+	JOINT_DEF->stiffness = value;
+	joint_->SetStiffness(value);
 }

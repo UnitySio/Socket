@@ -27,8 +27,6 @@ protected:
 	virtual void CreateJoint() abstract;
 	virtual void SetDefaultProperties() abstract;
 
-	b2Joint* origin_;
-	T* joint_;
 	U* jointDef_;
 	Actor* owner_;
 	Actor* target_;
@@ -56,3 +54,5 @@ inline void BaseJointComponent<T, U>::CreateJointDefWithTarget(Actor* target, co
 
 #define JOINT_RESETOR(_JointComponentType) static_cast<MainMap*>(World::Get()->GetLevel())->ReserveDestroyJoint(joint_);\
 static_cast<MainMap*>(World::Get()->GetLevel())->ReserveCreateJoint(std::bind(&_JointComponentType::CreateJoint, this->component_));
+
+#define JOINT_DEF component_->jointDef_

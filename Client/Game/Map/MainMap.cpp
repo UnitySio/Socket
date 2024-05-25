@@ -23,16 +23,21 @@ void MainMap::Tick(float dt)
     timer += dt;
 
 
-    if (timer > 3.0f && !flag1)
+    if (timer > 1.0f && !flag1)
     {
         pawn->GetComponent<DistanceJointComponent>()->GetJoint()->ConnectedRigidBody(pawn3);
         flag1 = true;
     }
 
 
-    if (timer > 6.0f && !flag2)
+    if (timer > 3.0f && !flag2)
     {
-        timer = 0.0f;
+        pawn->GetComponent<DistanceJointComponent>()->GetJoint()->Distance(0.5f);
+        pawn->GetComponent<DistanceJointComponent>()->GetJoint()->SetMaxDistance(0.5f);
+        pawn->GetComponent<DistanceJointComponent>()->GetJoint()->SetMinDistance(0.3f);
+        pawn->GetComponent<DistanceJointComponent>()->GetJoint()->SetStiffness(1000.0f);
+        pawn->GetComponent<DistanceJointComponent>()->GetJoint()->SetDampingRatio(1.0f);
+
         flag2 = true;
     }
 }
