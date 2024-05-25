@@ -20,11 +20,11 @@ public:
 		origin_(nullptr)
 	{}
 	virtual ~BaseJointComponent() {}
-	void CreateJointDefWithTarget(Actor* target);
-	virtual void CreateJoint() abstract;
+	void CreateJointDefWithTarget(Actor* target, const bool& flag = false);
 
 protected:
 	using Super = BaseJointComponent;
+	virtual void CreateJoint() abstract;
 	virtual void SetDefaultProperties() abstract;
 
 	b2Joint* origin_;
@@ -38,12 +38,21 @@ protected:
 
 
 template<typename T, typename U>
-inline void BaseJointComponent<T, U>::CreateJointDefWithTarget(Actor* target)
+inline void BaseJointComponent<T, U>::CreateJointDefWithTarget(Actor* target, const bool& flag)
 {
 	if (jointDef_ == nullptr)
 		jointDef_ = new U;
 	target_ = target;
 	SetDefaultProperties();
+
+	if (flag)
+		CreateJoint();
+	
+		
 }
 
 
+
+
+#define JOINT_RESETOR(_JointComponentType) static_cast<MainMap*>(World::Get()->GetLevel())->ReserveDestroyJoint(joint_);\
+static_cast<MainMap*>(World::Get()->GetLevel())->ReserveCreateJoint(std::bind(&_JointComponentType::CreateJoint, this->component_));

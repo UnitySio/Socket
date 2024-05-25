@@ -32,8 +32,6 @@ void MainMap::Tick(float dt)
 
     if (timer > 6.0f && !flag2)
     {
-        pawn->GetComponent<DistanceJointComponent>()->ConnectedRigidBody(pawn2);
-
         timer = 0.0f;
         flag2 = true;
     }
@@ -62,8 +60,7 @@ void MainMap::Load()
     pawn2->GetComponent<RigidBodyComponent>()->SetBodyType(BodyType::kStatic);
     
     pawn->CreateComponent<DistanceJointComponent>(L"Fixed");
-    pawn->GetComponent<DistanceJointComponent>()->CreateJointDefWithTarget(pawn2);
-    pawn->GetComponent<DistanceJointComponent>()->CreateJoint();
+    pawn->GetComponent<DistanceJointComponent>()->CreateJointDefWithTarget(pawn2, true);
     
     
 

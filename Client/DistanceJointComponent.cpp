@@ -13,10 +13,6 @@ DistanceJointComponent::DistanceJointComponent(Actor* owner, const std::wstring&
 {
 }
 
-void DistanceJointComponent::ConnectedRigidBody(Actor* target)
-{
-
-}
 
 inline void DistanceJointComponent::InitializeComponent()
 {
@@ -41,7 +37,6 @@ void DistanceJointComponent::SetDefaultProperties()
 	jointDef_->maxLength = 3.0f;
 	jointDef_->bodyA = owner_->body_;
 	jointDef_->bodyB = target_->body_;
-
 }
 
 void DistanceJointComponent::CreateJoint()
@@ -52,16 +47,18 @@ void DistanceJointComponent::CreateJoint()
 	
 	else
 		jointBody_->joint_ = temp;
-	
-		
 }
 
 
 
+void DistanceJointComponent::DistanceJoint::EnableCollision(const bool& flag)
+{
+	component_->jointDef_->collideConnected = flag;
+	JOINT_RESETOR(DistanceJointComponent)
+}
+
 void DistanceJointComponent::DistanceJoint::ConnectedRigidBody(Actor* target)
 {
 	component_->jointDef_->bodyB = target->body_;
-
-	static_cast<MainMap*>(World::Get()->GetLevel())->ReserveDestroyJoint(joint_);
-	static_cast<MainMap*>(World::Get()->GetLevel())->ReserveCreateJoint(std::bind(&DistanceJointComponent::CreateJoint, this->component_));
+	JOINT_RESETOR(DistanceJointComponent)
 }
