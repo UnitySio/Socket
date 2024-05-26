@@ -113,6 +113,7 @@ void DistanceJointComponent::DistanceJoint::SetDampingRatio(const float& value)
 {
 	JOINT_DEF->damping = value;
 	joint_->SetDamping(value);
+	
 }
 
 void DistanceJointComponent::DistanceJoint::SetStiffness(const float& value)

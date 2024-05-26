@@ -51,4 +51,3 @@ protected:
 private:
 	DistanceJoint* jointBody_;
 };
-
