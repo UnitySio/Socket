@@ -14,7 +14,7 @@ public:
 
 #pragma region Joint
     void ReserveDestroyJoint(b2Joint* joint);
-    void ReserveCreateJoint(std::function<void()> func);
+    void ReserveCreateJoint(std::function<void()>&& func);
 #pragma endregion
 
 private:

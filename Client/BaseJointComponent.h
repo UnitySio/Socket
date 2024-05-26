@@ -55,7 +55,7 @@ inline void BaseJointComponent<T, U>::CreateJointDefWithTarget(Actor* target, co
 
 #ifdef OPT_JOINT_RESET
 #define JOINT_RESETOR(_JointComponentType) static_cast<MainMap*>(World::Get()->GetLevel())->ReserveDestroyJoint(joint_);\
-static_cast<MainMap*>(World::Get()->GetLevel())->ReserveCreateJoint(std::bind(&_JointComponentType::CreateJoint, this->component_));
+static_cast<MainMap*>(World::Get()->GetLevel())->ReserveCreateJoint(std::move(std::bind(&_JointComponentType::CreateJoint, this->component_)));
 #endif
 
 #ifdef OPT_JOINT_NONRESET

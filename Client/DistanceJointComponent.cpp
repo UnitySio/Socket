@@ -56,14 +56,14 @@ void DistanceJointComponent::CreateJoint()
 void DistanceJointComponent::DistanceJoint::CreateJoint(const bool& flag)
 {
 	if (flag)
-		static_cast<MainMap*>(World::Get()->GetLevel())->ReserveCreateJoint(std::bind(&DistanceJointComponent::CreateJoint, this->component_));
+		static_cast<MainMap*>(World::Get()->GetLevel())->ReserveCreateJoint(std::move(std::bind(&DistanceJointComponent::CreateJoint, this->component_)));
 	
 
 	else if (!flag)
 	{
 		if(joint_ != nullptr)
 			static_cast<MainMap*>(World::Get()->GetLevel())->ReserveDestroyJoint(joint_);
-		static_cast<MainMap*>(World::Get()->GetLevel())->ReserveCreateJoint(std::bind(&DistanceJointComponent::CreateJoint, this->component_));
+		static_cast<MainMap*>(World::Get()->GetLevel())->ReserveCreateJoint(std::move(std::bind(&DistanceJointComponent::CreateJoint, this->component_)));
 	}
 }
 

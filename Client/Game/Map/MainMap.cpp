@@ -15,6 +15,7 @@ MainMap::MainMap(const std::wstring& kName) : Level(kName),
     flag1(false),
     flag2(false)
 {
+    
 }
 
 void MainMap::Tick(float dt)
@@ -110,9 +111,9 @@ void MainMap::DestroyReservedJoint()
     }
 }
 
-void MainMap::ReserveCreateJoint(std::function<void()> func)
+void MainMap::ReserveCreateJoint(std::function<void()>&& func)
 {
-    createContainer_.push_back(func);
+    createContainer_.push_back(std::move(func));
 }
 
 void MainMap::CreateReservedJoint()
