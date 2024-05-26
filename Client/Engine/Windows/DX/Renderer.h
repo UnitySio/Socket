@@ -58,6 +58,14 @@ public:
     bool CreateDepthStencilBuffer(Viewport& viewport);
     bool ResizeViewport(const SHARED_PTR<WindowsWindow>& window, MathTypes::uint32 width, MathTypes::uint32 height);
 
+    // TEST
+    bool CreateRenderToTexture();
+
+    void BeginRTT();
+    void EndRTT();
+
+    inline const Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>& GetSRV() const { return srv_; }
+
     Viewport* FindViewport(WindowsWindow* window);
     D2DViewport* FindD2DViewport(WindowsWindow* window);
 
@@ -96,5 +104,10 @@ private:
     
     Viewport* current_viewport_;
     D2DViewport* current_d2d_viewport_;
+
+    // TEST
+    Microsoft::WRL::ComPtr<ID3D11Texture2D> texture_;
+    Microsoft::WRL::ComPtr<ID3D11RenderTargetView> rtv_;
+    Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> srv_;
     
 };

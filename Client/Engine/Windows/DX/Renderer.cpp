@@ -31,6 +31,9 @@ bool Renderer::Init()
     hr = CoCreateInstance(CLSID_WICImagingFactory, nullptr, CLSCTX_INPROC_SERVER, IID_PPV_ARGS(wic_imaging_factory_.GetAddressOf()));
     if (FAILED(hr)) return false;
 
+    // TEST
+    if (!CreateRenderToTexture()) return false;
+
     return true;
 }
 
@@ -263,6 +266,65 @@ bool Renderer::ResizeViewport(const std::shared_ptr<WindowsWindow>& window, Math
     }
 
     return false;
+}
+
+bool Renderer::CreateRenderToTexture()
+{
+    D3D11_TEXTURE2D_DESC texture_desc;
+    ZeroMemory(&texture_desc, sizeof(D3D11_TEXTURE2D_DESC));
+
+    texture_desc.Width = 640;
+    texture_desc.Height = 480;
+    texture_desc.MipLevels = 1;
+    texture_desc.ArraySize = 1;
+    texture_desc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+    texture_desc.SampleDesc.Count = 1;
+    texture_desc.Usage = D3D11_USAGE_DEFAULT;
+    texture_desc.BindFlags = D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE;
+    texture_desc.CPUAccessFlags = 0;
+    texture_desc.MiscFlags = 0;
+
+    HRESULT hr = d3d_device_->CreateTexture2D(&texture_desc, nullptr, texture_.GetAddressOf());
+    if (FAILED(hr)) return false;
+
+    D3D11_RENDER_TARGET_VIEW_DESC rtv_desc;
+    ZeroMemory(&rtv_desc, sizeof(D3D11_RENDER_TARGET_VIEW_DESC));
+
+    rtv_desc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+    rtv_desc.ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2D;
+    rtv_desc.Texture2D.MipSlice = 0;
+
+    hr = d3d_device_->CreateRenderTargetView(texture_.Get(), &rtv_desc, rtv_.GetAddressOf());
+    if (FAILED(hr)) return false;
+
+    D3D11_SHADER_RESOURCE_VIEW_DESC srv_desc;
+    ZeroMemory(&srv_desc, sizeof(D3D11_SHADER_RESOURCE_VIEW_DESC));
+
+    srv_desc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+    srv_desc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
+    srv_desc.Texture2D.MostDetailedMip = 0;
+    srv_desc.Texture2D.MipLevels = 1;
+
+    hr = d3d_device_->CreateShaderResourceView(texture_.Get(), &srv_desc, srv_.GetAddressOf());
+    return SUCCEEDED(hr);
+}
+
+void Renderer::BeginRTT()
+{
+    constexpr float clear_color[4] = {
+        49.f / 255.f,
+        77.f / 255.f,
+        121.f / 255.f,
+        1.f
+    };
+
+    d3d_device_context_->ClearRenderTargetView(rtv_.Get(), clear_color);
+    d3d_device_context_->OMSetRenderTargets(1, rtv_.GetAddressOf(), nullptr);
+}
+
+void Renderer::EndRTT()
+{
+    d3d_device_context_->OMSetRenderTargets(0, nullptr, nullptr);
 }
 
 Viewport* Renderer::FindViewport(WindowsWindow* window)

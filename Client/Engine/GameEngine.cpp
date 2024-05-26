@@ -72,12 +72,37 @@ void GameEngine::GameLoop(float delta_time)
     alpha = accumulator / ProjectSettings::kFixedTimeStep;
     World::Get()->Tick(delta_time);
 #pragma endregion
+    ImGui::DockSpaceOverViewport(ImGui::GetMainViewport());
+    if (ImGui::BeginMainMenuBar())
+    {
+        if (ImGui::BeginMenu("File"))
+        {
+            if (ImGui::MenuItem("Quit"))
+            {
+            }
+            
+            ImGui::EndMenu();
+        }
+    }
+
+    ImGui::EndMainMenuBar();
+    
+    Renderer* renderer = Renderer::Get();
+    renderer->BeginRTT();
+    World::Get()->Render(alpha);
+    renderer->EndRTT();
+
+    if (ImGui::Begin("Game (Edit Mode)"))
+    {
+        ImGui::Image(renderer->GetSRV().Get(), ImVec2(320, 240));
+    }
+
+    ImGui::End();
 
 #pragma region Render
     ImGui::Render();
     
     Renderer::Get()->BeginRender(game_window_);
-    World::Get()->Render(alpha);
     
     ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
 
