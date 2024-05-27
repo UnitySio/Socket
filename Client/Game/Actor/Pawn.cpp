@@ -13,13 +13,11 @@
 #include "Actor/Component/TransformComponent.h"
 #include "Actor/Component/AudioListenerComponent.h"
 #include "Level/World.h"
-#include "Physics/HitResult.h"
-#include "Physics/Physics.h"
+#include "Windows/DX/Shape.h"
+#include "Windows/DX/Texture.h"
 
 Pawn::Pawn(const std::wstring& kName) :
-    Actor(kName),
-    box_collider_(nullptr),
-    rigid_body_(nullptr)
+    Actor(kName)
 {
     input_ = CreateComponent<InputComponent>(L"Input");
     input_->RegisterKey(VK_RIGHT);
@@ -34,6 +32,11 @@ Pawn::Pawn(const std::wstring& kName) :
     rigid_body_->SetFreezeRotation(false);
     
     audio_listener_ = CreateComponent<AudioListenerComponent>(L"AudioListener");
+
+    texture_ = MAKE_SHARED<Texture>();
+    CHECK_IF(texture_->Load(L".\\Game_Data\\spritesheet.png"), L"Failed to load texture");
+
+    texture_->SetFilterMode(FilterMode::kPoint);
     
 }
 
@@ -68,6 +71,15 @@ void Pawn::Tick(float delta_time)
 void Pawn::Render(float alpha)
 {
     Actor::Render(alpha);
+
+    SHARED_PTR<Shape> shape = MAKE_SHARED<Shape>();
+    shape->SetVertices(texture_->GetVertices());
+    shape->SetIndices(texture_->GetIndices());
+    shape->SetTexture(texture_);
+    shape->SetPosition({0.f, 0.f});
+    shape->SetScale({96.f, 16.f});
+
+    World::Get()->AddShape(shape);
     
 }
 

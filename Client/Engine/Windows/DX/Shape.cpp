@@ -7,7 +7,8 @@ Shape::Shape() :
     primitive_topology_(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST),
     position_(Math::Vector2::Zero()),
     scale_(Math::Vector2::One()),
-    rotation_(0.f)
+    rotation_(0.f),
+    texture_(nullptr)
 {
     UpdateMatrixx();
 }

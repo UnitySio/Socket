@@ -73,6 +73,8 @@ public:
     DefaultPixelShader();
     virtual ~DefaultPixelShader() override = default;
 
+    void EnableTexture(BOOL has_texture);
+
 protected:
     virtual void UpdateParameters() override;
 

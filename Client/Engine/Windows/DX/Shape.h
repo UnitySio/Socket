@@ -32,6 +32,9 @@ public:
 
     inline D3D11_PRIMITIVE_TOPOLOGY GetPrimitiveTopology() const { return primitive_topology_; }
 
+    inline void SetTexture(const SHARED_PTR<Texture>& kTexture) { texture_ = kTexture; }
+    inline const SHARED_PTR<Texture>& GetTexture() const { return texture_; }
+
 protected:
     virtual void UpdateMatrixx();
     
@@ -46,5 +49,7 @@ protected:
     Math::Vector2 scale_;
     
     float rotation_;
+
+    SHARED_PTR<Texture> texture_;
     
 };

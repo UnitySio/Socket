@@ -103,6 +103,11 @@ DefaultPixelShader::DefaultPixelShader()
     CHECK(r);
 }
 
+void DefaultPixelShader::EnableTexture(BOOL has_texture)
+{
+    constant_buffer_.GetBufferData().has_texture = has_texture;
+}
+
 void DefaultPixelShader::UpdateParameters()
 {
     PixelShader::UpdateParameters();

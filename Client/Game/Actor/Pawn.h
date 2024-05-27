@@ -1,6 +1,8 @@
 ﻿#pragma once
 #include "Actor/Actor.h"
 
+class Texture;
+
 class Pawn : public Actor
 {
 public:
@@ -13,13 +15,13 @@ public:
     virtual void Render(float alpha) override;
     virtual void EndPlay(EndPlayReason type) override;
 
-    void OnCallback();
-
 private:
     // Actor components
     class InputComponent* input_;
     class BoxColliderComponent* box_collider_;
     class RigidBodyComponent* rigid_body_;
     class AudioListenerComponent* audio_listener_;
+
+    SHARED_PTR<Texture> texture_;
     
 };
