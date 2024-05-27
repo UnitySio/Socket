@@ -111,7 +111,16 @@ DWORD Core::GameThread(LPVOID lpParam)
 #pragma region DeltaTime
         last_time_ = current_time_;
         current_time_ = Time::Seconds();
-        delta_time_ = current_time_ - last_time_;
+        
+        float elapsed_time = static_cast<float>(current_time_ - last_time_);
+        float sleep_time = (1.f / 60.f) - elapsed_time;
+        if (sleep_time > 0.f)
+        {
+            DWORD sleep_ms = static_cast<DWORD>(sleep_time * 1000.f);
+            Sleep(sleep_ms);
+        }
+
+        delta_time_ = elapsed_time + sleep_time;
 #pragma endregion
         
         if (const auto& window = core->game_window_.lock())
