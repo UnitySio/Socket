@@ -55,6 +55,7 @@ protected:
 
     Math::Vector2 position_;
     Math::Vector2 scale_;
+    Math::Vector2 pivot_;
     
     float rotation_;
 

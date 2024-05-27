@@ -78,6 +78,7 @@ void Pawn::Render(float alpha)
     shape->SetTexture(texture_);
     shape->SetPosition({0.f, 0.f});
     shape->SetScale({96.f, 16.f});
+    shape->SetZOrder(1);
 
     World::Get()->AddShape(shape);
     
