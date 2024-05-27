@@ -1,5 +1,7 @@
 ﻿#include "World.h"
 
+#include <algorithm>
+
 #include "EventManager.h"
 #include "Level.h"
 #include "Map/MainMap.h"
@@ -96,6 +98,9 @@ void World::Render(float alpha)
         current_level_->Render(alpha);
         physics_world_->DebugDraw();
     }
+
+    // 추후 개선 필요
+    std::ranges::sort(shapes_, Shape::CompareZOrder);
 
     shape_batch_->DrawShapes(window_, shapes_);
     shapes_.clear();

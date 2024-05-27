@@ -38,7 +38,10 @@ public:
     inline void SetZOrder(int z_order) { z_order_ = z_order; }
     inline int GetZOrder() const { return z_order_; }
 
-    inline bool CompareZOrder(const Shape& kShape) const { return z_order_ < kShape.z_order_; }
+    inline static bool CompareZOrder(const SHARED_PTR<Shape>& lhs, const SHARED_PTR<Shape>& rhs)
+    {
+        return lhs->GetZOrder() < rhs->GetZOrder();
+    }
 
 protected:
     virtual void UpdateMatrixx();
