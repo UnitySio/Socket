@@ -27,17 +27,31 @@ void Shape::SetScale(Math::Vector2 scale)
     UpdateMatrixx();
 }
 
+void Shape::SetPivot(Math::Vector2 pivot)
+{
+    pivot_ = pivot;
+    UpdateMatrixx();
+}
+
 void Shape::SetRotation(float rotation)
 {
     rotation_ = rotation;
     UpdateMatrixx();
 }
 
+bool Shape::CompareZOrder(const std::shared_ptr<Shape>& lhs, const std::shared_ptr<Shape>& rhs)
+{
+    return lhs->GetZOrder() < rhs->GetZOrder();
+}
+
 void Shape::UpdateMatrixx()
 {
-    world_matrix_ = DirectX::XMMatrixScaling(scale_.x, scale_.y, 1.f) *
-        DirectX::XMMatrixTranslation(-pivot_.x, -pivot_.y, 0.f) *
-        DirectX::XMMatrixRotationZ(rotation_) *
-        DirectX::XMMatrixTranslation(pivot_.x, pivot_.y, 0.f) *
-        DirectX::XMMatrixTranslation(position_.x - pivot_.x, position_.y - pivot_.y, 0.f);
+    if (scale_.x < 0.f) scale_.x *= -1.f;
+    if (scale_.y < 0.f) scale_.y *= -1.f;
+    
+    world_matrix_ = DirectX::XMMatrixScaling(scale_.x, scale_.y, 1.f) * // 크기 조정
+        DirectX::XMMatrixTranslation(-pivot_.x, -pivot_.y, 0.f) * // Pivot 위치로 이동
+        DirectX::XMMatrixRotationZ(rotation_) * // 회전
+        DirectX::XMMatrixTranslation(pivot_.x, pivot_.y, 0.f) * // 원래 위치로 이동
+        DirectX::XMMatrixTranslation(position_.x - pivot_.x, position_.y - pivot_.y, 0.f); // 최종 위치로 이동
 }

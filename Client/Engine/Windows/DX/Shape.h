@@ -19,6 +19,7 @@ public:
 
     void SetPosition(Math::Vector2 position);
     void SetScale(Math::Vector2 scale);
+    void SetPivot(Math::Vector2 pivot);
     void SetRotation(float rotation);
 
     inline void SetVertices(const std::vector<DefaultVertex>& kVertices) { vertices_ = kVertices; }
@@ -32,16 +33,19 @@ public:
 
     inline D3D11_PRIMITIVE_TOPOLOGY GetPrimitiveTopology() const { return primitive_topology_; }
 
+    inline const Math::Vector2& GetPosition() const { return position_; }
+    inline const Math::Vector2& GetScale() const { return scale_; }
+    inline const Math::Vector2& GetPivot() const { return pivot_; }
+    
+    inline float GetRotation() const { return rotation_; }
+
     inline void SetTexture(const SHARED_PTR<Texture>& kTexture) { texture_ = kTexture; }
     inline const SHARED_PTR<Texture>& GetTexture() const { return texture_; }
 
     inline void SetZOrder(int z_order) { z_order_ = z_order; }
     inline int GetZOrder() const { return z_order_; }
 
-    inline static bool CompareZOrder(const SHARED_PTR<Shape>& lhs, const SHARED_PTR<Shape>& rhs)
-    {
-        return lhs->GetZOrder() < rhs->GetZOrder();
-    }
+    static bool CompareZOrder(const SHARED_PTR<Shape>& lhs, const SHARED_PTR<Shape>& rhs);
 
 protected:
     virtual void UpdateMatrixx();

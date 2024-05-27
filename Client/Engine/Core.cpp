@@ -12,6 +12,7 @@
 
 double Core::current_time_ = 0.;
 double Core::last_time_ = 0.;
+double Core::time_step_ = 1. / 60.;
 double Core::delta_time_ = 0.;
 
 MathTypes::uint32 Core::resize_width_ = 0;
@@ -48,11 +49,12 @@ void Core::Init(const HINSTANCE instance_handle)
     current_application_->InitWindow(new_window, definition, nullptr);
 
     // 렌더러에 뷰포트 생성
-    CHECK_IF(Renderer::Get()->CreateViewport(new_window, {definition->width, definition->height}), L"Failed to create viewport.");
+    CHECK_IF(Renderer::Get()->CreateViewport(new_window, {definition->width, definition->height}),
+             L"Failed to create viewport.");
     CHECK_IF(Renderer::Get()->CreateD2DViewport(new_window), L"Failed to create D2D viewport.");
-    
+
     game_window_ = new_window;
-    
+
     // 게임 엔진 생성
     game_engine_ = MAKE_SHARED<GameEngine>();
     game_engine_->Init(new_window);
@@ -64,19 +66,36 @@ void Core::Init(const HINSTANCE instance_handle)
 }
 
 extern LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
+
 bool Core::ProcessMessage(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam, MathTypes::uint32 handler_result)
 {
     if (ImGui_ImplWin32_WndProcHandler(hWnd, message, wParam, lParam)) return true;
     if (Keyboard::Get()->ProcessMessage(message, wParam, lParam, handler_result)) return true;
 
+    if (message == WM_SETFOCUS)
+    {
+        if (const auto window = game_window_.lock())
+        {
+            time_step_ = 1. / 60.;
+        }
+    }
+
+    if (message == WM_KILLFOCUS)
+    {
+        if (const auto window = game_window_.lock())
+        {
+            time_step_ = 1. / 8.;
+        }
+    }
+
     if (message == WM_SIZE)
     {
         if (wParam == SIZE_MINIMIZED) return false;
-        
+
         resize_width_ = LOWORD(lParam);
         resize_height_ = HIWORD(lParam);
     }
-    
+
     if (message == WM_DESTROY)
     {
         if (const auto window = game_window_.lock())
@@ -84,7 +103,7 @@ bool Core::ProcessMessage(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam,
             if (window->GetHWnd() == hWnd)
             {
                 is_game_running_ = false;
-                
+
                 // 게임 스레드가 종료될 때까지 대기
                 WaitForSingleObject(game_thread_handle_, INFINITE);
                 game_engine_->OnQuit();
@@ -94,7 +113,7 @@ bool Core::ProcessMessage(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam,
             }
         }
     }
-    
+
     return false;
 }
 
@@ -105,15 +124,15 @@ DWORD Core::GameThread(LPVOID lpParam)
 
     GameEngine* game_engine = core->game_engine_.get();
     core->is_game_running_ = true;
-    
+
     while (true)
     {
 #pragma region DeltaTime
         last_time_ = current_time_;
         current_time_ = Time::Seconds();
-        
-        float elapsed_time = static_cast<float>(current_time_ - last_time_);
-        float sleep_time = (1.f / 60.f) - elapsed_time;
+
+        double elapsed_time = current_time_ - last_time_;
+        double sleep_time = time_step_ - elapsed_time;
         if (sleep_time > 0.f)
         {
             DWORD sleep_ms = static_cast<DWORD>(sleep_time * 1000.f);
@@ -122,22 +141,22 @@ DWORD Core::GameThread(LPVOID lpParam)
 
         delta_time_ = elapsed_time + sleep_time;
 #pragma endregion
-        
+
         if (const auto& window = core->game_window_.lock())
         {
             if (resize_width_ > 0 && resize_height_ > 0)
             {
                 Renderer::Get()->ResizeViewport(window, resize_width_, resize_height_);
-                
+
                 resize_width_ = 0;
                 resize_height_ = 0;
             }
-            
+
             game_engine->GameLoop(delta_time_);
         }
-        
+
         if (!core->is_game_running_) break;
     }
-    
+
     return 0;
 }

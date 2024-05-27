@@ -28,6 +28,7 @@ private:
 
     static double current_time_;
     static double last_time_;
+    static double time_step_;
     static double delta_time_;
     
     static MathTypes::uint32 resize_width_;
