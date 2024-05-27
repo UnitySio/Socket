@@ -38,7 +38,10 @@ void DistanceJointComponent::SetDefaultProperties(const bool& flag)
 	jointDef_->bodyA = owner_->body_;
 	jointDef_->bodyB = target_->body_;
 	if (jointBody_ == nullptr)
+	{
 		jointBody_ = new DistanceJoint(this, nullptr, flag);
+	}
+		
 }
 
 void DistanceJointComponent::CreateJoint()
@@ -56,14 +59,14 @@ void DistanceJointComponent::CreateJoint()
 void DistanceJointComponent::DistanceJoint::CreateJoint(const bool& flag)
 {
 	if (flag)
-		static_cast<MainMap*>(World::Get()->GetLevel())->ReserveCreateJoint(std::move(std::bind(&DistanceJointComponent::CreateJoint, this->component_)));
+		RESERVE(DistanceJointComponent)
 	
 
 	else if (!flag)
 	{
-		if(joint_ != nullptr)
-			static_cast<MainMap*>(World::Get()->GetLevel())->ReserveDestroyJoint(joint_);
-		static_cast<MainMap*>(World::Get()->GetLevel())->ReserveCreateJoint(std::move(std::bind(&DistanceJointComponent::CreateJoint, this->component_)));
+		if (joint_ != nullptr)
+			DESTROY
+		RESERVE(DistanceJointComponent)
 	}
 }
 

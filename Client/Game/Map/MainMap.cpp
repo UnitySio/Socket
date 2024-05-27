@@ -6,6 +6,7 @@
 #include "../Engine/Actor/Component/TransformComponent.h"
 #include "../Engine/Actor/Component/RigidBodyComponent.h"
 #include "../DistanceJointComponent.h"
+#include "../HingeJointComponent.h"
 
 
 MainMap::MainMap(const std::wstring& kName) : Level(kName),
@@ -27,18 +28,18 @@ void MainMap::Tick(float dt)
     if (timer > 1.0f && !flag1)
     {
         pawn->GetComponent<DistanceJointComponent>()->GetJoint()->ConnectedRigidBody(pawn3);
+        
+
         flag1 = true;
     }
 
 
     if (timer > 3.0f && !flag2)
     {
-        pawn->GetComponent<DistanceJointComponent>()->GetJoint()->Distance(0.5f);
-        pawn->GetComponent<DistanceJointComponent>()->GetJoint()->SetMaxDistance(0.5f);
-        pawn->GetComponent<DistanceJointComponent>()->GetJoint()->SetMinDistance(0.3f);
-        pawn->GetComponent<DistanceJointComponent>()->GetJoint()->SetStiffness(1000.0f);
-        pawn->GetComponent<DistanceJointComponent>()->GetJoint()->SetDampingRatio(1.0f);
-
+       
+        pawn->GetComponent<DistanceJointComponent>()->GetJoint()->Distance(1.0f);
+        pawn->GetComponent<DistanceJointComponent>()->GetJoint()->SetStiffness(100.0f);
+        pawn->GetComponent<DistanceJointComponent>()->GetJoint()->SetDampingRatio(0.5f);
         flag2 = true;
     }
 }
@@ -66,8 +67,11 @@ void MainMap::Load()
     pawn2->GetComponent<RigidBodyComponent>()->SetBodyType(BodyType::kStatic);
     
     pawn->CreateComponent<DistanceJointComponent>(L"Fixed");
-    pawn->GetComponent<DistanceJointComponent>()->CreateJointDefWithTarget(pawn2);
-    pawn->GetComponent<DistanceJointComponent>()->GetJoint()->CreateJoint();
+    pawn->GetComponent<DistanceJointComponent>()->CreateJointDefWithTarget(pawn2, true);
+    pawn->GetComponent<DistanceJointComponent>()->GetJoint()->SetMaxDistance(3.0f);
+    pawn->GetComponent<DistanceJointComponent>()->GetJoint()->SetMinDistance(1.0f);
+
+
     
     
 

@@ -10,8 +10,11 @@ class DistanceJointComponent : public BaseJointComponent<b2DistanceJoint, b2Dist
 			component_(component),
 			joint_(joint)
 		{
-			if(flag)
-				static_cast<MainMap*>(World::Get()->GetLevel())->ReserveCreateJoint(std::bind(&DistanceJointComponent::CreateJoint, this->component_));
+			if (flag)
+			{
+				const auto& temp = static_cast<b2DistanceJoint*>(component_->world_->CreateJoint(JOINT_DEF));
+				joint_ = const_cast<b2DistanceJoint*>(temp);
+			}
 		};
 		
 	public:

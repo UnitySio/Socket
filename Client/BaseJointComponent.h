@@ -27,7 +27,12 @@ public:
 		world_(World::Get()->physics_world_.get())
 	{}
 	virtual ~BaseJointComponent() {}
-	void CreateJointDefWithTarget(Actor* target, const bool& flag = false);
+	/// <summary>
+	/// True is Recommended (Default : True)
+	/// </summary>
+	/// <param name="target -> target Actor"></param>
+	/// <param name="flag -> Create Joint With JointDef Directly"></param>
+	void CreateJointDefWithTarget(Actor* target, const bool& flag = true);
 
 protected:
 	using Super = BaseJointComponent;
@@ -63,3 +68,6 @@ static_cast<MainMap*>(World::Get()->GetLevel())->ReserveCreateJoint(std::move(st
 #endif
 
 #define JOINT_DEF component_->jointDef_
+
+#define RESERVE(_JointType) static_cast<MainMap*>(World::Get()->GetLevel())->ReserveCreateJoint(std::move(std::bind(&_JointType::CreateJoint, this->component_)));
+#define DESTROY static_cast<MainMap*>(World::Get()->GetLevel())->ReserveDestroyJoint(joint_);
