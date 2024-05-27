@@ -35,6 +35,11 @@ public:
     inline void SetTexture(const SHARED_PTR<Texture>& kTexture) { texture_ = kTexture; }
     inline const SHARED_PTR<Texture>& GetTexture() const { return texture_; }
 
+    inline void SetZOrder(int z_order) { z_order_ = z_order; }
+    inline int GetZOrder() const { return z_order_; }
+
+    inline bool CompareZOrder(const Shape& kShape) const { return z_order_ < kShape.z_order_; }
+
 protected:
     virtual void UpdateMatrixx();
     
@@ -51,5 +56,7 @@ protected:
     float rotation_;
 
     SHARED_PTR<Texture> texture_;
+
+    int z_order_;
     
 };

@@ -8,7 +8,8 @@ Shape::Shape() :
     position_(Math::Vector2::Zero()),
     scale_(Math::Vector2::One()),
     rotation_(0.f),
-    texture_(nullptr)
+    texture_(nullptr),
+    z_order_(0)
 {
     UpdateMatrixx();
 }
