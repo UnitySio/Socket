@@ -32,7 +32,7 @@ bool Renderer::Init()
     if (FAILED(hr)) return false;
 
     // TEST
-    if (!CreateRenderToTexture()) return false;
+    // if (!CreateRenderToTexture()) return false;
 
     return true;
 }
