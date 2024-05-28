@@ -87,6 +87,16 @@ void DefaultVertexShader::SetWorldMatrix(const DirectX::XMMATRIX& mat)
     constant_buffer_.GetBufferData().mat = mat;
 }
 
+void DefaultVertexShader::SetUVOffset(const DirectX::XMFLOAT2& offset)
+{
+    constant_buffer_.GetBufferData().uv_offset = offset;
+}
+
+void DefaultVertexShader::SetUVScale(const DirectX::XMFLOAT2& scale)
+{
+    constant_buffer_.GetBufferData().uv_scale = scale;
+}
+
 void DefaultVertexShader::UpdateParameters()
 {
     VertexShader::UpdateParameters();

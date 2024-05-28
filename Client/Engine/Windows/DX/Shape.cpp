@@ -8,6 +8,8 @@ Shape::Shape() :
     position_(Math::Vector2::Zero()),
     scale_(Math::Vector2::One()),
     pivot_(Math::Vector2::Zero()),
+    uv_offset_(Math::Vector2::Zero()),
+    uv_scale_(Math::Vector2::One()),
     rotation_(0.f),
     texture_(nullptr),
     z_order_(0)
@@ -35,7 +37,7 @@ void Shape::SetPivot(Math::Vector2 pivot)
 
 void Shape::SetRotation(float rotation)
 {
-    rotation_ = rotation;
+    rotation_ = DirectX::XMConvertToRadians(rotation);
     UpdateMatrixx();
 }
 
@@ -46,8 +48,8 @@ bool Shape::CompareZOrder(const std::shared_ptr<Shape>& lhs, const std::shared_p
 
 void Shape::UpdateMatrixx()
 {
-    if (scale_.x < 0.f) scale_.x *= -1.f;
-    if (scale_.y < 0.f) scale_.y *= -1.f;
+    if (scale_.x < 0.f) pivot_.x *= -1.f;
+    if (scale_.y < 0.f) pivot_.y *= -1.f;
     
     world_matrix_ = DirectX::XMMatrixScaling(scale_.x, scale_.y, 1.f) * // 크기 조정
         DirectX::XMMatrixTranslation(-pivot_.x, -pivot_.y, 0.f) * // Pivot 위치로 이동

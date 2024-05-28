@@ -124,6 +124,8 @@ void ShapeBatch::DrawShapes(const SHARED_PTR<WindowsWindow>& kWindow, const std:
         
         DirectX::XMMATRIX wvp_matrix = shape->GetWorldMatrix() * viewport->view_matrix * viewport->projection_matrix;
         vertex_shader_->SetWorldMatrix(wvp_matrix);
+        vertex_shader_->SetUVOffset({shape->GetUVOffset().x, shape->GetUVOffset().y});
+        vertex_shader_->SetUVScale({shape->GetUVScale().x, shape->GetUVScale().y});
 
         pixel_shader_->EnableTexture(shape->GetTexture() != nullptr);
         pixel_shader_->BindParameters();

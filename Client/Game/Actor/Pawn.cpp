@@ -14,10 +14,13 @@
 #include "Actor/Component/AudioListenerComponent.h"
 #include "Level/World.h"
 #include "Windows/DX/Shape.h"
+#include "Windows/DX/Sprite.h"
 #include "Windows/DX/Texture.h"
 
 Pawn::Pawn(const std::wstring& kName) :
-    Actor(kName)
+    Actor(kName),
+    timer(0.f),
+    frame_index(0)
 {
     input_ = CreateComponent<InputComponent>(L"Input");
     input_->RegisterKey(VK_RIGHT);
@@ -33,10 +36,13 @@ Pawn::Pawn(const std::wstring& kName) :
     
     audio_listener_ = CreateComponent<AudioListenerComponent>(L"AudioListener");
 
-    texture_ = MAKE_SHARED<Texture>();
-    CHECK_IF(texture_->Load(L".\\Game_Data\\spritesheet.png"), L"Failed to load texture");
+    sprite_ = MAKE_SHARED<Sprite>();
+    CHECK_IF(sprite_->Load(L".\\Game_Data\\spritesheet.png"), L"Failed to load texture");
 
-    texture_->SetFilterMode(FilterMode::kPoint);
+    sprite_->Split(15, 3, {.5f, .5f});
+
+    sprite_->SetWrapMode(WrapMode::kClamp);
+    sprite_->SetFilterMode(FilterMode::kPoint);
     
 }
 
@@ -65,6 +71,13 @@ void Pawn::Tick(float delta_time)
         rigid_body_->SetVelocity(Math::Vector2::Zero());
         rigid_body_->AddForce(Math::Vector2::Up() * 5.f, ForceMode::kImpulse);
     }
+
+    timer += delta_time;
+    if (timer >= 1.f / 8.f)
+    {
+        frame_index = (frame_index + 1) % 6;
+        timer = 0.f;
+    }
     
 }
 
@@ -72,13 +85,24 @@ void Pawn::Render(float alpha)
 {
     Actor::Render(alpha);
 
+    const std::vector<SpriteFrame>& frames = sprite_->GetFrames();
+
+    const float width = sprite_->GetWidth() * frames[frame_index].uv_scale.x / sprite_->GetPPU();
+    const float height = sprite_->GetHeight() * frames[frame_index].uv_scale.y / sprite_->GetPPU();
+    const float pivot_x = width * frames[frame_index].pivot.x;
+    const float pivot_y = height * frames[frame_index].pivot.y;
+
     SHARED_PTR<Shape> shape = MAKE_SHARED<Shape>();
-    shape->SetVertices(texture_->GetVertices());
-    shape->SetIndices(texture_->GetIndices());
-    shape->SetTexture(texture_);
-    shape->SetPosition({0.f, 0.f});
-    shape->SetScale({96.f, 16.f});
-    shape->SetZOrder(1);
+    shape->SetVertices(sprite_->GetVertices());
+    shape->SetIndices(sprite_->GetIndices());
+    shape->SetTexture(sprite_);
+    shape->SetPosition(GetTransform()->GetWorldLocation());
+    shape->SetRotation(GetTransform()->GetWorldRotationZ());
+    shape->SetScale({width, height});
+    shape->SetUVOffset(frames[frame_index].uv_offset);
+    shape->SetUVScale(frames[frame_index].uv_scale);
+    shape->SetPivot({pivot_x, pivot_y});
+    shape->SetZOrder(0);
 
     World::Get()->AddShape(shape);
     

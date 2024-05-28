@@ -1,7 +1,7 @@
 ﻿#pragma once
 #include "Actor/Actor.h"
 
-class Texture;
+class Sprite;
 
 class Pawn : public Actor
 {
@@ -22,6 +22,10 @@ private:
     class RigidBodyComponent* rigid_body_;
     class AudioListenerComponent* audio_listener_;
 
-    SHARED_PTR<Texture> texture_;
+    SHARED_PTR<Sprite> sprite_;
+
+    // TEST
+    float timer;
+    MathTypes::uint32 frame_index;
     
 };

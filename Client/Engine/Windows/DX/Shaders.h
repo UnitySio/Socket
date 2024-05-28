@@ -52,6 +52,8 @@ public:
     virtual ~DefaultVertexShader() override = default;
 
     void SetWorldMatrix(const DirectX::XMMATRIX& mat);
+    void SetUVOffset(const DirectX::XMFLOAT2& offset);
+    void SetUVScale(const DirectX::XMFLOAT2& scale);
 
 protected:
     virtual void UpdateParameters() override;

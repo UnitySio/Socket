@@ -84,7 +84,7 @@ bool Core::ProcessMessage(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam,
     {
         if (const auto window = game_window_.lock())
         {
-            time_step_ = 1. / 8.;
+            time_step_ = 1. / 3.;
         }
     }
 

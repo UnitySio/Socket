@@ -36,6 +36,12 @@ public:
     inline const Math::Vector2& GetPosition() const { return position_; }
     inline const Math::Vector2& GetScale() const { return scale_; }
     inline const Math::Vector2& GetPivot() const { return pivot_; }
+
+    inline void SetUVOffset(Math::Vector2 uv_offset) { uv_offset_ = uv_offset; }
+    inline const Math::Vector2& GetUVOffset() const { return uv_offset_; }
+
+    inline void SetUVScale(Math::Vector2 uv_scale) { uv_scale_ = uv_scale; }
+    inline const Math::Vector2& GetUVScale() const { return uv_scale_; }
     
     inline float GetRotation() const { return rotation_; }
 
@@ -60,6 +66,8 @@ protected:
     Math::Vector2 position_;
     Math::Vector2 scale_;
     Math::Vector2 pivot_;
+    Math::Vector2 uv_offset_;
+    Math::Vector2 uv_scale_;
     
     float rotation_;
 
