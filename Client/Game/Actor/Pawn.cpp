@@ -19,6 +19,7 @@
 
 Pawn::Pawn(const std::wstring& kName) :
     Actor(kName),
+    dir_(1),
     timer(0.f),
     frame_index(0)
 {
@@ -59,6 +60,8 @@ void Pawn::PhysicsTick(float delta_time)
     float h = input_->IsKeyPressed(VK_RIGHT) - input_->IsKeyPressed(VK_LEFT);
     
     rigid_body_->SetVelocity({h * 2.f, rigid_body_->GetVelocity().y});
+
+    if (h != 0) dir_ = h > 0 ? -1 : 1;
     
 }
 
@@ -98,11 +101,11 @@ void Pawn::Render(float alpha)
     shape->SetTexture(sprite_);
     shape->SetPosition(GetTransform()->GetWorldLocation());
     shape->SetRotation(GetTransform()->GetWorldRotationZ());
-    shape->SetScale({width, height});
+    shape->SetScale({width * dir_, height});
     shape->SetUVOffset(frames[frame_index].uv_offset);
     shape->SetUVScale(frames[frame_index].uv_scale);
     shape->SetPivot({pivot_x, pivot_y});
-    shape->SetZOrder(0);
+    shape->SetZOrder(1);
 
     World::Get()->AddShape(shape);
     
