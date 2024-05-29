@@ -13,6 +13,7 @@
 #include "Actor/Component/TransformComponent.h"
 #include "Actor/Component/AudioListenerComponent.h"
 #include "Level/World.h"
+#include "Time/TimerManager.h"
 #include "Windows/DX/Shape.h"
 #include "Windows/DX/Sprite.h"
 #include "Windows/DX/Texture.h"
@@ -44,6 +45,8 @@ Pawn::Pawn(const std::wstring& kName) :
 
     sprite_->SetWrapMode(WrapMode::kClamp);
     sprite_->SetFilterMode(FilterMode::kPoint);
+
+    TimerManager::Get()->SetTimer(10.f, this, &Pawn::OnCallback);
     
 }
 
@@ -131,4 +134,12 @@ void Pawn::EndPlay(EndPlayReason type)
         file << L"Quit: " << GetName() << std::endl;
         file.close();
     }
+}
+
+void Pawn::OnCallback()
+{
+    WCHAR buffer[256];
+    swprintf_s(buffer, L"Callback: %f\n", TimerManager::Get()->GetTime());
+    OutputDebugString(buffer);
+    TimerManager::Get()->SetTimer(1.f, this, &Pawn::OnCallback);
 }

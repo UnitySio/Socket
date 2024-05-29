@@ -7,6 +7,7 @@
 #include "Map/MainMap.h"
 #include "Math/Color.h"
 #include "Math/Vector2.h"
+#include "Time/TimerManager.h"
 #include "Windows/DX/Renderer.h"
 #include "Windows/DX/Shape.h"
 #include "Windows/DX/ShapeBatch.h"
@@ -71,6 +72,8 @@ void World::PhysicsTick(float delta_time)
 
 void World::Tick(float delta_time)
 {
+    TimerManager::Get()->Tick(delta_time);
+    
     if (current_level_)
     {
         current_level_->Tick(delta_time);

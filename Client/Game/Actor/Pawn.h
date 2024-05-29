@@ -15,6 +15,8 @@ public:
     virtual void Render(float alpha) override;
     virtual void EndPlay(EndPlayReason type) override;
 
+    void OnCallback();
+
 private:
     // Actor components
     class InputComponent* input_;
