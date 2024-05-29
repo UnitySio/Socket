@@ -45,14 +45,16 @@ Pawn::Pawn(const std::wstring& kName) :
 
     sprite_->SetWrapMode(WrapMode::kClamp);
     sprite_->SetFilterMode(FilterMode::kPoint);
-    
+
+    // delegate_.AddDynamic(this, &Pawn::OnCallback);
+    // delegate_.AddLambda([this]() { OnCallback(); });
 }
 
 void Pawn::BeginPlay()
 {
     Actor::BeginPlay();
     
-    TimerManager::Get()->SetTimer(timer_handle, this, &Pawn::OnCallback, 1.f, true, 5.f);
+    // TimerManager::Get()->SetTimer(timer_handle, this, &Pawn::OnCallback, 1.f, true, 5.f);
     
 }
 

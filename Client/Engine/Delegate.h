@@ -1,34 +1,45 @@
 ﻿#pragma once
 #include <functional>
 
-template <typename Type>
+template <typename Type, typename ... Args>
 class Delegate
 {
 public:
     Delegate();
     ~Delegate() = default;
     
-    template <typename T, typename ... Args>
-    void Add(T* obj, Type(T::* method)(Args...), Args... args);
+    template <typename T>
+    void AddDynamic(T* obj, Type(T::* method)(Args...));
 
-    Type Execute()
+    void AddLambda(std::function<Type(Args...)> lambda);
+
+    Type Execute(Args... args)
     {
-        return function_();
+        return function_(std::forward<Args>(args)...);
     }
 
 private:
-    std::function<Type()> function_;
+    std::function<Type(Args...)> function_;
     
 };
 
-template <typename T>
-Delegate<T>::Delegate()
+template <typename Type, typename ... Args>
+Delegate<Type, Args...>::Delegate()
 {
 }
 
-template <typename Type>
-template <typename T, typename ... Args>
-void Delegate<Type>::Add(T* obj, Type(T::* method)(Args...), Args... args)
+template <typename Type, typename ... Args>
+template <typename T>
+void Delegate<Type, Args...>::AddDynamic(T* obj, Type(T::* method)(Args...))
 {
-    function_ = std::bind(method, obj, args...);
+    function_ = [obj, method](Args... args) -> Type
+    {
+        return (obj->*method)(std::forward<Args>(args)...);
+    };
+}
+
+template <typename Type, typename ... Args>
+void Delegate<Type, Args...>::AddLambda(std::function<Type(Args...)> lambda)
+{
+    function_ = std::move(lambda);
 }
