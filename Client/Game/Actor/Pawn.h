@@ -1,4 +1,5 @@
 ﻿#pragma once
+#include "Delegate.h"
 #include "Actor/Actor.h"
 #include "Time/TimerManager.h"
 

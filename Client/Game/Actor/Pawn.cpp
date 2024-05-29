@@ -52,7 +52,7 @@ void Pawn::BeginPlay()
 {
     Actor::BeginPlay();
     
-    TimerManager::Get()->SetTimer(timer_handle, this, &Pawn::OnCallback, 1.f, true);
+    TimerManager::Get()->SetTimer(timer_handle, this, &Pawn::OnCallback, 1.f, true, 5.f);
     
 }
 
