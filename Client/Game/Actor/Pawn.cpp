@@ -46,7 +46,7 @@ Pawn::Pawn(const std::wstring& kName) :
     sprite_->SetWrapMode(WrapMode::kClamp);
     sprite_->SetFilterMode(FilterMode::kPoint);
 
-    TimerManager::Get()->SetTimer(timer_handle, this, &Pawn::OnCallback, 5.f);
+    TimerManager::Get()->SetTimer(timer_handle, this, &Pawn::OnCallback, 1.f, true);
     
 }
 
@@ -138,5 +138,6 @@ void Pawn::EndPlay(EndPlayReason type)
 
 void Pawn::OnCallback()
 {
-    OutputDebugString(L"Callback\n");
+    rigid_body_->SetVelocity(Math::Vector2::Zero());
+    rigid_body_->AddForce(Math::Vector2::Up() * 5.f, ForceMode::kImpulse);
 }

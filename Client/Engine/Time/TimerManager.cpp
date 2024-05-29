@@ -15,7 +15,7 @@ void TimerManager::Tick(float delta_time)
     {
         if (internal_time_ >= timers_[i].expire_time)
         {
-            MathTypes::uint32 cell_count = timers_[i].loop ? static_cast<MathTypes::uint32>(internal_time_ - timers_[i].expire_time / timers_[i].rate) : 1;
+            MathTypes::uint32 cell_count = timers_[i].loop ? static_cast<int>(trunc(internal_time_ - timers_[i].expire_time) / timers_[i].rate) + 1 : 1;
             for (MathTypes::uint32 j = 0; j < cell_count; j++)
             {
                 timers_[i].callback();
@@ -23,7 +23,7 @@ void TimerManager::Tick(float delta_time)
 
             if (timers_[i].loop)
             {
-                timers_[i].expire_time += timers_[i].rate * cell_count;
+                timers_[i].expire_time += cell_count * timers_[i].rate;
             }
             else
             {
