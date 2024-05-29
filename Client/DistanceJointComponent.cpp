@@ -16,13 +16,13 @@ DistanceJointComponent::DistanceJointComponent(Actor* owner, const std::wstring&
 
 inline void DistanceJointComponent::InitializeComponent()
 {
-	ActorComponent::InitializeComponent();
+	Super::InitializeComponent();
 	
 }
 
 inline void DistanceJointComponent::UninitializeComponent()
 {
-	ActorComponent::UninitializeComponent();
+	Super::UninitializeComponent();
 	
 	if (jointBody_ != nullptr)
 	{
@@ -37,6 +37,7 @@ void DistanceJointComponent::SetDefaultProperties(const bool& flag)
 	jointDef_->maxLength = 3.0f;
 	jointDef_->bodyA = owner_->body_;
 	jointDef_->bodyB = target_->body_;
+	
 	if (jointBody_ == nullptr)
 	{
 		jointBody_ = new DistanceJoint(this, nullptr, flag);

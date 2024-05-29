@@ -1,6 +1,5 @@
 #pragma once
 #include "BaseJointComponent.h"
-#include "../Engine/Math/Vector2.h"
 
 class DistanceJointComponent : public BaseJointComponent<b2DistanceJoint, b2DistanceJointDef>
 {

@@ -1,4 +1,5 @@
 #pragma once
+#include "../Engine/Math/Vector2.h"
 #include "../Engine/Actor/Component/ActorComponent.h"
 #include "../Engine/Actor/Actor.h"
 #include "../Engine/Level/World.h"

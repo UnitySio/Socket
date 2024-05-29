@@ -76,17 +76,13 @@ private:
     friend class TransformComponent;
     friend class Pawn;
     friend class DistanceJointComponent;
-    friend class FrictionJointComponent;
-    friend class GearJointComponent;
     friend class HingeJointComponent;
     friend class DistanceJoint;
-    friend class FixedJoint;
-    friend class FixedJointComponent;
     friend class HingeJoint;
     template<typename T, typename U>
     friend class BaseJointComponent;
-    friend class SpringJointComponent;
-    friend class SpringJoint;
+    friend class PrismaticJointComponent;
+    
 
 
     void InitializeActor();

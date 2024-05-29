@@ -153,9 +153,6 @@
     <ClCompile Include="Engine\Level\World.cpp">
       <Filter>Others</Filter>
     </ClCompile>
-    <ClCompile Include="BaseJointComponent.cpp">
-      <Filter>JointComponents</Filter>
-    </ClCompile>
     <ClCompile Include="DistanceJointComponent.cpp">
       <Filter>JointComponents\Distance</Filter>
     </ClCompile>
@@ -164,6 +161,12 @@
     </ClCompile>
     <ClCompile Include="HingeJointComponent.cpp">
       <Filter>JointComponents\Hinge</Filter>
+    </ClCompile>
+    <ClCompile Include="BaseJointComponent.cpp">
+      <Filter>JointComponents\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="PrismaticJointComponent.cpp">
+      <Filter>JointComponents\Prismatic</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -554,9 +557,6 @@
     <ClInclude Include="Include\DirectXTK\XboxDDSTextureLoader.h">
       <Filter>Others</Filter>
     </ClInclude>
-    <ClInclude Include="BaseJointComponent.h">
-      <Filter>JointComponents</Filter>
-    </ClInclude>
     <ClInclude Include="DistanceJointComponent.h">
       <Filter>JointComponents\Distance</Filter>
     </ClInclude>
@@ -565,6 +565,12 @@
     </ClInclude>
     <ClInclude Include="HingeJointComponent.h">
       <Filter>JointComponents\Hinge</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseJointComponent.h">
+      <Filter>JointComponents\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="PrismaticJointComponent.h">
+      <Filter>JointComponents\Prismatic</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -579,6 +585,15 @@
     </Filter>
     <Filter Include="JointComponents\Hinge">
       <UniqueIdentifier>{a296aa6e-6208-41b4-90d9-f59cef350725}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="JointComponents\Prismatic">
+      <UniqueIdentifier>{18a305f1-ff41-4d0a-8a7b-9900349379de}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="JointComponents\Base">
+      <UniqueIdentifier>{5a3b84d0-2e36-47e1-b704-c75012dcdc03}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="JointComponents\NewFilter1">
+      <UniqueIdentifier>{2b11cc11-f520-4c7b-8b26-281bce4de0dd}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
