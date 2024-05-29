@@ -45,14 +45,14 @@ Pawn::Pawn(const std::wstring& kName) :
 
     sprite_->SetWrapMode(WrapMode::kClamp);
     sprite_->SetFilterMode(FilterMode::kPoint);
-
-    TimerManager::Get()->SetTimer(timer_handle, this, &Pawn::OnCallback, 1.f, true);
     
 }
 
 void Pawn::BeginPlay()
 {
     Actor::BeginPlay();
+    
+    TimerManager::Get()->SetTimer(timer_handle, this, &Pawn::OnCallback, 1.f, true);
     
 }
 
