@@ -72,3 +72,4 @@ static_cast<MainMap*>(World::Get()->GetLevel())->ReserveCreateJoint(std::move(st
 
 #define RESERVE(_JointType) static_cast<MainMap*>(World::Get()->GetLevel())->ReserveCreateJoint(std::move(std::bind(&_JointType::CreateJoint, this->component_)));
 #define DESTROY static_cast<MainMap*>(World::Get()->GetLevel())->ReserveDestroyJoint(joint_);
+constexpr float DefaultMotorMaxSpeed = 1000.0f;

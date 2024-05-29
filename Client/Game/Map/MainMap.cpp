@@ -8,6 +8,8 @@
 #include "../DistanceJointComponent.h"
 #include "../HingeJointComponent.h"
 #include "../PrismaticJointComponent.h"
+#include "../WheelJointComponent.h"
+#include "../MotorJointComponent.h"
 
 
 MainMap::MainMap(const std::wstring& kName) : Level(kName),
@@ -29,15 +31,17 @@ void MainMap::Tick(float dt)
     if (timer > 1.0f && !flag1)
     {
         
-        pawn->GetComponent<PrismaticJointComponent>()->GetJoint()->ConnectedRigidBody(pawn3);
-        pawn->GetComponent<PrismaticJointComponent>()->GetJoint()->SetLimits(-10.0f, 10.0f);
+        pawn->GetComponent<MotorJointComponent>()->GetJoint()->ConnectedRigidBody(pawn3);
         flag1 = true;
     }
 
 
     if (timer > 3.0f && !flag2)
     {
-       
+        pawn->GetComponent<MotorJointComponent>()->GetJoint()->SetAngularOffset(3.0f);
+        
+
+        
         
         flag2 = true;
     }
@@ -65,8 +69,8 @@ void MainMap::Load()
     pawn2->GetTransform()->SetRelativeLocation(Math::Vector2(0.0f, 7.5f));
     pawn2->GetComponent<RigidBodyComponent>()->SetBodyType(BodyType::kStatic);
     
-    pawn->CreateComponent<PrismaticJointComponent>(L"Fixed");
-    pawn->GetComponent<PrismaticJointComponent>()->CreateJointDefWithTarget(pawn2, true);
+    pawn->CreateComponent<MotorJointComponent>(L"Fixed");
+    pawn->GetComponent<MotorJointComponent>()->CreateJointDefWithTarget(pawn2, true);
     
 
     

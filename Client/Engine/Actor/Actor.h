@@ -77,11 +77,11 @@ private:
     friend class Pawn;
     friend class DistanceJointComponent;
     friend class HingeJointComponent;
-    friend class DistanceJoint;
-    friend class HingeJoint;
     template<typename T, typename U>
     friend class BaseJointComponent;
     friend class PrismaticJointComponent;
+    friend class WheelJointComponent;
+    friend class MotorJointComponent;
     
 
 

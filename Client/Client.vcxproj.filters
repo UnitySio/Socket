@@ -168,6 +168,12 @@
     <ClCompile Include="PrismaticJointComponent.cpp">
       <Filter>JointComponents\Prismatic</Filter>
     </ClCompile>
+    <ClCompile Include="WheelJointComponent.cpp">
+      <Filter>JointComponents\Wheel</Filter>
+    </ClCompile>
+    <ClCompile Include="MotorJointComponent.cpp">
+      <Filter>JointComponents\Motor</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Actor\Actor.h">
@@ -572,6 +578,12 @@
     <ClInclude Include="PrismaticJointComponent.h">
       <Filter>JointComponents\Prismatic</Filter>
     </ClInclude>
+    <ClInclude Include="WheelJointComponent.h">
+      <Filter>JointComponents\Wheel</Filter>
+    </ClInclude>
+    <ClInclude Include="MotorJointComponent.h">
+      <Filter>JointComponents\Motor</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Others">
@@ -592,8 +604,11 @@
     <Filter Include="JointComponents\Base">
       <UniqueIdentifier>{5a3b84d0-2e36-47e1-b704-c75012dcdc03}</UniqueIdentifier>
     </Filter>
-    <Filter Include="JointComponents\NewFilter1">
+    <Filter Include="JointComponents\Wheel">
       <UniqueIdentifier>{2b11cc11-f520-4c7b-8b26-281bce4de0dd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="JointComponents\Motor">
+      <UniqueIdentifier>{0d901814-aca5-46d2-9619-82553995c53a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
