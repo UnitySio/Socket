@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include "Actor/Actor.h"
+#include "Time/TimerManager.h"
 
 class Sprite;
 
@@ -31,5 +32,7 @@ private:
     // TEST
     float timer;
     MathTypes::uint32 frame_index;
+
+    TimerHandle timer_handle;
     
 };

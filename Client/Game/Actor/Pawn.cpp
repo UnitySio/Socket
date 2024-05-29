@@ -46,7 +46,7 @@ Pawn::Pawn(const std::wstring& kName) :
     sprite_->SetWrapMode(WrapMode::kClamp);
     sprite_->SetFilterMode(FilterMode::kPoint);
 
-    TimerManager::Get()->SetTimer(10.f, this, &Pawn::OnCallback);
+    TimerManager::Get()->SetTimer(timer_handle, this, &Pawn::OnCallback, 5.f);
     
 }
 
@@ -138,8 +138,5 @@ void Pawn::EndPlay(EndPlayReason type)
 
 void Pawn::OnCallback()
 {
-    WCHAR buffer[256];
-    swprintf_s(buffer, L"Callback: %f\n", TimerManager::Get()->GetTime());
-    OutputDebugString(buffer);
-    TimerManager::Get()->SetTimer(1.f, this, &Pawn::OnCallback);
+    OutputDebugString(L"Callback\n");
 }

@@ -10,6 +10,8 @@ struct TimerHandle
 
 struct TimerData
 {
+    bool loop;
+    float rate;
     double expire_time;
     std::function<void()> callback;
     TimerHandle handle;
@@ -24,7 +26,7 @@ public:
     void Tick(float delta_time);
 
     template<typename T>
-    void SetTimer(float time, T* obj, void(T::*func)());
+    void SetTimer(TimerHandle& handle, T* obj, void(T::*method)(), float rate, bool loop = false, float delay = -1.f);
 
     inline float GetTime() const { return internal_time_; }
 
@@ -36,11 +38,19 @@ private:
 };
 
 template <typename T>
-void TimerManager::SetTimer(float time, T* obj, void(T::* func)())
+void TimerManager::SetTimer(TimerHandle& handle, T* obj, void(T::* method)(), float rate, bool loop, float delay)
 {
+    const float first_delay = delay >= 0.f ? delay : rate;
+    
+    TimerHandle new_handle;
+    
     TimerData data;
-    data.expire_time = internal_time_ + time;
-    data.callback = std::bind(func, obj);
+    data.loop = loop;
+    data.rate = rate;
+    data.expire_time = internal_time_ + first_delay;
+    data.callback = std::bind(method, obj);
+    data.handle = new_handle;
 
+    handle = new_handle;
     timers_.push_back(data);
 }
