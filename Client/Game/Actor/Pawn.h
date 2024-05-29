@@ -35,7 +35,5 @@ private:
     MathTypes::uint32 frame_index;
 
     TimerHandle timer_handle;
-
-    Delegate<void> delegate_;
     
 };

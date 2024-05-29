@@ -45,9 +45,6 @@ Pawn::Pawn(const std::wstring& kName) :
 
     sprite_->SetWrapMode(WrapMode::kClamp);
     sprite_->SetFilterMode(FilterMode::kPoint);
-
-    // delegate_.AddDynamic(this, &Pawn::OnCallback);
-    // delegate_.AddLambda([this]() { OnCallback(); });
 }
 
 void Pawn::BeginPlay()
