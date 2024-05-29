@@ -92,18 +92,21 @@ void PrismaticJointComponent::PrismaticJoint::ConnectedAnchor(const Math::Vector
 void PrismaticJointComponent::PrismaticJoint::SetMotorSpeed(const float& value)
 {
 	JOINT_DEF->motorSpeed = value;
-	joint_->SetMotorSpeed(value);
+	if(joint_ != nullptr)
+		joint_->SetMotorSpeed(value);
 }
 
 void PrismaticJointComponent::PrismaticJoint::SetLimits(const float& lower, const float& upper)
 {
 	JOINT_DEF->lowerTranslation = lower;
 	JOINT_DEF->upperTranslation = upper;
-	joint_->SetLimits(lower, upper);
+	if(joint_ != nullptr)
+		joint_->SetLimits(lower, upper);
 }
 
 void PrismaticJointComponent::PrismaticJoint::SetMaxMotorForce(const float& value)
 {
 	JOINT_DEF->maxMotorForce = value;
-	joint_->SetMaxMotorForce(value);
+	if(joint_ != nullptr)
+		joint_->SetMaxMotorForce(value);
 }
