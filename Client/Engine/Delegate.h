@@ -10,20 +10,12 @@ public:
 
     template <typename T>
     void Bind(T* obj, Type (T::*method)(Args...));
-
     void Bind(std::function<Type(Args...)> lambda);
-
-    void Unbind()
-    {
-        function_ = nullptr;
-    }
+    void Unbind();
 
     bool IsBound() const;
 
-    Type Execute(Args... args)
-    {
-        return function_(std::forward<Args>(args)...);
-    }
+    Type Execute(Args... args);
 
 private:
     std::function<Type(Args...)> function_;
@@ -52,7 +44,19 @@ void Delegate<Type, Args...>::Bind(std::function<Type(Args...)> lambda)
 }
 
 template <typename Type, typename... Args>
+void Delegate<Type, Args...>::Unbind()
+{
+    function_ = nullptr;
+}
+
+template <typename Type, typename... Args>
 bool Delegate<Type, Args...>::IsBound() const
 {
     return function_ != nullptr;
+}
+
+template <typename Type, typename... Args>
+Type Delegate<Type, Args...>::Execute(Args... args)
+{
+    return function_(std::forward<Args>(args)...);
 }
