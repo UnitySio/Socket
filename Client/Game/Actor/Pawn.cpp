@@ -7,6 +7,7 @@
 #include "Windows.h"
 
 #include "Enums.h"
+#include "TempClass.h"
 #include "Actor/Component/InputComponent.h"
 #include "Actor/Component/BoxColliderComponent.h"
 #include "Actor/Component/RigidBodyComponent.h"

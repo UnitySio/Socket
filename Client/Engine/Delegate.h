@@ -41,6 +41,7 @@ void Delegate<Type, Args...>::Bind(T* obj, Type (T::*method)(Args...))
 {
     function_ = [obj, method](Args... args) -> Type
     {
+        if (!obj) return Type();
         return (obj->*method)(std::forward<Args>(args)...);
     };
 }
@@ -54,5 +55,5 @@ void Delegate<Type, Args...>::Bind(std::function<Type(Args...)> lambda)
 template <typename Type, typename... Args>
 bool Delegate<Type, Args...>::IsBound() const
 {
-    return static_cast<bool>(function_);
+    return function_ != nullptr;
 }
