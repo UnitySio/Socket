@@ -41,7 +41,6 @@ void Delegate<Type, Args...>::Bind(T* obj, Type (T::*method)(Args...))
 {
     function_ = [obj, method](Args... args) -> Type
     {
-        if (!obj) return Type();
         return (obj->*method)(std::forward<Args>(args)...);
     };
 }
