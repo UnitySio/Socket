@@ -1,7 +1,7 @@
 ﻿#pragma once
 #include <functional>
 
-template <typename Type, typename... Args>
+template <typename ReturnType, typename... Args>
 class Delegate
 {
 public:
@@ -9,54 +9,54 @@ public:
     ~Delegate() = default;
 
     template <typename T>
-    void Bind(T* obj, Type (T::*method)(Args...));
-    void Bind(std::function<Type(Args...)> lambda);
+    void Bind(T* obj, ReturnType (T::*method)(Args...));
+    void Bind(std::function<ReturnType(Args...)> lambda);
     void Unbind();
 
     bool IsBound() const;
 
-    Type Execute(Args... args);
+    ReturnType Execute(Args... args);
 
 private:
-    std::function<Type(Args...)> function_;
+    std::function<ReturnType(Args...)> function_;
 };
 
-template <typename Type, typename... Args>
-Delegate<Type, Args...>::Delegate() :
+template <typename ReturnType, typename... Args>
+Delegate<ReturnType, Args...>::Delegate() :
     function_(nullptr)
 {
 }
 
-template <typename Type, typename... Args>
+template <typename ReturnType, typename... Args>
 template <typename T>
-void Delegate<Type, Args...>::Bind(T* obj, Type (T::*method)(Args...))
+void Delegate<ReturnType, Args...>::Bind(T* obj, ReturnType (T::*method)(Args...))
 {
-    function_ = [obj, method](Args... args) -> Type
+    function_ = [obj, method](Args... args) -> ReturnType
     {
         return (obj->*method)(std::forward<Args>(args)...);
     };
 }
 
-template <typename Type, typename... Args>
-void Delegate<Type, Args...>::Bind(std::function<Type(Args...)> lambda)
+template <typename ReturnType, typename... Args>
+void Delegate<ReturnType, Args...>::Bind(std::function<ReturnType(Args...)> lambda)
 {
     function_ = std::move(lambda);
 }
 
-template <typename Type, typename... Args>
-void Delegate<Type, Args...>::Unbind()
+template <typename ReturnType, typename... Args>
+void Delegate<ReturnType, Args...>::Unbind()
 {
     function_ = nullptr;
 }
 
-template <typename Type, typename... Args>
-bool Delegate<Type, Args...>::IsBound() const
+template <typename ReturnType, typename... Args>
+bool Delegate<ReturnType, Args...>::IsBound() const
 {
     return function_ != nullptr;
 }
 
-template <typename Type, typename... Args>
-Type Delegate<Type, Args...>::Execute(Args... args)
+template <typename ReturnType, typename... Args>
+ReturnType Delegate<ReturnType, Args...>::Execute(Args... args)
 {
     return function_(std::forward<Args>(args)...);
 }
