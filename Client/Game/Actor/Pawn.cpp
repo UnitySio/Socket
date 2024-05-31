@@ -45,6 +45,8 @@ Pawn::Pawn(const std::wstring& kName) :
 
     sprite_->SetWrapMode(WrapMode::kClamp);
     sprite_->SetFilterMode(FilterMode::kPoint);
+
+    temp_delegate_.Bind(this, &Pawn::OnCallback);
 }
 
 void Pawn::BeginPlay()
@@ -52,6 +54,8 @@ void Pawn::BeginPlay()
     Actor::BeginPlay();
     
     // TimerManager::Get()->SetTimer(timer_handle, this, &Pawn::OnCallback, 1.f, true, 5.f);
+
+    temp_delegate_.Execute();
     
 }
 

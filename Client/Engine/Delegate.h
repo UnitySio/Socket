@@ -1,6 +1,9 @@
 ﻿#pragma once
 #include <functional>
 
+#define DECLARE_DELAGATE(DelegateName, ReturnType, ...) \
+    typedef Delegate<ReturnType, __VA_ARGS__> DelegateName;
+
 template <typename ReturnType, typename... Args>
 class Delegate
 {

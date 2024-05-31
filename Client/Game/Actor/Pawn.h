@@ -3,6 +3,8 @@
 #include "Actor/Actor.h"
 #include "Time/TimerManager.h"
 
+DECLARE_DELAGATE(TempDelegate, void);
+
 class Sprite;
 
 class Pawn : public Actor
@@ -35,5 +37,7 @@ private:
     MathTypes::uint32 frame_index;
 
     TimerHandle timer_handle;
+
+    TempDelegate temp_delegate_;
     
 };

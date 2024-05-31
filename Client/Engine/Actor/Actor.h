@@ -10,7 +10,7 @@
 enum class EndPlayReason : size_t;
 class TransformComponent;
 
-class Actor
+class Actor : public std::enable_shared_from_this<Actor>
 {
 public:
     Actor(const std::wstring& kName);
@@ -48,6 +48,8 @@ public:
     T* GetComponent();
 
     // Reflection 구현 필요
+
+    inline SHARED_PTR<Actor> GetSharedPtr() { return shared_from_this(); }
     
     inline void SetTag(ActorTag tag) { tag_ = tag; }
     inline void SetLayer(ActorLayer layer) { layer_ = layer; }
