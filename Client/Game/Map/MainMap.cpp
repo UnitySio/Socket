@@ -24,4 +24,5 @@ void MainMap::Load()
 
     FollowCamera* follow_camera = dynamic_cast<FollowCamera*>(camera.get());
     follow_camera->SetFollow(pawn.get());
+
 }

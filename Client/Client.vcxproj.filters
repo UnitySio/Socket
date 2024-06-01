@@ -3,8 +3,6 @@
   <ItemGroup>
     <FxCompile Include="Engine\Shader\DefaultPixelShader.hlsl" />
     <FxCompile Include="Engine\Shader\DefaultVertexShader.hlsl" />
-    <FxCompile Include="Engine\Shader\TextureVertexShader.hlsl" />
-    <FxCompile Include="Engine\Shader\TexturePixelShader.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp" />
@@ -54,6 +52,9 @@
     <ClCompile Include="Engine\Windows\DX\ShapeBatch.cpp" />
     <ClCompile Include="Engine\Windows\DX\Texture.cpp" />
     <ClCompile Include="Engine\Windows\DX\VertexBuffer.cpp" />
+    <ClCompile Include="Engine\Input\Keyboard.cpp" />
+    <ClCompile Include="Engine\Time\TimerManager.cpp" />
+    <ClCompile Include="Engine\Windows\DX\Sprite.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h" />
@@ -187,6 +188,11 @@
     <ClInclude Include="Engine\Windows\DX\Texture.h" />
     <ClInclude Include="Engine\Windows\DX\Vertex.h" />
     <ClInclude Include="Engine\Windows\DX\VertexBuffer.h" />
+    <ClInclude Include="Engine\Delegate.h" />
+    <ClInclude Include="Engine\Input\Keyboard.h" />
+    <ClInclude Include="Engine\Time\TimerManager.h" />
+    <ClInclude Include="Engine\Windows\DX\Sprite.h" />
+    <ClInclude Include="MDelegate.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Resource.rc" />
