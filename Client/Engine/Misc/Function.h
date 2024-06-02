@@ -69,7 +69,7 @@ private:
     template<typename F>
     struct LCallable : public ICallable
     {
-        LCallable(F&& f) : func_(std::move(f)) {}
+        LCallable(F&& f) : func_(std::move(f)) {};
         virtual Ret operator()(Args&&... args) override
         {
             return func_(std::forward<Args>(args)...);

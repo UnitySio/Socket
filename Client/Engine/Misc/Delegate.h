@@ -12,9 +12,9 @@ public:
     Delegate() {}
 
     template<typename F, typename = typename std::enable_if<!std::is_same<Function<Ret(Args...)>, typename std::decay<F>::type>::value>::type>
-    void Bind(F func)
+    void Bind(F&& func)
     {
-        auto temp = std::make_shared<Function<Ret(Args...)>>(func);
+        auto temp = std::make_shared<Function<Ret(Args...)>>(std::forward<F>(func));
         functions_.push_back(*temp);
     }
 

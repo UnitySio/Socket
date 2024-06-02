@@ -47,6 +47,7 @@ Pawn::Pawn(const std::wstring& kName) :
     sprite_->SetFilterMode(FilterMode::kPoint);
 
     delegate_.Bind(this, &Pawn::OnCallback);
+    delegate_.Bind([](const std::wstring& kStr)->void {});
     
 }
 
@@ -54,7 +55,7 @@ void Pawn::BeginPlay()
 {
     Actor::BeginPlay();
 
-    delegate_.Execute(L"Hello, World!");
+    delegate_.Execute(L"Hello World");
     
 }
 
