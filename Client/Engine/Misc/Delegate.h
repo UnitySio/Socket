@@ -50,7 +50,7 @@ public:
     void UnBind(F func)
     {
         std::uintptr_t tt = 0;
-        std::memcpy(&tt, &func, sizeof(func));
+        std::memcpy(&tt, &func, sizeof(tt));
         auto it = functions_.begin();
         for (auto& temp : functions_)
         {
@@ -66,24 +66,22 @@ public:
     template<typename M, typename std::enable_if<std::is_class<M>::value>::type* = nullptr>
     void UnBind(Ret(M::* func)(Args...))
     {
-        std::uintptr_t tt = 0;
-        std::memcpy(&tt, &func, sizeof(func));
-        auto it = functions_.begin();
-        for (auto& temp : functions_)
+        //std::uintptr_t tt = 0;
+        //std::memcpy(&tt, &func, sizeof(tt));
+        for (auto temp = functions_.begin(); temp != functions_.end(); ++temp)
         {
-            if (temp.GetAddr() == tt)
+            if (temp->GetFunc().has_value() && std::any_cast<Ret(M::*)(Args...)>(temp->GetFunc()) == func)
             {
-                functions_.erase(it);
+                functions_.erase(temp);
                 break;
             }
-            ++it;
         }
     }
 
     void UnBind(Ret(*func)(Args...))
     {
         std::uintptr_t tt = 0;
-        std::memcpy(&tt, &func, sizeof(func));
+        std::memcpy(&tt, &func, sizeof(tt));
         auto it = functions_.begin();
         for (auto& temp : functions_)
         {
@@ -99,14 +97,10 @@ public:
     template<typename F, typename = typename std::enable_if<!std::is_same<Function<Ret(Args...)>, typename std::decay<F>::type>::value>::type>
     const bool& IsBound(F func)
     {
-        std::uintptr_t tt = 0;
-        std::memcpy(&tt, &func, sizeof(func));
-        auto it = functions_.begin();
         for (auto& temp : functions_)
         {
-            if (temp.GetAddr() == tt)
+            if (temp.GetFunc().has_value() && std::any_cast<F>(temp.GetFunc()) == func)
             {
-                functions_.erase(it);
                 return true;
             }
         }
@@ -116,25 +110,22 @@ public:
     template<typename M, typename std::enable_if<std::is_class<M>::value>::type* = nullptr>
     const bool& IsBound(Ret(M::* func)(Args...))
     {
-        std::uintptr_t tt = 0;
-        std::memcpy(&tt, &func, sizeof(func));
-        auto it = functions_.begin();
-        for (auto& temp : functions_)
+        for (auto temp = functions_.begin(); temp != functions_.end(); ++temp)
         {
-            if (temp.GetAddr() == tt)
+            if (temp->GetFunc().has_value() && std::any_cast<Ret(M::*)(Args...)>(temp->GetFunc()) == func)
             {
-                functions_.erase(it);
                 return true;
             }
         }
         return false;
     }
 
+    
+
     const bool& IsBound(Ret(*func)(Args...))
     {
         std::uintptr_t tt = 0;
-        std::memcpy(&tt, &func, sizeof(func));
-        auto it = functions_.begin();
+        std::memcpy(&tt, &func, sizeof(tt));
         for (auto& temp : functions_)
         {
             if (temp.GetAddr() == tt)

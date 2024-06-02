@@ -48,13 +48,17 @@ Pawn::Pawn(const std::wstring& kName) :
 
     delegate_.Bind(this, &Pawn::OnCallback);
     delegate_.Bind([](const std::wstring& kStr)->void {});
-    
+    User u;
+    delegate_.Bind(&u, &User::Test);
+    delegate_.Bind(&TTest);
+    auto temp = delegate_.IsBound(&Pawn::OnCallback);
+    delegate_.UnBind(&Pawn::OnCallback);
+    auto ttemp = delegate_.IsBound(&Pawn::OnCallback);
 }
 
 void Pawn::BeginPlay()
 {
     Actor::BeginPlay();
-
     delegate_.Execute(L"Hello World");
     
 }
@@ -142,4 +146,8 @@ void Pawn::EndPlay(EndPlayReason type)
 void Pawn::OnCallback(const std::wstring& kStr)
 {
     OutputDebugString(kStr.c_str());
+}
+
+void TTest(const std::wstring& str)
+{
 }
