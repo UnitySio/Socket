@@ -9,4 +9,5 @@ public:
 
     virtual void Load() override;
     
+    void Test(int a, int b);
 };

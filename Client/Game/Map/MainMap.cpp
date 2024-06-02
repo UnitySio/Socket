@@ -4,6 +4,7 @@
 #include "Actor/FollowCamera.h"
 #include "Actor/Pawn.h"
 #include "Actor/Component/TransformComponent.h"
+#include "../MDelegate.h"
 
 MainMap::MainMap(const std::wstring& kName) : Level(kName)
 {
@@ -24,5 +25,13 @@ void MainMap::Load()
 
     FollowCamera* follow_camera = dynamic_cast<FollowCamera*>(camera.get());
     follow_camera->SetFollow(pawn.get());
+
+
+    MDelegate<void(int, int)> del;
+    del.Bind(this, &MainMap::Test);
+}
+
+void MainMap::Test(int a, int b)
+{
 
 }

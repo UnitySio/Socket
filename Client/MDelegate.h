@@ -1,95 +1,149 @@
 #pragma once
-#include <functional>
+#include "MFunction.h"
 #include <vector>
-using namespace std;
+
+template<typename>
+class MDelegate;
 
 template<typename Ret, typename... Args>
-class MDelegate
+class MDelegate<Ret(Args...)>
 {
-	using Func = Ret(*)(Args...);
-	template<typename T>
-	using MFunc = Ret(T::*)(Args...);
-	using Functor = std::function<Ret(Args...)>;
-
 public:
-	void Bind(Func&& func)
+	MDelegate() {};
+
+
+	template<typename F, typename = typename std::enable_if<std::is_same<Function, typename std::decay<F>>::value>::type>
+	void Bind(F func)
+	{
+		//Function<Ret(Args...)>* temp = new Function<Ret(Args...)>(f);
+		auto temp = std::make_shared<Function<Ret(Args...)>>(func);
+		functions_.push_back(*temp);
+	}
+
+	template<typename M, typename std::enable_if<std::is_class<M>::value>::type* = nullptr>
+	void Bind(M* target, Ret(M::* func)(Args...))
+	{
+		auto temp = std::make_shared<Function<Ret(Args...)>>(target, func);
+		functions_.push_back(*temp);
+	}
+
+	template<typename M, typename std::enable_if<std::is_class<M>::value>::type* = nullptr>
+	void Bind(M* target, Ret(M::* func)(Args...) const)
+	{
+		auto temp = std::make_shared<Function<Ret(Args...)>>(target, func);
+		functions_.push_back(*temp);
+	}
+
+
+	void Bind(Ret(*func)(Args...))
+	{
+		const std::shared_ptr<Function<Ret(Args...)>> temp = std::make_shared<Function<Ret(Args...)>>(func);
+		functions_.push_back(*temp);
+	}
+
+	void Execute(Args&&...args) const
+	{
+		for (const auto& temp : functions_)
+		{
+			temp(std::forward<Args>(args)...);
+		}
+	}
+
+	template<typename F, typename = typename std::enable_if<std::is_same<Function, typename std::decay<F>>::value>::type>
+	void UnBind(F func)
 	{
 		std::uintptr_t tt = 0;
 		std::memcpy(&tt, &func, sizeof(func));
-		addrs_.push_back(tt);
-
-
-		Functor func_ = func;
-		functions_.push_back(std::move(func_));
-	}
-
-	template<typename T>
-	void Bind(Ret(T::*method)(Args...), T* target)
-	{
-		std::uintptr_t tt = 0;
-		std::memcpy(&tt, &method, sizeof(method));
-		addrs_.push_back(tt);
-
-		Functor func_ = [target, method](Args&&... args) ->Ret
-			{
-				return (target->*method)(std::forward<Args>(args)...);
-			};
-		functions_.push_back(std::move(func_));
-	}
-
-	void Execute(Args... args)
-	{
+		auto it = functions_.begin();
 		for (auto& temp : functions_)
 		{
-			temp(args...);
-		}
-	}
-
-	void UnBind(Func&& func)
-	{
-		std::uintptr_t tt = 0;
-		std::memcpy(&tt, &func, sizeof(func));
-
-		auto fnit = functions_.begin();
-		for (auto it = addrs_.begin(); it != addrs_.end(); ++it)
-		{
-			if (*it == tt)
+			if (temp.GetAddr() == tt)
 			{
-				addrs_.erase(it);
-				functions_.erase(fnit);
+				functions_.erase(it);
 				break;
 			}
-			++fnit;
+			++it;
 		}
 	}
 
-	template<typename T>
-	void UnBind(MFunc<T>&& func)
+	template<typename M, typename std::enable_if<std::is_class<M>::value>::type* = nullptr>
+	void UnBind(Ret(M::* func)(Args...))
 	{
 		std::uintptr_t tt = 0;
 		std::memcpy(&tt, &func, sizeof(func));
-		auto fnit = functions_.begin();
-		for (auto it = addrs_.begin(); it != addrs_.end(); ++it)
+		auto it = functions_.begin();
+		for (auto& temp : functions_)
 		{
-			if (*it == tt)
+			if (temp.GetAddr() == tt)
 			{
-				addrs_.erase(it);
-				functions_.erase(fnit);
+				functions_.erase(it);
 				break;
 			}
-			++fnit;
+			++it;
 		}
 	}
 
 
-	const bool& IsBound(Func&& func)
+	void UnBind(Ret(*func)(Args...))
 	{
 		std::uintptr_t tt = 0;
 		std::memcpy(&tt, &func, sizeof(func));
-
-		for (const auto& temp : addrs_)
+		auto it = functions_.begin();
+		for (auto& temp : functions_)
 		{
-			if (tt == temp)
+			if (temp.GetAddr() == tt)
+			{
+				functions_.erase(it);
+				break;
+			}
+			++it;
+		}
+	}
+
+
+	template<typename F, typename = typename std::enable_if<std::is_same<Function, typename std::decay<F>>::value>::type>
+	const bool& IsBound(F func)
+	{
+		std::uintptr_t tt = 0;
+		std::memcpy(&tt, &func, sizeof(func));
+		auto it = functions_.begin();
+		for (auto& temp : functions_)
+		{
+			if (temp.GetAddr() == tt)
+			{
+				functions_.erase(it);
+				return true;
+			}
+		}
+		return false;
+	}
+
+	template<typename M, typename std::enable_if<std::is_class<M>::value>::type* = nullptr>
+	const bool& IsBound(Ret(M::* func)(Args...))
+	{
+		std::uintptr_t tt = 0;
+		std::memcpy(&tt, &func, sizeof(func));
+		auto it = functions_.begin();
+		for (auto& temp : functions_)
+		{
+			if (temp.GetAddr() == tt)
+			{
+				functions_.erase(it);
+				return true;
+			}
+		}
+		return false;
+	}
+
+
+	const bool& IsBound(Ret(*func)(Args...))
+	{
+		std::uintptr_t tt = 0;
+		std::memcpy(&tt, &func, sizeof(func));
+		auto it = functions_.begin();
+		for (auto& temp : functions_)
+		{
+			if (temp.GetAddr() == tt)
 			{
 				return true;
 			}
@@ -97,24 +151,6 @@ public:
 		return false;
 	}
 
-	template<typename T>
-	const bool& IsBound(MFunc<T>&& func)
-	{
-		std::uintptr_t tt = 0;
-		std::memcpy(&tt, &func, sizeof(func));
-
-		for (const auto& temp : addrs_)
-		{
-			if (tt == temp)
-			{
-				return true;
-			}
-		}
-		return false;
-	}
-
-	vector<Functor> functions_;
-	vector<uintptr_t> addrs_;
-
-
+private:
+	std::vector<Function<Ret(Args...)>> functions_;
 };

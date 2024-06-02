@@ -268,6 +268,7 @@
     <ClInclude Include="Include\imgui\imstb_textedit.h" />
     <ClInclude Include="Include\imgui\imstb_truetype.h" />
     <ClInclude Include="MDelegate.h" />
+    <ClInclude Include="MFunction.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>

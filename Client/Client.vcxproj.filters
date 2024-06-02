@@ -193,6 +193,7 @@
     <ClInclude Include="Engine\Time\TimerManager.h" />
     <ClInclude Include="Engine\Windows\DX\Sprite.h" />
     <ClInclude Include="MDelegate.h" />
+    <ClInclude Include="MFunction.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Resource.rc" />
