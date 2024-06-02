@@ -6,7 +6,7 @@
 
 class Sprite;
 
-DECLARE_DELEGATE(TempDelegate);
+DECLARE_DELEGATE_OneParam(TempDelegate, const std::wstring&);
 
 class Pawn : public Actor
 {
@@ -19,6 +19,8 @@ public:
     virtual void Tick(float delta_time) override;
     virtual void Render(float alpha) override;
     virtual void EndPlay(EndPlayReason type) override;
+
+    void OnCallback(const std::wstring& kStr);
 
 private:
     // Actor components

@@ -45,12 +45,16 @@ Pawn::Pawn(const std::wstring& kName) :
 
     sprite_->SetWrapMode(WrapMode::kClamp);
     sprite_->SetFilterMode(FilterMode::kPoint);
+
+    delegate_.Bind(this, &Pawn::OnCallback);
     
 }
 
 void Pawn::BeginPlay()
 {
     Actor::BeginPlay();
+
+    delegate_.Execute(L"Hello, World!");
     
 }
 
@@ -132,4 +136,9 @@ void Pawn::EndPlay(EndPlayReason type)
         file << L"Quit: " << GetName() << std::endl;
         file.close();
     }
+}
+
+void Pawn::OnCallback(const std::wstring& kStr)
+{
+    OutputDebugString(kStr.c_str());
 }
