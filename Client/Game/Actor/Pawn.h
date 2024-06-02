@@ -6,6 +6,8 @@
 
 class Sprite;
 
+DECLARE_DELEGATE(TempDelegate);
+
 class Pawn : public Actor
 {
 public:
@@ -32,5 +34,7 @@ private:
     // TEST
     float timer_;
     MathTypes::uint32 frame_index_;
+
+    TempDelegate delegate_;
     
 };
