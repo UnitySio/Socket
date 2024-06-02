@@ -13,30 +13,30 @@ public:
 
 	template<typename F, typename = typename std::enable_if<std::is_same<Function, typename std::decay<F>>::value>::type>
 	Function(F&& func)
-		: func_(std::make_shared<LCallable<typename std::decay<F>::type>>(std::forward<F>(func)))
+		: func_(std::make_shared<LCallable<typename std::decay<F>::type>>(std::forward<F>(func))), cFunc_(nullptr)
 	{
-		std::memcpy(&addr_, &func, sizeof(func));
+		std::memcpy(&addr_, &func, sizeof(&addr_));
 	};
 
 	Function(Ret(*func)(Args...))
-		: func_(std::make_shared<GCallable>(func))
+		: func_(std::make_shared<GCallable>(func)), cFunc_(nullptr)
 	{
-		std::memcpy(&addr_, &func, sizeof(func));
+		std::memcpy(&addr_, &func, sizeof(&addr_));
 	};
 
 
 	template<typename M, typename std::enable_if<std::is_class<M>::value>::type* = nullptr>
 	Function(M* target, Ret(M::* func)(Args...))
-		: func_(std::make_shared<MCallable<M>>(target, func))
+		: func_(std::make_shared<MCallable<M>>(target, func)), cFunc_(nullptr)
 	{
-		std::memcpy(&addr_, &func, sizeof(func));
+		std::memcpy(&addr_, &func, sizeof(&addr_));
 	};
 
 	template<typename M, typename std::enable_if<std::is_class<M>::value>::type* = nullptr>
 	Function(M* target, Ret(M::* func)(Args...) const)
 		: cFunc_(std::make_shared<CMCallable<M>>(target, func))
 	{
-		std::memcpy(&addr_, &func, sizeof(func));
+		std::memcpy(&addr_, &func, sizeof(&addr_));
 	};
 
 

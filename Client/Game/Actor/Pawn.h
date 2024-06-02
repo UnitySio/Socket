@@ -2,6 +2,7 @@
 #include "Delegate.h"
 #include "Actor/Actor.h"
 #include "Time/TimerManager.h"
+#include "../MDelegate.h"
 
 DECLARE_DELAGATE(TempDelegate, void);
 
@@ -38,6 +39,5 @@ private:
 
     TimerHandle timer_handle;
 
-    TempDelegate temp_delegate_;
-    
+    MDelegate<void(void)> del;
 };

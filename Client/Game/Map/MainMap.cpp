@@ -27,11 +27,5 @@ void MainMap::Load()
     follow_camera->SetFollow(pawn.get());
 
 
-    MDelegate<void(int, int)> del;
-    del.Bind(this, &MainMap::Test);
-}
-
-void MainMap::Test(int a, int b)
-{
-
+    
 }
