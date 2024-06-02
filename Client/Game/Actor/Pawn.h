@@ -6,7 +6,7 @@
 
 class Sprite;
 
-DECLARE_DELEGATE_OneParam(TempDelegate, const std::wstring&);
+DECLARE_DELEGATE(TempDelegate, const std::wstring&);
 
 class Pawn : public Actor
 {
