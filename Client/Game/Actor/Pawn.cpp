@@ -21,8 +21,8 @@
 Pawn::Pawn(const std::wstring& kName) :
     Actor(kName),
     dir_(1),
-    timer(0.f),
-    frame_index(0)
+    timer_(0.f),
+    frame_index_(0)
 {
     input_ = CreateComponent<InputComponent>(L"Input");
     input_->RegisterKey(VK_RIGHT);
@@ -46,15 +46,12 @@ Pawn::Pawn(const std::wstring& kName) :
     sprite_->SetWrapMode(WrapMode::kClamp);
     sprite_->SetFilterMode(FilterMode::kPoint);
     
-    del.Bind(this, &Pawn::OnCallback);
 }
 
 void Pawn::BeginPlay()
 {
     Actor::BeginPlay();
     
-    // TimerManager::Get()->SetTimer(timer_handle, this, &Pawn::OnCallback, 1.f, true, 5.f);
-    del.Execute();
 }
 
 void Pawn::PhysicsTick(float delta_time)
@@ -79,11 +76,11 @@ void Pawn::Tick(float delta_time)
         rigid_body_->AddForce(Math::Vector2::Up() * 5.f, ForceMode::kImpulse);
     }
 
-    timer += delta_time;
-    if (timer >= 1.f / 8.f)
+    timer_ += delta_time;
+    if (timer_ >= 1.f / 8.f)
     {
-        frame_index = (frame_index + 1) % 6;
-        timer = 0.f;
+        frame_index_ = (frame_index_ + 1) % 6;
+        timer_ = 0.f;
     }
     
 }
@@ -94,10 +91,10 @@ void Pawn::Render(float alpha)
 
     const std::vector<SpriteFrame>& frames = sprite_->GetFrames();
 
-    const float width = sprite_->GetWidth() * frames[frame_index].uv_scale.x / sprite_->GetPPU();
-    const float height = sprite_->GetHeight() * frames[frame_index].uv_scale.y / sprite_->GetPPU();
-    const float pivot_x = width * frames[frame_index].pivot.x;
-    const float pivot_y = height * frames[frame_index].pivot.y;
+    const float width = sprite_->GetWidth() * frames[frame_index_].uv_scale.x / sprite_->GetPPU();
+    const float height = sprite_->GetHeight() * frames[frame_index_].uv_scale.y / sprite_->GetPPU();
+    const float pivot_x = width * frames[frame_index_].pivot.x;
+    const float pivot_y = height * frames[frame_index_].pivot.y;
 
     SHARED_PTR<Shape> shape = MAKE_SHARED<Shape>();
     shape->SetVertices(sprite_->GetVertices());
@@ -106,8 +103,8 @@ void Pawn::Render(float alpha)
     shape->SetPosition(GetTransform()->GetWorldLocation());
     shape->SetRotation(GetTransform()->GetWorldRotationZ());
     shape->SetScale({width * dir_, height});
-    shape->SetUVOffset(frames[frame_index].uv_offset);
-    shape->SetUVScale(frames[frame_index].uv_scale);
+    shape->SetUVOffset(frames[frame_index_].uv_offset);
+    shape->SetUVScale(frames[frame_index_].uv_scale);
     shape->SetPivot({pivot_x, pivot_y});
     shape->SetZOrder(1);
 
@@ -135,10 +132,4 @@ void Pawn::EndPlay(EndPlayReason type)
         file << L"Quit: " << GetName() << std::endl;
         file.close();
     }
-}
-
-void Pawn::OnCallback()
-{
-    rigid_body_->SetVelocity(Math::Vector2::Zero());
-    rigid_body_->AddForce(Math::Vector2::Up() * 5.f, ForceMode::kImpulse);
 }

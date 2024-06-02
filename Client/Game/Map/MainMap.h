@@ -8,6 +8,4 @@ public:
     virtual ~MainMap() override = default;
 
     virtual void Load() override;
-    
-    void Test(int a, int b);
 };

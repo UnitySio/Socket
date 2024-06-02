@@ -1,10 +1,8 @@
 ﻿#pragma once
-#include "Delegate.h"
 #include "Actor/Actor.h"
+#include "Misc/Delegate.h"
+#include "Misc/DelegateMacros.h"
 #include "Time/TimerManager.h"
-#include "../MDelegate.h"
-
-DECLARE_DELAGATE(TempDelegate, void);
 
 class Sprite;
 
@@ -20,8 +18,6 @@ public:
     virtual void Render(float alpha) override;
     virtual void EndPlay(EndPlayReason type) override;
 
-    void OnCallback();
-
 private:
     // Actor components
     class InputComponent* input_;
@@ -34,10 +30,7 @@ private:
     char dir_;
 
     // TEST
-    float timer;
-    MathTypes::uint32 frame_index;
-
-    TimerHandle timer_handle;
-
-    MDelegate<void(void)> del;
+    float timer_;
+    MathTypes::uint32 frame_index_;
+    
 };
