@@ -3,6 +3,9 @@
 #include <map>
 
 #include "Singleton.h"
+#include "Misc/DelegateMacros.h"
+
+DECLARE_DELEGATE(TimerDelegate);
 
 struct TimerHandle
 {
