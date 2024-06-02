@@ -52,13 +52,13 @@ private:
     struct ICallable
     {
         virtual ~ICallable() {}
-        virtual Ret operator()(Args&&... args) = 0;
+        virtual Ret operator()(Args&&... args) const = 0;
     };
 
     struct GCallable : public ICallable
     {
         GCallable(Ret(*func)(Args...)) : func_(func) {}
-        virtual Ret operator()(Args&&... args) override
+        virtual Ret operator()(Args&&... args) const override
         {
             return func_(std::forward<Args>(args)...);
         }
@@ -70,7 +70,7 @@ private:
     struct LCallable : public ICallable
     {
         LCallable(F&& f) : func_(std::move(f)) {};
-        virtual Ret operator()(Args&&... args) override
+        virtual Ret operator()(Args&&... args) const override
         {
             return func_(std::forward<Args>(args)...);
         }
@@ -82,7 +82,7 @@ private:
     struct MCallable : public ICallable
     {
         MCallable(M* target, Ret(M::* func)(Args...)) : func_(func), target_(target) {}
-        virtual Ret operator()(Args&&... args) override
+        virtual Ret operator()(Args&&... args) const override
         {
             return (target_->*func_)(std::forward<Args>(args)...);
         }
@@ -96,7 +96,7 @@ private:
     {
         CMCallable(M* target, Ret(M::* func)(Args...) const)
             : target_(target), func_(func) {}
-        virtual Ret operator()(Args&&... args) override
+        virtual Ret operator()(Args&&... args) const override
         {
             return (target_->*func_)(std::forward<Args>(args)...);
         }
