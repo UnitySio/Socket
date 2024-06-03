@@ -34,6 +34,8 @@ public:
     {
         addr_ = reinterpret_cast<std::uintptr_t>(func);
     }
+    
+    
 
     template<typename M, typename std::enable_if<std::is_class<M>::value>::type* = nullptr>
     Function(M* target, Ret(M::*func)(Args...))
@@ -41,6 +43,8 @@ public:
     {
         addr_ = reinterpret_cast<std::uintptr_t&>(func);
     }
+
+    
 
     template<typename M, typename std::enable_if<std::is_class<M>::value>::type* = nullptr>
     Function(M* target, Ret(M::*func)(Args...) const)
@@ -168,6 +172,87 @@ private:
     const std::shared_ptr<ICallable> cFunc_;
     std::uintptr_t addr_;
     
+    template<typename>
+    friend class Delegate;
+};
+
+
+
+
+
+
+template<>
+class Function<void(void)>
+{
+public:
+    template<typename M>
+    Function(M* target, void(M::* func)())
+        : func_(std::make_shared<MCallable<M>>(target, func)), cFunc_(nullptr)
+    {
+        addr_ = reinterpret_cast<std::uintptr_t&>(func);
+    }
+
+    template<typename M>
+    Function(M* target, void(M::* func)() const)
+        : cFunc_(std::make_shared<CMCallable<M>>(target, func))
+    {
+        std::memcpy(&addr_, &func, sizeof(&addr_));
+    }
+
+    void operator()() const
+    {
+        if (cFunc_)
+            return (*cFunc_)();
+        return (*func_)();
+    }
+
+    void operator=(const Function& input)
+    {
+        this->addr_ = input.addr_;
+        this->func_ = input.func_;
+    }
+
+    std::uintptr_t GetAddr() { return addr_; }
+
+private:
+    struct ICallable
+    {
+        virtual ~ICallable() {}
+        virtual void operator()() const = 0;
+    };
+
+    template<typename M>
+    struct MCallable : public ICallable
+    {
+        MCallable(M* target, void(M::* func)()) : func_(func), target_(target) {}
+        virtual void operator()() const override
+        {
+            return (target_->*func_)();
+        }
+
+        M* target_;
+        void(M::* func_)();
+    };
+
+    template<typename M>
+    struct CMCallable : public ICallable
+    {
+        CMCallable(M* target, void(M::* func)() const)
+            : target_(target), func_(func) {}
+        virtual void operator()() const override
+        {
+            return (target_->*func_)();
+        }
+
+        M* target_;
+        void(M::* func_)() const;
+    };
+
+private:
+    std::shared_ptr<ICallable> func_;
+    const std::shared_ptr<ICallable> cFunc_;
+    std::uintptr_t addr_;
+
     template<typename>
     friend class Delegate;
 };

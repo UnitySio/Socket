@@ -38,7 +38,7 @@ private:
     MathTypes::uint32 frame_index_;
 
     TempDelegate delegate_;
-    
+    void Test(void);
+
 };
 
-void Test(int a, int b);
