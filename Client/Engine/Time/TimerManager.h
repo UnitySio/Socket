@@ -45,4 +45,4 @@ private:
 
 
 
-void GTest(int a, int b);
+void GTest(int a, int b, int c);

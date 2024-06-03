@@ -16,6 +16,7 @@ class Function<Ret(Args...)>
 {
 public:
     Function() = delete;
+    virtual ~Function() = default;
 
     template<typename F, typename = typename std::enable_if<!std::is_same<Function, typename std::decay<F>::type>::value>::type>
     Function(F&& func)
@@ -87,7 +88,7 @@ private:
 
     struct ICallable
     {
-        virtual ~ICallable() {}
+        virtual ~ICallable() = default;
         virtual Ret operator()(Args&&... args) const 
         {
             return Ret();
@@ -186,6 +187,9 @@ template<>
 class Function<void(void)>
 {
 public:
+    Function() = delete;
+    virtual ~Function() = default;
+
     template<typename L, typename = typename std::enable_if<!std::is_same<Function, typename std::decay<L>::type>::value>::type, typename... Args>
     Function(L&& func)
         : func_(std::make_shared<LCallable<typename std::decay<L>::type>>(std::forward<L>(func))), cFunc_(nullptr)
@@ -245,7 +249,7 @@ public:
 private:
     struct ICallable
     {
-        virtual ~ICallable() {}
+        virtual ~ICallable() = default;
         virtual void operator()() const = 0;
     };
 

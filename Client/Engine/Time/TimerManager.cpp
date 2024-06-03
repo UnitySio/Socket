@@ -8,7 +8,7 @@ TimerManager::TimerManager() :
     TimerHandle handle;
     Function<void(void)> f(this, &TimerManager::MTest, 3, 5);
     SetTimer(handle, std::move(f), 1.0f);
-    Function<void(void)> f2(&GTest, 10, 20);
+    Function<void(void)> f2(&GTest, 10, 20, 30);
     SetTimer(handle, std::move(f2), 2.0f);
 
     int a = 10;
@@ -77,7 +77,7 @@ void TimerManager::MTest(int a, int b)
     auto temp = a + b;
 }
 
-void GTest(int a, int b)
+void GTest(int a, int b, int c)
 {
-    auto temp = a + b;
+    auto temp = a + b + c;
 }
