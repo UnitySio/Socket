@@ -12,27 +12,27 @@ public:
     Delegate() {}
 
     template<typename F, typename = typename std::enable_if<!std::is_same<Function<Ret(Args...)>, typename std::decay<F>::type>::value>::type>
-    void Bind(F&& func)
+    void Add(F&& func)
     {
         auto temp = std::make_shared<Function<Ret(Args...)>>(std::forward<F>(func));
         functions_.push_back(*temp);
     }
 
     template<typename M, typename std::enable_if<std::is_class<M>::value>::type* = nullptr>
-    void Bind(M* target, Ret(M::*func)(Args...))
+    void Add(M* target, Ret(M::*func)(Args...))
     {
         auto temp = std::make_shared<Function<Ret(Args...)>>(target, func);
         functions_.push_back(*temp);
     }
 
     template<typename M, typename std::enable_if<std::is_class<M>::value>::type* = nullptr>
-    void Bind(M* target, Ret(M::* func)(Args...) const)
+    void Add(M* target, Ret(M::* func)(Args...) const)
     {
         auto temp = std::make_shared<Function<Ret(Args...)>>(target, func);
         functions_.push_back(*temp);
     }
 
-    void Bind(Ret(*func)(Args...))
+    void Add(Ret(*func)(Args...))
     {
         auto temp = std::make_shared<Function<Ret(Args...)>>(func);
         functions_.push_back(*temp);
@@ -47,7 +47,7 @@ public:
     }
 
     template<typename F, typename = typename std::enable_if<!std::is_same<Function<Ret(Args...)>, typename std::decay<F>::type>::value>::type>
-    void UnBind(F func)
+    void Remove(F func)
     {
         std::uintptr_t tt = 0;
         std::memcpy(&tt, &func, sizeof(tt));
@@ -64,7 +64,7 @@ public:
     }
 
     template<typename M, typename std::enable_if<std::is_class<M>::value>::type* = nullptr>
-    void UnBind(Ret(M::* func)(Args...))
+    void Remove(Ret(M::* func)(Args...))
     {
         /*std::uintptr_t tt = reinterpret_cast<std::uintptr_t&>(func);
         for (auto temp = functions_.begin(); temp != functions_.end(); ++temp)
@@ -86,7 +86,7 @@ public:
         }
     }
 
-    void UnBind(Ret(*func)(Args...))
+    void Remove(Ret(*func)(Args...))
     {
         std::uintptr_t tt = 0;
         std::memcpy(&tt, &func, sizeof(tt));

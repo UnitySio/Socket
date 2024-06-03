@@ -46,20 +46,13 @@ Pawn::Pawn(const std::wstring& kName) :
     sprite_->SetWrapMode(WrapMode::kClamp);
     sprite_->SetFilterMode(FilterMode::kPoint);
 
-    delegate_.Bind(this, &Pawn::OnCallback);
-    delegate_.Bind([](const std::wstring& kStr)->void {});
-    User u;
-    delegate_.Bind(&u, &User::Test);
-    delegate_.Bind(&TTest);
-    auto t1 = delegate_.IsBound(&Pawn::OnCallback);
-    delegate_.UnBind(&Pawn::OnCallback);
-    auto t2 = delegate_.IsBound(&Pawn::OnCallback);
+    delegate_.Add([](const std::wstring& kStr) -> void {});
+    
 }
 
 void Pawn::BeginPlay()
 {
     Actor::BeginPlay();
-    delegate_.Execute(L"Hello World");
     
 }
 
@@ -141,13 +134,4 @@ void Pawn::EndPlay(EndPlayReason type)
         file << L"Quit: " << GetName() << std::endl;
         file.close();
     }
-}
-
-void Pawn::OnCallback(const std::wstring& kStr)
-{
-    OutputDebugString(kStr.c_str());
-}
-
-void TTest(const std::wstring& str)
-{
 }

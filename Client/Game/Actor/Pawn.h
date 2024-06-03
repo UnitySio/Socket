@@ -40,15 +40,3 @@ private:
     TempDelegate delegate_;
     
 };
-
-
-class User
-{
-public:
-    void Test(const std::wstring& str) const
-    {
-
-    }
-};
-
-void TTest(const std::wstring& str);
