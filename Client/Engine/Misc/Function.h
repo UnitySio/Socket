@@ -19,20 +19,20 @@ public:
     Function(F&& func)
         : func_(std::make_shared<LCallable<typename std::decay<F>::type>>(std::forward<F>(func))), cFunc_(nullptr)
     {
-        addr_ = reinterpret_cast<uintptr_t>(const_cast<std::decay_t<F>*>(&func));
+        addr_ = reinterpret_cast<std::uintptr_t>(const_cast<std::decay_t<F>*>(&func));
     }
 
     Function(Ret(*func)(Args...))
         : func_(std::make_shared<GCallable>(func)), cFunc_(nullptr)
     {
-        addr_ = reinterpret_cast<uintptr_t>(func);
+        addr_ = reinterpret_cast<std::uintptr_t>(func);
     }
 
     template<typename M, typename std::enable_if<std::is_class<M>::value>::type* = nullptr>
-    Function(M* target, Ret(M::* func)(Args...))
+    Function(M* target, Ret(M::*func)(Args...))
         : func_(std::make_shared<MCallable<M>>(target, func)), cFunc_(nullptr)
     {
-        addr_ = reinterpret_cast<uintptr_t>(std::decay_t<M*>(&func));
+        addr_ = reinterpret_cast<std::uintptr_t&>(func);
     }
 
     template<typename M, typename std::enable_if<std::is_class<M>::value>::type* = nullptr>
@@ -50,12 +50,13 @@ public:
         return (*func_)(std::forward<Args>(args)...);
     }
 
-    Function operator=(const Function& input)
+    void operator=(const Function& input)
     {
-        return input;
+        this->addr_ = input.addr_;
+        this->func_ = input.func_;
     }
 
-    std::uintptr_t& GetAddr() { return addr_; }
+    std::uintptr_t GetAddr() { return addr_; }
 
     std::any GetFunc() { return func_.get()->GetFunc(); }
 

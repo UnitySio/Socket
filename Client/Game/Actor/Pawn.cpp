@@ -51,9 +51,9 @@ Pawn::Pawn(const std::wstring& kName) :
     User u;
     delegate_.Bind(&u, &User::Test);
     delegate_.Bind(&TTest);
-    auto temp = delegate_.IsBound(&Pawn::OnCallback);
+    auto t1 = delegate_.IsBound(&Pawn::OnCallback);
     delegate_.UnBind(&Pawn::OnCallback);
-    auto ttemp = delegate_.IsBound(&Pawn::OnCallback);
+    auto t2 = delegate_.IsBound(&Pawn::OnCallback);
 }
 
 void Pawn::BeginPlay()

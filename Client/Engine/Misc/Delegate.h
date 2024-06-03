@@ -19,7 +19,7 @@ public:
     }
 
     template<typename M, typename std::enable_if<std::is_class<M>::value>::type* = nullptr>
-    void Bind(M* target, Ret(M::* func)(Args...))
+    void Bind(M* target, Ret(M::*func)(Args...))
     {
         auto temp = std::make_shared<Function<Ret(Args...)>>(target, func);
         functions_.push_back(*temp);
@@ -66,11 +66,19 @@ public:
     template<typename M, typename std::enable_if<std::is_class<M>::value>::type* = nullptr>
     void UnBind(Ret(M::* func)(Args...))
     {
-        //std::uintptr_t tt = 0;
-        //std::memcpy(&tt, &func, sizeof(tt));
+        /*std::uintptr_t tt = reinterpret_cast<std::uintptr_t&>(func);
         for (auto temp = functions_.begin(); temp != functions_.end(); ++temp)
         {
-            if (temp->GetFunc().has_value() && std::any_cast<Ret(M::*)(Args...)>(temp->GetFunc()) == func)
+            if (temp->GetAddr() == tt)
+            {
+                temp = functions_.erase(temp);
+                break;
+            }
+        }*/
+        std::uintptr_t tt = reinterpret_cast<std::uintptr_t&>(func);
+        for (auto temp = functions_.begin(); temp != functions_.end(); temp++)
+        {
+            if (temp->GetAddr() == tt)
             {
                 functions_.erase(temp);
                 break;
@@ -110,9 +118,10 @@ public:
     template<typename M, typename std::enable_if<std::is_class<M>::value>::type* = nullptr>
     const bool& IsBound(Ret(M::* func)(Args...))
     {
+        std::uintptr_t tt = reinterpret_cast<std::uintptr_t&>(func);
         for (auto temp = functions_.begin(); temp != functions_.end(); ++temp)
         {
-            if (temp->GetFunc().has_value() && std::any_cast<Ret(M::*)(Args...)>(temp->GetFunc()) == func)
+            if (temp->GetAddr() == tt)
             {
                 return true;
             }
