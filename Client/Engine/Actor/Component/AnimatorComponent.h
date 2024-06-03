@@ -1,34 +1,20 @@
 #pragma once
 #include "../Actor.h"
 #include "Graphics/Sprite.h"
-
-struct AnimationClip
-{
-	std::wstring clipName_;
-	bool isRepeat;
-	float playbackSpeed;
-	int frameNumber_,maxFrame_;
-	int firstIndex_,lastIndex_;
-	std::wstring connected_OtherClip_;
-
-	AnimationClip(std::wstring clipName,int firstIndex, int lastIndex);
-	void SetPlaySpeed(float speed) {playbackSpeed = speed;}
-	void ConnectToOther(std::wstring clipName);
-	bool TransToOther(std::wstring clipName);
-};
+#include "Graphics/AnimationClip.h"
 
 class AnimatorComponent :public ActorComponent
 {
 public:
 	AnimatorComponent(Actor* owner, const std::wstring& kName);
 	void PlayAnimation();
-	void MakeAnimationClip(std::wstring clipName, int firstIndex, int lastIndex);
-	bool SetAnimationClip(std::wstring clipName, float speed);
-	bool SetAnimationClip(int index);//¹Ì±¸Çö
-private:
-	std::unique_ptr<Sprite> originSheet_;
-	std::vector<std::unique_ptr<AnimationClip>> clips_;
-	AnimationClip* targetClip_;
+	void MakeAnimationClip(std::wstring clipName, std::wstring path);
+	void SetAnimationClip(std::wstring clipName);
+
+	std::map<std::wstring, std::shared_ptr<AnimationClip>> clips_;
+	std::shared_ptr<AnimationClip> targetClip_;
+
+	std::map<std::wstring, std::vector<std::wstring>> triggers_;
 
 	int frameNumber_;
 	float playTime;
