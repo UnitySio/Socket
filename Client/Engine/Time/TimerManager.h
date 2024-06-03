@@ -8,6 +8,7 @@ DECLARE_DELEGATE(TimerDelegate);
 
 struct TimerHandle
 {
+
 };
 
 struct TimerData
@@ -30,19 +31,18 @@ public:
 
     void Tick(float delta_time);
 
-    void SetTimer(TimerHandle& handle, Function<void(void)>& func, float rate, bool loop = false, float delay = -1.f);
-
+    void SetTimer(TimerHandle& handle, Function<void(void)>&& func, float rate, bool loop = false, float delay = -1.f);
+    void SetTick(TimerHandle& handle, Function<void(void)>&& func);
     inline float GetTime() const { return internal_time_; }
 
 private:
     float internal_time_;
-
     std::vector<TimerData> timers_;
-    
+    std::vector<Function<void(void)>> ticks_;
     void MTest(int a, int b);
 };
 
 
 
 
-void Test(int a, int b);
+void GTest(int a, int b);

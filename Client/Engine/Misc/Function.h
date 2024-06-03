@@ -186,6 +186,13 @@ template<>
 class Function<void(void)>
 {
 public:
+    template<typename L, typename = typename std::enable_if<!std::is_same<Function, typename std::decay<L>::type>::value>::type, typename... Args>
+    Function(L&& func)
+        : func_(std::make_shared<LCallable<typename std::decay<L>::type>>(std::forward<L>(func))), cFunc_(nullptr)
+    {
+        addr_ = reinterpret_cast<std::uintptr_t>(const_cast<std::decay_t<L>*>(&func));
+    }
+
     template<typename M>
     Function(M* target, void(M::* func)())
         : func_(std::make_shared<MCallable<M>>(target, func)), cFunc_(nullptr)
@@ -310,6 +317,23 @@ private:
 
         M* target_;
         void(M::* func_)() const;
+    };
+
+    template<typename L, typename... Args>
+    struct LCallable : public ICallable
+    {
+        LCallable(L&& func, Args&&... args)
+            : func_(std::forward<L>(func)), args_(std::make_tuple(std::forward<Args>(args)...))
+        {};
+        virtual void operator()() const override
+        {
+            std::apply([&](auto&&... args) {
+                func_(std::forward<decltype(args)>(args)...);
+                }, args_);
+        }
+
+        L func_;
+        std::tuple<Args...> args_;
     };
 
 private:

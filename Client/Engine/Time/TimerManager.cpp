@@ -7,9 +7,12 @@ TimerManager::TimerManager() :
 {
     TimerHandle handle;
     Function<void(void)> f(this, &TimerManager::MTest, 3, 5);
-    SetTimer(handle, f, 1.0f);
-    Function<void(void)> f2(&Test, 10, 20);
-    SetTimer(handle, f2, 2.0f);
+    SetTimer(handle, std::move(f), 1.0f);
+    Function<void(void)> f2(&GTest, 10, 20);
+    SetTimer(handle, std::move(f2), 2.0f);
+
+    Function<void(void)> f3([]() {});
+    
 }
 
 void TimerManager::Tick(float delta_time)
@@ -37,10 +40,16 @@ void TimerManager::Tick(float delta_time)
             }
         }
     }
+
+    ///////////// Propose //////////////
+    for (const auto& temp : ticks_)
+    {
+        temp();
+    }
 }
 
 
-void TimerManager::SetTimer(TimerHandle& handle, Function<void(void)>& func, float rate, bool loop, float delay)
+void TimerManager::SetTimer(TimerHandle& handle, Function<void(void)>&& func, float rate, bool loop, float delay)
 {
     const float first_delay = delay >= 0.f ? delay : rate;
 
@@ -56,12 +65,17 @@ void TimerManager::SetTimer(TimerHandle& handle, Function<void(void)>& func, flo
     timers_.push_back(data);
 }
 
+void TimerManager::SetTick(TimerHandle& handle, Function<void(void)>&& func)
+{
+    ticks_.push_back(std::forward<Function<void(void)>>(func));
+}
+
 void TimerManager::MTest(int a, int b)
 {
     auto temp = a + b;
 }
 
-void Test(int a, int b)
+void GTest(int a, int b)
 {
     auto temp = a + b;
 }
