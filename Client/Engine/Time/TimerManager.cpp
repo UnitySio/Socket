@@ -67,10 +67,22 @@ void TimerManager::SetTimer(TimerHandle& handle, Function<void(void)>&& func, fl
     timers_.push_back(data);
 }
 
+void TimerManager::TimerClear()
+{
+    timers_.clear();
+}
+
 void TimerManager::SetTick(TimerHandle& handle, Function<void(void)>&& func)
 {
     ticks_.push_back(std::forward<Function<void(void)>>(func));
 }
+
+void TimerManager::TickClear()
+{
+    ticks_.clear();
+}
+
+
 
 void TimerManager::MTest(int a, int b)
 {

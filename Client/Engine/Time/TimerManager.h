@@ -28,11 +28,13 @@ class TimerManager : public Singleton<TimerManager>
 public:
     TimerManager();
     virtual ~TimerManager() override = default;
-
     void Tick(float delta_time);
 
     void SetTimer(TimerHandle& handle, Function<void(void)>&& func, float rate, bool loop = false, float delay = -1.f);
+    void TimerClear();
     void SetTick(TimerHandle& handle, Function<void(void)>&& func);
+    void TickClear();
+    
     inline float GetTime() const { return internal_time_; }
 
 private:
