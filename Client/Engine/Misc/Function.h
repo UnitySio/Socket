@@ -57,6 +57,13 @@ public:
         return (*func_)(std::forward<Args>(args)...);
     }
 
+    Ret operator()() const
+    {
+        if (cFunc_)
+            return (*cFunc_)();
+        return (*func_)();
+    }
+
     void operator=(const Function& input)
     {
         this->addr_ = input.addr_;
@@ -76,7 +83,15 @@ private:
     struct ICallable
     {
         virtual ~ICallable() {}
-        virtual Ret operator()(Args&&... args) const = 0;
+        virtual Ret operator()(Args&&... args) const 
+        {
+            return Ret();
+        };
+
+        virtual Ret operator()()
+        {
+            return Ret();
+        };
     };
 
     struct GCallable : public ICallable
@@ -133,6 +148,11 @@ private:
             : args_(std::make_tuple(args...)), func_(func)
         {};
         virtual Ret operator()(Args&&... args) const override
+        {
+            return std::apply(func_, args_);
+        }
+
+        Ret operator()()
         {
             return std::apply(func_, args_);
         }

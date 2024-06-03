@@ -49,6 +49,7 @@ Pawn::Pawn(const std::wstring& kName) :
     delegate_.Add([](const std::wstring& kStr) -> void {});
     
     Function<void(int, int)> f(&Test, 3, 5);
+    f();
 }
 
 void Pawn::BeginPlay()
@@ -139,4 +140,5 @@ void Pawn::EndPlay(EndPlayReason type)
 
 void Test(int a, int b)
 {
+    auto temp = a + b;
 }
