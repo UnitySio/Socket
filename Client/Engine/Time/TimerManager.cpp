@@ -11,8 +11,10 @@ TimerManager::TimerManager() :
     Function<void(void)> f2(&GTest, 10, 20);
     SetTimer(handle, std::move(f2), 2.0f);
 
-    Function<void(void)> f3([]() {});
-    
+    int a = 10;
+    int b = 10;
+    Function<void(void)> f3([a, b]() {auto temp = a + b; });
+    SetTick(handle, std::move(f3));
 }
 
 void TimerManager::Tick(float delta_time)
