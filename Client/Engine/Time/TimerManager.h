@@ -13,8 +13,9 @@ struct TimerHandle
 
 struct TimerData
 {
-    TimerData(Function<void(void)> func) 
-        : callback(func), loop(false), rate(0.0f), expire_time(0.0f)
+    TimerData() = delete;
+    TimerData(Function<void(void)>&& func = nullptr) 
+        : callback(std::forward<Function<void(void)>>(func)), loop(false), rate(0.0f), expire_time(0.0f)
     {};
     bool loop;
     float rate;

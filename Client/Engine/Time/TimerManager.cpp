@@ -57,7 +57,7 @@ void TimerManager::SetTimer(TimerHandle& handle, Function<void(void)>&& func, fl
 
     TimerHandle new_handle;
 
-    TimerData data(func);
+    TimerData data(std::forward<Function<void(void)>>(func));
     data.loop = loop;
     data.rate = rate;
     data.expire_time = internal_time_ + first_delay;
