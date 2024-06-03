@@ -3,6 +3,7 @@
 #include <type_traits>
 #include <any>
 #include <tuple>
+#include <functional>
 
 template<typename>
 class Delegate;
@@ -199,6 +200,26 @@ public:
         std::memcpy(&addr_, &func, sizeof(&addr_));
     }
 
+    Function(void(*func)(void))
+        : func_(std::make_shared<GCallable>(func)), cFunc_(nullptr)
+    {
+        addr_ = reinterpret_cast<std::uintptr_t&>(func);
+    };
+
+    template<typename... Args>
+    Function(void(*func)(Args...), Args... args)
+        : func_(std::make_shared<AGCallable<Args...>>(func, args...)), cFunc_(nullptr)
+    {
+        addr_ = reinterpret_cast<std::uintptr_t&>(func);
+    };
+
+    template<typename M, typename... Args>
+    Function(M* target, void(M::*func)(Args...), Args... args) //typename std::enable_if<std::is_class<M>::value>::type
+        : func_(std::make_shared<AMCallable<M, Args...>>(target, func, args...)), cFunc_(nullptr)
+    {
+        addr_ = reinterpret_cast<std::uintptr_t&>(func);
+    };
+
     void operator()() const
     {
         if (cFunc_)
@@ -221,17 +242,60 @@ private:
         virtual void operator()() const = 0;
     };
 
+    struct GCallable : public ICallable
+    {
+        GCallable(void(*func)(void)) : func_(func) {}
+        virtual void operator()(void) const override
+        {
+            (*func_)();
+        }
+        void(*func_)(void);
+    };
+
+    template<typename... Args>
+    struct AGCallable : public ICallable
+    {
+        AGCallable(void(*func)(Args...), Args... args)
+            : func_(func), args_(std::make_tuple(args...))
+        {};
+        virtual void operator()(void) const override
+        {
+            std::apply(func_, args_);
+        }
+        void(*func_)(Args...);
+        std::tuple<Args...> args_;
+    };
+
     template<typename M>
     struct MCallable : public ICallable
     {
         MCallable(M* target, void(M::* func)()) : func_(func), target_(target) {}
         virtual void operator()() const override
         {
-            return (target_->*func_)();
+            (target_->*func_)();
         }
 
         M* target_;
         void(M::* func_)();
+    };
+
+    template<typename M, typename... Args>
+    struct AMCallable : public ICallable
+    {
+        AMCallable(M* target, void(M::* func)(Args...), Args... args)
+            : func_(func), target_(target), args_(std::make_tuple(args...))
+        {};
+        virtual void operator()() const override
+        {
+            std::apply([this](auto&&... args)
+                {
+                    (target_->*func_)(std::forward<decltype(args)>(args)...);
+                }, args_);
+        }
+
+        M* target_;
+        void(M::*func_)(Args...);
+        std::tuple<Args...> args_;
     };
 
     template<typename M>
@@ -241,7 +305,7 @@ private:
             : target_(target), func_(func) {}
         virtual void operator()() const override
         {
-            return (target_->*func_)();
+            (target_->*func_)();
         }
 
         M* target_;

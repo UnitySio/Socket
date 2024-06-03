@@ -5,6 +5,11 @@
 TimerManager::TimerManager() :
     internal_time_(0.f)
 {
+    TimerHandle handle;
+    Function<void(void)> f(this, &TimerManager::MTest, 3, 5);
+    SetTimer(handle, f, 1.0f);
+    Function<void(void)> f2(&Test, 10, 20);
+    SetTimer(handle, f2, 2.0f);
 }
 
 void TimerManager::Tick(float delta_time)
@@ -32,4 +37,31 @@ void TimerManager::Tick(float delta_time)
             }
         }
     }
+}
+
+
+void TimerManager::SetTimer(TimerHandle& handle, Function<void(void)>& func, float rate, bool loop, float delay)
+{
+    const float first_delay = delay >= 0.f ? delay : rate;
+
+    TimerHandle new_handle;
+
+    TimerData data(func);
+    data.loop = loop;
+    data.rate = rate;
+    data.expire_time = internal_time_ + first_delay;
+    data.handle = new_handle;
+
+    handle = new_handle;
+    timers_.push_back(data);
+}
+
+void TimerManager::MTest(int a, int b)
+{
+    auto temp = a + b;
+}
+
+void Test(int a, int b)
+{
+    auto temp = a + b;
 }
