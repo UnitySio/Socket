@@ -38,6 +38,12 @@ public:
         functions_.push_back(*temp);
     }
 
+    void Add(Ret(*func)(Args...), Args... args)
+    {
+        auto temp = std::make_shared<Function<Ret(Args...)>>(func, args...);
+        functions_.push_back(*temp);
+    }
+
     void Execute(Args&&...args) const
     {
         for (const auto& temp : functions_)
@@ -45,6 +51,8 @@ public:
             temp(std::forward<Args>(args)...);
         }
     }
+
+    
 
     void RemoveAll()
     {

@@ -2,6 +2,7 @@
 #include <memory>
 #include <type_traits>
 #include <any>
+#include <tuple>
 
 template<typename>
 class Delegate;
@@ -24,6 +25,12 @@ public:
 
     Function(Ret(*func)(Args...))
         : func_(std::make_shared<GCallable>(func)), cFunc_(nullptr)
+    {
+        addr_ = reinterpret_cast<std::uintptr_t>(func);
+    }
+
+    Function(Ret(*func)(Args...), Args... args)
+        : func_(std::make_shared<FCallable>(func, args...)), cFunc_(nullptr)
     {
         addr_ = reinterpret_cast<std::uintptr_t>(func);
     }
@@ -58,7 +65,6 @@ public:
 
     std::uintptr_t GetAddr() { return addr_; }
 
-    std::any GetFunc() { return func_.get()->GetFunc(); }
 
 private:
     using Func = Ret(*)(Args...);
@@ -71,7 +77,6 @@ private:
     {
         virtual ~ICallable() {}
         virtual Ret operator()(Args&&... args) const = 0;
-        virtual std::any GetFunc() const = 0;
     };
 
     struct GCallable : public ICallable
@@ -81,8 +86,6 @@ private:
         {
             return func_(std::forward<Args>(args)...);
         }
-        //Func GetFunc() { return func_; }
-        virtual std::any GetFunc() const override { return func_; }
         Ret(*func_)(Args...);
     };
 
@@ -94,8 +97,6 @@ private:
         {
             return func_(std::forward<Args>(args)...);
         }
-        //F GetFunc() { return func_; }
-        virtual std::any GetFunc() const override { return func_; }
         F func_;
     };
 
@@ -107,9 +108,7 @@ private:
         {
             return (target_->*func_)(std::forward<Args>(args)...);
         }
-        //MFunc<M> GetFunc() { return func_; }
-        virtual std::any GetFunc() const override { return func_; }
-
+        
         M* target_;
         Ret(M::* func_)(Args...);
     };
@@ -123,12 +122,26 @@ private:
         {
             return (target_->*func_)(std::forward<Args>(args)...);
         }
-        //MFunc<M> GetFunc() { return func_; }
-        virtual std::any GetFunc() const override { return func_; }
-
+        
         M* target_;
         Ret(M::* func_)(Args...) const;
     };
+
+    struct FCallable : public ICallable
+    {
+        FCallable(Ret(*func)(Args...), Args... args) 
+            : args_(std::make_tuple(args...)), func_(func)
+        {};
+        virtual Ret operator()(Args&&... args) const override
+        {
+            return std::apply(func_, args_);
+        }
+
+        std::tuple<Args...> args_;
+        Ret(*func_)(Args...);
+    };
+
+    
 
 private:
     std::shared_ptr<ICallable> func_;

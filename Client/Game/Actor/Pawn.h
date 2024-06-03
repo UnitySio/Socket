@@ -40,3 +40,5 @@ private:
     TempDelegate delegate_;
     
 };
+
+void Test(int a, int b);

@@ -48,6 +48,7 @@ Pawn::Pawn(const std::wstring& kName) :
 
     delegate_.Add([](const std::wstring& kStr) -> void {});
     
+    Function<void(int, int)> f(&Test, 3, 5);
 }
 
 void Pawn::BeginPlay()
@@ -134,4 +135,8 @@ void Pawn::EndPlay(EndPlayReason type)
         file << L"Quit: " << GetName() << std::endl;
         file.close();
     }
+}
+
+void Test(int a, int b)
+{
 }
