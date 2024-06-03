@@ -46,6 +46,11 @@ public:
         }
     }
 
+    void RemoveAll()
+    {
+        functions_.clear();
+    }
+
     template<typename F, typename = typename std::enable_if<!std::is_same<Function<Ret(Args...)>, typename std::decay<F>::type>::value>::type>
     void Remove(F func)
     {
