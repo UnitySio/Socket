@@ -7,12 +7,12 @@ struct TimerData;
 struct TimerHandle;
 
 #pragma region MACRO
-#define SET_TIMERBASE(rate, loop, delay)\
-const float first_delay = delay >= 0.f ? delay : rate;\
-data.loop = loop;\
-data.rate = rate;\
-data.expire_time = internal_time_ + first_delay;\
-timers_.push_back(data);\
+#define SET_TIMERBASE(rate, loop, delay) \
+const float first_delay = delay >= 0.f ? delay : rate; \
+data.loop = loop; \
+data.rate = rate; \
+data.expire_time = internal_time_ + first_delay; \
+timers_.push_back(data); \
 return data.handle;
 #pragma endregion
 
