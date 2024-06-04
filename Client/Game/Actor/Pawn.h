@@ -6,8 +6,6 @@
 
 class Sprite;
 
-DECLARE_DELEGATE(TempDelegate, const std::wstring& kStr)
-
 class Pawn : public Actor
 {
 public:
@@ -19,8 +17,6 @@ public:
     virtual void Tick(float delta_time) override;
     virtual void Render(float alpha) override;
     virtual void EndPlay(EndPlayReason type) override;
-
-    void OnCallback(const std::wstring& kStr);
 
 private:
     // Actor components
@@ -36,9 +32,6 @@ private:
     // TEST
     float timer_;
     MathTypes::uint32 frame_index_;
-
-    TempDelegate delegate_;
-    void Test(void);
 
 };
 
