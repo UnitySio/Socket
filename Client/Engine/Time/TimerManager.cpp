@@ -5,14 +5,7 @@
 TimerManager::TimerManager() :
     internal_time_(0.f)
 {
-    TimerHandle handle;
-    Function<void(void)> f(this, &TimerManager::MTest, 3, 5);
-    SetTimer(handle, std::move(f), 1.0f);
-    Function<void(void)> f2(&GTest, L"Hello World");
-    SetTimer(handle, std::move(f2), 2.0f);
-
-    int a = 10;
-    int b = 10;
+    
 }
 
 void TimerManager::Tick(float delta_time)
@@ -41,7 +34,6 @@ void TimerManager::Tick(float delta_time)
         }
     }
 
-    ///////////// Propose //////////////
     
 }
 
@@ -69,14 +61,3 @@ void TimerManager::TimerClear()
 
 
 
-
-
-void TimerManager::MTest(int a, int b)
-{
-    auto temp = a + b;
-}
-
-void GTest(const std::wstring& kstr)
-{
-    
-}

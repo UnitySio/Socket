@@ -45,10 +45,8 @@ public:
 private:
     float internal_time_;
     std::vector<TimerData> timers_;
-    void MTest(int a, int b);
 };
 
 
 
 
-void GTest(const std::wstring& kstr);

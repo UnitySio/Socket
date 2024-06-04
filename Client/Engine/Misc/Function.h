@@ -230,6 +230,13 @@ public:
         addr_ = reinterpret_cast<std::uintptr_t&>(func);
     }
 
+    template<typename M, typename std::enable_if<std::is_class<M>::value>::type* = nullptr>
+    Function(M* target, void(M::*func)(const std::wstring&), const std::wstring& str)
+        : func_(std::make_shared<SCallable>(target, func, str)), cFunc_(nullptr)
+    {
+        addr_ = reinterpret_cast<std::uintptr_t&>(func);
+    }
+
     template<typename... Args>
     Function(void(*func)(Args...), Args... args)
         : func_(std::make_shared<AGCallable<Args...>>(func, args...)), cFunc_(nullptr)
@@ -306,6 +313,22 @@ private:
         }
 
         void(*func_)(const std::wstring&);
+        const std::wstring& str_;
+    };
+
+    template<typename M, typename std::enable_if<std::is_class<M>::value>::type* = nullptr>
+    struct SMCallable : public ICallable
+    {
+        SMCallable(M* target, void(M::*func)(const std::wstring&), const std::wstring& str)
+            : target_(target), str_(str), func_(func)
+        {};
+
+        virtual void operator()() const override
+        {
+            (*func_)(str_);
+        }
+        M* target_;
+        void(M::*func_)(const std::wstring&);
         const std::wstring& str_;
     };
 
