@@ -1,9 +1,7 @@
 #pragma once
 #include <memory>
 #include <type_traits>
-#include <any>
 #include <tuple>
-#include <functional>
 
 template<typename>
 class Delegate;
