@@ -34,7 +34,6 @@ void TimerManager::Tick(float delta_time)
     }
 }
 
-
 const TimerHandle& TimerManager::SetTimer(Function<void(void)>&& func, float rate, bool loop, float delay)
 {
     TimerData data(std::move(Function<void(void)>(func)));
@@ -52,9 +51,9 @@ void TimerManager::ClearTimers()
     timers_.clear();
 }
 
-const bool TimerManager::FindTimer(const TimerHandle& input)
+bool TimerManager::FindTimer(const TimerHandle& input) const
 {
-    for (auto& temp : timers_)
+    for (const auto& temp : timers_)
     {
         if (temp.handle == input)
         {

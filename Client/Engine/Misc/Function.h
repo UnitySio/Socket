@@ -36,8 +36,6 @@ public:
     {
         addr_ = reinterpret_cast<std::uintptr_t>(func);
     }
-    
-    
 
     template<typename M, typename std::enable_if<std::is_class<M>::value>::type* = nullptr>
     Function(M* target, Ret(M::*func)(Args...))
@@ -45,8 +43,6 @@ public:
     {
         addr_ = reinterpret_cast<std::uintptr_t&>(func);
     }
-
-    
 
     template<typename M, typename std::enable_if<std::is_class<M>::value>::type* = nullptr>
     Function(M* target, Ret(M::*func)(Args...) const)
@@ -78,13 +74,10 @@ public:
 
     std::uintptr_t GetAddr() { return addr_; }
 
-
 private:
     using Func = Ret(*)(Args...);
     template<typename U>
     using MFunc = Ret(U::*)(Args...);
-
-
 
     struct ICallable
     {
@@ -167,7 +160,6 @@ private:
         Ret(*func_)(Args...);
     };
 
-    
 
 private:
     std::shared_ptr<ICallable> func_;
@@ -177,11 +169,6 @@ private:
     template<typename>
     friend class Delegate;
 };
-
-
-
-
-
 
 template<>
 class Function<void(void)>

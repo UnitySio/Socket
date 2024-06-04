@@ -1,15 +1,11 @@
 ﻿#pragma once
-#include <map>
-
 #include "Singleton.h"
 #include "Misc/DelegateMacros.h"
 #include "Misc/Function.h"
-#include <memory>
 
 struct TimerData;
 struct TimerHandle;
 
-DECLARE_DELEGATE(TimerDelegate);
 #pragma region MACRO
 #define SET_TIMERBASE(rate, loop, delay)\
 const float first_delay = delay >= 0.f ? delay : rate;\
@@ -20,7 +16,6 @@ timers_.push_back(data);\
 return data.handle;
 #pragma endregion
 
-
 struct TimerHandle
 {
     TimerHandle() = delete;
@@ -29,11 +24,9 @@ struct TimerHandle
         : addr_(reinterpret_cast<std::uintptr_t&>(data))
     {};
 
-    const bool& operator==(const TimerHandle& input)
+    bool operator==(const TimerHandle& input) const
     {
-        if (addr_ == input.addr_)
-            return true;
-        return false;
+        return addr_ == input.addr_;
     }
 
     std::uintptr_t addr_;
@@ -52,7 +45,6 @@ struct TimerData
         : callback(std::forward<Function<void(void)>>(target, func)), loop(false), rate(0.0f), expire_time(0.0f)
     {};
 
-
     bool loop;
     float rate;
     double expire_time;
@@ -65,8 +57,8 @@ class TimerManager : public Singleton<TimerManager>
 public:
     TimerManager();
     virtual ~TimerManager() override = default;
+    
     void Tick(float delta_time);
-
 
     template<typename M>
     const TimerHandle& SetTimer(M* target, void(M::* func)(void), float rate, bool loop = false, float delay = -1.f, typename std::enable_if<std::is_class<M>::value>::type* = nullptr);
@@ -74,8 +66,8 @@ public:
     const TimerHandle& SetTimer(void(*func)(void), float rate, bool loop = false, float delay = -1.f);
     void ClearTimers();
 
-
-    const bool FindTimer(const TimerHandle& input);
+    bool FindTimer(const TimerHandle& input) const;
+    
     inline float GetTime() const { return internal_time_; }
 
 private:
