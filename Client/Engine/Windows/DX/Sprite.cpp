@@ -20,9 +20,9 @@ void Sprite::Split(MathTypes::uint32 cols, MathTypes::uint32 rows, Math::Vector2
 
     frames_.clear();
 
-    for (MathTypes::uint32 y = 0; y < rows; y++)
+    for (MathTypes::uint32 y = 0; y < rows; ++y)
     {
-        for (MathTypes::uint32 x = 0; x < cols; x++)
+        for (MathTypes::uint32 x = 0; x < cols; ++x)
         {
             SpriteFrame frame;
             frame.uv_offset.x = x;

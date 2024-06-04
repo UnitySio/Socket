@@ -72,7 +72,7 @@ public:
         this->func_ = input.func_;
     }
 
-    std::uintptr_t GetAddr() { return addr_; }
+    std::uintptr_t GetAddr() const { return addr_; }
 
 private:
     using Func = Ret(*)(Args...);
@@ -151,7 +151,7 @@ private:
             return std::apply(func_, args_);
         }
 
-        Ret operator()()
+        Ret operator()() override
         {
             return std::apply(func_, args_);
         }
@@ -159,7 +159,6 @@ private:
         std::tuple<Args...> args_;
         Ret(*func_)(Args...);
     };
-
 
 private:
     std::shared_ptr<ICallable> func_;
@@ -205,21 +204,21 @@ public:
     };
 
     template<typename... Args>
-    Function(void(*func)(Args...), const Args&&... args)
-        : func_(std::make_shared<GGCallable>(func, std::forward<Args>(args)...)), kFunc_(nullptr)
+    Function(void(*func)(Args...), const Args&&... kArgs)
+        : func_(std::make_shared<GGCallable>(func, std::forward<Args>(kArgs)...)), kFunc_(nullptr)
     {
         addr_ = reinterpret_cast<std::uintptr_t&>(func);
     };
 
-    Function(void(*func)(const std::wstring&), const std::wstring& str)
-        : func_(std::make_shared<SCallable>(func, str)), kFunc_(nullptr)
+    Function(void(*func)(const std::wstring&), const std::wstring& kStr)
+        : func_(std::make_shared<SCallable>(func, kStr)), kFunc_(nullptr)
     {
         addr_ = reinterpret_cast<std::uintptr_t&>(func);
     }
 
     template<typename M, typename std::enable_if<std::is_class<M>::value>::type* = nullptr>
-    Function(M* target, void(M::*func)(const std::wstring&), const std::wstring& str)
-        : func_(std::make_shared<SCallable>(target, func, str)), kFunc_(nullptr)
+    Function(M* target, void(M::*func)(const std::wstring&), const std::wstring& kStr)
+        : func_(std::make_shared<SCallable>(target, func, kStr)), kFunc_(nullptr)
     {
         addr_ = reinterpret_cast<std::uintptr_t&>(func);
     }
@@ -251,7 +250,7 @@ public:
         this->func_ = input.func_;
     }
 
-    std::uintptr_t GetAddr() { return addr_; }
+    std::uintptr_t GetAddr() const { return addr_; }
 
 private:
     struct ICallable
@@ -275,8 +274,8 @@ private:
     template<typename... Args>
     struct GGCallable : public ICallable
     {
-        GGCallable(void(*func)(Args...), const Args&&... args)
-            : args_(std::make_tuple(std::forward<Args>(args)...)), func_(func)
+        GGCallable(void(*func)(Args...), const Args&&... kArgs)
+            : args_(std::make_tuple(std::forward<Args>(kArgs)...)), func_(func)
         {};
 
         virtual void operator()() const override
@@ -290,8 +289,8 @@ private:
 
     struct SCallable : public ICallable
     {
-        SCallable(void(*func)(const std::wstring&), const std::wstring& str)
-            : str_(str), func_(func)
+        SCallable(void(*func)(const std::wstring&), const std::wstring& kStr)
+            : str_(kStr), func_(func)
         {};
 
         virtual void operator()() const override
@@ -306,8 +305,8 @@ private:
     template<typename M, typename std::enable_if<std::is_class<M>::value>::type* = nullptr>
     struct SMCallable : public ICallable
     {
-        SMCallable(M* target, void(M::*func)(const std::wstring&), const std::wstring& str)
-            : target_(target), str_(str), func_(func)
+        SMCallable(M* target, void(M::*func)(const std::wstring&), const std::wstring& kStr)
+            : target_(target), str_(kStr), func_(func)
         {};
 
         virtual void operator()() const override

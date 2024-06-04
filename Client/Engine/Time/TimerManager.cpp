@@ -91,7 +91,7 @@ void TimerManager::PauseTimer(const TimerHandle& kInput)
     }
 }
 
-void TimerManager::ResumeTimer(const TimerHandle& kInput)
+void TimerManager::UnPauseTimer(const TimerHandle& kInput)
 {
     TimerData* timer = FindTimer(kInput);
     if (!timer || timer->status != TimerStatus::Paused) return;

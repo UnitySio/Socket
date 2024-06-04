@@ -89,13 +89,11 @@ public:
     const TimerHandle& SetTimer(Function<void(void)>&& func, float rate, bool loop = false, float delay = -1.f);
     const TimerHandle& SetTimer(void(*func)(void), float rate, bool loop = false, float delay = -1.f);
 
-    void ClearTimer(const TimerHandle& input);
-    void PauseTimer(const TimerHandle& input);
-    void ResumeTimer(const TimerHandle& input);
+    void ClearTimer(const TimerHandle& kHandle);
+    void PauseTimer(const TimerHandle& kHandle);
+    void UnPauseTimer(const TimerHandle& kHandle);
     
-    TimerData* FindTimer(const TimerHandle& input);
-
-    inline float GetTime() const { return internal_time_; }
+    TimerData* FindTimer(const TimerHandle& kHandle);
 private:
     float internal_time_;
     std::vector<TimerData> timers_;
