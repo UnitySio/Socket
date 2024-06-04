@@ -52,8 +52,6 @@ void Pawn::BeginPlay()
 {
     Actor::BeginPlay();
     
-    timer_handle_ = TimerManager::Get()->SetTimer(this, &Pawn::OnCallback, 1.f, true);
-    
 }
 
 void Pawn::PhysicsTick(float delta_time)

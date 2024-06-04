@@ -69,10 +69,13 @@ public:
 
     template<typename M>
     const TimerHandle& SetTimer(M* target, void(M::* func)(void), float rate, bool loop = false, float delay = -1.f, typename std::enable_if<std::is_class<M>::value>::type* = nullptr);
+    
     template<typename M>
     const TimerHandle& SetTimer(M* target, void(M::* func)(void) const, float rate, bool loop = false, float delay = -1.f, typename std::enable_if<std::is_class<M>::value>::type* = nullptr);
+    
     template<typename L>
     const TimerHandle& SetTimer(L&& lambda, float rate, bool loop = false, float delay = -1.f);
+    
     const TimerHandle& SetTimer(Function<void(void)>&& func, float rate, bool loop = false, float delay = -1.f);
     const TimerHandle& SetTimer(void(*func)(void), float rate, bool loop = false, float delay = -1.f);
 
@@ -87,21 +90,21 @@ private:
 };
 
 template<typename M>
-inline const TimerHandle& TimerManager::SetTimer(M* target, void(M::* func)(void), float rate, bool loop, float delay, typename std::enable_if<std::is_class<M>::value>::type*)
+const TimerHandle& TimerManager::SetTimer(M* target, void(M::* func)(void), float rate, bool loop, float delay, typename std::enable_if<std::is_class<M>::value>::type*)
 {
     TimerData data(std::move(Function<void(void)>(target, func)));
     SET_TIMERBASE(rate, loop, delay)
 }
 
 template<typename M>
-inline const TimerHandle& TimerManager::SetTimer(M* target, void(M::* func)(void) const, float rate, bool loop, float delay, typename std::enable_if<std::is_class<M>::value>::type*)
+const TimerHandle& TimerManager::SetTimer(M* target, void(M::* func)(void) const, float rate, bool loop, float delay, typename std::enable_if<std::is_class<M>::value>::type*)
 {
     TimerData data(std::move(Function<void(void)>(target, func)));
     SET_TIMERBASE(rate, loop, delay)
 }
 
 template<typename L>
-inline const TimerHandle& TimerManager::SetTimer(L&& lambda, float rate, bool loop, float delay)
+const TimerHandle& TimerManager::SetTimer(L&& lambda, float rate, bool loop, float delay)
 {
     TimerData data(std::move(Function<void(void)>(std::move(lambda))));
     SET_TIMERBASE(rate, loop, delay)

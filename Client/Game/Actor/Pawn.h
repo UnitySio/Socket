@@ -35,7 +35,5 @@ private:
     float timer_;
     MathTypes::uint32 frame_index_;
 
-    TimerHandle timer_handle_;
-
 };
 
