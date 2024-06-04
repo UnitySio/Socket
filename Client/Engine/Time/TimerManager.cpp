@@ -60,6 +60,5 @@ bool TimerManager::FindTimer(const TimerHandle& input) const
             return true;
         }
     }
-
     return false;
 }

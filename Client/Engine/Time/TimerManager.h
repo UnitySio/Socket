@@ -62,14 +62,17 @@ public:
 
     template<typename M>
     const TimerHandle& SetTimer(M* target, void(M::* func)(void), float rate, bool loop = false, float delay = -1.f, typename std::enable_if<std::is_class<M>::value>::type* = nullptr);
+    template<typename M>
+    const TimerHandle& SetTimer(M* target, void(M::* func)(void) const, float rate, bool loop = false, float delay = -1.f, typename std::enable_if<std::is_class<M>::value>::type* = nullptr);
+    template<typename L>
+    const TimerHandle& SetTimer(L&& lambda, float rate, bool loop = false, float delay = -1.f);
     const TimerHandle& SetTimer(Function<void(void)>&& func, float rate, bool loop = false, float delay = -1.f);
     const TimerHandle& SetTimer(void(*func)(void), float rate, bool loop = false, float delay = -1.f);
-    void ClearTimers();
-
-    bool FindTimer(const TimerHandle& input) const;
     
-    inline float GetTime() const { return internal_time_; }
+    void ClearTimers();
+    bool FindTimer(const TimerHandle& input) const;
 
+    inline float GetTime() const { return internal_time_; }
 private:
     float internal_time_;
     std::vector<TimerData> timers_;
@@ -79,5 +82,19 @@ template<typename M>
 inline const TimerHandle& TimerManager::SetTimer(M* target, void(M::* func)(void), float rate, bool loop, float delay, typename std::enable_if<std::is_class<M>::value>::type*)
 {
     TimerData data(std::move(Function<void(void)>(target, func)));
+    SET_TIMERBASE(rate, loop, delay)
+}
+
+template<typename M>
+inline const TimerHandle& TimerManager::SetTimer(M* target, void(M::* func)(void) const, float rate, bool loop, float delay, typename std::enable_if<std::is_class<M>::value>::type*)
+{
+    TimerData data(std::move(Function<void(void)>(target, func)));
+    SET_TIMERBASE(rate, loop, delay)
+}
+
+template<typename L>
+inline const TimerHandle& TimerManager::SetTimer(L&& lambda, float rate, bool loop, float delay)
+{
+    TimerData data(std::move(Function<void(void)>(std::move(lambda))));
     SET_TIMERBASE(rate, loop, delay)
 }
