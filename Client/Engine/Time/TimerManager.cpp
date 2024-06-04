@@ -46,19 +46,23 @@ const TimerHandle& TimerManager::SetTimer(void(*func)(void), float rate, bool lo
     SET_TIMERBASE(rate, loop, delay)
 }
 
-void TimerManager::ClearTimers()
+void TimerManager::ClearTimer(const TimerHandle& input)
 {
-    timers_.clear();
+    if (const TimerData* timer = FindTimer(input))
+    {
+        timers_.erase(std::find(timers_.begin(), timers_.end(), *timer));
+    }
 }
 
-bool TimerManager::FindTimer(const TimerHandle& input) const
+TimerData* TimerManager::FindTimer(const TimerHandle& input)
 {
-    for (const auto& temp : timers_)
+    for (auto& timer : timers_)
     {
-        if (temp.handle == input)
+        if (timer.handle == input)
         {
-            return true;
+            return &timer;
         }
     }
-    return false;
+
+    return nullptr;
 }

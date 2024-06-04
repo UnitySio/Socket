@@ -52,6 +52,8 @@ void Pawn::BeginPlay()
 {
     Actor::BeginPlay();
     
+    timer_handle_ = TimerManager::Get()->SetTimer(this, &Pawn::OnCallback, 1.f, true);
+    
 }
 
 void Pawn::PhysicsTick(float delta_time)
@@ -132,4 +134,9 @@ void Pawn::EndPlay(EndPlayReason type)
         file << L"Quit: " << GetName() << std::endl;
         file.close();
     }
+}
+
+void Pawn::OnCallback()
+{
+    OutputDebugString(L"Callback\n");
 }

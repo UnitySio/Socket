@@ -68,9 +68,10 @@ public:
     const TimerHandle& SetTimer(L&& lambda, float rate, bool loop = false, float delay = -1.f);
     const TimerHandle& SetTimer(Function<void(void)>&& func, float rate, bool loop = false, float delay = -1.f);
     const TimerHandle& SetTimer(void(*func)(void), float rate, bool loop = false, float delay = -1.f);
+
+    void ClearTimer(const TimerHandle& input);
     
-    void ClearTimers();
-    bool FindTimer(const TimerHandle& input) const;
+    TimerData* FindTimer(const TimerHandle& input);
 
     inline float GetTime() const { return internal_time_; }
 private:

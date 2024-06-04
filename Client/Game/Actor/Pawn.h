@@ -18,6 +18,8 @@ public:
     virtual void Render(float alpha) override;
     virtual void EndPlay(EndPlayReason type) override;
 
+    void OnCallback();
+
 private:
     // Actor components
     class InputComponent* input_;
@@ -32,6 +34,8 @@ private:
     // TEST
     float timer_;
     MathTypes::uint32 frame_index_;
+
+    TimerHandle timer_handle_;
 
 };
 
