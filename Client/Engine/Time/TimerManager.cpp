@@ -5,7 +5,6 @@
 TimerManager::TimerManager() :
     internal_time_(0.f)
 {
-
 }
 
 void TimerManager::Tick(float delta_time)
@@ -36,19 +35,32 @@ void TimerManager::Tick(float delta_time)
 }
 
 
-void TimerManager::SetTimer(TimerHandle& handle, Function<void(void)>&& func, float rate, bool loop, float delay)
+TimerHandle& TimerManager::SetTimer(Function<void(void)>&& func, float rate, bool loop, float delay)
 {
     TimerData data(std::move(Function<void(void)>(func)));
     SET_TIMERBASE(rate, loop, delay)
 }
 
-void TimerManager::SetTimer(TimerHandle& handle, void(*func)(void), float rate, bool loop, float delay)
+TimerHandle& TimerManager::SetTimer(void(*func)(void), float rate, bool loop, float delay)
 {
     TimerData data(std::move(Function<void(void)>(func)));
     SET_TIMERBASE(rate, loop, delay)
 }
 
-void TimerManager::TimerClear()
+void TimerManager::ClearTimers()
 {
     timers_.clear();
+}
+
+const bool TimerManager::FindTimer(const TimerHandle& input)
+{
+    for (auto& temp : timers_)
+    {
+        if (temp.handle == input)
+        {
+            return true;
+        }
+    }
+
+    return false;
 }

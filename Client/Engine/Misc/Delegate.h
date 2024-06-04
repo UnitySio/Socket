@@ -116,7 +116,7 @@ public:
     }
 
     template<typename F, typename = typename std::enable_if<!std::is_same<Function<Ret(Args...)>, typename std::decay<F>::type>::value>::type>
-    const bool& IsBound(F func)
+    const bool IsBound(F func)
     {
         for (auto& temp : functions_)
         {
@@ -129,7 +129,7 @@ public:
     }
 
     template<typename M, typename std::enable_if<std::is_class<M>::value>::type* = nullptr>
-    const bool& IsBound(Ret(M::* func)(Args...))
+    const bool IsBound(Ret(M::* func)(Args...))
     {
         std::uintptr_t tt = reinterpret_cast<std::uintptr_t&>(func);
         for (auto temp = functions_.begin(); temp != functions_.end(); ++temp)
@@ -144,7 +144,7 @@ public:
 
     
 
-    const bool& IsBound(Ret(*func)(Args...))
+    const bool IsBound(Ret(*func)(Args...))
     {
         std::uintptr_t tt = 0;
         std::memcpy(&tt, &func, sizeof(tt));
