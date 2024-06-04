@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include "Singleton.h"
+#include "Math/MathTypes.h"
 #include "Misc/DelegateMacros.h"
 #include "Misc/Function.h"
 
@@ -15,6 +16,14 @@ data.expire_time = internal_time_ + first_delay; \
 timers_.push_back(data); \
 return data.handle;
 #pragma endregion
+
+enum class TimerStatus : MathTypes::uint8
+{
+    Active,
+    Paused,
+    Executing,
+    ActivePendingRemoval
+};
 
 struct TimerHandle
 {
@@ -39,12 +48,12 @@ struct TimerData
     TimerData() = delete;
 
     TimerData(Function<void(void)>&& func) 
-        : callback(std::forward<Function<void(void)>>(func)), loop(false), rate(0.0f), expire_time(0.0f)
+        : callback(std::forward<Function<void(void)>>(func)), loop(false), rate(0.f), expire_time(0.f), status(TimerStatus::Active)
     {};
 
     template<typename M>
     TimerData(M* target, Function<void(void)>&& func)
-        : callback(std::forward<Function<void(void)>>(target, func)), loop(false), rate(0.0f), expire_time(0.0f)
+        : callback(std::forward<Function<void(void)>>(target, func)), loop(false), rate(0.f), expire_time(0.f), status(TimerStatus::Active)
     {};
 
     bool operator==(const TimerData& input)
@@ -57,6 +66,7 @@ struct TimerData
     double expire_time;
     Function<void(void)> callback;
     TimerHandle handle{ *this };
+    TimerStatus status;
 };
 
 class TimerManager : public Singleton<TimerManager>
@@ -80,6 +90,8 @@ public:
     const TimerHandle& SetTimer(void(*func)(void), float rate, bool loop = false, float delay = -1.f);
 
     void ClearTimer(const TimerHandle& input);
+    void PauseTimer(const TimerHandle& input);
+    void UnPauseTimer(const TimerHandle& input);
     
     TimerData* FindTimer(const TimerHandle& input);
 
@@ -87,6 +99,8 @@ public:
 private:
     float internal_time_;
     std::vector<TimerData> timers_;
+
+    void RemoveTimer(const TimerData& kTimer);
 };
 
 template<typename M>
