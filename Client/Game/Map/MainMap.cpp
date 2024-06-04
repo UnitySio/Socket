@@ -1,20 +1,28 @@
 ﻿#include "MainMap.h"
 
-#include "../Actor/FollowCamera.h"
-#include "../Actor/Floor.h"
-#include "../Actor/Pawn.h"
+#include "Actor/Floor.h"
+#include "Actor/FollowCamera.h"
+#include "Actor/Pawn.h"
+#include "Actor/Component/TransformComponent.h"
 
 MainMap::MainMap(const std::wstring& kName) : Level(kName)
 {
-    Actor* follow_camera = new FollowCamera(GetWorld(), L"FollowCamera");
-    AddActor(follow_camera);
-    
-    Actor* floor = new Floor(GetWorld(), L"Floor");
+}
+
+void MainMap::Load()
+{
+    SHARED_PTR<Actor> camera = MAKE_SHARED<FollowCamera>(L"FollowCamera");
+    AddActor(camera);
+
+    SHARED_PTR<Actor> floor = MAKE_SHARED<Floor>(L"Floor");
     AddActor(floor);
 
-    Actor* pawn = new Pawn(GetWorld(), L"Pawn");
+    SHARED_PTR<Actor> pawn = MAKE_SHARED<Pawn>(L"Pawn");
     AddActor(pawn);
+
+    pawn->GetTransform()->SetRelativeLocation({0.f, 2.f});
+
+    FollowCamera* follow_camera = dynamic_cast<FollowCamera*>(camera.get());
+    follow_camera->SetFollow(pawn.get());
     
-    FollowCamera* camera = dynamic_cast<FollowCamera*>(follow_camera);
-    camera->SetTarget(pawn);
 }

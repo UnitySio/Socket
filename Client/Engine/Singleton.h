@@ -1,6 +1,6 @@
 ﻿#pragma once
-#include <memory>
 #include <mutex>
+#include "Misc/EngineMacros.h"
 
 template <typename T>
 class Singleton
@@ -11,7 +11,7 @@ public:
 
     static T* Get()
     {
-        std::call_once(flag_, []() { instance_.reset(new T()); });
+        if (!instance_) instance_ = MAKE_UNIQUE<T>();
         return instance_.get();
     }
 
@@ -25,13 +25,9 @@ protected:
     virtual ~Singleton() = default;
     
 private:
-    static std::unique_ptr<T> instance_;
-    static std::once_flag flag_;
+    static UNIQUE_PTR<T> instance_;
     
 };
 
 template <typename T>
-std::unique_ptr<T> Singleton<T>::instance_ = nullptr;
-
-template <typename T>
-std::once_flag Singleton<T>::flag_;
+UNIQUE_PTR<T> Singleton<T>::instance_ = nullptr;

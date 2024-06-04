@@ -3,51 +3,34 @@
 #include <string>
 #include <vector>
 
-#include "box2d/b2_world_callbacks.h"
-#include "box2d/b2_world.h"
-
 #include "DebugDraw.h"
-#include "Vector.h"
-#include "Listener/ContactListener.h"
+#include "Actor/Actor.h"
 
-class Actor;
+enum class EndPlayReason : size_t;
 
-class Level : public b2ContactListener
+class Level
 {
 public:
     Level(const std::wstring& kName);
-    virtual ~Level() override = default;
-    
-    virtual void BeginPlay();
-    virtual void PhysicsTick(float delta_time);
-    virtual void Interpolate(float alpha);
-    virtual void Tick(float delta_time);
-    virtual void EndPlay();
-    virtual void Render();
-    virtual void Destroy();
+    virtual ~Level() = default;
 
-    void AddActor(Actor* actor);
+    virtual void Load() = 0;
+    
+    virtual void Unload(EndPlayReason type);
+    virtual void InitializeActors();
+    virtual void PhysicsTick(float delta_time);
+    virtual void Tick(float delta_time);
+    virtual void Render(float alpha);
+    virtual void DestroyActor();
+
+    void AddActor(const SHARED_PTR<Actor>& actor);
 
     inline const std::wstring& GetName() const { return name_; }
-
-    inline b2World* GetWorld() const { return world_.get(); }
-
-    inline void SetScreenPosition(Vector screen_position) { screen_position_ = screen_position; }
-    inline Vector GetScreenPosition() const { return screen_position_; }
-
-    b2Vec2 GetRenderPosition(b2Vec2 world_position);
-    b2Vec2 GetWorldPosition(b2Vec2 render_position);
 
 private:
     std::wstring name_;
 
-    std::unique_ptr<b2World> world_;
-
-    std::vector<std::unique_ptr<Actor>> actors_;
+    std::vector<SHARED_PTR<Actor>> actors_;
 
     DebugDraw debug_draw_;
-
-    Vector screen_position_;
-
-    ContactListener contact_listener_;
 };

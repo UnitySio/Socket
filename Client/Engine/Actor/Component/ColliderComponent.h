@@ -1,7 +1,7 @@
 ﻿#pragma once
 #include "ActorComponent.h"
-#include "Bounds.h"
-#include "Vector.h"
+#include "Math/Bounds.h"
+#include "Math/Vector2.h"
 
 class ColliderComponent : public ActorComponent
 {
@@ -11,7 +11,7 @@ public:
 
     void SetTrigger(bool isTrigger);
 
-    virtual void SetOffset(const Vector& kOffset);
+    virtual void SetOffset(const Math::Vector2& kOffset);
 
     const Bounds& GetBounds();
 
@@ -20,6 +20,6 @@ protected:
     
     class b2Fixture* fixture_;
 
-    Vector offset_;
+    Math::Vector2 offset_;
     
 };

@@ -1,12 +1,14 @@
 ﻿#include "RigidBodyComponent.h"
 
+#include "TransformComponent.h"
 #include "Actor/Actor.h"
 #include "box2d/b2_body.h"
-#include "Vector.h"
+#include "Math/Vector2.h"
 
 RigidBodyComponent::RigidBodyComponent(Actor* owner, const std::wstring& kName) :
     ActorComponent(owner, kName)
 {
+    if (!GetOwner()->body_) GetOwner()->CreateBody();
 }
 
 void RigidBodyComponent::SetBodyType(BodyType type)
@@ -95,7 +97,7 @@ void RigidBodyComponent::SetFreezeRotation(bool freeze)
     body->SetFixedRotation(freeze);
 }
 
-void RigidBodyComponent::SetVelocity(const Vector& velocity)
+void RigidBodyComponent::SetVelocity(const Math::Vector2& kVelocity)
 {
     Actor* owner = GetOwner();
     assert(owner);
@@ -103,7 +105,7 @@ void RigidBodyComponent::SetVelocity(const Vector& velocity)
     b2Body* body = owner->body_;
     assert(body);
 
-    body->SetLinearVelocity({velocity.x, velocity.y});
+    body->SetLinearVelocity({kVelocity.x, kVelocity.y});
 }
 
 void RigidBodyComponent::SetAngularVelocity(float velocity)
@@ -117,7 +119,7 @@ void RigidBodyComponent::SetAngularVelocity(float velocity)
     body->SetAngularVelocity(velocity);
 }
 
-void RigidBodyComponent::AddForce(const Vector& force, ForceMode mode)
+void RigidBodyComponent::AddForce(const Math::Vector2& kForce, ForceMode mode)
 {
     Actor* owner = GetOwner();
     assert(owner);
@@ -128,16 +130,16 @@ void RigidBodyComponent::AddForce(const Vector& force, ForceMode mode)
     switch (mode)
     {
     case ForceMode::kForce:
-        body->ApplyForce({force.x, force.y}, body->GetWorldCenter(), true);
+        body->ApplyForce({kForce.x, kForce.y}, body->GetWorldCenter(), true);
         break;
 
     case ForceMode::kImpulse:
-        body->ApplyLinearImpulse({force.x, force.y}, body->GetWorldCenter(), true);
+        body->ApplyLinearImpulse({kForce.x, kForce.y}, body->GetWorldCenter(), true);
         break;
     }
 }
 
-void RigidBodyComponent::AddForceAtPosition(const Vector& force, const Vector& position, ForceMode mode)
+void RigidBodyComponent::AddForceAtPosition(const Math::Vector2& kForce, const Math::Vector2& kLocation, ForceMode mode)
 {
     Actor* owner = GetOwner();
     assert(owner);
@@ -148,11 +150,11 @@ void RigidBodyComponent::AddForceAtPosition(const Vector& force, const Vector& p
     switch (mode)
     {
     case ForceMode::kForce:
-        body->ApplyForce({force.x, force.y}, {position.x, position.y}, true);
+        body->ApplyForce({kForce.x, kForce.y}, {kLocation.x, kLocation.y}, true);
         break;
 
     case ForceMode::kImpulse:
-        body->ApplyLinearImpulse({force.x, force.y}, {position.x, position.y}, true);
+        body->ApplyLinearImpulse({kForce.x, kForce.y}, {kLocation.x, kLocation.y}, true);
         break;
     }
 }
@@ -199,7 +201,7 @@ void RigidBodyComponent::WakeUp()
     body->SetAwake(true);
 }
 
-Vector RigidBodyComponent::GetVelocity() const
+Math::Vector2 RigidBodyComponent::GetVelocity() const
 {
     Actor* owner = GetOwner();
     assert(owner);
@@ -230,4 +232,15 @@ bool RigidBodyComponent::IsAwake() const
     assert(body);
 
     return body->IsAwake();
+}
+
+b2BodyType RigidBodyComponent::GetBodyType() const
+{
+    Actor* owner = GetOwner();
+    assert(owner);
+
+    b2Body* body = owner->body_;
+    assert(body);
+
+    return body->GetType();
 }

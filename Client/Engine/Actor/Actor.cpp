@@ -1,45 +1,94 @@
 ﻿#include "Actor.h"
 
+#include <iostream>
+
 #include "EventManager.h"
 #include "Enums.h"
+#include "ProjectSettings.h"
 #include "box2d/b2_body.h"
+#include "box2d/b2_weld_joint.h"
 #include "box2d/b2_world.h"
-#include "Component/SceneComponent/SceneComponent.h"
+#include "Component/RigidBodyComponent.h"
+#include "Component/TransformComponent.h"
+#include "Level/World.h"
 
-Actor::Actor(b2World* world, const std::wstring& kName) :
-    root_component_(nullptr),
-    world_(world),
+Actor::Actor(const std::wstring& kName) :
+    tag_(ActorTag::kNone),
+    layer_(ActorLayer::kDefault),
     body_(nullptr),
-    previous_location_(Vector::Zero()),
-    previous_angle_(0.f),
     is_active_(true),
     is_destroy_(false),
-    components_()
+    components_(),
+    transform_(nullptr),
+    parent_(nullptr),
+    children_(),
+    parent_joint_(nullptr)
 {
     name_ = kName;
 
-    b2BodyDef body_def;
-    body_def.userData.pointer = reinterpret_cast<uintptr_t>(this);
-    
-    body_ = world_->CreateBody(&body_def);
+    transform_ = CreateComponent<TransformComponent>(L"Transform");
+}
+
+void Actor::OnCollisionEnter(Actor* other)
+{
+    if (parent_) parent_->OnCollisionEnter(other);
+}
+
+void Actor::OnCollisionStay(Actor* other)
+{
+    if (parent_) parent_->OnCollisionStay(other);
+}
+
+void Actor::OnCollisionExit(Actor* other)
+{
+    if (parent_) parent_->OnCollisionExit(other);
+}
+
+void Actor::OnTriggerEnter(Actor* other)
+{
+    if (parent_) parent_->OnTriggerEnter(other);
+}
+
+void Actor::OnTriggerStay(Actor* other)
+{
+    if (parent_) parent_->OnTriggerStay(other);
+}
+
+void Actor::OnTriggerExit(Actor* other)
+{
+    if (parent_) parent_->OnTriggerExit(other);
 }
 
 void Actor::BeginPlay()
 {
-    for (auto& component : components_)
+    if (body_ && !body_->IsEnabled()) body_->SetEnabled(true);
+    
+    for (const auto& component : components_)
     {
         component->BeginPlay();
     }
 }
 
-void Actor::EndPlay()
+void Actor::EndPlay(EndPlayReason type)
 {
-    for (auto& component : components_)
+    for (const auto& component : components_)
     {
-        component->EndPlay();
+        component->EndPlay(type);
     }
 
-    if (body_) world_->DestroyBody(body_);
+    components_.clear();
+
+    if (parent_joint_)
+    {
+        World::Get()->physics_world_->DestroyJoint(parent_joint_);
+        parent_joint_ = nullptr;
+    }
+
+    if (body_)
+    {
+        World::Get()->physics_world_->DestroyBody(body_);
+        body_ = nullptr;
+    }
 }
 
 void Actor::PhysicsTick(float delta_time)
@@ -48,30 +97,56 @@ void Actor::PhysicsTick(float delta_time)
 
 void Actor::Tick(float delta_time)
 {
-    if (body_)
-    {
-        if (body_->GetType() == b2_dynamicBody && root_component_)
-        {
-            root_component_->SetRelativeTransform(body_->GetTransform());
-        }
-    }
-    
-    for (auto& component : components_)
+    for (const auto& component : components_)
     {
         component->TickComponent(delta_time);
     }
 }
 
-void Actor::Render()
+void Actor::Render(float alpha)
 {
-    for (auto& component : components_)
+    for (const auto& component : components_)
     {
-        component->Render();
+        component->Render(alpha);
     }
 }
 
 void Actor::AttachToActor(Actor* actor)
 {
+    parent_ = actor;
+    actor->children_.push_back(this);
+
+    transform_->SetRelativeLocation(transform_->GetWorldLocation() - actor->transform_->GetWorldLocation());
+
+    if (!body_ || !actor->body_) return;
+
+    const RigidBodyComponent* rigid_body = GetComponent<RigidBodyComponent>();
+    const RigidBodyComponent* parent_rigid_body = actor->GetComponent<RigidBodyComponent>();
+
+    if (parent_rigid_body && !rigid_body)
+    {
+        body_->SetType(actor->body_->GetType());
+        
+        b2WeldJointDef joint_def;
+        joint_def.bodyA = actor->body_;
+        joint_def.bodyB = body_;
+        joint_def.localAnchorA = actor->body_->GetLocalCenter();
+        joint_def.localAnchorB = body_->GetLocalPoint(actor->body_->GetWorldCenter());
+        joint_def.referenceAngle = body_->GetAngle() - actor->body_->GetAngle();
+
+        parent_joint_ = World::Get()->physics_world_->CreateJoint(&joint_def);
+    }
+}
+
+void Actor::DetachFromActor()
+{
+    if (!parent_) return;
+
+    std::erase(parent_->children_, this);
+    if (parent_joint_) World::Get()->physics_world_->DestroyJoint(parent_joint_);
+
+    parent_ = nullptr;
+    parent_joint_ = nullptr;
 }
 
 void Actor::Destroy()
@@ -83,21 +158,21 @@ void Actor::Destroy()
         });
 }
 
-void Actor::Destroy(const Actor* other)
+void Actor::Destroy(const Actor* kOther)
 {
     EventManager::Get()->AddEvent(
         {
             EventType::kDestroyActor,
-            reinterpret_cast<uintptr_t>(other)
+            reinterpret_cast<uintptr_t>(kOther)
         });
 }
 
-void Actor::SpawnActor(const Actor* actor)
+void Actor::SpawnActor(const Actor* kActor)
 {
     EventManager::Get()->AddEvent(
         {
             EventType::kSpawnActor,
-            reinterpret_cast<uintptr_t>(actor)
+            reinterpret_cast<uintptr_t>(kActor)
         });
 }
 
@@ -111,62 +186,46 @@ void Actor::SetActive(bool active)
         });
 }
 
-void Actor::SetActorLocation(const b2Vec2& location)
+bool Actor::CompareTag(ActorTag tag) const
 {
-    if (!root_component_) return;
-
-    root_component_->SetRelativeLocation(location);
-    body_->SetTransform(location, body_->GetAngle());
+    return tag_ == tag;
 }
 
-void Actor::SetActorRotation(float rotation)
+void Actor::InitializeActor()
 {
-    if (!root_component_) return;
-
-    root_component_->SetRelativeRotation(rotation);
-    body_->SetTransform(body_->GetPosition(), rotation);
+    PreInitializeComponents();
+    InitializeComponents();
+    PostInitializeComponents();
+    BeginPlay();
 }
 
-bool Actor::SetRootComponent(SceneComponent* component)
+void Actor::InitializeComponents()
 {
-    if (component == nullptr || component->GetOwner() == this)
+    for (const auto& component : components_)
     {
-        if (root_component_ != component)
-        {
-            root_component_ = component;
-        }
-        
-        return true;
+        component->InitializeComponent();
     }
-
-    return false;
 }
 
-Vector Actor::GetActorLocation() const
+void Actor::UninitializeComponents()
 {
-    if (!root_component_) return Vector::Zero();
-    return root_component_->GetRelativeLocation();
+    for (const auto& component : components_)
+    {
+        component->UninitializeComponent();
+    }
 }
 
-Vector Actor::GetActorRightVector() const
+void Actor::Destroyed()
 {
-    assert(body_);
-
-    b2Vec2 x = body_->GetTransform().q.GetXAxis();
-    return {x.x, x.y};
+    EndPlay(EndPlayReason::kDestroyed);
+    UninitializeComponents();
 }
 
-Vector Actor::GetActorUpVector() const
+void Actor::CreateBody()
 {
-    assert(body_);
+    b2BodyDef body_def;
+    body_def.userData.pointer = reinterpret_cast<uintptr_t>(this);
 
-    b2Vec2 y = body_->GetTransform().q.GetYAxis();
-    return {-y.x, -y.y};
-}
-
-float Actor::GetActorRotation() const
-{
-    assert(body_);
-
-    return body_->GetAngle();
+    body_ = World::Get()->physics_world_->CreateBody(&body_def);
+    body_->SetEnabled(false);
 }

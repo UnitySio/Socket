@@ -1,20 +1,28 @@
 ﻿#pragma once
-#include "../../Engine/Actor/Actor.h"
+#include "Actor/Actor.h"
+#include "Math/Vector2.h"
 
 class FollowCamera : public Actor
 {
 public:
-    FollowCamera(b2World* world, const std::wstring& kName);
+    FollowCamera(const std::wstring& kName);
     virtual ~FollowCamera() override = default;
 
     virtual void Tick(float delta_time) override;
 
-    inline class Actor* GetTarget() const { return target_; }
-    inline void SetTarget(class Actor* target) { target_ = target; }
+    inline void SetFollow(class Actor* target) { follow_ = target; }
+    inline void SetFollowOffset(const Math::Vector2& offset) { follow_offset = offset; }
 
 private:
     class CameraComponent* camera_;
+    
+    class Actor* follow_;
 
-    class Actor* target_;
+    float width_;
+    float height_;
+    float limit_width_;
+    float limit_height_;
+
+    Math::Vector2 follow_offset;
     
 };

@@ -1,7 +1,11 @@
 ﻿#pragma once
 #include "ActorComponent.h"
+#include "box2d/b2_body.h"
 
-struct Vector;
+namespace Math
+{
+    struct Vector2;
+}
 
 enum class BodyType : size_t
 {
@@ -39,18 +43,20 @@ public:
     void SetSleepMode(SleepMode mode);
     void SetCollisionDetectionMode(CollisionDetectionMode mode);
     void SetFreezeRotation(bool freeze);
-    void SetVelocity(const Vector& velocity);
+    void SetVelocity(const Math::Vector2& kVelocity);
     void SetAngularVelocity(float velocity);
-    void AddForce(const Vector& force, ForceMode mode = ForceMode::kForce);
-    void AddForceAtPosition(const Vector& force, const Vector& position, ForceMode mode = ForceMode::kForce);
+    void AddForce(const Math::Vector2& kForce, ForceMode mode = ForceMode::kForce);
+    void AddForceAtPosition(const Math::Vector2& kForce, const Math::Vector2& kLocation, ForceMode mode = ForceMode::kForce);
     void AddTorque(float torque, ForceMode mode = ForceMode::kForce);
     void Sleep();
     void WakeUp();
 
-    Vector GetVelocity() const;
+    Math::Vector2 GetVelocity() const;
     
     float GetAngularVelocity() const;
 
     bool IsAwake() const;
+
+    b2BodyType GetBodyType() const;
     
 };

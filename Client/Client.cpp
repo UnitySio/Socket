@@ -1,36 +1,35 @@
 ﻿#define _CRTDBG_MAP_ALLOC
 
 #include "Client.h"
-#include "Engine/Core.h"
+#include "Misc/EngineMacros.h"
+#include "Engine/Windows/WindowsApplication.h"
 
 #include <crtdbg.h>
+#include <iostream>
 
-int APIENTRY wWinMain(
-    _In_ HINSTANCE hInstance,
-    _In_opt_ HINSTANCE hPrevInstance,
-    _In_ LPWSTR lpCmdLine,
-    _In_ int nCmdShow
-)
+#include "Core.h"
+#include "Windows/WindowsWindow.h"
+
+START
 {
-    UNREFERENCED_PARAMETER(hPrevInstance);
-    UNREFERENCED_PARAMETER(lpCmdLine);
-
-    if (!Core::Get()->InitWindow(hInstance, nCmdShow)) return 0;
-
 #ifdef _DEBUG
     _CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 #endif
 
+    Core* core = new Core();
+    core->Init(hInstance);
+
     MSG msg = {};
-    while (GetMessage(&msg, nullptr, 0, 0) > 0)
+    while (msg.message != WM_QUIT)
     {
-        TranslateMessage(&msg);
-        DispatchMessageW(&msg);
+        if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
+        {
+            TranslateMessage(&msg);
+            DispatchMessage(&msg);
+        }
     }
 
-#ifdef _DEBUG
-    _CrtDumpMemoryLeaks();
-#endif
-
+    SAFE_RELEASE(core);
+    
     return 0;
 }

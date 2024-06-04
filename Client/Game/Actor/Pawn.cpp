@@ -1,147 +1,142 @@
 ﻿#include "Pawn.h"
 
+#include <filesystem>
+#include <fstream>
 #include <iostream>
-#include <ostream>
 
-#include "Dummy.h"
-#include "../../Engine/Core.h"
-#include "../../Engine/Actor/Component/SceneComponent/SceneComponent.h"
-#include "../../Engine/Actor/Component/BoxColliderComponent.h"
-#include "../../Engine/Actor/Component/RigidBodyComponent.h"
-#include "../../Engine/Graphics/Graphics.h"
-#include "../../Engine/Input/InputManager.h"
-#include "../../Engine/Vector.h"
-#include "../../Engine/Level/Level.h"
-#include "../../Engine/Level/World.h"
-#include "../../Engine/Level/Listener/QueryCallback.h"
-#include "box2d/b2_body.h"
-#include "box2d/b2_fixture.h"
-#include "box2d/b2_mouse_joint.h"
-#include "box2d/b2_revolute_joint.h"
-#include "box2d/b2_world.h"
+#include "Windows.h"
 
-Pawn::Pawn(b2World* world, const std::wstring& kName) :
-    Actor(world, kName),
-    scene_(nullptr),
-    box_collider_(nullptr),
-    rigid_body_(nullptr),
-    body_(nullptr),
-    mouse_joint_(nullptr),
-    dir_(1)
+#include "Enums.h"
+#include "Actor/Component/InputComponent.h"
+#include "Actor/Component/BoxColliderComponent.h"
+#include "Actor/Component/RigidBodyComponent.h"
+#include "Actor/Component/TransformComponent.h"
+#include "Actor/Component/AudioListenerComponent.h"
+#include "Level/World.h"
+#include "Time/TimerManager.h"
+#include "Windows/DX/Shape.h"
+#include "Windows/DX/Sprite.h"
+#include "Windows/DX/Texture.h"
+
+Pawn::Pawn(const std::wstring& kName) :
+    Actor(kName),
+    dir_(1),
+    timer_(0.f),
+    frame_index_(0)
 {
-    scene_ = CreateComponent<SceneComponent>(L"Scene");
-    SetRootComponent(scene_);
+    input_ = CreateComponent<InputComponent>(L"Input");
+    input_->RegisterKey(VK_RIGHT);
+    input_->RegisterKey(VK_LEFT);
+    input_->RegisterKey(VK_SPACE);
     
     box_collider_ = CreateComponent<BoxColliderComponent>(L"BoxCollider");
-    box_collider_->SetSize({32.f, 32.f});
+    box_collider_->SetSize({1.f, 1.f});
 
     rigid_body_ = CreateComponent<RigidBodyComponent>(L"RigidBody");
     rigid_body_->SetBodyType(BodyType::kDynamic);
+    rigid_body_->SetFreezeRotation(false);
     
-    SetActorLocation({0.f, -100.f});
+    audio_listener_ = CreateComponent<AudioListenerComponent>(L"AudioListener");
 
-    b2BodyDef body_def;
-    body_ = GetWorld()->CreateBody(&body_def);
+    sprite_ = MAKE_SHARED<Sprite>();
+    CHECK_IF(sprite_->Load(L".\\Game_Data\\spritesheet.png"), L"Failed to load texture");
+
+    sprite_->Split(15, 3, {.5f, .5f});
+
+    sprite_->SetWrapMode(WrapMode::kClamp);
+    sprite_->SetFilterMode(FilterMode::kPoint);
+    
 }
 
 void Pawn::BeginPlay()
 {
     Actor::BeginPlay();
 
-    Dummy* dummy = new Dummy(GetWorld(), L"Dummy");
-    dummy->SetActorLocation({0.f, -300.f});
-    SpawnActor(dummy);
-
-    Dummy* dummy2 = new Dummy(GetWorld(), L"Dummy2");
-    dummy2->SetActorLocation({0.f, -200.f});
-    dummy2->GetRigidBody()->SetBodyType(BodyType::kDynamic);
-    SpawnActor(dummy2);
-
-    b2RevoluteJointDef joint_def;
-    joint_def.Initialize(dummy->GetBody(), dummy2->GetBody(), dummy->GetBody()->GetWorldCenter());
-
-    GetWorld()->CreateJoint(&joint_def);
-
-    Dummy* dummy3 = new Dummy(GetWorld(), L"Dummy3");
-    dummy3->SetActorLocation({0.f, -100.f});
-    dummy3->GetRigidBody()->SetBodyType(BodyType::kDynamic);
-    SpawnActor(dummy3);
-
-    b2RevoluteJointDef joint_def2;
-    joint_def2.Initialize(dummy2->GetBody(), dummy3->GetBody(), dummy2->GetBody()->GetWorldCenter());
-
-    GetWorld()->CreateJoint(&joint_def2);
+    timer_handle_ = TimerManager::Get()->SetTimer(this, &Pawn::OnCallback, 1.f, true);
     
 }
 
 void Pawn::PhysicsTick(float delta_time)
 {
     Actor::PhysicsTick(delta_time);
-    
-    InputManager* input = InputManager::Get();
-    float h = input->IsKeyPressed(VK_RIGHT) - input->IsKeyPressed(VK_LEFT);
 
-    if (h == 0) return;
-    dir_ = h;
-    rigid_body_->SetVelocity({h * 100.f, rigid_body_->GetVelocity().y});
+    float h = input_->IsKeyPressed(VK_RIGHT) - input_->IsKeyPressed(VK_LEFT);
+    
+    rigid_body_->SetVelocity({h * 2.f, rigid_body_->GetVelocity().y});
+
+    if (h != 0) dir_ = h > 0 ? -1 : 1;
+    
 }
 
 void Pawn::Tick(float delta_time)
 {
     Actor::Tick(delta_time);
-
-    InputManager* input = InputManager::Get();
-
-    if (input->IsKeyDown(VK_UP))
+    
+    if (input_->IsKeyDown(VK_SPACE))
     {
-        rigid_body_->SetVelocity(Vector::Zero());
-        rigid_body_->AddForce({dir_ * 500000.f, -500000.f}, ForceMode::kImpulse);
+        rigid_body_->SetVelocity(Math::Vector2::Zero());
+        rigid_body_->AddForce(Math::Vector2::Up() * 5.f, ForceMode::kImpulse);
     }
 
-    if (input->IsKeyDown(VK_SPACE))
+    timer_ += delta_time;
+    if (timer_ >= 1.f / 8.f)
     {
-        Dummy* dummy = new Dummy(GetWorld(), L"Dummy");
-        dummy->GetRigidBody()->SetBodyType(BodyType::kDynamic);
-        dummy->SetActorLocation({GetActorLocation().x, GetActorLocation().y});
-        SpawnActor(dummy);
+        frame_index_ = (frame_index_ + 1) % 6;
+        timer_ = 0.f;
     }
+    
+}
 
-    Level* level = World::Get()->GetLevel();
-    b2Vec2 mouse_position = level->GetWorldPosition(input->GetMousePosition());
+void Pawn::Render(float alpha)
+{
+    Actor::Render(alpha);
 
-    if (input->IsKeyDown(MK_LBUTTON))
+    const std::vector<SpriteFrame>& frames = sprite_->GetFrames();
+
+    const float width = sprite_->GetWidth() * frames[frame_index_].uv_scale.x / sprite_->GetPPU();
+    const float height = sprite_->GetHeight() * frames[frame_index_].uv_scale.y / sprite_->GetPPU();
+    const float pivot_x = width * frames[frame_index_].pivot.x;
+    const float pivot_y = height * frames[frame_index_].pivot.y;
+
+    SHARED_PTR<Shape> shape = MAKE_SHARED<Shape>();
+    shape->SetVertices(sprite_->GetVertices());
+    shape->SetIndices(sprite_->GetIndices());
+    shape->SetTexture(sprite_);
+    shape->SetPosition(GetTransform()->GetWorldLocation());
+    shape->SetRotation(GetTransform()->GetWorldRotationZ());
+    shape->SetScale({width * dir_, height});
+    shape->SetUVOffset(frames[frame_index_].uv_offset);
+    shape->SetUVScale(frames[frame_index_].uv_scale);
+    shape->SetPivot({pivot_x, pivot_y});
+    shape->SetZOrder(1);
+
+    World::Get()->AddShape(shape);
+    
+}
+
+void Pawn::EndPlay(EndPlayReason type)
+{
+    Actor::EndPlay(type);
+
+    if (type == EndPlayReason::kDestroyed)
     {
-        b2AABB aabb;
-        aabb.lowerBound = mouse_position - b2Vec2(0.001f, 0.001f);
-        aabb.upperBound = mouse_position + b2Vec2(0.001f, 0.001f);
-
-        QueryCallback callback(mouse_position);
-        GetWorld()->QueryAABB(&callback, aabb);
-
-        if (callback.GetFixture())
-        {
-            b2Body* body = callback.GetFixture()->GetBody();
-
-            b2MouseJointDef def;
-            def.bodyA = body_;
-            def.bodyB = body;
-            def.target = mouse_position;
-            def.maxForce = 10000.f * body->GetMass();
-            b2LinearStiffness(def.stiffness, def.damping, 5.f, .7f, def.bodyA, def.bodyB);
-            
-            mouse_joint_ = dynamic_cast<b2MouseJoint*>(GetWorld()->CreateJoint(&def));
-            body->SetAwake(true);
-        }
+        std::wcout << L"Destroyed: " << GetName() << std::endl;
     }
-
-    if (input->IsKeyUp(MK_LBUTTON) && mouse_joint_)
+    else if (type == EndPlayReason::kLevelTransition)
     {
-        GetWorld()->DestroyJoint(mouse_joint_);
-        mouse_joint_ = nullptr;
+        std::wcout << L"Transition: " << GetName() << std::endl;
     }
-
-    if (input->IsKeyPressed(MK_LBUTTON) && mouse_joint_)
+    else if (type == EndPlayReason::kQuit)
     {
-        mouse_joint_->SetTarget(mouse_position);
+        // 외부에 txt 파일 생성
+        std::filesystem::path path = std::filesystem::current_path() / "log.txt";
+        std::wofstream file(path, std::ios::app);
+        file << L"Quit: " << GetName() << std::endl;
+        file.close();
     }
+}
+
+void Pawn::OnCallback()
+{
+    OutputDebugString(L"Callback\n");
 }

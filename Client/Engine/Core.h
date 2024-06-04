@@ -1,42 +1,37 @@
 ﻿#pragma once
-#include "Singleton.h"
-#include "../framework.h"
+#include "Windows/WindowsApplication.h"
 
-class Core : public Singleton<Core>
+class Renderer;
+class GameEngine;
+
+class Core : public IWindowsMessageHandler
 {
 public:
     Core();
-    virtual ~Core() override = default;
+    ~Core() = default;
 
-    ATOM MyRegisterClass(HINSTANCE hInstance);
-    BOOL InitInstance(HINSTANCE hInstance, int nCmdShow);
-
-    bool InitWindow(HINSTANCE hInstance, int nCmdShow);
-
-    inline POINT GetResolution() const { return resolution_; }
-    inline HWND GetWindowHandle() const { return hWnd_; }
-    inline HWND GetFocusHandle() const { return focus_; }
+    void Init(const HINSTANCE instance_handle);
+    
+    virtual bool ProcessMessage(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam, MathTypes::uint32 handler_result) override;
 
 private:
-    static LRESULT CALLBACK StaticWndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
-    LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
-
-    static DWORD WINAPI LogicThread(LPVOID lpParam);
+    static DWORD WINAPI GameThread(LPVOID lpParam);
     
-    void MainLogic();
-    void Tick(float delta_time);
-    void Render();
+    SHARED_PTR<WindowsApplication> current_application_;
+    WEAK_PTR<WindowsWindow> game_window_;
 
-    std::wstring class_name_;
+    SHARED_PTR<GameEngine> game_engine_;
 
-    POINT resolution_;
-    RECT window_area_;
+    HANDLE game_thread_handle_;
 
-    HWND hWnd_;
-    HWND focus_;
+    bool is_game_running_;
 
-    HANDLE logic_handle_;
-
-    bool is_running_;
+    static double current_time_;
+    static double last_time_;
+    static double time_step_;
+    static double delta_time_;
+    
+    static MathTypes::uint32 resize_width_;
+    static MathTypes::uint32 resize_height_;
     
 };

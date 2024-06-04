@@ -1,294 +1,162 @@
 ﻿#include "Core.h"
 
-#include <functional>
-#include <iostream>
-
-#include "EventManager.h"
-#include "Vector.h"
-#include "Graphics/Graphics.h"
-#include "Time/Time.h"
+#include "GameEngine.h"
+#include "Input/Keyboard.h"
 #include "Level/World.h"
-#include "Input/InputManager.h"
+#include "Math/Color.h"
+#include "Math/Vector2.h"
+#include "Time/Time.h"
+#include "Windows/WindowDefinition.h"
+#include "Windows/WindowsWindow.h"
+#include "Windows/DX/Renderer.h"
 
-#include "imgui/imgui.h"
-#include "imgui/imgui_impl_dx11.h"
-#include "imgui/imgui_impl_win32.h"
+double Core::current_time_ = 0.;
+double Core::last_time_ = 0.;
+double Core::time_step_ = 1. / 60.;
+double Core::delta_time_ = 0.;
+
+MathTypes::uint32 Core::resize_width_ = 0;
+MathTypes::uint32 Core::resize_height_ = 0;
 
 Core::Core() :
-    class_name_(L"GAME"),
-    resolution_(),
-    window_area_(),
-    hWnd_(nullptr),
-    focus_(nullptr),
-    logic_handle_(nullptr),
-    is_running_(false)
+    current_application_(nullptr),
+    game_window_(),
+    game_thread_handle_(nullptr),
+    is_game_running_(false)
 {
 }
 
-ATOM Core::MyRegisterClass(HINSTANCE hInstance)
+void Core::Init(const HINSTANCE instance_handle)
 {
-    WNDCLASSEX wcex;
-    ZeroMemory(&wcex, sizeof(WNDCLASSEX));
+    // 윈도우 애플리케이션을 생성하고 메시지 핸들러로 등록
+    HICON icon_handle = LoadIcon(instance_handle, MAKEINTRESOURCE(IDI_ICON1));
+    current_application_ = MAKE_SHARED<WindowsApplication>(instance_handle, icon_handle);
+    current_application_->AddMessageHandler(*this);
 
-    wcex.cbSize = sizeof(WNDCLASSEX);
-    wcex.style = CS_HREDRAW | CS_VREDRAW;
-    wcex.lpfnWndProc = StaticWndProc;
-    wcex.hInstance = hInstance;
-    wcex.hCursor = LoadCursor(nullptr, IDC_ARROW);
-    wcex.hbrBackground = static_cast<HBRUSH>(GetStockObject(BLACK_BRUSH));
-    wcex.lpszClassName = class_name_.c_str();
+    // DirectX 11 렌더러 초기화
+    CHECK_IF(Renderer::Get()->Init(), L"Failed to initialize renderer.");
 
-    return RegisterClassEx(&wcex);
-}
+    // 게임 윈도우 정의 생성
+    SHARED_PTR<WindowDefinition> definition = MAKE_SHARED<WindowDefinition>();
+    definition->title = L"Fusion2D";
+    definition->screen_x = 100;
+    definition->screen_y = 100;
+    definition->width = 640;
+    definition->height = 480;
 
-BOOL Core::InitInstance(HINSTANCE hInstance, int nCmdShow)
-{
-    const int screen_width = GetSystemMetrics(SM_CXSCREEN);
-    const int screen_height = GetSystemMetrics(SM_CYSCREEN);
+    // 게임 윈도우 생성
+    SHARED_PTR<WindowsWindow> new_window = current_application_->MakeWindow();
+    current_application_->InitWindow(new_window, definition, nullptr);
 
-    resolution_ = {1366, 768};
-    window_area_ = {0, 0, resolution_.x, resolution_.y};
-    AdjustWindowRect(&window_area_, WS_OVERLAPPEDWINDOW, FALSE);
+    // 렌더러에 뷰포트 생성
+    CHECK_IF(Renderer::Get()->CreateViewport(new_window, {definition->width, definition->height}),
+             L"Failed to create viewport.");
+    CHECK_IF(Renderer::Get()->CreateD2DViewport(new_window), L"Failed to create D2D viewport.");
 
-    hWnd_ = CreateWindowEx(
-        0,
-        class_name_.c_str(),
-        L"Game",
-        WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_THICKFRAME | WS_MINIMIZEBOX,
-        (screen_width - (window_area_.right - window_area_.left)) / 2,
-        (screen_height - (window_area_.bottom - window_area_.top)) / 2,
-        window_area_.right - window_area_.left,
-        window_area_.bottom - window_area_.top,
-        nullptr,
-        nullptr,
-        hInstance,
-        nullptr
-    );
+    game_window_ = new_window;
 
-    if (!hWnd_) return FALSE;
-    ShowWindow(hWnd_, nCmdShow);
+    // 게임 엔진 생성
+    game_engine_ = MAKE_SHARED<GameEngine>();
+    game_engine_->Init(new_window);
 
-    return TRUE;
-}
+    current_time_ = Time::Init();
 
-bool Core::InitWindow(HINSTANCE hInstance, int nCmdShow)
-{
-    MyRegisterClass(hInstance);
-
-    if (!InitInstance(hInstance, nCmdShow)) return false;
-    CoInitializeEx(nullptr, COINIT_MULTITHREADED);
-
-    if (!Graphics::Get()->Init()) return false;
-
-    Time::Get()->Init();
-    World::Get()->Init();
-    InputManager::Get()->Init();
-
-    IMGUI_CHECKVERSION();
-    ImGui::CreateContext();
-
-    ImGuiIO& io = ImGui::GetIO();
-    static_cast<void>(io);
-    io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
-    io.Fonts->AddFontFromFileTTF(".\\Fonts\\NanumBarunGothic.ttf", 16.f, nullptr, io.Fonts->GetGlyphRangesKorean());
-    io.Fonts->AddFontFromFileTTF(".\\Fonts\\NanumBarunGothicBold.ttf", 16.f, nullptr, io.Fonts->GetGlyphRangesKorean());
-    io.Fonts->AddFontFromFileTTF(".\\Fonts\\NanumBarunGothicLight.ttf", 16.f, nullptr,
-                                 io.Fonts->GetGlyphRangesKorean());
-    io.Fonts->AddFontFromFileTTF(".\\Fonts\\NanumBarunGothicUltraLight.ttf", 16.f, nullptr,
-                                 io.Fonts->GetGlyphRangesKorean());
-
-    io.FontDefault = io.Fonts->Fonts[0];
-
-    ImGui::StyleColorsDark();
-    ImGui_ImplWin32_Init(hWnd_);
-    ImGui_ImplDX11_Init(Graphics::Get()->GetD3DDevice(), Graphics::Get()->GetD3DDeviceContext());
-
-    logic_handle_ = CreateThread(nullptr, 0, LogicThread, nullptr, 0, nullptr);
-
-    return true;
-}
-
-LRESULT Core::StaticWndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
-{
-    return Get()->WndProc(hWnd, message, wParam, lParam);
+    // 게임 스레드 생성
+    game_thread_handle_ = CreateThread(nullptr, 0, GameThread, this, 0, nullptr);
 }
 
 extern LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
-LRESULT Core::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
+bool Core::ProcessMessage(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam, MathTypes::uint32 handler_result)
 {
-    if (ImGui_ImplWin32_WndProcHandler(hWnd, message, wParam, lParam)) return 0;
+    if (ImGui_ImplWin32_WndProcHandler(hWnd, message, wParam, lParam)) return true;
+    if (Keyboard::Get()->ProcessMessage(message, wParam, lParam, handler_result)) return true;
 
-    if (message == WM_CREATE)
+    if (message == WM_SETFOCUS)
     {
-#ifdef _DEBUG
-        AllocConsole();
-        SetConsoleTitle(L"Debug Console");
-
-        _tfreopen(L"CONOUT$", L"w", stdout);
-#endif
-        return 0;
+        if (const auto window = game_window_.lock())
+        {
+            time_step_ = 1. / 60.;
+        }
     }
 
-    if (message == WM_SETFOCUS || message == WM_KILLFOCUS)
+    if (message == WM_KILLFOCUS)
     {
-        focus_ = GetFocus();
-        return 0;
+        if (const auto window = game_window_.lock())
+        {
+            time_step_ = 1. / 3.;
+        }
     }
 
-    if (message == WM_GETMINMAXINFO)
+    if (message == WM_SIZE)
     {
-        reinterpret_cast<MINMAXINFO*>(lParam)->ptMinTrackSize.x = window_area_.right - window_area_.left;
-        reinterpret_cast<MINMAXINFO*>(lParam)->ptMinTrackSize.y = window_area_.bottom - window_area_.top;
-        reinterpret_cast<MINMAXINFO*>(lParam)->ptMaxTrackSize.x = window_area_.right - window_area_.left;
-        reinterpret_cast<MINMAXINFO*>(lParam)->ptMaxTrackSize.y = window_area_.bottom - window_area_.top;
+        if (wParam == SIZE_MINIMIZED) return false;
 
-        return 0;
+        resize_width_ = LOWORD(lParam);
+        resize_height_ = HIWORD(lParam);
     }
 
     if (message == WM_DESTROY)
     {
-        is_running_ = false;
-        WaitForSingleObject(logic_handle_, INFINITE);
+        if (const auto window = game_window_.lock())
+        {
+            if (window->GetHWnd() == hWnd)
+            {
+                is_game_running_ = false;
 
-        ImGui_ImplWin32_Shutdown();
-        ImGui_ImplDX11_Shutdown();
-        ImGui::DestroyContext();
+                // 게임 스레드가 종료될 때까지 대기
+                WaitForSingleObject(game_thread_handle_, INFINITE);
+                game_engine_->OnQuit();
 
-        InputManager::Get()->Release();
-        World::Get()->Release();
-        Time::Get()->Release();
-        Graphics::Get()->Release();
-        EventManager::Get()->Release();
-        Get()->Release();
-
-        CoUninitialize();
-        PostQuitMessage(0);
-        return 0;
+                World::Get()->Release();
+                Renderer::Get()->Release();
+            }
+        }
     }
 
-    if (message == WM_CLOSE)
-    {
-#ifdef _DEBUG
-        FreeConsole();
-#endif
-    }
-
-    return DefWindowProc(hWnd, message, wParam, lParam);
+    return false;
 }
 
-DWORD Core::LogicThread(LPVOID lpParam)
+DWORD Core::GameThread(LPVOID lpParam)
 {
-    Get()->is_running_ = true;
-    while (Get()->is_running_)
+    Core* core = static_cast<Core*>(lpParam);
+    if (!core) return 0;
+
+    GameEngine* game_engine = core->game_engine_.get();
+    core->is_game_running_ = true;
+
+    while (true)
     {
-        Get()->MainLogic();
+#pragma region DeltaTime
+        last_time_ = current_time_;
+        current_time_ = Time::Seconds();
+
+        double elapsed_time = current_time_ - last_time_;
+        double sleep_time = time_step_ - elapsed_time;
+        if (sleep_time > 0.f)
+        {
+            DWORD sleep_ms = static_cast<DWORD>(sleep_time * 1000.f);
+            Sleep(sleep_ms);
+        }
+
+        delta_time_ = elapsed_time + sleep_time;
+#pragma endregion
+
+        if (const auto& window = core->game_window_.lock())
+        {
+            if (resize_width_ > 0 && resize_height_ > 0)
+            {
+                Renderer::Get()->ResizeViewport(window, resize_width_, resize_height_);
+
+                resize_width_ = 0;
+                resize_height_ = 0;
+            }
+
+            game_engine->GameLoop(delta_time_);
+        }
+
+        if (!core->is_game_running_) break;
     }
 
     return 0;
-}
-
-void Core::MainLogic()
-{
-    Time::Get()->Tick();
-
-    Graphics::Get()->BeginFrame3D();
-
-    ImGui_ImplDX11_NewFrame();
-    ImGui_ImplWin32_NewFrame();
-    ImGui::NewFrame();
-
-    Tick(Time::DeltaTime());
-
-    Graphics::Get()->BeginFrame2D();
-
-    Render();
-
-    Graphics::Get()->EndFrame2D();
-
-    ImGui::Render();
-    ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
-
-    Graphics::Get()->EndFrame3D();
-
-    World::Get()->Destroy();
-    EventManager::Get()->Tick();
-}
-
-void Core::Tick(float delta_time)
-{
-    InputManager::Get()->Tick();
-    
-    static float accumulator = 0.f;
-    // 죽음의 나선형을 방지하기 위해 최대 프레임 시간을 0.25초로 제한
-    const float frame_time = min(delta_time, .25f);
-    accumulator += frame_time;
-
-    while (accumulator >= FIXED_TIME_STEP)
-    {
-        World::Get()->PhysicsTick(FIXED_TIME_STEP);
-        accumulator -= FIXED_TIME_STEP;
-    }
-    
-    // 물리 시뮬레이션으로 인해 발생한 오차를 보정하기 위해 보간을 수행
-    const float alpha = accumulator / FIXED_TIME_STEP;
-    World::Get()->Interpolate(alpha);
-    
-    World::Get()->Tick(delta_time);
-
-    // Camera 2D 테스트
-    Graphics* gfx = Graphics::Get();
-
-    if (ImGui::Begin("Camera"))
-    {
-        ImGui::Text("Camera Settings");
-    
-        static float size = 5.f;
-        if (ImGui::SliderFloat("Size", &size, 1.f, 10.f, "%.1f"))
-        {
-            gfx->GetCamera2D().SetProjectionValues(size, .3f, 1000.f);
-        }
-
-        static float position[3];
-        if (ImGui::InputFloat3("Position", position))
-        {
-            gfx->GetCamera2D().SetPosition(position[0], position[1], position[2]);
-        }
-
-        static float rotation[3];
-        if (ImGui::InputFloat3("Rotation", rotation))
-        {
-            gfx->GetCamera2D().SetRotation(rotation[0], rotation[1], rotation[2]);
-        }
-    }
-
-    ImGui::End();
-
-    InputManager* input = InputManager::Get();
-    float spd = 1.f;
-    
-    if (input->IsKeyPressed(0x41))
-    {
-        gfx->GetCamera2D().AdjustPosition(-spd * delta_time, 0.f, 0.f);
-    }
-
-    if (input->IsKeyPressed(0x44))
-    {
-        gfx->GetCamera2D().AdjustPosition(spd * delta_time, 0.f, 0.f);
-    }
-
-    if (input->IsKeyPressed(0x57))
-    {
-        gfx->GetCamera2D().AdjustPosition(0.f, spd * delta_time, 0.f);
-    }
-
-    if (input->IsKeyPressed(0x53))
-    {
-        gfx->GetCamera2D().AdjustPosition(0.f, -spd * delta_time, 0.f);
-    }
-}
-
-void Core::Render()
-{
-    World::Get()->Render();
 }

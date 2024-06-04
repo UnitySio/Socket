@@ -1,13 +1,16 @@
 ﻿#include "ColliderComponent.h"
 
+#include "ProjectSettings.h"
+#include "TransformComponent.h"
 #include "Actor/Actor.h"
 #include "box2d/b2_fixture.h"
 
 ColliderComponent::ColliderComponent(Actor* owner, const std::wstring& kName) :
     ActorComponent(owner, kName),
     fixture_(nullptr),
-    offset_(Vector::Zero())
+    offset_(Math::Vector2::Zero())
 {
+    if (!GetOwner()->body_) GetOwner()->CreateBody();
 }
 
 void ColliderComponent::SetTrigger(bool isTrigger)
@@ -16,7 +19,7 @@ void ColliderComponent::SetTrigger(bool isTrigger)
     fixture_->SetSensor(isTrigger);
 }
 
-void ColliderComponent::SetOffset(const Vector& kOffset)
+void ColliderComponent::SetOffset(const Math::Vector2& kOffset)
 {
     offset_ = kOffset;
 }
@@ -45,14 +48,20 @@ void ColliderComponent::CreateFixture(b2Shape* shape)
         fixture_def.density = fixture_->GetDensity();
         fixture_def.friction = fixture_->GetFriction();
         fixture_def.isSensor = fixture_->IsSensor();
+        fixture_def.filter = fixture_->GetFilterData();
 
-        owner_->body_->DestroyFixture(fixture_);
+        GetOwner()->body_->DestroyFixture(fixture_);
     }
     else
     {
+        b2Filter filter;
+        filter.categoryBits = GetOwner()->GetLayer();
+        filter.maskBits = ProjectSettings::kLayerCollisionMatrix.at(GetOwner()->GetLayer());
+        
         fixture_def.density = 1.f;
         fixture_def.friction = 0.3f;
+        fixture_def.filter = filter;
     }
 
-    fixture_ = owner_->body_->CreateFixture(&fixture_def);
+    fixture_ = GetOwner()->body_->CreateFixture(&fixture_def);
 }
