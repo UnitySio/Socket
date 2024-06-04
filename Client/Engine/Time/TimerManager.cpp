@@ -35,13 +35,13 @@ void TimerManager::Tick(float delta_time)
 }
 
 
-TimerHandle& TimerManager::SetTimer(Function<void(void)>&& func, float rate, bool loop, float delay)
+const TimerHandle& TimerManager::SetTimer(Function<void(void)>&& func, float rate, bool loop, float delay)
 {
     TimerData data(std::move(Function<void(void)>(func)));
     SET_TIMERBASE(rate, loop, delay)
 }
 
-TimerHandle& TimerManager::SetTimer(void(*func)(void), float rate, bool loop, float delay)
+const TimerHandle& TimerManager::SetTimer(void(*func)(void), float rate, bool loop, float delay)
 {
     TimerData data(std::move(Function<void(void)>(func)));
     SET_TIMERBASE(rate, loop, delay)

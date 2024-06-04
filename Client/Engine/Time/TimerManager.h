@@ -69,9 +69,9 @@ public:
 
 
     template<typename M>
-    TimerHandle& SetTimer(M* target, void(M::* func)(void), float rate, bool loop = false, float delay = -1.f, typename std::enable_if<std::is_class<M>::value>::type* = nullptr);
-    TimerHandle& SetTimer(Function<void(void)>&& func, float rate, bool loop = false, float delay = -1.f);
-    TimerHandle& SetTimer(void(*func)(void), float rate, bool loop = false, float delay = -1.f);
+    const TimerHandle& SetTimer(M* target, void(M::* func)(void), float rate, bool loop = false, float delay = -1.f, typename std::enable_if<std::is_class<M>::value>::type* = nullptr);
+    const TimerHandle& SetTimer(Function<void(void)>&& func, float rate, bool loop = false, float delay = -1.f);
+    const TimerHandle& SetTimer(void(*func)(void), float rate, bool loop = false, float delay = -1.f);
     void ClearTimers();
 
 
@@ -84,7 +84,7 @@ private:
 };
 
 template<typename M>
-inline TimerHandle& TimerManager::SetTimer(M* target, void(M::* func)(void), float rate, bool loop, float delay, typename std::enable_if<std::is_class<M>::value>::type*)
+inline const TimerHandle& TimerManager::SetTimer(M* target, void(M::* func)(void), float rate, bool loop, float delay, typename std::enable_if<std::is_class<M>::value>::type*)
 {
     TimerData data(std::move(Function<void(void)>(target, func)));
     SET_TIMERBASE(rate, loop, delay)
