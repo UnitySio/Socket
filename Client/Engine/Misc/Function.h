@@ -218,6 +218,19 @@ public:
     };
 
     template<typename... Args>
+    Function(void(*func)(Args...), const Args&&... args)
+        : func_(std::make_shared<GGCallable>(func, std::forward<Args>(args)...)), cFunc_(nullptr)
+    {
+        addr_ = reinterpret_cast<std::uintptr_t&>(func);
+    };
+
+    Function(void(*func)(const std::wstring&), const std::wstring& str)
+        : func_(std::make_shared<SCallable>(func, str)), cFunc_(nullptr)
+    {
+        addr_ = reinterpret_cast<std::uintptr_t&>(func);
+    }
+
+    template<typename... Args>
     Function(void(*func)(Args...), Args... args)
         : func_(std::make_shared<AGCallable<Args...>>(func, args...)), cFunc_(nullptr)
     {
@@ -255,12 +268,45 @@ private:
 
     struct GCallable : public ICallable
     {
-        GCallable(void(*func)(void)) : func_(func) {}
+        GCallable(void(*func)(void)) 
+            : func_(func)
+        {};
         virtual void operator()(void) const override
         {
             (*func_)();
         }
         void(*func_)(void);
+    };
+
+    template<typename... Args>
+    struct GGCallable : public ICallable
+    {
+        GGCallable(void(*func)(Args...), const Args&&... args)
+            : args_(std::make_tuple(std::forward<Args>(args)...)), func_(func)
+        {};
+
+        virtual void operator()() const override
+        {
+            std::apply(func_, args_);
+        }
+
+        void(*func_)(Args...);
+        std::tuple<Args...> args_;
+    };
+
+    struct SCallable : public ICallable
+    {
+        SCallable(void(*func)(const std::wstring&), const std::wstring& str)
+            : str_(str), func_(func)
+        {};
+
+        virtual void operator()() const override
+        {
+            (*func_)(str_);
+        }
+
+        void(*func_)(const std::wstring&);
+        const std::wstring& str_;
     };
 
     template<typename... Args>

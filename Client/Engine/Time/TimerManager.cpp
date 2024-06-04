@@ -8,13 +8,11 @@ TimerManager::TimerManager() :
     TimerHandle handle;
     Function<void(void)> f(this, &TimerManager::MTest, 3, 5);
     SetTimer(handle, std::move(f), 1.0f);
-    Function<void(void)> f2(&GTest, 10, 20, 30);
+    Function<void(void)> f2(&GTest, L"Hello World");
     SetTimer(handle, std::move(f2), 2.0f);
 
     int a = 10;
     int b = 10;
-    Function<void(void)> f3([a, b]() {auto temp = a + b; });
-    SetTick(handle, std::move(f3));
 }
 
 void TimerManager::Tick(float delta_time)
@@ -44,10 +42,7 @@ void TimerManager::Tick(float delta_time)
     }
 
     ///////////// Propose //////////////
-    for (const auto& temp : ticks_)
-    {
-        temp();
-    }
+    
 }
 
 
@@ -72,15 +67,7 @@ void TimerManager::TimerClear()
     timers_.clear();
 }
 
-void TimerManager::SetTick(TimerHandle& handle, Function<void(void)>&& func)
-{
-    ticks_.push_back(std::forward<Function<void(void)>>(func));
-}
 
-void TimerManager::TickClear()
-{
-    ticks_.clear();
-}
 
 
 
@@ -89,7 +76,7 @@ void TimerManager::MTest(int a, int b)
     auto temp = a + b;
 }
 
-void GTest(int a, int b, int c)
+void GTest(const std::wstring& kstr)
 {
-    auto temp = a + b + c;
+    
 }

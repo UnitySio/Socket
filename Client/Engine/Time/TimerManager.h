@@ -32,20 +32,23 @@ public:
     void Tick(float delta_time);
 
     void SetTimer(TimerHandle& handle, Function<void(void)>&& func, float rate, bool loop = false, float delay = -1.f);
+
+    /*template<typename Ret, typename... Args>
+    template<Ret(Args...)>*/
+    
+    
     void TimerClear();
-    void SetTick(TimerHandle& handle, Function<void(void)>&& func);
-    void TickClear();
+    
     
     inline float GetTime() const { return internal_time_; }
 
 private:
     float internal_time_;
     std::vector<TimerData> timers_;
-    std::vector<Function<void(void)>> ticks_;
     void MTest(int a, int b);
 };
 
 
 
 
-void GTest(int a, int b, int c);
+void GTest(const std::wstring& kstr);
