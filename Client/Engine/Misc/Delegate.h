@@ -105,11 +105,12 @@ public:
     }
 
     template<typename F, typename = typename std::enable_if<!std::is_same<Function<Ret(Args...)>, typename std::decay<F>::type>::value>::type>
-    bool IsBound(F func)
+    bool IsBound(F&& func)
     {
-        for (auto& temp : functions_)
+        std::uintptr_t tt = reinterpret_cast<std::uintptr_t&>(&func);
+        for (auto temp = functions_.begin(); temp != functions_.end(); ++temp)
         {
-            if (temp.GetFunc().has_value() && std::any_cast<F>(temp.GetFunc()) == func)
+            if (temp->GetAddr() == tt)
             {
                 return true;
             }

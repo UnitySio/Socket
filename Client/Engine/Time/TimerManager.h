@@ -22,7 +22,7 @@ enum class TimerStatus : MathTypes::uint8
     Active,
     Paused,
     Executing,
-    ActivePendingRemoval
+    Removal
 };
 
 struct TimerHandle
@@ -91,7 +91,7 @@ public:
 
     void ClearTimer(const TimerHandle& input);
     void PauseTimer(const TimerHandle& input);
-    void UnPauseTimer(const TimerHandle& input);
+    void ResumeTimer(const TimerHandle& input);
     
     TimerData* FindTimer(const TimerHandle& input);
 

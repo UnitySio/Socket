@@ -13,7 +13,7 @@ void TimerManager::Tick(float delta_time)
 
     for (auto& timer : timers_)
     {
-        if (timer.status == TimerStatus::ActivePendingRemoval)
+        if (timer.status == TimerStatus::Removal)
         {
             RemoveTimer(timer);
             continue;
@@ -62,7 +62,7 @@ void TimerManager::ClearTimer(const TimerHandle& kInput)
     {
     case TimerStatus::Active:
         {
-            timer->status = TimerStatus::ActivePendingRemoval;
+            timer->status = TimerStatus::Removal;
         }
         break;
 
@@ -91,7 +91,7 @@ void TimerManager::PauseTimer(const TimerHandle& kInput)
     }
 }
 
-void TimerManager::UnPauseTimer(const TimerHandle& kInput)
+void TimerManager::ResumeTimer(const TimerHandle& kInput)
 {
     TimerData* timer = FindTimer(kInput);
     if (!timer || timer->status != TimerStatus::Paused) return;
@@ -109,7 +109,6 @@ TimerData* TimerManager::FindTimer(const TimerHandle& kInput)
             return &timer;
         }
     }
-
     return nullptr;
 }
 
