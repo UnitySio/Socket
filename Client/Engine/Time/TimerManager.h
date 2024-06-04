@@ -18,7 +18,9 @@ return data.handle;
 
 struct TimerHandle
 {
-    TimerHandle() = delete;
+    TimerHandle() 
+        : addr_(0)
+    {};
 
     TimerHandle(TimerData& data)
         : addr_(reinterpret_cast<std::uintptr_t&>(data))
@@ -44,6 +46,11 @@ struct TimerData
     TimerData(M* target, Function<void(void)>&& func)
         : callback(std::forward<Function<void(void)>>(target, func)), loop(false), rate(0.0f), expire_time(0.0f)
     {};
+
+    bool operator==(const TimerData& input)
+    {
+        return input.handle == handle;
+    }
 
     bool loop;
     float rate;
