@@ -83,7 +83,7 @@ void World::Tick(float delta_time)
     static int frame_count = 0;
     
     timer += delta_time;
-    frame_count++;
+    ++frame_count;
 
     if (timer >= 1.f)
     {
