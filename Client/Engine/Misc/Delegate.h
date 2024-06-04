@@ -77,17 +77,8 @@ public:
     template<typename M, typename std::enable_if<std::is_class<M>::value>::type* = nullptr>
     void Remove(Ret(M::* func)(Args...))
     {
-        /*std::uintptr_t tt = reinterpret_cast<std::uintptr_t&>(func);
-        for (auto temp = functions_.begin(); temp != functions_.end(); ++temp)
-        {
-            if (temp->GetAddr() == tt)
-            {
-                temp = functions_.erase(temp);
-                break;
-            }
-        }*/
         std::uintptr_t tt = reinterpret_cast<std::uintptr_t&>(func);
-        for (auto temp = functions_.begin(); temp != functions_.end(); temp++)
+        for (auto temp = functions_.begin(); temp != functions_.end(); ++temp)
         {
             if (temp->GetAddr() == tt)
             {

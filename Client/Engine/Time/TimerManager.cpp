@@ -54,9 +54,9 @@ const TimerHandle& TimerManager::SetTimer(void(*func)(void), float rate, bool lo
     SET_TIMERBASE(rate, loop, delay)
 }
 
-void TimerManager::ClearTimer(const TimerHandle& input)
+void TimerManager::ClearTimer(const TimerHandle& kInput)
 {
-    TimerData* timer = FindTimer(input);
+    TimerData* timer = FindTimer(kInput);
 
     switch (timer->status)
     {
@@ -75,9 +75,9 @@ void TimerManager::ClearTimer(const TimerHandle& input)
     }
 }
 
-void TimerManager::PauseTimer(const TimerHandle& input)
+void TimerManager::PauseTimer(const TimerHandle& kInput)
 {
-    TimerData* timer = FindTimer(input);
+    TimerData* timer = FindTimer(kInput);
     if (!timer || timer->status == TimerStatus::Paused) return;
 
     if (timer->status == TimerStatus::Executing && !timer->loop)
@@ -91,20 +91,20 @@ void TimerManager::PauseTimer(const TimerHandle& input)
     }
 }
 
-void TimerManager::UnPauseTimer(const TimerHandle& input)
+void TimerManager::UnPauseTimer(const TimerHandle& kInput)
 {
-    TimerData* timer = FindTimer(input);
+    TimerData* timer = FindTimer(kInput);
     if (!timer || timer->status != TimerStatus::Paused) return;
 
     timer->expire_time += internal_time_;
     timer->status = TimerStatus::Active;
 }
 
-TimerData* TimerManager::FindTimer(const TimerHandle& input)
+TimerData* TimerManager::FindTimer(const TimerHandle& kInput)
 {
     for (auto& timer : timers_)
     {
-        if (timer.handle == input)
+        if (timer.handle == kInput)
         {
             return &timer;
         }

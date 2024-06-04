@@ -20,33 +20,33 @@ public:
 
     template<typename F, typename = typename std::enable_if<!std::is_same<Function, typename std::decay<F>::type>::value>::type>
     Function(F&& func)
-        : func_(std::make_shared<LCallable<typename std::decay<F>::type>>(std::forward<F>(func))), cFunc_(nullptr)
+        : func_(std::make_shared<LCallable<typename std::decay<F>::type>>(std::forward<F>(func))), kFunc_(nullptr)
     {
         addr_ = reinterpret_cast<std::uintptr_t>(const_cast<std::decay_t<F>*>(&func));
     }
 
     Function(Ret(*func)(Args...))
-        : func_(std::make_shared<GCallable>(func)), cFunc_(nullptr)
+        : func_(std::make_shared<GCallable>(func)), kFunc_(nullptr)
     {
         addr_ = reinterpret_cast<std::uintptr_t>(func);
     }
 
     Function(Ret(*func)(Args...), Args... args)
-        : func_(std::make_shared<FCallable>(func, args...)), cFunc_(nullptr)
+        : func_(std::make_shared<FCallable>(func, args...)), kFunc_(nullptr)
     {
         addr_ = reinterpret_cast<std::uintptr_t>(func);
     }
 
     template<typename M, typename std::enable_if<std::is_class<M>::value>::type* = nullptr>
     Function(M* target, Ret(M::*func)(Args...))
-        : func_(std::make_shared<MCallable<M>>(target, func)), cFunc_(nullptr)
+        : func_(std::make_shared<MCallable<M>>(target, func)), kFunc_(nullptr)
     {
         addr_ = reinterpret_cast<std::uintptr_t&>(func);
     }
 
     template<typename M, typename std::enable_if<std::is_class<M>::value>::type* = nullptr>
     Function(M* target, Ret(M::*func)(Args...) const)
-        : cFunc_(std::make_shared<CMCallable<M>>(target, func))
+        : kFunc_(std::make_shared<CMCallable<M>>(target, func))
     {
         std::memcpy(&addr_, &func, sizeof(&addr_));
         //addr_ = reinterpret_cast<uintptr_t>(&func);
@@ -54,15 +54,15 @@ public:
 
     Ret operator()(Args&&... args) const
     {
-        if (cFunc_)
-            return (*cFunc_)(std::forward<Args>(args)...);
+        if (kFunc_)
+            return (*kFunc_)(std::forward<Args>(args)...);
         return (*func_)(std::forward<Args>(args)...);
     }
 
     Ret operator()() const
     {
-        if (cFunc_)
-            return (*cFunc_)();
+        if (kFunc_)
+            return (*kFunc_)();
         return (*func_)();
     }
 
@@ -163,7 +163,7 @@ private:
 
 private:
     std::shared_ptr<ICallable> func_;
-    const std::shared_ptr<ICallable> cFunc_;
+    const std::shared_ptr<ICallable> kFunc_;
     std::uintptr_t addr_;
     
     template<typename>
@@ -179,69 +179,69 @@ public:
 
     template<typename L, typename = typename std::enable_if<!std::is_same<Function, typename std::decay<L>::type>::value>::type, typename... Args>
     Function(L&& func)
-        : func_(std::make_shared<LCallable<typename std::decay<L>::type>>(std::forward<L>(func))), cFunc_(nullptr)
+        : func_(std::make_shared<LCallable<typename std::decay<L>::type>>(std::forward<L>(func))), kFunc_(nullptr)
     {
         addr_ = reinterpret_cast<std::uintptr_t>(const_cast<std::decay_t<L>*>(&func));
     }
 
     template<typename M>
     Function(M* target, void(M::* func)())
-        : func_(std::make_shared<MCallable<M>>(target, func)), cFunc_(nullptr)
+        : func_(std::make_shared<MCallable<M>>(target, func)), kFunc_(nullptr)
     {
         addr_ = reinterpret_cast<std::uintptr_t&>(func);
     }
 
     template<typename M>
     Function(M* target, void(M::* func)() const)
-        : cFunc_(std::make_shared<CMCallable<M>>(target, func))
+        : kFunc_(std::make_shared<CMCallable<M>>(target, func))
     {
         std::memcpy(&addr_, &func, sizeof(&addr_));
     }
 
     Function(void(*func)(void))
-        : func_(std::make_shared<GCallable>(func)), cFunc_(nullptr)
+        : func_(std::make_shared<GCallable>(func)), kFunc_(nullptr)
     {
         addr_ = reinterpret_cast<std::uintptr_t&>(func);
     };
 
     template<typename... Args>
     Function(void(*func)(Args...), const Args&&... args)
-        : func_(std::make_shared<GGCallable>(func, std::forward<Args>(args)...)), cFunc_(nullptr)
+        : func_(std::make_shared<GGCallable>(func, std::forward<Args>(args)...)), kFunc_(nullptr)
     {
         addr_ = reinterpret_cast<std::uintptr_t&>(func);
     };
 
     Function(void(*func)(const std::wstring&), const std::wstring& str)
-        : func_(std::make_shared<SCallable>(func, str)), cFunc_(nullptr)
+        : func_(std::make_shared<SCallable>(func, str)), kFunc_(nullptr)
     {
         addr_ = reinterpret_cast<std::uintptr_t&>(func);
     }
 
     template<typename M, typename std::enable_if<std::is_class<M>::value>::type* = nullptr>
     Function(M* target, void(M::*func)(const std::wstring&), const std::wstring& str)
-        : func_(std::make_shared<SCallable>(target, func, str)), cFunc_(nullptr)
+        : func_(std::make_shared<SCallable>(target, func, str)), kFunc_(nullptr)
     {
         addr_ = reinterpret_cast<std::uintptr_t&>(func);
     }
 
     template<typename... Args>
     Function(void(*func)(Args...), Args... args)
-        : func_(std::make_shared<AGCallable<Args...>>(func, args...)), cFunc_(nullptr)
+        : func_(std::make_shared<AGCallable<Args...>>(func, args...)), kFunc_(nullptr)
     {
         addr_ = reinterpret_cast<std::uintptr_t&>(func);
     };
 
     template<typename M, typename... Args>
     Function(M* target, void(M::*func)(Args...), Args... args) //typename std::enable_if<std::is_class<M>::value>::type
-        : func_(std::make_shared<AMCallable<M, Args...>>(target, func, args...)), cFunc_(nullptr)
+        : func_(std::make_shared<AMCallable<M, Args...>>(target, func, args...)), kFunc_(nullptr)
     {
         addr_ = reinterpret_cast<std::uintptr_t&>(func);
     };
 
     void operator()() const
     {
-        if (cFunc_)
-            return (*cFunc_)();
+        if (kFunc_)
+            return (*kFunc_)();
         return (*func_)();
     }
 
@@ -398,7 +398,7 @@ private:
 
 private:
     std::shared_ptr<ICallable> func_;
-    const std::shared_ptr<ICallable> cFunc_;
+    const std::shared_ptr<ICallable> kFunc_;
     std::uintptr_t addr_;
 
     template<typename>

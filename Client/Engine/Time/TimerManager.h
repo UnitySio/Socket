@@ -35,9 +35,9 @@ struct TimerHandle
         : addr_(reinterpret_cast<std::uintptr_t&>(data))
     {};
 
-    bool operator==(const TimerHandle& input) const
+    bool operator==(const TimerHandle& kInput) const
     {
-        return addr_ == input.addr_;
+        return addr_ == kInput.addr_;
     }
 
     std::uintptr_t addr_;
