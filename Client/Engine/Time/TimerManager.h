@@ -56,9 +56,9 @@ struct TimerData
         : callback(std::forward<Function<void(void)>>(target, func)), loop(false), rate(0.f), expire_time(0.f), status(TimerStatus::Active)
     {};
 
-    bool operator==(const TimerData& input)
+    bool operator==(const TimerData& kInput)
     {
-        return input.handle == handle;
+        return kInput.handle == handle;
     }
 
     bool loop;
