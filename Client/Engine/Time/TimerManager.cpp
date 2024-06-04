@@ -46,7 +46,7 @@ void TimerManager::SetTimer(TimerHandle& handle, Function<void(void)>&& func, fl
 
     TimerHandle new_handle;
 
-    TimerData data(std::forward<Function<void(void)>>(func));
+    TimerData data(std::move(Function<void(void)>(func)));
     data.loop = loop;
     data.rate = rate;
     data.expire_time = internal_time_ + first_delay;
@@ -63,7 +63,7 @@ void TimerManager::SetTimer(TimerHandle& handle, void(*func)(void), float rate, 
     TimerHandle new_handle;
 
     
-    TimerData data(std::move<Function<void(void)>>(func));
+    TimerData data(std::move(Function<void(void)>(func)));
 
     data.loop = loop;
     data.rate = rate;
