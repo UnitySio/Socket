@@ -16,11 +16,13 @@ bool Keyboard::ProcessMessage(UINT message, WPARAM wParam, LPARAM lParam, MathTy
         bool is_down = (key_flags & KF_UP) != KF_UP;
         if (is_down)
         {
-            OnKeyDown(wParam, lParam);
+            EventKeyboard e(EventKeyboard::Keycode::KEY_0, EventKeyboard::KeyFlag::Down);
+            OnKeyDown(e);
         }
         else
         {
-            OnKeyUp(wParam, lParam);
+            EventKeyboard e(EventKeyboard::Keycode::KEY_0, EventKeyboard::KeyFlag::Down);
+            OnKeyUp(e);
         }
         
         return true;
@@ -29,10 +31,12 @@ bool Keyboard::ProcessMessage(UINT message, WPARAM wParam, LPARAM lParam, MathTy
     return false;
 }
 
-void Keyboard::OnKeyDown(WPARAM wParam, LPARAM lParam)
+void Keyboard::OnKeyDown(EventKeyboard e)
 {
+    OnDown.Execute(std::move(e));
 }
 
-void Keyboard::OnKeyUp(WPARAM wParam, LPARAM lParam)
+void Keyboard::OnKeyUp(EventKeyboard e)
 {
+    OnUp.Execute(std::move(e));
 }
