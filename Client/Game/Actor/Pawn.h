@@ -36,5 +36,9 @@ private:
 
     TimerHandle timer_handle_;
 
+    float angle_;
+
+    bool is_rotating_;
+
 };
 
