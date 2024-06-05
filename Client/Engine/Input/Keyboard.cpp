@@ -21,7 +21,7 @@ bool Keyboard::ProcessMessage(UINT message, WPARAM wParam, LPARAM lParam, MathTy
         }
         else
         {
-            EventKeyboard e(EventKeyboard::Keycode::KEY_0, EventKeyboard::KeyFlag::Down);
+            EventKeyboard e(EventKeyboard::Keycode::KEY_0, EventKeyboard::KeyFlag::Up);
             OnKeyUp(e);
         }
         
