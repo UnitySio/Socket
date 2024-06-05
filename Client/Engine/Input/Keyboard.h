@@ -11,5 +11,8 @@ public:
     virtual ~Keyboard() override = default;
 
     bool ProcessMessage(UINT message, WPARAM wParam, LPARAM lParam, MathTypes::uint32 handler_result);
+
+    void OnKeyDown(WPARAM wParam, LPARAM lParam);
+    void OnKeyUp(WPARAM wParam, LPARAM lParam);
     
 };
