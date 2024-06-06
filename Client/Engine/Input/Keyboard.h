@@ -1,11 +1,13 @@
 ﻿#pragma once
 #include <Windows.h>
 
+#include <vector>
 #include "Singleton.h"
 #include "Math/MathTypes.h"
 #include "Misc/Delegate.h"
 
 struct EventKeyboard;
+//enum class EventKeyboard::Keycode : MathTypes::uint8;
 
 class Keyboard : public Singleton<Keyboard>
 {
@@ -13,37 +15,39 @@ public:
     Keyboard();
     virtual ~Keyboard() override = default;
 
+    void RegisterKey(BYTE keycode);
+    void UnRegisterKey(BYTE keycode);
+
+    Delegate<void(const EventKeyboard& kE)> OnDown;
+    Delegate<void(const EventKeyboard& kE)> OnUp;
+    Delegate<void(const EventKeyboard& kE)> Pressed;
+
+
+private:
     bool ProcessMessage(UINT message, WPARAM wParam, LPARAM lParam, MathTypes::uint32 handler_result);
-
-    void OnKeyDown(EventKeyboard e);
-    void OnKeyUp(EventKeyboard e);
-    
-    Delegate<void(EventKeyboard e)> OnDown;
-    Delegate<void(EventKeyboard e)> OnUp;
-
+    void OnKeyDown(const EventKeyboard& kE);
+    void OnKeyUp(const EventKeyboard& kE);
+    void Pressing(const EventKeyboard& kE);
+    std::vector<EventKeyboard> keys_;
+    friend class Core;
 };
 
 
 struct EventKeyboard
 {
-    enum class Keycode : MathTypes::uint8
-    {
-        KEY_0,
-        KEY_1,
-    };
 
-    enum class KeyFlag : MathTypes::uint8
+    enum class KeyState : MathTypes::uint8
     {
-        None,
         Down,
         Up,
         Pressing
     };
 
-    EventKeyboard(Keycode keycode_, KeyFlag KeyFlag_)
-        : Keycode(keycode_), KeyFlag(KeyFlag_)
+    EventKeyboard(BYTE keycode)
+        : keyCode_(keycode), keyflag_(0), keyState_(KeyState::Up)
     {};
     
-    Keycode Keycode;
-    KeyFlag KeyFlag;
+    BYTE keyCode_;
+    WORD keyflag_;
+    KeyState keyState_;
 };

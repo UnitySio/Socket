@@ -188,12 +188,12 @@
     <ClInclude Include="Engine\Windows\DX\Texture.h" />
     <ClInclude Include="Engine\Windows\DX\Vertex.h" />
     <ClInclude Include="Engine\Windows\DX\VertexBuffer.h" />
-    <ClInclude Include="Engine\Delegate.h" />
     <ClInclude Include="Engine\Input\Keyboard.h" />
     <ClInclude Include="Engine\Time\TimerManager.h" />
     <ClInclude Include="Engine\Windows\DX\Sprite.h" />
-    <ClInclude Include="MDelegate.h" />
-    <ClInclude Include="MFunction.h" />
+    <ClInclude Include="Engine\Misc\DelegateMacros.h" />
+    <ClInclude Include="Engine\Misc\Delegate.h" />
+    <ClInclude Include="Engine\Misc\Function.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Resource.rc" />

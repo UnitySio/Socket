@@ -4,6 +4,24 @@ Keyboard::Keyboard()
 {
 }
 
+void Keyboard::RegisterKey(BYTE keycode)
+{
+    EventKeyboard* temp = new EventKeyboard(keycode);
+    keys_.push_back(std::move(*temp));
+}
+
+void Keyboard::UnRegisterKey(BYTE keycode)
+{
+    for (auto it = keys_.begin(); it != keys_.end(); ++it)
+    {
+        if (it->keyCode_ == keycode)
+        {
+            keys_.erase(it);
+            break;
+        }
+    }
+}
+
 bool Keyboard::ProcessMessage(UINT message, WPARAM wParam, LPARAM lParam, MathTypes::uint32 handler_result)
 {
     if (message == WM_KEYDOWN || message == WM_SYSKEYDOWN ||
@@ -13,30 +31,60 @@ bool Keyboard::ProcessMessage(UINT message, WPARAM wParam, LPARAM lParam, MathTy
         WORD key_flags = HIWORD(lParam);
         WORD scan_code = LOBYTE(key_flags);
 
-        bool is_down = (key_flags & KF_UP) != KF_UP;
+        for (auto it = keys_.begin(); it != keys_.end(); ++it)
+        {
+            if (it->keyCode_ == key_code)
+            {
+                if ((it->keyflag_ & KF_UP) != KF_UP)
+                {
+                    if(it->keyState_ == EventKeyboard::KeyState::Down || it->keyState_ == EventKeyboard::KeyState::Pressing)
+                        Pressing(*it);
+
+                    else
+                    {
+                        OnKeyDown(*it);
+                        it->keyState_ = EventKeyboard::KeyState::Down;
+                    }
+                }
+                else
+                {
+                    if (it->keyState_ == EventKeyboard::KeyState::Up)
+                        return true;
+                    OnKeyUp(*it);
+                    it->keyState_ = EventKeyboard::KeyState::Up;
+                }
+            }
+            return true;
+        }
+        return false;
+    }
+        /*bool is_down = (key_flags & KF_UP) != KF_UP;
         if (is_down)
         {
-            EventKeyboard e(EventKeyboard::Keycode::KEY_0, EventKeyboard::KeyFlag::Down);
-            OnKeyDown(e);
+            OnKeyDown();
         }
         else
         {
-            EventKeyboard e(EventKeyboard::Keycode::KEY_0, EventKeyboard::KeyFlag::Up);
-            OnKeyUp(e);
+            OnKeyUp();
         }
         
         return true;
     }
     
-    return false;
+    return false;*/
 }
 
-void Keyboard::OnKeyDown(EventKeyboard e)
+void Keyboard::OnKeyDown(const EventKeyboard& kE)
 {
-    OnDown.Execute(std::move(e));
+    OnDown.Execute(kE);
 }
 
-void Keyboard::OnKeyUp(EventKeyboard e)
+void Keyboard::OnKeyUp(const EventKeyboard& kE)
 {
-    OnUp.Execute(std::move(e));
+    OnUp.Execute(kE);
+}
+
+void Keyboard::Pressing(const EventKeyboard& kE)
+{
+    Pressed.Execute(kE);
 }

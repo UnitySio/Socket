@@ -10,6 +10,7 @@ public:
 
     virtual void Load() override;
 
-    void OnKeyDown(EventKeyboard e);
-    void OnKeyUp(EventKeyboard e);
+    SHARED_PTR<Actor> pawn;
+
+
 };
