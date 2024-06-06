@@ -41,6 +41,6 @@ bool Keyboard::OnKeyUp(WORD key_code, MathTypes::uint32 char_code)
 }
 
 bool Keyboard::OnKeyChar(WCHAR character)
-{
+{   
     return true;
 }
