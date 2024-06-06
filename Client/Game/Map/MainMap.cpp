@@ -27,6 +27,26 @@ void MainMap::Load()
     FollowCamera* follow_camera = dynamic_cast<FollowCamera*>(camera.get());
     follow_camera->SetFollow(pawn.get());
     
+    Keyboard::Get()->RegisterKey(VK_F1);
+    Keyboard::Get()->RegisterKey(VK_F2);
+    Keyboard::Get()->OnDown.Add(this, &MainMap::OnKeyDown);
+    Keyboard::Get()->Pressed.Add(this, &MainMap::OnKeyPressed);
+    Keyboard::Get()->OnUp.Add(this, &MainMap::OnKeyUp);
 
+}
+
+void MainMap::OnKeyDown(const EventKeyboard& e)
+{
+    std::cout << "" << std::endl;
+}
+
+void MainMap::OnKeyPressed(const EventKeyboard& e)
+{
+    std::cout << "" << std::endl;
+}
+
+void MainMap::OnKeyUp(const EventKeyboard& e)
+{
+    std::cout << "" << std::endl;
 }
 

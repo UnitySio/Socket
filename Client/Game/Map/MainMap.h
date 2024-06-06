@@ -12,5 +12,7 @@ public:
 
     SHARED_PTR<Actor> pawn;
 
-
+    void OnKeyDown(const EventKeyboard& e);
+    void OnKeyPressed(const EventKeyboard& e);
+    void OnKeyUp(const EventKeyboard& e);
 };

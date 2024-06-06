@@ -43,11 +43,11 @@ struct EventKeyboard
         Pressing
     };
 
-    EventKeyboard(BYTE keycode)
-        : keyCode_(keycode), keyflag_(0), keyState_(KeyState::Up)
+    EventKeyboard(BYTE keycode, WORD keyflag)
+        : keyCode_(keycode), keyflag_(keyflag), keyState_(KeyState::Up)
     {};
     
     BYTE keyCode_;
-    WORD keyflag_;
+    UINT keyflag_;
     KeyState keyState_;
 };
