@@ -37,8 +37,11 @@ bool Keyboard::ProcessMessage(UINT message, WPARAM wParam, LPARAM lParam, MathTy
             {
                 if ((it->keyflag_ & KF_UP) != KF_UP)
                 {
-                    if(it->keyState_ == EventKeyboard::KeyState::Down || it->keyState_ == EventKeyboard::KeyState::Pressing)
+                    if (it->keyState_ == EventKeyboard::KeyState::Down || it->keyState_ == EventKeyboard::KeyState::Pressing)
+                    {
                         Pressing(*it);
+                        return true;
+                    }
 
                     else
                     {
