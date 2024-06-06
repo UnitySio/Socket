@@ -52,6 +52,14 @@ public:
         }
     }
 
+    void Execute() const
+    {
+        for (const auto& temp : functions_)
+        {
+            temp();
+        }
+    }
+
     void RemoveAll()
     {
         functions_.clear();
