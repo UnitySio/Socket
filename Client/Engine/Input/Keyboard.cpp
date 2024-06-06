@@ -17,31 +17,30 @@ bool Keyboard::ProcessMessage(UINT message, WPARAM wParam, LPARAM lParam, MathTy
         bool is_released = (key_flags & KF_UP) == KF_UP;
         bool is_repeat = (key_flags & KF_REPEAT) == KF_REPEAT;
         
-        if (!is_released) OnKeyDown(key_code, char_code, is_repeat);
-        else OnKeyUp(key_code, char_code);
-        
-        return true;
+        if (!is_released) return OnKeyDown(key_code, char_code, is_repeat);
+        return OnKeyUp(key_code, char_code);
     }
 
     if (message == WM_CHAR)
     {
         const WCHAR character = static_cast<WCHAR>(wParam);
-        OnKeyChar(character);
-        
-        return true;
+        return OnKeyChar(character);
     }
     
     return false;
 }
 
-void Keyboard::OnKeyDown(WORD key_code, MathTypes::uint32 char_code, bool is_repeat)
+bool Keyboard::OnKeyDown(WORD key_code, MathTypes::uint32 char_code, bool is_repeat)
 {
+    return true;
 }
 
-void Keyboard::OnKeyUp(WORD key_code, MathTypes::uint32 char_code)
+bool Keyboard::OnKeyUp(WORD key_code, MathTypes::uint32 char_code)
 {
+    return true;
 }
 
-void Keyboard::OnKeyChar(WCHAR character)
+bool Keyboard::OnKeyChar(WCHAR character)
 {
+    return true;
 }
