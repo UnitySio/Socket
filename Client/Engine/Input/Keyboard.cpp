@@ -23,19 +23,20 @@ void Keyboard::Tick(float delta_time)
         }
         else
         {
+            // val.is_down = false;
             val.is_down = val.is_previous_down;
         }
     }
+    
+    // 테스트용 코드
+    if (IsKeyPressed(VK_LEFT)) OutputDebugString(L"VK_LEFT is pressed.\n");
+    // if (IsKeyReleased(VK_LEFT)) OutputDebugString(L"VK_LEFT is released.\n");
+    // if (IsKeyRepeat(VK_LEFT)) OutputDebugString(L"VK_LEFT is repeated.\n");
     
     for (auto& val : key_state_map_ | std::views::values)
     {
         val.is_previous_down = val.is_down;
     }
-    
-    // 테스트용 코드
-    if (IsKeyPressed(VK_LEFT)) OutputDebugString(L"VK_LEFT is pressed.\n");
-    if (IsKeyReleased(VK_LEFT)) OutputDebugString(L"VK_LEFT is released.\n");
-    if (IsKeyRepeat(VK_LEFT)) OutputDebugString(L"VK_LEFT is repeated.\n");
 }
 
 bool Keyboard::IsKeyPressed(WORD key_code) const
