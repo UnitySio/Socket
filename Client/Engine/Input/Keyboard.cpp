@@ -32,15 +32,18 @@ bool Keyboard::ProcessMessage(UINT message, WPARAM wParam, LPARAM lParam, MathTy
 
 bool Keyboard::OnKeyDown(WORD key_code, MathTypes::uint32 char_code, bool is_repeat)
 {
+    key_down_delegate_.Execute(std::move(key_code), std::move(char_code), std::move(is_repeat));
     return true;
 }
 
 bool Keyboard::OnKeyUp(WORD key_code, MathTypes::uint32 char_code)
 {
+    key_up_delegate_.Execute(std::move(key_code), std::move(char_code));
     return true;
 }
 
 bool Keyboard::OnKeyChar(WCHAR character)
-{   
+{
+    key_char_delegate_.Execute(std::move(character));
     return true;
 }
