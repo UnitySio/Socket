@@ -141,6 +141,8 @@ DWORD Core::GameThread(LPVOID lpParam)
 
         delta_time_ = elapsed_time + sleep_time;
 #pragma endregion
+        
+        Keyboard::Get()->Tick(delta_time_);
 
         if (const auto& window = core->game_window_.lock())
         {
