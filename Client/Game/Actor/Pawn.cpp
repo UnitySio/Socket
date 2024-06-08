@@ -12,6 +12,7 @@
 #include "Actor/Component/RigidBodyComponent.h"
 #include "Actor/Component/TransformComponent.h"
 #include "Actor/Component/AudioListenerComponent.h"
+#include "Actor/Component/SpriteRendererComponent.h"
 #include "Level/World.h"
 #include "Time/TimerManager.h"
 #include "Windows/DX/Shape.h"
@@ -45,6 +46,9 @@ Pawn::Pawn(const std::wstring& kName) :
 
     sprite_->SetWrapMode(WrapMode::kClamp);
     sprite_->SetFilterMode(FilterMode::kPoint);
+
+    sprite_renderer_ = CreateComponent<SpriteRendererComponent>(L"SpriteRenderer");
+    sprite_renderer_->SetRenderTarget(sprite_);
 
     delegate_.Add([](const std::wstring& kStr) -> void {});
     
@@ -91,17 +95,17 @@ void Pawn::Render(float alpha)
 {
     Actor::Render(alpha);
 
-    const std::vector<SpriteFrame>& frames = sprite_->GetFrames();
+    const std::vector<SpriteFrame>& frames = sprite_renderer_->sprite_->GetFrames();
 
-    const float width = sprite_->GetWidth() * frames[frame_index_].uv_scale.x / sprite_->GetPPU();
-    const float height = sprite_->GetHeight() * frames[frame_index_].uv_scale.y / sprite_->GetPPU();
+    const float width = sprite_renderer_->sprite_->GetWidth() * frames[frame_index_].uv_scale.x / sprite_renderer_->sprite_->GetPPU();
+    const float height = sprite_renderer_->sprite_->GetHeight() * frames[frame_index_].uv_scale.y / sprite_renderer_->sprite_->GetPPU();
     const float pivot_x = width * frames[frame_index_].pivot.x;
     const float pivot_y = height * frames[frame_index_].pivot.y;
 
     SHARED_PTR<Shape> shape = MAKE_SHARED<Shape>();
-    shape->SetVertices(sprite_->GetVertices());
-    shape->SetIndices(sprite_->GetIndices());
-    shape->SetTexture(sprite_);
+    shape->SetVertices(sprite_renderer_->sprite_->GetVertices());
+    shape->SetIndices(sprite_renderer_->sprite_->GetIndices());
+    shape->SetTexture(sprite_renderer_->sprite_);
     shape->SetPosition(GetTransform()->GetWorldLocation());
     shape->SetRotation(GetTransform()->GetWorldRotationZ());
     shape->SetScale({width * dir_, height});

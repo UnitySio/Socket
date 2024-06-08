@@ -55,6 +55,9 @@
     <ClCompile Include="Engine\Input\Keyboard.cpp" />
     <ClCompile Include="Engine\Time\TimerManager.cpp" />
     <ClCompile Include="Engine\Windows\DX\Sprite.cpp" />
+    <ClCompile Include="Engine\Actor\Component\SpriteRendererComponent.cpp" />
+    <ClCompile Include="Engine\Actor\Component\AnimatorComponent.cpp" />
+    <ClCompile Include="Engine\Actor\Component\AnimationClip.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h" />
@@ -188,12 +191,15 @@
     <ClInclude Include="Engine\Windows\DX\Texture.h" />
     <ClInclude Include="Engine\Windows\DX\Vertex.h" />
     <ClInclude Include="Engine\Windows\DX\VertexBuffer.h" />
-    <ClInclude Include="Engine\Delegate.h" />
     <ClInclude Include="Engine\Input\Keyboard.h" />
     <ClInclude Include="Engine\Time\TimerManager.h" />
     <ClInclude Include="Engine\Windows\DX\Sprite.h" />
-    <ClInclude Include="MDelegate.h" />
-    <ClInclude Include="MFunction.h" />
+    <ClInclude Include="Engine\Misc\DelegateMacros.h" />
+    <ClInclude Include="Engine\Misc\Delegate.h" />
+    <ClInclude Include="Engine\Misc\Function.h" />
+    <ClInclude Include="Engine\Actor\Component\SpriteRendererComponent.h" />
+    <ClInclude Include="Engine\Actor\Component\AnimatorComponent.h" />
+    <ClInclude Include="Engine\Actor\Component\AnimationClip.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Resource.rc" />

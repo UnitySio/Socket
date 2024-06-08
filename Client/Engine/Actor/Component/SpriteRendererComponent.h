@@ -6,12 +6,12 @@ class SpriteRendererComponent :public ActorComponent
 {
 public:
 	SpriteRendererComponent(Actor* owner, const std::wstring& kName);
-	void RenderSprite();
-	void SetRenderTarget();
-	void SetFlipX(bool value) { flipX = value; }
-	bool GetFlipX() { return flipX; }
+	void SetRenderTarget(std::shared_ptr<Sprite> sprite);
+	void SetFlipX(bool value);
+	bool GetFlipX();
+
+	std::shared_ptr<Sprite> sprite_;
 
 private:
-	std::unique_ptr<Sprite> sprite_;
 	bool flipX, flipY;
 };
