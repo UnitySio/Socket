@@ -2,7 +2,7 @@
 
 #include <ranges>
 
-Keyboard::Keyboard()
+Keyboard::Keyboard() : key_states_()
 {
 }
 
@@ -51,4 +51,5 @@ bool Keyboard::OnKeyChar(WCHAR character)
 
 void Keyboard::OnInputKey(WORD key_code, InputState state)
 {
+    key_states_[key_code].event_accumulator[static_cast<MathTypes::uint32>(state)]++;
 }

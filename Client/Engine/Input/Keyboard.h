@@ -1,4 +1,5 @@
 ﻿#pragma once
+#include <map>
 #include <Windows.h>
 
 #include "Singleton.h"
@@ -8,7 +9,23 @@ enum class InputState
 {
     kPressed,
     kReleased,
-    kRepeat
+    kRepeat,
+    kMax
+};
+
+struct KeyState
+{
+    bool is_down;
+    bool was_down;
+
+    MathTypes::uint32 event_accumulator[static_cast<MathTypes::uint32>(InputState::kMax)];
+
+    KeyState() :
+        is_down(false),
+        was_down(false),
+        event_accumulator()
+    {
+    }
 };
 
 class Keyboard : public Singleton<Keyboard>
@@ -26,5 +43,7 @@ private:
     bool OnKeyChar(WCHAR character);
 
     void OnInputKey(WORD key_code, InputState state);
+
+    std::map<WORD, KeyState> key_states_;
     
 };
