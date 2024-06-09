@@ -13,6 +13,7 @@
 #include "Actor/Component/TransformComponent.h"
 #include "Actor/Component/AudioListenerComponent.h"
 #include "Actor/Component/SpriteRendererComponent.h"
+#include "Actor/Component/AnimatorComponent.h"
 #include "Level/World.h"
 #include "Time/TimerManager.h"
 #include "Windows/DX/Shape.h"
@@ -50,6 +51,22 @@ Pawn::Pawn(const std::wstring& kName) :
     sprite_renderer_ = CreateComponent<SpriteRendererComponent>(L"SpriteRenderer");
     sprite_renderer_->SetRenderTarget(sprite_);
 
+    //component setting
+    animator_ = CreateComponent<AnimatorComponent>(L"Animator");
+    animator_->sprite_renderer_ = sprite_renderer_;
+
+    //clip option
+    int temp[] = { 0, 1, 2, 3, 4, 5 };
+    animator_->MakeAnimationClip(L"Idle", temp ,6);
+    animator_->clips_[L"Idle"]->SetRepeat();
+    animator_->clips_[L"Idle"]->SetPlaySpeed(6.f);
+    animator_->playing_clip_ = animator_->clips_[L"Idle"];
+
+    animator_->MakeAnimationClip(L"Attack", 15, 42);
+    animator_->clips_[L"Attack"]->SetPlaySpeed(10.f);
+    animator_->playing_clip_ = animator_->clips_[L"Attack"];
+    /////////////////////////////////////////////////////////
+
     delegate_.Add([](const std::wstring& kStr) -> void {});
     
 }
@@ -82,13 +99,7 @@ void Pawn::Tick(float delta_time)
         rigid_body_->AddForce(Math::Vector2::Up() * 5.f, ForceMode::kImpulse);
     }
 
-    timer_ += delta_time;
-    if (timer_ >= 1.f / 8.f)
-    {
-        frame_index_ = (frame_index_ + 1) % 6;
-        timer_ = 0.f;
-    }
-    
+    animator_->Tick(delta_time);
 }
 
 void Pawn::Render(float alpha)
@@ -97,10 +108,10 @@ void Pawn::Render(float alpha)
 
     const std::vector<SpriteFrame>& frames = sprite_renderer_->sprite_->GetFrames();
 
-    const float width = sprite_renderer_->sprite_->GetWidth() * frames[frame_index_].uv_scale.x / sprite_renderer_->sprite_->GetPPU();
-    const float height = sprite_renderer_->sprite_->GetHeight() * frames[frame_index_].uv_scale.y / sprite_renderer_->sprite_->GetPPU();
-    const float pivot_x = width * frames[frame_index_].pivot.x;
-    const float pivot_y = height * frames[frame_index_].pivot.y;
+    const float width = sprite_renderer_->sprite_->GetWidth() * frames[sprite_renderer_->GetFrameIndex()].uv_scale.x / sprite_renderer_->sprite_->GetPPU();
+    const float height = sprite_renderer_->sprite_->GetHeight() * frames[sprite_renderer_->GetFrameIndex()].uv_scale.y / sprite_renderer_->sprite_->GetPPU();
+    const float pivot_x = width * frames[sprite_renderer_->GetFrameIndex()].pivot.x;
+    const float pivot_y = height * frames[sprite_renderer_->GetFrameIndex()].pivot.y;
 
     SHARED_PTR<Shape> shape = MAKE_SHARED<Shape>();
     shape->SetVertices(sprite_renderer_->sprite_->GetVertices());
@@ -109,8 +120,8 @@ void Pawn::Render(float alpha)
     shape->SetPosition(GetTransform()->GetWorldLocation());
     shape->SetRotation(GetTransform()->GetWorldRotationZ());
     shape->SetScale({width * dir_, height});
-    shape->SetUVOffset(frames[frame_index_].uv_offset);
-    shape->SetUVScale(frames[frame_index_].uv_scale);
+    shape->SetUVOffset(frames[sprite_renderer_->GetFrameIndex()].uv_offset);
+    shape->SetUVScale(frames[sprite_renderer_->GetFrameIndex()].uv_scale);
     shape->SetPivot({pivot_x, pivot_y});
     shape->SetZOrder(1);
 

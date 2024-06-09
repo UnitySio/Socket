@@ -1,7 +1,7 @@
 #include <string>
 #include "AnimationClip.h"
 
-AnimationClip::AnimationClip(std::wstring path)
+AnimationClip::AnimationClip()
     :isRepeat(false), hasExitTime(true), playbackSpeed(3.0f)
 {
     

@@ -29,6 +29,7 @@ private:
     class RigidBodyComponent* rigid_body_;
     class AudioListenerComponent* audio_listener_;
     class SpriteRendererComponent* sprite_renderer_;
+    class AnimatorComponent* animator_;
 
     SHARED_PTR<Sprite> sprite_;
 
