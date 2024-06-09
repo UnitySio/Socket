@@ -2,8 +2,7 @@
 
 #include <ranges>
 
-Keyboard::Keyboard() :
-    key_state_map_()
+Keyboard::Keyboard()
 {
 }
 
@@ -35,15 +34,21 @@ bool Keyboard::ProcessMessage(UINT message, WPARAM wParam, LPARAM lParam, MathTy
 
 bool Keyboard::OnKeyDown(WORD key_code, MathTypes::uint32 char_code, bool is_repeat)
 {
+    OnInputKey(key_code, is_repeat ? InputState::kRepeat : InputState::kPressed);
     return true;
 }
 
 bool Keyboard::OnKeyUp(WORD key_code, MathTypes::uint32 char_code)
 {
+    OnInputKey(key_code, InputState::kReleased);
     return true;
 }
 
 bool Keyboard::OnKeyChar(WCHAR character)
 {
     return true;
+}
+
+void Keyboard::OnInputKey(WORD key_code, InputState state)
+{
 }
