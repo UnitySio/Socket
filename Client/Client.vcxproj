@@ -269,6 +269,20 @@
     <ClInclude Include="Include\imgui\imstb_rectpack.h" />
     <ClInclude Include="Include\imgui\imstb_textedit.h" />
     <ClInclude Include="Include\imgui\imstb_truetype.h" />
+    <ClInclude Include="Include\tmxlite\Config.hpp" />
+    <ClInclude Include="Include\tmxlite\FreeFuncs.hpp" />
+    <ClInclude Include="Include\tmxlite\ImageLayer.hpp" />
+    <ClInclude Include="Include\tmxlite\Layer.hpp" />
+    <ClInclude Include="Include\tmxlite\LayerGroup.hpp" />
+    <ClInclude Include="Include\tmxlite\Map.hpp" />
+    <ClInclude Include="Include\tmxlite\Object.hpp" />
+    <ClInclude Include="Include\tmxlite\ObjectGroup.hpp" />
+    <ClInclude Include="Include\tmxlite\ObjectTypes.hpp" />
+    <ClInclude Include="Include\tmxlite\Property.hpp" />
+    <ClInclude Include="Include\tmxlite\TileLayer.hpp" />
+    <ClInclude Include="Include\tmxlite\Tileset.hpp" />
+    <ClInclude Include="Include\tmxlite\Types.hpp" />
+    <ClInclude Include="Include\tmxlite\Types.inl" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
@@ -351,6 +365,12 @@
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
+    <ResourceCompile Include="Resource.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Client.ico" />
+  </ItemGroup>
+  <ItemGroup>
     <Compile Include="Include\FMOD\fmod.cs" />
     <Compile Include="Include\FMOD\fmod_dsp.cs" />
     <Compile Include="Include\FMOD\fmod_errors.cs" />
@@ -363,17 +383,13 @@
     <Content Include="Lib\Debug\fmodL.dll" />
     <Content Include="Lib\Debug\fmodL_vc.lib" />
     <Content Include="Lib\Debug\fmod_vc.lib" />
+    <Content Include="Lib\Debug\libtmxlite.lib" />
     <Content Include="Lib\DirectXTK.lib" />
     <Content Include="Lib\fmod.dll" />
     <Content Include="Lib\fmodL.dll" />
     <Content Include="Lib\fmodL_vc.lib" />
     <Content Include="Lib\fmod_vc.lib" />
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="Resource.rc" />
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="Client.ico" />
+    <Content Include="Lib\libtmxlite.lib" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
