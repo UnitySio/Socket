@@ -177,7 +177,15 @@ void ShapeBatch::DrawShapes(const SHARED_PTR<WindowsWindow>& kWindow, const std:
 
         if (!shape->GetIndices().empty())
         {
-            Renderer::Get()->GetDeviceContext()->DrawIndexed(shape->GetIndices().size(), 0, 0);
+            if (shape->IsInstancing())
+            {
+                // 테스트
+                Renderer::Get()->GetDeviceContext()->DrawIndexedInstanced(shape->GetIndices().size(), 120, 0, 0, 0);
+            }
+            else
+            {
+                Renderer::Get()->GetDeviceContext()->DrawIndexed(shape->GetIndices().size(), 0, 0);
+            }
         }
         else
         {

@@ -51,6 +51,9 @@ public:
     inline void SetZOrder(int z_order) { z_order_ = z_order; }
     inline int GetZOrder() const { return z_order_; }
 
+    inline void SetInstancing(bool is_instancing) { is_instancing_ = is_instancing; }
+    inline bool IsInstancing() const { return is_instancing_; }
+
     static bool CompareZOrder(const SHARED_PTR<Shape>& lhs, const SHARED_PTR<Shape>& rhs);
 
 protected:
@@ -74,5 +77,7 @@ protected:
     SHARED_PTR<Texture> texture_;
 
     int z_order_;
+    
+    bool is_instancing_;
     
 };
