@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include "Misc/EngineMacros.h"
+#include "tmxlite/Map.hpp"
 
 class ShapeBatch;
 class WindowsWindow;
@@ -17,5 +18,9 @@ public:
 private:
     SHARED_PTR<WindowsWindow> game_window_;
     SHARED_PTR<ShapeBatch> shape_batch_;
+
+    // 타일맵 테스트
+    tmx::Map map_;
+    SHARED_PTR<class Texture> tilemap_texture_;
     
 };
