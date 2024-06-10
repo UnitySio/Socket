@@ -76,6 +76,8 @@ void GameEngine::Init(const SHARED_PTR<WindowsWindow>& window)
         const auto v_normal = static_cast<float>(tile_size.y) / tex_height;
 
         std::vector<DefaultVertex> vertices;
+        std::vector<MathTypes::uint32> indices;
+        
         for (auto y = 0u; y < map_size.y; ++y)
         {
             for (auto x = 0u; x < map_size.x; ++x)
@@ -104,14 +106,20 @@ void GameEngine::Init(const SHARED_PTR<WindowsWindow>& window)
                     vertices.push_back(vertex);
                     vertex = {{tile_pos_x + tile_size.x, tile_pos_y + tile_size.y, 0.f}, {1.f, 1.f, 1.f, 1.f}, {u + u_normal, v + v_normal}};
                     vertices.push_back(vertex);
+
+                    auto base_index = (y * map_size.x + x) * 4;
+                    indices.push_back(base_index);
+                    indices.push_back(base_index + 1);
+                    indices.push_back(base_index + 2);
+
+                    indices.push_back(base_index + 2);
+                    indices.push_back(base_index + 1);
+                    indices.push_back(base_index + 3);
                 }
             }
         }
-
-        std::vector<MathTypes::uint32> indices = {
-            0, 1, 2,
-            2, 1, 3
-        };
+        
+        int a = 0;
     }
 }
 
