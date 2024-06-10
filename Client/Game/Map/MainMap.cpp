@@ -6,6 +6,7 @@
 #include "Actor/Component/TransformComponent.h"
 #include "../Engine/Actor/Component/RigidBodyComponent.h"
 #include <Windows.h>
+#include "tmxlite/Map.hpp"
 
 MainMap::MainMap(const std::wstring& kName) : Level(kName)
 {
