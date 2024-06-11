@@ -6,7 +6,6 @@
 #include "imgui/imgui_impl_win32.h"
 #include "Level/Level.h"
 #include "Level/World.h"
-#include "Misc/EngineMacros.h"
 #include "tmxlite/TileLayer.hpp"
 #include "Windows/WindowsWindow.h"
 #include "Windows/DX/Renderer.h"
@@ -74,9 +73,6 @@ void GameEngine::Init(const SHARED_PTR<WindowsWindow>& window)
 
         const auto u_normal = static_cast<float>(tile_size.x) / tex_width;
         const auto v_normal = static_cast<float>(tile_size.y) / tex_height;
-
-        std::vector<DefaultVertex> vertices;
-        std::vector<MathTypes::uint32> indices;
         
         for (auto y = 0u; y < map_size.y; ++y)
         {
@@ -98,28 +94,25 @@ void GameEngine::Init(const SHARED_PTR<WindowsWindow>& window)
                     const float tile_pos_x = static_cast<float>(x * tile_size.x);
                     const float tile_pos_y = static_cast<float>(y * tile_size.y);
 
-                    DefaultVertex vertex = {{tile_pos_x, tile_pos_y, 0.f}, {1.f, 1.f, 1.f, 1.f}, {u, v}};
-                    vertices.push_back(vertex);
-                    vertex = {{tile_pos_x + tile_size.x, tile_pos_y, 0.f}, {1.f, 1.f, 1.f, 1.f}, {u + u_normal, v}};
-                    vertices.push_back(vertex);
-                    vertex = {{tile_pos_x, tile_pos_y + tile_size.y, 0.f}, {1.f, 1.f, 1.f, 1.f}, {u, v + v_normal}};
-                    vertices.push_back(vertex);
-                    vertex = {{tile_pos_x + tile_size.x, tile_pos_y + tile_size.y, 0.f}, {1.f, 1.f, 1.f, 1.f}, {u + u_normal, v + v_normal}};
-                    vertices.push_back(vertex);
+                    DefaultVertex vertex = {{tile_pos_x, tile_pos_y, 0.f}, {1.f, 1.f, 1.f, 1.f}, {u, v + v_normal}};
+                    vertices_.push_back(vertex);
+                    vertex = {{tile_pos_x + tile_size.x, tile_pos_y, 0.f}, {1.f, 1.f, 1.f, 1.f}, {u + u_normal, v + v_normal}};
+                    vertices_.push_back(vertex);
+                    vertex = {{tile_pos_x, tile_pos_y + tile_size.y, 0.f}, {1.f, 1.f, 1.f, 1.f}, {u, v}};
+                    vertices_.push_back(vertex);
+                    vertex = {{tile_pos_x + tile_size.x, tile_pos_y + tile_size.y, 0.f}, {1.f, 1.f, 1.f, 1.f}, {u + u_normal, v}};
+                    vertices_.push_back(vertex);
 
-                    auto base_index = (y * map_size.x + x) * 4;
-                    indices.push_back(base_index);
-                    indices.push_back(base_index + 1);
-                    indices.push_back(base_index + 2);
-
-                    indices.push_back(base_index + 2);
-                    indices.push_back(base_index + 1);
-                    indices.push_back(base_index + 3);
+                    auto base_index = static_cast<MathTypes::uint32>(vertices_.size() - 4);
+                    indices_.push_back(base_index + 0);
+                    indices_.push_back(base_index + 1);
+                    indices_.push_back(base_index + 2);
+                    indices_.push_back(base_index + 2);
+                    indices_.push_back(base_index + 1);
+                    indices_.push_back(base_index + 3);
                 }
             }
         }
-        
-        int a = 0;
     }
 }
 
@@ -153,6 +146,17 @@ void GameEngine::GameLoop(float delta_time)
     
     Renderer::Get()->BeginRender(game_window_);
     World::Get()->Render(alpha);
+    
+    SHARED_PTR<Shape> shape = MAKE_SHARED<Shape>();
+    shape->SetVertices(vertices_);
+    shape->SetIndices(indices_);
+    shape->SetTexture(tilemap_texture_);
+    shape->SetScale({.01f, .01f});
+    shape->SetUVOffset({0.f, 0.f});
+    shape->SetUVScale({1.f, 1.f});
+    shape->SetZOrder(1);
+    
+    World::Get()->AddShape(shape);
     
     ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
 

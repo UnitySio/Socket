@@ -12,8 +12,7 @@ Shape::Shape() :
     uv_scale_(Math::Vector2::One()),
     rotation_(0.f),
     texture_(nullptr),
-    z_order_(0),
-    is_instancing_(false)
+    z_order_(0)
 {
     UpdateMatrixx();
 }
