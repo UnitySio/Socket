@@ -56,6 +56,7 @@ void GameEngine::Init(const SHARED_PTR<WindowsWindow>& window)
         
         tilemap_texture_ = MAKE_SHARED<Texture>();
         CHECK(tilemap_texture_->Load(tileset_path));
+        
 
         const auto& layers = map_.getLayers();
         const auto& layer = layers[0]->getLayerAs<tmx::TileLayer>();
@@ -67,12 +68,13 @@ void GameEngine::Init(const SHARED_PTR<WindowsWindow>& window)
 
         const auto tex_width = tilemap_texture_->GetWidth();
         const auto tex_height = tilemap_texture_->GetHeight();
-
+        
+ 
         const auto tile_count_x = tex_width / tile_size.x;
         const auto tile_count_y = tex_height / tile_size.y;
 
-        const auto u_normal = static_cast<float>(tile_size.x) / tex_width;
-        const auto v_normal = static_cast<float>(tile_size.y) / tex_height;
+        const auto u_normal = static_cast<float>(tile_size.x) / static_cast<float>(tex_width);
+        const auto v_normal = static_cast<float>(tile_size.y) / static_cast<float>(tex_height);
         
         for (auto y = 0u; y < map_size.y; ++y)
         {
@@ -84,7 +86,7 @@ void GameEngine::Init(const SHARED_PTR<WindowsWindow>& window)
                 {
                     auto id_index = (tile_ids[idx].ID - tileset.getFirstGID());
                     float u = static_cast<float>(id_index % tile_count_x);
-                    float v = static_cast<float>(id_index / tile_count_y);
+                    float v = static_cast<float>(id_index / tile_count_x);
                     u *= tile_size.x;
                     v *= tile_size.y;
 
