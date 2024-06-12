@@ -94,13 +94,13 @@ void GameEngine::Init(const SHARED_PTR<WindowsWindow>& window)
                     const float tile_pos_x = static_cast<float>(x * tile_size.x);
                     const float tile_pos_y = static_cast<float>(y * tile_size.y);
 
-                    DefaultVertex vertex = {{tile_pos_x, tile_pos_y, 0.f}, {1.f, 1.f, 1.f, 1.f}, {u, v + v_normal}};
+                    DefaultVertex vertex = {{tile_pos_x, -tile_pos_y, 0.f}, {1.f, 1.f, 1.f, 1.f}, {u, v + v_normal}};
                     vertices_.push_back(vertex);
-                    vertex = {{tile_pos_x + tile_size.x, tile_pos_y, 0.f}, {1.f, 1.f, 1.f, 1.f}, {u + u_normal, v + v_normal}};
+                    vertex = {{tile_pos_x + tile_size.x, -tile_pos_y, 0.f}, {1.f, 1.f, 1.f, 1.f}, {u + u_normal, v + v_normal}};
                     vertices_.push_back(vertex);
-                    vertex = {{tile_pos_x, tile_pos_y + tile_size.y, 0.f}, {1.f, 1.f, 1.f, 1.f}, {u, v}};
+                    vertex = {{tile_pos_x, -tile_pos_y + tile_size.y, 0.f}, {1.f, 1.f, 1.f, 1.f}, {u, v}};
                     vertices_.push_back(vertex);
-                    vertex = {{tile_pos_x + tile_size.x, tile_pos_y + tile_size.y, 0.f}, {1.f, 1.f, 1.f, 1.f}, {u + u_normal, v}};
+                    vertex = {{tile_pos_x + tile_size.x, -tile_pos_y + tile_size.y, 0.f}, {1.f, 1.f, 1.f, 1.f}, {u + u_normal, v}};
                     vertices_.push_back(vertex);
 
                     auto base_index = static_cast<MathTypes::uint32>(vertices_.size() - 4);
@@ -151,9 +151,7 @@ void GameEngine::GameLoop(float delta_time)
     shape->SetVertices(vertices_);
     shape->SetIndices(indices_);
     shape->SetTexture(tilemap_texture_);
-    shape->SetScale({.01f, .01f});
-    shape->SetUVOffset({0.f, 0.f});
-    shape->SetUVScale({1.f, 1.f});
+    shape->SetScale({.0167f, .0167f});
     shape->SetZOrder(1);
     
     World::Get()->AddShape(shape);
