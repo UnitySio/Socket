@@ -7,6 +7,7 @@
 #include "../Engine/Actor/Component/RigidBodyComponent.h"
 #include <Windows.h>
 #include "tmxlite/Map.hpp"
+#include "../TmxTiledMap.h"
 
 MainMap::MainMap(const std::wstring& kName) : Level(kName)
 {
@@ -23,7 +24,13 @@ void MainMap::Load()
     pawn = MAKE_SHARED<Pawn>(L"Pawn");
     AddActor(pawn);
 
+    pawn2 = MAKE_SHARED<Pawn>(L"Pawn");
+    AddActor(pawn2);
+    map = pawn2->CreateComponent<TmxTiledMap>(L"NoNamed");
+    map->Load(".\\Game_Data\\Tile\\demo.tmx");
+
     pawn->GetTransform()->SetRelativeLocation({0.f, 2.f});
+    pawn2->GetTransform()->SetRelativeLocation({0.f, 2.f});
 
     FollowCamera* follow_camera = dynamic_cast<FollowCamera*>(camera.get());
     follow_camera->SetFollow(pawn.get());

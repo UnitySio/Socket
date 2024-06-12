@@ -55,6 +55,9 @@
     <ClCompile Include="Engine\Input\Keyboard.cpp" />
     <ClCompile Include="Engine\Time\TimerManager.cpp" />
     <ClCompile Include="Engine\Windows\DX\Sprite.cpp" />
+    <ClCompile Include="TmxTiledMap.cpp">
+      <Filter>TileMap</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h" />
@@ -194,11 +197,33 @@
     <ClInclude Include="Engine\Misc\DelegateMacros.h" />
     <ClInclude Include="Engine\Misc\Delegate.h" />
     <ClInclude Include="Engine\Misc\Function.h" />
+    <ClInclude Include="Include\tmxlite\Config.hpp" />
+    <ClInclude Include="Include\tmxlite\FreeFuncs.hpp" />
+    <ClInclude Include="Include\tmxlite\ImageLayer.hpp" />
+    <ClInclude Include="Include\tmxlite\Layer.hpp" />
+    <ClInclude Include="Include\tmxlite\LayerGroup.hpp" />
+    <ClInclude Include="Include\tmxlite\Map.hpp" />
+    <ClInclude Include="Include\tmxlite\Object.hpp" />
+    <ClInclude Include="Include\tmxlite\ObjectGroup.hpp" />
+    <ClInclude Include="Include\tmxlite\ObjectTypes.hpp" />
+    <ClInclude Include="Include\tmxlite\Property.hpp" />
+    <ClInclude Include="Include\tmxlite\TileLayer.hpp" />
+    <ClInclude Include="Include\tmxlite\Tileset.hpp" />
+    <ClInclude Include="Include\tmxlite\Types.hpp" />
+    <ClInclude Include="Include\tmxlite\Types.inl" />
+    <ClInclude Include="TmxTiledMap.h">
+      <Filter>TileMap</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Resource.rc" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="TileMap">
+      <UniqueIdentifier>{1fc4bdff-12e1-43db-b307-3bf9c9dbfaef}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>

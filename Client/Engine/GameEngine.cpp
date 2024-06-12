@@ -12,10 +12,13 @@
 #include "Windows/DX/Shape.h"
 #include "Windows/DX/ShapeBatch.h"
 #include "Windows/DX/Texture.h"
+#include "../TmxTiledMap.h"
+
 
 GameEngine::GameEngine() :
     game_window_(nullptr),
     shape_batch_(nullptr)
+    //map(MAKE_SHARED<TmxTiledMap>(".\\Game_Data\\Tile\\demo.tmx"))
 {
 }
 
@@ -49,73 +52,12 @@ void GameEngine::Init(const SHARED_PTR<WindowsWindow>& window)
     ImGui_ImplDX11_Init(Renderer::Get()->GetDevice(), Renderer::Get()->GetDeviceContext());
 #pragma endregion
 
-    if (map_.load(".\\Game_Data\\Tile\\demo.tmx"))
+    /*if (map_.load(".\\Game_Data\\Tile\\demo.tmx"))
     {
-        const auto& tilesets = map_.getTilesets();
-        std::wstring tileset_path = std::wstring(tilesets[0].getImagePath().begin(), tilesets[0].getImagePath().end());
         
-        tilemap_texture_ = MAKE_SHARED<Texture>();
-        CHECK(tilemap_texture_->Load(tileset_path));
-        
-
-        const auto& layers = map_.getLayers();
-        const auto& layer = layers[0]->getLayerAs<tmx::TileLayer>();
-        const auto map_size = map_.getTileCount();
-        const auto tile_size = map_.getTileSize();
-
-        const auto& tileset = map_.getTilesets()[0];
-        const auto& tile_ids = layer.getTiles();
-
-        const auto tex_width = tilemap_texture_->GetWidth();
-        const auto tex_height = tilemap_texture_->GetHeight();
-        
- 
-        const auto tile_count_x = tex_width / tile_size.x;
-        const auto tile_count_y = tex_height / tile_size.y;
-
-        const auto u_normal = static_cast<float>(tile_size.x) / static_cast<float>(tex_width);
-        const auto v_normal = static_cast<float>(tile_size.y) / static_cast<float>(tex_height);
-        
-        for (auto y = 0u; y < map_size.y; ++y)
-        {
-            for (auto x = 0u; x < map_size.x; ++x)
-            {
-                const auto idx = y * map_size.x + x;
-                if (idx < tile_ids.size() && tile_ids[idx].ID >= tileset.getFirstGID() &&
-                    tile_ids[idx].ID < (tileset.getFirstGID() + tileset.getTileCount()))
-                {
-                    auto id_index = (tile_ids[idx].ID - tileset.getFirstGID());
-                    float u = static_cast<float>(id_index % tile_count_x);
-                    float v = static_cast<float>(id_index / tile_count_x);
-                    u *= tile_size.x;
-                    v *= tile_size.y;
-
-                    u /= tex_width;
-                    v /= tex_height;
-
-                    const float tile_pos_x = static_cast<float>(x * tile_size.x);
-                    const float tile_pos_y = static_cast<float>(y * tile_size.y);
-
-                    DefaultVertex vertex = {{tile_pos_x, -tile_pos_y, 0.f}, {1.f, 1.f, 1.f, 1.f}, {u, v + v_normal}};
-                    vertices_.push_back(vertex);
-                    vertex = {{tile_pos_x + tile_size.x, -tile_pos_y, 0.f}, {1.f, 1.f, 1.f, 1.f}, {u + u_normal, v + v_normal}};
-                    vertices_.push_back(vertex);
-                    vertex = {{tile_pos_x, -tile_pos_y + tile_size.y, 0.f}, {1.f, 1.f, 1.f, 1.f}, {u, v}};
-                    vertices_.push_back(vertex);
-                    vertex = {{tile_pos_x + tile_size.x, -tile_pos_y + tile_size.y, 0.f}, {1.f, 1.f, 1.f, 1.f}, {u + u_normal, v}};
-                    vertices_.push_back(vertex);
-
-                    auto base_index = static_cast<MathTypes::uint32>(vertices_.size() - 4);
-                    indices_.push_back(base_index + 0);
-                    indices_.push_back(base_index + 1);
-                    indices_.push_back(base_index + 2);
-                    indices_.push_back(base_index + 2);
-                    indices_.push_back(base_index + 1);
-                    indices_.push_back(base_index + 3);
-                }
-            }
-        }
-    }
+    }*/
+    
+    
 }
 
 void GameEngine::GameLoop(float delta_time)
@@ -149,14 +91,15 @@ void GameEngine::GameLoop(float delta_time)
     Renderer::Get()->BeginRender(game_window_);
     World::Get()->Render(alpha);
     
-    SHARED_PTR<Shape> shape = MAKE_SHARED<Shape>();
+    /*SHARED_PTR<Shape> shape = MAKE_SHARED<Shape>();
     shape->SetVertices(vertices_);
     shape->SetIndices(indices_);
     shape->SetTexture(tilemap_texture_);
     shape->SetScale({.0167f, .0167f});
-    shape->SetZOrder(1);
+    shape->SetZOrder(1);*/
     
-    World::Get()->AddShape(shape);
+    /*World::Get()->AddShape(shape);*/
+
     
     ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
 

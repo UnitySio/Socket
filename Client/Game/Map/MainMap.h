@@ -2,6 +2,8 @@
 #include "Level/Level.h"
 #include "../Engine/Input/Keyboard.h"
 
+class TmxTiledMap;
+
 class MainMap : public Level
 {
 public:
@@ -11,6 +13,9 @@ public:
     virtual void Load() override;
 
     SHARED_PTR<Actor> pawn;
+    SHARED_PTR<Actor> pawn2;
+
+    TmxTiledMap* map;
 
     void OnKeyDown(const EventKeyboard& e);
     void OnKeyPressed(const EventKeyboard& e);

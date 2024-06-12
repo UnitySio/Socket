@@ -1,9 +1,9 @@
 ﻿#pragma once
 #include "Math/MathTypes.h"
 #include "Misc/EngineMacros.h"
-#include "tmxlite/Map.hpp"
 #include "Windows/DX/Vertex.h"
 
+class TmxTiledMap;
 class ShapeBatch;
 class WindowsWindow;
 
@@ -22,10 +22,6 @@ private:
     SHARED_PTR<ShapeBatch> shape_batch_;
 
     // 타일맵 테스트
-    tmx::Map map_;
-    SHARED_PTR<class Texture> tilemap_texture_;
-    
-    std::vector<DefaultVertex> vertices_;
-    std::vector<MathTypes::uint32> indices_;
+    //SHARED_PTR<TmxTiledMap> map;
     
 };
