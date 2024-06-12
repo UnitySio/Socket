@@ -20,6 +20,8 @@ public:
 
 private:
 	virtual inline void Render(float alpha) override;
+	void DrawImageTile(tmx::TileLayer layer);
+	void GeneratePhysics(tmx::ObjectGroup object);
 
 private:
 	SHARED_PTR<class Texture> tilemap_texture_;

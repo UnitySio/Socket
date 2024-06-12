@@ -6,6 +6,7 @@
 #include "tmxlite/TileLayer.hpp"
 #include "Windows/DX/Shape.h"
 #include "Engine/Level/World.h"
+#include "box2d/box2d.h"
 
 
 TmxTiledMap::TmxTiledMap(const char* kPath, Actor* owner, const std::wstring& kName)
@@ -32,7 +33,48 @@ void TmxTiledMap::Load()
 
 
     const auto& layers = map_.getLayers();
-    const auto& layer = layers[0]->getLayerAs<tmx::TileLayer>();
+    
+
+    for (int i = 0; i < layers.size(); ++i)
+    {
+        auto&& name = layers[i]->getName();
+        if (name == "Physics")
+        {
+            auto&& layer = layers[i]->getLayerAs<tmx::ObjectGroup>();            
+            GeneratePhysics(layer);
+        }
+            
+        else
+        {
+            const auto& layer = layers[i]->getLayerAs<tmx::TileLayer>();
+            DrawImageTile(layer);
+        }
+            
+        
+        
+    }
+}
+
+void TmxTiledMap::Load(const char* kPath)
+{
+    map_.load(kPath);
+    shape_ = MAKE_SHARED<Shape>();
+    Load();
+}
+
+inline void TmxTiledMap::Render(float alpha)
+{
+    if (shape_ == nullptr) return;
+    shape_->SetVertices(vertices_);
+    shape_->SetIndices(indices_);
+    shape_->SetTexture(tilemap_texture_);
+    shape_->SetScale({ 0.01f, 0.01f });
+    shape_->SetZOrder(1);
+    World::Get()->AddShape(shape_);
+}
+
+void TmxTiledMap::DrawImageTile(tmx::TileLayer layer)
+{
     const auto map_size = map_.getTileCount();
     const auto tile_size = map_.getTileSize();
 
@@ -48,7 +90,6 @@ void TmxTiledMap::Load()
 
     const auto u_normal = static_cast<float>(tile_size.x) / static_cast<float>(tex_width);
     const auto v_normal = static_cast<float>(tile_size.y) / static_cast<float>(tex_height);
-
     for (auto y = 0u; y < map_size.y; ++y)
     {
         for (auto x = 0u; x < map_size.x; ++x)
@@ -90,20 +131,30 @@ void TmxTiledMap::Load()
     }
 }
 
-void TmxTiledMap::Load(const char* kPath)
+void TmxTiledMap::GeneratePhysics(tmx::ObjectGroup object)
 {
-    map_.load(kPath);
-    shape_ = MAKE_SHARED<Shape>();
-    Load();
-}
+    auto&& objects = object.getObjects();
+    
+    for (int i = 0; i < objects.size(); ++i)
+    {
+        auto&& temp = objects.at(i);
+        b2BodyDef bodyDef;
+        //bodyDef.position.Set(temp.getAABB().left, temp.getAABB().top);
+        bodyDef.position.Set(temp.getPosition().x * 0.02f, temp.getPosition().y * -0.01f);
+        bodyDef.type = b2_staticBody;
 
-inline void TmxTiledMap::Render(float alpha)
-{
-    if (shape_ == nullptr) return;
-    shape_->SetVertices(vertices_);
-    shape_->SetIndices(indices_);
-    shape_->SetTexture(tilemap_texture_);
-    shape_->SetScale({ 0.01f, 0.01f });
-    shape_->SetZOrder(1);
-    World::Get()->AddShape(shape_);
+        b2PolygonShape shape;
+        shape.SetAsBox(temp.getAABB().width / 2 * 0.01f, temp.getAABB().height / 2 * 0.01f);
+
+        b2FixtureDef fixtureDef;
+        fixtureDef.shape = &shape;
+        
+        
+
+        b2Body* body = World::Get()->physics_world_->CreateBody(&bodyDef);
+        body->CreateFixture(&fixtureDef);
+        
+
+    }
+
 }
