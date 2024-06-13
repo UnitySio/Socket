@@ -2,7 +2,7 @@
 #include "Level/Level.h"
 #include "../Engine/Input/Keyboard.h"
 
-class TmxTiledMap;
+class TilemapComponent;
 
 class MainMap : public Level
 {
@@ -15,9 +15,5 @@ public:
     SHARED_PTR<Actor> pawn;
     SHARED_PTR<Actor> pawn2;
 
-    TmxTiledMap* map;
-
-    void OnKeyDown(const EventKeyboard& e);
-    void OnKeyPressed(const EventKeyboard& e);
-    void OnKeyUp(const EventKeyboard& e);
+    TilemapComponent* map;
 };

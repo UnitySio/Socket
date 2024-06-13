@@ -3,7 +3,7 @@
 #include "Misc/EngineMacros.h"
 #include "Windows/DX/Vertex.h"
 
-class TmxTiledMap;
+class TilemapComponent;
 class ShapeBatch;
 class WindowsWindow;
 
@@ -20,8 +20,5 @@ public:
 private:
     SHARED_PTR<WindowsWindow> game_window_;
     SHARED_PTR<ShapeBatch> shape_batch_;
-
-    // 타일맵 테스트
-    //SHARED_PTR<TmxTiledMap> map;
     
 };

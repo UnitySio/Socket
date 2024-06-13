@@ -1,29 +1,28 @@
-#include "TmxTiledMap.h"
-#include "tmxlite/Config.hpp"
+#include "TilemapComponent.h"
 #include "tmxlite/Tileset.hpp"
 #include "tmxlite/Layer.hpp"
 #include "Windows/DX/Texture.h"
 #include "tmxlite/TileLayer.hpp"
 #include "Windows/DX/Shape.h"
-#include "Engine/Level/World.h"
 #include "box2d/box2d.h"
+#include "Level/World.h"
 
 
-TmxTiledMap::TmxTiledMap(const char* kPath, Actor* owner, const std::wstring& kName)
-	:ActorComponent(owner, kName)
+TilemapComponent::TilemapComponent(const char* kPath, Actor* owner, const std::wstring& kName) :
+    ActorComponent(owner, kName),
+    map_size_(Math::Vector2::Zero())
 {
-    
     map_.load(kPath);
     shape_ = MAKE_SHARED<Shape>();
     Load();
 }
 
-TmxTiledMap::TmxTiledMap(Actor* owner, const std::wstring& kName)
+TilemapComponent::TilemapComponent(Actor* owner, const std::wstring& kName)
     :ActorComponent(owner, kName)
 {
 }
 
-void TmxTiledMap::Load()
+void TilemapComponent::Load()
 {
     const auto& tilesets = map_.getTilesets();
     std::wstring tileset_path = std::wstring(tilesets[0].getImagePath().begin(), tilesets[0].getImagePath().end());
@@ -31,9 +30,7 @@ void TmxTiledMap::Load()
     tilemap_texture_ = MAKE_SHARED<Texture>();
     CHECK(tilemap_texture_->Load(tileset_path));
 
-
     const auto& layers = map_.getLayers();
-    
 
     for (int i = 0; i < layers.size(); ++i)
     {
@@ -43,39 +40,38 @@ void TmxTiledMap::Load()
             auto&& layer = layers[i]->getLayerAs<tmx::ObjectGroup>();            
             GeneratePhysics(layer);
         }
-            
         else
         {
             const auto& layer = layers[i]->getLayerAs<tmx::TileLayer>();
             DrawImageTile(layer);
         }
-            
-        
-        
     }
 }
 
-void TmxTiledMap::Load(const char* kPath)
+void TilemapComponent::Load(const char* kPath)
 {
     map_.load(kPath);
     shape_ = MAKE_SHARED<Shape>();
     Load();
 }
 
-inline void TmxTiledMap::Render(float alpha)
+inline void TilemapComponent::Render(float alpha)
 {
     if (shape_ == nullptr) return;
     shape_->SetVertices(vertices_);
     shape_->SetIndices(indices_);
     shape_->SetTexture(tilemap_texture_);
-    shape_->SetScale({ 0.01f, 0.01f });
+    shape_->SetScale({1.f / 64.f, 1.f / 64.f}); // 1.f / PPU
+    shape_->SetPivot({map_size_.x / 2.f, -(map_size_.y / 2.f)});
     shape_->SetZOrder(1);
     World::Get()->AddShape(shape_);
 }
 
-void TmxTiledMap::DrawImageTile(tmx::TileLayer layer)
+void TilemapComponent::DrawImageTile(tmx::TileLayer layer)
 {
     const auto map_size = map_.getTileCount();
+    map_size_ = {static_cast<float>(map_size.x), static_cast<float>(map_size.y)};
+    
     const auto tile_size = map_.getTileSize();
 
     const auto& tileset = map_.getTilesets()[0];
@@ -83,7 +79,6 @@ void TmxTiledMap::DrawImageTile(tmx::TileLayer layer)
 
     const auto tex_width = tilemap_texture_->GetWidth();
     const auto tex_height = tilemap_texture_->GetHeight();
-
 
     const auto tile_count_x = tex_width / tile_size.x;
     const auto tile_count_y = tex_height / tile_size.y;
@@ -131,7 +126,7 @@ void TmxTiledMap::DrawImageTile(tmx::TileLayer layer)
     }
 }
 
-void TmxTiledMap::GeneratePhysics(tmx::ObjectGroup object)
+void TilemapComponent::GeneratePhysics(tmx::ObjectGroup object)
 {
     auto&& objects = object.getObjects();
     
@@ -148,13 +143,8 @@ void TmxTiledMap::GeneratePhysics(tmx::ObjectGroup object)
 
         b2FixtureDef fixtureDef;
         fixtureDef.shape = &shape;
-        
-        
 
         b2Body* body = World::Get()->physics_world_->CreateBody(&bodyDef);
         body->CreateFixture(&fixtureDef);
-        
-
     }
-
 }

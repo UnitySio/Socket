@@ -7,7 +7,7 @@
 #include "../Engine/Actor/Component/RigidBodyComponent.h"
 #include <Windows.h>
 #include "tmxlite/Map.hpp"
-#include "../TmxTiledMap.h"
+#include "Actor/Component/TilemapComponent.h"
 
 MainMap::MainMap(const std::wstring& kName) : Level(kName)
 {
@@ -27,36 +27,14 @@ void MainMap::Load()
     pawn2 = MAKE_SHARED<Pawn>(L"Pawn");
     AddActor(pawn2);
     pawn2->GetComponent<RigidBodyComponent>()->SetGravityScale(0);
-    map = pawn2->CreateComponent<TmxTiledMap>(L"NoNamed");
+    map = pawn2->CreateComponent<TilemapComponent>(L"NoNamed");
     map->Load(".\\Game_Data\\Tile\\demo.tmx");
     
 
-    pawn->GetTransform()->SetRelativeLocation({3.5f, 2.f});
+    // pawn->GetTransform()->SetRelativeLocation({3.5f, 2.f});
     pawn2->GetTransform()->SetRelativeLocation({-10.0f, 2.f});
 
     FollowCamera* follow_camera = dynamic_cast<FollowCamera*>(camera.get());
     follow_camera->SetFollow(pawn.get());
-    
-    Keyboard::Get()->RegisterKey(VK_F1);
-    Keyboard::Get()->RegisterKey(VK_F2);
-    Keyboard::Get()->OnDown.Add(this, &MainMap::OnKeyDown);
-    Keyboard::Get()->Pressed.Add(this, &MainMap::OnKeyPressed);
-    Keyboard::Get()->OnUp.Add(this, &MainMap::OnKeyUp);
 
 }
-
-void MainMap::OnKeyDown(const EventKeyboard& e)
-{
-    std::cout << "" << std::endl;
-}
-
-void MainMap::OnKeyPressed(const EventKeyboard& e)
-{
-    std::cout << "" << std::endl;
-}
-
-void MainMap::OnKeyUp(const EventKeyboard& e)
-{
-    std::cout << "" << std::endl;
-}
-

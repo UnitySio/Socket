@@ -1,22 +1,22 @@
 #pragma once
 #include "Actor/Component/ActorComponent.h"
 #include <vector>
-#include "Engine/Windows/DX/Vertex.h"
 #include "Math/MathTypes.h"
+#include "Math/Vector2.h"
 #include "Misc/EngineMacros.h"
 #include "tmxlite/Map.hpp"
+#include "Windows/DX/Vertex.h"
 
 class Shape;
 
-class TmxTiledMap : public ActorComponent
+class TilemapComponent : public ActorComponent
 {
 public:
-	TmxTiledMap(const char* kPath, class Actor* owner = nullptr, const std::wstring& kName = L"UnNamed");
-	TmxTiledMap(class Actor* owner, const std::wstring& kName);
+	TilemapComponent(const char* kPath, class Actor* owner = nullptr, const std::wstring& kName = L"UnNamed");
+	TilemapComponent(class Actor* owner, const std::wstring& kName);
 
 	void Load();
 	void Load(const char* kPath);
-
 
 private:
 	virtual inline void Render(float alpha) override;
@@ -32,6 +32,8 @@ private:
 	SHARED_PTR<Shape> shape_;
 	
 	//SHARED_PTR<Shape> Render();
+
+	Math::Vector2 map_size_;
 
 };
 

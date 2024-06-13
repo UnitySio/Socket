@@ -36,7 +36,7 @@ private:
     friend class Physics;
     friend class Level;
     friend class Actor;
-    friend class TmxTiledMap;
+    friend class TilemapComponent;
 
     SHARED_PTR<WindowsWindow> window_;
     

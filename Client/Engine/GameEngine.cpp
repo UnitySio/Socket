@@ -11,14 +11,11 @@
 #include "Windows/DX/Renderer.h"
 #include "Windows/DX/Shape.h"
 #include "Windows/DX/ShapeBatch.h"
-#include "Windows/DX/Texture.h"
-#include "../TmxTiledMap.h"
 
 
 GameEngine::GameEngine() :
     game_window_(nullptr),
     shape_batch_(nullptr)
-    //map(MAKE_SHARED<TmxTiledMap>(".\\Game_Data\\Tile\\demo.tmx"))
 {
 }
 
@@ -51,12 +48,6 @@ void GameEngine::Init(const SHARED_PTR<WindowsWindow>& window)
     ImGui_ImplWin32_Init(game_window_->GetHWnd());
     ImGui_ImplDX11_Init(Renderer::Get()->GetDevice(), Renderer::Get()->GetDeviceContext());
 #pragma endregion
-
-    /*if (map_.load(".\\Game_Data\\Tile\\demo.tmx"))
-    {
-        
-    }*/
-    
     
 }
 
