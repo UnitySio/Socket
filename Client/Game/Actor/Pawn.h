@@ -1,7 +1,6 @@
 ﻿#pragma once
 #include "Actor/Actor.h"
 #include "Misc/Delegate.h"
-#include "Misc/DelegateMacros.h"
 #include "Time/TimerManager.h"
 
 class Sprite;

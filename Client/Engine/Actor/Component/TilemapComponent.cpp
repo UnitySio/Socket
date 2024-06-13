@@ -1,4 +1,7 @@
 #include "TilemapComponent.h"
+
+#include "TransformComponent.h"
+#include "Actor/Actor.h"
 #include "tmxlite/Tileset.hpp"
 #include "tmxlite/Layer.hpp"
 #include "Windows/DX/Texture.h"
@@ -61,6 +64,8 @@ inline void TilemapComponent::Render(float alpha)
     shape_->SetVertices(vertices_);
     shape_->SetIndices(indices_);
     shape_->SetTexture(tilemap_texture_);
+    shape_->SetPosition(GetOwner()->GetTransform()->GetWorldLocation());
+    shape_->SetRotation(GetOwner()->GetTransform()->GetWorldRotationZ());
     shape_->SetScale({1.f / 64.f, 1.f / 64.f}); // 1.f / PPU
     shape_->SetPivot({map_size_.x / 2.f, -(map_size_.y / 2.f)});
     shape_->SetZOrder(1);
