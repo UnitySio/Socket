@@ -19,7 +19,7 @@ class ProjectSettings
 {
 public:
     static inline constexpr bool kShowFrameRate = true; // 프레임레이트 표시 여부
-    static inline constexpr bool kUseVSync = true; // 수직동기화 사용 여부
+    static inline constexpr bool kUseVSync = false; // 수직동기화 사용 여부
 
     static inline constexpr float kFixedTimeStep = .02f; // 고정 프레임 간격
 

@@ -12,7 +12,7 @@
 
 double Core::current_time_ = 0.;
 double Core::last_time_ = 0.;
-double Core::time_step_ = 1. / 60.;
+double Core::time_step_ = 1. / 144.;
 double Core::delta_time_ = 0.;
 
 MathTypes::uint32 Core::resize_width_ = 0;
