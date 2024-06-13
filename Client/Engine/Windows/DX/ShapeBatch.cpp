@@ -186,3 +186,5 @@ void ShapeBatch::DrawShapes(const SHARED_PTR<WindowsWindow>& kWindow, const std:
 #pragma endregion
     }
 }
+
+

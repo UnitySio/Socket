@@ -58,6 +58,7 @@ public:
     bool CreateDepthStencilBuffer(Viewport& viewport);
     bool ResizeViewport(const SHARED_PTR<WindowsWindow>& window, MathTypes::uint32 width, MathTypes::uint32 height);
 
+    
     // TEST
     bool CreateRenderToTexture();
 

@@ -19,7 +19,6 @@
     <ClCompile Include="Engine\Level\Listener\QueryCallback.cpp" />
     <ClCompile Include="Engine\Level\World.cpp" />
     <ClCompile Include="Engine\Time\Time.cpp" />
-    <ClCompile Include="Game\Actor\Floor.cpp" />
     <ClCompile Include="Game\Actor\FollowCamera.cpp" />
     <ClCompile Include="Game\Actor\Pawn.cpp" />
     <ClCompile Include="Game\Map\MainMap.cpp" />
@@ -55,9 +54,8 @@
     <ClCompile Include="Engine\Input\Keyboard.cpp" />
     <ClCompile Include="Engine\Time\TimerManager.cpp" />
     <ClCompile Include="Engine\Windows\DX\Sprite.cpp" />
-    <ClCompile Include="TmxTiledMap.cpp">
-      <Filter>TileMap</Filter>
-    </ClCompile>
+    <ClCompile Include="Engine\Actor\Component\TilemapComponent.cpp" />
+    <ClCompile Include="Game\Actor\Tilemap.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h" />
@@ -77,7 +75,6 @@
     <ClInclude Include="Engine\Singleton.h" />
     <ClInclude Include="Engine\Time\Time.h" />
     <ClInclude Include="framework.h" />
-    <ClInclude Include="Game\Actor\Floor.h" />
     <ClInclude Include="Game\Actor\FollowCamera.h" />
     <ClInclude Include="Game\Actor\Pawn.h" />
     <ClInclude Include="Game\Map\MainMap.h" />
@@ -211,9 +208,8 @@
     <ClInclude Include="Include\tmxlite\Tileset.hpp" />
     <ClInclude Include="Include\tmxlite\Types.hpp" />
     <ClInclude Include="Include\tmxlite\Types.inl" />
-    <ClInclude Include="TmxTiledMap.h">
-      <Filter>TileMap</Filter>
-    </ClInclude>
+    <ClInclude Include="Engine\Actor\Component\TilemapComponent.h" />
+    <ClInclude Include="Game\Actor\Tilemap.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Resource.rc" />

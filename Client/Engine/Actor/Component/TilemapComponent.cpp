@@ -9,6 +9,8 @@
 #include "Windows/DX/Shape.h"
 #include "box2d/box2d.h"
 #include "Level/World.h"
+#include "tmxlite/ImageLayer.hpp"
+
 
 
 TilemapComponent::TilemapComponent(const char* kPath, Actor* owner, const std::wstring& kName) :
@@ -23,6 +25,27 @@ TilemapComponent::TilemapComponent(const char* kPath, Actor* owner, const std::w
 TilemapComponent::TilemapComponent(Actor* owner, const std::wstring& kName)
 	:ActorComponent(owner, kName)
 {
+}
+
+void TilemapComponent::LoadImageLayerByName(const char* kLayer, const int& order)
+{
+	const auto& tilesets = map_.getTilesets();
+	std::wstring tileset_path = std::wstring(tilesets[0].getImagePath().begin(), tilesets[0].getImagePath().end());
+
+	tilemap_texture_ = MAKE_SHARED<Texture>();
+	CHECK(tilemap_texture_->Load(tileset_path));
+
+	const auto& layers = map_.getLayers();
+
+	for (int i = 0; i < layers.size(); ++i)
+	{
+		auto&& name = layers[i]->getName();
+		if (name == kLayer)
+		{
+			auto&& layer = layers[i]->getLayerAs<tmx::ImageLayer>();
+			std::wstring imagePath = std::wstring(layer.getImagePath().begin(), layer.getImagePath().end());
+		}
+	}
 }
 
 void TilemapComponent::Load()
@@ -51,11 +74,59 @@ void TilemapComponent::Load()
 	}
 }
 
-void TilemapComponent::Load(const char* kPath)
+void TilemapComponent::LoadMap(const char* kPath)
+{
+	map_.load(kPath);
+	shape_ = MAKE_SHARED<Shape>();
+}
+
+void TilemapComponent::LoadAll(const char* kPath)
 {
 	map_.load(kPath);
 	shape_ = MAKE_SHARED<Shape>();
 	Load();
+}
+
+void TilemapComponent::LoadTileLayerByName(const char* kLayer, const int& order)
+{
+	const auto& tilesets = map_.getTilesets();
+	std::wstring tileset_path = std::wstring(tilesets[0].getImagePath().begin(), tilesets[0].getImagePath().end());
+
+	tilemap_texture_ = MAKE_SHARED<Texture>();
+	CHECK(tilemap_texture_->Load(tileset_path));
+	const auto& layers = map_.getLayers();
+
+	for (int i = 0; i < layers.size(); ++i)
+	{
+		auto&& name = layers[i]->getName();
+		if (name == kLayer)
+		{
+			auto&& layer = layers[i]->getLayerAs<tmx::TileLayer>();
+			DrawImageTile(layer);
+			zOrder_ = order;
+		}
+	}
+}
+
+void TilemapComponent::GenerateBlockLayer()
+{
+	const auto& tilesets = map_.getTilesets();
+	std::wstring tileset_path = std::wstring(tilesets[0].getImagePath().begin(), tilesets[0].getImagePath().end());
+
+	tilemap_texture_ = MAKE_SHARED<Texture>();
+	CHECK(tilemap_texture_->Load(tileset_path));
+
+	const auto& layers = map_.getLayers();
+
+	for (int i = 0; i < layers.size(); ++i)
+	{
+		auto&& name = layers[i]->getName();
+		if (name == "Physics")
+		{
+			auto&& layer = layers[i]->getLayerAs<tmx::ObjectGroup>();
+			GeneratePhysics(layer);
+		}
+	}
 }
 
 inline void TilemapComponent::Render(float alpha)
@@ -67,7 +138,7 @@ inline void TilemapComponent::Render(float alpha)
 	shape_->SetPosition(GetOwner()->GetTransform()->GetWorldLocation());
 	shape_->SetScale({ 1.f / 64.f, 1.f / 64.f }); // 1.f / PPU
 	shape_->SetPivot({ map_size_.x / 2.f, -(map_size_.y / 2.f) });
-	shape_->SetZOrder(1);
+	shape_->SetZOrder(zOrder_);
 	World::Get()->AddShape(shape_);
 }
 
