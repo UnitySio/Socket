@@ -90,6 +90,7 @@ void TilemapComponent::DrawImageTile(tmx::TileLayer layer)
 
     const auto u_normal = static_cast<float>(tile_size.x) / static_cast<float>(tex_width);
     const auto v_normal = static_cast<float>(tile_size.y) / static_cast<float>(tex_height);
+    
     for (auto y = 0u; y < map_size.y; ++y)
     {
         for (auto x = 0u; x < map_size.x; ++x)
@@ -108,7 +109,7 @@ void TilemapComponent::DrawImageTile(tmx::TileLayer layer)
                 v /= tex_height;
 
                 const float tile_pos_x = static_cast<float>(x * tile_size.x);
-                const float tile_pos_y = static_cast<float>(y * tile_size.y);
+                const float tile_pos_y = static_cast<float>(y * tile_size.y) + tile_size.y;
 
                 DefaultVertex vertex = { {tile_pos_x, -tile_pos_y, 0.f}, {1.f, 1.f, 1.f, 1.f}, {u, v + v_normal} };
                 vertices_.push_back(vertex);
