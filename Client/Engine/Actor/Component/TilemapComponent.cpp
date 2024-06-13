@@ -67,7 +67,7 @@ inline void TilemapComponent::Render(float alpha)
     shape_->SetPosition(GetOwner()->GetTransform()->GetWorldLocation());
     shape_->SetRotation(GetOwner()->GetTransform()->GetWorldRotationZ());
     shape_->SetScale({1.f / 64.f, 1.f / 64.f}); // 1.f / PPU
-    shape_->SetPivot({map_size_.x / 2.f, -(map_size_.y / 2.f)});
+    //shape_->SetPivot({map_size_.x / 2.f, -(map_size_.y / 2.f)});
     shape_->SetZOrder(1);
     World::Get()->AddShape(shape_);
 }
@@ -141,11 +141,11 @@ void TilemapComponent::GeneratePhysics(tmx::ObjectGroup object)
         auto&& temp = objects.at(i);
         b2BodyDef bodyDef;
         //bodyDef.position.Set(temp.getAABB().left, temp.getAABB().top);
-        bodyDef.position.Set(temp.getPosition().x * 0.02f, temp.getPosition().y * -0.01f);
+        bodyDef.position.Set(temp.getPosition().x /64.f + ((temp.getAABB().width/2)/64.f), -1 * temp.getPosition().y / 64.f - ((temp.getAABB().height / 2) / 64.f));
         bodyDef.type = b2_staticBody;
 
         b2PolygonShape shape;
-        shape.SetAsBox(temp.getAABB().width / 2 * 0.01f, temp.getAABB().height / 2 * 0.01f);
+        shape.SetAsBox(temp.getAABB().width / 2 * 1/64.f, temp.getAABB().height / 2 * 1/64.f);
 
         b2FixtureDef fixtureDef;
         fixtureDef.shape = &shape;
