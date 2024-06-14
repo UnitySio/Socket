@@ -189,7 +189,7 @@ void TilemapComponent::DrawImageTile(tmx::TileLayer layer, const int& zOrder)
 	shape->SetScale({ 1.f / 64.f, 1.f / 64.f }); // 1.f / PPU
 	shape->SetPivot({ map_size_.x / 2.f, -(map_size_.y / 2.f) });
 	shape->SetZOrder(zOrder);
-	shape_.push_back(shape);
+	shape_.push_back(std::move(shape));
 }
 
 void TilemapComponent::GeneratePhysics(tmx::ObjectGroup object)
