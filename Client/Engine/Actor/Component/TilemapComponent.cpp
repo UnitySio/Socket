@@ -48,7 +48,7 @@ void TilemapComponent::Load()
 	for (int i = 0; i < layers.size(); ++i)
 	{
 		auto&& name = layers[i]->getName();
-		if (name == "Physics")
+		if (name == "Block")
 		{
 			auto&& layer = layers[i]->getLayerAs<tmx::ObjectGroup>();
 			GeneratePhysics(layer);
@@ -104,7 +104,7 @@ void TilemapComponent::GenerateBlockLayer()
 	for (int i = 0; i < layers.size(); ++i)
 	{
 		auto&& name = layers[i]->getName();
-		if (name == "Physics")
+		if (name == "Block")
 		{
 			auto&& layer = layers[i]->getLayerAs<tmx::ObjectGroup>();
 			GeneratePhysics(layer);
