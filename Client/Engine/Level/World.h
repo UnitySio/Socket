@@ -54,7 +54,6 @@ private:
     SHARED_PTR<Level> levels_[static_cast<size_t>(LevelType::kEnd)];
 
     int fps_;
-    
 };
 
 template <std::derived_from<Level> T>

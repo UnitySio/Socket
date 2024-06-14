@@ -186,7 +186,7 @@ void TilemapComponent::DrawImageTile(tmx::TileLayer layer, const int& zOrder)
 	shape->SetIndices(indices_);
 	shape->SetTexture(tilemap_texture_);
 	shape->SetPosition(GetOwner()->GetTransform()->GetWorldLocation());
-	shape->SetScale({ 1.f / 64.f, 1.f / 64.f }); // 1.f / PPU
+	shape->SetScale({ 1.f / PPU, 1.f / PPU }); // 1.f / PPU
 	shape->SetPivot({ map_size_.x / 2.f, -(map_size_.y / 2.f) });
 	shape->SetZOrder(zOrder);
 	shape_.push_back(std::move(shape));
@@ -201,11 +201,11 @@ void TilemapComponent::GeneratePhysics(tmx::ObjectGroup object)
 		auto&& temp = objects.at(i);
 		b2BodyDef bodyDef;
 		//bodyDef.position.Set(temp.getAABB().left, temp.getAABB().top);
-		bodyDef.position.Set(temp.getPosition().x / 64.f + ((temp.getAABB().width / 2) / 64.f) - map_size_.x / 2.f, -1 * temp.getPosition().y / 64.f - ((temp.getAABB().height / 2) / 64.f) + map_size_.y / 2.f);
+		bodyDef.position.Set(temp.getPosition().x / PPU + ((temp.getAABB().width / 2) / PPU) - map_size_.x / 2.f, -1 * temp.getPosition().y / PPU - ((temp.getAABB().height / 2) / PPU) + map_size_.y / 2.f);
 		bodyDef.type = b2_staticBody;
 
 		b2PolygonShape shape;
-		shape.SetAsBox(temp.getAABB().width / 2 / 64.f, temp.getAABB().height / 2 / 64.f);
+		shape.SetAsBox(temp.getAABB().width / 2 / PPU, temp.getAABB().height / 2 / PPU);
 
 		b2FixtureDef fixtureDef;
 		fixtureDef.shape = &shape;
