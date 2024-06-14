@@ -38,7 +38,7 @@ public:
 private:
     void Load();
     virtual inline void Render(float alpha) override;
-    void DrawImageTile(tmx::TileLayer layer);
+    void DrawImageTile(tmx::TileLayer layer, const int& zOrder = 1);
     void GeneratePhysics(tmx::ObjectGroup object);
 
 private:
@@ -46,8 +46,7 @@ private:
     tmx::Map map_;
     std::vector<DefaultVertex> vertices_;
     std::vector<MathTypes::uint32> indices_;
-    SHARED_PTR<Shape> shape_;
-    int zOrder_;
+    std::vector<SHARED_PTR<Shape>> shape_;
     Math::Vector2 map_size_;
 };
 
