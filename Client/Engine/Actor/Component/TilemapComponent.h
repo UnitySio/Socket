@@ -13,6 +13,7 @@ class Shape;
 
 class TilemapComponent : public ActorComponent
 {
+    const float PPU = 64.f;
 public:
     TilemapComponent(const char* kPath, class Actor* owner = nullptr, const std::wstring& kName = L"UnNamed");
     TilemapComponent(class Actor* owner, const std::wstring& kName);
