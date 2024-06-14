@@ -128,7 +128,29 @@ void World::DestroyActor()
     }
 }
 
+
+
 void World::AddShape(const SHARED_PTR<Shape>& shape)
 {
     shapes_.push_back(shape);
+}
+
+void World::ObjectProcess()
+{
+    for (const auto& temp : spawnList_)
+    {
+        GetLevel()->AddActor(temp);
+    }
+    spawnList_.clear();
+
+    for (const auto& temp : removeList_)
+    {
+        for (auto it = GetLevel()->actors_.begin(); it != GetLevel()->actors_.end(); ++it)
+        {
+            if (*it == temp)
+                GetLevel()->actors_.erase(it);
+            break;
+        }
+    }
+    removeList_.clear();
 }

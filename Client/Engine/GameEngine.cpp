@@ -98,6 +98,7 @@ void GameEngine::GameLoop(float delta_time)
     World::Get()->RenderUI();
     Renderer::Get()->EndRenderD2D();
     Renderer::Get()->EndRender();
+    World::Get()->ObjectProcess();
 #pragma endregion
     
 }

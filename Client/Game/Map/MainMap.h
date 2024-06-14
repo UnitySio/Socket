@@ -3,6 +3,8 @@
 
 class TilemapComponent;
 
+struct EventKeyboard;
+
 class MainMap : public Level
 {
 public:
@@ -11,4 +13,5 @@ public:
 
     virtual void Load() override;
     
+    void OnKeyDown(const EventKeyboard& kE);
 };

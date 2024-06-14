@@ -17,6 +17,7 @@
 #include "Windows/DX/Shape.h"
 #include "Windows/DX/Sprite.h"
 #include "Windows/DX/Texture.h"
+#include "Level/Level.h"
 
 Pawn::Pawn(const std::wstring& kName) :
     Actor(kName),
@@ -75,8 +76,16 @@ void Pawn::Tick(float delta_time)
     
     if (input_->IsKeyDown(VK_SPACE))
     {
-        rigid_body_->SetVelocity(Math::Vector2::Zero());
-        rigid_body_->AddForce(Math::Vector2::Up() * 5.f, ForceMode::kImpulse);
+        //rigid_body_->SetVelocity(Math::Vector2::Zero());
+        //rigid_body_->AddForce(Math::Vector2::Up() * 5.f, ForceMode::kImpulse);
+        auto temp = World::Get()->SpawnActor<Pawn>(L"Pawn");
+        temp->GetTransform()->SetRelativeLocation({ 2.5f, 2.f });
+    }
+
+    if (input_->IsKeyDown(VK_RIGHT))
+    {
+        //rigid_body_->SetVelocity(Math::Vector2::Zero());
+        //rigid_body_->AddForce(Math::Vector2::Up() * 5.f, ForceMode::kImpulse);
     }
 
     timer_ += delta_time;

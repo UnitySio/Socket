@@ -5,13 +5,17 @@
 #include "box2d/b2_world.h"
 #include "Listener/ContactListener.h"
 #include "Windows/DX/Renderer.h"
+#include <type_traits>
+
 
 class Shape;
 class ShapeBatch;
 class Level;
+class Actor;
 
 class World : public Singleton<World>
 {
+    using Object = Actor;
 public:
     World();
     virtual ~World() override = default;
@@ -24,6 +28,9 @@ public:
     void RenderUI();
     void DestroyActor();
 
+    template<typename T>
+    SHARED_PTR<T> SpawnActor(const std::wstring& kName, typename std::enable_if<std::is_class<typename std::decay<T>::type>::value>::type* = nullptr);
+
     template<std::derived_from<Level> T>
     T* AddLevel(LevelType type, std::wstring name);
 
@@ -31,6 +38,7 @@ public:
     inline Level* GetLevel() const { return current_level_; }
 
     void AddShape(const SHARED_PTR<Shape>& shape);
+    void ObjectProcess();
 
 private:
     friend class Physics;
@@ -52,9 +60,21 @@ private:
     
     Level* current_level_;
     SHARED_PTR<Level> levels_[static_cast<size_t>(LevelType::kEnd)];
-
+    
+    std::vector<SHARED_PTR<Object>> spawnList_;
+    std::vector<SHARED_PTR<Object>> removeList_;
+    
     int fps_;
 };
+
+template<typename T>
+inline SHARED_PTR<T> World::SpawnActor(const std::wstring& kName, typename std::enable_if<std::is_class<typename std::decay<T>::type>::value>::type*)
+{
+    static_assert(std::is_base_of<Object, T>::value, "T Must Derived From Object");
+    SHARED_PTR<T> object = MAKE_SHARED<T>(kName);
+    spawnList_.push_back(object);
+    return object;
+}
 
 template <std::derived_from<Level> T>
 T* World::AddLevel(LevelType type, std::wstring name)
