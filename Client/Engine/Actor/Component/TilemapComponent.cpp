@@ -18,7 +18,6 @@ TilemapComponent::TilemapComponent(const char* kPath, Actor* owner, const std::w
 	map_size_(Math::Vector2::Zero())
 {
 	map_.load(kPath);
-	shape_ = MAKE_SHARED<Shape>();
 	Load();
 }
 
@@ -29,12 +28,6 @@ TilemapComponent::TilemapComponent(Actor* owner, const std::wstring& kName)
 
 void TilemapComponent::LoadImageLayerByName(const char* kLayer, const int& order)
 {
-	const auto& tilesets = map_.getTilesets();
-	std::wstring tileset_path = std::wstring(tilesets[0].getImagePath().begin(), tilesets[0].getImagePath().end());
-
-	tilemap_texture_ = MAKE_SHARED<Texture>();
-	CHECK(tilemap_texture_->Load(tileset_path));
-
 	const auto& layers = map_.getLayers();
 
 	for (int i = 0; i < layers.size(); ++i)
@@ -50,12 +43,6 @@ void TilemapComponent::LoadImageLayerByName(const char* kLayer, const int& order
 
 void TilemapComponent::Load()
 {
-	const auto& tilesets = map_.getTilesets();
-	std::wstring tileset_path = std::wstring(tilesets[0].getImagePath().begin(), tilesets[0].getImagePath().end());
-
-	tilemap_texture_ = MAKE_SHARED<Texture>();
-	CHECK(tilemap_texture_->Load(tileset_path));
-
 	const auto& layers = map_.getLayers();
 
 	for (int i = 0; i < layers.size(); ++i)
@@ -77,23 +64,26 @@ void TilemapComponent::Load()
 void TilemapComponent::LoadMap(const char* kPath)
 {
 	map_.load(kPath);
-	shape_ = MAKE_SHARED<Shape>();
+	const auto& tilesets = map_.getTilesets();
+	std::wstring tileset_path = std::wstring(tilesets[0].getImagePath().begin(), tilesets[0].getImagePath().end());
+	tilemap_texture_ = MAKE_SHARED<Texture>();
+	CHECK(tilemap_texture_->Load(tileset_path));
+
 }
 
 void TilemapComponent::LoadAll(const char* kPath)
 {
 	map_.load(kPath);
-	shape_ = MAKE_SHARED<Shape>();
+	const auto& tilesets = map_.getTilesets();
+	std::wstring tileset_path = std::wstring(tilesets[0].getImagePath().begin(), tilesets[0].getImagePath().end());
+	tilemap_texture_ = MAKE_SHARED<Texture>();
+	CHECK(tilemap_texture_->Load(tileset_path));
 	Load();
 }
 
 void TilemapComponent::LoadTileLayerByName(const char* kLayer, const int& order)
 {
-	const auto& tilesets = map_.getTilesets();
-	std::wstring tileset_path = std::wstring(tilesets[0].getImagePath().begin(), tilesets[0].getImagePath().end());
-
-	tilemap_texture_ = MAKE_SHARED<Texture>();
-	CHECK(tilemap_texture_->Load(tileset_path));
+	
 	const auto& layers = map_.getLayers();
 
 	for (int i = 0; i < layers.size(); ++i)
@@ -102,20 +92,13 @@ void TilemapComponent::LoadTileLayerByName(const char* kLayer, const int& order)
 		if (name == kLayer)
 		{
 			auto&& layer = layers[i]->getLayerAs<tmx::TileLayer>();
-			DrawImageTile(layer);
-			zOrder_ = order;
+			DrawImageTile(layer, order);
 		}
 	}
 }
 
 void TilemapComponent::GenerateBlockLayer()
 {
-	const auto& tilesets = map_.getTilesets();
-	std::wstring tileset_path = std::wstring(tilesets[0].getImagePath().begin(), tilesets[0].getImagePath().end());
-
-	tilemap_texture_ = MAKE_SHARED<Texture>();
-	CHECK(tilemap_texture_->Load(tileset_path));
-
 	const auto& layers = map_.getLayers();
 
 	for (int i = 0; i < layers.size(); ++i)
@@ -131,18 +114,15 @@ void TilemapComponent::GenerateBlockLayer()
 
 inline void TilemapComponent::Render(float alpha)
 {
-	if (shape_ == nullptr) return;
-	shape_->SetVertices(vertices_);
-	shape_->SetIndices(indices_);
-	shape_->SetTexture(tilemap_texture_);
-	shape_->SetPosition(GetOwner()->GetTransform()->GetWorldLocation());
-	shape_->SetScale({ 1.f / 64.f, 1.f / 64.f }); // 1.f / PPU
-	shape_->SetPivot({ map_size_.x / 2.f, -(map_size_.y / 2.f) });
-	shape_->SetZOrder(zOrder_);
-	World::Get()->AddShape(shape_);
+	if (shape_.size() == 0) return;
+	
+	for (int i = 0; i < shape_.size(); ++i)
+	{
+		World::Get()->AddShape(shape_[i]);
+	}
 }
 
-void TilemapComponent::DrawImageTile(tmx::TileLayer layer)
+void TilemapComponent::DrawImageTile(tmx::TileLayer layer, const int& zOrder)
 {
 	const auto map_size = map_.getTileCount();
 	map_size_ = { static_cast<float>(map_size.x), static_cast<float>(map_size.y) };
@@ -200,6 +180,16 @@ void TilemapComponent::DrawImageTile(tmx::TileLayer layer)
 			}
 		}
 	}
+
+	SHARED_PTR<Shape> shape = MAKE_SHARED<Shape>();
+	shape->SetVertices(vertices_);
+	shape->SetIndices(indices_);
+	shape->SetTexture(tilemap_texture_);
+	shape->SetPosition(GetOwner()->GetTransform()->GetWorldLocation());
+	shape->SetScale({ 1.f / 64.f, 1.f / 64.f }); // 1.f / PPU
+	shape->SetPivot({ map_size_.x / 2.f, -(map_size_.y / 2.f) });
+	shape->SetZOrder(zOrder);
+	shape_.push_back(shape);
 }
 
 void TilemapComponent::GeneratePhysics(tmx::ObjectGroup object)
