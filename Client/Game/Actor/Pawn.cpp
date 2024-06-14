@@ -22,8 +22,7 @@ Pawn::Pawn(const std::wstring& kName) :
     Actor(kName),
     dir_(1),
     timer_(0.f),
-    frame_index_(0),
-    angle_(0.f)
+    frame_index_(0)
 {
     input_ = CreateComponent<InputComponent>(L"Input");
     input_->RegisterKey(VK_RIGHT);
@@ -42,18 +41,13 @@ Pawn::Pawn(const std::wstring& kName) :
     sprite_ = MAKE_SHARED<Sprite>();
     CHECK_IF(sprite_->Load(L".\\Game_Data\\spritesheet.png"), L"Failed to load texture");
 
-    sprite_->Split(15, 3, {.5f, .25f});
-
-    sprite_->SetWrapMode(WrapMode::kClamp);
-    sprite_->SetFilterMode(FilterMode::kPoint);
+    sprite_->Split(15, 3, {.5f, .45f});
     
 }
 
 void Pawn::BeginPlay()
 {
     Actor::BeginPlay();
-
-    timer_handle_ = TimerManager::Get()->SetTimer(this, &Pawn::OnCallback, 3.f, true);
     
 }
 
@@ -85,11 +79,6 @@ void Pawn::Tick(float delta_time)
         frame_index_ = (frame_index_ + 1) % 6;
         timer_ = 0.f;
     }
-
-    if (is_rotating_)
-    {
-        angle_ += 180 * delta_time;
-    }
     
 }
 
@@ -109,7 +98,7 @@ void Pawn::Render(float alpha)
     shape->SetIndices(sprite_->GetIndices());
     shape->SetTexture(sprite_);
     shape->SetPosition(GetTransform()->GetWorldLocation());
-    shape->SetRotation(angle_);
+    shape->SetRotation(GetTransform()->GetWorldRotationZ());
     shape->SetScale({width * dir_, height});
     shape->SetUVOffset(frames[frame_index_].uv_offset);
     shape->SetUVScale(frames[frame_index_].uv_scale);
@@ -118,10 +107,4 @@ void Pawn::Render(float alpha)
 
     World::Get()->AddShape(shape);
     
-}
-
-void Pawn::OnCallback()
-{
-    // OutputDebugString(L"Callback\n");
-    is_rotating_ = !is_rotating_;
 }
