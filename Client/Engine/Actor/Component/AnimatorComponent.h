@@ -11,6 +11,7 @@ public:
 	void Tick(float delta_time);
 	void MakeAnimationClip(std::wstring clipname,int selected[],int size);
 	void MakeAnimationClip(std::wstring clipname, int start_index, int end_index);
+	void ChangeAnimationClip();
 
 	SpriteRendererComponent* sprite_renderer_;
 

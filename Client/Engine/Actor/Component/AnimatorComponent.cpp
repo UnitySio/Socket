@@ -11,6 +11,18 @@ AnimatorComponent::AnimatorComponent(Actor* owner, const std::wstring& kName)
 
 void AnimatorComponent::Tick(float delta_time)
 {
+    for (auto var : playing_clip_->triggers_)
+    {
+        if (var.second.value_ && !var.second.hasExitTime)
+        {
+            timer_ = 0;
+            playing_index_ = 0;
+
+            playing_clip_ = clips_[var.second.target_clip_];
+            break;
+        }
+    }
+
     timer_ += delta_time;
     if (timer_ >= 1.f / playing_clip_->playbackSpeed)
     {
@@ -21,10 +33,25 @@ void AnimatorComponent::Tick(float delta_time)
             playing_index_++;
             sprite_renderer_->frame_index_ = playing_clip_->include_frames_[playing_index_];
         }
-        else if (playing_clip_->isRepeat)
+        else
         {
-            playing_index_ = 0;
-            sprite_renderer_->frame_index_ = playing_clip_->include_frames_[0];
+            if (playing_clip_->isRepeat)
+            {
+                playing_index_ = 0;
+                sprite_renderer_->frame_index_ = playing_clip_->include_frames_[0];
+            }
+
+            for (auto &var : playing_clip_->triggers_)
+            {
+                if (var.second.value_)
+                {
+                    timer_ = 0;
+                    playing_index_ = 0;
+
+                    playing_clip_ = clips_[var.second.target_clip_];
+                    break;
+                }
+            }
         }
     }
 }
@@ -51,4 +78,9 @@ void AnimatorComponent::MakeAnimationClip(std::wstring clipname, int start_index
     }
 
     clips_.insert(std::make_pair(clipname, clip));
+}
+
+void AnimatorComponent::ChangeAnimationClip()
+{
+    
 }

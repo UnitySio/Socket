@@ -30,6 +30,7 @@ Pawn::Pawn(const std::wstring& kName) :
     input_->RegisterKey(VK_RIGHT);
     input_->RegisterKey(VK_LEFT);
     input_->RegisterKey(VK_SPACE);
+    input_->RegisterKey(0x41);
     
     box_collider_ = CreateComponent<BoxColliderComponent>(L"BoxCollider");
     box_collider_->SetSize({1.f, 1.f});
@@ -62,9 +63,12 @@ Pawn::Pawn(const std::wstring& kName) :
     animator_->clips_[L"Idle"]->SetPlaySpeed(6.f);
     animator_->playing_clip_ = animator_->clips_[L"Idle"];
 
-    animator_->MakeAnimationClip(L"Attack", 15, 42);
+    animator_->MakeAnimationClip(L"Attack", 7, 30);
     animator_->clips_[L"Attack"]->SetPlaySpeed(10.f);
-    animator_->playing_clip_ = animator_->clips_[L"Attack"];
+    
+    animator_->clips_[L"Idle"]->MakeTrigger(L"IsGoAtttack",L"Attack");
+    animator_->clips_[L"Attack"]->MakeTrigger(L"IsEndAtttack", L"Idle");
+    animator_->clips_[L"Attack"]->SetTrigger(L"IsEndAtttack", true);
     /////////////////////////////////////////////////////////
 
     delegate_.Add([](const std::wstring& kStr) -> void {});
@@ -97,6 +101,15 @@ void Pawn::Tick(float delta_time)
     {
         rigid_body_->SetVelocity(Math::Vector2::Zero());
         rigid_body_->AddForce(Math::Vector2::Up() * 5.f, ForceMode::kImpulse);
+    }
+
+    if (input_->IsKeyDown(0x41))
+    {
+        animator_->playing_clip_->SetTrigger(L"IsGoAtttack", true);
+    }
+    if (input_->IsKeyUp(0x41))
+    {
+        animator_->playing_clip_->SetTrigger(L"IsGoAtttack", false);
     }
 
     animator_->Tick(delta_time);
