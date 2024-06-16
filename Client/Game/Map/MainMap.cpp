@@ -9,6 +9,8 @@
 #include "tmxlite/Map.hpp"
 #include "Actor/Component/TilemapComponent.h"
 #include "Actor/Component/TransformComponent.h"
+#include "Misc/Delegate.h"
+#include "Misc/Function.h"
 
 MainMap::MainMap(const std::wstring& kName) : Level(kName)
 {
@@ -29,5 +31,6 @@ void MainMap::Load()
 
     FollowCamera* follow_camera = dynamic_cast<FollowCamera*>(camera.get());
     follow_camera->SetFollow(pawn.get());
-
+    
+    
 }

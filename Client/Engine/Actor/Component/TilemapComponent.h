@@ -14,6 +14,8 @@ class Shape;
 class TilemapComponent : public ActorComponent
 {
     const float PPU = 32.f;
+    const MathTypes::uint32 VertexBufferSize = 2048;
+    const MathTypes::uint32 IndexBufferSize = 2048 * 6 / 4;
 public:
     TilemapComponent(const char* kPath, class Actor* owner = nullptr, const std::wstring& kName = L"UnNamed");
     TilemapComponent(class Actor* owner, const std::wstring& kName);

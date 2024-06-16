@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="30" height="20" tilewidth="32" tileheight="32" infinite="0" nextlayerid="3" nextobjectid="2">
+<map version="1.8" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="80" height="20" tilewidth="32" tileheight="32" infinite="0" nextlayerid="3" nextobjectid="3">
  <tileset firstgid="1" name="DummyTileset" tilewidth="32" tileheight="32" tilecount="247" columns="19">
   <image source="images/tilemap/DummyTileset.png" width="608" height="416"/>
  </tileset>
- <layer id="1" name="Tile Layer 1" width="30" height="20">
+ <layer id="1" name="Tile Layer 1" width="80" height="20">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFo2AUjCQgCsRiUCxOR3s1gFgTirVGgL3WQGwDxbZ0tHcUjIJRMDgAAKcVApE=
+   eJztxsEJgDAUBcE0obYQbUGtNM36CvAahO8sDGxr7y2xxlb4Z9Zjj6Pwz+yMK+7CL0nSVw0AAAD4gQd1QmDC
   </data>
  </layer>
  <objectgroup id="2" name="Block">
   <object id="1" x="416" y="256" width="128" height="128"/>
+  <object id="2" x="6.06061" y="254.545" width="1587.88" height="96.9697"/>
  </objectgroup>
 </map>

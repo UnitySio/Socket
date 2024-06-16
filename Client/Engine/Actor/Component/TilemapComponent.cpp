@@ -149,25 +149,28 @@ void TilemapComponent::DrawImageTile(tmx::TileLayer layer, const int& zOrder)
 			if (idx < tile_ids.size() && tile_ids[idx].ID >= tileset.getFirstGID() &&
 				tile_ids[idx].ID < (tileset.getFirstGID() + tileset.getTileCount()))
 			{
-				auto id_index = (tile_ids[idx].ID - tileset.getFirstGID());
-				float u = static_cast<float>(id_index % tile_count_x);
-				float v = static_cast<float>(id_index / tile_count_x);
-				u *= tile_size.x;
-				v *= tile_size.y;
-
-				u /= tex_width;
-				v /= tex_height;
+				auto temp = tileset.getTile(tile_ids[idx].ID)->imagePosition;
+				//auto id_index = (tile_ids[idx].ID - tileset.getFirstGID());
+				//float u = static_cast<float>(id_index % tile_count_x);
+				//float v = static_cast<float>(id_index / tile_count_y);
+				//u *= tile_size.x;
+				//v *= tile_size.y;
+				//
+				//u /= tex_width;
+				//v /= tex_height;
+				float u = static_cast<float>(tileset.getTile(tile_ids[idx].ID)->imagePosition.x) / tex_width;
+				float v = static_cast<float>(tileset.getTile(tile_ids[idx].ID)->imagePosition.y) / tex_height;
 
 				const float tile_pos_x = static_cast<float>(x * tile_size.x);
 				const float tile_pos_y = static_cast<float>(y * tile_size.y) + tile_size.y;
 
 				DefaultVertex vertex = { {tile_pos_x, -tile_pos_y, 0.f}, {1.f, 1.f, 1.f, 1.f}, {u, v + v_normal} };
 				vertices_.push_back(vertex);
-				vertex = { {tile_pos_x + tile_size.x, -tile_pos_y, 0.f}, {1.f, 1.f, 1.f, 1.f}, {u + u_normal, v + v_normal} };
+				vertex = { {tile_pos_x + tile_size.x, -tile_pos_y, 0.f}, {1.f, 1.f, 1.f, 1.f}, {u + u_normal, v + v_normal } };
 				vertices_.push_back(vertex);
-				vertex = { {tile_pos_x, -tile_pos_y + tile_size.y, 0.f}, {1.f, 1.f, 1.f, 1.f}, {u, v} };
+				vertex = { {tile_pos_x, -tile_pos_y + tile_size.y, 0.f}, {1.f, 1.f, 1.f, 1.f}, {u, v } };
 				vertices_.push_back(vertex);
-				vertex = { {tile_pos_x + tile_size.x, -tile_pos_y + tile_size.y, 0.f}, {1.f, 1.f, 1.f, 1.f}, {u + u_normal, v} };
+				vertex = { {tile_pos_x + tile_size.x, -tile_pos_y + tile_size.y, 0.f}, {1.f, 1.f, 1.f, 1.f}, {u + u_normal, v } };
 				vertices_.push_back(vertex);
 
 				auto base_index = static_cast<MathTypes::uint32>(vertices_.size() - 4);
@@ -181,15 +184,74 @@ void TilemapComponent::DrawImageTile(tmx::TileLayer layer, const int& zOrder)
 		}
 	}
 
-	SHARED_PTR<Shape> shape = MAKE_SHARED<Shape>();
-	shape->SetVertices(vertices_);
-	shape->SetIndices(indices_);
-	shape->SetTexture(tilemap_texture_);
-	shape->SetPosition(GetOwner()->GetTransform()->GetWorldLocation());
-	shape->SetScale({ 1.f / PPU, 1.f / PPU }); // 1.f / PPU
-	shape->SetPivot({ map_size_.x / 2.f, -(map_size_.y / 2.f) });
-	shape->SetZOrder(zOrder);
-	shape_.push_back(std::move(shape));
+
+	if (vertices_.size() > VertexBufferSize)
+	{
+		int number = static_cast<int>(vertices_.size() / VertexBufferSize);
+		int rest = vertices_.size() - VertexBufferSize * number;
+
+		for (int i = 0; i < number + 1; ++i)
+		{
+			if (i == number)
+			{
+				std::vector<DefaultVertex> vertices;
+				std::vector<MathTypes::uint32> indices;
+
+				vertices.assign(vertices_.begin() + i * VertexBufferSize, vertices_.begin() + i * VertexBufferSize + rest);
+				indices.assign(indices_.begin() + i * IndexBufferSize, indices_.begin() + i * IndexBufferSize + rest * 6 / 4);
+
+				SHARED_PTR<Shape> shape = MAKE_SHARED<Shape>();
+				shape->SetVertices(vertices);
+				shape->SetIndices(indices);
+				shape->SetTexture(tilemap_texture_);
+				shape->SetPosition(GetOwner()->GetTransform()->GetWorldLocation());
+				shape->SetScale({ 1.f / PPU, 1.f / PPU }); // 1.f / PPU
+				shape->SetPivot({ map_size_.x / 2.f, -(map_size_.y / 2.f) });
+				shape->SetZOrder(zOrder);
+				shape_.push_back(std::move(shape));
+				break;
+			}
+
+
+			std::vector<DefaultVertex> vertices;
+			std::vector<MathTypes::uint32> indices;
+			vertices.assign(vertices_.begin() + i * VertexBufferSize, vertices_.begin() + (i + 1) * VertexBufferSize);
+			indices.assign(indices_.begin() + i * IndexBufferSize, indices_.begin() + (i + 1) * IndexBufferSize);
+
+			SHARED_PTR<Shape> shape = MAKE_SHARED<Shape>();
+			shape->SetVertices(vertices);
+			shape->SetIndices(indices);
+			shape->SetTexture(tilemap_texture_);
+			shape->SetPosition(GetOwner()->GetTransform()->GetWorldLocation());
+			shape->SetScale({ 1.f / PPU, 1.f / PPU }); // 1.f / PPU
+			shape->SetPivot({ map_size_.x / 2.f, -(map_size_.y / 2.f) });
+			shape->SetZOrder(zOrder);
+			shape_.push_back(std::move(shape));
+		}
+	}
+
+
+	else
+	{
+		SHARED_PTR<Shape> shape = MAKE_SHARED<Shape>();
+		shape->SetVertices(vertices_);
+		shape->SetIndices(indices_);
+		shape->SetTexture(tilemap_texture_);
+		shape->SetPosition(GetOwner()->GetTransform()->GetWorldLocation());
+		shape->SetScale({ 1.f / PPU, 1.f / PPU }); // 1.f / PPU
+		shape->SetPivot({ map_size_.x / 2.f, -(map_size_.y / 2.f) });
+		shape->SetZOrder(zOrder);
+		shape_.push_back(std::move(shape));
+	}
+	//SHARED_PTR<Shape> shape = MAKE_SHARED<Shape>();
+	//shape->SetVertices(vertices_);
+	//shape->SetIndices(indices_);
+	//shape->SetTexture(tilemap_texture_);
+	//shape->SetPosition(GetOwner()->GetTransform()->GetWorldLocation());
+	//shape->SetScale({ 1.f / PPU, 1.f / PPU }); // 1.f / PPU
+	//shape->SetPivot({ map_size_.x / 2.f, -(map_size_.y / 2.f) });
+	//shape->SetZOrder(zOrder);
+	//shape_.push_back(std::move(shape));
 }
 
 void TilemapComponent::GeneratePhysics(tmx::ObjectGroup object)
