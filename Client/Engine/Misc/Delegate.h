@@ -38,11 +38,25 @@ public:
         functions_.push_back(*temp);
     }
 
+    void Add(Ret(*func)(Args...), Args... args)
+    {
+        auto temp = std::make_shared<Function<Ret(Args...)>>(func, args...);
+        functions_.push_back(*temp);
+    }
+
     void Execute(Args&&...args) const
     {
         for (const auto& temp : functions_)
         {
             temp(std::forward<Args>(args)...);
+        }
+    }
+
+    void Execute() const
+    {
+        for (const auto& temp : functions_)
+        {
+            temp();
         }
     }
 
@@ -71,17 +85,22 @@ public:
     template<typename M, typename std::enable_if<std::is_class<M>::value>::type* = nullptr>
     void Remove(Ret(M::* func)(Args...))
     {
-        /*std::uintptr_t tt = reinterpret_cast<std::uintptr_t&>(func);
+        std::uintptr_t tt = reinterpret_cast<std::uintptr_t&>(func);
         for (auto temp = functions_.begin(); temp != functions_.end(); ++temp)
         {
             if (temp->GetAddr() == tt)
             {
-                temp = functions_.erase(temp);
+                functions_.erase(temp);
                 break;
             }
-        }*/
+        }
+    }
+
+    template<typename M, typename std::enable_if<std::is_class<M>::value>::type* = nullptr>
+    void Remove(Ret(M::* func)(Args...) const)
+    {
         std::uintptr_t tt = reinterpret_cast<std::uintptr_t&>(func);
-        for (auto temp = functions_.begin(); temp != functions_.end(); temp++)
+        for (auto temp = functions_.begin(); temp != functions_.end(); ++temp)
         {
             if (temp->GetAddr() == tt)
             {
@@ -108,11 +127,12 @@ public:
     }
 
     template<typename F, typename = typename std::enable_if<!std::is_same<Function<Ret(Args...)>, typename std::decay<F>::type>::value>::type>
-    const bool& IsBound(F func)
+    bool IsBound(F&& func)
     {
-        for (auto& temp : functions_)
+        std::uintptr_t tt = reinterpret_cast<std::uintptr_t&>(&func);
+        for (auto temp = functions_.begin(); temp != functions_.end(); ++temp)
         {
-            if (temp.GetFunc().has_value() && std::any_cast<F>(temp.GetFunc()) == func)
+            if (temp->GetAddr() == tt)
             {
                 return true;
             }
@@ -121,7 +141,7 @@ public:
     }
 
     template<typename M, typename std::enable_if<std::is_class<M>::value>::type* = nullptr>
-    const bool& IsBound(Ret(M::* func)(Args...))
+    bool IsBound(Ret(M::* func)(Args...))
     {
         std::uintptr_t tt = reinterpret_cast<std::uintptr_t&>(func);
         for (auto temp = functions_.begin(); temp != functions_.end(); ++temp)
@@ -134,9 +154,21 @@ public:
         return false;
     }
 
-    
+    template<typename M, typename std::enable_if<std::is_class<M>::value>::type* = nullptr>
+    bool IsBound(Ret(M::* func)(Args...) const)
+    {
+        std::uintptr_t tt = reinterpret_cast<std::uintptr_t&>(func);
+        for (auto temp = functions_.begin(); temp != functions_.end(); ++temp)
+        {
+            if (temp->GetAddr() == tt)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
 
-    const bool& IsBound(Ret(*func)(Args...))
+    bool IsBound(Ret(*func)(Args...))
     {
         std::uintptr_t tt = 0;
         std::memcpy(&tt, &func, sizeof(tt));
