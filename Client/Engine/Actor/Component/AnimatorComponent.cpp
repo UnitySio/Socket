@@ -17,7 +17,7 @@ void AnimatorComponent::Tick(float delta_time)
         {
             timer_ = 0;
             playing_index_ = 0;
-
+            var.second();
             playing_clip_ = clips_[var.second.target_clip_];
             break;
         }

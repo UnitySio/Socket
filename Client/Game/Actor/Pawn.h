@@ -41,4 +41,8 @@ private:
 
     TempDelegate delegate_;
     
+    int Test(int a, int b)
+    {
+        return a + b;
+    }
 };

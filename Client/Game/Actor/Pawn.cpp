@@ -19,6 +19,7 @@
 #include "Windows/DX/Shape.h"
 #include "Windows/DX/Sprite.h"
 #include "Windows/DX/Texture.h"
+#include "Misc/Function.h"
 
 Pawn::Pawn(const std::wstring& kName) :
     Actor(kName),
@@ -31,20 +32,20 @@ Pawn::Pawn(const std::wstring& kName) :
     input_->RegisterKey(VK_LEFT);
     input_->RegisterKey(VK_SPACE);
     input_->RegisterKey(0x41);
-    
+
     box_collider_ = CreateComponent<BoxColliderComponent>(L"BoxCollider");
-    box_collider_->SetSize({1.f, 1.f});
+    box_collider_->SetSize({ 1.f, 1.f });
 
     rigid_body_ = CreateComponent<RigidBodyComponent>(L"RigidBody");
     rigid_body_->SetBodyType(BodyType::kDynamic);
     rigid_body_->SetFreezeRotation(false);
-    
+
     audio_listener_ = CreateComponent<AudioListenerComponent>(L"AudioListener");
 
     sprite_ = MAKE_SHARED<Sprite>();
     CHECK_IF(sprite_->Load(L".\\Game_Data\\spritesheet.png"), L"Failed to load texture");
 
-    sprite_->Split(15, 3, {.5f, .5f});
+    sprite_->Split(15, 3, { .5f, .5f });
 
     sprite_->SetWrapMode(WrapMode::kClamp);
     sprite_->SetFilterMode(FilterMode::kPoint);
@@ -58,17 +59,25 @@ Pawn::Pawn(const std::wstring& kName) :
 
     //clip option
     int temp[] = { 0, 1, 2, 3, 4, 5 };
-    animator_->MakeAnimationClip(L"Idle", temp ,6);
+    animator_->MakeAnimationClip(L"Idle", temp, 6);
     animator_->clips_[L"Idle"]->SetRepeat();
     animator_->clips_[L"Idle"]->SetPlaySpeed(6.f);
     animator_->playing_clip_ = animator_->clips_[L"Idle"];
 
     animator_->MakeAnimationClip(L"Attack", 7, 30);
     animator_->clips_[L"Attack"]->SetPlaySpeed(10.f);
+
+    Function<int(int, int)> test(this, &Pawn::Test, 3, 5);
+    animator_->clips_[L"Idle"]->MakeTrigger(L"IsGoAtttack", L"Attack", std::move(test));
     
-    animator_->clips_[L"Idle"]->MakeTrigger(L"IsGoAtttack",L"Attack");
+    
     animator_->clips_[L"Attack"]->MakeTrigger(L"IsEndAtttack", L"Idle");
     animator_->clips_[L"Attack"]->SetTrigger(L"IsEndAtttack", true);
+    animator_->clips_[L"Idle"]->SetTrigger(L"IsGoAtttack", true);
+    
+    
+    animator_->clips_[L"Idle"]->triggers_[L"IsGoAtttack"].hasExitTime = false;
+    
     /////////////////////////////////////////////////////////
 
     delegate_.Add([](const std::wstring& kStr) -> void {});
