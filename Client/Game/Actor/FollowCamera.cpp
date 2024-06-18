@@ -42,7 +42,8 @@ void FollowCamera::Tick(float delta_time)
         
         float clamp_y = std::clamp(new_position.y, -limit_y, limit_y);
         
-        GetTransform()->SetRelativeLocation({ clamp_x, clamp_y });;
+        //GetTransform()->SetRelativeLocation({ clamp_x, clamp_y });;
+        GetTransform()->SetRelativeLocation({ target_location.x, target_location.y });;
     }
     
 }

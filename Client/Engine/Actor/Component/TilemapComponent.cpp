@@ -198,7 +198,7 @@ void TilemapComponent::DrawImageTile(tmx::TileLayer layer, const int& zOrder)
 				std::vector<MathTypes::uint32> indices;
 
 				vertices.assign(vertices_.begin() + i * VertexBufferSize, vertices_.begin() + i * VertexBufferSize + rest);
-				indices.assign(indices_.begin() + i * IndexBufferSize, indices_.begin() + i * IndexBufferSize + rest * 6 / 4);
+				indices.assign(indices_.begin(), indices_.begin() + IndexBufferSize + rest * 6 / 4);
 
 				SHARED_PTR<Shape> shape = MAKE_SHARED<Shape>();
 				shape->SetVertices(vertices);
@@ -216,7 +216,7 @@ void TilemapComponent::DrawImageTile(tmx::TileLayer layer, const int& zOrder)
 			std::vector<DefaultVertex> vertices;
 			std::vector<MathTypes::uint32> indices;
 			vertices.assign(vertices_.begin() + i * VertexBufferSize, vertices_.begin() + (i + 1) * VertexBufferSize);
-			indices.assign(indices_.begin() + i * IndexBufferSize, indices_.begin() + (i + 1) * IndexBufferSize);
+			indices.assign(indices_.begin(), indices_.begin() + IndexBufferSize);
 
 			SHARED_PTR<Shape> shape = MAKE_SHARED<Shape>();
 			shape->SetVertices(vertices);
