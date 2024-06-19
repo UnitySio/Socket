@@ -21,7 +21,6 @@ bool Keyboard::ProcessMessage(UINT message, WPARAM wParam, LPARAM lParam, MathTy
         
         if (!is_released)
         {
-            OnKeyDown(key_code, char_code, is_repeat);
             Function<bool(WORD, MathTypes::uint32, bool)> f(this, &Keyboard::OnKeyDown, key_code, char_code, is_repeat);
             events_.push(std::move(f));
             return true;
