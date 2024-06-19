@@ -11,6 +11,7 @@
 #include "Windows/DX/Renderer.h"
 #include "Windows/DX/Shape.h"
 #include "Windows/DX/ShapeBatch.h"
+#include "Input/Keyboard.h"
 
 World::World() :
     shape_batch_(nullptr),
@@ -73,7 +74,8 @@ void World::PhysicsTick(float delta_time)
 void World::Tick(float delta_time)
 {
     TimerManager::Get()->Tick(delta_time);
-    
+    Keyboard::Get()->ProcessMessage();
+
     if (current_level_)
     {
         current_level_->Tick(delta_time);

@@ -6,7 +6,16 @@ Keyboard::Keyboard() : key_states_()
 {
 }
 
-bool Keyboard::ProcessMessage(UINT message, WPARAM wParam, LPARAM lParam, MathTypes::uint32 handler_result)
+void Keyboard::ProcessMessage()
+{
+    while (!events_.empty())
+    {
+        events_.front()();
+        events_.pop();
+    }
+}
+
+bool Keyboard::PendingMessage(UINT message, WPARAM wParam, LPARAM lParam, MathTypes::uint32 handler_result)
 {
     if (message == WM_KEYDOWN || message == WM_SYSKEYDOWN ||
         message == WM_KEYUP || message == WM_SYSKEYUP)
@@ -26,7 +35,9 @@ bool Keyboard::ProcessMessage(UINT message, WPARAM wParam, LPARAM lParam, MathTy
             return true;
         }
             
-        return OnKeyUp(key_code, char_code);
+        Function<bool(WORD, MathTypes::uint32)> f(this, &Keyboard::OnKeyUp, key_code, char_code);
+        events_.push(std::move(f));
+        return true;
     }
 
     if (message == WM_CHAR)
@@ -57,5 +68,5 @@ bool Keyboard::OnKeyChar(WCHAR character)
 
 void Keyboard::OnInputKey(WORD key_code, InputState state)
 {
-    key_states_[key_code].event_accumulator[static_cast<MathTypes::uint32>(state)]++;
+    key_states_[key_code].event_accumulator[static_cast<MathTypes::uint32>(state)];
 }
