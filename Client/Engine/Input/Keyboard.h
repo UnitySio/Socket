@@ -1,9 +1,11 @@
 ﻿#pragma once
 #include <map>
 #include <Windows.h>
+#include <queue>
 
 #include "Singleton.h"
 #include "Math/MathTypes.h"
+#include "Misc/Function.h"
 
 enum class InputState
 {
@@ -45,5 +47,5 @@ private:
     void OnInputKey(WORD key_code, InputState state);
 
     std::map<WORD, KeyState> key_states_;
-    
+    std::queue<Function<void(void)>> events_;
 };

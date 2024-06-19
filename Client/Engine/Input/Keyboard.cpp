@@ -19,7 +19,14 @@ bool Keyboard::ProcessMessage(UINT message, WPARAM wParam, LPARAM lParam, MathTy
         bool is_released = (key_flags & KF_UP) == KF_UP;
         bool is_repeat = (key_flags & KF_REPEAT) == KF_REPEAT;
         
-        if (!is_released) return OnKeyDown(key_code, char_code, is_repeat);
+        if (!is_released)
+        {
+            OnKeyDown(key_code, char_code, is_repeat);
+            Function<bool(WORD, MathTypes::uint32, bool)> f(this, &Keyboard::OnKeyDown, key_code, char_code, is_repeat);
+            events_.push(std::move(f));
+            return true;
+        }
+            
         return OnKeyUp(key_code, char_code);
     }
 
