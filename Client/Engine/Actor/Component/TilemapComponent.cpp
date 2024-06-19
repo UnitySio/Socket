@@ -1,5 +1,6 @@
 ﻿#include "TilemapComponent.h"
 
+#include "TilemapChunk.h"
 #include "TransformComponent.h"
 #include "Actor/Actor.h"
 #include "tmxlite/Tileset.hpp"
@@ -11,8 +12,6 @@
 #include "Level/World.h"
 #include "tmxlite/ImageLayer.hpp"
 
-
-
 TilemapComponent::TilemapComponent(const char* kPath, Actor* owner, const std::wstring& kName) :
 	ActorComponent(owner, kName),
 	map_size_(Math::Vector2::Zero())
@@ -21,8 +20,11 @@ TilemapComponent::TilemapComponent(const char* kPath, Actor* owner, const std::w
 	Load();
 }
 
-TilemapComponent::TilemapComponent(Actor* owner, const std::wstring& kName)
-	:ActorComponent(owner, kName)
+TilemapComponent::TilemapComponent(Actor* owner, const std::wstring& kName) :
+	ActorComponent(owner, kName),
+	chunk_size_(512.f, 512.f),
+	chunk_count_(Math::Vector2::Zero()),
+	chunks_()
 {
 }
 
@@ -37,6 +39,37 @@ void TilemapComponent::LoadImageLayerByName(const char* kLayer, const int& order
 		{
 			auto&& layer = layers[i]->getLayerAs<tmx::ImageLayer>();
 			std::wstring imagePath = std::wstring(layer.getImagePath().begin(), layer.getImagePath().end());
+		}
+	}
+}
+
+void TilemapComponent::CreateChunks(const tmx::TileLayer& layer)
+{
+	Math::Vector2 tile_size = { static_cast<float>(map_.getTileSize().x), static_cast<float>(map_.getTileSize().y) };
+
+	chunk_size_.x = std::floor(chunk_size_.x / tile_size.x) * tile_size.x;
+	chunk_size_.y = std::floor(chunk_size_.y / tile_size.y) * tile_size.y;
+
+	const auto bounds = map_.getBounds();
+	chunk_count_.x = std::ceil(bounds.width / chunk_size_.x);
+	chunk_count_.y = std::ceil(bounds.height / chunk_size_.y);
+
+	for (auto y = 0u; y < chunk_count_.y; ++y)
+	{
+		Math::Vector2 tile_count = { chunk_size_.x / tile_size.x, chunk_size_.y / tile_size.y };
+		for (auto x = 0u; x < chunk_count_.x; ++x)
+		{
+			if ((x + 1) * chunk_size_.x > bounds.width)
+			{
+				tile_count.x = (bounds.width - x * chunk_size_.x) / tile_size.x;
+			}
+
+			if ((y + 1) * chunk_size_.y > bounds.height)
+			{
+				tile_count.y = (bounds.height - y * chunk_size_.y) / tile_size.y;
+			}
+
+			chunks_.push_back(MAKE_UNIQUE<TilemapChunk>(layer, &map_.getTilesets()[0], Math::Vector2(x * chunk_size_.x, y * chunk_size_.y), tile_count, tile_size, map_.getTileCount().x, tilemap_texture_.get()));
 		}
 	}
 }
@@ -68,6 +101,8 @@ void TilemapComponent::LoadMap(const char* kPath)
 	std::wstring tileset_path = std::wstring(tilesets[0].getImagePath().begin(), tilesets[0].getImagePath().end());
 	tilemap_texture_ = MAKE_SHARED<Texture>();
 	CHECK(tilemap_texture_->Load(tileset_path));
+	
+	CreateChunks(map_.getLayers()[0]->getLayerAs<tmx::TileLayer>());
 
 }
 
@@ -129,6 +164,13 @@ void TilemapComponent::DrawImageTile(tmx::TileLayer layer, const int& zOrder)
 
 	const auto tile_size = map_.getTileSize();
 
+	chunk_size_.x = std::floor(chunk_size_.x / tile_size.x) * tile_size.x;
+	chunk_size_.y = std::floor(chunk_size_.y / tile_size.y) * tile_size.y;
+
+	const auto bounds = map_.getBounds();
+	chunk_count_.x = std::ceil(bounds.width / chunk_size_.x);
+	chunk_count_.y = std::ceil(bounds.height / chunk_size_.y);
+
 	const auto& tileset = map_.getTilesets()[0];
 	const auto& tile_ids = layer.getTiles();
 
@@ -149,17 +191,14 @@ void TilemapComponent::DrawImageTile(tmx::TileLayer layer, const int& zOrder)
 			if (idx < tile_ids.size() && tile_ids[idx].ID >= tileset.getFirstGID() &&
 				tile_ids[idx].ID < (tileset.getFirstGID() + tileset.getTileCount()))
 			{
-				auto temp = tileset.getTile(tile_ids[idx].ID)->imagePosition;
-				//auto id_index = (tile_ids[idx].ID - tileset.getFirstGID());
-				//float u = static_cast<float>(id_index % tile_count_x);
-				//float v = static_cast<float>(id_index / tile_count_y);
-				//u *= tile_size.x;
-				//v *= tile_size.y;
-				//
-				//u /= tex_width;
-				//v /= tex_height;
-				float u = static_cast<float>(tileset.getTile(tile_ids[idx].ID)->imagePosition.x) / tex_width;
-				float v = static_cast<float>(tileset.getTile(tile_ids[idx].ID)->imagePosition.y) / tex_height;
+				auto id_index = (tile_ids[idx].ID - tileset.getFirstGID());
+				float u = static_cast<float>(id_index % tile_count_x);
+				float v = static_cast<float>(id_index / tile_count_x);
+				u *= tile_size.x;
+				v *= tile_size.y;
+				
+				u /= tex_width;
+				v /= tex_height;
 
 				const float tile_pos_x = static_cast<float>(x * tile_size.x);
 				const float tile_pos_y = static_cast<float>(y * tile_size.y) + tile_size.y;

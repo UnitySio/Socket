@@ -9,6 +9,8 @@
 #include "wrl.h"
 #include <d3d11.h>
 
+#include "TilemapChunk.h"
+
 class Shape;
 
 class TilemapComponent : public ActorComponent
@@ -38,6 +40,8 @@ public:
     /// <param name="kLayer"></param>
     void LoadImageLayerByName(const char* kLayer, const int& order = 1);
 
+    void CreateChunks(const tmx::TileLayer& layer);
+
 private:
     void Load();
     virtual inline void Render(float alpha) override;
@@ -51,5 +55,12 @@ private:
     std::vector<MathTypes::uint32> indices_;
     std::vector<SHARED_PTR<Shape>> shape_;
     Math::Vector2 map_size_;
+
+private:
+    Math::Vector2 chunk_size_;
+    Math::Vector2 chunk_count_;
+
+    std::vector<UNIQUE_PTR<TilemapChunk>> chunks_;
+    
 };
 

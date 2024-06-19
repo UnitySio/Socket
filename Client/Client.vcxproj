@@ -145,6 +145,7 @@
     <ClInclude Include="Engine\Actor\Component\ColliderComponent.h" />
     <ClInclude Include="Engine\Actor\Component\InputComponent.h" />
     <ClInclude Include="Engine\Actor\Component\RigidBodyComponent.h" />
+    <ClInclude Include="Engine\Actor\Component\TilemapChunk.h" />
     <ClInclude Include="Engine\Actor\Component\TilemapComponent.h" />
     <ClInclude Include="Engine\Actor\Component\TransformComponent.h" />
     <ClInclude Include="Engine\Audio\AudioManager.h" />
@@ -299,6 +300,7 @@
     <ClCompile Include="Engine\Actor\Component\ColliderComponent.cpp" />
     <ClCompile Include="Engine\Actor\Component\InputComponent.cpp" />
     <ClCompile Include="Engine\Actor\Component\RigidBodyComponent.cpp" />
+    <ClCompile Include="Engine\Actor\Component\TilemapChunk.cpp" />
     <ClCompile Include="Engine\Actor\Component\TilemapComponent.cpp" />
     <ClCompile Include="Engine\Actor\Component\TransformComponent.cpp" />
     <ClCompile Include="Engine\Audio\AudioManager.cpp" />
