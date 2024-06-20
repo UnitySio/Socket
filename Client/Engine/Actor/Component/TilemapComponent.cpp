@@ -69,7 +69,7 @@ void TilemapComponent::CreateChunks(const tmx::TileLayer& layer)
 				tile_count.y = (bounds.height - y * chunk_size_.y) / tile_size.y;
 			}
 
-			chunks_.push_back(MAKE_UNIQUE<TilemapChunk>(layer, &map_.getTilesets()[0], Math::Vector2(x * chunk_size_.x, y * chunk_size_.y), tile_count, tile_size, map_.getTileCount().x, tilemap_texture_.get()));
+			chunks_.push_back(MAKE_UNIQUE<TilemapChunk>(layer, &map_.getTilesets()[0], Math::Vector2(x * chunk_size_.x, y * chunk_size_.y), tile_count, tile_size, map_.getTileCount().x, tilemap_texture_));
 		}
 	}
 }
@@ -149,11 +149,22 @@ void TilemapComponent::GenerateBlockLayer()
 
 inline void TilemapComponent::Render(float alpha)
 {
-	if (shape_.size() == 0) return;
-	
-	for (int i = 0; i < shape_.size(); ++i)
+	// if (shape_.size() == 0) return;
+	//
+	// for (int i = 0; i < shape_.size(); ++i)
+	// {
+	// 	World::Get()->AddShape(shape_[i]);
+	// }
+
+	for (MathTypes::uint32 i = 0; i < chunks_.size(); ++i)
 	{
-		World::Get()->AddShape(shape_[i]);
+		if (i == 2) continue;
+		
+		chunks_[i]->AddShape(
+			GetOwner()->GetTransform()->GetWorldLocation(),
+			{ 1.f / PPU, 1.f / PPU },
+			{ map_size_.x / 2.f, -(map_size_.y / 2.f) }
+		);
 	}
 }
 
