@@ -19,8 +19,9 @@ class TilemapComponent : public ActorComponent
     const MathTypes::uint32 VertexBufferSize = 2048;
     const MathTypes::uint32 IndexBufferSize = 2048 * 6 / 4;
 public:
-    TilemapComponent(const char* kPath, class Actor* owner = nullptr, const std::wstring& kName = L"UnNamed");
     TilemapComponent(class Actor* owner, const std::wstring& kName);
+
+    virtual void Render(float alpha) override;
 
     void LoadMap(const char* kPath);
     void LoadAll(const char* kPath);
@@ -44,7 +45,6 @@ public:
 
 private:
     void Load();
-    virtual inline void Render(float alpha) override;
     void DrawImageTile(tmx::TileLayer layer, const int& zOrder = 1);
     void GeneratePhysics(tmx::ObjectGroup object);
 

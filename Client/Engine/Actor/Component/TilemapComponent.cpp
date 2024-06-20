@@ -12,20 +12,26 @@
 #include "Level/World.h"
 #include "tmxlite/ImageLayer.hpp"
 
-TilemapComponent::TilemapComponent(const char* kPath, Actor* owner, const std::wstring& kName) :
-	ActorComponent(owner, kName),
-	map_size_(Math::Vector2::Zero())
-{
-	map_.load(kPath);
-	Load();
-}
-
 TilemapComponent::TilemapComponent(Actor* owner, const std::wstring& kName) :
 	ActorComponent(owner, kName),
 	chunk_size_(512.f, 512.f),
 	chunk_count_(Math::Vector2::Zero()),
 	chunks_()
 {
+}
+
+void TilemapComponent::Render(float alpha)
+{
+	ActorComponent::Render(alpha);
+	
+	for (MathTypes::uint32 i = 0; i < chunks_.size(); ++i)
+	{
+		chunks_[i]->AddShape(
+			GetOwner()->GetTransform()->GetWorldLocation(),
+			{ 1.f / PPU, 1.f / PPU },
+			{ map_size_.x / 2.f, -(map_size_.y / 2.f) }
+		);
+	}
 }
 
 void TilemapComponent::LoadImageLayerByName(const char* kLayer, const int& order)
@@ -144,27 +150,6 @@ void TilemapComponent::GenerateBlockLayer()
 			auto&& layer = layers[i]->getLayerAs<tmx::ObjectGroup>();
 			GeneratePhysics(layer);
 		}
-	}
-}
-
-inline void TilemapComponent::Render(float alpha)
-{
-	// if (shape_.size() == 0) return;
-	//
-	// for (int i = 0; i < shape_.size(); ++i)
-	// {
-	// 	World::Get()->AddShape(shape_[i]);
-	// }
-
-	for (MathTypes::uint32 i = 0; i < chunks_.size(); ++i)
-	{
-		if (i == 2) continue;
-		
-		chunks_[i]->AddShape(
-			GetOwner()->GetTransform()->GetWorldLocation(),
-			{ 1.f / PPU, 1.f / PPU },
-			{ map_size_.x / 2.f, -(map_size_.y / 2.f) }
-		);
 	}
 }
 
