@@ -23,11 +23,13 @@ TilemapChunk::TilemapChunk(const tmx::TileLayer& layer, const tmx::Tileset* tile
     GenerateTiles(tileset, pos_x, pos_y, tile_count, tile_size);
 }
 
-void TilemapChunk::GenerateTiles(const tmx::Tileset* tileset, const MathTypes::uint32& pos_x, const MathTypes::uint32& pos_y, Math::Vector2 tile_count, const Math::Vector2& tile_size)
+void TilemapChunk::GenerateTiles(const tmx::Tileset* tileset, const MathTypes::uint32& pos_x, const MathTypes::uint32& pos_y, const Math::Vector2& tile_count, const Math::Vector2& tile_size)
 {
     MathTypes::uint32 idx = 0;
     MathTypes::uint32 tex_width = texture_->GetWidth();
     MathTypes::uint32 tex_height = texture_->GetHeight();
+
+    const Math::Vector2 ts_tile_count = {tex_width / tile_size.x, tex_height / tile_size.y};
 
     const float u_normal = tile_size.x / tex_width;
     const float v_normal = tile_size.y / tex_height;
@@ -37,11 +39,11 @@ void TilemapChunk::GenerateTiles(const tmx::Tileset* tileset, const MathTypes::u
         for (MathTypes::uint32 x = pos_x; x < pos_x + tile_count.x; ++x)
         {
             if (idx < chunk_tile_ids_.size() && chunk_tile_ids_[idx].ID >= tileset->getFirstGID() &&
-                chunk_tile_ids_[idx].ID < (tileset->getFirstGID() + tileset->getTileCount()))
+                chunk_tile_ids_[idx].ID <= tileset->getLastGID())
             {
                 MathTypes::uint32 id_idx = chunk_tile_ids_[idx].ID - tileset->getFirstGID();
-                float u = static_cast<float>(id_idx % static_cast<MathTypes::uint32>(tile_count.x));
-                float v = static_cast<float>(id_idx / static_cast<MathTypes::uint32>(tile_count.x));
+                float u = static_cast<float>(id_idx % static_cast<MathTypes::uint32>(ts_tile_count.x));
+                float v = static_cast<float>(id_idx / static_cast<MathTypes::uint32>(ts_tile_count.x));
                 u *= tile_size.x;
                 v *= tile_size.y;
 
