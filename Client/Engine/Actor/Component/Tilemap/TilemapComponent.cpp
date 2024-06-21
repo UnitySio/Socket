@@ -16,6 +16,26 @@ TilemapComponent::TilemapComponent(Actor* owner, const std::wstring& kName) :
 {
 }
 
+void TilemapComponent::InitializeComponent()
+{
+	ActorComponent::InitializeComponent();
+
+	for (const auto& body : bodies_)
+	{
+		body->SetEnabled(true);
+	}
+}
+
+void TilemapComponent::UninitializeComponent()
+{
+	ActorComponent::UninitializeComponent();
+
+	for (const auto& body : bodies_)
+	{
+		World::Get()->physics_world_->DestroyBody(body);
+	}
+}
+
 void TilemapComponent::Render(float alpha)
 {
 	ActorComponent::Render(alpha);
@@ -79,5 +99,8 @@ void TilemapComponent::GeneratePhysics(const tmx::ObjectGroup& object)
 
 		b2Body* body = World::Get()->physics_world_->CreateBody(&bodyDef);
 		body->CreateFixture(&fixtureDef);
+
+		body->SetEnabled(false);
+		bodies_.push_back(body);
 	}
 }

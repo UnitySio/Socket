@@ -22,6 +22,8 @@ class TilemapComponent : public ActorComponent
 public:
     TilemapComponent(class Actor* owner, const std::wstring& kName);
 
+    virtual void InitializeComponent() override;
+    virtual void UninitializeComponent() override;
     virtual void Render(float alpha) override;
 
     void LoadMap(const char* kPath);
@@ -39,6 +41,7 @@ private:
 
 private:
     std::vector<UNIQUE_PTR<TilemapLayer>> tilemap_layers_;
+    std::vector<class b2Body*> bodies_;
     
 };
 
