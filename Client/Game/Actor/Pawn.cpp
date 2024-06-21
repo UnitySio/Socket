@@ -34,7 +34,7 @@ Pawn::Pawn(const std::wstring& kName) :
 
     rigid_body_ = CreateComponent<RigidBodyComponent>(L"RigidBody");
     rigid_body_->SetBodyType(BodyType::kDynamic);
-    rigid_body_->SetFreezeRotation(false);
+    rigid_body_->SetFreezeRotation(true);
     
     audio_listener_ = CreateComponent<AudioListenerComponent>(L"AudioListener");
 

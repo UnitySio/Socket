@@ -11,8 +11,8 @@ FollowCamera::FollowCamera(const std::wstring& kName) :
     follow_(nullptr),
     width_(0.f),
     height_(0.f),
-    limit_width_(0.f),
-    limit_height_(0.f),
+    limit_width_(40.f),
+    limit_height_(10.f),
     follow_offset(Math::Vector2::Zero())
 {
     camera_ = CreateComponent<CameraComponent>(L"Camera");
@@ -42,8 +42,7 @@ void FollowCamera::Tick(float delta_time)
         
         float clamp_y = std::clamp(new_position.y, -limit_y, limit_y);
         
-        //GetTransform()->SetRelativeLocation({ clamp_x, clamp_y });;
-        GetTransform()->SetRelativeLocation({ target_location.x, target_location.y });;
+        GetTransform()->SetRelativeLocation({ clamp_x, clamp_y });;
     }
     
 }
