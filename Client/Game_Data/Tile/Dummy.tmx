@@ -1,15 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.8" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="80" height="20" tilewidth="32" tileheight="32" infinite="0" nextlayerid="3" nextobjectid="3">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="80" height="20" tilewidth="32" tileheight="32" infinite="0" nextlayerid="6" nextobjectid="14">
  <tileset firstgid="1" name="DummyTileset" tilewidth="32" tileheight="32" tilecount="247" columns="19">
   <image source="images/tilemap/DummyTileset.png" width="608" height="416"/>
  </tileset>
- <layer id="1" name="Tile Layer 1" width="80" height="20">
+ <layer id="3" name="Tile Layer 1" width="80" height="20">
   <data encoding="base64" compression="zlib">
-   eJztxsEJgDAUBcE0obYQbUGtNM36CvAahO8sDGxr7y2xxlb4Z9Zjj6Pwz+yMK+7CL0nSVw0AAAD4gQd1QmDC
+   eJzt0EENADAMxLDSKeaRLYlN60l+BEDcVdWSpDWdB/1+4pcTP35pPvzu+fDjxy/Llx8/fjvix4+ftLsB8/aFdg==
   </data>
  </layer>
- <objectgroup id="2" name="Block">
-  <object id="1" x="416" y="256" width="128" height="128"/>
-  <object id="2" x="6.06061" y="254.545" width="1587.88" height="96.9697"/>
+ <layer id="4" name="Tile Layer 2" width="80" height="20">
+  <data encoding="base64" compression="zlib">
+   eJzt1UEOQDAQQNFeAgsOIBZ6Ae5/LU3EcmYSY2j0v2RWouKnJSUAeM5YZguY6c2X+NAStO4ctG5t6OdDP531fduDnvuXflH7y0I/XVemLzMI1+mnu/pI69NP10q/NZ3nTBrp/Fla6We5uz/pd6KfD/186OdDPx/r/yxNNu7PCbU5ANkAET8=
+  </data>
+ </layer>
+ <objectgroup id="5" name="Object Layer 1">
+  <object id="3" x="928" y="224" width="32" height="192"/>
+  <object id="4" x="960" y="224" width="256" height="32"/>
+  <object id="5" x="960" y="384" width="256" height="32"/>
+  <object id="6" x="1184" y="416" width="32" height="192"/>
+  <object id="7" x="1216" y="576" width="416" height="32"/>
+  <object id="8" x="1632" y="288.5" width="96.5" height="320"/>
+  <object id="9" x="1728" y="576" width="192" height="32"/>
+  <object id="10" x="1888" y="96" width="32" height="478.5"/>
+  <object id="12" x="1184" y="95" width="704" height="32"/>
+  <object id="13" x="1184" y="128" width="32" height="96"/>
  </objectgroup>
 </map>

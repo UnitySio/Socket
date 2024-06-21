@@ -13,7 +13,7 @@ class TilemapChunk
 public:
     TilemapChunk(const tmx::TileLayer& layer, const tmx::Tileset* tileset, const Math::Vector2& position, const Math::Vector2& tile_count, const Math::Vector2& tile_size, size_t row_size, const SHARED_PTR<Texture>& texture);
 
-    void AddShape(Math::Vector2 position, Math::Vector2 scale, Math::Vector2 pivot = {0.f, 0.f});
+    void AddShape(const Math::Vector2& position, const Math::Vector2& scale, const Math::Vector2& pivot = Math::Vector2::Zero());
 
 private:
     void GenerateTiles(const tmx::Tileset* tileset, const MathTypes::uint32& pos_x, const MathTypes::uint32& pos_y, const Math::Vector2& tile_count, const Math::Vector2& tile_size);

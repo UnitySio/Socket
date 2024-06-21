@@ -7,7 +7,7 @@
 
 #include "Actor/Tilemap.h"
 #include "tmxlite/Map.hpp"
-#include "Actor/Component/TilemapComponent.h"
+#include "Actor/Component/Tilemap/TilemapComponent.h"
 #include "Actor/Component/TransformComponent.h"
 #include "Misc/Delegate.h"
 #include "Misc/Function.h"

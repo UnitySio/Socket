@@ -26,7 +26,7 @@ TilemapChunk::TilemapChunk(const tmx::TileLayer& layer, const tmx::Tileset* tile
     GenerateTiles(tileset, pos_x, pos_y, tile_count, tile_size);
 }
 
-void TilemapChunk::AddShape(Math::Vector2 position, Math::Vector2 scale, Math::Vector2 pivot)
+void TilemapChunk::AddShape(const Math::Vector2& position, const Math::Vector2& scale, const Math::Vector2& pivot)
 {
     shape_->SetPosition(position);
     shape_->SetScale(scale);
