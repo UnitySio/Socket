@@ -103,6 +103,14 @@ void Actor::Tick(float delta_time)
     }
 }
 
+void Actor::PostTick(float delta_time)
+{
+    for (const auto& component : components_)
+    {
+        component->PostTickComponent(delta_time);
+    }
+}
+
 void Actor::Render(float alpha)
 {
     for (const auto& component : components_)

@@ -19,9 +19,6 @@ MainMap::MainMap(const std::wstring& kName) : Level(kName)
 
 void MainMap::Load()
 {
-    SHARED_PTR<Actor> camera = MAKE_SHARED<FollowCamera>(L"FollowCamera");
-    AddActor(camera);
-
     SHARED_PTR<Actor> tilemap = MAKE_SHARED<Tilemap>(L"Tilemap");
     AddActor(tilemap);
 
@@ -30,6 +27,9 @@ void MainMap::Load()
 
     SHARED_PTR<Actor> box = MAKE_SHARED<Box>(L"Box");
     AddActor(box);
+    
+    SHARED_PTR<Actor> camera = MAKE_SHARED<FollowCamera>(L"FollowCamera");
+    AddActor(camera);
 
     pawn->GetTransform()->SetRelativePosition({.5f, 2.f});
 

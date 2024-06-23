@@ -2,47 +2,47 @@
 
 #include <algorithm>
 
+#include "Actor/Component/BoxColliderComponent.h"
 #include "Actor/Component/CameraComponent.h"
 #include "Actor/Component/TransformComponent.h"
-#include "Audio/AudioManager.h"
+#include "Pawn.h"
 
 FollowCamera::FollowCamera(const std::wstring& kName) :
     Actor(kName),
-    follow_(nullptr),
-    width_(0.f),
-    height_(0.f),
-    limit_width_(40.f),
-    limit_height_(10.f),
-    follow_offset(Math::Vector2::Zero())
+    target_(nullptr),
+    box_collider_(nullptr),
+    focus_area_(nullptr),
+    focus_area_size_({3.f, 5.f}),
+    vertical_offset_(0.f)
 {
     camera_ = CreateComponent<CameraComponent>(L"Camera");
 }
 
-void FollowCamera::Tick(float delta_time)
+void FollowCamera::BeginPlay()
 {
-    Actor::Tick(delta_time);
+    Actor::BeginPlay();
 
-    if (follow_)
+    Pawn* pawn = dynamic_cast<Pawn*>(target_);
+    if (pawn)
     {
-        const Math::Vector2 position = GetTransform()->GetRelativePosition();
-        
-        Math::Vector2 target_position = follow_->GetTransform()->GetRelativePosition();
-        Math::Vector2 new_position = Math::Vector2::Lerp(position, target_position + follow_offset, delta_time * 2.f);
-        
-        width_ = camera_->GetAspect();
-        height_ = camera_->GetSize();
-
-        float limit_x = limit_width_ - width_;
-        if (limit_x < 0.f) limit_x = width_;
-        
-        float clamp_x = std::clamp(new_position.x, -limit_x, limit_x);
-        
-        float limit_y = limit_height_ - height_;
-        if (limit_y < 0.f) limit_y = height_;
-        
-        float clamp_y = std::clamp(new_position.y, -limit_y, limit_y);
-        
-        GetTransform()->SetRelativePosition({ clamp_x, clamp_y });;
+        box_collider_ = pawn->GetBoxCollider();
+        if (box_collider_)
+        {
+            Bounds bounds = box_collider_->GetBounds();
+            focus_area_ = MAKE_UNIQUE<FocusArea>(bounds, focus_area_size_);
+        }
     }
+    
+}
+
+void FollowCamera::PostTick(float delta_time)
+{
+    Actor::PostTick(delta_time);
+    
+    Bounds bounds = box_collider_->GetBounds();
+    focus_area_->Tick(bounds);
+
+    Math::Vector2 focus_position = focus_area_->center + Math::Vector2::Up() * vertical_offset_;
+    GetTransform()->SetRelativePosition(focus_position);
     
 }

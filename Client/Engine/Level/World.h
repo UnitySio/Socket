@@ -20,6 +20,7 @@ public:
     void OpenLevel(LevelType type);
     void PhysicsTick(float delta_time);
     void Tick(float delta_time);
+    void PostTick(float delta_time);
     void Render(float alpha);
     void RenderUI();
     void DestroyActor();

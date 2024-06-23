@@ -29,6 +29,7 @@ public:
     virtual void EndPlay(EndPlayReason type);
     virtual void PhysicsTick(float delta_time);
     virtual void Tick(float delta_time);
+    virtual void PostTick(float delta_time);
     virtual void Render(float alpha);
 
     void AttachToActor(Actor* actor);

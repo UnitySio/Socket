@@ -74,6 +74,7 @@ void GameEngine::GameLoop(float delta_time)
     // 물리 시뮬레이션으로 인해 발생한 오차를 보정하기 위해 alpha를 계산
     alpha = accumulator / ProjectSettings::kFixedTimeStep;
     World::Get()->Tick(delta_time);
+    World::Get()->PostTick(delta_time);
 #pragma endregion
 
 #pragma region Render

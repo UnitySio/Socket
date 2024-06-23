@@ -68,6 +68,15 @@ void Level::Tick(float delta_time)
     }
 }
 
+void Level::PostTick(float delta_time)
+{
+    for (const auto& actor : actors_)
+    {
+        if (!actor->is_active_ || actor->is_destroy_) continue;
+        actor->PostTick(delta_time);
+    }
+}
+
 void Level::Render(float alpha)
 {
     for (const auto& actor : actors_)

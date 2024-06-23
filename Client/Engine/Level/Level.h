@@ -20,6 +20,7 @@ public:
     virtual void InitializeActors();
     virtual void PhysicsTick(float delta_time);
     virtual void Tick(float delta_time);
+    virtual void PostTick(float delta_time);
     virtual void Render(float alpha);
     virtual void DestroyActor();
 

@@ -94,6 +94,14 @@ void World::Tick(float delta_time)
     }
 }
 
+void World::PostTick(float delta_time)
+{
+    if (current_level_)
+    {
+        current_level_->PostTick(delta_time);
+    }
+}
+
 void World::Render(float alpha)
 {
     if (current_level_)
