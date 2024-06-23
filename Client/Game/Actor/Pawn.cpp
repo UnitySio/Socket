@@ -6,7 +6,6 @@
 
 #include "Windows.h"
 
-#include "Enums.h"
 #include "Actor/Component/InputComponent.h"
 #include "Actor/Component/BoxColliderComponent.h"
 #include "Actor/Component/RigidBodyComponent.h"
@@ -57,7 +56,7 @@ void Pawn::PhysicsTick(float delta_time)
 
     float h = input_->IsKeyPressed(VK_RIGHT) - input_->IsKeyPressed(VK_LEFT);
     
-    rigid_body_->SetVelocity({h * 2.f, rigid_body_->GetVelocity().y});
+    rigid_body_->SetVelocity({h * 6.f, rigid_body_->GetVelocity().y});
 
     if (h != 0) dir_ = h > 0 ? -1 : 1;
     
@@ -70,7 +69,7 @@ void Pawn::Tick(float delta_time)
     if (input_->IsKeyDown(VK_SPACE))
     {
         rigid_body_->SetVelocity(Math::Vector2::Zero());
-        rigid_body_->AddForce(Math::Vector2::Up() * 5.f, ForceMode::kImpulse);
+        rigid_body_->AddForce(Math::Vector2::Up() * 10.f, ForceMode::kImpulse);
     }
 
     timer_ += delta_time;

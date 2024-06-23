@@ -5,6 +5,7 @@
 #include "../Engine/Actor/Component/RigidBodyComponent.h"
 #include <Windows.h>
 
+#include "Actor/Box.h"
 #include "Actor/Tilemap.h"
 #include "tmxlite/Map.hpp"
 #include "Actor/Component/Tilemap/TilemapComponent.h"
@@ -27,10 +28,15 @@ void MainMap::Load()
     SHARED_PTR<Actor> pawn = MAKE_SHARED<Pawn>(L"Pawn");
     AddActor(pawn);
 
-    pawn->GetTransform()->SetRelativePosition({0.5f, 2.f});
+    SHARED_PTR<Actor> box = MAKE_SHARED<Box>(L"Box");
+    AddActor(box);
+
+    pawn->GetTransform()->SetRelativePosition({.5f, 2.f});
 
     FollowCamera* follow_camera = dynamic_cast<FollowCamera*>(camera.get());
     follow_camera->SetFollow(pawn.get());
+
+    box->GetTransform()->SetRelativePosition({-5.f, 2.f});
     
     
 }
