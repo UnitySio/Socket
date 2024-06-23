@@ -61,7 +61,7 @@ public:
     virtual ~FollowCamera() override = default;
 
     virtual void BeginPlay() override;
-    virtual void PostTick(float delta_time) override;
+    virtual void PhysicsTick(float delta_time) override;
 
     inline void SetFollow(class Actor* target) { target_ = target; }
 

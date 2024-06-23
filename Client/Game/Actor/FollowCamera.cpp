@@ -35,14 +35,13 @@ void FollowCamera::BeginPlay()
     
 }
 
-void FollowCamera::PostTick(float delta_time)
+void FollowCamera::PhysicsTick(float delta_time)
 {
-    Actor::PostTick(delta_time);
+    Actor::PhysicsTick(delta_time);
     
     Bounds bounds = box_collider_->GetBounds();
     focus_area_->Tick(bounds);
 
     Math::Vector2 focus_position = focus_area_->center + Math::Vector2::Up() * vertical_offset_;
     GetTransform()->SetRelativePosition(focus_position);
-    
 }
