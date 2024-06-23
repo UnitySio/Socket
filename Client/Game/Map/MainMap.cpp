@@ -27,7 +27,7 @@ void MainMap::Load()
     SHARED_PTR<Actor> pawn = MAKE_SHARED<Pawn>(L"Pawn");
     AddActor(pawn);
 
-    pawn->GetTransform()->SetRelativeLocation({0.5f, 2.f});
+    pawn->GetTransform()->SetRelativePosition({0.5f, 2.f});
 
     FollowCamera* follow_camera = dynamic_cast<FollowCamera*>(camera.get());
     follow_camera->SetFollow(pawn.get());

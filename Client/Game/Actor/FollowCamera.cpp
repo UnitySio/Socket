@@ -24,10 +24,10 @@ void FollowCamera::Tick(float delta_time)
 
     if (follow_)
     {
-        const Math::Vector2 location = GetTransform()->GetRelativeLocation();
+        const Math::Vector2 position = GetTransform()->GetRelativePosition();
         
-        Math::Vector2 target_location = follow_->GetTransform()->GetRelativeLocation();
-        Math::Vector2 new_position = Math::Vector2::Lerp(location, target_location + follow_offset, delta_time * 2.f);
+        Math::Vector2 target_position = follow_->GetTransform()->GetRelativePosition();
+        Math::Vector2 new_position = Math::Vector2::Lerp(position, target_position + follow_offset, delta_time * 2.f);
         
         width_ = camera_->GetAspect();
         height_ = camera_->GetSize();
@@ -42,7 +42,7 @@ void FollowCamera::Tick(float delta_time)
         
         float clamp_y = std::clamp(new_position.y, -limit_y, limit_y);
         
-        GetTransform()->SetRelativeLocation({ clamp_x, clamp_y });;
+        GetTransform()->SetRelativePosition({ clamp_x, clamp_y });;
     }
     
 }

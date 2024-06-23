@@ -43,7 +43,7 @@ void TilemapComponent::Render(float alpha)
 	for (const auto& tilemap_layer : tilemap_layers_)
 	{
 		tilemap_layer->AddShapes(
-			GetOwner()->GetTransform()->GetWorldLocation(),
+			GetOwner()->GetTransform()->GetWorldPosition(),
 			{ 1.f / PPU, 1.f / PPU },
 			{ map_size_.x / 2.f, -(map_size_.y / 2.f) }
 		);

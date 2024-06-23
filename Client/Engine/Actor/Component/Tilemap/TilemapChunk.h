@@ -14,10 +14,14 @@ public:
     TilemapChunk(const tmx::TileLayer& layer, const tmx::Tileset* tileset, const Math::Vector2& position, const Math::Vector2& tile_count, const Math::Vector2& tile_size, size_t row_size, const SHARED_PTR<Texture>& texture);
 
     void AddShape(const Math::Vector2& position, const Math::Vector2& scale, const Math::Vector2& pivot = Math::Vector2::Zero());
+    
+    int GetTileIndex(int x, int y) const;
 
 private:
-    void GenerateTiles(const tmx::Tileset* tileset, const MathTypes::uint32& pos_x, const MathTypes::uint32& pos_y, const Math::Vector2& tile_count, const Math::Vector2& tile_size);
+    void GenerateTiles(const tmx::Tileset* tileset, const MathTypes::uint32& pos_x, const MathTypes::uint32& pos_y, const Math::Vector2& tile_size);
 
+    Math::Vector2 tile_count_;
+    
     SHARED_PTR<Texture> texture_;
     
     std::vector<tmx::TileLayer::Tile> chunk_tile_ids_;

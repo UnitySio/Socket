@@ -46,7 +46,7 @@ public:
     void SetVelocity(const Math::Vector2& kVelocity);
     void SetAngularVelocity(float velocity);
     void AddForce(const Math::Vector2& kForce, ForceMode mode = ForceMode::kForce);
-    void AddForceAtPosition(const Math::Vector2& kForce, const Math::Vector2& kLocation, ForceMode mode = ForceMode::kForce);
+    void AddForceAtPosition(const Math::Vector2& kForce, const Math::Vector2& kPosition, ForceMode mode = ForceMode::kForce);
     void AddTorque(float torque, ForceMode mode = ForceMode::kForce);
     void Sleep();
     void WakeUp();

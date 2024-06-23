@@ -5,6 +5,7 @@
 #include "Windows/DX/Texture.h"
 
 TilemapChunk::TilemapChunk(const tmx::TileLayer& layer, const tmx::Tileset* tileset, const Math::Vector2& position, const Math::Vector2& tile_count, const Math::Vector2& tile_size, size_t row_size, const SHARED_PTR<Texture>& texture) :
+    tile_count_(tile_count),
     texture_(texture),
     chunk_tile_ids_(),
     vertices_(),
@@ -23,7 +24,7 @@ TilemapChunk::TilemapChunk(const tmx::TileLayer& layer, const tmx::Tileset* tile
         }
     }
 
-    GenerateTiles(tileset, pos_x, pos_y, tile_count, tile_size);
+    GenerateTiles(tileset, pos_x, pos_y, tile_size);
 }
 
 void TilemapChunk::AddShape(const Math::Vector2& position, const Math::Vector2& scale, const Math::Vector2& pivot)
@@ -35,7 +36,12 @@ void TilemapChunk::AddShape(const Math::Vector2& position, const Math::Vector2& 
     World::Get()->AddShape(shape_);
 }
 
-void TilemapChunk::GenerateTiles(const tmx::Tileset* tileset, const MathTypes::uint32& pos_x, const MathTypes::uint32& pos_y, const Math::Vector2& tile_count, const Math::Vector2& tile_size)
+int TilemapChunk::GetTileIndex(int x, int y) const
+{
+    return y * tile_count_.x + x;
+}
+
+void TilemapChunk::GenerateTiles(const tmx::Tileset* tileset, const MathTypes::uint32& pos_x, const MathTypes::uint32& pos_y, const Math::Vector2& tile_size)
 {
     MathTypes::uint32 idx = 0;
     MathTypes::uint32 tex_width = texture_->GetWidth();
@@ -47,9 +53,9 @@ void TilemapChunk::GenerateTiles(const tmx::Tileset* tileset, const MathTypes::u
     const float u_normal = ts_tile_size.x / tex_width;
     const float v_normal = ts_tile_size.y / tex_height;
     
-    for (MathTypes::uint32 y = pos_y; y < pos_y + tile_count.y; ++y)
+    for (MathTypes::uint32 y = pos_y; y < pos_y + tile_count_.y; ++y)
     {
-        for (MathTypes::uint32 x = pos_x; x < pos_x + tile_count.x; ++x)
+        for (MathTypes::uint32 x = pos_x; x < pos_x + tile_count_.x; ++x)
         {
             if (idx < chunk_tile_ids_.size() && chunk_tile_ids_[idx].ID >= tileset->getFirstGID() &&
                 chunk_tile_ids_[idx].ID <= tileset->getLastGID())

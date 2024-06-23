@@ -116,7 +116,7 @@ void Actor::AttachToActor(Actor* actor)
     parent_ = actor;
     actor->children_.push_back(this);
 
-    transform_->SetRelativeLocation(transform_->GetWorldLocation() - actor->transform_->GetWorldLocation());
+    transform_->SetRelativePosition(transform_->GetWorldPosition() - actor->transform_->GetWorldPosition());
 
     if (!body_ || !actor->body_) return;
 

@@ -44,4 +44,3 @@ private:
     std::vector<class b2Body*> bodies_;
     
 };
-

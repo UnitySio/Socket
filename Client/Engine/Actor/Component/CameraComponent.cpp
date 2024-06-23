@@ -27,11 +27,11 @@ void CameraComponent::TickComponent(float delta_time)
     ActorComponent::TickComponent(delta_time);
 
     TransformComponent* transform = GetOwner()->GetTransform();
-    Math::Vector2 location = transform->GetWorldLocation();
+    Math::Vector2 position = transform->GetWorldPosition();
 
     if (Viewport* viewport = Renderer::Get()->FindViewport(World::Get()->GetWindow()))
     {
-        viewport->view_matrix = DirectX::XMMatrixTranslation(-location.x, -location.y, 0.f)
+        viewport->view_matrix = DirectX::XMMatrixTranslation(-position.x, -position.y, 0.f)
             * DirectX::XMMatrixRotationZ(-transform->GetWorldRotationZ());
     }
 

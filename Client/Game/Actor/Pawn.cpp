@@ -97,7 +97,7 @@ void Pawn::Render(float alpha)
     shape->SetVertices(sprite_->GetVertices());
     shape->SetIndices(sprite_->GetIndices());
     shape->SetTexture(sprite_);
-    shape->SetPosition(GetTransform()->GetWorldLocation());
+    shape->SetPosition(GetTransform()->GetWorldPosition());
     shape->SetRotation(GetTransform()->GetWorldRotationZ());
     shape->SetScale({width * dir_, height});
     shape->SetUVOffset(frames[frame_index_].uv_offset);

@@ -15,9 +15,9 @@ bool Physics::RayCastSingle(HitResult& hit_result, const Math::Vector2& start, c
     const std::vector<RayCastResult>& kResults = callback.GetResults();
     if (kResults.empty()) return false;
 
-    Math::Vector2 location = {kResults[0].point.x, kResults[0].point.y};
-    hit_result.distance = Math::Vector2::Distance(start, location);
-    hit_result.location = location;
+    Math::Vector2 position = {kResults[0].point.x, kResults[0].point.y};
+    hit_result.distance = Math::Vector2::Distance(start, position);
+    hit_result.position = position;
     hit_result.normal = {kResults[0].normal.x, kResults[0].normal.y};
     hit_result.trace_start = start;
     hit_result.trace_end = end;
@@ -37,9 +37,9 @@ bool Physics::RayCastMulti(std::vector<HitResult>& hit_results, const Math::Vect
     for (const auto& result : kResults)
     {
         HitResult hit_result;
-        Math::Vector2 location = {result.point.x, result.point.y};
-        hit_result.distance = Math::Vector2::Distance(start, location);
-        hit_result.location = location;
+        Math::Vector2 position = {result.point.x, result.point.y};
+        hit_result.distance = Math::Vector2::Distance(start, position);
+        hit_result.position = position;
         hit_result.normal = {result.normal.x, result.normal.y};
         hit_result.trace_start = start;
         hit_result.trace_end = end;
