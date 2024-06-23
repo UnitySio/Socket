@@ -6,6 +6,7 @@
 #include "Actor/Component/CameraComponent.h"
 #include "Actor/Component/TransformComponent.h"
 #include "Pawn.h"
+#include "Misc/Debug.h"
 
 FollowCamera::FollowCamera(const std::wstring& kName) :
     Actor(kName),
@@ -44,4 +45,13 @@ void FollowCamera::PhysicsTick(float delta_time)
 
     Math::Vector2 focus_position = focus_area_->center + Math::Vector2::Up() * vertical_offset_;
     GetTransform()->SetRelativePosition(focus_position);
+    
+}
+
+void FollowCamera::Tick(float delta_time)
+{
+    Actor::Tick(delta_time);
+    
+    AddDebugBox(focus_area_->center, focus_area_size_ / 2.f);
+    
 }
