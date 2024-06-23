@@ -13,7 +13,7 @@ FollowCamera::FollowCamera(const std::wstring& kName) :
     box_collider_(nullptr),
     focus_area_(nullptr),
     focus_area_size_({3.f, 5.f}),
-    vertical_offset_(0.f)
+    vertical_offset_(1.f)
 {
     camera_ = CreateComponent<CameraComponent>(L"Camera");
 }
