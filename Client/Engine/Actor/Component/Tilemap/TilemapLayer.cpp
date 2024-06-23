@@ -25,14 +25,14 @@ void TilemapLayer::AddShapes(const Math::Vector2& position, const Math::Vector2&
     }
 }
 
-TilemapChunk& TilemapLayer::GetChunk(int x, int y)
+TilemapChunk* TilemapLayer::GetChunk(int x, int y)
 {
     MathTypes::uint32 chunk_x = (x * map_tile_size_.x) / chunk_size_.x;
     MathTypes::uint32 chunk_y = (y * map_tile_size_.y) / chunk_size_.y;
-    return *chunks_[chunk_y * chunk_count_.x + chunk_x];
+    return chunks_[chunk_y * chunk_count_.x + chunk_x].get();
 }
 
-TilemapChunk& TilemapLayer::GetChunk(int x, int y, Math::Vector2& tile_relative_position)
+TilemapChunk* TilemapLayer::GetChunk(int x, int y, Math::Vector2& tile_relative_position)
 {
     MathTypes::uint32 chunk_x = (x * map_tile_size_.x) / chunk_size_.x;
     MathTypes::uint32 chunk_y = (y * map_tile_size_.y) / chunk_size_.y;
@@ -40,7 +40,7 @@ TilemapChunk& TilemapLayer::GetChunk(int x, int y, Math::Vector2& tile_relative_
     tile_relative_position.x = ((x * map_tile_size_.x) - chunk_x * chunk_size_.x) / map_tile_size_.x;
     tile_relative_position.y = ((y * map_tile_size_.y) - chunk_y * chunk_size_.y) / map_tile_size_.y;
 
-    return *chunks_[chunk_y * chunk_count_.x + chunk_x];
+    return chunks_[chunk_y * chunk_count_.x + chunk_x].get();
 }
 
 void TilemapLayer::CreateChunks(const tmx::Map& map, const tmx::TileLayer& layer, const std::shared_ptr<Texture>& texture, const Math::Vector2& tile_size)
