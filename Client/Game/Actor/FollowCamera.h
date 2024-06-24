@@ -78,5 +78,10 @@ private:
     Math::Vector2 focus_area_size_;
     
     float vertical_offset_;
+
+    MathTypes::uint32 half_width_;
+    MathTypes::uint32 half_height_;
+    MathTypes::uint32 limit_half_width_;
+    MathTypes::uint32 limit_half_height_;
     
 };

@@ -162,6 +162,7 @@
     <ClInclude Include="Engine\Level\World.h" />
     <ClInclude Include="Engine\Math\Bounds.h" />
     <ClInclude Include="Engine\Math\Color.h" />
+    <ClInclude Include="Engine\Math\Math.h" />
     <ClInclude Include="Engine\Math\MathTypes.h" />
     <ClInclude Include="Engine\Math\Vector2.h" />
     <ClInclude Include="Engine\Misc\Debug.h" />
@@ -319,6 +320,7 @@
     <ClCompile Include="Engine\Level\World.cpp" />
     <ClCompile Include="Engine\Math\Bounds.cpp" />
     <ClCompile Include="Engine\Math\Color.cpp" />
+    <ClCompile Include="Engine\Math\Math.cpp" />
     <ClCompile Include="Engine\Math\Vector2.cpp" />
     <ClCompile Include="Engine\Misc\Debug.cpp" />
     <ClCompile Include="Engine\Physics\Physics.cpp" />
