@@ -81,17 +81,6 @@ void Pawn::Tick(float delta_time)
         frame_index_ = (frame_index_ + 1) % 6;
         timer_ = 0.f;
     }
-
-    Math::Vector2 start = GetTransform()->GetWorldPosition();
-    Math::Vector2 end = start + Math::Vector2::Down() * 1.5f;
-
-    AddDebugLine(start, end);
-
-    HitResult hit_result;
-    if (Physics::RayCastSingle(hit_result, start, end))
-    {
-        OutputDebugString(L"Hit!\n");
-    }
     
 }
 

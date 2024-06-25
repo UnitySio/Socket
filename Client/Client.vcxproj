@@ -171,6 +171,7 @@
     <ClInclude Include="Engine\Misc\Delegate.h" />
     <ClInclude Include="Engine\Misc\Function.h" />
     <ClInclude Include="Engine\Physics\HitResult.h" />
+    <ClInclude Include="Engine\Physics\BoxQueryCallback.h" />
     <ClInclude Include="Engine\Physics\Physics.h" />
     <ClInclude Include="Engine\Physics\RayCastCallback.h" />
     <ClInclude Include="Engine\Physics\RayCastResult.h" />
@@ -323,6 +324,7 @@
     <ClCompile Include="Engine\Math\Math.cpp" />
     <ClCompile Include="Engine\Math\Vector2.cpp" />
     <ClCompile Include="Engine\Misc\Debug.cpp" />
+    <ClCompile Include="Engine\Physics\BoxQueryCallback.cpp" />
     <ClCompile Include="Engine\Physics\Physics.cpp" />
     <ClCompile Include="Engine\Physics\RayCastCallback.cpp" />
     <ClCompile Include="Engine\Time\Time.cpp" />
