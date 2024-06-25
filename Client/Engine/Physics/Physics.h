@@ -16,5 +16,7 @@ public:
 
     static bool OverlapBox(const Math::Vector2& center, const Math::Vector2& extent, Actor** actor, MathTypes::uint16 layer = 0xFFFF);
     static bool OverlapBoxAll(const Math::Vector2& center, const Math::Vector2& extent, std::vector<Actor*>& actors, MathTypes::uint16 layer = 0xFFFF);
+    static bool OverlapCircle(const Math::Vector2& center, float radius, Actor** actor, MathTypes::uint16 layer = 0xFFFF);
+    static bool OverlapCircleAll(const Math::Vector2& center, float radius, std::vector<Actor*>& actors, MathTypes::uint16 layer = 0xFFFF);
     
 };

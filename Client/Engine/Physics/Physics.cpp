@@ -1,6 +1,7 @@
 ﻿#include "Physics.h"
 
 #include "BoxQueryCallback.h"
+#include "CircleQueryCallback.h"
 #include "HitResult.h"
 #include "RayCastCallback.h"
 #include "box2d/b2_fixture.h"
@@ -74,6 +75,36 @@ bool Physics::OverlapBoxAll(const Math::Vector2& center, const Math::Vector2& ex
     aabb.upperBound = {center.x + extent.x, center.y + extent.y};
 
     BoxQueryCallback callback(true, layer);
+    World::Get()->physics_world_->QueryAABB(&callback, aabb);
+
+    if (callback.GetActors().empty()) return false;
+    actors = callback.GetActors();
+
+    return true;
+}
+
+bool Physics::OverlapCircle(const Math::Vector2& center, float radius, Actor** actor, MathTypes::uint16 layer)
+{
+    b2AABB aabb;
+    aabb.lowerBound = {center.x - radius, center.y - radius};
+    aabb.upperBound = {center.x + radius, center.y + radius};
+    
+    CircleQueryCallback callback(false, {center.x, center.y}, radius, layer);
+    World::Get()->physics_world_->QueryAABB(&callback, aabb);
+
+    if (callback.GetActors().empty()) return false;
+    *actor = callback.GetActors()[0];
+
+    return true;
+}
+
+bool Physics::OverlapCircleAll(const Math::Vector2& center, float radius, std::vector<Actor*>& actors, MathTypes::uint16 layer)
+{
+    b2AABB aabb;
+    aabb.lowerBound = {center.x - radius, center.y - radius};
+    aabb.upperBound = {center.x + radius, center.y + radius};
+    
+    CircleQueryCallback callback(true, {center.x, center.y}, radius, layer);
     World::Get()->physics_world_->QueryAABB(&callback, aabb);
 
     if (callback.GetActors().empty()) return false;
