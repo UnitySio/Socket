@@ -72,6 +72,6 @@ void FollowCamera::Tick(float delta_time)
 {
     Actor::Tick(delta_time);
     
-    AddDebugBox(focus_area_->center, focus_area_size_ / 2.f);
+    // AddDebugBox(focus_area_->center, focus_area_size_ / 2.f);
     
 }

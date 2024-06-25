@@ -12,6 +12,9 @@
 #include "Actor/Component/TransformComponent.h"
 #include "Actor/Component/AudioListenerComponent.h"
 #include "Level/World.h"
+#include "Misc/Debug.h"
+#include "Physics/HitResult.h"
+#include "Physics/Physics.h"
 #include "Time/TimerManager.h"
 #include "Windows/DX/Shape.h"
 #include "Windows/DX/Sprite.h"
@@ -77,6 +80,17 @@ void Pawn::Tick(float delta_time)
     {
         frame_index_ = (frame_index_ + 1) % 6;
         timer_ = 0.f;
+    }
+
+    Math::Vector2 start = GetTransform()->GetWorldPosition();
+    Math::Vector2 end = start + Math::Vector2::Down() * 1.5f;
+
+    AddDebugLine(start, end);
+
+    HitResult hit_result;
+    if (Physics::RayCastSingle(hit_result, start, end))
+    {
+        OutputDebugString(L"Hit!\n");
     }
     
 }
