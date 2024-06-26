@@ -12,7 +12,8 @@
 
 TilemapComponent::TilemapComponent(Actor* owner, const std::wstring& kName) :
 	ActorComponent(owner, kName),
-	tilemap_layers_()
+	tilemap_layers_(),
+	tilemap_body_(nullptr)
 {
 }
 
@@ -20,20 +21,14 @@ void TilemapComponent::InitializeComponent()
 {
 	ActorComponent::InitializeComponent();
 
-	for (const auto& body : bodies_)
-	{
-		body->SetEnabled(true);
-	}
+	if (tilemap_body_) tilemap_body_->SetEnabled(true);
 }
 
 void TilemapComponent::UninitializeComponent()
 {
 	ActorComponent::UninitializeComponent();
 
-	for (const auto& body : bodies_)
-	{
-		World::Get()->physics_world_->DestroyBody(body);
-	}
+	if (tilemap_body_) World::Get()->physics_world_->DestroyBody(tilemap_body_);
 }
 
 void TilemapComponent::Render(float alpha)
@@ -85,28 +80,30 @@ void TilemapComponent::GeneratePhysics(const tmx::ObjectGroup& object)
 {
 	const auto& objects = object.getObjects();
 
+	b2BodyDef body_def;
+	body_def.userData.pointer = reinterpret_cast<uintptr_t>(GetOwner());
+	
+	tilemap_body_ = World::Get()->physics_world_->CreateBody(&body_def);
+
 	for (const auto& temp : objects)
 	{
-		b2BodyDef body_def;
-		body_def.userData.pointer = reinterpret_cast<uintptr_t>(GetOwner());
-		body_def.position.Set(temp.getPosition().x / PPU + ((temp.getAABB().width / 2) / PPU) - map_size_.x / 2.f, -1 * temp.getPosition().y / PPU - ((temp.getAABB().height / 2) / PPU) + map_size_.y / 2.f);
-		body_def.type = b2_staticBody;
-
 		b2PolygonShape shape;
-		shape.SetAsBox(temp.getAABB().width / 2 / PPU, temp.getAABB().height / 2 / PPU);
+		shape.SetAsBox(
+			temp.getAABB().width / 2 / PPU, temp.getAABB().height / 2 / PPU,
+			{temp.getPosition().x / PPU + ((temp.getAABB().width / 2) / PPU) - map_size_.x / 2.f, -1 * temp.getPosition().y / PPU - ((temp.getAABB().height / 2) / PPU) + map_size_.y / 2.f},
+			0.f
+		);
 		
 		b2Filter filter;
 		filter.categoryBits = GetOwner()->GetLayer();
 		filter.maskBits = ProjectSettings::kLayerCollisionMatrix.at(GetOwner()->GetLayer());
-
+		
 		b2FixtureDef fixture_def;
 		fixture_def.shape = &shape;
 		fixture_def.filter = filter;
-
-		b2Body* body = World::Get()->physics_world_->CreateBody(&body_def);
-		body->CreateFixture(&fixture_def);
-
-		body->SetEnabled(false);
-		bodies_.push_back(body);
+		
+		tilemap_body_->CreateFixture(&fixture_def);
 	}
+
+	tilemap_body_->SetEnabled(false);
 }

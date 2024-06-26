@@ -31,16 +31,11 @@ public:
 private:
     void GeneratePhysics(const tmx::ObjectGroup& object);
 
-private:
     SHARED_PTR<class Texture> tilemap_texture_;
     tmx::Map map_;
-    std::vector<DefaultVertex> vertices_;
-    std::vector<MathTypes::uint32> indices_;
-    std::vector<SHARED_PTR<Shape>> shape_;
     Math::Vector2 map_size_;
 
-private:
     std::vector<UNIQUE_PTR<TilemapLayer>> tilemap_layers_;
-    std::vector<class b2Body*> bodies_;
+    class b2Body* tilemap_body_;
     
 };
