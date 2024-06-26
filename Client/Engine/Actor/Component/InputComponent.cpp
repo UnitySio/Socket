@@ -2,10 +2,19 @@
 
 #include <Windows.h>
 
+#include "Actor/Actor.h"
+
 InputComponent::InputComponent(Actor* owner, const std::wstring& kName) :
     ActorComponent(owner, kName),
     key_states_()
 {
+}
+
+void InputComponent::InitializeComponent()
+{
+    ActorComponent::InitializeComponent();
+
+    GetOwner()->on_collision_enter.Add(this, &InputComponent::OnCallback);
 }
 
 void InputComponent::TickComponent(float delta_time)
@@ -58,4 +67,8 @@ bool InputComponent::IsKeyPressed(MathTypes::uint32 key_code) const
     }
     
     return false;
+}
+
+void InputComponent::OnCallback(Actor* actor)
+{
 }

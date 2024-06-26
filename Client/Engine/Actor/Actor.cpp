@@ -31,31 +31,37 @@ Actor::Actor(const std::wstring& kName) :
 
 void Actor::OnCollisionEnter(Actor* other)
 {
+    on_collision_enter.Execute(std::move(other));
     if (parent_) parent_->OnCollisionEnter(other);
 }
 
 void Actor::OnCollisionStay(Actor* other)
 {
+    on_collision_stay.Execute(std::move(other));
     if (parent_) parent_->OnCollisionStay(other);
 }
 
 void Actor::OnCollisionExit(Actor* other)
 {
+    on_collision_exit.Execute(std::move(other));
     if (parent_) parent_->OnCollisionExit(other);
 }
 
 void Actor::OnTriggerEnter(Actor* other)
 {
+    on_trigger_enter.Execute(std::move(other));
     if (parent_) parent_->OnTriggerEnter(other);
 }
 
 void Actor::OnTriggerStay(Actor* other)
 {
+    on_trigger_stay.Execute(std::move(other));
     if (parent_) parent_->OnTriggerStay(other);
 }
 
 void Actor::OnTriggerExit(Actor* other)
 {
+    on_trigger_exit.Execute(std::move(other));
     if (parent_) parent_->OnTriggerExit(other);
 }
 

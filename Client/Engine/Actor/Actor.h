@@ -5,7 +5,10 @@
 
 #include "ProjectSettings.h"
 #include "Component/ActorComponent.h"
+#include "Misc/DelegateMacros.h"
 #include "Misc/EngineMacros.h"
+
+DECLARE_DELEGATE(ContactSignature, Actor*);
 
 enum class EndPlayReason : size_t;
 class TransformComponent;
@@ -38,6 +41,14 @@ public:
     void Destroy(const Actor* kOther);
     void SpawnActor(const Actor* kActor);
     void SetActive(bool active);
+
+    ContactSignature on_collision_enter;
+    ContactSignature on_collision_stay;
+    ContactSignature on_collision_exit;
+
+    ContactSignature on_trigger_enter;
+    ContactSignature on_trigger_stay;
+    ContactSignature on_trigger_exit;
 
     bool CompareTag(ActorTag tag) const;
 

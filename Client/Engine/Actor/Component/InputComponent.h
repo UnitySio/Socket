@@ -10,6 +10,7 @@ public:
     InputComponent(class Actor* owner, const std::wstring& kName);
     virtual ~InputComponent() override = default;
 
+    virtual void InitializeComponent() override;
     virtual void TickComponent(float delta_time) override;
     
     void RegisterKey(MathTypes::uint32 key_code);
@@ -27,5 +28,7 @@ private:
     };
     
     std::map<MathTypes::uint32, KeyState> key_states_;
+
+    void OnCallback(Actor* actor);
     
 };
