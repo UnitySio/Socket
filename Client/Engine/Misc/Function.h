@@ -43,7 +43,7 @@ public:
     }
 
     template<typename M, typename std::enable_if<std::is_class<M>::value>::type* = nullptr>
-    Function(M* target, Ret(M::* func)(Args...), Args... args)
+    Function(M* target, Ret(M::* func)(Args...), Args&&... args)
         : func_(std::make_shared<CCMCallable<M>>(target, func, std::forward<Args>(args)...)), kFunc_(nullptr)
     {
         addr_ = reinterpret_cast<std::uintptr_t&>(func);
@@ -87,13 +87,11 @@ private:
     struct ICallable
     {
         virtual ~ICallable() = default;
-        virtual Ret operator()(Args&&... args) const 
+        virtual Ret operator()(Args&&... args) const abstract;
+        virtual Ret operator()() const
         {
-            return Ret();
-        };
 
-        virtual Ret operator()() const abstract;
-        
+        }
     };
 
     struct GCallable : public ICallable
@@ -132,6 +130,11 @@ private:
             return (target_->*func_)(std::forward<Args>(args)...);
         }
         
+        /*virtual Ret operator()() const override
+        {
+            return (target_->*func_)();
+        }*/
+
         M* target_;
         Ret(M::* func_)(Args...);
     };
@@ -153,8 +156,8 @@ private:
     template<typename M>
     struct CCMCallable : public ICallable
     {
-        CCMCallable(M* target, Ret(M::* func)(Args...), Args... args)
-            : target_(target), func_(func), args_(std::make_tuple(args...)) {}
+        CCMCallable(M* target, Ret(M::* func)(Args...), Args&&... args)
+            : target_(target), func_(func), args_(std::make_tuple(std::forward<Args>(args)...)) {}
         virtual Ret operator()(Args&&... args) const override
         {
             return (target_->*func_)(std::forward<Args>(args)...);
