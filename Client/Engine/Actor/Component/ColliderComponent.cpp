@@ -59,7 +59,7 @@ void ColliderComponent::CreateFixture(b2Shape* shape)
         filter.maskBits = ProjectSettings::kLayerCollisionMatrix.at(GetOwner()->GetLayer());
         
         fixture_def.density = 1.f;
-        fixture_def.friction = 0.3f;
+        fixture_def.friction = .3f;
         fixture_def.filter = filter;
     }
 

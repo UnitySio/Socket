@@ -23,7 +23,7 @@ World::World() :
     shape_batch_ = MAKE_SHARED<ShapeBatch>();
     shape_batch_->Init();
     
-    b2Vec2 gravity(0.f, -20.f); // -9.81f
+    b2Vec2 gravity(0.f, -9.81f);
     physics_world_ = MAKE_UNIQUE<b2World>(gravity);
     physics_world_->SetContactListener(&contact_listener_);
     

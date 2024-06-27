@@ -6,6 +6,7 @@
 #include "Actor/Component/CameraComponent.h"
 #include "Actor/Component/TransformComponent.h"
 #include "Pawn.h"
+#include "Character/Player/PlayerController.h"
 #include "Misc/Debug.h"
 
 FollowCamera::FollowCamera(const std::wstring& kName) :
@@ -27,10 +28,10 @@ void FollowCamera::BeginPlay()
 {
     Actor::BeginPlay();
 
-    Pawn* pawn = dynamic_cast<Pawn*>(target_);
-    if (pawn)
+    PlayerController* player = dynamic_cast<PlayerController*>(target_);
+    if (player)
     {
-        box_collider_ = pawn->GetBoxCollider();
+        box_collider_ = player->GetBoxCollider();
         if (box_collider_)
         {
             Bounds bounds = box_collider_->GetBounds();
