@@ -11,7 +11,7 @@ AnimatorComponent::AnimatorComponent(Actor* owner, const std::wstring& kName)
 
 void AnimatorComponent::Tick(float delta_time)
 {
-    for (auto var : playing_clip_->triggers_)
+    for (auto &var : playing_clip_->triggers_)
     {
         if (var.second.value_ && !var.second.hasExitTime)
         {
@@ -47,7 +47,7 @@ void AnimatorComponent::Tick(float delta_time)
                 {
                     timer_ = 0;
                     playing_index_ = 0;
-
+                    var.second();
                     playing_clip_ = clips_[var.second.target_clip_];
                     break;
                 }

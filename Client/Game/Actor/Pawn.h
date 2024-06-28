@@ -45,4 +45,7 @@ private:
     {
         return a + b;
     }
+
+    void Attack();
+    void EndAttack();
 };
