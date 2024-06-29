@@ -11,13 +11,19 @@ AnimatorComponent::AnimatorComponent(Actor* owner, const std::wstring& kName)
 
 void AnimatorComponent::Tick(float delta_time)
 {
+    //Check triggers
     for (auto &var : playing_clip_->triggers_)
     {
+        //Trigger is true? & Can it just change to the other clip just now?
         if (var.second.value_ && !var.second.hasExitTime)
         {
             timer_ = 0;
             playing_index_ = 0;
-            var.second();
+
+            //If this trigger has function, Excute it
+            if (var.second.func_ != nullptr) var.second();
+
+            //Change to target
             playing_clip_ = clips_[var.second.target_clip_];
             break;
         }
@@ -28,26 +34,30 @@ void AnimatorComponent::Tick(float delta_time)
     {
         timer_ = 0.f;
 
+        //Animation is not finish
         if (playing_index_ < playing_clip_->include_frames_.size() - 1)
         {
             playing_index_++;
             sprite_renderer_->frame_index_ = playing_clip_->include_frames_[playing_index_];
         }
+        //Animation is finish
         else
         {
+            //Is Repeat option on?
             if (playing_clip_->isRepeat)
             {
                 playing_index_ = 0;
                 sprite_renderer_->frame_index_ = playing_clip_->include_frames_[0];
             }
 
+            //Check triggers
             for (auto &var : playing_clip_->triggers_)
             {
+                //Trigger is true?
                 if (var.second.value_)
                 {
-                    timer_ = 0;
                     playing_index_ = 0;
-                    var.second();
+                    if(var.second.func_ != nullptr) var.second();
                     playing_clip_ = clips_[var.second.target_clip_];
                     break;
                 }

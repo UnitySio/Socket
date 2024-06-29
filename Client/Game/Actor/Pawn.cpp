@@ -76,7 +76,6 @@ Pawn::Pawn(const std::wstring& kName) :
     Function<void(void)> finish(this, &Pawn::EndAttack);
     animator_->clips_[L"Attack"]->MakeTrigger(L"IsEndAtttack", L"Idle", std::move(finish));
 
-    //animator_->clips_[L"Attack"]->MakeTrigger(L"IsEndAtttack", L"Idle");
     animator_->clips_[L"Attack"]->SetTrigger(L"IsEndAtttack", true);
     animator_->clips_[L"Idle"]->SetTrigger(L"IsGoAtttack", false);
     
@@ -119,12 +118,7 @@ void Pawn::Tick(float delta_time)
 
     if (input_->IsKeyDown(0x41))
     {
-        animator_->playing_clip_->SetTrigger(L"IsGoAtttack", true);
-        //animator_->playing_clip_->GetTrigger(L"IsGoAtttack")();
-    }
-    if (input_->IsKeyUp(0x41))
-    {
-        
+        animator_->clips_[L"Idle"]->SetTrigger(L"IsGoAtttack", true);
     }
 
     animator_->Tick(delta_time);
@@ -182,10 +176,10 @@ void Pawn::EndPlay(EndPlayReason type)
 
 void Pawn::Attack()
 {
-    animator_->playing_clip_->SetTrigger(L"IsGoAtttack", true);
+    animator_->clips_[L"Idle"]->SetTrigger(L"IsGoAtttack", false);
 }
 
 void Pawn::EndAttack()
 {
-    animator_->clips_[L"Idle"]->SetTrigger(L"IsGoAtttack", false);
+    
 }
