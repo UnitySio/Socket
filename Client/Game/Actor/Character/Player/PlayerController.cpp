@@ -76,14 +76,5 @@ void PlayerController::Render(float alpha)
     shape->SetPivot({pivot_x, pivot_y});
     shape->SetZOrder(1);
 
-    Bounds bounds = shape->GetBounds();
-    Math::Vector2 position = GetTransform()->GetWorldPosition();
-    WCHAR buffer[256];
-    // position 및 bounds 정보를 출력
-    swprintf_s(buffer, L"Position: (%.2f, %.2f)\nBounds: (%.2f, %.2f) (%.2f, %.2f)\n", position.x, position.y, bounds.min.x, bounds.min.y, bounds.max.x, bounds.max.y);
-    OutputDebugString(buffer);
-
-    AddDebugBox(bounds.center, bounds.size * .5f);
-
     World::Get()->AddShape(shape);
 }

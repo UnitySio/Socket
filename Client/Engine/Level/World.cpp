@@ -7,6 +7,7 @@
 #include "Map/MainMap.h"
 #include "Math/Color.h"
 #include "Math/Vector2.h"
+#include "Misc/Debug.h"
 #include "Time/TimerManager.h"
 #include "Windows/DX/Renderer.h"
 #include "Windows/DX/Shape.h"
