@@ -11,6 +11,7 @@
 #include "Windows/DX/Renderer.h"
 #include "Windows/DX/Shape.h"
 #include "Windows/DX/ShapeBatch.h"
+#include "../UIManager.h"
 
 World::World() :
     shape_batch_(nullptr),
@@ -126,6 +127,7 @@ void World::RenderUI()
     wchar_t buffer[256];
     swprintf_s(buffer, L"FPS: %d(%.fms)", fps_, kMS);
     Renderer::Get()->DrawString(window_, buffer, {viewport->d3d_viewport.Width, 10.f}, {300.f, 100.f}, 24.f, {255, 255, 255, 255});
+    UIManager::Get()->Render();
 }
 
 void World::DestroyActor()

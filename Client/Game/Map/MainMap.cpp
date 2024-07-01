@@ -13,15 +13,16 @@
 #include "Actor/Component/TransformComponent.h"
 #include "Misc/Delegate.h"
 #include "Misc/Function.h"
-
+#include "../Button.h"
+#include "../UIManager.h"
 MainMap::MainMap(const std::wstring& kName) : Level(kName)
 {
 }
 
 void MainMap::Load()
 {
-    SHARED_PTR<Actor> tilemap = MAKE_SHARED<Tilemap>(L"Tilemap");
-    AddActor(tilemap);
+    /*SHARED_PTR<Actor> tilemap = MAKE_SHARED<Tilemap>(L"Tilemap");
+    AddActor(tilemap);*/
 
     // SHARED_PTR<Actor> pawn = MAKE_SHARED<Pawn>(L"Pawn");
     // AddActor(pawn);
@@ -33,7 +34,7 @@ void MainMap::Load()
 
     // box->GetTransform()->SetRelativePosition({-5.f, 2.f});
 
-    SHARED_PTR<Actor> player = MAKE_SHARED<PlayerController>(L"Player");
+    /*SHARED_PTR<Actor> player = MAKE_SHARED<PlayerController>(L"Player");
     AddActor(player);
     
     player->GetTransform()->SetRelativePosition({.5f, 2.f});
@@ -42,6 +43,7 @@ void MainMap::Load()
     AddActor(camera);
     
     FollowCamera* follow_camera = dynamic_cast<FollowCamera*>(camera.get());
-    follow_camera->SetFollow(player.get());
+    follow_camera->SetFollow(player.get());*/
     
+    auto button = UIManager::Get()->CreateButton();
 }
