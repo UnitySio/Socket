@@ -1,5 +1,6 @@
 ﻿#include "GameEngine.h"
 
+#include "EventManager.h"
 #include "ProjectSettings.h"
 #include "imgui/imgui.h"
 #include "imgui/imgui_impl_dx11.h"
@@ -100,6 +101,8 @@ void GameEngine::GameLoop(float delta_time)
     Renderer::Get()->EndRenderD2D();
     Renderer::Get()->EndRender();
 #pragma endregion
+
+    EventManager::Get()->Tick();
     
 }
 

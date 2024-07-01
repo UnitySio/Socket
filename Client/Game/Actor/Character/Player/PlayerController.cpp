@@ -1,16 +1,19 @@
 ﻿#include "PlayerController.h"
 #include "Windows.h"
+#include "Actor/Box.h"
 
 #include "Actor/Component/BoxColliderComponent.h"
 #include "Actor/Component/RigidBodyComponent.h"
 #include "Actor/Component/InputComponent.h"
+#include "Actor/Component/TransformComponent.h"
 
 PlayerController::PlayerController(const std::wstring& kName) : CharacterBase(kName)
 {
     input_ = CreateComponent<InputComponent>(L"Input");
     input_->RegisterKey(VK_RIGHT);
     input_->RegisterKey(VK_LEFT);
-    input_->RegisterKey(VK_SPACE);
+    input_->RegisterKey('C');
+    input_->RegisterKey('Z');
     
 }
 
@@ -27,9 +30,16 @@ void PlayerController::Tick(float delta_time)
 {
     CharacterBase::Tick(delta_time);
     
-    if (input_->IsKeyDown(VK_SPACE))
+    if (input_->IsKeyDown('C'))
     {
         rigid_body_->SetVelocity(Math::Vector2::Zero());
         rigid_body_->AddForce(Math::Vector2::Up() * 5.f, ForceMode::kImpulse);
+    }
+
+    if (input_->IsKeyDown('Z'))
+    {
+        Box* box = new Box(L"Box");
+        box->GetTransform()->SetRelativePosition(GetTransform()->GetWorldPosition());
+        SpawnActor(box);
     }
 }

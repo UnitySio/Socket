@@ -8,7 +8,7 @@ public:
     virtual ~Box() override = default;
 
 private:
-    class BoxColliderComponent* box_collider_;
+    class CircleColliderComponent* box_collider_;
     class RigidBodyComponent* rigid_body_;
     
 };
