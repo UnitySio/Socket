@@ -9,8 +9,11 @@ public:
 
     virtual void PhysicsTick(float delta_time) override;
     virtual void Tick(float delta_time) override;
+    virtual void Render(float alpha) override;
 
 private:
     class InputComponent* input_;
+    
+    SHARED_PTR<class Sprite> sprite_;
     
 };

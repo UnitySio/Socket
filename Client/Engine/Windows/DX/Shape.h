@@ -23,6 +23,8 @@ public:
     void SetPivot(Math::Vector2 pivot);
     void SetRotation(float rotation);
 
+    Bounds GetBounds() const;
+
     inline void SetVertices(const std::vector<DefaultVertex>& kVertices) { vertices_ = kVertices; }
     inline void SetIndices(const std::vector<MathTypes::uint32>& kIndices) { indices_ = kIndices; }
     inline void SetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY primitive_topology) { primitive_topology_ = primitive_topology; }
