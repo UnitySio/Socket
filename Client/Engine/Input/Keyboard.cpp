@@ -1,25 +1,9 @@
 ﻿#include "Keyboard.h"
 
-Keyboard::Keyboard()
-{
-}
+#include <ranges>
 
-void Keyboard::RegisterKey(BYTE keycode)
+Keyboard::Keyboard() : key_states_()
 {
-	EventKeyboard* temp = new EventKeyboard(keycode, WM_KEYUP);
-	keys_.push_back(std::move(*temp));
-}
-
-void Keyboard::UnRegisterKey(BYTE keycode)
-{
-	for (auto it = keys_.begin(); it != keys_.end(); ++it)
-	{
-		if (it->keyCode_ == keycode)
-		{
-			keys_.erase(it);
-			break;
-		}
-	}
 }
 
 bool Keyboard::ProcessMessage(UINT message, WPARAM wParam, LPARAM lParam, MathTypes::uint32 handler_result)
@@ -29,68 +13,43 @@ bool Keyboard::ProcessMessage(UINT message, WPARAM wParam, LPARAM lParam, MathTy
 	{
 		WORD key_code = LOWORD(wParam);
 		WORD key_flags = HIWORD(lParam);
-		WORD scan_code = LOBYTE(key_flags);
+        
+		MathTypes::uint32 char_code =  MapVirtualKey(key_code, MAPVK_VK_TO_CHAR);
 
-		for (auto it = keys_.begin(); it != keys_.end(); ++it)
-		{
-			if (it->keyCode_ == key_code)
-			{
-				if (message == WM_KEYDOWN)
-				{
-					if (it->keyState_ == EventKeyboard::KeyState::Down || it->keyState_ == EventKeyboard::KeyState::Pressing)
-					{
-						Pressing(*it);
-						it->keyState_ = EventKeyboard::KeyState::Pressing;
-						return true;
-					}
-
-					else if (it->keyState_ == EventKeyboard::KeyState::Up)
-					{
-						OnKeyDown(*it);
-						it->keyState_ = EventKeyboard::KeyState::Down;
-						return true;
-					}
-				}
-				
-				if (it->keyState_ == EventKeyboard::KeyState::Up)
-					return true;
-				OnKeyUp(*it);
-				it->keyState_ = EventKeyboard::KeyState::Up;
-				return true;
-
-			}
-		}
-		return false;
+		bool is_released = (key_flags & KF_UP) == KF_UP;
+		bool is_repeat = (key_flags & KF_REPEAT) == KF_REPEAT;
+        
+		if (!is_released) return OnKeyDown(key_code, char_code, is_repeat);
+		return OnKeyUp(key_code, char_code);
 	}
+
+	if (message == WM_CHAR)
+	{
+		const WCHAR character = static_cast<WCHAR>(wParam);
+		return OnKeyChar(character);
+	}
+    
 	return false;
-	/*bool is_down = (key_flags & KF_UP) != KF_UP;
-	if (is_down)
-	{
-		OnKeyDown();
-	}
-	else
-	{
-		OnKeyUp();
-	}
+}
 
+bool Keyboard::OnKeyDown(WORD key_code, MathTypes::uint32 char_code, bool is_repeat)
+{
+	OnInputKey(key_code, is_repeat ? InputState::kRepeat : InputState::kPressed);
 	return true;
 }
 
-return false;*/
-}
-
-void Keyboard::OnKeyDown(const EventKeyboard& kE)
+bool Keyboard::OnKeyUp(WORD key_code, MathTypes::uint32 char_code)
 {
-	OnDown.Execute(kE);
+	OnInputKey(key_code, InputState::kReleased);
+	return true;
 }
 
-void Keyboard::OnKeyUp(const EventKeyboard& kE)
+bool Keyboard::OnKeyChar(WCHAR character)
 {
-	OnUp.Execute(kE);
+	return true;
 }
 
-void Keyboard::Pressing(const EventKeyboard& kE)
+void Keyboard::OnInputKey(WORD key_code, InputState state)
 {
-	Pressed.Execute(kE);
+	key_states_[key_code].event_accumulator[static_cast<MathTypes::uint32>(state)]++;
 }
-
