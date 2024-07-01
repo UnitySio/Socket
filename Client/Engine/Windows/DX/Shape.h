@@ -3,6 +3,7 @@
 #include <vector>
 
 #include "Vertex.h"
+#include "Math/Bounds.h"
 #include "Math/MathTypes.h"
 #include "Math/Vector2.h"
 #include "Misc/EngineMacros.h"

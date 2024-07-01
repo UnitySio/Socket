@@ -1,5 +1,7 @@
 ﻿#include "Shape.h"
 
+#include "Math/Math.h"
+
 Shape::Shape() :
     vertices_(),
     indices_(),

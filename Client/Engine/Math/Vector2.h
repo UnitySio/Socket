@@ -107,6 +107,9 @@ namespace Math
          */
         static Vector2 Min(Vector2 a, Vector2 b);
 
+        static Vector2 PositiveInfinity();
+        static Vector2 NegativeInfinity();
+
         /**
          * \brief 백터를 정규화된 값으로 반환합니다.
          * \return Vector
