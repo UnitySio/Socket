@@ -8,7 +8,7 @@
 UIBase::UIBase()
     :
     position_(Math::Vector2(0, 0)),
-    rectsize_(Math::Vector2(1.0f, 1.0f)),
+    rectsize_(Math::Vector2(100.0f, 100.0f)),
     color_(Math::Color(255, 255, 255, 255)),
     rotation_(0),
     parent_(nullptr),

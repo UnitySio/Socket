@@ -55,4 +55,6 @@ void MainMap::Load()
     auto button = UIManager::Get()->CreateButton();
     button->SetPosition({ 200,200 });
     button->SetBoxSize({ 50,50 });
+    button->SetText(L"Test");
+    
 }
