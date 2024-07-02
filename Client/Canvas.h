@@ -3,8 +3,8 @@
 #include <vector>
 #include <memory>
 #include "Level/World.h"
+#include "UIBase.h"
 
-class UIBase;
 class Button;
 class WindowsWindow;
 class StringComponent;

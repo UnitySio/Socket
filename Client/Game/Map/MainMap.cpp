@@ -51,9 +51,16 @@ void MainMap::Load()
     string->SetText(L"Test");*/
 
     auto button = Canvas::Get()->CreateButton();
-    button->SetPosition({ 300,300 });
+    //button->SetPosition({ 300,300 });
+    button->SetAnchorType(UIBase::AnchorType::Center);
     button->SetBoxSize({ 50,50 });
     button->SetText(L"Test");
+
+    auto button2 = Canvas::Get()->CreateButton();
+    button2->SetParent(button);
+    button2->SetAnchorType(UIBase::AnchorType::RightBottom);
+    button2->SetBoxSize({ 50,50 });
+    button2->SetText(L"Test2");
     
     
 }

@@ -48,6 +48,7 @@ void StringComponent::SetText(const std::wstring& kString)
 
 void StringComponent::Render(WindowsWindow* kWindow)
 {
+    Super::Render(kWindow);
     D2DViewport* d2d_viewport = Renderer::Get()->FindD2DViewport(kWindow);
     if (!d2d_viewport) return;
 
