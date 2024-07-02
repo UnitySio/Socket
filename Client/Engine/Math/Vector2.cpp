@@ -1,6 +1,7 @@
 ﻿#include "Math/Vector2.h"
 
 #include <cmath>
+#include <limits>
 
 #include "Math.h"
 
