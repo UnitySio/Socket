@@ -9,9 +9,10 @@ class Button;
 class WindowsWindow;
 class StringComponent;
 
-class UIManager : public Singleton<UIManager>
+class Canvas : public Singleton<Canvas>
 {
 public:
+	Canvas();
 	void Render(WindowsWindow* kWindow = World::Get()->GetWindow());
 	Button* CreateButton();
 	StringComponent* CreateString();

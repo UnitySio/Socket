@@ -9,6 +9,8 @@ class WindowsWindow;
 
 class UIBase
 {
+protected:
+	enum class AnchorType;
 public:
 	UIBase();
 	virtual ~UIBase() = default;
@@ -16,22 +18,40 @@ public:
 	void SetParent(UIBase* parent);
 	void SetSize(const Math::Vector2& value);
 	void SetPosition(const Math::Vector2& pos);
-	const Math::Vector2& GetPosition();
+	const Math::Vector2 GetPosition();
+	void SetAnchorType(const AnchorType& type);
 
 protected:
-	virtual void Render(WindowsWindow* kWindow = World::Get()->GetWindow()) abstract;
+	using Super = UIBase;
+	enum class AnchorType
+	{
+		LeftTop,
+		CenterTop,
+		RightTop,
+		CenterLeft,
+		Center,
+		CenterRight,
+		LeftBottom,
+		CenterBottom,
+		RightBottom,
+		None,
+	};
+
+	virtual void Render(WindowsWindow* kWindow = World::Get()->GetWindow());
 
 
 	Math::Vector2 position_;
+	Math::Vector2 parentRectsize_;
 	Math::Vector2 rectsize_;
+	Math::Vector2 anchor_;
 	Math::Color color_;
 	float stroke_;
 	float rotation_;
 	UIBase* parent_;
 	std::vector<UIBase*> children_;
-
+	AnchorType anchorType_;
 private:
 	friend class Renderer;
-	friend class UIManager;
+	friend class Canvas;
 	friend class StringComponent;
 };

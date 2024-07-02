@@ -198,7 +198,7 @@
     <ClCompile Include="UIBase.cpp">
       <Filter>UI\Base</Filter>
     </ClCompile>
-    <ClCompile Include="UIManager.cpp">
+    <ClCompile Include="Canvas.cpp">
       <Filter>UI\Base</Filter>
     </ClCompile>
     <ClCompile Include="Button.cpp" />
@@ -687,7 +687,7 @@
     <ClInclude Include="Include\DirectXTK\XboxDDSTextureLoader.h">
       <Filter>Other</Filter>
     </ClInclude>
-    <ClInclude Include="UIManager.h">
+    <ClInclude Include="Canvas.h">
       <Filter>UI\Base</Filter>
     </ClInclude>
     <ClInclude Include="BoxComponent.h">

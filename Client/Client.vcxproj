@@ -299,7 +299,7 @@
     <ClInclude Include="StringComponent.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="UIBase.h" />
-    <ClInclude Include="UIManager.h" />
+    <ClInclude Include="Canvas.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BoxComponent.cpp" />
@@ -366,7 +366,7 @@
     <ClCompile Include="Include\imgui\imgui_widgets.cpp" />
     <ClCompile Include="StringComponent.cpp" />
     <ClCompile Include="UIBase.cpp" />
-    <ClCompile Include="UIManager.cpp" />
+    <ClCompile Include="Canvas.cpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Engine\Shader\DefaultPixelShader.hlsl">

@@ -13,9 +13,7 @@
 #include "Actor/Component/TransformComponent.h"
 #include "Misc/Delegate.h"
 #include "Misc/Function.h"
-#include "../UIManager.h"
-#include "../UIBase.h"
-#include "../StringComponent.h"
+#include "../Canvas.h"
 #include "../Button.h"
 
 MainMap::MainMap(const std::wstring& kName) : Level(kName)
@@ -52,9 +50,10 @@ void MainMap::Load()
     string->SetPosition({ 200,200 });
     string->SetText(L"Test");*/
 
-    auto button = UIManager::Get()->CreateButton();
-    button->SetPosition({ 200,200 });
+    auto button = Canvas::Get()->CreateButton();
+    button->SetPosition({ 300,300 });
     button->SetBoxSize({ 50,50 });
     button->SetText(L"Test");
+    
     
 }

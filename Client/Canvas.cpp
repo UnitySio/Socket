@@ -1,4 +1,4 @@
-#include "UIManager.h"
+#include "Canvas.h"
 #include "UIBase.h"
 #include "BoxComponent.h"
 #include "Windows/WindowsWindow.h"
@@ -6,7 +6,11 @@
 #include "Button.h"
 
 
-void UIManager::Render(WindowsWindow* kWindow)
+Canvas::Canvas()
+{
+}
+
+void Canvas::Render(WindowsWindow* kWindow)
 {
 	for (const auto& temp : renderList_)
 	{
@@ -14,7 +18,7 @@ void UIManager::Render(WindowsWindow* kWindow)
 	}
 }
 
-Button* UIManager::CreateButton()
+Button* Canvas::CreateButton()
 {
 	std::shared_ptr<Button> button = std::make_shared<Button>();
 	renderList_.push_back(button);
@@ -22,7 +26,7 @@ Button* UIManager::CreateButton()
 	
 }
 
-StringComponent* UIManager::CreateString()
+StringComponent* Canvas::CreateString()
 {
 	std::shared_ptr<StringComponent> string = std::make_shared<StringComponent>();
 	renderList_.push_back(string);
