@@ -133,9 +133,10 @@ void World::Render(float alpha)
         }
     }
     
+    std::ranges::sort(shapes, Shape::CompareZOrder);
     shape_count_ = shapes.size();
     shapes_.clear();
-
+    
     shape_batch_->DrawShapes(window_, shapes);
 }
 
