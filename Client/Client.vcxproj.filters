@@ -195,7 +195,10 @@
     <ClCompile Include="UIManager.cpp">
       <Filter>UI</Filter>
     </ClCompile>
-    <ClCompile Include="Button.cpp">
+    <ClCompile Include="BoxComponent.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="StringComponent.cpp">
       <Filter>UI</Filter>
     </ClCompile>
   </ItemGroup>
@@ -689,7 +692,10 @@
     <ClInclude Include="UIBase.h">
       <Filter>UI</Filter>
     </ClInclude>
-    <ClInclude Include="Button.h">
+    <ClInclude Include="BoxComponent.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="StringComponent.h">
       <Filter>UI</Filter>
     </ClInclude>
   </ItemGroup>

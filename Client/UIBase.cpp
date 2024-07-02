@@ -7,11 +7,12 @@
 
 UIBase::UIBase()
     :
-    position_(Math::Vector2(0,0)),
-    rectsize_(Math::Vector2(0,0)),
-    color_(Math::Color(255,255,255,255)),
+    position_(Math::Vector2(0, 0)),
+    rectsize_(Math::Vector2(1.0f, 1.0f)),
+    color_(Math::Color(255, 255, 255, 255)),
     rotation_(0),
-    parent_(nullptr)
+    parent_(nullptr),
+    stroke_(1.0f)
 {
 }
 
@@ -24,6 +25,11 @@ void UIBase::SetParent(UIBase* parent)
 void UIBase::SetSize(const Math::Vector2& value)
 {
     rectsize_ = value;
+}
+
+void UIBase::SetPosition(const Math::Vector2& pos)
+{
+    position_ = pos;
 }
 
 

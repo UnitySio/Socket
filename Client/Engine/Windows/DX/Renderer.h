@@ -58,7 +58,10 @@ public:
     bool CreateDepthStencilBuffer(Viewport& viewport);
     bool ResizeViewport(const SHARED_PTR<WindowsWindow>& window, MathTypes::uint32 width, MathTypes::uint32 height);
 
-    
+    // UI TEST
+    D2DViewport* GetCurrentD2dViewport() { return current_d2d_viewport_; }
+
+
     // TEST
     bool CreateRenderToTexture();
 
@@ -82,6 +85,8 @@ public:
     void DrawString(const SHARED_PTR<WindowsWindow>& kWindow, const std::wstring& kString, Math::Vector2 position, Math::Vector2 size, float font_size, Math::Color color);
     void DrawBitmap(const SHARED_PTR<WindowsWindow>& kWindow, const Microsoft::WRL::ComPtr<ID2D1Bitmap>& kBitmap, Math::Vector2 position, Math::Vector2 size, float rotation_z = 0.f);
     
+    // TEST
+
     bool LoadBitmap(const SHARED_PTR<WindowsWindow>& kWindow, const std::wstring& kFileName, Microsoft::WRL::ComPtr<ID2D1Bitmap>& bitmap);
 
     inline ID3D11Device* GetDevice() const { return d3d_device_.Get(); }

@@ -1,10 +1,11 @@
-#include "Button.h"
+#include "BoxComponent.h"
+#include "Engine/Windows/DX/Renderer.h"
 
-Button::Button()
+BoxComponent::BoxComponent()
 {
 }
 
-void Button::Render(WindowsWindow* kWindow)
+void BoxComponent::Render(WindowsWindow* kWindow)
 {
     D2DViewport* d2d_viewport = Renderer::Get()->FindD2DViewport(kWindow);
     if (!d2d_viewport) return;

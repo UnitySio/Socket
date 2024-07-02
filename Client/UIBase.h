@@ -11,9 +11,11 @@ class UIBase
 {
 public:
 	UIBase();
+	virtual ~UIBase() = default;
 
 	void SetParent(UIBase* parent);
 	void SetSize(const Math::Vector2& value);
+	void SetPosition(const Math::Vector2& pos);
 
 protected:
 	virtual void Render(WindowsWindow* kWindow = World::Get()->GetWindow()) abstract;
@@ -30,4 +32,5 @@ protected:
 private:
 	friend class Renderer;
 	friend class UIManager;
+	friend class StringComponent;
 };

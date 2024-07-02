@@ -1,10 +1,10 @@
 #pragma once
 #include "UIBase.h"
 
-class Button : public UIBase
+class BoxComponent : public UIBase
 {
 public:
-	Button();
+	BoxComponent();
 
 protected:
 	virtual void Render(WindowsWindow* kWindow = World::Get()->GetWindow()) override;

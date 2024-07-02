@@ -503,6 +503,8 @@ void Renderer::DrawBitmap(const std::shared_ptr<WindowsWindow>& kWindow, const M
     d2d_viewport->d2d_render_target->SetTransform(transform);
 }
 
+
+
 bool Renderer::LoadBitmap(const SHARED_PTR<WindowsWindow>& kWindow, const std::wstring& kFileName, Microsoft::WRL::ComPtr<ID2D1Bitmap>& bitmap)
 {
     D2DViewport* d2d_viewport = FindD2DViewport(kWindow.get());

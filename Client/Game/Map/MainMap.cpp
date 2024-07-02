@@ -13,8 +13,10 @@
 #include "Actor/Component/TransformComponent.h"
 #include "Misc/Delegate.h"
 #include "Misc/Function.h"
-#include "../Button.h"
 #include "../UIManager.h"
+#include "../UIBase.h"
+#include "../StringComponent.h"
+
 MainMap::MainMap(const std::wstring& kName) : Level(kName)
 {
 }
@@ -45,5 +47,7 @@ void MainMap::Load()
     FollowCamera* follow_camera = dynamic_cast<FollowCamera*>(camera.get());
     follow_camera->SetFollow(player.get());*/
     
-    auto button = UIManager::Get()->CreateButton();
+    auto string = UIManager::Get()->CreateString();
+    string->SetPosition({ 200,200 });
+    string->SetText(L"Test");
 }
