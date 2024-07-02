@@ -17,8 +17,7 @@ UIBase::UIBase()
     stroke_(1.0f),
     anchorType_(AnchorType::None)
 {
-    //Viewport* viewport = Renderer::Get()->FindViewport(World::Get()->GetWindow());
-    //rectsize_ = Math::Vector2(viewport->d3d_viewport.Width, viewport->d3d_viewport.Height);
+    
 }
 
 void UIBase::SetParent(UIBase* parent)
@@ -62,11 +61,17 @@ void UIBase::Render(WindowsWindow* kWindow)
     if (!parent_)
     {
         Viewport* viewport = Renderer::Get()->FindViewport(World::Get()->GetWindow());
-        //anchor_.x *= parentRectsize_.x / viewport->d3d_viewport.Width;
-        //anchor_.y *= parentRectsize_.y / viewport->d3d_viewport.Height;
         parentRectsize_.x = viewport->d3d_viewport.Width;
         parentRectsize_.y = viewport->d3d_viewport.Height;
     }
+
+    else if (parent_)
+    {
+        Viewport* viewport = Renderer::Get()->FindViewport(World::Get()->GetWindow());
+        anchor_.x *= parentRectsize_.x / viewport->d3d_viewport.Width;
+        anchor_.y *= parentRectsize_.y / viewport->d3d_viewport.Height;
+    }
+
     RefreshAnchorPos();
 }
 

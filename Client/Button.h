@@ -11,7 +11,7 @@ public:
 	Button();
 	void SetText(const std::wstring& kString);
 	void SetBoxSize(const Math::Vector2& size);
-
+	
 protected:
 	virtual void Render(WindowsWindow* kWindow = World::Get()->GetWindow()) override;
 
