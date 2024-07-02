@@ -132,26 +132,24 @@ void World::Render(float alpha)
             }
         }
     }
-
+    
     shape_count_ = shapes.size();
+    shapes_.clear();
 
     shape_batch_->DrawShapes(window_, shapes);
-    shapes_.clear();
 }
 
 void World::RenderUI()
 {
-    Viewport* viewport = Renderer::Get()->FindViewport(window_.get());
-    
     const float kMS = 1000.f / fps_;
     
     WCHAR buffer[256];
     swprintf_s(buffer, L"FPS: %d(%.fms)", fps_, kMS);
-    Renderer::Get()->DrawString(window_, buffer, {viewport->d3d_viewport.Width, 10.f}, {300.f, 100.f}, 24.f, {255, 255, 255, 255});
+    Renderer::Get()->DrawString(window_, buffer, {10.f, 10.f}, {300.f, 100.f}, 24.f, {255, 255, 255, 255});
 
     WCHAR shape_buffer[256];
     swprintf_s(shape_buffer, L"Shape Count: %d", shape_count_);
-    Renderer::Get()->DrawString(window_, shape_buffer, {viewport->d3d_viewport.Width, 40.f}, {300.f, 100.f}, 24.f, {255, 255, 255, 255});
+    Renderer::Get()->DrawString(window_, shape_buffer, {10.f, 40.f}, {300.f, 100.f}, 24.f, {255, 255, 255, 255});
 }
 
 void World::DestroyActor()
