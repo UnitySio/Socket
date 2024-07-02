@@ -4,7 +4,7 @@
 
 Button::Button()
 {
-	rectsize_ = Math::Vector2(50, 50);
+	rectsize_ = Math::Vector2(25, 25);
 	box_ = std::make_shared<BoxComponent>();
 	string_ = std::make_shared<StringComponent>();
 	box_->SetParent(this);
@@ -20,6 +20,7 @@ void Button::SetText(const std::wstring& kString)
 void Button::SetBoxSize(const Math::Vector2& size)
 {
 	box_->SetSize(size);
+	rectsize_ = box_->rectsize_ / 2;
 }
 
 void Button::Render(WindowsWindow* kWindow)

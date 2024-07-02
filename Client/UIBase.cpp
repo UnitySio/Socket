@@ -12,7 +12,7 @@ UIBase::UIBase()
     offset_(Math::Vector2(0,0)),
     rotation_(0),
     parentRectsize_(640, 480),
-    rectsize_(640, 480),
+    rectsize_(50, 50),
     parent_(nullptr),
     stroke_(1.0f),
     anchorType_(AnchorType::None)
@@ -52,7 +52,6 @@ const Math::Vector2 UIBase::GetPosition()
 void UIBase::SetAnchorType(const AnchorType& type)
 {
     anchorType_ = type;
-
     RefreshAnchorPos();
 }
 
@@ -77,43 +76,90 @@ void UIBase::Render(WindowsWindow* kWindow)
 
 void UIBase::RefreshAnchorPos()
 {
-    switch (anchorType_)
+    if (!parent_)
     {
-    case AnchorType::LeftTop:
-        anchor_ = Math::Vector2(0.0f, 0.0f);
-        break;
+        switch (anchorType_)
+        {
+        case AnchorType::LeftTop:
+            anchor_ = Math::Vector2(0.0f, 0.0f);
+            break;
 
-    case AnchorType::CenterTop:
-        anchor_ = Math::Vector2(parentRectsize_.x / 2, 0.0f);
-        break;
+        case AnchorType::CenterTop:
+            anchor_ = Math::Vector2(parentRectsize_.x / 2, 0.0f);
+            break;
 
-    case AnchorType::RightTop:
-        anchor_ = Math::Vector2(parentRectsize_.x, 0.0f);
-        break;
+        case AnchorType::RightTop:
+            anchor_ = Math::Vector2(parentRectsize_.x, 0.0f);
+            break;
 
-    case AnchorType::CenterLeft:
-        anchor_ = Math::Vector2(0.0f, parentRectsize_.y / 2);
-        break;
+        case AnchorType::CenterLeft:
+            anchor_ = Math::Vector2(0.0f, parentRectsize_.y / 2);
+            break;
 
-    case AnchorType::Center:
-        anchor_ = Math::Vector2(parentRectsize_.x / 2, parentRectsize_.y / 2);
-        break;
+        case AnchorType::Center:
+            anchor_ = Math::Vector2(parentRectsize_.x / 2, parentRectsize_.y / 2);
+            break;
 
-    case AnchorType::CenterRight:
-        anchor_ = Math::Vector2(parentRectsize_.x, parentRectsize_.y / 2);
-        break;
+        case AnchorType::CenterRight:
+            anchor_ = Math::Vector2(parentRectsize_.x, parentRectsize_.y / 2);
+            break;
 
-    case AnchorType::LeftBottom:
-        anchor_ = Math::Vector2(0.0f, parentRectsize_.y);
-        break;
+        case AnchorType::LeftBottom:
+            anchor_ = Math::Vector2(0.0f, parentRectsize_.y);
+            break;
 
-    case AnchorType::CenterBottom:
-        anchor_ = Math::Vector2(parentRectsize_.x / 2, parentRectsize_.y);
-        break;
+        case AnchorType::CenterBottom:
+            anchor_ = Math::Vector2(parentRectsize_.x / 2, parentRectsize_.y);
+            break;
 
-    case AnchorType::RightBottom:
-        anchor_ = Math::Vector2(parentRectsize_.x, parentRectsize_.y);
-        break;
+        case AnchorType::RightBottom:
+            anchor_ = Math::Vector2(parentRectsize_.x, parentRectsize_.y);
+            break;
 
+        }
     }
+
+    else if (parent_)
+    {
+        switch (anchorType_)
+        {
+        case AnchorType::LeftTop:
+            anchor_ = Math::Vector2(-parentRectsize_.x / 2, -parentRectsize_.y / 2);
+            break;
+
+        case AnchorType::CenterTop:
+            anchor_ = Math::Vector2(0.0f, -parentRectsize_.y / 2);
+            break;
+
+        case AnchorType::RightTop:
+            anchor_ = Math::Vector2(parentRectsize_.x - parentRectsize_.x / 2, -parentRectsize_.y / 2);
+            break;
+
+        case AnchorType::CenterLeft:
+            anchor_ = Math::Vector2(-parentRectsize_.x / 2, parentRectsize_.y / 2);
+            break;
+
+        case AnchorType::Center:
+            anchor_ = Math::Vector2(parentRectsize_.x / 2, parentRectsize_.y / 2);
+            break;
+
+        case AnchorType::CenterRight:
+            anchor_ = Math::Vector2(parentRectsize_.x, parentRectsize_.y / 2);
+            break;
+
+        case AnchorType::LeftBottom:
+            anchor_ = Math::Vector2(-parentRectsize_.x / 2, parentRectsize_.y - parentRectsize_.y / 2);
+            break;
+
+        case AnchorType::CenterBottom:
+            anchor_ = Math::Vector2(parentRectsize_.x / 2, parentRectsize_.y - parentRectsize_.y / 2);
+            break;
+
+        case AnchorType::RightBottom:
+            anchor_ = Math::Vector2(parentRectsize_.x - parentRectsize_.x / 2, parentRectsize_.y - parentRectsize_.y / 2);
+            break;
+
+        }
+    }
+    
 }

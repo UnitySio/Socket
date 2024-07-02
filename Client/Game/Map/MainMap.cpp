@@ -59,9 +59,24 @@ void MainMap::Load()
     auto button2 = Canvas::Get()->CreateButton();
     button2->SetParent(button);
     button2->SetAnchorType(UIBase::AnchorType::LeftTop);
-    button2->SetPosition({ -100, 100 });
     button2->SetBoxSize({ 50,50 });
     button2->SetText(L"Test2");
+
+    auto button3 = Canvas::Get()->CreateButton();
+    button3->SetParent(button);
+    button3->SetAnchorType(UIBase::AnchorType::RightTop);
+    button3->SetBoxSize({ 50,50 });
+    button3->SetText(L"Test2");
+
+    auto button4 = Canvas::Get()->CreateButton();
+    button4->SetParent(button);
+    button4->SetAnchorType(UIBase::AnchorType::LeftBottom);
+    button4->SetBoxSize({ 50,50 });
+    button4->SetText(L"Test2");
     
-    
+    auto button5 = Canvas::Get()->CreateButton();
+    button5->SetParent(button);
+    button5->SetAnchorType(UIBase::AnchorType::RightBottom);
+    button5->SetBoxSize({ 50,50 });
+    button5->SetText(L"Test2");
 }
