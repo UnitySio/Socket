@@ -7,8 +7,12 @@ public:
     Box(const std::wstring& kName);
     virtual ~Box() override = default;
 
+    virtual void Render(float alpha) override;
+
 private:
-    class CircleColliderComponent* box_collider_;
+    class BoxColliderComponent* box_collider_;
     class RigidBodyComponent* rigid_body_;
+    
+    SHARED_PTR<class Sprite> sprite_;
     
 };
