@@ -17,5 +17,7 @@ private:
 	std::wstring string_;
 	Microsoft::WRL::ComPtr<IDWriteFactory5> dwrite_factory_;
 	Microsoft::WRL::ComPtr<IDWriteFontCollection1> dwrite_font_collection_;
+	friend class Button;
+
 };
 

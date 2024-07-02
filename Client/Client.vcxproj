@@ -135,6 +135,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="BoxComponent.h" />
+    <ClInclude Include="Button.h" />
     <ClInclude Include="Client.h" />
     <ClInclude Include="Engine\Actor\Actor.h" />
     <ClInclude Include="Engine\Actor\Component\ActorComponent.h" />
@@ -302,6 +303,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BoxComponent.cpp" />
+    <ClCompile Include="Button.cpp" />
     <ClCompile Include="Client.cpp" />
     <ClCompile Include="Engine\Actor\Actor.cpp" />
     <ClCompile Include="Engine\Actor\Component\ActorComponent.cpp" />

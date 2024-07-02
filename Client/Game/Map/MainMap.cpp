@@ -16,6 +16,7 @@
 #include "../UIManager.h"
 #include "../UIBase.h"
 #include "../StringComponent.h"
+#include "../Button.h"
 
 MainMap::MainMap(const std::wstring& kName) : Level(kName)
 {
@@ -47,7 +48,11 @@ void MainMap::Load()
     FollowCamera* follow_camera = dynamic_cast<FollowCamera*>(camera.get());
     follow_camera->SetFollow(player.get());*/
     
-    auto string = UIManager::Get()->CreateString();
+    /*auto string = UIManager::Get()->CreateString();
     string->SetPosition({ 200,200 });
-    string->SetText(L"Test");
+    string->SetText(L"Test");*/
+
+    auto button = UIManager::Get()->CreateButton();
+    button->SetPosition({ 200,200 });
+    button->SetBoxSize({ 50,50 });
 }

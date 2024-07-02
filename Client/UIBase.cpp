@@ -18,8 +18,9 @@ UIBase::UIBase()
 
 void UIBase::SetParent(UIBase* parent)
 {
-	parent_->children_.push_back(this);
+	parent->children_.push_back(this);
 	parent_ = parent;
+    rectsize_ = parent->rectsize_;
 }
 
 void UIBase::SetSize(const Math::Vector2& value)
@@ -30,6 +31,13 @@ void UIBase::SetSize(const Math::Vector2& value)
 void UIBase::SetPosition(const Math::Vector2& pos)
 {
     position_ = pos;
+}
+
+const Math::Vector2& UIBase::GetPosition()
+{
+    if (parent_)
+        return position_ + parent_->GetPosition();
+    return position_;
 }
 
 

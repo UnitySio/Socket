@@ -16,6 +16,7 @@ public:
 	void SetParent(UIBase* parent);
 	void SetSize(const Math::Vector2& value);
 	void SetPosition(const Math::Vector2& pos);
+	const Math::Vector2& GetPosition();
 
 protected:
 	virtual void Render(WindowsWindow* kWindow = World::Get()->GetWindow()) abstract;

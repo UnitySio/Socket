@@ -189,18 +189,19 @@
     <ClCompile Include="Engine\Level\World.cpp">
       <Filter>Other</Filter>
     </ClCompile>
-    <ClCompile Include="UIBase.cpp">
-      <Filter>UI</Filter>
-    </ClCompile>
-    <ClCompile Include="UIManager.cpp">
-      <Filter>UI</Filter>
-    </ClCompile>
     <ClCompile Include="BoxComponent.cpp">
-      <Filter>UI</Filter>
+      <Filter>UI\Base</Filter>
     </ClCompile>
     <ClCompile Include="StringComponent.cpp">
-      <Filter>UI</Filter>
+      <Filter>UI\Base</Filter>
     </ClCompile>
+    <ClCompile Include="UIBase.cpp">
+      <Filter>UI\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="UIManager.cpp">
+      <Filter>UI\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Button.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Actor\Actor.h">
@@ -687,17 +688,18 @@
       <Filter>Other</Filter>
     </ClInclude>
     <ClInclude Include="UIManager.h">
-      <Filter>UI</Filter>
-    </ClInclude>
-    <ClInclude Include="UIBase.h">
-      <Filter>UI</Filter>
+      <Filter>UI\Base</Filter>
     </ClInclude>
     <ClInclude Include="BoxComponent.h">
-      <Filter>UI</Filter>
+      <Filter>UI\Base</Filter>
     </ClInclude>
     <ClInclude Include="StringComponent.h">
-      <Filter>UI</Filter>
+      <Filter>UI\Base</Filter>
     </ClInclude>
+    <ClInclude Include="UIBase.h">
+      <Filter>UI\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Button.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="TileMap">
@@ -708,6 +710,9 @@
     </Filter>
     <Filter Include="UI">
       <UniqueIdentifier>{3f1fdae8-480f-43dc-9b77-d2d160d53c46}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\Base">
+      <UniqueIdentifier>{39e9e138-ba43-4c96-ab84-c5ab4e68b701}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

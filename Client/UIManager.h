@@ -13,7 +13,7 @@ class UIManager : public Singleton<UIManager>
 {
 public:
 	void Render(WindowsWindow* kWindow = World::Get()->GetWindow());
-	std::shared_ptr<UIBase> CreateButton();
+	Button* CreateButton();
 	StringComponent* CreateString();
 
 

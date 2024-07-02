@@ -3,6 +3,7 @@
 #include "BoxComponent.h"
 #include "Windows/WindowsWindow.h"
 #include "StringComponent.h"
+#include "Button.h"
 
 
 void UIManager::Render(WindowsWindow* kWindow)
@@ -13,11 +14,11 @@ void UIManager::Render(WindowsWindow* kWindow)
 	}
 }
 
-std::shared_ptr<UIBase> UIManager::CreateButton()
+Button* UIManager::CreateButton()
 {
-	std::shared_ptr<BoxComponent> button = std::make_shared<BoxComponent>();
+	std::shared_ptr<Button> button = std::make_shared<Button>();
 	renderList_.push_back(button);
-	return renderList_.back();
+	return static_cast<Button*>(renderList_.back().get());
 	
 }
 
