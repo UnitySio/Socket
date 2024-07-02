@@ -13,6 +13,14 @@ struct Bounds
      * \return Bounds
      */
     static Bounds Intersect(Bounds a, Bounds b);
+
+    /**
+     * \brief 첫번째 바운드가 두번째 바운드를 포함하는지 확인합니다.
+     * \param a 첫번째 바운드
+     * \param b 두번째 바운드
+     * \return bool
+     */
+    static bool Contains(Bounds a, Bounds b);
     
     Math::Vector2 center;
     Math::Vector2 size;

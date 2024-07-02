@@ -19,6 +19,8 @@ void CameraComponent::InitializeComponent()
 {
     ActorComponent::InitializeComponent();
 
+    World::Get()->SetCamera(GetOwner()->GetSharedPtr());
+
     UpdateProjectionMatrix();
 }
 
@@ -58,11 +60,21 @@ void CameraComponent::SetFarZ(float far_z)
     UpdateProjectionMatrix();
 }
 
+Bounds CameraComponent::GetBounds() const
+{
+    Math::Vector2 position = GetOwner()->GetTransform()->GetWorldPosition();
+
+    const float height = size_ * 2.f;
+    const float width = height * aspect_;
+    
+    return {position, {width, height}};
+}
+
 void CameraComponent::UpdateAspect()
 {
     if (Viewport* viewport = Renderer::Get()->FindViewport(World::Get()->GetWindow()))
     {
-        aspect_ = size_ * viewport->d3d_viewport.Width / viewport->d3d_viewport.Height;
+        aspect_ = viewport->d3d_viewport.Width / viewport->d3d_viewport.Height;
     }
 }
 

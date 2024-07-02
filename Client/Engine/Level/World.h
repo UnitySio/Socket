@@ -4,6 +4,7 @@
 #include "Singleton.h"
 #include "box2d/b2_world.h"
 #include "Listener/ContactListener.h"
+#include "Math/Bounds.h"
 #include "Windows/DX/Renderer.h"
 
 class Shape;
@@ -38,6 +39,9 @@ private:
     friend class Level;
     friend class Actor;
     friend class TilemapComponent;
+    friend class CameraComponent;
+
+    inline void SetCamera(const SHARED_PTR<Actor>& camera) { camera_ = camera; }
 
     SHARED_PTR<WindowsWindow> window_;
     
@@ -54,7 +58,10 @@ private:
     Level* current_level_;
     SHARED_PTR<Level> levels_[static_cast<size_t>(LevelType::kEnd)];
 
+    WEAK_PTR<Actor> camera_;
+
     int fps_;
+    int shape_count_;
 };
 
 template <std::derived_from<Level> T>

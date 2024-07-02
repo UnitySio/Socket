@@ -4,6 +4,9 @@
 
 #include "EventManager.h"
 #include "Level.h"
+#include "Actor/FollowCamera.h"
+#include "Actor/Component/CameraComponent.h"
+#include "imgui/imgui.h"
 #include "Map/MainMap.h"
 #include "Math/Color.h"
 #include "Math/Vector2.h"
@@ -14,12 +17,13 @@
 #include "Windows/DX/ShapeBatch.h"
 
 World::World() :
+    window_(nullptr),
     shape_batch_(nullptr),
     shapes_(),
     current_level_(nullptr),
     levels_(),
     fps_(0),
-    window_(nullptr)
+    shape_count_(0)
 {
     shape_batch_ = MAKE_SHARED<ShapeBatch>();
     shape_batch_->Init();
@@ -111,10 +115,27 @@ void World::Render(float alpha)
         physics_world_->DebugDraw();
     }
 
-    // 추후 개선 필요
-    std::ranges::sort(shapes_, Shape::CompareZOrder);
+    std::vector<SHARED_PTR<Shape>> shapes;
 
-    shape_batch_->DrawShapes(window_, shapes_);
+    if (const SHARED_PTR<Actor> actor = camera_.lock())
+    {
+        if (FollowCamera* camera = dynamic_cast<FollowCamera*>(actor.get()))
+        {
+            Bounds bounds = camera->GetCamera()->GetBounds();
+
+            for (const auto& shape : shapes_)
+            {
+                if (Bounds::Contains(bounds, shape->GetBounds()))
+                {
+                    shapes.push_back(shape);
+                }
+            }
+        }
+    }
+
+    shape_count_ = shapes.size();
+
+    shape_batch_->DrawShapes(window_, shapes);
     shapes_.clear();
 }
 
@@ -124,9 +145,13 @@ void World::RenderUI()
     
     const float kMS = 1000.f / fps_;
     
-    wchar_t buffer[256];
+    WCHAR buffer[256];
     swprintf_s(buffer, L"FPS: %d(%.fms)", fps_, kMS);
     Renderer::Get()->DrawString(window_, buffer, {viewport->d3d_viewport.Width, 10.f}, {300.f, 100.f}, 24.f, {255, 255, 255, 255});
+
+    WCHAR shape_buffer[256];
+    swprintf_s(shape_buffer, L"Shape Count: %d", shape_count_);
+    Renderer::Get()->DrawString(window_, shape_buffer, {viewport->d3d_viewport.Width, 40.f}, {300.f, 100.f}, 24.f, {255, 255, 255, 255});
 }
 
 void World::DestroyActor()

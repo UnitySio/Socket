@@ -84,16 +84,6 @@ void GameEngine::GameLoop(float delta_time)
     Renderer::Get()->BeginRender(game_window_);
     World::Get()->Render(alpha);
     
-    /*SHARED_PTR<Shape> shape = MAKE_SHARED<Shape>();
-    shape->SetVertices(vertices_);
-    shape->SetIndices(indices_);
-    shape->SetTexture(tilemap_texture_);
-    shape->SetScale({.0167f, .0167f});
-    shape->SetZOrder(1);*/
-    
-    /*World::Get()->AddShape(shape);*/
-
-    
     ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
 
     Renderer::Get()->BeginRenderD2D(game_window_);

@@ -50,9 +50,9 @@ void FollowCamera::PhysicsTick(float delta_time)
 
     Math::Vector2 focus_position = focus_area_->center + Math::Vector2::Up() * vertical_offset_;
     Math::Vector2 new_position = Math::Vector2::Lerp(position, focus_position, delta_time * 2.f);
-        
-    half_width_ = camera_->GetAspect();
+    
     half_height_ = camera_->GetSize();
+    half_width_ = camera_->GetAspect() * half_height_;
 
     float limit_x = limit_half_width_ - half_width_;
     if (limit_x < 0.f) limit_x = half_width_;

@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include "ActorComponent.h"
+#include "Math/Bounds.h"
 
 class CameraComponent : public ActorComponent
 {
@@ -13,6 +14,8 @@ public:
     void SetSize(float size);
     void SetNearZ(float near_z);
     void SetFarZ(float far_z);
+
+    Bounds GetBounds() const;
 
     inline float GetSize() const { return size_; }
     inline float GetAspect() const { return aspect_; }

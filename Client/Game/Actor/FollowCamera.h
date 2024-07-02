@@ -3,6 +3,8 @@
 #include "Math/Bounds.h"
 #include "Math/Vector2.h"
 
+class CameraComponent;
+
 struct FocusArea
 {
     Math::Vector2 center;
@@ -66,8 +68,10 @@ public:
 
     inline void SetFollow(class Actor* target) { target_ = target; }
 
+    inline CameraComponent* GetCamera() const { return camera_; }
+
 private:
-    class CameraComponent* camera_;
+    CameraComponent* camera_;
     
     class Actor* target_;
 
