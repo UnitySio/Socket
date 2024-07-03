@@ -94,6 +94,9 @@ public:
     void UnPauseTimer(const TimerHandle& kHandle);
     
     TimerData* FindTimer(const TimerHandle& kHandle);
+
+    float GetTimerElapsed(const TimerHandle& kHandle);
+    float GetTimerRemaining(const TimerHandle& kHandle);
 private:
     float internal_time_;
     std::vector<TimerData> timers_;

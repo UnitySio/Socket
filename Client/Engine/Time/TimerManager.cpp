@@ -61,9 +61,9 @@ const TimerHandle& TimerManager::SetTimer(void(*func)(void), float rate, bool lo
     SET_TIMERBASE(rate, loop, delay)
 }
 
-void TimerManager::ClearTimer(const TimerHandle& kInput)
+void TimerManager::ClearTimer(const TimerHandle& kHandle)
 {
-    TimerData* timer = FindTimer(kInput);
+    TimerData* timer = FindTimer(kHandle);
 
     switch (timer->status)
     {
@@ -82,9 +82,9 @@ void TimerManager::ClearTimer(const TimerHandle& kInput)
     }
 }
 
-void TimerManager::PauseTimer(const TimerHandle& kInput)
+void TimerManager::PauseTimer(const TimerHandle& kHandle)
 {
-    TimerData* timer = FindTimer(kInput);
+    TimerData* timer = FindTimer(kHandle);
     if (!timer || timer->status == TimerStatus::Paused) return;
 
     if (timer->status == TimerStatus::Executing && !timer->loop)
@@ -98,25 +98,65 @@ void TimerManager::PauseTimer(const TimerHandle& kInput)
     }
 }
 
-void TimerManager::UnPauseTimer(const TimerHandle& kInput)
+void TimerManager::UnPauseTimer(const TimerHandle& kHandle)
 {
-    TimerData* timer = FindTimer(kInput);
+    TimerData* timer = FindTimer(kHandle);
     if (!timer || timer->status != TimerStatus::Paused) return;
 
     timer->expire_time += internal_time_;
     timer->status = TimerStatus::Active;
 }
 
-TimerData* TimerManager::FindTimer(const TimerHandle& kInput)
+TimerData* TimerManager::FindTimer(const TimerHandle& kHandle)
 {
     for (auto& timer : timers_)
     {
-        if (timer.handle == kInput)
+        if (timer.handle == kHandle)
         {
             return &timer;
         }
     }
     return nullptr;
+}
+
+float TimerManager::GetTimerElapsed(const TimerHandle& kHandle)
+{
+    TimerData* timer = FindTimer(kHandle);
+    if (timer)
+    {
+        switch (timer->status)
+        {
+        case TimerStatus::Active:
+        case TimerStatus::Executing:
+            return timer->rate - (timer->expire_time - internal_time_);
+
+        default:
+            return timer->rate - timer->expire_time;
+        }
+    }
+    
+    return -1.f;
+}
+
+float TimerManager::GetTimerRemaining(const TimerHandle& kHandle)
+{
+    TimerData* timer = FindTimer(kHandle);
+    if (timer)
+    {
+        switch (timer->status)
+        {
+        case TimerStatus::Active:
+            return timer->expire_time - internal_time_;
+            
+        case TimerStatus::Executing:
+            return 0.f;
+
+        default:
+            return timer->expire_time;
+        }
+    }
+    
+    return -1.f;
 }
 
 void TimerManager::RemoveTimer(const TimerData& kTimer)
