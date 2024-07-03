@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="80" height="20" tilewidth="32" tileheight="32" infinite="0" nextlayerid="6" nextobjectid="18">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="80" height="20" tilewidth="32" tileheight="32" infinite="0" nextlayerid="6" nextobjectid="21">
  <tileset firstgid="1" name="DummyTileset" tilewidth="32" tileheight="32" tilecount="247" columns="19">
   <image source="images/tilemap/DummyTileset.png" width="608" height="416"/>
  </tileset>
@@ -10,7 +10,7 @@
  </layer>
  <layer id="4" name="Tile Layer 2" width="80" height="20">
   <data encoding="base64" compression="zlib">
-   eJztlcENgCAMRbuEetABjAdZQIdR99/BJsTEg6XGWjXyX/JPQAkvBYgAAOA+as7gkObJQ7xI51S3dar7NeDPBvyl0d630Wnfv/jz6i8N+EtTcEpOJYzn7G/izLssB3M2P1L9nP2dIRd/PcV7JkW6fxq5+NO42p/wF4E/G/BnA/5swJ8N7X+WEpT1gcDXWAF2aRMp
+   eJztlckNgCAQRWlCPWgB4kEb0GLU/nsQgyRuMG6jRP5L/glmCC8sQgAAwHOkKjVDsjc38SEFU9+cqa9vwN894M8N9b41TOv+xR/X+aKAPzeRSqySWMZD9teqdLP0O3OMH1v/kP0dIRR/pdD3zBbb/aMIxR/F1fMJfxr4u8dZf+bfrYh6+Nsyuhu9ySmuevhbsnYHfxrqfzZZu5NEfSWAbwyh8BSs
   </data>
  </layer>
  <objectgroup id="5" name="Object Layer 1">
@@ -25,5 +25,8 @@
   <object id="12" x="1184" y="96" width="704" height="32"/>
   <object id="13" x="1184" y="128" width="32" height="96"/>
   <object id="14" x="1344" y="320" width="160" height="32"/>
+  <object id="20" x="1632" y="480">
+   <polygon points="0,0 -62.6667,0 -160,96 -0.33333,95.6667"/>
+  </object>
  </objectgroup>
 </map>
