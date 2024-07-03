@@ -22,6 +22,13 @@ Box::Box(const std::wstring& kName) : Actor(kName)
     
 }
 
+void Box::BeginPlay()
+{
+    Actor::BeginPlay();
+
+    SetLifeSpan(3.f);
+}
+
 void Box::Render(float alpha)
 {
     Actor::Render(alpha);

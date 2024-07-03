@@ -92,6 +92,7 @@ void GameEngine::GameLoop(float delta_time)
     Renderer::Get()->EndRender();
 #pragma endregion
 
+    World::Get()->DestroyActor();
     EventManager::Get()->Tick();
     
 }

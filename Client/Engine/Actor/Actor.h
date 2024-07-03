@@ -7,6 +7,7 @@
 #include "Component/ActorComponent.h"
 #include "Misc/DelegateMacros.h"
 #include "Misc/EngineMacros.h"
+#include "Time/TimerManager.h"
 
 DECLARE_DELEGATE(ContactSignature, Actor*);
 
@@ -41,14 +42,7 @@ public:
     void Destroy(const Actor* kOther);
     void SpawnActor(const Actor* kActor);
     void SetActive(bool active);
-
-    ContactSignature on_collision_enter;
-    ContactSignature on_collision_stay;
-    ContactSignature on_collision_exit;
-
-    ContactSignature on_trigger_enter;
-    ContactSignature on_trigger_stay;
-    ContactSignature on_trigger_exit;
+    void SetLifeSpan(float life_span);
 
     bool CompareTag(ActorTag tag) const;
 
@@ -80,6 +74,17 @@ public:
     inline TransformComponent* GetTransform() const { return transform_; }
 
     inline Actor* GetParent() const { return parent_; }
+    
+    ContactSignature on_collision_enter;
+    ContactSignature on_collision_stay;
+    ContactSignature on_collision_exit;
+
+    ContactSignature on_trigger_enter;
+    ContactSignature on_trigger_stay;
+    ContactSignature on_trigger_exit;
+
+protected:
+    TimerHandle life_span_timer_;
 
 private:
     // 추후 정리 예정
@@ -95,6 +100,7 @@ private:
     void UninitializeComponents();
     void Destroyed();
     void CreateBody();
+    void OnLifeSpanExpired();
 
     std::wstring name_;
 

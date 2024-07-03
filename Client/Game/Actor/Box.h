@@ -7,6 +7,7 @@ public:
     Box(const std::wstring& kName);
     virtual ~Box() override = default;
 
+    virtual void BeginPlay() override;
     virtual void Render(float alpha) override;
 
 private:

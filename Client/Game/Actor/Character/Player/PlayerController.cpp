@@ -45,7 +45,7 @@ void PlayerController::Tick(float delta_time)
         rigid_body_->AddForce(Math::Vector2::Up() * 5.f, ForceMode::kImpulse);
     }
 
-    if (input_->IsKeyDown('Z'))
+    if (input_->IsKeyPressed('Z'))
     {
         Box* box = new Box(L"Box");
         box->GetTransform()->SetRelativePosition(GetTransform()->GetWorldPosition());
