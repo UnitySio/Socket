@@ -120,9 +120,6 @@ private:
     std::vector<Actor*> children_;
 
     class b2Joint* parent_joint_;
-
-    size_t unique_id_;
-    static size_t next_unique_id_;
     
 };
 
