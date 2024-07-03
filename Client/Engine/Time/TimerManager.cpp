@@ -121,5 +121,5 @@ TimerData* TimerManager::FindTimer(const TimerHandle& kInput)
 
 void TimerManager::RemoveTimer(const TimerData& kTimer)
 {
-    timers_.erase(std::find(timers_.begin(), timers_.end(), kTimer));
+    timers_.erase(std::ranges::find(timers_, kTimer));
 }
