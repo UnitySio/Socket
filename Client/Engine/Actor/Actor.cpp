@@ -13,6 +13,8 @@
 #include "Level/World.h"
 #include "Time/TimerManager.h"
 
+size_t Actor::next_unique_id_ = 0;
+
 Actor::Actor(const std::wstring& kName) :
     tag_(ActorTag::kNone),
     layer_(ActorLayer::kDefault),
@@ -23,7 +25,8 @@ Actor::Actor(const std::wstring& kName) :
     transform_(nullptr),
     parent_(nullptr),
     children_(),
-    parent_joint_(nullptr)
+    parent_joint_(nullptr),
+    unique_id_(next_unique_id_++)
 {
     name_ = kName;
 
@@ -259,5 +262,9 @@ void Actor::CreateBody()
 
 void Actor::OnLifeSpanExpired()
 {
+    WCHAR buffer[256];
+    swprintf_s(buffer, L"Life Span Expired: %d\n", unique_id_);
+    OutputDebugString(buffer);
+    
     Destroy();
 }

@@ -11,18 +11,20 @@ void TimerManager::Tick(float delta_time)
 {
     internal_time_ += delta_time;
 
-    for (auto& timer : timers_)
+    for (auto it = timers_.begin(); it != timers_.end();)
     {
+        TimerData& timer = *it;
+    
         if (timer.status == TimerStatus::Removal)
         {
-            RemoveTimer(timer);
+            it = timers_.erase(it);
             continue;
         }
 
         if (timer.status == TimerStatus::Active && internal_time_ >= timer.expire_time)
         {
             timer.status = TimerStatus::Executing;
-            
+        
             MathTypes::uint32 cell_count = timer.loop ? static_cast<int>(trunc(internal_time_ - timer.expire_time) / timer.rate) + 1 : 1;
             for (MathTypes::uint32 i = 0; i < cell_count; ++i)
             {
@@ -33,11 +35,16 @@ void TimerManager::Tick(float delta_time)
             {
                 timer.expire_time += timer.rate * cell_count;
                 timer.status = TimerStatus::Active;
+                ++it;
             }
             else
             {
-                RemoveTimer(timer);
+                it = timers_.erase(it);
             }
+        }
+        else
+        {
+            ++it;
         }
     }
 }
