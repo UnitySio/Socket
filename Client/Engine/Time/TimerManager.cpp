@@ -159,6 +159,18 @@ float TimerManager::GetTimerRemaining(const TimerHandle& kHandle)
     return -1.f;
 }
 
+bool TimerManager::IsTimerActive(const TimerHandle& kHandle)
+{
+    TimerData* timer = FindTimer(kHandle);
+    return timer && timer->status != TimerStatus::Paused;
+}
+
+bool TimerManager::IsTimerPaused(const TimerHandle& kHandle)
+{
+    TimerData* timer = FindTimer(kHandle);
+    return timer && timer->status == TimerStatus::Paused;
+}
+
 void TimerManager::RemoveTimer(const TimerData& kTimer)
 {
     timers_.erase(std::ranges::find(timers_, kTimer));

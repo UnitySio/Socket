@@ -97,6 +97,9 @@ public:
 
     float GetTimerElapsed(const TimerHandle& kHandle);
     float GetTimerRemaining(const TimerHandle& kHandle);
+
+    bool IsTimerActive(const TimerHandle& kHandle);
+    bool IsTimerPaused(const TimerHandle& kHandle);
 private:
     float internal_time_;
     std::vector<TimerData> timers_;
