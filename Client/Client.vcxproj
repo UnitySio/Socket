@@ -197,7 +197,6 @@
     <ClInclude Include="Game\Actor\Character\CharacterBase.h" />
     <ClInclude Include="Game\Actor\Character\Player\PlayerController.h" />
     <ClInclude Include="Game\Actor\FollowCamera.h" />
-    <ClInclude Include="Game\Actor\Parallax.h" />
     <ClInclude Include="Game\Actor\Pawn.h" />
     <ClInclude Include="Game\Actor\Tilemap.h" />
     <ClInclude Include="Game\Map\MainMap.h" />
@@ -348,7 +347,6 @@
     <ClCompile Include="Game\Actor\Character\CharacterBase.cpp" />
     <ClCompile Include="Game\Actor\Character\Player\PlayerController.cpp" />
     <ClCompile Include="Game\Actor\FollowCamera.cpp" />
-    <ClCompile Include="Game\Actor\Parallax.cpp" />
     <ClCompile Include="Game\Actor\Pawn.cpp" />
     <ClCompile Include="Game\Actor\Tilemap.cpp" />
     <ClCompile Include="Game\Map\MainMap.cpp" />

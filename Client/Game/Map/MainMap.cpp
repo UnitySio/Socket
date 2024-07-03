@@ -5,14 +5,11 @@
 #include "../Engine/Actor/Component/RigidBodyComponent.h"
 #include <Windows.h>
 
-#include "Actor/Box.h"
 #include "Actor/Tilemap.h"
 #include "Actor/Character/Player/PlayerController.h"
 #include "tmxlite/Map.hpp"
 #include "Actor/Component/Tilemap/TilemapComponent.h"
 #include "Actor/Component/TransformComponent.h"
-#include "Misc/Delegate.h"
-#include "Misc/Function.h"
 
 MainMap::MainMap(const std::wstring& kName) : Level(kName)
 {

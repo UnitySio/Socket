@@ -4,9 +4,9 @@
 #include "Singleton.h"
 #include "box2d/b2_world.h"
 #include "Listener/ContactListener.h"
-#include "Math/Bounds.h"
 #include "Windows/DX/Renderer.h"
 
+class Actor;
 class Shape;
 class ShapeBatch;
 class Level;
@@ -33,6 +33,8 @@ public:
     inline Level* GetLevel() const { return current_level_; }
 
     void AddShape(const SHARED_PTR<Shape>& shape);
+    
+    inline WEAK_PTR<Actor> GetCamera() const { return camera_; }
 
 private:
     friend class Physics;
