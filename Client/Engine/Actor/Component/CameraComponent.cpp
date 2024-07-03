@@ -38,6 +38,7 @@ void CameraComponent::TickComponent(float delta_time)
     }
 
     UpdateProjectionMatrix();
+    UpdateAspect();
 }
 
 void CameraComponent::SetSize(float size)
