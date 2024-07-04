@@ -70,7 +70,7 @@ void PlayerController::Tick(float delta_time)
         rigid_body_->AddForce(Math::Vector2::Up() * 5.f, ForceMode::kImpulse);
     }
 
-    Math::Vector2 screen_position = Renderer::Get()->WorldToScreen(GetTransform()->GetWorldPosition());
+    World::Get()->screen_position = Renderer::Get()->WorldToScreen(GetTransform()->GetWorldPosition());
 }
 
 void PlayerController::Render(float alpha)

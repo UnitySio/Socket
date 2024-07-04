@@ -153,6 +153,8 @@ void World::RenderUI()
     WCHAR shape_buffer[256];
     swprintf_s(shape_buffer, L"Shape Count: %d", shape_count_);
     Renderer::Get()->DrawString(window_, shape_buffer, {viewport->d3d_viewport.Width, 40.f}, {300.f, 100.f}, 24.f, {255, 255, 255, 255});
+
+    Renderer::Get()->DrawString(window_, L"PLAYER ACTOR", screen_position, {300.f, 100.f}, 24.f, {255, 255, 255, 255});
 }
 
 void World::DestroyActor()
