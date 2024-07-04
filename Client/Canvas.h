@@ -8,6 +8,7 @@
 class Button;
 class WindowsWindow;
 class StringComponent;
+class ProgressBar;
 
 class Canvas : public Singleton<Canvas>
 {
@@ -16,7 +17,7 @@ public:
 	void Render(WindowsWindow* kWindow = World::Get()->GetWindow());
 	Button* CreateButton();
 	StringComponent* CreateString();
-
+	ProgressBar* CreateProgressBar();
 
 private:
 	std::vector<std::shared_ptr<UIBase>> renderList_;

@@ -4,6 +4,7 @@
 #include "Windows/WindowsWindow.h"
 #include "StringComponent.h"
 #include "Button.h"
+#include "ProgressBar.h"
 
 
 Canvas::Canvas()
@@ -30,6 +31,12 @@ StringComponent* Canvas::CreateString()
 {
 	std::shared_ptr<StringComponent> string = std::make_shared<StringComponent>();
 	renderList_.push_back(string);
-	std::shared_ptr<UIBase> temp = renderList_.back();
-	return static_cast<StringComponent*>(temp.get());
+	return static_cast<StringComponent*>(renderList_.back().get());
+}
+
+ProgressBar* Canvas::CreateProgressBar()
+{
+	std::shared_ptr<ProgressBar> bar = std::make_shared<ProgressBar>();
+	renderList_.push_back(bar);
+	return static_cast<ProgressBar*>(renderList_.back().get());
 }

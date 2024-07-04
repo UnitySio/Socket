@@ -4,6 +4,23 @@
 BoxComponent::BoxComponent()
 {
     rectsize_ = Math::Vector2(50, 50);
+    isFilled_ = false;
+    value_ = 1.0f;
+}
+
+void BoxComponent::SetFill(const bool& flag)
+{
+    isFilled_ = flag;
+}
+
+void BoxComponent::SetValue(const float& value)
+{
+    if (value > 1.0f)
+        value_ = 1.0f;
+    else if (value < 0.0f)
+        value_ = 0.0f;
+    else
+        value_ = value * 2 - 1;
 }
 
 void BoxComponent::Render(WindowsWindow* kWindow)
@@ -19,7 +36,7 @@ void BoxComponent::Render(WindowsWindow* kWindow)
     const float half_height = rectsize_.y * 0.5f;
 
     const D2D1_RECT_F rect = D2D1::RectF(GetPosition().x - half_width, GetPosition().y - half_height,
-        GetPosition().x + half_width, GetPosition().y + half_height);
+        GetPosition().x + half_width * value_, GetPosition().y + half_height);
 
     Microsoft::WRL::ComPtr<ID2D1SolidColorBrush> brush;
     HRESULT hr = d2d_viewport->d2d_render_target->CreateSolidColorBrush(
@@ -30,6 +47,9 @@ void BoxComponent::Render(WindowsWindow* kWindow)
     D2D1_POINT_2F center = D2D1::Point2F(GetPosition().x, GetPosition().y);
     d2d_viewport->d2d_render_target->SetTransform(D2D1::Matrix3x2F::Rotation(rotation_, center));
 
-    d2d_viewport->d2d_render_target->DrawRectangle(rect, brush.Get(), stroke_);
+    if (!isFilled_)
+        d2d_viewport->d2d_render_target->DrawRectangle(rect, brush.Get(), stroke_);
+    else if (isFilled_)
+        d2d_viewport->d2d_render_target->FillRectangle(rect, brush.Get());
     d2d_viewport->d2d_render_target->SetTransform(transform);
 }

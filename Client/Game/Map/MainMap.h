@@ -2,6 +2,7 @@
 #include "Level/Level.h"
 
 class TilemapComponent;
+class ProgressBar;
 
 class MainMap : public Level
 {
@@ -10,6 +11,9 @@ public:
     virtual ~MainMap() override = default;
 
     virtual void Load() override;
-    
+    virtual void Tick(float dt) override;
+
+    ProgressBar* bar;
+    float Timer;
 };
 
