@@ -5,6 +5,7 @@
 #include "../Engine/Actor/Component/RigidBodyComponent.h"
 #include <Windows.h>
 
+#include "Actor/Box.h"
 #include "Actor/Tilemap.h"
 #include "Actor/Character/Player/PlayerController.h"
 #include "tmxlite/Map.hpp"
