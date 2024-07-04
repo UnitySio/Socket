@@ -17,7 +17,7 @@ public:
     World();
     virtual ~World() override = default;
 
-    void Init(const SHARED_PTR<WindowsWindow>& window);
+    void Init(const SHARED_PTR<WindowsWindow>& kWindow);
     void OpenLevel(LevelType type);
     void PhysicsTick(float delta_time);
     void Tick(float delta_time);
@@ -25,15 +25,13 @@ public:
     void Render(float alpha);
     void RenderUI();
     void DestroyActor();
+    void AddShape(const SHARED_PTR<Shape>& kShape);
 
     template<std::derived_from<Level> T>
     T* AddLevel(LevelType type, std::wstring name);
 
     inline WindowsWindow* GetWindow() const { return window_.get(); }
     inline Level* GetLevel() const { return current_level_; }
-
-    void AddShape(const SHARED_PTR<Shape>& shape);
-    
     inline WEAK_PTR<Actor> GetCamera() const { return camera_; }
 
 private:
@@ -43,7 +41,7 @@ private:
     friend class TilemapComponent;
     friend class CameraComponent;
 
-    inline void SetCamera(const SHARED_PTR<Actor>& camera) { camera_ = camera; }
+    inline void SetCamera(const SHARED_PTR<Actor>& kCamera) { camera_ = kCamera; }
 
     SHARED_PTR<WindowsWindow> window_;
     

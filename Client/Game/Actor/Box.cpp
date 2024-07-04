@@ -47,8 +47,6 @@ void Box::BeginPlay()
 
     SetLifeSpan(1.f);
 
-    rigid_body_->AddForce(Math::Vector2::Up() * 10.f, ForceMode::kImpulse);
-
 }
 
 void Box::Render(float alpha)

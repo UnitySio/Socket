@@ -48,7 +48,7 @@ void PlayerController::BeginPlay()
 {
     CharacterBase::BeginPlay();
 
-    TimerManager::Get()->SetTimer(this, &PlayerController::OnFire, 2.f, true);
+    TimerManager::Get()->SetTimer(this, &PlayerController::OnFire, 1.f, true);
 }
 
 void PlayerController::PhysicsTick(float delta_time)
@@ -69,6 +69,8 @@ void PlayerController::Tick(float delta_time)
         rigid_body_->SetVelocity(Math::Vector2::Zero());
         rigid_body_->AddForce(Math::Vector2::Up() * 5.f, ForceMode::kImpulse);
     }
+
+    Math::Vector2 screen_position = Renderer::Get()->WorldToScreen(GetTransform()->GetWorldPosition());
 }
 
 void PlayerController::Render(float alpha)
@@ -83,7 +85,9 @@ void PlayerController::Render(float alpha)
 
 void PlayerController::OnFire()
 {
+    Math::Vector2 world_position = Renderer::Get()->ScreenToWorld({320.f, 10.f});
+    
     Box* box = new Box(L"Box");
-    box->GetTransform()->SetRelativePosition(GetTransform()->GetWorldPosition() + Math::Vector2::Up() * 2.f);
+    box->GetTransform()->SetRelativePosition(world_position);
     SpawnActor(box);
 }

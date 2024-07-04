@@ -44,9 +44,9 @@ World::World() :
     
 }
 
-void World::Init(const SHARED_PTR<WindowsWindow>& window)
+void World::Init(const SHARED_PTR<WindowsWindow>& kWindow)
 {
-    window_ = window;
+    window_ = kWindow;
     
     AddLevel<MainMap>(LevelType::kDefault, L"Map 0");
     OpenLevel(LevelType::kDefault);
@@ -163,7 +163,7 @@ void World::DestroyActor()
     }
 }
 
-void World::AddShape(const SHARED_PTR<Shape>& shape)
+void World::AddShape(const SHARED_PTR<Shape>& kShape)
 {
-    shapes_.push_back(shape);
+    shapes_.push_back(kShape);
 }
