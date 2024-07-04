@@ -20,6 +20,7 @@ ProgressBar::ProgressBar()
 	isDown_ = false;
 	onMouse_ = false;
 	touchable_ = false;
+	isVertical_ = false;
 }
 
 void ProgressBar::SetValue(const float& value)
@@ -45,6 +46,12 @@ void ProgressBar::SetTouchEnable(const bool& flag)
 	touchable_ = flag;
 }
 
+void ProgressBar::SetVertical(const bool& flag)
+{
+	isVertical_ = flag;
+	inner_->SetVertical(flag);
+}
+
 void ProgressBar::Render(WindowsWindow* kWindow)
 {
 	Super::Render(kWindow);
@@ -59,20 +66,7 @@ void ProgressBar::Tick()
 	GetCursorPos(&pos);
 	ScreenToClient(World::Get()->GetWindow()->GetHWnd(), &pos);
 	
-	/*if (Canvas::Get()->GetMsg() == NULL)
-	{
-	}
-
-	else if (Canvas::Get()->GetMsg() == WM_LBUTTONUP)
-	{
-		isDown_ = false;
-	}
-
-	else if (Canvas::Get()->GetMsg() == WM_LBUTTONDOWN)
-	{
-		isDown_ = true;
-	}*/
-
+	
 	for (const auto& temp : Canvas::Get()->GetMsg())
 	{
 		if (temp == WM_LBUTTONDOWN)
@@ -93,16 +87,24 @@ void ProgressBar::Tick()
 		if (pos.y >= position_.y - rectsize_.y && pos.y <= position_.y + rectsize_.y)
 		{
 			onMouse_ = true;
-			auto temp = pos.x - (position_.x - rectsize_.x);
-			temp = temp / (rectsize_.x * 2);
-			value_ = temp;
+			if (!isVertical_)
+			{
+				auto temp = pos.x - (position_.x - rectsize_.x);
+				temp = temp / (rectsize_.x * 2);
+				value_ = temp;
+			}
+
+			else if (isVertical_)
+			{
+				auto temp = (position_.y + rectsize_.y) - pos.y ;
+				temp = temp / (rectsize_.y * 2);
+				value_ = temp;
+			}
+			
 
 			if (touchable_)
 			{
 				
-
-				
-
 				if (isDown_ && onMouse_)
 				{
 					inner_->SetValue(value_);

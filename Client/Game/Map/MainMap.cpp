@@ -88,6 +88,7 @@ void MainMap::Load()
     bar->SetValue(0.0f);
     bar->SetEnable(true);
     bar->SetTouchEnable(true);
+    bar->SetVertical(true);
 }
 
 void MainMap::Tick(float dt)

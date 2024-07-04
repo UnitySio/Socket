@@ -11,7 +11,9 @@ protected:
 
 private:
 	void SetValue(const float value);
+	void SetVertical(const bool& flag);
 
+	bool isVertical_;
 	bool isFilled_;
 	float value_;
 	friend class Button;

@@ -23,6 +23,11 @@ void BoxComponent::SetValue(const float value)
         value_ = value * 2.0f - 1.0f;
 }
 
+void BoxComponent::SetVertical(const bool& flag)
+{
+    isVertical_ = flag;
+}
+
 void BoxComponent::Render(WindowsWindow* kWindow)
 {
     Super::Render(kWindow);
@@ -34,9 +39,19 @@ void BoxComponent::Render(WindowsWindow* kWindow)
 
     const float half_width = rectsize_.x * 0.5f;
     const float half_height = rectsize_.y * 0.5f;
+    D2D1_RECT_F rect;
+    if (!isVertical_)
+    {
+        rect = D2D1::RectF(GetPosition().x - half_width, GetPosition().y - half_height,
+            GetPosition().x + half_width * value_, GetPosition().y + half_height);
+    }
 
-    const D2D1_RECT_F rect = D2D1::RectF(GetPosition().x - half_width, GetPosition().y - half_height,
-        GetPosition().x + half_width * value_, GetPosition().y + half_height);
+    else if (isVertical_)
+    {
+        rect = D2D1::RectF(GetPosition().x - half_width, GetPosition().y - half_height * value_,
+            GetPosition().x + half_width, GetPosition().y + half_height);
+    }
+    
 
     Microsoft::WRL::ComPtr<ID2D1SolidColorBrush> brush;
     HRESULT hr = d2d_viewport->d2d_render_target->CreateSolidColorBrush(

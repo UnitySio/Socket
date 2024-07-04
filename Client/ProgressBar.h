@@ -12,6 +12,7 @@ public:
 	void SetBoxSize(const Math::Vector2 size);
 	const bool& OnMouse();
 	void SetTouchEnable(const bool& flag);
+	void SetVertical(const bool& flag);
 
 protected:
 	virtual void Render(WindowsWindow* kWindow = World::Get()->GetWindow()) override;
@@ -22,6 +23,7 @@ private:
 	bool onMouse_;
 	bool touchable_;
 	bool isDown_;
+	bool isVertical_;
 	std::shared_ptr<BoxComponent> outer_;
 	std::shared_ptr<BoxComponent> inner_;
 };
