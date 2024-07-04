@@ -67,7 +67,7 @@ void PlayerController::Tick(float delta_time)
     if (input_->IsKeyDown('Z'))
     {
         Box* box = new Box(L"Box");
-        box->GetTransform()->SetRelativePosition(GetTransform()->GetWorldPosition());
+        box->GetTransform()->SetRelativePosition(GetTransform()->GetWorldPosition() + Math::Vector2::Up() * 2.f);
         SpawnActor(box);
     }
 }
