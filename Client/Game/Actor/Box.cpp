@@ -45,7 +45,7 @@ void Box::BeginPlay()
 {
     Actor::BeginPlay();
 
-    // SetLifeSpan(5.f);
+    SetLifeSpan(5.f);
 }
 
 void Box::Render(float alpha)
