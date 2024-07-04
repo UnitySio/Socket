@@ -3,19 +3,21 @@
 #include <wrl.h>
 #include <d2d1.h>
 #include "Engine/Windows/DX/Renderer.h"
+#include <Windows.h>
 
 
 UIBase::UIBase()
     :
     position_(Math::Vector2(0, 0)),
     color_(Math::Color(255, 255, 255, 255)),
-    offset_(Math::Vector2(0,0)),
+    offset_(Math::Vector2(0, 0)),
     rotation_(0),
     parentRectsize_(640, 480),
     rectsize_(50, 50),
     parent_(nullptr),
     stroke_(1.0f),
-    anchorType_(AnchorType::None)
+    anchorType_(AnchorType::None),
+    isEnabled_(false)
 {
     
 }
@@ -53,6 +55,16 @@ void UIBase::SetAnchorType(const AnchorType& type)
 {
     anchorType_ = type;
     RefreshAnchorPos();
+}
+
+void UIBase::SetEnable(const bool& flag)
+{
+    isEnabled_ = flag;
+}
+
+void UIBase::Tick()
+{
+
 }
 
 void UIBase::Render(WindowsWindow* kWindow)

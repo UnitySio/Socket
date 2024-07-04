@@ -16,6 +16,8 @@ void Canvas::Render(WindowsWindow* kWindow)
 	for (const auto& temp : renderList_)
 	{
 		temp->Render(kWindow);
+		if (temp->IsEnalbed())
+			temp->Tick();
 	}
 }
 
@@ -40,3 +42,4 @@ ProgressBar* Canvas::CreateProgressBar()
 	renderList_.push_back(bar);
 	return static_cast<ProgressBar*>(renderList_.back().get());
 }
+

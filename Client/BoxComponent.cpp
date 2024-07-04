@@ -20,7 +20,7 @@ void BoxComponent::SetValue(const float& value)
     else if (value < 0.0f)
         value_ = 0.0f;
     else
-        value_ = value * 2 - 1;
+        value_ = value * 2.0f - 1.0f;
 }
 
 void BoxComponent::Render(WindowsWindow* kWindow)

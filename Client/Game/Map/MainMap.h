@@ -3,6 +3,7 @@
 
 class TilemapComponent;
 class ProgressBar;
+class Button;
 
 class MainMap : public Level
 {
@@ -14,6 +15,7 @@ public:
     virtual void Tick(float dt) override;
 
     ProgressBar* bar;
+    Button* button;
     float Timer;
 };
 

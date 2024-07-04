@@ -4,6 +4,7 @@
 #include <memory>
 #include "Level/World.h"
 #include "UIBase.h"
+#include <Windows.h>
 
 class Button;
 class WindowsWindow;
@@ -18,6 +19,7 @@ public:
 	Button* CreateButton();
 	StringComponent* CreateString();
 	ProgressBar* CreateProgressBar();
+
 
 private:
 	std::vector<std::shared_ptr<UIBase>> renderList_;

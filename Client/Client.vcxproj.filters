@@ -111,9 +111,6 @@
     <ClCompile Include="Engine\Level\Level.cpp">
       <Filter>Other</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Map\MainMap.cpp">
-      <Filter>Other</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\Math\Math.cpp">
       <Filter>Other</Filter>
     </ClCompile>
@@ -208,6 +205,9 @@
       <Filter>UI\Base</Filter>
     </ClCompile>
     <ClCompile Include="ProgressBar.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Map\MainMap.cpp">
       <Filter>UI</Filter>
     </ClCompile>
   </ItemGroup>
@@ -530,9 +530,6 @@
     <ClInclude Include="Engine\Level\Level.h">
       <Filter>Other</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Map\MainMap.h">
-      <Filter>Other</Filter>
-    </ClInclude>
     <ClInclude Include="Include\tmxlite\Map.hpp">
       <Filter>Other</Filter>
     </ClInclude>
@@ -714,6 +711,9 @@
       <Filter>UI\Base</Filter>
     </ClInclude>
     <ClInclude Include="ProgressBar.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Map\MainMap.h">
       <Filter>UI</Filter>
     </ClInclude>
   </ItemGroup>

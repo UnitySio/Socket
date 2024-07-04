@@ -31,12 +31,14 @@ public:
 	void SetPosition(const Math::Vector2& pos);
 	const Math::Vector2 GetPosition();
 	void SetAnchorType(const AnchorType& type);
+	virtual void SetEnable(const bool& flag);
+	const bool& IsEnalbed() { return isEnabled_; }
 
 protected:
 	using Super = UIBase;
 	void SetOffset(const Math::Vector2& pos);
 
-
+	virtual void Tick();
 	virtual void Render(WindowsWindow* kWindow = World::Get()->GetWindow());
 	void RefreshAnchorPos();
 
@@ -51,6 +53,8 @@ protected:
 	UIBase* parent_;
 	std::vector<UIBase*> children_;
 	AnchorType anchorType_;
+	bool isEnabled_;
+
 private:
 	friend class Renderer;
 	friend class Canvas;

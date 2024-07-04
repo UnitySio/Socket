@@ -76,21 +76,26 @@ void MainMap::Load()
     //button4->SetBoxSize({ 50,50 });
     //button4->SetText(L"Test2");
     //
-    //auto button5 = Canvas::Get()->CreateButton();
-    //button5->SetParent(button);
-    //button5->SetAnchorType(UIBase::AnchorType::RightBottom);
-    //button5->SetBoxSize({ 50,50 });
-    //button5->SetText(L"Test2");
+    button = Canvas::Get()->CreateButton();
+    button->SetBoxSize({ 50,50 });
+    button->SetText(L"Test2");
+    button->SetPosition({ 300,300 });
+    button->SetEnable(true);
 
     bar = Canvas::Get()->CreateProgressBar();
     bar->SetPosition({ 200, 200 });
+    bar->SetBoxSize({ 50,50 });
     bar->SetValue(0.0f);
-
+    bar->SetEnable(true);
 }
 
 void MainMap::Tick(float dt)
 {
     Level::Tick(dt);
-    Timer += dt/2;
-    bar->SetValue(Timer);
+    if (button->OnMouse())
+    {
+        Timer += dt / 2;
+        bar->SetValue(Timer);
+    }
+    
 }
