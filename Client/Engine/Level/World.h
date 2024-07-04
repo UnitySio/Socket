@@ -4,7 +4,6 @@
 #include "Singleton.h"
 #include "box2d/b2_world.h"
 #include "Listener/ContactListener.h"
-#include "Math/Vector2.h"
 #include "Windows/DX/Renderer.h"
 
 class Actor;
@@ -34,9 +33,6 @@ public:
     inline WindowsWindow* GetWindow() const { return window_.get(); }
     inline Level* GetLevel() const { return current_level_; }
     inline WEAK_PTR<Actor> GetCamera() const { return camera_; }
-
-    // TEST
-    Math::Vector2 screen_position;
 
 private:
     friend class Physics;

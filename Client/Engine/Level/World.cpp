@@ -3,6 +3,7 @@
 #include <algorithm>
 
 #include "EventManager.h"
+#include "GameInstance.h"
 #include "Level.h"
 #include "Actor/FollowCamera.h"
 #include "Actor/Component/CameraComponent.h"
@@ -10,7 +11,6 @@
 #include "Map/MainMap.h"
 #include "Math/Color.h"
 #include "Math/Vector2.h"
-#include "Misc/Debug.h"
 #include "Time/TimerManager.h"
 #include "Windows/DX/Renderer.h"
 #include "Windows/DX/Shape.h"
@@ -154,7 +154,7 @@ void World::RenderUI()
     swprintf_s(shape_buffer, L"Shape Count: %d", shape_count_);
     Renderer::Get()->DrawString(window_, shape_buffer, {viewport->d3d_viewport.Width, 40.f}, {300.f, 100.f}, 24.f, {255, 255, 255, 255});
 
-    Renderer::Get()->DrawString(window_, L"PLAYER ACTOR", screen_position, {300.f, 100.f}, 24.f, {255, 255, 255, 255});
+    Renderer::Get()->DrawString(window_, L"PLAYER ACTOR", GameInstance::Get()->player_screen_position, {300.f, 100.f}, 24.f, {255, 255, 255, 255});
 }
 
 void World::DestroyActor()

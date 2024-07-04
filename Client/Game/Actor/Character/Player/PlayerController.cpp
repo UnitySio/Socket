@@ -1,4 +1,6 @@
 ﻿#include "PlayerController.h"
+
+#include "GameInstance.h"
 #include "Windows.h"
 #include "Actor/Box.h"
 
@@ -70,7 +72,7 @@ void PlayerController::Tick(float delta_time)
         rigid_body_->AddForce(Math::Vector2::Up() * 5.f, ForceMode::kImpulse);
     }
 
-    World::Get()->screen_position = Renderer::Get()->WorldToScreen(GetTransform()->GetWorldPosition());
+    GameInstance::Get()->player_screen_position = Renderer::Get()->WorldToScreen(GetTransform()->GetWorldPosition());
 }
 
 void PlayerController::Render(float alpha)
