@@ -15,5 +15,6 @@ private:
     class InputComponent* input_;
     
     SHARED_PTR<class Sprite> sprite_;
+    SHARED_PTR<class Shape> shape_;
     
 };

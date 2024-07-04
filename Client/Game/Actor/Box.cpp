@@ -20,19 +20,6 @@ Box::Box(const std::wstring& kName) : Actor(kName)
 
     sprite_->Split(1, 1, {.5f, .5f});
     
-}
-
-void Box::BeginPlay()
-{
-    Actor::BeginPlay();
-
-    SetLifeSpan(5.f);
-}
-
-void Box::Render(float alpha)
-{
-    Actor::Render(alpha);
-    
     const std::vector<SpriteFrame>& frames = sprite_->GetFrames();
 
     const float width = (sprite_->GetWidth() * frames[0].uv_scale.x / sprite_->GetPPU()) * .125f;
@@ -40,17 +27,33 @@ void Box::Render(float alpha)
     const float pivot_x = width * frames[0].pivot.x;
     const float pivot_y = height * frames[0].pivot.y;
 
-    SHARED_PTR<Shape> shape = MAKE_SHARED<Shape>();
-    shape->SetVertices(sprite_->GetVertices());
-    shape->SetIndices(sprite_->GetIndices());
-    shape->SetTexture(sprite_);
-    shape->SetPosition(GetTransform()->GetWorldPosition());
-    shape->SetRotation(GetTransform()->GetWorldRotationZ());
-    shape->SetScale({width, height});
-    shape->SetUVOffset(frames[0].uv_offset);
-    shape->SetUVScale(frames[0].uv_scale);
-    shape->SetPivot({pivot_x, pivot_y});
-    shape->SetZOrder(1);
+    shape_ = MAKE_SHARED<Shape>();
+    shape_->SetVertices(sprite_->GetVertices());
+    shape_->SetIndices(sprite_->GetIndices());
+    shape_->SetTexture(sprite_);
+    shape_->SetPosition(GetTransform()->GetWorldPosition());
+    shape_->SetRotation(GetTransform()->GetWorldRotationZ());
+    shape_->SetScale({width, height});
+    shape_->SetUVOffset(frames[0].uv_offset);
+    shape_->SetUVScale(frames[0].uv_scale);
+    shape_->SetPivot({pivot_x, pivot_y});
+    shape_->SetZOrder(1);
+    
+}
 
-    World::Get()->AddShape(shape);
+void Box::BeginPlay()
+{
+    Actor::BeginPlay();
+
+    // SetLifeSpan(5.f);
+}
+
+void Box::Render(float alpha)
+{
+    Actor::Render(alpha);
+    
+    shape_->SetPosition(GetTransform()->GetWorldPosition());
+    shape_->SetRotation(GetTransform()->GetWorldRotationZ());
+
+    World::Get()->AddShape(shape_);
 }

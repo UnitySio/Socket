@@ -24,6 +24,25 @@ PlayerController::PlayerController(const std::wstring& kName) : CharacterBase(kN
 
     sprite_->Split(15, 3, {.5f, .45f});
     
+    const std::vector<SpriteFrame>& frames = sprite_->GetFrames();
+
+    const float width = sprite_->GetWidth() * frames[0].uv_scale.x / sprite_->GetPPU();
+    const float height = sprite_->GetHeight() * frames[0].uv_scale.y / sprite_->GetPPU();
+    const float pivot_x = width * frames[0].pivot.x;
+    const float pivot_y = height * frames[0].pivot.y;
+
+    shape_ = MAKE_SHARED<Shape>();
+    shape_->SetVertices(sprite_->GetVertices());
+    shape_->SetIndices(sprite_->GetIndices());
+    shape_->SetTexture(sprite_);
+    shape_->SetPosition(GetTransform()->GetWorldPosition());
+    shape_->SetRotation(GetTransform()->GetWorldRotationZ());
+    shape_->SetScale({width, height});
+    shape_->SetUVOffset(frames[0].uv_offset);
+    shape_->SetUVScale(frames[0].uv_scale);
+    shape_->SetPivot({pivot_x, pivot_y});
+    shape_->SetZOrder(1);
+    
 }
 
 void PlayerController::PhysicsTick(float delta_time)
@@ -57,24 +76,8 @@ void PlayerController::Render(float alpha)
 {
     CharacterBase::Render(alpha);
     
-    const std::vector<SpriteFrame>& frames = sprite_->GetFrames();
+    shape_->SetPosition(GetTransform()->GetWorldPosition());
+    shape_->SetRotation(GetTransform()->GetWorldRotationZ());
 
-    const float width = sprite_->GetWidth() * frames[0].uv_scale.x / sprite_->GetPPU();
-    const float height = sprite_->GetHeight() * frames[0].uv_scale.y / sprite_->GetPPU();
-    const float pivot_x = width * frames[0].pivot.x;
-    const float pivot_y = height * frames[0].pivot.y;
-
-    SHARED_PTR<Shape> shape = MAKE_SHARED<Shape>();
-    shape->SetVertices(sprite_->GetVertices());
-    shape->SetIndices(sprite_->GetIndices());
-    shape->SetTexture(sprite_);
-    shape->SetPosition(GetTransform()->GetWorldPosition());
-    shape->SetRotation(GetTransform()->GetWorldRotationZ());
-    shape->SetScale({width, height});
-    shape->SetUVOffset(frames[0].uv_offset);
-    shape->SetUVScale(frames[0].uv_scale);
-    shape->SetPivot({pivot_x, pivot_y});
-    shape->SetZOrder(1);
-
-    World::Get()->AddShape(shape);
+    World::Get()->AddShape(shape_);
 }

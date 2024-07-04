@@ -15,5 +15,6 @@ private:
     class RigidBodyComponent* rigid_body_;
     
     SHARED_PTR<class Sprite> sprite_;
+    SHARED_PTR<class Shape> shape_;
     
 };
