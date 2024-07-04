@@ -10,7 +10,7 @@ protected:
 	virtual void Render(WindowsWindow* kWindow = World::Get()->GetWindow()) override;
 
 private:
-	void SetValue(const float& value);
+	void SetValue(const float value);
 
 	bool isFilled_;
 	float value_;

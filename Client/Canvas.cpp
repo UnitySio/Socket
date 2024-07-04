@@ -43,3 +43,10 @@ ProgressBar* Canvas::CreateProgressBar()
 	return static_cast<ProgressBar*>(renderList_.back().get());
 }
 
+bool Canvas::ProcessMessage(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam, MathTypes::uint32 handler_result)
+{
+	message_ = message;
+	messages_.push_back(message);
+	return false;
+}
+

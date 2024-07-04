@@ -13,7 +13,7 @@ void BoxComponent::SetFill(const bool& flag)
     isFilled_ = flag;
 }
 
-void BoxComponent::SetValue(const float& value)
+void BoxComponent::SetValue(const float value)
 {
     if (value > 1.0f)
         value_ = 1.0f;

@@ -87,15 +87,11 @@ void MainMap::Load()
     bar->SetBoxSize({ 50,50 });
     bar->SetValue(0.0f);
     bar->SetEnable(true);
+    bar->SetTouchEnable(true);
 }
 
 void MainMap::Tick(float dt)
 {
     Level::Tick(dt);
-    if (button->OnMouse())
-    {
-        Timer += dt / 2;
-        bar->SetValue(Timer);
-    }
     
 }

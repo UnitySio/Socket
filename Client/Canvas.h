@@ -5,6 +5,7 @@
 #include "Level/World.h"
 #include "UIBase.h"
 #include <Windows.h>
+#include <stack>
 
 class Button;
 class WindowsWindow;
@@ -19,9 +20,24 @@ public:
 	Button* CreateButton();
 	StringComponent* CreateString();
 	ProgressBar* CreateProgressBar();
-
-
+	bool ProcessMessage(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam, MathTypes::uint32 handler_result);
+	//const UINT& GetMsg() { return message_; }
+	const std::vector<UINT> GetMsg() 
+	{ 
+		/*if (messages_.empty())
+			return NULL;
+		auto temp = messages_.back(); 
+		messages_.clear();
+		return temp;*/
+		auto temp = messages_;
+		messages_.clear();
+		return temp;
+	
+	}
 private:
+	UINT message_;
 	std::vector<std::shared_ptr<UIBase>> renderList_;
+
+	std::vector<UINT> messages_;
 };
 
