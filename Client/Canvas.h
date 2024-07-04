@@ -29,11 +29,15 @@ public:
 		auto temp = messages_.back(); 
 		messages_.clear();
 		return temp;*/
-		auto temp = messages_;
+		
+		/*auto temp = messages_;
 		messages_.clear();
-		return temp;
-	
+		return temp;*/
+
+		return messages_;
 	}
+
+	void ClearMsg() { messages_.clear(); }
 private:
 	UINT message_;
 	std::vector<std::shared_ptr<UIBase>> renderList_;

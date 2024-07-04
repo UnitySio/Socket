@@ -78,7 +78,7 @@ void ProgressBar::Tick()
 		if (temp == WM_LBUTTONUP)
 		{
 			isDown_ = false;
-			break;
+			continue;
 		}
 	}
 
@@ -104,7 +104,6 @@ void ProgressBar::Tick()
 
 			if (touchable_)
 			{
-				
 				if (isDown_ && onMouse_)
 				{
 					inner_->SetValue(value_);
@@ -116,4 +115,5 @@ void ProgressBar::Tick()
 	}
 
 	onMouse_ = false;
+	Canvas::Get()->ClearMsg();
 }

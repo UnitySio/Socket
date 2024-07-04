@@ -11,6 +11,7 @@
 #include "Windows/DX/Renderer.h"
 #include "Windows/DX/Shape.h"
 #include "Windows/DX/ShapeBatch.h"
+#include "../Canvas.h"
 
 
 GameEngine::GameEngine() :
@@ -99,6 +100,8 @@ void GameEngine::GameLoop(float delta_time)
     World::Get()->RenderUI();
     Renderer::Get()->EndRenderD2D();
     Renderer::Get()->EndRender();
+    //Canvas::Get()->ClearMsg();
+
 #pragma endregion
     
 }

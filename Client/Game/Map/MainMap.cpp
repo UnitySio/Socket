@@ -88,7 +88,15 @@ void MainMap::Load()
     bar->SetValue(0.0f);
     bar->SetEnable(true);
     bar->SetTouchEnable(true);
-    bar->SetVertical(true);
+    bar->SetVertical(false);
+
+    auto bar2 = Canvas::Get()->CreateProgressBar();
+    bar2->SetPosition({ 225, 200 });
+    bar2->SetBoxSize({ 50,50 });
+    bar2->SetValue(0.0f);
+    bar2->SetEnable(true);
+    bar2->SetTouchEnable(true);
+    bar2->SetVertical(true);
 }
 
 void MainMap::Tick(float dt)
