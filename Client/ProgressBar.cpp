@@ -16,6 +16,10 @@ ProgressBar::ProgressBar()
 
 	outer_->SetParent(this);
 	inner_->SetParent(this);
+
+	isDown_ = false;
+	onMouse_ = false;
+	touchable_ = false;
 }
 
 void ProgressBar::SetValue(const float& value)
