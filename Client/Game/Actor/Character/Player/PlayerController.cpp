@@ -17,7 +17,6 @@ PlayerController::PlayerController(const std::wstring& kName) : CharacterBase(kN
     input_->RegisterKey(VK_RIGHT);
     input_->RegisterKey(VK_LEFT);
     input_->RegisterKey('C');
-    input_->RegisterKey('Z');
     
     sprite_ = MAKE_SHARED<Sprite>();
     CHECK_IF(sprite_->Load(L".\\Game_Data\\spritesheet.png"), L"Failed to load texture");
@@ -45,6 +44,13 @@ PlayerController::PlayerController(const std::wstring& kName) : CharacterBase(kN
     
 }
 
+void PlayerController::BeginPlay()
+{
+    CharacterBase::BeginPlay();
+
+    TimerManager::Get()->SetTimer(this, &PlayerController::OnFire, 2.f, true);
+}
+
 void PlayerController::PhysicsTick(float delta_time)
 {
     CharacterBase::PhysicsTick(delta_time);
@@ -63,13 +69,6 @@ void PlayerController::Tick(float delta_time)
         rigid_body_->SetVelocity(Math::Vector2::Zero());
         rigid_body_->AddForce(Math::Vector2::Up() * 5.f, ForceMode::kImpulse);
     }
-
-    if (input_->IsKeyDown('Z'))
-    {
-        Box* box = new Box(L"Box");
-        box->GetTransform()->SetRelativePosition(GetTransform()->GetWorldPosition() + Math::Vector2::Up() * 2.f);
-        SpawnActor(box);
-    }
 }
 
 void PlayerController::Render(float alpha)
@@ -80,4 +79,11 @@ void PlayerController::Render(float alpha)
     shape_->SetRotation(GetTransform()->GetWorldRotationZ());
 
     World::Get()->AddShape(shape_);
+}
+
+void PlayerController::OnFire()
+{
+    Box* box = new Box(L"Box");
+    box->GetTransform()->SetRelativePosition(GetTransform()->GetWorldPosition() + Math::Vector2::Up() * 2.f);
+    SpawnActor(box);
 }
