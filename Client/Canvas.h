@@ -21,27 +21,10 @@ public:
 	StringComponent* CreateString();
 	ProgressBar* CreateProgressBar();
 	bool ProcessMessage(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam, MathTypes::uint32 handler_result);
-	//const UINT& GetMsg() { return message_; }
-	const std::vector<UINT> GetMsg() 
-	{ 
-		/*if (messages_.empty())
-			return NULL;
-		auto temp = messages_.back(); 
-		messages_.clear();
-		return temp;*/
-		
-		/*auto temp = messages_;
-		messages_.clear();
-		return temp;*/
-
-		return messages_;
-	}
-
-	void ClearMsg() { messages_.clear(); }
+	const bool& IsDown() { return isDown_; }
+	
 private:
-	UINT message_;
+	bool isDown_;
 	std::vector<std::shared_ptr<UIBase>> renderList_;
-
-	std::vector<UINT> messages_;
+	std::vector<std::shared_ptr<UINT>> messages_;
 };
-

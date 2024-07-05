@@ -4,6 +4,8 @@
 #include <d2d1.h>
 #include "Engine/Windows/DX/Renderer.h"
 #include <Windows.h>
+#include "Canvas.h"
+#include "Misc/Function.h"
 
 
 UIBase::UIBase()
@@ -67,9 +69,58 @@ void UIBase::SetVisibility(const bool& flag)
     isVisible_ = flag;
 }
 
+void UIBase::BindAction(const EventType& type, Function<void(void)>&& func)
+{
+    switch (type)
+    {
+    case EventType::OnClicked:
+    {
+        onClickedFunc_ = std::make_shared<Function<void(void)>>(std::forward<Function<void(void)>>(func));
+        break;
+    }
+
+    case EventType::OnReleased:
+    {
+        onReleasedFunc_ = std::make_shared<Function<void(void)>>(std::forward<Function<void(void)>>(func));
+        break;
+    }
+
+    case EventType::Pressing:
+    {
+        pressingFunc_ = std::make_shared<Function<void(void)>>(std::forward<Function<void(void)>>(func));
+        break;
+    }
+    }
+}
+
 void UIBase::Tick()
 {
-
+    if (isDown_ == Canvas::Get()->IsDown())
+    {
+        onClicked_ = false;
+        onReleased_ = false;
+        if (isDown_ && pressingFunc_)
+            (*pressingFunc_)();
+    }
+    else if (isDown_ != Canvas::Get()->IsDown())
+    {
+        if (isDown_)
+        {
+            isDown_ = Canvas::Get()->IsDown();
+            onReleased_ = true;
+            pressed_ = false;
+            if (onReleasedFunc_)
+                (*onReleasedFunc_)();
+        }
+        else if (!isDown_)
+        {
+            isDown_ = Canvas::Get()->IsDown();
+            onClicked_ = true;
+            released_ = false;
+            if (onClickedFunc_ && onMouse_)
+                (*onClickedFunc_)();
+        }
+    }
 }
 
 void UIBase::Render(WindowsWindow* kWindow)
@@ -132,7 +183,6 @@ void UIBase::RefreshAnchorPos()
         case AnchorType::RightBottom:
             anchor_ = Math::Vector2(parentRectsize_.x, parentRectsize_.y);
             break;
-
         }
     }
 
@@ -178,5 +228,4 @@ void UIBase::RefreshAnchorPos()
 
         }
     }
-    
 }

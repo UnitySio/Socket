@@ -4,6 +4,7 @@
 #include "Canvas.h"
 #include <Windows.h>
 #include "Windows/WindowsWindow.h"
+#include "Misc/Function.h"
 
 Button::Button()
 {
@@ -13,6 +14,7 @@ Button::Button()
 	box_->SetParent(this);
 	string_->SetParent(this);
 	string_->SetOffset(Math::Vector2(15, 25));
+	isDown_ = false;
 }
 
 void Button::SetText(const std::wstring& kString)
@@ -51,14 +53,19 @@ void Button::Tick()
 	POINT pos{};
 	GetCursorPos(&pos);
 	ScreenToClient(World::Get()->GetWindow()->GetHWnd(), &pos);
+	
+
+	
 
 	if (pos.x >= position_.x - rectsize_.x && pos.x <= position_.x + rectsize_.x)
 	{
 		if (pos.y >= position_.y - rectsize_.y && pos.y <= position_.y + rectsize_.y)
 		{
-			wchar_t str[100];
+			/*wchar_t str[100];
 			swprintf(str, L"%d, %d", pos.x, pos.y);
-			string_->SetText(str);
+			string_->SetText(str);*/
+			/*if (onClickedFunc_ && isDown_)
+				(*onClickedFunc_)();*/
 			onMouse_ = true;
 			return;
 		}

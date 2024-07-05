@@ -72,7 +72,9 @@ bool Core::ProcessMessage(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam,
 {
     if (ImGui_ImplWin32_WndProcHandler(hWnd, message, wParam, lParam)) return true;
     if (Keyboard::Get()->ProcessMessage(message, wParam, lParam, handler_result)) return true;
+    
     if (Canvas::Get()->ProcessMessage(hWnd, message, wParam, lParam, handler_result)) return true;
+
     if (message == WM_SETFOCUS)
     {
         if (const auto window = game_window_.lock())

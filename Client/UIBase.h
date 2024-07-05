@@ -6,10 +6,19 @@
 #include "Level/World.h"
 
 class WindowsWindow;
+template<typename>
+class Function;
 
 class UIBase
 {
 public:
+	enum class EventType
+	{
+		OnClicked,
+		OnReleased,
+		Pressing,
+	};
+
 	enum class AnchorType
 	{
 		LeftTop,
@@ -35,6 +44,7 @@ public:
 	const bool& IsEnalbed() { return isEnabled_; }
 	void SetVisibility(const bool& flag);
 	const bool& IsVisible() { return isVisible_; }
+	void BindAction(const EventType& type, Function<void(void)>&& func);
 
 protected:
 	using Super = UIBase;
@@ -57,6 +67,17 @@ protected:
 	AnchorType anchorType_;
 	bool isEnabled_;
 	bool isVisible_;
+
+	bool isDown_;
+	bool onMouse_;
+	bool onClicked_;
+	bool pressed_;
+	bool onReleased_;
+	bool released_;
+
+	std::shared_ptr<Function<void(void)>> onReleasedFunc_;
+	std::shared_ptr<Function<void(void)>> onClickedFunc_;
+	std::shared_ptr<Function<void(void)>> pressingFunc_;
 
 private:
 	friend class Renderer;

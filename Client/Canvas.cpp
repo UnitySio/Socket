@@ -9,6 +9,7 @@
 
 Canvas::Canvas()
 {
+	isDown_ = false;
 }
 
 void Canvas::Render(WindowsWindow* kWindow)
@@ -46,8 +47,15 @@ ProgressBar* Canvas::CreateProgressBar()
 
 bool Canvas::ProcessMessage(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam, MathTypes::uint32 handler_result)
 {
-	message_ = message;
-	messages_.push_back(message);
+	if (message == WM_LBUTTONDOWN)
+	{
+		isDown_ = true;
+	}
+
+	else if (message == WM_LBUTTONUP)
+	{
+		isDown_ = false;
+	}
 	return false;
 }
 

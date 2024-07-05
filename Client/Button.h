@@ -19,7 +19,7 @@ protected:
 	virtual void Tick() override;
 
 private:
-	bool onMouse_;
+	
 	std::shared_ptr<BoxComponent> box_;
 	std::shared_ptr<StringComponent> string_;
 };

@@ -78,9 +78,28 @@ void MainMap::Load()
     //
     button = Canvas::Get()->CreateButton();
     button->SetBoxSize({ 50,50 });
-    button->SetText(L"Test2");
+    button->SetText(L"Click To Change On/Off");
     button->SetPosition({ 300,300 });
     button->SetEnable(true);
+    button->SetVisibility(true);
+    button->BindAction(UIBase::EventType::OnClicked, [this]() 
+        {
+        
+            if (bar->IsEnalbed())
+            {
+                bar->SetEnable(false);
+                bar->SetTouchEnable(false);
+                button->SetText(L"Off");
+            }
+            
+            else
+            {
+                bar->SetEnable(true);
+                bar->SetTouchEnable(true);
+                button->SetText(L"On");
+            }
+        });
+
 
     bar = Canvas::Get()->CreateProgressBar();
     bar->SetPosition({ 200, 200 });
@@ -97,6 +116,7 @@ void MainMap::Load()
     bar2->SetEnable(true);
     bar2->SetTouchEnable(true);
     bar2->SetVertical(true);
+    bar2->SetVisibility(true);
 }
 
 void MainMap::Tick(float dt)

@@ -66,21 +66,7 @@ void ProgressBar::Tick()
 	GetCursorPos(&pos);
 	ScreenToClient(World::Get()->GetWindow()->GetHWnd(), &pos);
 	
-	
-	for (const auto& temp : Canvas::Get()->GetMsg())
-	{
-		if (temp == WM_LBUTTONDOWN)
-		{
-			isDown_ = true;
-			continue;
-		}
-
-		if (temp == WM_LBUTTONUP)
-		{
-			isDown_ = false;
-			continue;
-		}
-	}
+	isDown_ = Canvas::Get()->IsDown();
 
 	if (pos.x >= position_.x - rectsize_.x && pos.x <= position_.x + rectsize_.x)
 	{
@@ -115,5 +101,4 @@ void ProgressBar::Tick()
 	}
 
 	onMouse_ = false;
-	Canvas::Get()->ClearMsg();
 }
