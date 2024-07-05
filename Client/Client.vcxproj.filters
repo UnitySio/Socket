@@ -210,6 +210,9 @@
     <ClCompile Include="Game\Map\MainMap.cpp">
       <Filter>UI</Filter>
     </ClCompile>
+    <ClCompile Include="ScrollView.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Actor\Actor.h">
@@ -714,6 +717,9 @@
       <Filter>UI</Filter>
     </ClInclude>
     <ClInclude Include="Game\Map\MainMap.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="ScrollView.h">
       <Filter>UI</Filter>
     </ClInclude>
   </ItemGroup>

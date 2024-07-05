@@ -11,6 +11,7 @@ class Button;
 class WindowsWindow;
 class StringComponent;
 class ProgressBar;
+class ScrollView;
 
 class Canvas : public Singleton<Canvas>
 {
@@ -20,6 +21,8 @@ public:
 	Button* CreateButton();
 	StringComponent* CreateString();
 	ProgressBar* CreateProgressBar();
+	ScrollView* CreateScrollView();
+
 	bool ProcessMessage(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam, MathTypes::uint32 handler_result);
 	const bool& IsDown() { return isDown_; }
 	

@@ -5,6 +5,7 @@
 #include "StringComponent.h"
 #include "Button.h"
 #include "ProgressBar.h"
+#include "ScrollView.h"
 
 
 Canvas::Canvas()
@@ -43,6 +44,13 @@ ProgressBar* Canvas::CreateProgressBar()
 	std::shared_ptr<ProgressBar> bar = std::make_shared<ProgressBar>();
 	renderList_.push_back(bar);
 	return static_cast<ProgressBar*>(renderList_.back().get());
+}
+
+ScrollView* Canvas::CreateScrollView()
+{
+	std::shared_ptr<ScrollView> view = std::make_shared<ScrollView>();
+	renderList_.push_back(view);
+	return static_cast<ScrollView*>(renderList_.back().get());
 }
 
 bool Canvas::ProcessMessage(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam, MathTypes::uint32 handler_result)

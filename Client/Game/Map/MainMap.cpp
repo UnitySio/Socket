@@ -16,6 +16,7 @@
 #include "../Canvas.h"
 #include "../Button.h"
 #include "../ProgressBar.h"
+#include "../ScrollView.h"
 
 MainMap::MainMap(const std::wstring& kName) : Level(kName)
 {
@@ -117,6 +118,11 @@ void MainMap::Load()
     bar2->SetTouchEnable(true);
     bar2->SetVertical(true);
     bar2->SetVisibility(true);
+
+    auto view = Canvas::Get()->CreateScrollView();
+    view->SetPosition({ 100,150 });
+    view->SetEnable(true);
+    
 }
 
 void MainMap::Tick(float dt)

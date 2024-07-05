@@ -11,8 +11,10 @@ Button::Button()
 	rectsize_ = Math::Vector2(25, 25);
 	box_ = std::make_shared<BoxComponent>();
 	string_ = std::make_shared<StringComponent>();
+
 	box_->SetParent(this);
 	string_->SetParent(this);
+
 	string_->SetOffset(Math::Vector2(15, 25));
 	isDown_ = false;
 }

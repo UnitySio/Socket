@@ -6,6 +6,7 @@ BoxComponent::BoxComponent()
     rectsize_ = Math::Vector2(50, 50);
     isFilled_ = false;
     value_ = 1.0f;
+    isInnerScroll_ = false;
 }
 
 void BoxComponent::SetFill(const bool& flag)
@@ -31,6 +32,7 @@ void BoxComponent::SetVertical(const bool& flag)
 void BoxComponent::Render(WindowsWindow* kWindow)
 {
     Super::Render(kWindow);
+    
     D2DViewport* d2d_viewport = Renderer::Get()->FindD2DViewport(kWindow);
     if (!d2d_viewport) return;
 
@@ -62,9 +64,47 @@ void BoxComponent::Render(WindowsWindow* kWindow)
     D2D1_POINT_2F center = D2D1::Point2F(GetPosition().x, GetPosition().y);
     d2d_viewport->d2d_render_target->SetTransform(D2D1::Matrix3x2F::Rotation(rotation_, center));
 
-    if (!isFilled_)
-        d2d_viewport->d2d_render_target->DrawRectangle(rect, brush.Get(), stroke_);
-    else if (isFilled_)
-        d2d_viewport->d2d_render_target->FillRectangle(rect, brush.Get());
-    d2d_viewport->d2d_render_target->SetTransform(transform);
+
+    Microsoft::WRL::ComPtr<ID2D1Layer> layer;
+    d2d_viewport->d2d_render_target->CreateLayer(nullptr, &layer);
+
+    if (isInnerScroll_)
+    {
+        D2D1_RECT_F clipRect = D2D1::RectF(outer_->GetPosition().x - outer_->rectsize_.x/2, outer_->GetPosition().y - outer_->rectsize_.y / 2,
+            outer_->GetPosition().x + outer_->rectsize_.x / 2 * value_, outer_->GetPosition().y + outer_->rectsize_.y / 2);
+        d2d_viewport->d2d_render_target->PushLayer(
+            D2D1::LayerParameters(
+                clipRect,
+                nullptr,
+                D2D1_ANTIALIAS_MODE_PER_PRIMITIVE,
+                D2D1::IdentityMatrix(),
+                1.0f,
+                nullptr,
+                D2D1_LAYER_OPTIONS_NONE),
+            layer.Get()
+        );
+
+
+        if (!isFilled_)
+            d2d_viewport->d2d_render_target->DrawRectangle(rect, brush.Get(), stroke_);
+        else if (isFilled_)
+            d2d_viewport->d2d_render_target->FillRectangle(rect, brush.Get());
+
+        d2d_viewport->d2d_render_target->PopLayer();
+
+        d2d_viewport->d2d_render_target->SetTransform(transform);
+    }
+
+    else if (!isInnerScroll_)
+    {
+
+        if (!isFilled_)
+            d2d_viewport->d2d_render_target->DrawRectangle(rect, brush.Get(), stroke_);
+        else if (isFilled_)
+            d2d_viewport->d2d_render_target->FillRectangle(rect, brush.Get());
+
+
+        d2d_viewport->d2d_render_target->SetTransform(transform);
+    }
+    
 }

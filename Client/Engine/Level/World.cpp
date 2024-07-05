@@ -124,14 +124,15 @@ void World::RenderUI()
     
     const float kMS = 1000.f / fps_;
     
-    Renderer::Get()->BeginLayer();
     
     wchar_t buffer[256];
     swprintf_s(buffer, L"FPS: %d(%.fms)", fps_, kMS);
     Renderer::Get()->DrawString(window_, buffer, {viewport->d3d_viewport.Width, 10.f}, {300.f, 100.f}, 24.f, {255, 255, 255, 255});
+    //Renderer::Get()->BeginLayer();
+
     Canvas::Get()->Render();
 
-    Renderer::Get()->EndLayer();
+    //Renderer::Get()->EndLayer();
 }
 
 void World::DestroyActor()

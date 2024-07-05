@@ -298,6 +298,7 @@
     <ClInclude Include="Include\tmxlite\Types.inl" />
     <ClInclude Include="ProgressBar.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="ScrollView.h" />
     <ClInclude Include="StringComponent.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="UIBase.h" />
@@ -368,6 +369,7 @@
     <ClCompile Include="Include\imgui\imgui_tables.cpp" />
     <ClCompile Include="Include\imgui\imgui_widgets.cpp" />
     <ClCompile Include="ProgressBar.cpp" />
+    <ClCompile Include="ScrollView.cpp" />
     <ClCompile Include="StringComponent.cpp" />
     <ClCompile Include="UIBase.cpp" />
     <ClCompile Include="Canvas.cpp" />
