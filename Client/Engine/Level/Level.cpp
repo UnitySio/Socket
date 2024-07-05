@@ -43,15 +43,6 @@ void Level::InitializeActors()
 
 void Level::PhysicsTick(float delta_time)
 {
-    // for (const auto& actor : actors_)
-    // {
-    //     if (!actor->is_active_ || actor->is_destroy_) continue;
-    //
-    //     b2Vec2 position = actor->body_->GetPosition();
-    //     actor->previous_location_ = {position.x, position.y};
-    //     actor->previous_angle_ = actor->body_->GetAngle();
-    // }
-
     for (const auto& actor : actors_)
     {
         if (!actor->is_active_ || actor->is_destroy_) continue;
