@@ -3,6 +3,7 @@
 
 #include "ActorComponent.h"
 #include "Math/MathTypes.h"
+#include "Math/Vector2.h"
 
 class InputComponent : public ActorComponent
 {
@@ -19,6 +20,8 @@ public:
     bool IsKeyUp(MathTypes::uint32 key_code) const;
     bool IsKeyPressed(MathTypes::uint32 key_code) const;
 
+    inline const Math::Vector2& GetMousePosition() const { return mouse_position_; }
+
 private:
     struct KeyState
     {
@@ -27,5 +30,7 @@ private:
     };
     
     std::map<MathTypes::uint32, KeyState> key_states_;
+
+    Math::Vector2 mouse_position_;
     
 };

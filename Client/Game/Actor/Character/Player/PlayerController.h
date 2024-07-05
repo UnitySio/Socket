@@ -18,5 +18,8 @@ private:
     
     SHARED_PTR<class Sprite> sprite_;
     SHARED_PTR<class Shape> shape_;
+
+    class b2MouseJoint* mouse_joint_;
+    class b2Body* mouse_body_;
     
 };

@@ -40,6 +40,7 @@ private:
     friend class Actor;
     friend class TilemapComponent;
     friend class CameraComponent;
+    friend class PlayerController;
 
     inline void SetCamera(const SHARED_PTR<Actor>& kCamera) { camera_ = kCamera; }
 
