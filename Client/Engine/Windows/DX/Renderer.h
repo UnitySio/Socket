@@ -77,6 +77,8 @@ public:
     void EndRender();
     void BeginRenderD2D(const SHARED_PTR<WindowsWindow>& kWindow);
     void EndRenderD2D();
+    void BeginLayer();
+    void EndLayer();
 
     // Direct2D
     void DrawBox(const SHARED_PTR<WindowsWindow>& kWindow, Math::Vector2 position, Math::Vector2 size, Math::Color color, float rotation_z = 0.f, float stroke = 1.f);

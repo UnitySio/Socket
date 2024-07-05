@@ -390,6 +390,30 @@ void Renderer::EndRenderD2D()
     current_d2d_viewport_ = nullptr;
 }
 
+void Renderer::BeginLayer()
+{
+    Microsoft::WRL::ComPtr<ID2D1Layer> layer;
+    current_d2d_viewport_->d2d_render_target->CreateLayer(nullptr, &layer);
+
+    D2D1_RECT_F clipRect = D2D1::RectF(50, 50, 200, 200);
+    current_d2d_viewport_->d2d_render_target->PushLayer(
+        D2D1::LayerParameters(
+            clipRect,
+            nullptr,
+            D2D1_ANTIALIAS_MODE_PER_PRIMITIVE,
+            D2D1::IdentityMatrix(),
+            1.0f,
+            nullptr,
+            D2D1_LAYER_OPTIONS_NONE),
+        layer.Get()
+    );
+}
+
+void Renderer::EndLayer()
+{
+    current_d2d_viewport_->d2d_render_target->PopLayer();
+}
+
 void Renderer::DrawBox(const std::shared_ptr<WindowsWindow>& kWindow, Math::Vector2 position, Math::Vector2 size,
                        Math::Color color, float rotation_z, float stroke)
 {
