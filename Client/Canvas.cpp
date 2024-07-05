@@ -15,7 +15,8 @@ void Canvas::Render(WindowsWindow* kWindow)
 {
 	for (const auto& temp : renderList_)
 	{
-		temp->Render(kWindow);
+		if(temp->IsVisible())
+			temp->Render(kWindow);
 		if (temp->IsEnalbed())
 			temp->Tick();
 	}

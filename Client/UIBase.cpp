@@ -62,6 +62,11 @@ void UIBase::SetEnable(const bool& flag)
     isEnabled_ = flag;
 }
 
+void UIBase::SetVisibility(const bool& flag)
+{
+    isVisible_ = flag;
+}
+
 void UIBase::Tick()
 {
 

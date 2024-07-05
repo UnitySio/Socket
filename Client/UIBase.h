@@ -33,6 +33,8 @@ public:
 	void SetAnchorType(const AnchorType& type);
 	virtual void SetEnable(const bool& flag);
 	const bool& IsEnalbed() { return isEnabled_; }
+	void SetVisibility(const bool& flag);
+	const bool& IsVisible() { return isVisible_; }
 
 protected:
 	using Super = UIBase;
@@ -54,6 +56,7 @@ protected:
 	std::vector<UIBase*> children_;
 	AnchorType anchorType_;
 	bool isEnabled_;
+	bool isVisible_;
 
 private:
 	friend class Renderer;
