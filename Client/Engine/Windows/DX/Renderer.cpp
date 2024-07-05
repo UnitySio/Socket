@@ -391,7 +391,7 @@ void Renderer::EndRenderD2D()
     current_d2d_viewport_ = nullptr;
 }
 
-Math::Vector2 Renderer::ScreenToWorld(const Math::Vector2& kScreenPosition) const
+Math::Vector2 Renderer::ConvertScreenToWorld(const Math::Vector2& kScreenPosition) const
 {
     Viewport* viewport = Renderer::Get()->FindViewport(World::Get()->GetWindow());
     if (!viewport) return Math::Vector2::Zero();
@@ -410,7 +410,7 @@ Math::Vector2 Renderer::ScreenToWorld(const Math::Vector2& kScreenPosition) cons
     return { world.x, world.y };
 }
 
-Math::Vector2 Renderer::WorldToScreen(const Math::Vector2& kWorldPosition) const
+Math::Vector2 Renderer::ConvertWorldToScreen(const Math::Vector2& kWorldPosition) const
 {
     Viewport* viewport = Renderer::Get()->FindViewport(World::Get()->GetWindow());
     if (!viewport) return Math::Vector2::Zero();

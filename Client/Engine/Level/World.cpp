@@ -21,9 +21,7 @@ World::World() :
     shape_batch_(nullptr),
     shapes_(),
     current_level_(nullptr),
-    levels_(),
-    fps_(0),
-    shape_count_(0)
+    levels_()
 {
     shape_batch_ = MAKE_SHARED<ShapeBatch>();
     shape_batch_->Init();
@@ -83,20 +81,6 @@ void World::Tick(float delta_time)
     {
         current_level_->Tick(delta_time);
     }
-
-    static float timer = 0.f;
-    static int frame_count = 0;
-    
-    timer += delta_time;
-    ++frame_count;
-
-    if (timer >= 1.f)
-    {
-        fps_ = frame_count;
-
-        frame_count = 0;
-        timer = 0.f;
-    }
 }
 
 void World::PostTick(float delta_time)
@@ -134,7 +118,6 @@ void World::Render(float alpha)
     }
     
     std::ranges::sort(shapes, Shape::CompareZOrder);
-    shape_count_ = shapes.size();
     shapes_.clear();
     
     shape_batch_->DrawShapes(window_, shapes);
@@ -142,19 +125,6 @@ void World::Render(float alpha)
 
 void World::RenderUI()
 {
-    Viewport* viewport = Renderer::Get()->FindViewport(window_.get());
-    
-    const float kMS = 1000.f / fps_;
-    
-    WCHAR buffer[256];
-    swprintf_s(buffer, L"FPS: %d(%.fms)", fps_, kMS);
-    Renderer::Get()->DrawString(window_, buffer, {viewport->d3d_viewport.Width, 10.f}, {300.f, 100.f}, 24.f, {255, 255, 255, 255});
-
-    WCHAR shape_buffer[256];
-    swprintf_s(shape_buffer, L"Shape Count: %d", shape_count_);
-    Renderer::Get()->DrawString(window_, shape_buffer, {viewport->d3d_viewport.Width, 40.f}, {300.f, 100.f}, 24.f, {255, 255, 255, 255});
-
-    Renderer::Get()->DrawString(window_, L"PLAYER ACTOR", GameInstance::Get()->player_screen_position, {300.f, 100.f}, 24.f, {255, 255, 255, 255});
 }
 
 void World::DestroyActor()

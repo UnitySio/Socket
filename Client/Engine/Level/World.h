@@ -59,9 +59,6 @@ private:
     SHARED_PTR<Level> levels_[static_cast<size_t>(LevelType::kEnd)];
 
     WEAK_PTR<Actor> camera_;
-
-    int fps_;
-    int shape_count_;
 };
 
 template <std::derived_from<Level> T>
