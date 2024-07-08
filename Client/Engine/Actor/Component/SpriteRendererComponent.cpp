@@ -26,6 +26,7 @@ void SpriteRendererComponent::InitializeComponent()
     shape_->SetIndices(sprite_->GetIndices());
     shape_->SetTexture(sprite_);
 }
+
 void SpriteRendererComponent::Render(float alpha)
 {
     ActorComponent::Render(alpha);
@@ -39,8 +40,8 @@ void SpriteRendererComponent::Render(float alpha)
 
     const SpriteFrame& current_frame = frames[frame_index_];
 
-    const float width = (sprite_->GetWidth() * current_frame.uv_scale.x / sprite_->GetPPU()) * transform->GetWorldScale().x;
-    const float height = (sprite_->GetHeight() * current_frame.uv_scale.y / sprite_->GetPPU()) * transform->GetWorldScale().y;
+    float width = (sprite_->GetWidth() * current_frame.uv_scale.x / sprite_->GetPPU()) * transform->GetWorldScale().x;
+    float height = (sprite_->GetHeight() * current_frame.uv_scale.y / sprite_->GetPPU()) * transform->GetWorldScale().y;
 
     const float pivot_x = current_frame.pivot.x * width;
     const float pivot_y = current_frame.pivot.y * height;
