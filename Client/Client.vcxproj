@@ -134,6 +134,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="BoxComponent.h" />
+    <ClInclude Include="Button.h" />
+    <ClInclude Include="CircleComponent.h" />
     <ClInclude Include="Client.h" />
     <ClInclude Include="Engine\Actor\Actor.h" />
     <ClInclude Include="Engine\Actor\Component\ActorComponent.h" />
@@ -296,10 +299,19 @@
     <ClInclude Include="Include\tmxlite\Tileset.hpp" />
     <ClInclude Include="Include\tmxlite\Types.hpp" />
     <ClInclude Include="Include\tmxlite\Types.inl" />
+    <ClInclude Include="ProgressBar.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="ScrollView.h" />
+    <ClInclude Include="StringComponent.h" />
     <ClInclude Include="targetver.h" />
+    <ClInclude Include="TextBlock.h" />
+    <ClInclude Include="UIBase.h" />
+    <ClInclude Include="Canvas.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="BoxComponent.cpp" />
+    <ClCompile Include="Button.cpp" />
+    <ClCompile Include="CircleComponent.cpp" />
     <ClCompile Include="Client.cpp" />
     <ClCompile Include="Engine\Actor\Actor.cpp" />
     <ClCompile Include="Engine\Actor\Component\ActorComponent.cpp" />
@@ -436,6 +448,12 @@
     <ClCompile Include="Include\imgui\imgui_impl_win32.cpp" />
     <ClCompile Include="Include\imgui\imgui_tables.cpp" />
     <ClCompile Include="Include\imgui\imgui_widgets.cpp" />
+    <ClCompile Include="ProgressBar.cpp" />
+    <ClCompile Include="ScrollView.cpp" />
+    <ClCompile Include="StringComponent.cpp" />
+    <ClCompile Include="TextBlock.cpp" />
+    <ClCompile Include="UIBase.cpp" />
+    <ClCompile Include="Canvas.cpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Engine\Shader\DefaultPixelShader.hlsl">

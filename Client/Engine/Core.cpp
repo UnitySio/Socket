@@ -9,6 +9,7 @@
 #include "Windows/WindowDefinition.h"
 #include "Windows/WindowsWindow.h"
 #include "Windows/DX/Renderer.h"
+#include "../Canvas.h"
 
 double Core::current_time_ = 0.;
 double Core::last_time_ = 0.;
@@ -70,6 +71,8 @@ bool Core::ProcessMessage(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam,
 {
     if (ImGui_ImplWin32_WndProcHandler(hWnd, message, wParam, lParam)) return true;
     if (Keyboard::Get()->ProcessMessage(message, wParam, lParam, handler_result)) return true;
+    
+    if (Canvas::Get()->ProcessMessage(hWnd, message, wParam, lParam, handler_result)) return true;
 
     if (message == WM_SIZE)
     {

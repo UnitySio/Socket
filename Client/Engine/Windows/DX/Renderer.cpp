@@ -391,6 +391,29 @@ void Renderer::EndRenderD2D()
     current_d2d_viewport_ = nullptr;
 }
 
+void Renderer::BeginLayer()
+{
+    Microsoft::WRL::ComPtr<ID2D1Layer> layer;
+    current_d2d_viewport_->d2d_render_target->CreateLayer(nullptr, &layer);
+
+    D2D1_RECT_F clipRect = D2D1::RectF(50, 50, 200, 200);
+    current_d2d_viewport_->d2d_render_target->PushLayer(
+        D2D1::LayerParameters(
+            clipRect,
+            nullptr,
+            D2D1_ANTIALIAS_MODE_PER_PRIMITIVE,
+            D2D1::IdentityMatrix(),
+            1.0f,
+            nullptr,
+            D2D1_LAYER_OPTIONS_NONE),
+        layer.Get()
+    );
+}
+
+void Renderer::EndLayer()
+{
+    current_d2d_viewport_->d2d_render_target->PopLayer();
+=======
 Math::Vector2 Renderer::ConvertScreenToWorld(const Math::Vector2& kScreenPosition) const
 {
     Viewport* viewport = Renderer::Get()->FindViewport(World::Get()->GetWindow());
@@ -541,6 +564,8 @@ void Renderer::DrawBitmap(const std::shared_ptr<WindowsWindow>& kWindow, const M
     d2d_viewport->d2d_render_target->DrawBitmap(kBitmap.Get(), rect);
     d2d_viewport->d2d_render_target->SetTransform(transform);
 }
+
+
 
 bool Renderer::LoadBitmap(const SHARED_PTR<WindowsWindow>& kWindow, const std::wstring& kFileName, Microsoft::WRL::ComPtr<ID2D1Bitmap>& bitmap)
 {

@@ -1,225 +1,756 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <FxCompile Include="Engine\Shader\DefaultPixelShader.hlsl" />
-    <FxCompile Include="Engine\Shader\DefaultVertexShader.hlsl" />
+    <FxCompile Include="Engine\Shader\DefaultPixelShader.hlsl">
+      <Filter>Other</Filter>
+    </FxCompile>
+    <FxCompile Include="Engine\Shader\DefaultVertexShader.hlsl">
+      <Filter>Other</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Client.cpp" />
-    <ClCompile Include="Engine\Actor\Actor.cpp" />
-    <ClCompile Include="Engine\Actor\Component\ActorComponent.cpp" />
-    <ClCompile Include="Engine\Actor\Component\BoxColliderComponent.cpp" />
-    <ClCompile Include="Engine\Actor\Component\CircleColliderComponent.cpp" />
-    <ClCompile Include="Engine\Actor\Component\ColliderComponent.cpp" />
-    <ClCompile Include="Engine\Actor\Component\RigidBodyComponent.cpp" />
-    <ClCompile Include="Engine\DebugDraw.cpp" />
-    <ClCompile Include="Engine\EventManager.cpp" />
-    <ClCompile Include="Engine\Level\Level.cpp" />
-    <ClCompile Include="Engine\Level\Listener\ContactListener.cpp" />
-    <ClCompile Include="Engine\Level\Listener\QueryCallback.cpp" />
-    <ClCompile Include="Engine\Level\World.cpp" />
-    <ClCompile Include="Engine\Time\Time.cpp" />
-    <ClCompile Include="Game\Actor\FollowCamera.cpp" />
-    <ClCompile Include="Game\Actor\Pawn.cpp" />
-    <ClCompile Include="Game\Map\MainMap.cpp" />
-    <ClCompile Include="Include\imgui\imgui.cpp" />
-    <ClCompile Include="Include\imgui\imgui_demo.cpp" />
-    <ClCompile Include="Include\imgui\imgui_draw.cpp" />
-    <ClCompile Include="Include\imgui\imgui_impl_dx11.cpp" />
-    <ClCompile Include="Include\imgui\imgui_impl_win32.cpp" />
-    <ClCompile Include="Include\imgui\imgui_tables.cpp" />
-    <ClCompile Include="Include\imgui\imgui_widgets.cpp" />
-    <ClCompile Include="Engine\Audio\AudioManager.cpp" />
-    <ClCompile Include="Engine\Actor\Component\AudioComponent.cpp" />
-    <ClCompile Include="Engine\Actor\Component\AudioListenerComponent.cpp" />
-    <ClCompile Include="Engine\Actor\Component\CameraComponent.cpp" />
-    <ClCompile Include="Engine\Actor\Component\TransformComponent.cpp" />
-    <ClCompile Include="Engine\Math\Bounds.cpp" />
-    <ClCompile Include="Engine\Math\Vector2.cpp" />
-    <ClCompile Include="Engine\Physics\Physics.cpp" />
-    <ClCompile Include="Engine\Physics\RayCastCallback.cpp" />
-    <ClCompile Include="Engine\GameEngine.cpp" />
-    <ClCompile Include="Engine\Windows\WindowsApplication.cpp" />
-    <ClCompile Include="Engine\Windows\WindowsWindow.cpp" />
-    <ClCompile Include="Engine\Actor\Component\InputComponent.cpp" />
-    <ClCompile Include="Engine\Core.cpp" />
-    <ClCompile Include="Engine\Math\Color.cpp" />
-    <ClCompile Include="Engine\Windows\DX\IndexBuffer.cpp" />
-    <ClCompile Include="Engine\Windows\DX\Renderer.cpp" />
-    <ClCompile Include="Engine\Windows\DX\Shaders.cpp" />
-    <ClCompile Include="Engine\Windows\DX\Shape.cpp" />
-    <ClCompile Include="Engine\Windows\DX\ShapeBatch.cpp" />
-    <ClCompile Include="Engine\Windows\DX\Texture.cpp" />
-    <ClCompile Include="Engine\Windows\DX\VertexBuffer.cpp" />
-    <ClCompile Include="Engine\Input\Keyboard.cpp" />
-    <ClCompile Include="Engine\Time\TimerManager.cpp" />
-    <ClCompile Include="Engine\Windows\DX\Sprite.cpp" />
-    <ClCompile Include="Engine\Actor\Component\TilemapComponent.cpp" />
-    <ClCompile Include="Game\Actor\Tilemap.cpp" />
+    <ClCompile Include="Engine\Actor\Actor.cpp">
+      <Filter>Other</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Actor\Component\ActorComponent.cpp">
+      <Filter>Other</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Actor\Component\AudioComponent.cpp">
+      <Filter>Other</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Actor\Component\AudioListenerComponent.cpp">
+      <Filter>Other</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Audio\AudioManager.cpp">
+      <Filter>Other</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Math\Bounds.cpp">
+      <Filter>Other</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Actor\Box.cpp">
+      <Filter>Other</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Actor\Component\BoxColliderComponent.cpp">
+      <Filter>Other</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Physics\BoxQueryCallback.cpp">
+      <Filter>Other</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Actor\Component\CameraComponent.cpp">
+      <Filter>Other</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Actor\Character\CharacterBase.cpp">
+      <Filter>Other</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Actor\Component\CircleColliderComponent.cpp">
+      <Filter>Other</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Physics\CircleQueryCallback.cpp">
+      <Filter>Other</Filter>
+    </ClCompile>
+    <ClCompile Include="Client.cpp">
+      <Filter>Other</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Actor\Component\ColliderComponent.cpp">
+      <Filter>Other</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Math\Color.cpp">
+      <Filter>Other</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Level\Listener\ContactListener.cpp">
+      <Filter>Other</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Core.cpp">
+      <Filter>Other</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Misc\Debug.cpp">
+      <Filter>Other</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\DebugDraw.cpp">
+      <Filter>Other</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\EventManager.cpp">
+      <Filter>Other</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Actor\FollowCamera.cpp">
+      <Filter>Other</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\GameEngine.cpp">
+      <Filter>Other</Filter>
+    </ClCompile>
+    <ClCompile Include="Include\imgui\imgui.cpp">
+      <Filter>Other</Filter>
+    </ClCompile>
+    <ClCompile Include="Include\imgui\imgui_demo.cpp">
+      <Filter>Other</Filter>
+    </ClCompile>
+    <ClCompile Include="Include\imgui\imgui_draw.cpp">
+      <Filter>Other</Filter>
+    </ClCompile>
+    <ClCompile Include="Include\imgui\imgui_impl_dx11.cpp">
+      <Filter>Other</Filter>
+    </ClCompile>
+    <ClCompile Include="Include\imgui\imgui_impl_win32.cpp">
+      <Filter>Other</Filter>
+    </ClCompile>
+    <ClCompile Include="Include\imgui\imgui_tables.cpp">
+      <Filter>Other</Filter>
+    </ClCompile>
+    <ClCompile Include="Include\imgui\imgui_widgets.cpp">
+      <Filter>Other</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Windows\DX\IndexBuffer.cpp">
+      <Filter>Other</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Actor\Component\InputComponent.cpp">
+      <Filter>Other</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Input\Keyboard.cpp">
+      <Filter>Other</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Level\Level.cpp">
+      <Filter>Other</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Math\Math.cpp">
+      <Filter>Other</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Actor\Pawn.cpp">
+      <Filter>Other</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Physics\Physics.cpp">
+      <Filter>Other</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Actor\Character\Player\PlayerController.cpp">
+      <Filter>Other</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Level\Listener\QueryCallback.cpp">
+      <Filter>Other</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Physics\RayCastCallback.cpp">
+      <Filter>Other</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Windows\DX\Renderer.cpp">
+      <Filter>Other</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Actor\Component\RigidBodyComponent.cpp">
+      <Filter>Other</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Windows\DX\Shaders.cpp">
+      <Filter>Other</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Windows\DX\Shape.cpp">
+      <Filter>Other</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Windows\DX\ShapeBatch.cpp">
+      <Filter>Other</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Windows\DX\Sprite.cpp">
+      <Filter>Other</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Windows\DX\Texture.cpp">
+      <Filter>Other</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Actor\Tilemap.cpp">
+      <Filter>Other</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Actor\Component\Tilemap\TilemapChunk.cpp">
+      <Filter>Other</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Actor\Component\Tilemap\TilemapComponent.cpp">
+      <Filter>Other</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Actor\Component\Tilemap\TilemapLayer.cpp">
+      <Filter>Other</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Time\Time.cpp">
+      <Filter>Other</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Time\TimerManager.cpp">
+      <Filter>Other</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Actor\Component\TransformComponent.cpp">
+      <Filter>Other</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Math\Vector2.cpp">
+      <Filter>Other</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Windows\DX\VertexBuffer.cpp">
+      <Filter>Other</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Windows\WindowsApplication.cpp">
+      <Filter>Other</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Windows\WindowsWindow.cpp">
+      <Filter>Other</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Level\World.cpp">
+      <Filter>Other</Filter>
+    </ClCompile>
+    <ClCompile Include="BoxComponent.cpp">
+      <Filter>UI\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="StringComponent.cpp">
+      <Filter>UI\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="UIBase.cpp">
+      <Filter>UI\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Canvas.cpp">
+      <Filter>UI\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Button.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="CircleComponent.cpp">
+      <Filter>UI\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="ProgressBar.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Map\MainMap.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="ScrollView.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="TextBlock.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Client.h" />
-    <ClInclude Include="Engine\Actor\Actor.h" />
-    <ClInclude Include="Engine\Actor\Component\ActorComponent.h" />
-    <ClInclude Include="Engine\Actor\Component\BoxColliderComponent.h" />
-    <ClInclude Include="Engine\Actor\Component\CircleColliderComponent.h" />
-    <ClInclude Include="Engine\Actor\Component\ColliderComponent.h" />
-    <ClInclude Include="Engine\Actor\Component\RigidBodyComponent.h" />
-    <ClInclude Include="Engine\DebugDraw.h" />
-    <ClInclude Include="Engine\Enums.h" />
-    <ClInclude Include="Engine\EventManager.h" />
-    <ClInclude Include="Engine\Level\Level.h" />
-    <ClInclude Include="Engine\Level\Listener\ContactListener.h" />
-    <ClInclude Include="Engine\Level\Listener\QueryCallback.h" />
-    <ClInclude Include="Engine\Level\World.h" />
-    <ClInclude Include="Engine\Singleton.h" />
-    <ClInclude Include="Engine\Time\Time.h" />
-    <ClInclude Include="framework.h" />
-    <ClInclude Include="Game\Actor\FollowCamera.h" />
-    <ClInclude Include="Game\Actor\Pawn.h" />
-    <ClInclude Include="Game\Map\MainMap.h" />
-    <ClInclude Include="Include\box2d\b2_api.h" />
-    <ClInclude Include="Include\box2d\b2_block_allocator.h" />
-    <ClInclude Include="Include\box2d\b2_body.h" />
-    <ClInclude Include="Include\box2d\b2_broad_phase.h" />
-    <ClInclude Include="Include\box2d\b2_chain_shape.h" />
-    <ClInclude Include="Include\box2d\b2_circle_shape.h" />
-    <ClInclude Include="Include\box2d\b2_collision.h" />
-    <ClInclude Include="Include\box2d\b2_common.h" />
-    <ClInclude Include="Include\box2d\b2_contact.h" />
-    <ClInclude Include="Include\box2d\b2_contact_manager.h" />
-    <ClInclude Include="Include\box2d\b2_distance.h" />
-    <ClInclude Include="Include\box2d\b2_distance_joint.h" />
-    <ClInclude Include="Include\box2d\b2_draw.h" />
-    <ClInclude Include="Include\box2d\b2_dynamic_tree.h" />
-    <ClInclude Include="Include\box2d\b2_edge_shape.h" />
-    <ClInclude Include="Include\box2d\b2_fixture.h" />
-    <ClInclude Include="Include\box2d\b2_friction_joint.h" />
-    <ClInclude Include="Include\box2d\b2_gear_joint.h" />
-    <ClInclude Include="Include\box2d\b2_growable_stack.h" />
-    <ClInclude Include="Include\box2d\b2_joint.h" />
-    <ClInclude Include="Include\box2d\b2_math.h" />
-    <ClInclude Include="Include\box2d\b2_motor_joint.h" />
-    <ClInclude Include="Include\box2d\b2_mouse_joint.h" />
-    <ClInclude Include="Include\box2d\b2_polygon_shape.h" />
-    <ClInclude Include="Include\box2d\b2_prismatic_joint.h" />
-    <ClInclude Include="Include\box2d\b2_pulley_joint.h" />
-    <ClInclude Include="Include\box2d\b2_revolute_joint.h" />
-    <ClInclude Include="Include\box2d\b2_rope.h" />
-    <ClInclude Include="Include\box2d\b2_settings.h" />
-    <ClInclude Include="Include\box2d\b2_shape.h" />
-    <ClInclude Include="Include\box2d\b2_stack_allocator.h" />
-    <ClInclude Include="Include\box2d\b2_timer.h" />
-    <ClInclude Include="Include\box2d\b2_time_of_impact.h" />
-    <ClInclude Include="Include\box2d\b2_time_step.h" />
-    <ClInclude Include="Include\box2d\b2_types.h" />
-    <ClInclude Include="Include\box2d\b2_weld_joint.h" />
-    <ClInclude Include="Include\box2d\b2_wheel_joint.h" />
-    <ClInclude Include="Include\box2d\b2_world.h" />
-    <ClInclude Include="Include\box2d\b2_world_callbacks.h" />
-    <ClInclude Include="Include\box2d\box2d.h" />
-    <ClInclude Include="Include\DirectXTK\Audio.h" />
-    <ClInclude Include="Include\DirectXTK\BufferHelpers.h" />
-    <ClInclude Include="Include\DirectXTK\CommonStates.h" />
-    <ClInclude Include="Include\DirectXTK\DDSTextureLoader.h" />
-    <ClInclude Include="Include\DirectXTK\DirectXHelpers.h" />
-    <ClInclude Include="Include\DirectXTK\Effects.h" />
-    <ClInclude Include="Include\DirectXTK\GamePad.h" />
-    <ClInclude Include="Include\DirectXTK\GeometricPrimitive.h" />
-    <ClInclude Include="Include\DirectXTK\GraphicsMemory.h" />
-    <ClInclude Include="Include\DirectXTK\Keyboard.h" />
-    <ClInclude Include="Include\DirectXTK\Model.h" />
-    <ClInclude Include="Include\DirectXTK\Mouse.h" />
-    <ClInclude Include="Include\DirectXTK\PostProcess.h" />
-    <ClInclude Include="Include\DirectXTK\PrimitiveBatch.h" />
-    <ClInclude Include="Include\DirectXTK\ScreenGrab.h" />
-    <ClInclude Include="Include\DirectXTK\SimpleMath.h" />
-    <ClInclude Include="Include\DirectXTK\SimpleMath.inl" />
-    <ClInclude Include="Include\DirectXTK\SpriteBatch.h" />
-    <ClInclude Include="Include\DirectXTK\SpriteFont.h" />
-    <ClInclude Include="Include\DirectXTK\VertexTypes.h" />
-    <ClInclude Include="Include\DirectXTK\WICTextureLoader.h" />
-    <ClInclude Include="Include\DirectXTK\XboxDDSTextureLoader.h" />
-    <ClInclude Include="Include\imgui\imconfig.h" />
-    <ClInclude Include="Include\imgui\imgui.h" />
-    <ClInclude Include="Include\imgui\imgui_impl_dx11.h" />
-    <ClInclude Include="Include\imgui\imgui_impl_win32.h" />
-    <ClInclude Include="Include\imgui\imgui_internal.h" />
-    <ClInclude Include="Include\imgui\imstb_rectpack.h" />
-    <ClInclude Include="Include\imgui\imstb_textedit.h" />
-    <ClInclude Include="Include\imgui\imstb_truetype.h" />
-    <ClInclude Include="targetver.h" />
-    <ClInclude Include="Engine\Audio\AudioManager.h" />
-    <ClInclude Include="Include\FMOD\fmod.h" />
-    <ClInclude Include="Include\FMOD\fmod.hpp" />
-    <ClInclude Include="Include\FMOD\fmod_codec.h" />
-    <ClInclude Include="Include\FMOD\fmod_common.h" />
-    <ClInclude Include="Include\FMOD\fmod_dsp.h" />
-    <ClInclude Include="Include\FMOD\fmod_dsp_effects.h" />
-    <ClInclude Include="Include\FMOD\fmod_errors.h" />
-    <ClInclude Include="Include\FMOD\fmod_output.h" />
-    <ClInclude Include="Engine\Actor\Component\AudioComponent.h" />
-    <ClInclude Include="Engine\Actor\Component\AudioListenerComponent.h" />
-    <ClInclude Include="Engine\Actor\Component\CameraComponent.h" />
-    <ClInclude Include="Engine\Actor\Component\TransformComponent.h" />
-    <ClInclude Include="Game\ProjectSettings.h" />
-    <ClInclude Include="Engine\Math\Bounds.h" />
-    <ClInclude Include="Engine\Math\MathTypes.h" />
-    <ClInclude Include="Engine\Math\Vector2.h" />
-    <ClInclude Include="Engine\Physics\HitResult.h" />
-    <ClInclude Include="Engine\Physics\Physics.h" />
-    <ClInclude Include="Engine\Physics\RayCastCallback.h" />
-    <ClInclude Include="Engine\Physics\RayCastResult.h" />
-    <ClInclude Include="Engine\GameEngine.h" />
-    <ClInclude Include="Engine\Windows\WindowDefinition.h" />
-    <ClInclude Include="Engine\Windows\WindowsApplication.h" />
-    <ClInclude Include="Engine\Windows\WindowsWindow.h" />
-    <ClInclude Include="resource.h" />
-    <ClInclude Include="Engine\Actor\Component\InputComponent.h" />
-    <ClInclude Include="Engine\Core.h" />
-    <ClInclude Include="Engine\Misc\EngineMacros.h" />
-    <ClInclude Include="Engine\Math\Color.h" />
-    <ClInclude Include="Engine\Windows\DX\ConstantBuffer.h" />
-    <ClInclude Include="Engine\Windows\DX\IndexBuffer.h" />
-    <ClInclude Include="Engine\Windows\DX\Renderer.h" />
-    <ClInclude Include="Engine\Windows\DX\Shaders.h" />
-    <ClInclude Include="Engine\Windows\DX\Shape.h" />
-    <ClInclude Include="Engine\Windows\DX\ShapeBatch.h" />
-    <ClInclude Include="Engine\Windows\DX\Texture.h" />
-    <ClInclude Include="Engine\Windows\DX\Vertex.h" />
-    <ClInclude Include="Engine\Windows\DX\VertexBuffer.h" />
-    <ClInclude Include="Engine\Input\Keyboard.h" />
-    <ClInclude Include="Engine\Time\TimerManager.h" />
-    <ClInclude Include="Engine\Windows\DX\Sprite.h" />
-    <ClInclude Include="Engine\Misc\DelegateMacros.h" />
-    <ClInclude Include="Engine\Misc\Delegate.h" />
-    <ClInclude Include="Engine\Misc\Function.h" />
-    <ClInclude Include="Include\tmxlite\Config.hpp" />
-    <ClInclude Include="Include\tmxlite\FreeFuncs.hpp" />
-    <ClInclude Include="Include\tmxlite\ImageLayer.hpp" />
-    <ClInclude Include="Include\tmxlite\Layer.hpp" />
-    <ClInclude Include="Include\tmxlite\LayerGroup.hpp" />
-    <ClInclude Include="Include\tmxlite\Map.hpp" />
-    <ClInclude Include="Include\tmxlite\Object.hpp" />
-    <ClInclude Include="Include\tmxlite\ObjectGroup.hpp" />
-    <ClInclude Include="Include\tmxlite\ObjectTypes.hpp" />
-    <ClInclude Include="Include\tmxlite\Property.hpp" />
-    <ClInclude Include="Include\tmxlite\TileLayer.hpp" />
-    <ClInclude Include="Include\tmxlite\Tileset.hpp" />
-    <ClInclude Include="Include\tmxlite\Types.hpp" />
-    <ClInclude Include="Include\tmxlite\Types.inl" />
-    <ClInclude Include="Engine\Actor\Component\TilemapComponent.h" />
-    <ClInclude Include="Game\Actor\Tilemap.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="Resource.rc" />
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="Client.ico" />
+    <ClInclude Include="Engine\Actor\Actor.h">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Actor\Component\ActorComponent.h">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\DirectXTK\Audio.h">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Actor\Component\AudioComponent.h">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Actor\Component\AudioListenerComponent.h">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Audio\AudioManager.h">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\box2d\b2_api.h">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\box2d\b2_block_allocator.h">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\box2d\b2_body.h">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\box2d\b2_broad_phase.h">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\box2d\b2_chain_shape.h">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\box2d\b2_circle_shape.h">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\box2d\b2_collision.h">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\box2d\b2_common.h">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\box2d\b2_contact.h">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\box2d\b2_contact_manager.h">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\box2d\b2_distance.h">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\box2d\b2_distance_joint.h">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\box2d\b2_draw.h">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\box2d\b2_dynamic_tree.h">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\box2d\b2_edge_shape.h">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\box2d\b2_fixture.h">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\box2d\b2_friction_joint.h">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\box2d\b2_gear_joint.h">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\box2d\b2_growable_stack.h">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\box2d\b2_joint.h">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\box2d\b2_math.h">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\box2d\b2_motor_joint.h">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\box2d\b2_mouse_joint.h">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\box2d\b2_polygon_shape.h">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\box2d\b2_prismatic_joint.h">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\box2d\b2_pulley_joint.h">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\box2d\b2_revolute_joint.h">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\box2d\b2_rope.h">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\box2d\b2_settings.h">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\box2d\b2_shape.h">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\box2d\b2_stack_allocator.h">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\box2d\b2_time_of_impact.h">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\box2d\b2_time_step.h">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\box2d\b2_timer.h">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\box2d\b2_types.h">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\box2d\b2_weld_joint.h">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\box2d\b2_wheel_joint.h">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\box2d\b2_world.h">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\box2d\b2_world_callbacks.h">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Math\Bounds.h">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Actor\Box.h">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\box2d\box2d.h">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Actor\Component\BoxColliderComponent.h">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Physics\BoxQueryCallback.h">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\DirectXTK\BufferHelpers.h">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Actor\Component\CameraComponent.h">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Actor\Character\CharacterBase.h">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Actor\Component\CircleColliderComponent.h">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Physics\CircleQueryCallback.h">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Client.h">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Actor\Component\ColliderComponent.h">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Math\Color.h">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\DirectXTK\CommonStates.h">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\tmxlite\Config.hpp">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Windows\DX\ConstantBuffer.h">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Level\Listener\ContactListener.h">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Core.h">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\DirectXTK\DDSTextureLoader.h">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Misc\Debug.h">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\DebugDraw.h">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Misc\Delegate.h">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Misc\DelegateMacros.h">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\DirectXTK\DirectXHelpers.h">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\DirectXTK\Effects.h">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Misc\EngineMacros.h">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Enums.h">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\EventManager.h">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\FMOD\fmod.h">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\FMOD\fmod.hpp">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\FMOD\fmod_codec.h">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\FMOD\fmod_common.h">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\FMOD\fmod_dsp.h">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\FMOD\fmod_dsp_effects.h">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\FMOD\fmod_errors.h">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\FMOD\fmod_output.h">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Actor\FollowCamera.h">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="framework.h">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\tmxlite\FreeFuncs.hpp">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Misc\Function.h">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\GameEngine.h">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\DirectXTK\GamePad.h">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\DirectXTK\GeometricPrimitive.h">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\DirectXTK\GraphicsMemory.h">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Physics\HitResult.h">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\tmxlite\ImageLayer.hpp">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\imgui\imconfig.h">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\imgui\imgui.h">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\imgui\imgui_impl_dx11.h">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\imgui\imgui_impl_win32.h">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\imgui\imgui_internal.h">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\imgui\imstb_rectpack.h">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\imgui\imstb_textedit.h">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\imgui\imstb_truetype.h">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Windows\DX\IndexBuffer.h">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Actor\Component\InputComponent.h">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\DirectXTK\Keyboard.h">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Input\Keyboard.h">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\tmxlite\Layer.hpp">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\tmxlite\LayerGroup.hpp">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Level\Level.h">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\tmxlite\Map.hpp">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Math\Math.h">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Math\MathTypes.h">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\DirectXTK\Model.h">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\DirectXTK\Mouse.h">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\tmxlite\Object.hpp">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\tmxlite\ObjectGroup.hpp">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\tmxlite\ObjectTypes.hpp">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Actor\Pawn.h">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Physics\Physics.h">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Actor\Character\Player\PlayerController.h">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\DirectXTK\PostProcess.h">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\DirectXTK\PrimitiveBatch.h">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\ProjectSettings.h">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\tmxlite\Property.hpp">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Level\Listener\QueryCallback.h">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Physics\RayCastCallback.h">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Physics\RayCastResult.h">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Windows\DX\Renderer.h">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Actor\Component\RigidBodyComponent.h">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\DirectXTK\ScreenGrab.h">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Windows\DX\Shaders.h">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Windows\DX\Shape.h">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Windows\DX\ShapeBatch.h">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\DirectXTK\SimpleMath.h">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\DirectXTK\SimpleMath.inl">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Singleton.h">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Windows\DX\Sprite.h">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\DirectXTK\SpriteBatch.h">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\DirectXTK\SpriteFont.h">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Windows\DX\Texture.h">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\tmxlite\TileLayer.hpp">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Actor\Tilemap.h">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Actor\Component\Tilemap\TilemapChunk.h">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Actor\Component\Tilemap\TilemapComponent.h">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Actor\Component\Tilemap\TilemapLayer.h">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\tmxlite\Tileset.hpp">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Time\Time.h">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Time\TimerManager.h">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Actor\Component\TransformComponent.h">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\tmxlite\Types.hpp">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\tmxlite\Types.inl">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Math\Vector2.h">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Windows\DX\Vertex.h">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Windows\DX\VertexBuffer.h">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\DirectXTK\VertexTypes.h">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\DirectXTK\WICTextureLoader.h">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Windows\WindowDefinition.h">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Windows\WindowsApplication.h">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Windows\WindowsWindow.h">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Level\World.h">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\DirectXTK\XboxDDSTextureLoader.h">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Canvas.h">
+      <Filter>UI\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="BoxComponent.h">
+      <Filter>UI\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="StringComponent.h">
+      <Filter>UI\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="UIBase.h">
+      <Filter>UI\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Button.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="CircleComponent.h">
+      <Filter>UI\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="ProgressBar.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Map\MainMap.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="ScrollView.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="TextBlock.h">
+      <Filter>UI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="TileMap">
       <UniqueIdentifier>{1fc4bdff-12e1-43db-b307-3bf9c9dbfaef}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Other">
+      <UniqueIdentifier>{a7a2b893-d9d3-4d46-a65e-55a902cdef87}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI">
+      <UniqueIdentifier>{3f1fdae8-480f-43dc-9b77-d2d160d53c46}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\Base">
+      <UniqueIdentifier>{39e9e138-ba43-4c96-ab84-c5ab4e68b701}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Client.ico">
+      <Filter>Other</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Resource.rc">
+      <Filter>Other</Filter>
+    </ResourceCompile>
   </ItemGroup>
 </Project>
