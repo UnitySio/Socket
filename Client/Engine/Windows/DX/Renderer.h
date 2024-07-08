@@ -62,6 +62,8 @@ public:
     D2DViewport* GetCurrentD2dViewport() { return current_d2d_viewport_; }
 
 
+=======
+    
     // TEST
     bool CreateRenderToTexture();
 
@@ -79,6 +81,10 @@ public:
     void EndRenderD2D();
     void BeginLayer();
     void EndLayer();
+=======
+    
+    Math::Vector2 ConvertScreenToWorld(const Math::Vector2& kScreenPosition) const;
+    Math::Vector2 ConvertWorldToScreen(const Math::Vector2& kWorldPosition) const;
 
     // Direct2D
     void DrawBox(const SHARED_PTR<WindowsWindow>& kWindow, Math::Vector2 position, Math::Vector2 size, Math::Color color, float rotation_z = 0.f, float stroke = 1.f);

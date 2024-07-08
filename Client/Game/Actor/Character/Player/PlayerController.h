@@ -11,6 +11,10 @@ public:
     virtual void Tick(float delta_time) override;
 
 private:
+    void OnFire();
+    
     class InputComponent* input_;
+    
+    SHARED_PTR<class Sprite> sprite_;
     
 };

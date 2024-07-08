@@ -8,7 +8,10 @@ public:
     virtual ~Box() override = default;
 
 private:
+    class SpriteRendererComponent* sprite_renderer_;
     class BoxColliderComponent* box_collider_;
     class RigidBodyComponent* rigid_body_;
+    
+    SHARED_PTR<class Sprite> sprite_;
     
 };

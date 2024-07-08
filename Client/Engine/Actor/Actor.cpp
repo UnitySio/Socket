@@ -11,6 +11,7 @@
 #include "Component/RigidBodyComponent.h"
 #include "Component/TransformComponent.h"
 #include "Level/World.h"
+#include "Time/TimerManager.h"
 
 Actor::Actor(const std::wstring& kName) :
     tag_(ActorTag::kNone),
@@ -200,6 +201,18 @@ void Actor::SetActive(bool active)
         });
 }
 
+void Actor::SetLifeSpan(float life_span)
+{
+    if (life_span > 0.f)
+    {
+        life_span_timer_ = TimerManager::Get()->SetTimer(this, &Actor::OnLifeSpanExpired, life_span);
+    }
+    else
+    {
+        TimerManager::Get()->ClearTimer(life_span_timer_);
+    }
+}
+
 bool Actor::CompareTag(ActorTag tag) const
 {
     return tag_ == tag;
@@ -242,4 +255,9 @@ void Actor::CreateBody()
 
     body_ = World::Get()->physics_world_->CreateBody(&body_def);
     body_->SetEnabled(false);
+}
+
+void Actor::OnLifeSpanExpired()
+{
+    Destroy();
 }

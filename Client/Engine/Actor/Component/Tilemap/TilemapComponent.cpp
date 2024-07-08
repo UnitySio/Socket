@@ -88,11 +88,27 @@ void TilemapComponent::GeneratePhysics(const tmx::ObjectGroup& object)
 	for (const auto& temp : objects)
 	{
 		b2PolygonShape shape;
-		shape.SetAsBox(
-			temp.getAABB().width / 2 / PPU, temp.getAABB().height / 2 / PPU,
-			{temp.getPosition().x / PPU + ((temp.getAABB().width / 2) / PPU) - map_size_.x / 2.f, -1 * temp.getPosition().y / PPU - ((temp.getAABB().height / 2) / PPU) + map_size_.y / 2.f},
-			0.f
-		);
+		
+		if (temp.getShape() == tmx::Object::Shape::Rectangle)
+		{
+			shape.SetAsBox(
+				temp.getAABB().width / 2 / PPU, temp.getAABB().height / 2 / PPU,
+				{temp.getPosition().x / PPU + ((temp.getAABB().width / 2) / PPU) - map_size_.x / 2.f, -1 * temp.getPosition().y / PPU - ((temp.getAABB().height / 2) / PPU) + map_size_.y / 2.f},
+				0.f
+			);
+		}
+		else if (temp.getShape() == tmx::Object::Shape::Polygon)
+		{
+			std::vector<b2Vec2> vertices;
+			
+			for (const auto& point : temp.getPoints())
+			{
+				b2Vec2 vertex = {point.x / PPU + temp.getPosition().x / PPU - map_size_.x / 2.f, -1 * point.y / PPU - temp.getPosition().y / PPU + map_size_.y / 2.f};
+				vertices.push_back(vertex);
+			}
+
+			shape.Set(vertices.data(), vertices.size());
+		}
 		
 		b2Filter filter;
 		filter.categoryBits = GetOwner()->GetLayer();

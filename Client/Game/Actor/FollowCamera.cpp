@@ -1,13 +1,10 @@
 ﻿#include "FollowCamera.h"
 
-#include <algorithm>
-
 #include "Actor/Component/BoxColliderComponent.h"
 #include "Actor/Component/CameraComponent.h"
 #include "Actor/Component/TransformComponent.h"
-#include "Pawn.h"
 #include "Character/Player/PlayerController.h"
-#include "Misc/Debug.h"
+#include "Math/Math.h"
 
 FollowCamera::FollowCamera(const std::wstring& kName) :
     Actor(kName),
@@ -52,19 +49,19 @@ void FollowCamera::PhysicsTick(float delta_time)
 
     Math::Vector2 focus_position = focus_area_->center + Math::Vector2::Up() * vertical_offset_;
     Math::Vector2 new_position = Math::Vector2::Lerp(position, focus_position, delta_time * 2.f);
-        
-    half_width_ = camera_->GetAspect();
+    
     half_height_ = camera_->GetSize();
+    half_width_ = camera_->GetAspect() * half_height_;
 
     float limit_x = limit_half_width_ - half_width_;
     if (limit_x < 0.f) limit_x = half_width_;
         
-    float clamp_x = std::clamp(new_position.x, -limit_x, limit_x);
+    float clamp_x = Math::Clamp(new_position.x, -limit_x, limit_x);
         
     float limit_y = limit_half_height_ - half_width_;
     if (limit_y < 0.f) limit_y = half_width_;
         
-    float clamp_y = std::clamp(new_position.y, -limit_y, limit_y);
+    float clamp_y = Math::Clamp(new_position.y, -limit_y, limit_y);
     GetTransform()->SetRelativePosition({ clamp_x, clamp_y });;
     
 }

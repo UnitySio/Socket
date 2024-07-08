@@ -1,6 +1,7 @@
 ﻿#include "Renderer.h"
 
 #include "ProjectSettings.h"
+#include "Level/World.h"
 #include "Math/Color.h"
 #include "Math/Vector2.h"
 #include "Windows/WindowsWindow.h"
@@ -412,6 +413,43 @@ void Renderer::BeginLayer()
 void Renderer::EndLayer()
 {
     current_d2d_viewport_->d2d_render_target->PopLayer();
+=======
+Math::Vector2 Renderer::ConvertScreenToWorld(const Math::Vector2& kScreenPosition) const
+{
+    Viewport* viewport = Renderer::Get()->FindViewport(World::Get()->GetWindow());
+    if (!viewport) return Math::Vector2::Zero();
+
+    float x = (kScreenPosition.x / viewport->d3d_viewport.Width) * 2.f - 1.f;
+    float y = 1.f - (kScreenPosition.y / viewport->d3d_viewport.Height) * 2.f;
+
+    DirectX::XMFLOAT3 clip = { x, y, 0.f };
+    
+    DirectX::XMFLOAT3 screen;
+    DirectX::XMStoreFloat3(&screen, DirectX::XMVector3TransformCoord(DirectX::XMLoadFloat3(&clip), DirectX::XMMatrixInverse(nullptr, viewport->projection_matrix)));
+    
+    DirectX::XMFLOAT3 world;
+    DirectX::XMStoreFloat3(&world, DirectX::XMVector3TransformCoord(DirectX::XMLoadFloat3(&screen), DirectX::XMMatrixInverse(nullptr, viewport->view_matrix)));
+
+    return { world.x, world.y };
+}
+
+Math::Vector2 Renderer::ConvertWorldToScreen(const Math::Vector2& kWorldPosition) const
+{
+    Viewport* viewport = Renderer::Get()->FindViewport(World::Get()->GetWindow());
+    if (!viewport) return Math::Vector2::Zero();
+    
+    DirectX::XMFLOAT3 world = { kWorldPosition.x, kWorldPosition.y, 0.f };
+    
+    DirectX::XMFLOAT3 screen;
+    DirectX::XMStoreFloat3(&screen, DirectX::XMVector3TransformCoord(DirectX::XMLoadFloat3(&world), viewport->view_matrix));
+    
+    DirectX::XMFLOAT3 clip;
+    DirectX::XMStoreFloat3(&clip, DirectX::XMVector3TransformCoord(DirectX::XMLoadFloat3(&screen), viewport->projection_matrix));
+
+    float x = (clip.x + 1.f) * 0.5f * viewport->d3d_viewport.Width;
+    float y = (1.f - clip.y) * 0.5f * viewport->d3d_viewport.Height;
+
+    return { x, y };
 }
 
 void Renderer::DrawBox(const std::shared_ptr<WindowsWindow>& kWindow, Math::Vector2 position, Math::Vector2 size,

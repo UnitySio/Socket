@@ -1,11 +1,9 @@
 ﻿#include "MainMap.h"
 
 #include "Actor/FollowCamera.h"
-#include "Actor/Pawn.h"
 #include "../Engine/Actor/Component/RigidBodyComponent.h"
 #include <Windows.h>
 
-#include "Actor/Box.h"
 #include "Actor/Tilemap.h"
 #include "Actor/Character/Player/PlayerController.h"
 #include "tmxlite/Map.hpp"
@@ -40,6 +38,7 @@ void MainMap::Load()
     // box->GetTransform()->SetRelativePosition({-5.f, 2.f});
 
     /*SHARED_PTR<Actor> player = MAKE_SHARED<PlayerController>(L"Player");
+    SHARED_PTR<Actor> player = MAKE_SHARED<PlayerController>(L"Player");
     AddActor(player);
     
     player->GetTransform()->SetRelativePosition({.5f, 2.f});

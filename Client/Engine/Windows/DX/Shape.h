@@ -3,6 +3,7 @@
 #include <vector>
 
 #include "Vertex.h"
+#include "Math/Bounds.h"
 #include "Math/MathTypes.h"
 #include "Math/Vector2.h"
 #include "Misc/EngineMacros.h"
@@ -21,6 +22,8 @@ public:
     void SetScale(Math::Vector2 scale);
     void SetPivot(Math::Vector2 pivot);
     void SetRotation(float rotation);
+
+    Bounds GetBounds() const;
 
     inline void SetVertices(const std::vector<DefaultVertex>& kVertices) { vertices_ = kVertices; }
     inline void SetIndices(const std::vector<MathTypes::uint32>& kIndices) { indices_ = kIndices; }

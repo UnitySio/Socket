@@ -6,6 +6,7 @@
 #include "Listener/ContactListener.h"
 #include "Windows/DX/Renderer.h"
 
+class Actor;
 class Shape;
 class ShapeBatch;
 class Level;
@@ -16,7 +17,7 @@ public:
     World();
     virtual ~World() override = default;
 
-    void Init(const SHARED_PTR<WindowsWindow>& window);
+    void Init(const SHARED_PTR<WindowsWindow>& kWindow);
     void OpenLevel(LevelType type);
     void PhysicsTick(float delta_time);
     void Tick(float delta_time);
@@ -24,20 +25,24 @@ public:
     void Render(float alpha);
     void RenderUI();
     void DestroyActor();
+    void AddShape(const SHARED_PTR<Shape>& kShape);
 
     template<std::derived_from<Level> T>
     T* AddLevel(LevelType type, std::wstring name);
 
     inline WindowsWindow* GetWindow() const { return window_.get(); }
     inline Level* GetLevel() const { return current_level_; }
-
-    void AddShape(const SHARED_PTR<Shape>& shape);
+    inline WEAK_PTR<Actor> GetCamera() const { return camera_; }
 
 private:
     friend class Physics;
     friend class Level;
     friend class Actor;
     friend class TilemapComponent;
+    friend class CameraComponent;
+    friend class PlayerController;
+
+    inline void SetCamera(const SHARED_PTR<Actor>& kCamera) { camera_ = kCamera; }
 
     SHARED_PTR<WindowsWindow> window_;
     
@@ -54,7 +59,7 @@ private:
     Level* current_level_;
     SHARED_PTR<Level> levels_[static_cast<size_t>(LevelType::kEnd)];
 
-    int fps_;
+    WEAK_PTR<Actor> camera_;
 };
 
 template <std::derived_from<Level> T>

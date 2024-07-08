@@ -1,5 +1,7 @@
 ﻿#include "Shape.h"
 
+#include "Math/Math.h"
+
 Shape::Shape() :
     vertices_(),
     indices_(),
@@ -39,6 +41,39 @@ void Shape::SetRotation(float rotation)
 {
     rotation_ = DirectX::XMConvertToRadians(rotation);
     UpdateMatrixx();
+}
+
+Bounds Shape::GetBounds() const
+{
+    if (vertices_.empty())
+    {
+        return {Math::Vector2::Zero(), Math::Vector2::Zero()};
+    }
+
+    Math::Vector2 min = Math::Vector2::PositiveInfinity();
+    Math::Vector2 max = Math::Vector2::NegativeInfinity();
+    
+    // 변환 행렬을 계산
+    DirectX::XMMATRIX transform = DirectX::XMMatrixScaling(scale_.x, scale_.y, 1.f) * // 크기 조정
+                                  DirectX::XMMatrixTranslation(-pivot_.x, -pivot_.y, 0.f) * // Pivot 위치로 이동
+                                  DirectX::XMMatrixRotationZ(rotation_) * // 회전
+                                  DirectX::XMMatrixTranslation(pivot_.x, pivot_.y, 0.f) * // 원래 위치로 이동
+                                  DirectX::XMMatrixTranslation(position_.x - pivot_.x, position_.y - pivot_.y, 0.f); // 최종 위치로 이동
+
+    for (const auto& vertex : vertices_)
+    {
+        // 정점 위치를 변환
+        DirectX::XMVECTOR pos = DirectX::XMVectorSet(vertex.position.x, vertex.position.y, 0.f, 1.f);
+        pos = DirectX::XMVector3TransformCoord(pos, transform);
+
+        // 변환된 정점 위치로 min/max 계산
+        min.x = Math::Min(min.x, DirectX::XMVectorGetX(pos));
+        min.y = Math::Min(min.y, DirectX::XMVectorGetY(pos));
+        max.x = Math::Max(max.x, DirectX::XMVectorGetX(pos));
+        max.y = Math::Max(max.y, DirectX::XMVectorGetY(pos));
+    }
+
+    return {(min + max) * .5f, max - min};
 }
 
 bool Shape::CompareZOrder(const std::shared_ptr<Shape>& lhs, const std::shared_ptr<Shape>& rhs)

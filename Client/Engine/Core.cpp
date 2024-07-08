@@ -13,7 +13,6 @@
 
 double Core::current_time_ = 0.;
 double Core::last_time_ = 0.;
-double Core::time_step_ = 1. / 144.;
 double Core::delta_time_ = 0.;
 
 MathTypes::uint32 Core::resize_width_ = 0;
@@ -42,8 +41,8 @@ void Core::Init(const HINSTANCE instance_handle)
     definition->title = L"Fusion2D";
     definition->screen_x = 100;
     definition->screen_y = 100;
-    definition->width = 640;
-    definition->height = 480;
+    definition->width = 800;
+    definition->height = 600;
 
     // 게임 윈도우 생성
     SHARED_PTR<WindowsWindow> new_window = current_application_->MakeWindow();
@@ -74,22 +73,6 @@ bool Core::ProcessMessage(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam,
     if (Keyboard::Get()->ProcessMessage(message, wParam, lParam, handler_result)) return true;
     
     if (Canvas::Get()->ProcessMessage(hWnd, message, wParam, lParam, handler_result)) return true;
-
-    if (message == WM_SETFOCUS)
-    {
-        if (const auto window = game_window_.lock())
-        {
-            time_step_ = 1. / 144.;
-        }
-    }
-
-    if (message == WM_KILLFOCUS)
-    {
-        if (const auto window = game_window_.lock())
-        {
-            time_step_ = 1. / 3.;
-        }
-    }
 
     if (message == WM_SIZE)
     {
@@ -135,14 +118,7 @@ DWORD Core::GameThread(LPVOID lpParam)
         current_time_ = Time::Seconds();
 
         double elapsed_time = current_time_ - last_time_;
-        double sleep_time = time_step_ - elapsed_time;
-        if (sleep_time > 0.f)
-        {
-            DWORD sleep_ms = static_cast<DWORD>(sleep_time * 1000.f);
-            Sleep(sleep_ms);
-        }
-
-        delta_time_ = elapsed_time + sleep_time;
+        delta_time_ = elapsed_time;
 #pragma endregion
 
         if (const auto& window = core->game_window_.lock())

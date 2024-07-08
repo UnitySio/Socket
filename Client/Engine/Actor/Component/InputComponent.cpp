@@ -3,10 +3,13 @@
 #include <Windows.h>
 
 #include "Actor/Actor.h"
+#include "Level/World.h"
+#include "Windows/WindowsWindow.h"
 
 InputComponent::InputComponent(Actor* owner, const std::wstring& kName) :
     ActorComponent(owner, kName),
-    key_states_()
+    key_states_(),
+    mouse_position_(Math::Vector2::Zero())
 {
 }
 
@@ -19,6 +22,15 @@ void InputComponent::TickComponent(float delta_time)
         key_state.second.was_down = key_state.second.is_down;
         key_state.second.is_down = GetAsyncKeyState(key_state.first) & 0x8000;
     }
+
+    POINT mouse_pos = {};
+    GetCursorPos(&mouse_pos);
+    ScreenToClient(World::Get()->GetWindow()->GetHWnd(), &mouse_pos);
+
+    const float mouse_x = static_cast<float>(mouse_pos.x);
+    const float mouse_y = static_cast<float>(mouse_pos.y);
+
+    mouse_position_ = { mouse_x, mouse_y };
     
 }
 

@@ -1,5 +1,15 @@
 ﻿#include "Sprite.h"
 
+const Math::Vector2 Sprite::kCenter = Math::Vector2(.5f, .5f);
+const Math::Vector2 Sprite::kTopLeft = Math::Vector2(0.f, 1.f);
+const Math::Vector2 Sprite::kTop = Math::Vector2(0.f, 1.f);
+const Math::Vector2 Sprite::kTopRight = Math::Vector2(1.f, 1.f);
+const Math::Vector2 Sprite::kLeft = Math::Vector2(0.f, .5f);
+const Math::Vector2 Sprite::kRight = Math::Vector2(1.f, .5f);
+const Math::Vector2 Sprite::kBottomLeft = Math::Vector2(0.f, 0.f);
+const Math::Vector2 Sprite::kBottom = Math::Vector2(.5f, 0.f);
+const Math::Vector2 Sprite::kBottomRight = Math::Vector2(0.f, 1.f);
+
 Sprite::Sprite() :
     frames_(),
     ppu_(32)
