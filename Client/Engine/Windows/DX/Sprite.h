@@ -21,6 +21,16 @@ public:
     inline const std::vector<SpriteFrame>& GetFrames() const { return frames_; }
     inline MathTypes::uint32 GetPPU() const { return ppu_; }
 
+    static const Math::Vector2 kCenter;
+    static const Math::Vector2 kTopLeft;
+    static const Math::Vector2 kTop;
+    static const Math::Vector2 kTopRight;
+    static const Math::Vector2 kLeft;
+    static const Math::Vector2 kRight;
+    static const Math::Vector2 kBottomLeft;
+    static const Math::Vector2 kBottom;
+    static const Math::Vector2 kBottomRight;
+
 private:
     std::vector<SpriteFrame> frames_;
 
