@@ -4,6 +4,7 @@
 class TilemapComponent;
 class ProgressBar;
 class Button;
+class TextBlock;
 
 class MainMap : public Level
 {
@@ -16,6 +17,7 @@ public:
 
     ProgressBar* bar;
     Button* button;
+    TextBlock* text;
     float Timer;
 };
 

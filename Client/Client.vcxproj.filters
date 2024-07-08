@@ -213,6 +213,9 @@
     <ClCompile Include="ScrollView.cpp">
       <Filter>UI</Filter>
     </ClCompile>
+    <ClCompile Include="TextBlock.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Actor\Actor.h">
@@ -720,6 +723,9 @@
       <Filter>UI</Filter>
     </ClInclude>
     <ClInclude Include="ScrollView.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="TextBlock.h">
       <Filter>UI</Filter>
     </ClInclude>
   </ItemGroup>

@@ -39,6 +39,11 @@ void UIBase::SetSize(const Math::Vector2& value)
 void UIBase::SetPosition(const Math::Vector2& pos)
 {
     position_ = pos;
+    /*if (!children_.empty())
+    {
+        for(const auto& temp : children_)
+            
+    }*/
 }
 
 void UIBase::SetOffset(const Math::Vector2& pos)

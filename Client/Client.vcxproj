@@ -301,6 +301,7 @@
     <ClInclude Include="ScrollView.h" />
     <ClInclude Include="StringComponent.h" />
     <ClInclude Include="targetver.h" />
+    <ClInclude Include="TextBlock.h" />
     <ClInclude Include="UIBase.h" />
     <ClInclude Include="Canvas.h" />
   </ItemGroup>
@@ -371,6 +372,7 @@
     <ClCompile Include="ProgressBar.cpp" />
     <ClCompile Include="ScrollView.cpp" />
     <ClCompile Include="StringComponent.cpp" />
+    <ClCompile Include="TextBlock.cpp" />
     <ClCompile Include="UIBase.cpp" />
     <ClCompile Include="Canvas.cpp" />
   </ItemGroup>

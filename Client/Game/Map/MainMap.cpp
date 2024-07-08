@@ -17,6 +17,7 @@
 #include "../Button.h"
 #include "../ProgressBar.h"
 #include "../ScrollView.h"
+#include "../TextBlock.h"
 
 MainMap::MainMap(const std::wstring& kName) : Level(kName)
 {
@@ -77,7 +78,7 @@ void MainMap::Load()
     //button4->SetBoxSize({ 50,50 });
     //button4->SetText(L"Test2");
     //
-    button = Canvas::Get()->CreateButton();
+    /*button = Canvas::Get()->CreateButton();
     button->SetBoxSize({ 50,50 });
     button->SetText(L"Click To Change On/Off");
     button->SetPosition({ 300,300 });
@@ -121,12 +122,25 @@ void MainMap::Load()
 
     auto view = Canvas::Get()->CreateScrollView();
     view->SetPosition({ 100,150 });
-    view->SetEnable(true);
+    view->SetEnable(true);*/
+
+    text = Canvas::Get()->CreateTextBlock();
+    text->SetText(L"Test");
+    text->SetPosition({ 50,50 });
+    text->SetVisibility(true);
+
     
 }
 
 void MainMap::Tick(float dt)
 {
     Level::Tick(dt);
+    Timer += dt;
+
     
+    wchar_t buffer[100];
+    swprintf(buffer, 100, L"%.1f", Timer);
+    
+    text->SetText(buffer);
+
 }
