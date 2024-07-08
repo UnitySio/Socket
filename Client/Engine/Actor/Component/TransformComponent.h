@@ -13,8 +13,7 @@ public:
 
     void SetRelativePosition(Math::Vector2 position);
     void SetRelativeRotationZ(float angle);
-
-    inline void SetRelativeScale(Math::Vector2 scale) { relative_scale_ = scale; }
+    void SetRelativeScale(Math::Vector2 scale);
 
     Math::Vector2 GetRightVector() const;
     Math::Vector2 GetUpVector() const;

@@ -9,7 +9,6 @@ public:
 
     virtual void PhysicsTick(float delta_time) override;
     virtual void Tick(float delta_time) override;
-    virtual void Render(float alpha) override;
 
 private:
     void OnFire();
@@ -17,9 +16,5 @@ private:
     class InputComponent* input_;
     
     SHARED_PTR<class Sprite> sprite_;
-    SHARED_PTR<class Shape> shape_;
-
-    class b2MouseJoint* mouse_joint_;
-    class b2Body* mouse_body_;
     
 };

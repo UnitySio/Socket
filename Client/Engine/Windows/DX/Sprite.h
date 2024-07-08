@@ -22,7 +22,7 @@ public:
     inline MathTypes::uint32 GetPPU() const { return ppu_; }
 
 private:
-    std::vector<SpriteFrame> frames_; // 테스트를 위해 일단 vector로 구현
+    std::vector<SpriteFrame> frames_;
 
     MathTypes::uint32 ppu_;
     

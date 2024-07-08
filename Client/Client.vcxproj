@@ -137,6 +137,8 @@
     <ClInclude Include="Client.h" />
     <ClInclude Include="Engine\Actor\Actor.h" />
     <ClInclude Include="Engine\Actor\Component\ActorComponent.h" />
+    <ClInclude Include="Engine\Actor\Component\Animator\AnimationClip.h" />
+    <ClInclude Include="Engine\Actor\Component\Animator\AnimatorComponent.h" />
     <ClInclude Include="Engine\Actor\Component\AudioComponent.h" />
     <ClInclude Include="Engine\Actor\Component\AudioListenerComponent.h" />
     <ClInclude Include="Engine\Actor\Component\BoxColliderComponent.h" />
@@ -145,6 +147,7 @@
     <ClInclude Include="Engine\Actor\Component\ColliderComponent.h" />
     <ClInclude Include="Engine\Actor\Component\InputComponent.h" />
     <ClInclude Include="Engine\Actor\Component\RigidBodyComponent.h" />
+    <ClInclude Include="Engine\Actor\Component\SpriteRendererComponent.h" />
     <ClInclude Include="Engine\Actor\Component\Tilemap\TilemapChunk.h" />
     <ClInclude Include="Engine\Actor\Component\Tilemap\TilemapComponent.h" />
     <ClInclude Include="Engine\Actor\Component\Tilemap\TilemapLayer.h" />
@@ -197,7 +200,6 @@
     <ClInclude Include="Game\Actor\Character\CharacterBase.h" />
     <ClInclude Include="Game\Actor\Character\Player\PlayerController.h" />
     <ClInclude Include="Game\Actor\FollowCamera.h" />
-    <ClInclude Include="Game\Actor\Pawn.h" />
     <ClInclude Include="Game\Actor\Tilemap.h" />
     <ClInclude Include="Game\GameInstance.h" />
     <ClInclude Include="Game\Map\MainMap.h" />
@@ -301,6 +303,81 @@
     <ClCompile Include="Client.cpp" />
     <ClCompile Include="Engine\Actor\Actor.cpp" />
     <ClCompile Include="Engine\Actor\Component\ActorComponent.cpp" />
+    <ClCompile Include="Engine\Actor\Component\Animator\AnimationClip.cpp" />
+    <ClCompile Include="Engine\Actor\Component\Animator\AnimatorComponent.cpp">
+      <RuntimeLibrary>MultiThreadedDebugDll</RuntimeLibrary>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <Optimization>Disabled</Optimization>
+      <SupportJustMyCode>true</SupportJustMyCode>
+      <AssemblerOutput>NoListing</AssemblerOutput>
+      <AssemblerListingLocation>x64\Debug\</AssemblerListingLocation>
+      <UndefineAllPreprocessorDefinitions>false</UndefineAllPreprocessorDefinitions>
+      <BrowseInformation>false</BrowseInformation>
+      <BrowseInformationFile>x64\Debug\</BrowseInformationFile>
+      <CompileAs>Default</CompileAs>
+      <ConformanceMode>true</ConformanceMode>
+      <DiagnosticsFormat>Column</DiagnosticsFormat>
+      <DisableLanguageExtensions>false</DisableLanguageExtensions>
+      <ErrorReporting>Prompt</ErrorReporting>
+      <ExpandAttributedSource>false</ExpandAttributedSource>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <EnableASAN>false</EnableASAN>
+      <EnableFuzzer>false</EnableFuzzer>
+      <EnableFiberSafeOptimizations>false</EnableFiberSafeOptimizations>
+      <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
+      <FloatingPointModel>Precise</FloatingPointModel>
+      <ForceConformanceInForLoopScope>true</ForceConformanceInForLoopScope>
+      <GenerateModuleDependencies>false</GenerateModuleDependencies>
+      <GenerateSourceDependencies>false</GenerateSourceDependencies>
+      <GenerateXMLDocumentationFiles>false</GenerateXMLDocumentationFiles>
+      <InlineFunctionExpansion>Default</InlineFunctionExpansion>
+      <IntrinsicFunctions>false</IntrinsicFunctions>
+      <IgnoreStandardIncludePath>false</IgnoreStandardIncludePath>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <LanguageStandard_C>Default</LanguageStandard_C>
+      <MinimalRebuild>false</MinimalRebuild>
+      <ModuleDependenciesFile>x64\Debug\</ModuleDependenciesFile>
+      <ModuleOutputFile>x64\Debug\</ModuleOutputFile>
+      <OmitDefaultLibName>false</OmitDefaultLibName>
+      <FavorSizeOrSpeed>Neither</FavorSizeOrSpeed>
+      <WholeProgramOptimization>false</WholeProgramOptimization>
+      <ObjectFileName>x64\Debug\</ObjectFileName>
+      <CallingConvention>Cdecl</CallingConvention>
+      <ProgramDataBaseFileName>x64\Debug\vc143.pdb</ProgramDataBaseFileName>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderOutputFile>x64\Debug\Client.pch</PrecompiledHeaderOutputFile>
+      <PreprocessToFile>false</PreprocessToFile>
+      <PreprocessKeepComments>false</PreprocessKeepComments>
+      <PreprocessSuppressLineNumbers>false</PreprocessSuppressLineNumbers>
+      <RemoveUnreferencedCodeData>true</RemoveUnreferencedCodeData>
+      <ScanSourceForModuleDependencies>false</ScanSourceForModuleDependencies>
+      <ShowIncludes>false</ShowIncludes>
+      <SourceDependenciesFile>x64\Debug\</SourceDependenciesFile>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <BufferSecurityCheck>true</BufferSecurityCheck>
+      <SmallerTypeCheck>false</SmallerTypeCheck>
+      <SpectreMitigation>false</SpectreMitigation>
+      <StructMemberAlignment>Default</StructMemberAlignment>
+      <TrackerLogDirectory>x64\Debug\Client.tlog\</TrackerLogDirectory>
+      <TranslateIncludes>false</TranslateIncludes>
+      <MinimalRebuildFromTracking>true</MinimalRebuildFromTracking>
+      <TreatWarningAsError>false</TreatWarningAsError>
+      <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
+      <UseFullPaths>true</UseFullPaths>
+      <WarningLevel>Level3</WarningLevel>
+      <XMLDocumentationFileName>x64\Debug\</XMLDocumentationFileName>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <IntelJCCErratum>false</IntelJCCErratum>
+      <TreatAngleIncludeAsExternal>false</TreatAngleIncludeAsExternal>
+      <ExternalWarningLevel>InheritWarningLevel</ExternalWarningLevel>
+      <TreatExternalTemplatesAsInternal>true</TreatExternalTemplatesAsInternal>
+      <DisableAnalyzeExternal>false</DisableAnalyzeExternal>
+      <PreprocessorDefinitions>_DEBUG;_WINDOWS;_UNICODE;UNICODE;</PreprocessorDefinitions>
+      <SDLCheck>false</SDLCheck>
+      <AdditionalIncludeDirectories>C:\Users\Nexol\RiderProjects\Socket\\Client\Game;C:\Users\Nexol\RiderProjects\Socket\\Client\Engine;C:\Users\Nexol\RiderProjects\Socket\\Client\Include;</AdditionalIncludeDirectories>
+      <LinkCompiled>true</LinkCompiled>
+    </ClCompile>
     <ClCompile Include="Engine\Actor\Component\AudioComponent.cpp" />
     <ClCompile Include="Engine\Actor\Component\AudioListenerComponent.cpp" />
     <ClCompile Include="Engine\Actor\Component\BoxColliderComponent.cpp" />
@@ -309,6 +386,7 @@
     <ClCompile Include="Engine\Actor\Component\ColliderComponent.cpp" />
     <ClCompile Include="Engine\Actor\Component\InputComponent.cpp" />
     <ClCompile Include="Engine\Actor\Component\RigidBodyComponent.cpp" />
+    <ClCompile Include="Engine\Actor\Component\SpriteRendererComponent.cpp" />
     <ClCompile Include="Engine\Actor\Component\Tilemap\TilemapChunk.cpp" />
     <ClCompile Include="Engine\Actor\Component\Tilemap\TilemapComponent.cpp" />
     <ClCompile Include="Engine\Actor\Component\Tilemap\TilemapLayer.cpp" />
@@ -348,7 +426,6 @@
     <ClCompile Include="Game\Actor\Character\CharacterBase.cpp" />
     <ClCompile Include="Game\Actor\Character\Player\PlayerController.cpp" />
     <ClCompile Include="Game\Actor\FollowCamera.cpp" />
-    <ClCompile Include="Game\Actor\Pawn.cpp" />
     <ClCompile Include="Game\Actor\Tilemap.cpp" />
     <ClCompile Include="Game\GameInstance.cpp" />
     <ClCompile Include="Game\Map\MainMap.cpp" />

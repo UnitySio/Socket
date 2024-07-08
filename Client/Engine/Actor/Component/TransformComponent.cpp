@@ -70,6 +70,12 @@ void TransformComponent::SetRelativeRotationZ(float angle)
     }
 }
 
+void TransformComponent::SetRelativeScale(Math::Vector2 scale)
+{
+    relative_scale_ = scale;
+    UpdateTransform();
+}
+
 Math::Vector2 TransformComponent::GetRightVector() const
 {
     const float theta = relative_rotation_z_ * MATH_PI / 180.f;
@@ -125,11 +131,15 @@ void TransformComponent::UpdateTransform()
                 }
             }
         }
+
+        Math::Vector2 parent_scale = GetOwner()->parent_->transform_->world_scale_;
+        world_scale_ = parent_scale * relative_scale_;
     }
     else
     {
         world_position_ = relative_position_;
         world_rotation_z_ = relative_rotation_z_;
+        world_scale_ = relative_scale_;
     }
 
     // 자식 Actor들의 Transform을 업데이트

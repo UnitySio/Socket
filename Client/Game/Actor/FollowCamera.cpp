@@ -3,7 +3,6 @@
 #include "Actor/Component/BoxColliderComponent.h"
 #include "Actor/Component/CameraComponent.h"
 #include "Actor/Component/TransformComponent.h"
-#include "Pawn.h"
 #include "Character/Player/PlayerController.h"
 #include "Math/Math.h"
 
