@@ -47,7 +47,8 @@ void PlayerController::PhysicsTick(float delta_time)
 {
     CharacterBase::PhysicsTick(delta_time);
     
-    float h = input_->IsKeyPressed(VK_RIGHT) - input_->IsKeyPressed(VK_LEFT);
+    const float h = input_->IsKeyPressed(VK_RIGHT) - input_->IsKeyPressed(VK_LEFT);
+    if (h != 0.f) sprite_renderer_->SetFlipX(h > 0.f);
     
     rigid_body_->SetVelocity({h * 6.f, rigid_body_->GetVelocity().y});
 }
