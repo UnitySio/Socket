@@ -26,7 +26,6 @@ PlayerController::PlayerController(const std::wstring& kName) : CharacterBase(kN
     input_->RegisterKey(VK_LEFT);
     input_->RegisterKey('C');
     input_->RegisterKey('Z');
-    // input_->RegisterKey(MK_LBUTTON);
     
     sprite_ = MAKE_SHARED<Sprite>();
     CHECK_IF(sprite_->Load(L".\\Game_Data\\spritesheet.png"), L"Failed to load texture");
