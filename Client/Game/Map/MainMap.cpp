@@ -32,14 +32,14 @@ void MainMap::Load()
     player->GetTransform()->SetRelativePosition({ 1.5f, 0.f });
 
 
-    SHARED_PTR<Actor> player2 = MAKE_SHARED<PlayerController>(L"Player");
-    AddActor(player2);
-    player2->GetComponent<RigidBodyComponent>()->SetGravityScale(0.0f);
-    player2->GetComponent<RigidBodyComponent>()->SetBodyType(BodyType::kStatic);
-    
-    auto joint = player->CreateComponent<DistanceJointComponent>(L"Joint");
-    joint->CreateJointDefWithTarget(player2);
-    joint->GetJoint()->Distance(2.0f);
+    // SHARED_PTR<Actor> player2 = MAKE_SHARED<PlayerController>(L"Player");
+    // AddActor(player2);
+    // player2->GetComponent<RigidBodyComponent>()->SetGravityScale(0.0f);
+    // player2->GetComponent<RigidBodyComponent>()->SetBodyType(BodyType::kStatic);
+    //
+    // auto joint = player->CreateComponent<DistanceJointComponent>(L"Joint");
+    // joint->CreateJointDefWithTarget(player2);
+    // joint->GetJoint()->Distance(2.0f);
 
     
     SHARED_PTR<Actor> camera = MAKE_SHARED<FollowCamera>(L"FollowCamera");

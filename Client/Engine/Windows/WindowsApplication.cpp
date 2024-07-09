@@ -97,6 +97,25 @@ MathTypes::uint32 WindowsApplication::ProcessMessage(HWND hWnd, UINT message, WP
             }
         }
         
+        if (message == WM_GETMINMAXINFO)
+        {
+            MathTypes::uint32 window_ex_style = 0;
+            MathTypes::uint32 window_style = 0;
+    
+            window_style |= WS_OVERLAPPED;
+            window_style |= WS_CAPTION;
+            window_style |= WS_SYSMENU;
+            window_style |= WS_THICKFRAME;
+            window_style |= WS_MINIMIZEBOX;
+
+            RECT border_rect = {0, 0, 0, 0};
+            AdjustWindowRectEx(&border_rect, window_style, false, window_ex_style);
+        
+            MINMAXINFO* info = reinterpret_cast<MINMAXINFO*>(lParam);
+            info->ptMinTrackSize.x = 100 + border_rect.right - border_rect.left;
+            info->ptMinTrackSize.y = 100 + border_rect.bottom - border_rect.top;
+        }
+        
         if (message == WM_DESTROY)
         {
             std::erase(windows_, window);
