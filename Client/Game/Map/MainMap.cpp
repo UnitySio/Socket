@@ -53,31 +53,37 @@ void MainMap::Load()
     string->SetPosition({ 200,200 });
     string->SetText(L"Test");*/
 
-    //auto button = Canvas::Get()->CreateButton();
-    ////button->SetPosition({ 300,300 });
-    //button->SetAnchorType(UIBase::AnchorType::Center);
-    //button->SetBoxSize({ 50,50 });
-    //button->SetText(L"Test");
+    auto cbutton = Canvas::Get()->CreateButton();
+    cbutton->SetPosition({ 150,150 });
+    cbutton->SetAnchorType(UIBase::AnchorType::Center);
+    cbutton->SetBoxSize({ 50,50 });
+    cbutton->SetText(L"Test");
 
-    //auto button2 = Canvas::Get()->CreateButton();
-    //button2->SetParent(button);
-    //button2->SetAnchorType(UIBase::AnchorType::LeftTop);
-    //button2->SetBoxSize({ 50,50 });
-    //button2->SetText(L"Test2");
+    auto button2 = Canvas::Get()->CreateButton();
+    button2->SetParent(cbutton);
+    button2->SetAnchorType(UIBase::AnchorType::LeftTop);
+    button2->SetBoxSize({ 50,50 });
+    button2->SetText(L"Test2");
 
-    //auto button3 = Canvas::Get()->CreateButton();
-    //button3->SetParent(button);
-    //button3->SetAnchorType(UIBase::AnchorType::RightTop);
-    //button3->SetBoxSize({ 50,50 });
-    //button3->SetText(L"Test2");
+    auto button3 = Canvas::Get()->CreateButton();
+    button3->SetParent(cbutton);
+    button3->SetAnchorType(UIBase::AnchorType::RightTop);
+    button3->SetBoxSize({ 50,50 });
+    button3->SetText(L"Test2");
 
-    //auto button4 = Canvas::Get()->CreateButton();
-    //button4->SetParent(button);
-    //button4->SetAnchorType(UIBase::AnchorType::LeftBottom);
-    //button4->SetBoxSize({ 50,50 });
-    //button4->SetText(L"Test2");
-    //
-    /*button = Canvas::Get()->CreateButton();
+    auto button4 = Canvas::Get()->CreateButton();
+    button4->SetParent(cbutton);
+    button4->SetAnchorType(UIBase::AnchorType::LeftBottom);
+    button4->SetBoxSize({ 50,50 });
+    button4->SetText(L"Test2");
+
+    auto button5 = Canvas::Get()->CreateButton();
+    button5->SetParent(cbutton);
+    button5->SetAnchorType(UIBase::AnchorType::RightBottom);
+    button5->SetBoxSize({ 50,50 });
+    button5->SetText(L"Test2");
+    
+    button = Canvas::Get()->CreateButton();
     button->SetBoxSize({ 50,50 });
     button->SetText(L"Click To Change On/Off");
     button->SetPosition({ 300,300 });
@@ -121,7 +127,7 @@ void MainMap::Load()
 
     auto view = Canvas::Get()->CreateScrollView();
     view->SetPosition({ 100,150 });
-    view->SetEnable(true);*/
+    view->SetEnable(true);
 
     text = Canvas::Get()->CreateTextBlock();
     text->SetText(L"Test");

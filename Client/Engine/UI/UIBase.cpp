@@ -14,7 +14,7 @@ UIBase::UIBase()
     color_(Math::Color(255, 255, 255, 255)),
     offset_(Math::Vector2(0, 0)),
     rotation_(0),
-    parentRectsize_(640, 480),
+    parentRectsize_(800, 600),
     rectsize_(50, 50),
     parent_(nullptr),
     stroke_(1.0f),

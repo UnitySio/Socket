@@ -33,8 +33,6 @@ Button* Canvas::CreateButton()
 	
 }
 
-
-
 ProgressBar* Canvas::CreateProgressBar()
 {
 	std::shared_ptr<ProgressBar> bar = std::make_shared<ProgressBar>();
