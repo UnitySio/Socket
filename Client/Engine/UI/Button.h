@@ -11,6 +11,8 @@ public:
 	Button();
 	void SetText(const std::wstring& kString);
 	void SetBoxSize(const Math::Vector2& size);
+	void SetFill(const bool& flag);
+	void SetColor(const Math::Color& color);
 	virtual void SetEnable(const bool& flag) override;
 	const bool& OnMouse();
 

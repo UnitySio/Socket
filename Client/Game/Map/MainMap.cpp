@@ -58,6 +58,8 @@ void MainMap::Load()
     cbutton->SetAnchorType(UIBase::AnchorType::Center);
     cbutton->SetBoxSize({ 50,50 });
     cbutton->SetText(L"Test");
+    cbutton->SetFill(true);
+    cbutton->SetColor(Math::Color::Magenta);
 
     auto button2 = Canvas::Get()->CreateButton();
     button2->SetParent(cbutton);

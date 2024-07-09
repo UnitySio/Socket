@@ -9,6 +9,11 @@ BoxComponent::BoxComponent()
     isInnerScroll_ = false;
 }
 
+void BoxComponent::SetColor(const Math::Color& color)
+{
+    color_ = color;
+}
+
 void BoxComponent::SetFill(const bool& flag)
 {
     isFilled_ = flag;

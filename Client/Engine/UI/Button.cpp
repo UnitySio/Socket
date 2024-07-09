@@ -30,6 +30,16 @@ void Button::SetBoxSize(const Math::Vector2& size)
 	rectsize_ = box_->rectsize_ / 2;
 }
 
+void Button::SetFill(const bool& flag)
+{
+	box_->SetFill(flag);
+}
+
+void Button::SetColor(const Math::Color& color)
+{
+	box_->SetColor(color);
+}
+
 void Button::SetEnable(const bool& flag)
 {
 	Super::SetEnable(flag);
