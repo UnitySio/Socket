@@ -62,7 +62,6 @@ public:
     D2DViewport* GetCurrentD2dViewport() { return current_d2d_viewport_; }
 
 
-=======
     
     // TEST
     bool CreateRenderToTexture();
@@ -81,7 +80,6 @@ public:
     void EndRenderD2D();
     void BeginLayer();
     void EndLayer();
-=======
     
     Math::Vector2 ConvertScreenToWorld(const Math::Vector2& kScreenPosition) const;
     Math::Vector2 ConvertWorldToScreen(const Math::Vector2& kWorldPosition) const;

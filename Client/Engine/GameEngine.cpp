@@ -12,7 +12,7 @@
 #include "Windows/DX/Renderer.h"
 #include "Windows/DX/Shape.h"
 #include "Windows/DX/ShapeBatch.h"
-#include "../Canvas.h"
+#include "UI/Canvas.h"
 
 
 GameEngine::GameEngine() :

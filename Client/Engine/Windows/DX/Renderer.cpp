@@ -413,7 +413,8 @@ void Renderer::BeginLayer()
 void Renderer::EndLayer()
 {
     current_d2d_viewport_->d2d_render_target->PopLayer();
-=======
+}
+
 Math::Vector2 Renderer::ConvertScreenToWorld(const Math::Vector2& kScreenPosition) const
 {
     Viewport* viewport = Renderer::Get()->FindViewport(World::Get()->GetWindow());

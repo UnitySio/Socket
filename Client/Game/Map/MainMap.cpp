@@ -11,11 +11,11 @@
 #include "Actor/Component/TransformComponent.h"
 #include "Misc/Delegate.h"
 #include "Misc/Function.h"
-#include "../Canvas.h"
-#include "../Button.h"
-#include "../ProgressBar.h"
-#include "../ScrollView.h"
-#include "../TextBlock.h"
+#include "UI/Canvas.h"
+#include "UI/Button.h"
+#include "UI/ProgressBar.h"
+#include "UI/ScrollView.h"
+#include "UI/TextBlock.h"
 
 MainMap::MainMap(const std::wstring& kName) : Level(kName)
 {
@@ -125,7 +125,7 @@ void MainMap::Load()
 
     text = Canvas::Get()->CreateTextBlock();
     text->SetText(L"Test");
-    text->SetPosition({ 50,50 });
+    text->SetPosition({ 750,25 });
     text->SetVisibility(true);
 
     
@@ -138,7 +138,7 @@ void MainMap::Tick(float dt)
 
     
     wchar_t buffer[100];
-    swprintf(buffer, 100, L"%.1f", Timer);
+    swprintf(buffer, 100, L"Timer : %.1f", Timer);
     
     text->SetText(buffer);
 

@@ -1,5 +1,5 @@
 #include "BoxComponent.h"
-#include "Engine/Windows/DX/Renderer.h"
+#include "../Engine/Windows/DX/Renderer.h"
 
 BoxComponent::BoxComponent()
 {

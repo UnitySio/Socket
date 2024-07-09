@@ -114,9 +114,6 @@
     <ClCompile Include="Engine\Math\Math.cpp">
       <Filter>Other</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Actor\Pawn.cpp">
-      <Filter>Other</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\Physics\Physics.cpp">
       <Filter>Other</Filter>
     </ClCompile>
@@ -186,36 +183,40 @@
     <ClCompile Include="Engine\Level\World.cpp">
       <Filter>Other</Filter>
     </ClCompile>
-    <ClCompile Include="BoxComponent.cpp">
-      <Filter>UI\Base</Filter>
-    </ClCompile>
-    <ClCompile Include="StringComponent.cpp">
-      <Filter>UI\Base</Filter>
-    </ClCompile>
-    <ClCompile Include="UIBase.cpp">
-      <Filter>UI\Base</Filter>
-    </ClCompile>
-    <ClCompile Include="Canvas.cpp">
-      <Filter>UI\Base</Filter>
-    </ClCompile>
-    <ClCompile Include="Button.cpp">
-      <Filter>UI</Filter>
-    </ClCompile>
-    <ClCompile Include="CircleComponent.cpp">
-      <Filter>UI\Base</Filter>
-    </ClCompile>
-    <ClCompile Include="ProgressBar.cpp">
-      <Filter>UI</Filter>
-    </ClCompile>
     <ClCompile Include="Game\Map\MainMap.cpp">
       <Filter>UI</Filter>
     </ClCompile>
-    <ClCompile Include="ScrollView.cpp">
+    <ClCompile Include="Engine\Actor\Component\Animator\AnimationClip.cpp" />
+    <ClCompile Include="Engine\Actor\Component\SpriteRendererComponent.cpp" />
+    <ClCompile Include="Game\GameInstance.cpp" />
+    <ClCompile Include="Engine\UI\BoxComponent.cpp">
       <Filter>UI</Filter>
     </ClCompile>
-    <ClCompile Include="TextBlock.cpp">
+    <ClCompile Include="Engine\UI\Button.cpp">
       <Filter>UI</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\UI\Canvas.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\UI\CircleComponent.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\UI\ProgressBar.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\UI\ScrollView.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\UI\StringComponent.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\UI\TextBlock.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\UI\UIBase.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Actor\Component\Animator\AnimatorComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Actor\Actor.h">
@@ -560,9 +561,6 @@
     <ClInclude Include="Include\tmxlite\ObjectTypes.hpp">
       <Filter>Other</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Actor\Pawn.h">
-      <Filter>Other</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\Physics\Physics.h">
       <Filter>Other</Filter>
     </ClInclude>
@@ -698,36 +696,40 @@
     <ClInclude Include="Include\DirectXTK\XboxDDSTextureLoader.h">
       <Filter>Other</Filter>
     </ClInclude>
-    <ClInclude Include="Canvas.h">
-      <Filter>UI\Base</Filter>
-    </ClInclude>
-    <ClInclude Include="BoxComponent.h">
-      <Filter>UI\Base</Filter>
-    </ClInclude>
-    <ClInclude Include="StringComponent.h">
-      <Filter>UI\Base</Filter>
-    </ClInclude>
-    <ClInclude Include="UIBase.h">
-      <Filter>UI\Base</Filter>
-    </ClInclude>
-    <ClInclude Include="Button.h">
-      <Filter>UI</Filter>
-    </ClInclude>
-    <ClInclude Include="CircleComponent.h">
-      <Filter>UI\Base</Filter>
-    </ClInclude>
-    <ClInclude Include="ProgressBar.h">
-      <Filter>UI</Filter>
-    </ClInclude>
     <ClInclude Include="Game\Map\MainMap.h">
       <Filter>UI</Filter>
     </ClInclude>
-    <ClInclude Include="ScrollView.h">
+    <ClInclude Include="Engine\Actor\Component\Animator\AnimationClip.h" />
+    <ClInclude Include="Engine\Actor\Component\SpriteRendererComponent.h" />
+    <ClInclude Include="Game\GameInstance.h" />
+    <ClInclude Include="Engine\UI\BoxComponent.h">
       <Filter>UI</Filter>
     </ClInclude>
-    <ClInclude Include="TextBlock.h">
+    <ClInclude Include="Engine\UI\Button.h">
       <Filter>UI</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\UI\Canvas.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\UI\CircleComponent.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\UI\ProgressBar.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\UI\ScrollView.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\UI\StringComponent.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\UI\TextBlock.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\UI\UIBase.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Actor\Component\Animator\AnimatorComponent.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="TileMap">

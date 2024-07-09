@@ -9,7 +9,7 @@
 #include "Windows/WindowDefinition.h"
 #include "Windows/WindowsWindow.h"
 #include "Windows/DX/Renderer.h"
-#include "../Canvas.h"
+#include "UI/Canvas.h"
 
 double Core::current_time_ = 0.;
 double Core::last_time_ = 0.;
