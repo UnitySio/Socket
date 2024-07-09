@@ -16,8 +16,7 @@ public:
     virtual void BeginPlay() override;
     virtual void TickComponent(float delta_time) override;
 
-    void MakeAnimationClip(const std::wstring& kName, int* selected, int size);
-    void MakeAnimationClip(const std::wstring& kName, int start_index, int end_index);
+    void AddClip(const std::wstring& kName, int* selected, int size);
 
 private:
     // 테스트 후 제거 요망
@@ -29,8 +28,6 @@ private:
     SHARED_PTR<AnimationClip> current_clip_;
     
     float timer_;
-    float play_speed_;
-
     int current_index_;
     
 };
