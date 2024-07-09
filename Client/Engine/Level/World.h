@@ -41,6 +41,14 @@ private:
     friend class TilemapComponent;
     friend class CameraComponent;
     friend class PlayerController;
+    template< typename T, typename U>
+    friend class BaseJointComponent;
+    friend class DistanceJointComponent;
+    friend class HingeJointComponent;
+    friend class MotorJointComponent;
+    friend class PrismaticJointComponent;
+    friend class WheelJointComponent;
+    friend class MainMap;
 
     inline void SetCamera(const SHARED_PTR<Actor>& kCamera) { camera_ = kCamera; }
 

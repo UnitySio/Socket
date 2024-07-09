@@ -95,6 +95,11 @@ private:
     friend class TransformComponent;
     friend class Pawn;
     friend class PlayerController;
+    friend class DistanceJointComponent;
+    friend class HingeJointComponent;
+    friend class MotorJointComponent;
+    friend class PrismaticJointComponent;
+    friend class WheelJointComponent;
 
     void InitializeActor();
     void InitializeComponents();

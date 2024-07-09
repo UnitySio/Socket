@@ -217,6 +217,24 @@
       <Filter>UI</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Actor\Component\Animator\AnimatorComponent.cpp" />
+    <ClCompile Include="Engine\Joint\BaseJointComponent.cpp">
+      <Filter>Joint</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Joint\DistanceJointComponent.cpp">
+      <Filter>Joint</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Joint\HingeJointComponent.cpp">
+      <Filter>Joint</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Joint\MotorJointComponent.cpp">
+      <Filter>Joint</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Joint\PrismaticJointComponent.cpp">
+      <Filter>Joint</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Joint\WheelJointComponent.cpp">
+      <Filter>Joint</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Actor\Actor.h">
@@ -730,6 +748,24 @@
       <Filter>UI</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Actor\Component\Animator\AnimatorComponent.h" />
+    <ClInclude Include="Engine\Joint\BaseJointComponent.h">
+      <Filter>Joint</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Joint\DistanceJointComponent.h">
+      <Filter>Joint</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Joint\HingeJointComponent.h">
+      <Filter>Joint</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Joint\MotorJointComponent.h">
+      <Filter>Joint</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Joint\PrismaticJointComponent.h">
+      <Filter>Joint</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Joint\WheelJointComponent.h">
+      <Filter>Joint</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="TileMap">
@@ -743,6 +779,9 @@
     </Filter>
     <Filter Include="UI\Base">
       <UniqueIdentifier>{39e9e138-ba43-4c96-ab84-c5ab4e68b701}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Joint">
+      <UniqueIdentifier>{9b83cf01-20d7-4b24-914b-ff9aafbfb820}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
