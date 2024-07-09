@@ -16,6 +16,8 @@
 #include "Misc/Debug.h"
 #include "Physics/HitResult.h"
 #include "Physics/Physics.h"
+#include "UI/Canvas.h"
+#include "UI/TextBlock.h"
 #include "Windows/DX/Shape.h"
 #include "Windows/DX/Sprite.h"
 
@@ -40,6 +42,14 @@ PlayerController::PlayerController(const std::wstring& kName) : CharacterBase(kN
     animator_->clips_[L"Idle"]->SetPlayBackSpeed(6.f);
     animator_->current_clip_ = animator_->clips_[L"Idle"];
     
+}
+
+void PlayerController::BeginPlay()
+{
+    CharacterBase::BeginPlay();
+
+    text_block_ = Canvas::Get()->CreateTextBlock();
+    text_block_->SetText(L"Hello, World!");
 }
 
 void PlayerController::PhysicsTick(float delta_time)
@@ -68,4 +78,8 @@ void PlayerController::Tick(float delta_time)
         box->GetTransform()->SetRelativePosition(GetTransform()->GetWorldPosition());
         SpawnActor(box);
     }
+
+    TransformComponent* transform = GetTransform();
+    Math::Vector2 world_position = Renderer::Get()->ConvertWorldToScreen(transform->GetWorldPosition());
+    text_block_->SetPosition(world_position);
 }
