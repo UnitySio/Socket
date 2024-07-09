@@ -10,6 +10,7 @@ public:
 	TextBlock();
 	void SetText(const std::wstring& kString);
 	void SetSize(const Math::Vector2& kSize);
+	void SetTextColor(const Math::Color& kColor);
 
 protected:
 	virtual void Render(WindowsWindow* kWindow = World::Get()->GetWindow()) override;

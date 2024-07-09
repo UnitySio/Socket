@@ -52,6 +52,16 @@ void ProgressBar::SetVertical(const bool& flag)
 	inner_->SetVertical(flag);
 }
 
+void ProgressBar::SetOutlineColor(const Math::Color& kColor)
+{
+	outer_->SetColor(kColor);
+}
+
+void ProgressBar::SetInnerBarColor(const Math::Color& kColor)
+{
+	inner_->SetColor(kColor);
+}
+
 void ProgressBar::Render(WindowsWindow* kWindow)
 {
 	Super::Render(kWindow);

@@ -10,13 +10,13 @@ namespace Math
         MathTypes::uint8 b;
         MathTypes::uint8 a;
 
-        static Color Red;
-        static Color Green;
-        static Color Blue;
-        static Color White;
-        static Color Black;
-        static Color Yellow;
-        static Color Cyan;
-        static Color Magenta;
+        static const Color Red;
+        static const Color Green;
+        static const Color Blue;
+        static const Color White;
+        static const Color Black;
+        static const Color Yellow;
+        static const Color Cyan;
+        static const Color Magenta;
     };
 }

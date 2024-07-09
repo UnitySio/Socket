@@ -13,6 +13,8 @@ public:
 	const bool& OnMouse();
 	void SetTouchEnable(const bool& flag);
 	void SetVertical(const bool& flag);
+	void SetOutlineColor(const Math::Color& kColor);
+	void SetInnerBarColor(const Math::Color& kColor);
 
 protected:
 	virtual void Render(WindowsWindow* kWindow = World::Get()->GetWindow()) override;

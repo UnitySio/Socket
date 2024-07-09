@@ -127,6 +127,7 @@ namespace Math
          */
         void Normalize();
 
+
         float x;
         float y;
     };

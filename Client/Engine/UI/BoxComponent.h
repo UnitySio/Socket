@@ -9,7 +9,6 @@ protected:
 	virtual void Render(WindowsWindow* kWindow = World::Get()->GetWindow()) override;
 
 private:
-	void SetColor(const Math::Color& color);
 	void SetFill(const bool& flag);
 	void SetValue(const float value);
 	void SetVertical(const bool& flag);

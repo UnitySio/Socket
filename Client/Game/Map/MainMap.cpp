@@ -58,8 +58,9 @@ void MainMap::Load()
     cbutton->SetAnchorType(UIBase::AnchorType::Center);
     cbutton->SetBoxSize({ 50,50 });
     cbutton->SetText(L"Test");
+    cbutton->SetTextColor(Math::Color::Cyan);
     cbutton->SetFill(true);
-    cbutton->SetColor(Math::Color::Magenta);
+    cbutton->SetBoxColor(Math::Color::Magenta);
 
     auto button2 = Canvas::Get()->CreateButton();
     button2->SetParent(cbutton);
@@ -117,6 +118,7 @@ void MainMap::Load()
     bar->SetEnable(true);
     bar->SetTouchEnable(true);
     bar->SetVertical(false);
+    bar->SetInnerBarColor(Math::Color::Green);
 
     auto bar2 = Canvas::Get()->CreateProgressBar();
     bar2->SetPosition({ 225, 200 });
@@ -135,7 +137,7 @@ void MainMap::Load()
     text->SetText(L"Test");
     text->SetPosition({ 750,25 });
     text->SetVisibility(true);
-
+    text->SetTextColor(Math::Color::Black);
     
 }
 

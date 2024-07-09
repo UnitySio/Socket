@@ -98,6 +98,11 @@ void UIBase::BindAction(const EventType& type, Function<void(void)>&& func)
     }
 }
 
+void UIBase::SetColor(const Math::Color& kColor)
+{
+    color_ = kColor;
+}
+
 void UIBase::Tick()
 {
     if (isDown_ == Canvas::Get()->IsDown())

@@ -10,10 +10,11 @@ class Button : public UIBase
 public:
 	Button();
 	void SetText(const std::wstring& kString);
-	void SetBoxSize(const Math::Vector2& size);
-	void SetFill(const bool& flag);
-	void SetColor(const Math::Color& color);
-	virtual void SetEnable(const bool& flag) override;
+	void SetBoxSize(const Math::Vector2& kSize);
+	void SetFill(const bool& kFlag);
+	void SetBoxColor(const Math::Color& kColor);
+	void SetTextColor(const Math::Color& kColor);
+	virtual void SetEnable(const bool& kFlag) override;
 	const bool& OnMouse();
 
 protected:

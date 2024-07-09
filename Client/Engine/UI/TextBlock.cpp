@@ -18,6 +18,11 @@ void TextBlock::SetSize(const Math::Vector2& kSize)
 	str_->SetSize(kSize);
 }
 
+void TextBlock::SetTextColor(const Math::Color& kColor)
+{
+	str_->SetColor(kColor);
+}
+
 void TextBlock::Render(WindowsWindow* kWindow)
 {
 	Super::Render(kWindow);

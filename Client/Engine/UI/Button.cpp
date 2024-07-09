@@ -24,27 +24,32 @@ void Button::SetText(const std::wstring& kString)
 	string_->SetText(kString);
 }
 
-void Button::SetBoxSize(const Math::Vector2& size)
+void Button::SetBoxSize(const Math::Vector2& kSize)
 {
-	box_->SetSize(size);
+	box_->SetSize(kSize);
 	rectsize_ = box_->rectsize_ / 2;
 }
 
-void Button::SetFill(const bool& flag)
+void Button::SetFill(const bool& kFlag)
 {
-	box_->SetFill(flag);
+	box_->SetFill(kFlag);
 }
 
-void Button::SetColor(const Math::Color& color)
+void Button::SetBoxColor(const Math::Color& kColor)
 {
-	box_->SetColor(color);
+	box_->SetColor(kColor);
 }
 
-void Button::SetEnable(const bool& flag)
+void Button::SetTextColor(const Math::Color& kColor)
 {
-	Super::SetEnable(flag);
-	box_->SetEnable(flag);
-	string_->SetEnable(flag);
+	string_->SetColor(kColor);
+}
+
+void Button::SetEnable(const bool& kFlag)
+{
+	Super::SetEnable(kFlag);
+	box_->SetEnable(kFlag);
+	string_->SetEnable(kFlag);
 }
 
 const bool& Button::OnMouse()

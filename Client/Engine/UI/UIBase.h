@@ -48,6 +48,7 @@ public:
 
 protected:
 	using Super = UIBase;
+	void SetColor(const Math::Color& kColor);
 	void SetOffset(const Math::Vector2& pos);
 
 	virtual void Tick();

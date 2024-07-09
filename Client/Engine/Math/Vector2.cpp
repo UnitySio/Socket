@@ -5,6 +5,7 @@
 
 #include "Math.h"
 
+
 Math::Vector2::Vector2() :
     x(),
     y()
