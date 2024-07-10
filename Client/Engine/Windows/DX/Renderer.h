@@ -90,7 +90,7 @@ public:
 
     inline ID3D11Device* GetDevice() const { return d3d_device_.Get(); }
     inline ID3D11DeviceContext* GetDeviceContext() const { return d3d_device_context_.Get(); }
-
+    inline Microsoft::WRL::ComPtr<IWICImagingFactory> GetImageFactory() const { return wic_imaging_factory_; }
 private:
     bool CreateBackBufferResources(Microsoft::WRL::ComPtr<IDXGISwapChain>& dxgi_swap_chain, Microsoft::WRL::ComPtr<ID3D11Texture2D>& back_buffer, Microsoft::WRL::ComPtr<ID3D11RenderTargetView>& d3d_render_target_view);
 
@@ -98,6 +98,7 @@ private:
     Microsoft::WRL::ComPtr<ID3D11DeviceContext> d3d_device_context_;
 
     Microsoft::WRL::ComPtr<ID2D1Factory> d2d_factory_;
+    Microsoft::WRL::ComPtr<IWICImagingFactory> wic_imaging_factory_;
     
     std::map<WindowsWindow*, Viewport> viewports_;
     std::map<WindowsWindow*, D2DViewport> d2d_viewports_;

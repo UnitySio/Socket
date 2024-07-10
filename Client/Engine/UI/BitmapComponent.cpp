@@ -6,24 +6,23 @@
 
 BitmapComponent::BitmapComponent()
     :Super(),
-    bitmap_(nullptr),
-    wic_imaging_factory_(nullptr)
+    bitmap_(nullptr)
 {
     position_ = Math::Vector2::Zero();
     rectsize_ = Math::Vector2::Zero();
     rotation_ = 0.0f;
+    opacity_ = 1.0f;
 
-    CoCreateInstance(CLSID_WICImagingFactory, nullptr, CLSCTX_INPROC_SERVER, IID_PPV_ARGS(wic_imaging_factory_.GetAddressOf()));
 }
 
-BitmapComponent::~BitmapComponent()
-{
-}
+
 
 void BitmapComponent::LoadBitmap(const std::wstring& kFileName, WindowsWindow* kWindow)
 {
     D2DViewport* d2d_viewport = Renderer::Get()->FindD2DViewport(kWindow);
-
+    
+    Microsoft::WRL::ComPtr<IWICImagingFactory> wic_imaging_factory_ = Renderer::Get()->GetImageFactory();
+    
     Microsoft::WRL::ComPtr<IWICBitmapDecoder> decoder;
     HRESULT hr = wic_imaging_factory_->CreateDecoderFromFilename(kFileName.c_str(), nullptr, GENERIC_READ,
         WICDecodeMetadataCacheOnLoad, decoder.GetAddressOf());
@@ -66,7 +65,7 @@ void BitmapComponent::Render(WindowsWindow* kWindow)
     D2D1_POINT_2F center = D2D1::Point2F(GetPosition().x, GetPosition().y);
     d2d_viewport->d2d_render_target->SetTransform(D2D1::Matrix3x2F::Rotation(rotation_, center));
 
-    d2d_viewport->d2d_render_target->DrawBitmap(bitmap_.Get(), rect);
+    d2d_viewport->d2d_render_target->DrawBitmap(bitmap_.Get(), rect, opacity_);
     d2d_viewport->d2d_render_target->SetTransform(transform);
 }
 

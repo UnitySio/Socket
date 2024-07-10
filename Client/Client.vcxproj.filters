@@ -223,6 +223,9 @@
     <ClCompile Include="Engine\UI\LineComponent.cpp">
       <Filter>UI\Base</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\UI\Image.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Actor\Actor.h">
@@ -741,6 +744,9 @@
     </ClInclude>
     <ClInclude Include="Engine\UI\LineComponent.h">
       <Filter>UI\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\UI\Image.h">
+      <Filter>UI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

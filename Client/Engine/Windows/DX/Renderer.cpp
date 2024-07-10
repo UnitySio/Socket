@@ -24,6 +24,9 @@ bool Renderer::Init()
     HRESULT hr = D2D1CreateFactory(D2D1_FACTORY_TYPE_SINGLE_THREADED, d2d_factory_.GetAddressOf());
     if (FAILED(hr)) return false;
 
+    hr = CoCreateInstance(CLSID_WICImagingFactory, nullptr, CLSCTX_INPROC_SERVER, IID_PPV_ARGS(wic_imaging_factory_.GetAddressOf()));
+    if (FAILED(hr)) return false;
+
     // TEST
     // if (!CreateRenderToTexture()) return false;
 

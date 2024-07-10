@@ -7,7 +7,7 @@
 #include "ProgressBar.h"
 #include "ScrollView.h"
 #include "TextBlock.h"
-#include "UI/BitmapComponent.h"
+#include "Image.h"
 
 
 Canvas::Canvas()
@@ -60,11 +60,11 @@ TextBlock* Canvas::CreateTextBlock()
 	return static_cast<TextBlock*>(renderList_.back().get());
 }
 
-BitmapComponent* Canvas::CreateBitmap()
+Image* Canvas::CreateImage()
 {
-	std::shared_ptr<BitmapComponent> text = std::make_shared<BitmapComponent>();
-	renderList_.push_back(text);
-	return static_cast<BitmapComponent*>(renderList_.back().get());
+	std::shared_ptr<Image> image = std::make_shared<Image>();
+	renderList_.push_back(image);
+	return static_cast<Image*>(renderList_.back().get());
 }
 
 bool Canvas::ProcessMessage(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam, MathTypes::uint32 handler_result)

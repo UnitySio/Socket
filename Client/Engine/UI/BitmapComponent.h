@@ -6,17 +6,20 @@ class BitmapComponent : public UIBase
 {
 public:
 	BitmapComponent();
-	virtual ~BitmapComponent();
 
-	void LoadBitmap(const std::wstring& kFileName, WindowsWindow* kWindow = World::Get()->GetWindow());
 
 protected:
 	virtual void Tick();
 	virtual void Render(WindowsWindow* kWindow = World::Get()->GetWindow());
 
 private:
+	void LoadBitmap(const std::wstring& kFileName, WindowsWindow* kWindow = World::Get()->GetWindow());
+	inline void SetOpacity(const float& cValue) { opacity_ = cValue; }
 	Microsoft::WRL::ComPtr<ID2D1Bitmap> bitmap_;
-	Microsoft::WRL::ComPtr<IWICImagingFactory> wic_imaging_factory_;
+
+	float opacity_;
+
 	friend class Button;
+	friend class Image;
 };
 

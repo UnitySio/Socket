@@ -7,6 +7,7 @@
 #include "Misc/Function.h"
 #include "BitmapComponent.h"
 #include "TextBlock.h"
+#include "Image.h"
 
 Button::Button()
 {
@@ -54,6 +55,7 @@ void Button::SetEnable(const bool& kFlag)
 	Super::SetEnable(kFlag);
 	box_->SetEnable(kFlag);
 	string_->SetEnable(kFlag);
+	image_->SetEnable(kFlag);
 }
 
 const bool& Button::OnMouse()
@@ -64,8 +66,8 @@ const bool& Button::OnMouse()
 void Button::SetImage(const std::wstring& kFileName)
 {
 	isImage_ = true;
-	image_ = std::make_shared<BitmapComponent>();
-	image_->LoadBitmapW(kFileName);
+	image_ = std::make_shared<Image>();
+	image_->SetImage(kFileName);
 	image_->SetParent(this);
 	image_->SetSize(rectsize_);
 }
@@ -83,6 +85,7 @@ void Button::Render(WindowsWindow* kWindow)
 
 	else if (isImage_)
 		image_->Render(kWindow);
+
 	string_->Render(kWindow);
 }
 

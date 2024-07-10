@@ -19,7 +19,8 @@ UIBase::UIBase()
     parent_(nullptr),
     stroke_(1.0f),
     anchorType_(AnchorType::None),
-    isEnabled_(false)
+    isEnabled_(false),
+    isVisible_(true)
 {
     
 }

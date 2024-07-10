@@ -13,7 +13,7 @@ class StringComponent;
 class ProgressBar;
 class ScrollView;
 class TextBlock;
-class BitmapComponent;
+class Image;
 
 class Canvas : public Singleton<Canvas>
 {
@@ -25,7 +25,7 @@ public:
 	ProgressBar* CreateProgressBar();
 	ScrollView* CreateScrollView();
 	TextBlock* CreateTextBlock();
-	BitmapComponent* CreateBitmap();
+	Image* CreateImage();
 
 	bool ProcessMessage(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam, MathTypes::uint32 handler_result);
 	const bool& IsDown() { return isDown_; }
