@@ -3,6 +3,7 @@
 #include "Level/World.h"
 #include "Windows/WindowsWindow.h"
 #include "Canvas.h"
+#include "ProgressBar.h"
 
 ScrollView::ScrollView()
 {
@@ -17,13 +18,31 @@ ScrollView::ScrollView()
 	inner_->outer_ = outer_;
 	inner_->SetFill(true);
 	inner_->SetValue(1.0f);
-	inner_->SetSize({ 25,50 });
+	inner_->SetSize({ outer_->rectsize_.x,outer_->rectsize_.y });
 
 	outer_->SetParent(this);
 	inner_->SetParent(this);
 
 	isDown_ = false;
 	onMouse_ = false;
+	isVertical_ = true;
+	
+}
+
+void ScrollView::SetSize(const Math::Vector2& kSize)
+{
+	Super::SetSize(kSize);
+}
+
+void ScrollView::SetEnableSideBar(const bool& kFlag)
+{
+	if (kFlag)
+	{
+		sidebar_ = std::make_shared<ScrollView>();
+		sidebar_->SetParent(this);
+		sidebar_->SetPosition({ 100,0 });
+		sidebar_->SetSize({ 50,50 });
+	}
 	
 }
 
@@ -32,6 +51,8 @@ void ScrollView::Render(WindowsWindow* kWindow)
 	Super::Render(kWindow);
 	outer_->Render(kWindow);
 	inner_->Render(kWindow);
+	if (sidebar_)
+		sidebar_->Render(kWindow);
 }
 
 void ScrollView::Tick()
@@ -50,9 +71,17 @@ void ScrollView::Tick()
 			
 			if (isDown_)
 			{
-				POINT deltaPos = POINT(pos.x - prevPos_.x , pos.y - prevPos_.y);
-				inner_->position_.x += deltaPos.x;
-				inner_->position_.y += deltaPos.y;
+				if (isVertical_)
+				{
+					POINT deltaPos = POINT(pos.x - prevPos_.x, pos.y - prevPos_.y);
+					inner_->position_.y += deltaPos.y;
+				}
+
+				else if (!isVertical_)
+				{
+					POINT deltaPos = POINT(pos.x - prevPos_.x, pos.y - prevPos_.y);
+					inner_->position_.x += deltaPos.x;
+				}
 			}
 			prevPos_ = pos;
 			return;

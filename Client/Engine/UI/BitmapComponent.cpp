@@ -1,6 +1,7 @@
 #include "BitmapComponent.h"
 #include "Windows/DX/Renderer.h"
-
+#include <d2d1.h>
+#include <wincodec.h>
 
 
 BitmapComponent::BitmapComponent()
@@ -56,13 +57,16 @@ void BitmapComponent::Render(WindowsWindow* kWindow)
 
     const float half_width = rectsize_.x * 0.5f;
     const float half_height = rectsize_.y * 0.5f;
+    
+    const D2D1_RECT_F rect = D2D1::RectF(GetPosition().x - half_width, GetPosition().y - half_height,
+        GetPosition().x + half_width, GetPosition().y + half_height);
 
-    const D2D1_RECT_F rect = D2D1::RectF(position_.x - half_width, position_.y - half_height,
-        position_.x + half_width, position_.y + half_height);
+    
 
-    D2D1_POINT_2F center = D2D1::Point2F(position_.x, position_.y);
+    D2D1_POINT_2F center = D2D1::Point2F(GetPosition().x, GetPosition().y);
     d2d_viewport->d2d_render_target->SetTransform(D2D1::Matrix3x2F::Rotation(rotation_, center));
 
     d2d_viewport->d2d_render_target->DrawBitmap(bitmap_.Get(), rect);
     d2d_viewport->d2d_render_target->SetTransform(transform);
 }
+

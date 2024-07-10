@@ -34,6 +34,13 @@ void UIBase::SetParent(UIBase* parent)
 void UIBase::SetSize(const Math::Vector2& value)
 {
     rectsize_ = value;
+    if (!children_.empty())
+    {
+        for (auto& temp : children_)
+        {
+            temp->SetSize(value);
+        }
+    }
 }
 
 void UIBase::SetPosition(const Math::Vector2& pos)

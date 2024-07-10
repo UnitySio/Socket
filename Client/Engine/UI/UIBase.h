@@ -36,7 +36,7 @@ public:
 	virtual ~UIBase() = default;
 
 	void SetParent(UIBase* parent);
-	void SetSize(const Math::Vector2& value);
+	virtual void SetSize(const Math::Vector2& value);
 	void SetPosition(const Math::Vector2& pos);
 	const Math::Vector2 GetPosition();
 	void SetAnchorType(const AnchorType& type);
@@ -45,10 +45,11 @@ public:
 	void SetVisibility(const bool& flag);
 	const bool& IsVisible() { return isVisible_; }
 	void BindAction(const EventType& type, Function<void(void)>&& func);
+	void SetColor(const Math::Color& kColor);
+
 
 protected:
 	using Super = UIBase;
-	void SetColor(const Math::Color& kColor);
 	void SetOffset(const Math::Vector2& pos);
 
 	virtual void Tick();

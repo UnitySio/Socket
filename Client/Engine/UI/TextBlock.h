@@ -39,5 +39,7 @@ protected:
 
 private:
 	std::shared_ptr<StringComponent> str_;
+
+	friend class Button;
 };
 

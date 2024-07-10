@@ -16,8 +16,7 @@ protected:
 
 private:
 	Microsoft::WRL::ComPtr<ID2D1Bitmap> bitmap_;
-
 	Microsoft::WRL::ComPtr<IWICImagingFactory> wic_imaging_factory_;
-
+	friend class Button;
 };
 
