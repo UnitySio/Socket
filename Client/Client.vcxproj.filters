@@ -189,25 +189,16 @@
     <ClCompile Include="Engine\Actor\Component\Animator\AnimationClip.cpp" />
     <ClCompile Include="Engine\Actor\Component\SpriteRendererComponent.cpp" />
     <ClCompile Include="Game\GameInstance.cpp" />
-    <ClCompile Include="Engine\UI\BoxComponent.cpp">
-      <Filter>UI</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\UI\Button.cpp">
       <Filter>UI</Filter>
     </ClCompile>
     <ClCompile Include="Engine\UI\Canvas.cpp">
       <Filter>UI</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\UI\CircleComponent.cpp">
-      <Filter>UI</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\UI\ProgressBar.cpp">
       <Filter>UI</Filter>
     </ClCompile>
     <ClCompile Include="Engine\UI\ScrollView.cpp">
-      <Filter>UI</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\UI\StringComponent.cpp">
       <Filter>UI</Filter>
     </ClCompile>
     <ClCompile Include="Engine\UI\TextBlock.cpp">
@@ -217,6 +208,21 @@
       <Filter>UI</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Actor\Component\Animator\AnimatorComponent.cpp" />
+    <ClCompile Include="LineComponent.cpp">
+      <Filter>UI\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\UI\BoxComponent.cpp">
+      <Filter>UI\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\UI\CircleComponent.cpp">
+      <Filter>UI\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\UI\StringComponent.cpp">
+      <Filter>UI\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="BitmapComponent.cpp">
+      <Filter>UI\Base</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Actor\Actor.h">
@@ -702,25 +708,16 @@
     <ClInclude Include="Engine\Actor\Component\Animator\AnimationClip.h" />
     <ClInclude Include="Engine\Actor\Component\SpriteRendererComponent.h" />
     <ClInclude Include="Game\GameInstance.h" />
-    <ClInclude Include="Engine\UI\BoxComponent.h">
-      <Filter>UI</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\UI\Button.h">
       <Filter>UI</Filter>
     </ClInclude>
     <ClInclude Include="Engine\UI\Canvas.h">
       <Filter>UI</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\UI\CircleComponent.h">
-      <Filter>UI</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\UI\ProgressBar.h">
       <Filter>UI</Filter>
     </ClInclude>
     <ClInclude Include="Engine\UI\ScrollView.h">
-      <Filter>UI</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\UI\StringComponent.h">
       <Filter>UI</Filter>
     </ClInclude>
     <ClInclude Include="Engine\UI\TextBlock.h">
@@ -730,6 +727,21 @@
       <Filter>UI</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Actor\Component\Animator\AnimatorComponent.h" />
+    <ClInclude Include="LineComponent.h">
+      <Filter>UI\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\UI\BoxComponent.h">
+      <Filter>UI\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\UI\CircleComponent.h">
+      <Filter>UI\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\UI\StringComponent.h">
+      <Filter>UI\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="BitmapComponent.h">
+      <Filter>UI\Base</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="TileMap">
