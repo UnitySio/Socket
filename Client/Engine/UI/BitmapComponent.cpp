@@ -2,15 +2,21 @@
 #include "Windows/DX/Renderer.h"
 
 
+
 BitmapComponent::BitmapComponent()
     :Super(),
     bitmap_(nullptr),
-    position_(Math::Vector2::Zero()),
-    size_(Math::Vector2::Zero()),
-    rotation_(0.0f),
     wic_imaging_factory_(nullptr)
 {
+    position_ = Math::Vector2::Zero();
+    rectsize_ = Math::Vector2::Zero();
+    rotation_ = 0.0f;
+
     CoCreateInstance(CLSID_WICImagingFactory, nullptr, CLSCTX_INPROC_SERVER, IID_PPV_ARGS(wic_imaging_factory_.GetAddressOf()));
+}
+
+BitmapComponent::~BitmapComponent()
+{
 }
 
 void BitmapComponent::LoadBitmap(const std::wstring& kFileName, WindowsWindow* kWindow)
@@ -48,8 +54,8 @@ void BitmapComponent::Render(WindowsWindow* kWindow)
     D2D1_MATRIX_3X2_F transform;
     d2d_viewport->d2d_render_target->GetTransform(&transform);
 
-    const float half_width = size_.x * 0.5f;
-    const float half_height = size_.y * 0.5f;
+    const float half_width = rectsize_.x * 0.5f;
+    const float half_height = rectsize_.y * 0.5f;
 
     const D2D1_RECT_F rect = D2D1::RectF(position_.x - half_width, position_.y - half_height,
         position_.x + half_width, position_.y + half_height);

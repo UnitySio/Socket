@@ -192,9 +192,6 @@
     <ClCompile Include="Engine\UI\Button.cpp">
       <Filter>UI</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\UI\Canvas.cpp">
-      <Filter>UI</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\UI\ProgressBar.cpp">
       <Filter>UI</Filter>
     </ClCompile>
@@ -208,9 +205,6 @@
       <Filter>UI</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Actor\Component\Animator\AnimatorComponent.cpp" />
-    <ClCompile Include="LineComponent.cpp">
-      <Filter>UI\Base</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\UI\BoxComponent.cpp">
       <Filter>UI\Base</Filter>
     </ClCompile>
@@ -220,7 +214,13 @@
     <ClCompile Include="Engine\UI\StringComponent.cpp">
       <Filter>UI\Base</Filter>
     </ClCompile>
-    <ClCompile Include="BitmapComponent.cpp">
+    <ClCompile Include="Engine\UI\Canvas.cpp">
+      <Filter>UI\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\UI\BitmapComponent.cpp">
+      <Filter>UI\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\UI\LineComponent.cpp">
       <Filter>UI\Base</Filter>
     </ClCompile>
   </ItemGroup>
@@ -711,9 +711,6 @@
     <ClInclude Include="Engine\UI\Button.h">
       <Filter>UI</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\UI\Canvas.h">
-      <Filter>UI</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\UI\ProgressBar.h">
       <Filter>UI</Filter>
     </ClInclude>
@@ -727,9 +724,6 @@
       <Filter>UI</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Actor\Component\Animator\AnimatorComponent.h" />
-    <ClInclude Include="LineComponent.h">
-      <Filter>UI\Base</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\UI\BoxComponent.h">
       <Filter>UI\Base</Filter>
     </ClInclude>
@@ -739,7 +733,13 @@
     <ClInclude Include="Engine\UI\StringComponent.h">
       <Filter>UI\Base</Filter>
     </ClInclude>
-    <ClInclude Include="BitmapComponent.h">
+    <ClInclude Include="Engine\UI\Canvas.h">
+      <Filter>UI\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\UI\BitmapComponent.h">
+      <Filter>UI\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\UI\LineComponent.h">
       <Filter>UI\Base</Filter>
     </ClInclude>
   </ItemGroup>

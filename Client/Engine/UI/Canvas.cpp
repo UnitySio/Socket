@@ -7,11 +7,17 @@
 #include "ProgressBar.h"
 #include "ScrollView.h"
 #include "TextBlock.h"
+#include "UI/BitmapComponent.h"
 
 
 Canvas::Canvas()
 {
 	isDown_ = false;
+}
+
+Canvas::~Canvas()
+{
+	renderList_.clear();
 }
 
 void Canvas::Render(WindowsWindow* kWindow)
@@ -52,6 +58,13 @@ TextBlock* Canvas::CreateTextBlock()
 	std::shared_ptr<TextBlock> text = std::make_shared<TextBlock>();
 	renderList_.push_back(text);
 	return static_cast<TextBlock*>(renderList_.back().get());
+}
+
+BitmapComponent* Canvas::CreateBitmap()
+{
+	std::shared_ptr<BitmapComponent> text = std::make_shared<BitmapComponent>();
+	renderList_.push_back(text);
+	return static_cast<BitmapComponent*>(renderList_.back().get());
 }
 
 bool Canvas::ProcessMessage(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam, MathTypes::uint32 handler_result)

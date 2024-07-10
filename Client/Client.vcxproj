@@ -134,7 +134,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="BitmapComponent.h" />
     <ClInclude Include="Client.h" />
     <ClInclude Include="Engine\Actor\Actor.h" />
     <ClInclude Include="Engine\Actor\Component\ActorComponent.h" />
@@ -183,10 +182,12 @@
     <ClInclude Include="Engine\Singleton.h" />
     <ClInclude Include="Engine\Time\Time.h" />
     <ClInclude Include="Engine\Time\TimerManager.h" />
+    <ClInclude Include="Engine\UI\BitmapComponent.h" />
     <ClInclude Include="Engine\UI\BoxComponent.h" />
     <ClInclude Include="Engine\UI\Button.h" />
     <ClInclude Include="Engine\UI\Canvas.h" />
     <ClInclude Include="Engine\UI\CircleComponent.h" />
+    <ClInclude Include="Engine\UI\LineComponent.h" />
     <ClInclude Include="Engine\UI\ProgressBar.h" />
     <ClInclude Include="Engine\UI\ScrollView.h" />
     <ClInclude Include="Engine\UI\StringComponent.h" />
@@ -306,12 +307,10 @@
     <ClInclude Include="Include\tmxlite\Tileset.hpp" />
     <ClInclude Include="Include\tmxlite\Types.hpp" />
     <ClInclude Include="Include\tmxlite\Types.inl" />
-    <ClInclude Include="LineComponent.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="BitmapComponent.cpp" />
     <ClCompile Include="Client.cpp" />
     <ClCompile Include="Engine\Actor\Actor.cpp" />
     <ClCompile Include="Engine\Actor\Component\ActorComponent.cpp" />
@@ -351,10 +350,12 @@
     <ClCompile Include="Engine\Physics\RayCastCallback.cpp" />
     <ClCompile Include="Engine\Time\Time.cpp" />
     <ClCompile Include="Engine\Time\TimerManager.cpp" />
+    <ClCompile Include="Engine\UI\BitmapComponent.cpp" />
     <ClCompile Include="Engine\UI\BoxComponent.cpp" />
     <ClCompile Include="Engine\UI\Button.cpp" />
     <ClCompile Include="Engine\UI\Canvas.cpp" />
     <ClCompile Include="Engine\UI\CircleComponent.cpp" />
+    <ClCompile Include="Engine\UI\LineComponent.cpp" />
     <ClCompile Include="Engine\UI\ProgressBar.cpp" />
     <ClCompile Include="Engine\UI\ScrollView.cpp" />
     <ClCompile Include="Engine\UI\StringComponent.cpp" />
@@ -384,7 +385,6 @@
     <ClCompile Include="Include\imgui\imgui_impl_win32.cpp" />
     <ClCompile Include="Include\imgui\imgui_tables.cpp" />
     <ClCompile Include="Include\imgui\imgui_widgets.cpp" />
-    <ClCompile Include="LineComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Engine\Shader\DefaultPixelShader.hlsl">

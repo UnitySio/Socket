@@ -96,6 +96,7 @@ bool Core::ProcessMessage(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam,
 
                 World::Get()->Release();
                 Renderer::Get()->Release();
+                Canvas::Get()->Release();
             }
         }
     }

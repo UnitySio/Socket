@@ -15,7 +15,7 @@ UIBase::UIBase()
     offset_(Math::Vector2(0, 0)),
     rotation_(0),
     parentRectsize_(800, 600),
-    rectsize_(50, 50),
+    rectsize_(0, 0),
     parent_(nullptr),
     stroke_(1.0f),
     anchorType_(AnchorType::None),

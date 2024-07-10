@@ -9,24 +9,8 @@ public:
     virtual ~MainMap() override = default;
 
     virtual void Load() override;
-    virtual void PhysicsTick(float dt) override;
     
 
-#pragma region Joint
-    void ReserveDestroyJoint(b2Joint* joint);
-    void ReserveCreateJoint(std::function<void()>&& func);
-#pragma endregion
 
-private:
-
-#pragma region Joint
-    void DestroyReservedJoint();
-    void CreateReservedJoint();
-    float timer = 0.0f;
-    std::vector<b2Joint*> destroyContainer_;
-    std::vector<std::function<void()>> createContainer_;
-    bool flag1;
-    bool flag2;
-#pragma endregion
 };
 

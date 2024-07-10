@@ -9,6 +9,8 @@
 #include "Misc/EngineMacros.h"
 #include "Time/TimerManager.h"
 
+class Actor;
+
 DECLARE_DELEGATE(ContactSignature, Actor*);
 
 enum class EndPlayReason : size_t;

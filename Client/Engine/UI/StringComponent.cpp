@@ -57,8 +57,12 @@ void StringComponent::Render(WindowsWindow* kWindow)
     D2D1_MATRIX_3X2_F transform;
     d2d_viewport->d2d_render_target->GetTransform(&transform);
 
+    const float half_width = rectsize_.x / 2;
+    const float half_height = rectsize_.y / 2;
+
     //const D2D1_RECT_F rect = D2D1::RectF(position_.x - rectsize_.x, position_.y + rectsize_.y, position_.x, position_.y);
-    const D2D1_RECT_F rect = D2D1::RectF(GetPosition().x - rectsize_.x, GetPosition().y + rectsize_.y, GetPosition().x, GetPosition().y);
+    const D2D1_RECT_F rect = D2D1::RectF(GetPosition().x - half_width, GetPosition().y + half_height,
+        GetPosition().x + half_width, GetPosition().y + 2 * half_height);
 
     Microsoft::WRL::ComPtr<IDWriteTextFormat> text_format;
     HRESULT hr = dwrite_factory_->CreateTextFormat(L"Silver", dwrite_font_collection_.Get(),

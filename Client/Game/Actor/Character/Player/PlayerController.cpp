@@ -49,10 +49,12 @@ void PlayerController::BeginPlay()
     CharacterBase::BeginPlay();
 
     text_block_ = Canvas::Get()->CreateTextBlock();
-    text_block_->SetText(L"Hello, World!fasdqwrqeasd");
+    //text_block_->SetAnchorType(UIBase::AnchorType::Center);
+    text_block_->SetText(L"유아이 쥑이네! :)");
     text_block_->SetAlignment(TextBlock::TextAlignment::Center, TextBlock::ParaAlignment::Center);
     text_block_->SetFontStyle(false, true);
-    text_block_->SetTextColor(Math::Color::Pink);
+    text_block_->SetTextColor(Math::Color::Cyan);
+    text_block_->SetSize({ 250,50 });
 }
 
 void PlayerController::PhysicsTick(float delta_time)
