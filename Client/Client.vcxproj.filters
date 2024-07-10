@@ -217,24 +217,6 @@
       <Filter>UI</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Actor\Component\Animator\AnimatorComponent.cpp" />
-    <ClCompile Include="Engine\Joint\BaseJointComponent.cpp">
-      <Filter>Joint</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Joint\DistanceJointComponent.cpp">
-      <Filter>Joint</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Joint\HingeJointComponent.cpp">
-      <Filter>Joint</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Joint\MotorJointComponent.cpp">
-      <Filter>Joint</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Joint\PrismaticJointComponent.cpp">
-      <Filter>Joint</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Joint\WheelJointComponent.cpp">
-      <Filter>Joint</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Actor\Actor.h">
@@ -748,24 +730,6 @@
       <Filter>UI</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Actor\Component\Animator\AnimatorComponent.h" />
-    <ClInclude Include="Engine\Joint\BaseJointComponent.h">
-      <Filter>Joint</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Joint\DistanceJointComponent.h">
-      <Filter>Joint</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Joint\HingeJointComponent.h">
-      <Filter>Joint</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Joint\MotorJointComponent.h">
-      <Filter>Joint</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Joint\PrismaticJointComponent.h">
-      <Filter>Joint</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Joint\WheelJointComponent.h">
-      <Filter>Joint</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="TileMap">

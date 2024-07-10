@@ -49,7 +49,10 @@ void PlayerController::BeginPlay()
     CharacterBase::BeginPlay();
 
     text_block_ = Canvas::Get()->CreateTextBlock();
-    text_block_->SetText(L"Hello, World!");
+    text_block_->SetText(L"Hello, World!fasdqwrqeasd");
+    text_block_->SetAlignment(TextBlock::TextAlignment::Center, TextBlock::ParaAlignment::Center);
+    text_block_->SetFontStyle(false, true);
+    text_block_->SetTextColor(Math::Color::Pink);
 }
 
 void PlayerController::PhysicsTick(float delta_time)

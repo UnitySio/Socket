@@ -2,7 +2,9 @@
 #include "Windows/DX/Renderer.h"
 
 StringComponent::StringComponent()
-    :font_size(24.0f)
+    :font_size(24.0f),
+    textAlignment_(DWRITE_TEXT_ALIGNMENT::DWRITE_TEXT_ALIGNMENT_CENTER),
+    paragraphAlignment_(DWRITE_PARAGRAPH_ALIGNMENT::DWRITE_PARAGRAPH_ALIGNMENT_CENTER)
 {
     rectsize_ = Math::Vector2(100,100);
 
@@ -60,13 +62,13 @@ void StringComponent::Render(WindowsWindow* kWindow)
 
     Microsoft::WRL::ComPtr<IDWriteTextFormat> text_format;
     HRESULT hr = dwrite_factory_->CreateTextFormat(L"Silver", dwrite_font_collection_.Get(),
-        DWRITE_FONT_WEIGHT_REGULAR, DWRITE_FONT_STYLE_NORMAL,
+        bold_, style_,
         DWRITE_FONT_STRETCH_NORMAL, font_size, L"en-us",
         text_format.GetAddressOf());
     if (FAILED(hr)) return;
 
-    text_format->SetTextAlignment(DWRITE_TEXT_ALIGNMENT_TRAILING);
-    text_format->SetParagraphAlignment(DWRITE_PARAGRAPH_ALIGNMENT_NEAR);
+    text_format->SetTextAlignment(textAlignment_);
+    text_format->SetParagraphAlignment(paragraphAlignment_);
 
     Microsoft::WRL::ComPtr<ID2D1SolidColorBrush> brush;
     hr = d2d_viewport->d2d_render_target->CreateSolidColorBrush(
@@ -77,4 +79,23 @@ void StringComponent::Render(WindowsWindow* kWindow)
     d2d_viewport->d2d_render_target->DrawTextW(string_.c_str(), static_cast<UINT32>(string_.size()),
         text_format.Get(), rect, brush.Get());
     d2d_viewport->d2d_render_target->SetTransform(transform);
+}
+
+void StringComponent::SetFontStyle(const bool& bold, const bool& style)
+{
+    if(bold)
+        bold_ = DWRITE_FONT_WEIGHT::DWRITE_FONT_WEIGHT_BOLD;
+    else if(!bold)
+        bold_ = DWRITE_FONT_WEIGHT::DWRITE_FONT_WEIGHT_MEDIUM;
+
+    if (style)
+        style_ = DWRITE_FONT_STYLE::DWRITE_FONT_STYLE_ITALIC;
+    else if (!style)
+        style_ = DWRITE_FONT_STYLE::DWRITE_FONT_STYLE_NORMAL;
+}
+
+void StringComponent::SetAlignment(DWRITE_TEXT_ALIGNMENT text, DWRITE_PARAGRAPH_ALIGNMENT para)
+{
+    textAlignment_ = text;
+    paragraphAlignment_ = para;
 }

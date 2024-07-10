@@ -159,12 +159,6 @@
     <ClInclude Include="Engine\EventManager.h" />
     <ClInclude Include="Engine\GameEngine.h" />
     <ClInclude Include="Engine\Input\Keyboard.h" />
-    <ClInclude Include="Engine\Joint\BaseJointComponent.h" />
-    <ClInclude Include="Engine\Joint\DistanceJointComponent.h" />
-    <ClInclude Include="Engine\Joint\HingeJointComponent.h" />
-    <ClInclude Include="Engine\Joint\MotorJointComponent.h" />
-    <ClInclude Include="Engine\Joint\PrismaticJointComponent.h" />
-    <ClInclude Include="Engine\Joint\WheelJointComponent.h" />
     <ClInclude Include="Engine\Level\Level.h" />
     <ClInclude Include="Engine\Level\Listener\ContactListener.h" />
     <ClInclude Include="Engine\Level\Listener\QueryCallback.h" />
@@ -339,12 +333,6 @@
     <ClCompile Include="Engine\EventManager.cpp" />
     <ClCompile Include="Engine\GameEngine.cpp" />
     <ClCompile Include="Engine\Input\Keyboard.cpp" />
-    <ClCompile Include="Engine\Joint\BaseJointComponent.cpp" />
-    <ClCompile Include="Engine\Joint\DistanceJointComponent.cpp" />
-    <ClCompile Include="Engine\Joint\HingeJointComponent.cpp" />
-    <ClCompile Include="Engine\Joint\MotorJointComponent.cpp" />
-    <ClCompile Include="Engine\Joint\PrismaticJointComponent.cpp" />
-    <ClCompile Include="Engine\Joint\WheelJointComponent.cpp" />
     <ClCompile Include="Engine\Level\Level.cpp" />
     <ClCompile Include="Engine\Level\Listener\ContactListener.cpp" />
     <ClCompile Include="Engine\Level\Listener\QueryCallback.cpp" />

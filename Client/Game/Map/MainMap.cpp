@@ -16,7 +16,6 @@
 #include "UI/ProgressBar.h"
 #include "UI/ScrollView.h"
 #include "UI/TextBlock.h"
-#include "Joint/DistanceJointComponent.h"
 
 MainMap::MainMap(const std::wstring& kName) : Level(kName)
 {
@@ -30,7 +29,6 @@ void MainMap::Load()
     SHARED_PTR<Actor> player = MAKE_SHARED<PlayerController>(L"Player");
     AddActor(player);
     player->GetTransform()->SetRelativePosition({ 1.5f, 0.f });
-
 
     // SHARED_PTR<Actor> player2 = MAKE_SHARED<PlayerController>(L"Player");
     // AddActor(player2);

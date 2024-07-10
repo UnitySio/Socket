@@ -18,5 +18,6 @@ namespace Math
         static const Color Yellow;
         static const Color Cyan;
         static const Color Magenta;
+        static const Color Pink;
     };
 }
