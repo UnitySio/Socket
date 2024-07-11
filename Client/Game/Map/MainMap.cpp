@@ -14,6 +14,9 @@
 #include "UI/BitmapComponent.h"
 #include "UI/StringComponent.h"
 #include "UI/Image.h"
+#include "../Sio.h"
+#include "../PhysicsComp.h"
+#include "../AnimComp.h"
 
 
 MainMap::MainMap(const std::wstring& kName) : Level(kName)
@@ -36,6 +39,9 @@ void MainMap::Load()
     FollowCamera* follow_camera = dynamic_cast<FollowCamera*>(camera.get());
     follow_camera->SetFollow(player.get());
     
-
+    std::shared_ptr<Sio> sio = std::make_shared<Sio>(L"Sio");
+    AddActor(sio);
+    sio->GetTransform()->SetRelativePosition({ -1.5f, 0.f });
+    
 }
 

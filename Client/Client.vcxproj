@@ -134,6 +134,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="AnimComp.h" />
     <ClInclude Include="Character.h" />
     <ClInclude Include="Client.h" />
     <ClInclude Include="Disinteractable.h" />
@@ -312,13 +313,17 @@
     <ClInclude Include="Include\tmxlite\Tileset.hpp" />
     <ClInclude Include="Include\tmxlite\Types.hpp" />
     <ClInclude Include="Include\tmxlite\Types.inl" />
+    <ClInclude Include="InputComp.h" />
     <ClInclude Include="Interactable.h" />
     <ClInclude Include="NPC.h" />
+    <ClInclude Include="PhysicsComp.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="Sio.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AnimComp.cpp" />
     <ClCompile Include="Character.cpp" />
     <ClCompile Include="Client.cpp" />
     <ClCompile Include="Disinteractable.cpp" />
@@ -398,9 +403,12 @@
     <ClCompile Include="Include\imgui\imgui_impl_win32.cpp" />
     <ClCompile Include="Include\imgui\imgui_tables.cpp" />
     <ClCompile Include="Include\imgui\imgui_widgets.cpp" />
+    <ClCompile Include="InputComp.cpp" />
     <ClCompile Include="Interactable.cpp" />
     <ClCompile Include="NPC.cpp" />
+    <ClCompile Include="PhysicsComp.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Sio.cpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Engine\Shader\DefaultPixelShader.hlsl">

@@ -1,5 +1,6 @@
 #pragma once
 #include "Actor/Actor.h"
+
 class Interactable : public Actor
 {
 public:

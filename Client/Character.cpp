@@ -5,22 +5,22 @@
 Character::Character(const std::wstring& kName)
 	:Super(kName)
 {
-	spriteRenderer_ = std::make_shared<SpriteRendererComponent>(this, kName);
+	/*spriteRenderer_ = std::make_shared<SpriteRendererComponent>(this, kName);
 	animator_ = std::make_shared<AnimatorComponent>(this, kName);
-	CreateBody();
+	CreateBody();*/
 }
-
-std::shared_ptr<SpriteRendererComponent>& Character::GetSpriteRenderer()
-{
-	return spriteRenderer_;
-}
-
-std::shared_ptr<AnimatorComponent>& Character::GetAnimatorComponent()
-{
-	return animator_;
-}
-
-b2Body* Character::GetBody()
-{
-	return body_;
-}
+//
+//std::shared_ptr<SpriteRendererComponent>& Character::GetSpriteRenderer()
+//{
+//	return spriteRenderer_;
+//}
+//
+//std::shared_ptr<AnimatorComponent>& Character::GetAnimatorComponent()
+//{
+//	return animator_;
+//}
+//
+//b2Body* Character::GetBody()
+//{
+//	return body_;
+//}
