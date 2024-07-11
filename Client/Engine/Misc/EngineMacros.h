@@ -34,3 +34,8 @@
             std::abort(); \
         } \
     } while (0)
+
+#define LOG(format, ...) \
+    do { \
+        Logger::Get()->AddLog(format, __VA_ARGS__); \
+    } while (0)
