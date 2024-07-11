@@ -36,6 +36,9 @@ public:
     template <typename Ret, typename... Args>
     void AddEvent(int frame, Function<Ret(Args...)>&& func);
 
+    inline const std::vector<int>& GetFrames() { return frames_; }
+    inline void AddFrame(int frame_idx) { frames_.push_back(frame_idx); }
+
     inline void SetRepeat(bool is_repeat) { is_repeat_ = is_repeat; }
     inline bool GetRepeat() const { return is_repeat_; }
 
@@ -46,8 +49,6 @@ private:
     friend class AnimatorComponent;
     
     std::map<int, AnimationEvent> events_;
-
-    std::wstring name_;
     std::vector<int> frames_;
     bool is_repeat_;
     float frame_rate_;

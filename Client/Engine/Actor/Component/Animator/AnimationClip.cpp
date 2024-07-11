@@ -2,7 +2,6 @@
 
 AnimationClip::AnimationClip() :
     events_(),
-    name_(),
     frames_(),
     is_repeat_(false),
     frame_rate_(1.f)
