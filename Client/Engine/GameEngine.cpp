@@ -13,7 +13,6 @@
 #include "Windows/DX/Shape.h"
 #include "Windows/DX/ShapeBatch.h"
 
-
 GameEngine::GameEngine() :
     game_window_(nullptr),
     shape_batch_(nullptr)
