@@ -16,12 +16,12 @@ WindowsWindow::~WindowsWindow()
 
 WCHAR WindowsWindow::window_class[] = L"Fusion2DWindow";
 
-SHARED_PTR<WindowsWindow> WindowsWindow::Make()
+std::shared_ptr<WindowsWindow> WindowsWindow::Make()
 {
-    return MAKE_SHARED<WindowsWindow>();
+    return std::make_shared<WindowsWindow>();
 }
 
-void WindowsWindow::Init(WindowsApplication* const application, const SHARED_PTR<WindowDefinition>& kDefinition, HINSTANCE instance_handle, const SHARED_PTR<WindowsWindow>& kParentWindow)
+void WindowsWindow::Init(WindowsApplication* const application, const std::shared_ptr<WindowDefinition>& kDefinition, HINSTANCE instance_handle, const std::shared_ptr<WindowsWindow>& kParentWindow)
 {
     application_ = application;
     definition_ = kDefinition;

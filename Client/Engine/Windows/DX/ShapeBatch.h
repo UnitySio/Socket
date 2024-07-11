@@ -20,7 +20,7 @@ public:
 
     bool Init();
 
-    void DrawShapes(const SHARED_PTR<WindowsWindow>& kWindow, const std::vector<SHARED_PTR<Shape>>& kShapes);
+    void DrawShapes(const std::shared_ptr<WindowsWindow>& kWindow, const std::vector<std::shared_ptr<Shape>>& kShapes);
 
 private:
     Microsoft::WRL::ComPtr<ID3D11SamplerState> point_sampler_state_wrap_;
@@ -35,7 +35,7 @@ private:
     VertexBuffer vertex_buffer_;
     IndexBuffer index_buffer_;
     
-    SHARED_PTR<DefaultVertexShader> vertex_shader_;
-    SHARED_PTR<DefaultPixelShader> pixel_shader_;
+    std::shared_ptr<DefaultVertexShader> vertex_shader_;
+    std::shared_ptr<DefaultPixelShader> pixel_shader_;
     
 };

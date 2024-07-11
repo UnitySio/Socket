@@ -32,7 +32,7 @@ void FollowCamera::BeginPlay()
         if (box_collider_)
         {
             Bounds bounds = box_collider_->GetBounds();
-            focus_area_ = MAKE_UNIQUE<FocusArea>(bounds, focus_area_size_);
+            focus_area_ = std::make_unique<FocusArea>(bounds, focus_area_size_);
         }
     }
     

@@ -24,11 +24,11 @@ World::World() :
     current_level_(nullptr),
     levels_()
 {
-    shape_batch_ = MAKE_SHARED<ShapeBatch>();
+    shape_batch_ = std::make_shared<ShapeBatch>();
     shape_batch_->Init();
     
     b2Vec2 gravity(0.f, -9.81f);
-    physics_world_ = MAKE_UNIQUE<b2World>(gravity);
+    physics_world_ = std::make_unique<b2World>(gravity);
     physics_world_->SetContactListener(&contact_listener_);
     
     uint32 flags = 0;
@@ -43,7 +43,7 @@ World::World() :
     
 }
 
-void World::Init(const SHARED_PTR<WindowsWindow>& kWindow)
+void World::Init(const std::shared_ptr<WindowsWindow>& kWindow)
 {
     window_ = kWindow;
     
@@ -100,9 +100,9 @@ void World::Render(float alpha)
         physics_world_->DebugDraw();
     }
 
-    std::vector<SHARED_PTR<Shape>> shapes;
+    std::vector<std::shared_ptr<Shape>> shapes;
 
-    if (const SHARED_PTR<Actor> actor = camera_.lock())
+    if (const std::shared_ptr<Actor> actor = camera_.lock())
     {
         if (FollowCamera* camera = dynamic_cast<FollowCamera*>(actor.get()))
         {
@@ -137,7 +137,7 @@ void World::DestroyActor()
     }
 }
 
-void World::AddShape(const SHARED_PTR<Shape>& kShape)
+void World::AddShape(const std::shared_ptr<Shape>& kShape)
 {
     shapes_.push_back(kShape);
 }

@@ -18,7 +18,7 @@ Box::Box(const std::wstring& kName) : Actor(kName)
     rigid_body_ = CreateComponent<RigidBodyComponent>(L"RigidBody");
     rigid_body_->SetBodyType(BodyType::kDynamic);
     
-    sprite_ = MAKE_SHARED<Sprite>();
+    sprite_ = std::make_shared<Sprite>();
     CHECK_IF(sprite_->Load(L".\\Game_Data\\box.png"), L"Failed to load texture");
 
     sprite_->Split(1, 1, Sprite::kCenter);

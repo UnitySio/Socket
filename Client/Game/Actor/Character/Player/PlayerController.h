@@ -16,7 +16,7 @@ private:
     
     class InputComponent* input_;
     
-    SHARED_PTR<class Sprite> sprite_;
+    std::shared_ptr<class Sprite> sprite_;
 
     class TextBlock* text_block_;
     

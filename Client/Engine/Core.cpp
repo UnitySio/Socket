@@ -30,14 +30,14 @@ void Core::Init(const HINSTANCE instance_handle)
 {
     // 윈도우 애플리케이션을 생성하고 메시지 핸들러로 등록
     HICON icon_handle = LoadIcon(instance_handle, MAKEINTRESOURCE(IDI_ICON1));
-    current_application_ = MAKE_SHARED<WindowsApplication>(instance_handle, icon_handle);
+    current_application_ = std::make_shared<WindowsApplication>(instance_handle, icon_handle);
     current_application_->AddMessageHandler(*this);
 
     // DirectX 11 렌더러 초기화
     CHECK_IF(Renderer::Get()->Init(), L"Failed to initialize renderer.");
 
     // 게임 윈도우 정의 생성
-    SHARED_PTR<WindowDefinition> definition = MAKE_SHARED<WindowDefinition>();
+    std::shared_ptr<WindowDefinition> definition = std::make_shared<WindowDefinition>();
     definition->title = L"Fusion2D";
     definition->screen_x = 100;
     definition->screen_y = 100;
@@ -45,7 +45,7 @@ void Core::Init(const HINSTANCE instance_handle)
     definition->height = 600;
 
     // 게임 윈도우 생성
-    SHARED_PTR<WindowsWindow> new_window = current_application_->MakeWindow();
+    std::shared_ptr<WindowsWindow> new_window = current_application_->MakeWindow();
     current_application_->InitWindow(new_window, definition, nullptr);
 
     // 렌더러에 뷰포트 생성
@@ -56,7 +56,7 @@ void Core::Init(const HINSTANCE instance_handle)
     game_window_ = new_window;
 
     // 게임 엔진 생성
-    game_engine_ = MAKE_SHARED<GameEngine>();
+    game_engine_ = std::make_shared<GameEngine>();
     game_engine_->Init(new_window);
 
     current_time_ = Time::Init();

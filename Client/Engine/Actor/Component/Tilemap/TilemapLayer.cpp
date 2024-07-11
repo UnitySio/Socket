@@ -64,7 +64,7 @@ void TilemapLayer::CreateChunks(const tmx::Map& map, const tmx::TileLayer& layer
                 tile_count.y = (bounds.height - y * chunk_size_.y) / tile_size.y;
             }
 
-            chunks_.push_back(MAKE_UNIQUE<TilemapChunk>(layer, &map.getTilesets()[0], Math::Vector2(x * chunk_size_.x, y * chunk_size_.y), tile_count, tile_size, map.getTileCount().x, texture));
+            chunks_.push_back(std::make_unique<TilemapChunk>(layer, &map.getTilesets()[0], Math::Vector2(x * chunk_size_.x, y * chunk_size_.y), tile_count, tile_size, map.getTileCount().x, texture));
         }
     }
 }

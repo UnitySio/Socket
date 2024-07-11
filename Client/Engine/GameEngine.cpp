@@ -7,13 +7,11 @@
 #include "imgui/imgui_impl_win32.h"
 #include "Level/Level.h"
 #include "Level/World.h"
-#include "tmxlite/TileLayer.hpp"
+#include "Logger/Logger.h"
 #include "Windows/WindowsWindow.h"
 #include "Windows/DX/Renderer.h"
 #include "Windows/DX/Shape.h"
 #include "Windows/DX/ShapeBatch.h"
-#include "UI/Canvas.h"
-
 
 GameEngine::GameEngine() :
     game_window_(nullptr),
@@ -28,12 +26,12 @@ GameEngine::~GameEngine()
     ImGui::DestroyContext();
 }
 
-void GameEngine::Init(const SHARED_PTR<WindowsWindow>& window)
+void GameEngine::Init(const std::shared_ptr<WindowsWindow>& window)
 {
     game_window_ = window;
     World::Get()->Init(game_window_);
 
-    shape_batch_ = MAKE_SHARED<ShapeBatch>();
+    shape_batch_ = std::make_shared<ShapeBatch>();
     CHECK_IF(shape_batch_, L"Failed to create ShapeBatch.");
     shape_batch_->Init();
     
@@ -80,16 +78,21 @@ void GameEngine::GameLoop(float delta_time)
 #pragma endregion
 
 #pragma region Render
+#ifdef _DEBUG
+    Logger::Get()->Render();
+#endif
+    
     ImGui::Render();
     
     Renderer::Get()->BeginRender(game_window_);
     World::Get()->Render(alpha);
-    
-    ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
 
     Renderer::Get()->BeginRenderD2D(game_window_);
     World::Get()->RenderUI();
     Renderer::Get()->EndRenderD2D();
+    
+    ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
+    
     Renderer::Get()->EndRender();
 
 #pragma endregion

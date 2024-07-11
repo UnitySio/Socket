@@ -77,7 +77,7 @@ private:
 
     class BoxColliderComponent* box_collider_;
 
-    UNIQUE_PTR<FocusArea> focus_area_;
+    std::unique_ptr<FocusArea> focus_area_;
 
     Math::Vector2 focus_area_size_;
     

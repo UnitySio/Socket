@@ -41,7 +41,7 @@ void DebugDraw::DrawSolidPolygon(const b2Vec2* vertices, int32 vertexCount, cons
         fill_indices.push_back(i + 1);
     }
     
-    SHARED_PTR<Shape> shape = MAKE_SHARED<Shape>();
+    std::shared_ptr<Shape> shape = std::make_shared<Shape>();
     shape->SetVertices(fill_vertices);
     shape->SetIndices(fill_indices);
     
@@ -63,7 +63,7 @@ void DebugDraw::DrawCircle(const b2Vec2& center, float radius, const b2Color& co
 
     vertices.push_back(vertices[0]);
     
-    SHARED_PTR<Shape> shape = MAKE_SHARED<Shape>();
+    std::shared_ptr<Shape> shape = std::make_shared<Shape>();
     shape->SetVertices(vertices);
     shape->SetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_LINELIST);
     
@@ -95,7 +95,7 @@ void DebugDraw::DrawSolidCircle(const b2Vec2& center, float radius, const b2Vec2
         fill_indices.push_back(i + 2);
     }
     
-    SHARED_PTR<Shape> shape = MAKE_SHARED<Shape>();
+    std::shared_ptr<Shape> shape = std::make_shared<Shape>();
     shape->SetVertices(fill_vertices);
     shape->SetIndices(fill_indices);
 
@@ -112,7 +112,7 @@ void DebugDraw::DrawSegment(const b2Vec2& p1, const b2Vec2& p2, const b2Color& c
         { { p2.x, p2.y, 0.f }, { color.r, color.g, color.b, color.a } }
     };
 
-    SHARED_PTR<Shape> shape = MAKE_SHARED<Shape>();
+    std::shared_ptr<Shape> shape = std::make_shared<Shape>();
     shape->SetVertices(vertices);
     shape->SetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_LINELIST);
     
@@ -156,7 +156,7 @@ void DebugDraw::DrawPoint(const b2Vec2& p, float size, const b2Color& color)
         fill_indices.push_back(i + 2);
     }
     
-    SHARED_PTR<Shape> shape = MAKE_SHARED<Shape>();
+    std::shared_ptr<Shape> shape = std::make_shared<Shape>();
     shape->SetVertices(fill_vertices);
     shape->SetIndices(fill_indices);
 

@@ -29,7 +29,7 @@ PlayerController::PlayerController(const std::wstring& kName) : CharacterBase(kN
     input_->RegisterKey('C');
     input_->RegisterKey('Z');
     
-    sprite_ = MAKE_SHARED<Sprite>();
+    sprite_ = std::make_shared<Sprite>();
     CHECK_IF(sprite_->Load(L".\\Game_Data\\spritesheet.png"), L"Failed to load texture");
     
     sprite_->Split(15, 3, Sprite::kCenter);

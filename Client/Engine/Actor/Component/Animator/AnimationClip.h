@@ -15,7 +15,7 @@ public:
     template <typename Ret, typename... Args>
     AnimationEvent(Function<Ret(Args...)>&& func)
     {
-        func_ = MAKE_SHARED<Function<void(void)>>(std::forward<Function<Ret(Args...)>>(func));
+        func_ = std::make_shared<Function<void(void)>>(std::forward<Function<Ret(Args...)>>(func));
     }
 
     void operator()() const
@@ -24,7 +24,7 @@ public:
     }
 
 private:
-    SHARED_PTR<Function<void(void)>> func_;
+    std::shared_ptr<Function<void(void)>> func_;
 };
 
 class AnimationClip

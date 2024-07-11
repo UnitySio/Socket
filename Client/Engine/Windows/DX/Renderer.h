@@ -53,10 +53,10 @@ public:
     bool Init();
     bool CreateDevice();
     bool CreateDWrite();
-    bool CreateViewport(SHARED_PTR<WindowsWindow> window, Math::Vector2 window_size);
-    bool CreateD2DViewport(SHARED_PTR<WindowsWindow> window);
+    bool CreateViewport(std::shared_ptr<WindowsWindow> window, Math::Vector2 window_size);
+    bool CreateD2DViewport(std::shared_ptr<WindowsWindow> window);
     bool CreateDepthStencilBuffer(Viewport& viewport);
-    bool ResizeViewport(const SHARED_PTR<WindowsWindow>& window, MathTypes::uint32 width, MathTypes::uint32 height);
+    bool ResizeViewport(const std::shared_ptr<WindowsWindow>& window, MathTypes::uint32 width, MathTypes::uint32 height);
 
     // UI TEST
     D2DViewport* GetCurrentD2dViewport() { return current_d2d_viewport_; }
@@ -74,9 +74,9 @@ public:
     Viewport* FindViewport(WindowsWindow* window);
     D2DViewport* FindD2DViewport(WindowsWindow* window);
 
-    void BeginRender(const SHARED_PTR<WindowsWindow>& kWindow);
+    void BeginRender(const std::shared_ptr<WindowsWindow>& kWindow);
     void EndRender();
-    void BeginRenderD2D(const SHARED_PTR<WindowsWindow>& kWindow);
+    void BeginRenderD2D(const std::shared_ptr<WindowsWindow>& kWindow);
     void EndRenderD2D();
     void BeginLayer();
     void EndLayer();
