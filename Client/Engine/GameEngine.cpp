@@ -7,12 +7,11 @@
 #include "imgui/imgui_impl_win32.h"
 #include "Level/Level.h"
 #include "Level/World.h"
-#include "tmxlite/TileLayer.hpp"
+#include "Logger/Logger.h"
 #include "Windows/WindowsWindow.h"
 #include "Windows/DX/Renderer.h"
 #include "Windows/DX/Shape.h"
 #include "Windows/DX/ShapeBatch.h"
-#include "UI/Canvas.h"
 
 
 GameEngine::GameEngine() :
@@ -80,16 +79,21 @@ void GameEngine::GameLoop(float delta_time)
 #pragma endregion
 
 #pragma region Render
+#ifdef _DEBUG
+    Logger::Get()->Render();
+#endif
+    
     ImGui::Render();
     
     Renderer::Get()->BeginRender(game_window_);
     World::Get()->Render(alpha);
-    
-    ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
 
     Renderer::Get()->BeginRenderD2D(game_window_);
     World::Get()->RenderUI();
     Renderer::Get()->EndRenderD2D();
+    
+    ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
+    
     Renderer::Get()->EndRender();
 
 #pragma endregion
