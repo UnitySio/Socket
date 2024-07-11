@@ -37,11 +37,11 @@ PlayerController::PlayerController(const std::wstring& kName) : CharacterBase(kN
     sprite_renderer_->SetSprite(sprite_);
 
     int temp[] = {0, 1, 2, 3, 4, 5};
-    animator_->AddClip(L"Idle", temp, 6);
-    animator_->GetClip(L"Idle")->SetRepeat(true);
-    animator_->GetClip(L"Idle")->SetFrameRate(6.f);
-    animator_->PlayClip(L"Idle");
-    
+    std::shared_ptr<AnimationClip> clip = animator_->AddClip(L"Idle", temp, 6);
+    clip->SetRepeat(true);
+    clip->SetFrameRate(6.f);
+    //animator_->PlayClip(L"Idle");
+    animator_->PlayClip(clip);
 }
 
 void PlayerController::BeginPlay()

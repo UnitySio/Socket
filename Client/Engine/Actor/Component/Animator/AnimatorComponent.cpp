@@ -29,12 +29,7 @@ void AnimatorComponent::TickComponent(float delta_time)
     ActorComponent::TickComponent(delta_time);
     if (!sprite_renderer_) return;
 
-    
-
-    if (current_clip_->events_.contains(current_index_))
-    {
-        current_clip_->events_[current_index_]();
-    }
+    if (current_clip_->events_.contains(current_index_)) current_clip_->events_[current_index_]();
 
     timer_ += delta_time;
     if (timer_ >= 1.f / current_clip_->GetFrameRate())
@@ -57,7 +52,7 @@ void AnimatorComponent::TickComponent(float delta_time)
     }
 }
 
-void AnimatorComponent::AddClip(const std::wstring& kName, int* sprite_idx_arr, int size)
+std::shared_ptr<AnimationClip> AnimatorComponent::AddClip(const std::wstring& kName, int* sprite_idx_arr, int size)
 {
     std::shared_ptr<AnimationClip> clip = std::make_shared<AnimationClip>();
 
@@ -65,11 +60,7 @@ void AnimatorComponent::AddClip(const std::wstring& kName, int* sprite_idx_arr, 
     {
         clip->frames_.push_back(sprite_idx_arr[i]);
     }
-
     clips_[kName] = clip;
-}
 
-void AnimatorComponent::PlayClip(std::wstring clip_name)
-{
-    current_clip_ = clips_[clip_name];
+    return clip;
 }
