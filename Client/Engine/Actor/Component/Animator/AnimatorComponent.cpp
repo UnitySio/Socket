@@ -57,15 +57,19 @@ void AnimatorComponent::TickComponent(float delta_time)
     }
 }
 
-void AnimatorComponent::AddClip(const std::wstring& kName, int* selected, int size)
+void AnimatorComponent::AddClip(const std::wstring& kName, int* sprite_idx_arr, int size)
 {
     SHARED_PTR<AnimationClip> clip = MAKE_SHARED<AnimationClip>();
-    clip->name_ = kName;
 
     for (int i = 0; i < size; i++)
     {
-        clip->frames_.push_back(selected[i]);
+        clip->frames_.push_back(sprite_idx_arr[i]);
     }
 
     clips_[kName] = clip;
+}
+
+void AnimatorComponent::PlayClip(std::wstring clip_name)
+{
+    current_clip_ = clips_[clip_name];
 }

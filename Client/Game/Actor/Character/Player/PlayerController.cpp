@@ -38,9 +38,9 @@ PlayerController::PlayerController(const std::wstring& kName) : CharacterBase(kN
 
     int temp[] = {0, 1, 2, 3, 4, 5};
     animator_->AddClip(L"Idle", temp, 6);
-    animator_->clips_[L"Idle"]->SetRepeat(true);
-    animator_->clips_[L"Idle"]->SetFrameRate(6.f);
-    animator_->current_clip_ = animator_->clips_[L"Idle"];
+    animator_->GetClip(L"Idle")->SetRepeat(true);
+    animator_->GetClip(L"Idle")->SetFrameRate(6.f);
+    animator_->PlayClip(L"Idle");
     
 }
 
