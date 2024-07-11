@@ -55,7 +55,7 @@ void TilemapComponent::LoadMap(const char* kPath)
 	const auto& tilesets = map_.getTilesets();
 	std::wstring tileset_path = std::wstring(tilesets[0].getImagePath().begin(), tilesets[0].getImagePath().end());
 	
-	tilemap_texture_ = MAKE_SHARED<Texture>();
+	tilemap_texture_ = std::make_shared<Texture>();
 	CHECK(tilemap_texture_->Load(tileset_path));
 	
 	const auto& layers = map_.getLayers();
@@ -71,7 +71,7 @@ void TilemapComponent::LoadMap(const char* kPath)
 			const auto& tile_layer = layer->getLayerAs<tmx::TileLayer>();
 			
 			Math::Vector2 chunk_size = {512.f, 512.f};
-			tilemap_layers_.emplace_back(MAKE_UNIQUE<TilemapLayer>(map_, tile_layer, tilemap_texture_, chunk_size));
+			tilemap_layers_.emplace_back(std::make_unique<TilemapLayer>(map_, tile_layer, tilemap_texture_, chunk_size));
 		}
 	}
 }

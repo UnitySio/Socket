@@ -17,7 +17,7 @@ public:
     World();
     virtual ~World() override = default;
 
-    void Init(const SHARED_PTR<WindowsWindow>& kWindow);
+    void Init(const std::shared_ptr<WindowsWindow>& kWindow);
     void OpenLevel(LevelType type);
     void PhysicsTick(float delta_time);
     void Tick(float delta_time);
@@ -25,14 +25,14 @@ public:
     void Render(float alpha);
     void RenderUI();
     void DestroyActor();
-    void AddShape(const SHARED_PTR<Shape>& kShape);
+    void AddShape(const std::shared_ptr<Shape>& kShape);
 
     template<std::derived_from<Level> T>
     T* AddLevel(LevelType type, std::wstring name);
 
     inline WindowsWindow* GetWindow() const { return window_.get(); }
     inline Level* GetLevel() const { return current_level_; }
-    inline WEAK_PTR<Actor> GetCamera() const { return camera_; }
+    inline std::weak_ptr<Actor> GetCamera() const { return camera_; }
 
 private:
     friend class Physics;
@@ -50,29 +50,29 @@ private:
     friend class WheelJointComponent;
     friend class MainMap;
 
-    inline void SetCamera(const SHARED_PTR<Actor>& kCamera) { camera_ = kCamera; }
+    inline void SetCamera(const std::shared_ptr<Actor>& kCamera) { camera_ = kCamera; }
 
-    SHARED_PTR<WindowsWindow> window_;
+    std::shared_ptr<WindowsWindow> window_;
     
-    SHARED_PTR<ShapeBatch> shape_batch_;
+    std::shared_ptr<ShapeBatch> shape_batch_;
     
-    std::vector<SHARED_PTR<Shape>> shapes_;
+    std::vector<std::shared_ptr<Shape>> shapes_;
     
-    UNIQUE_PTR<b2World> physics_world_;
+    std::unique_ptr<b2World> physics_world_;
     
     ContactListener contact_listener_;
     
     DebugDraw debug_draw_;
     
     Level* current_level_;
-    SHARED_PTR<Level> levels_[static_cast<size_t>(LevelType::kEnd)];
+    std::shared_ptr<Level> levels_[static_cast<size_t>(LevelType::kEnd)];
 
-    WEAK_PTR<Actor> camera_;
+    std::weak_ptr<Actor> camera_;
 };
 
 template <std::derived_from<Level> T>
 T* World::AddLevel(LevelType type, std::wstring name)
 {
-    levels_[static_cast<size_t>(type)] = MAKE_SHARED<T>(name);
+    levels_[static_cast<size_t>(type)] = std::make_shared<T>(name);
     return static_cast<T*>(levels_[static_cast<size_t>(type)].get());
 }

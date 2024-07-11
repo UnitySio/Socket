@@ -4,7 +4,7 @@
 #include "Windows/DX/Shape.h"
 #include "Windows/DX/Texture.h"
 
-TilemapChunk::TilemapChunk(const tmx::TileLayer& layer, const tmx::Tileset* tileset, const Math::Vector2& position, const Math::Vector2& tile_count, const Math::Vector2& tile_size, size_t row_size, const SHARED_PTR<Texture>& texture) :
+TilemapChunk::TilemapChunk(const tmx::TileLayer& layer, const tmx::Tileset* tileset, const Math::Vector2& position, const Math::Vector2& tile_count, const Math::Vector2& tile_size, size_t row_size, const std::shared_ptr<Texture>& texture) :
     tile_count_(tile_count),
     texture_(texture),
     chunk_tile_ids_(),
@@ -94,7 +94,7 @@ void TilemapChunk::GenerateTiles(const tmx::Tileset* tileset, const MathTypes::u
         }
     }
 
-    shape_ = MAKE_SHARED<Shape>();
+    shape_ = std::make_shared<Shape>();
     shape_->SetVertices(vertices_);
     shape_->SetIndices(indices_);
     shape_->SetTexture(texture_);

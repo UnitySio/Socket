@@ -29,9 +29,3 @@
             << L"Message: " << buffer << std::endl; \
         std::abort(); \
     }
-
-#define UNIQUE_PTR std::unique_ptr
-#define SHARED_PTR std::shared_ptr
-#define WEAK_PTR std::weak_ptr
-#define MAKE_UNIQUE std::make_unique
-#define MAKE_SHARED std::make_shared

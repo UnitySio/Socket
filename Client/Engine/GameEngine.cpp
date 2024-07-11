@@ -28,12 +28,12 @@ GameEngine::~GameEngine()
     ImGui::DestroyContext();
 }
 
-void GameEngine::Init(const SHARED_PTR<WindowsWindow>& window)
+void GameEngine::Init(const std::shared_ptr<WindowsWindow>& window)
 {
     game_window_ = window;
     World::Get()->Init(game_window_);
 
-    shape_batch_ = MAKE_SHARED<ShapeBatch>();
+    shape_batch_ = std::make_shared<ShapeBatch>();
     CHECK_IF(shape_batch_, L"Failed to create ShapeBatch.");
     shape_batch_->Init();
     

@@ -21,7 +21,7 @@ void SpriteRendererComponent::InitializeComponent()
     ActorComponent::InitializeComponent();
     if (!sprite_) return;
 
-    shape_ = MAKE_SHARED<Shape>();
+    shape_ = std::make_shared<Shape>();
     shape_->SetVertices(sprite_->GetVertices());
     shape_->SetIndices(sprite_->GetIndices());
     shape_->SetTexture(sprite_);

@@ -24,8 +24,8 @@ private:
     
     SpriteRendererComponent* sprite_renderer_;
 
-    std::map<std::wstring, SHARED_PTR<AnimationClip>> clips_;
-    SHARED_PTR<AnimationClip> current_clip_;
+    std::map<std::wstring, std::shared_ptr<AnimationClip>> clips_;
+    std::shared_ptr<AnimationClip> current_clip_;
     
     float timer_;
     int current_index_;

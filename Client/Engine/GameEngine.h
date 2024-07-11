@@ -13,12 +13,12 @@ public:
     GameEngine();
     ~GameEngine();
 
-    void Init(const SHARED_PTR<WindowsWindow>& window);
+    void Init(const std::shared_ptr<WindowsWindow>& window);
     void GameLoop(float delta_time);
     void OnQuit();
 
 private:
-    SHARED_PTR<WindowsWindow> game_window_;
-    SHARED_PTR<ShapeBatch> shape_batch_;
+    std::shared_ptr<WindowsWindow> game_window_;
+    std::shared_ptr<ShapeBatch> shape_batch_;
     
 };

@@ -24,14 +24,14 @@ public:
     virtual void Render(float alpha);
     virtual void DestroyActor();
 
-    void AddActor(const SHARED_PTR<Actor>& actor);
+    void AddActor(const std::shared_ptr<Actor>& actor);
 
     inline const std::wstring& GetName() const { return name_; }
 
 private:
     std::wstring name_;
 
-    std::vector<SHARED_PTR<Actor>> actors_;
+    std::vector<std::shared_ptr<Actor>> actors_;
 
     DebugDraw debug_draw_;
 };

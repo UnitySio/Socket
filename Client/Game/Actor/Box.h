@@ -12,6 +12,6 @@ private:
     class BoxColliderComponent* box_collider_;
     class RigidBodyComponent* rigid_body_;
     
-    SHARED_PTR<class Sprite> sprite_;
+    std::shared_ptr<class Sprite> sprite_;
     
 };

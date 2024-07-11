@@ -59,7 +59,7 @@ bool Renderer::CreateDevice()
 }
 
 
-bool Renderer::CreateViewport(SHARED_PTR<WindowsWindow> window, Math::Vector2 window_size)
+bool Renderer::CreateViewport(std::shared_ptr<WindowsWindow> window, Math::Vector2 window_size)
 {
     DXGI_SWAP_CHAIN_DESC swap_chain_desc;
     ZeroMemory(&swap_chain_desc, sizeof(DXGI_SWAP_CHAIN_DESC));
@@ -307,7 +307,7 @@ D2DViewport* Renderer::FindD2DViewport(WindowsWindow* window)
     return &it->second;
 }
 
-void Renderer::BeginRender(const SHARED_PTR<WindowsWindow>& kWindow)
+void Renderer::BeginRender(const std::shared_ptr<WindowsWindow>& kWindow)
 {
     current_viewport_ = FindViewport(kWindow.get());
     CHECK_IF(current_viewport_, L"Not found viewport for window.");

@@ -18,7 +18,7 @@ void AddDebugBox(const Math::Vector2& center, const Math::Vector2& extent)
         0, 2, 3
     };
     
-    SHARED_PTR<Shape> shape = MAKE_SHARED<Shape>();
+    std::shared_ptr<Shape> shape = std::make_shared<Shape>();
     shape->SetVertices(vertices);
     shape->SetIndices(indices);
     shape->SetZOrder(32767);
@@ -49,7 +49,7 @@ void AddDebugCircle(const Math::Vector2& center, float radius)
         fill_indices.push_back(i + 2);
     }
     
-    SHARED_PTR<Shape> shape = MAKE_SHARED<Shape>();
+    std::shared_ptr<Shape> shape = std::make_shared<Shape>();
     shape->SetVertices(fill_vertices);
     shape->SetIndices(fill_indices);
     shape->SetZOrder(32767);
@@ -64,7 +64,7 @@ void AddDebugLine(const Math::Vector2& start, const Math::Vector2& end)
         { { end.x, end.y, 0.f }, { 0.f, 1.f, 0.f, .5f } }
     };
 
-    SHARED_PTR<Shape> shape = MAKE_SHARED<Shape>();
+    std::shared_ptr<Shape> shape = std::make_shared<Shape>();
     shape->SetVertices(vertices);
     shape->SetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_LINELIST);
     shape->SetZOrder(32767);

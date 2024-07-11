@@ -39,7 +39,7 @@ public:
 
     // Reflection 구현 필요
 
-    inline SHARED_PTR<Actor> GetSharedPtr() { return shared_from_this(); }
+    inline std::shared_ptr<Actor> GetSharedPtr() { return shared_from_this(); }
     
     inline void SetTag(ActorTag tag) { tag_ = tag; }
     inline void SetLayer(ActorLayer layer) { layer_ = layer; }
@@ -106,7 +106,7 @@ protected:
     bool is_active_;
     bool is_destroy_;
 
-    std::vector<SHARED_PTR<ActorComponent>> components_;
+    std::vector<std::shared_ptr<ActorComponent>> components_;
 
     TransformComponent* transform_;
 
@@ -131,7 +131,7 @@ private:
 template <typename T>
 T* Actor::CreateComponent(const std::wstring& kName)
 {
-    components_.push_back(MAKE_SHARED<T>(this, kName));
+    components_.push_back(std::make_shared<T>(this, kName));
     return static_cast<T*>(components_.back().get());
 }
 
