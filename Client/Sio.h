@@ -9,9 +9,9 @@ class Sio : public Character
 {
 public:
 	Sio(const std::wstring& kName);
-	PhysicsComp* GetPhysicsComponent();
-	AnimComp* GetAnimationComponent();
-	InputComp* GetInputComponent();
+	inline PhysicsComp* GetPhysicsComponent() { return physics_; }
+	inline AnimComp* GetAnimationComponent() { return anims_; }
+	inline InputComp* GetInputComponent() { return input_; }
 
 protected:
 	using Super = Character;
