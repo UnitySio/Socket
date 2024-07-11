@@ -7,6 +7,7 @@ Character::Character(const std::wstring& kName)
 {
 	spriteRenderer_ = std::make_shared<SpriteRendererComponent>(this, kName);
 	animator_ = std::make_shared<AnimatorComponent>(this, kName);
+	CreateBody();
 }
 
 std::shared_ptr<SpriteRendererComponent>& Character::GetSpriteRenderer()
@@ -17,4 +18,9 @@ std::shared_ptr<SpriteRendererComponent>& Character::GetSpriteRenderer()
 std::shared_ptr<AnimatorComponent>& Character::GetAnimatorComponent()
 {
 	return animator_;
+}
+
+b2Body* Character::GetBody()
+{
+	return body_;
 }
