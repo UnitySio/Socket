@@ -16,7 +16,7 @@ void AudioListenerComponent::TickComponent(float delta_time)
 {
     ActorComponent::TickComponent(delta_time);
 
-    const Math::Vector2 position = GetOwner()->GetTransform()->GetRelativePosition();
+    const Math::Vector2 position = GetOwner()->GetTransform()->GetWorldPosition();
     const FMOD_VECTOR sound_position = {position.x, position.y, 0.f};
     FMOD_System_Set3DListenerAttributes(AudioManager::Get()->fmod_system_, 0, &sound_position, nullptr, nullptr, nullptr);
 }
