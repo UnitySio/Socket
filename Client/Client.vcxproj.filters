@@ -186,9 +186,6 @@
     <ClCompile Include="Game\Map\MainMap.cpp">
       <Filter>UI</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Actor\Component\Animator\AnimationClip.cpp" />
-    <ClCompile Include="Engine\Actor\Component\SpriteRendererComponent.cpp" />
-    <ClCompile Include="Game\GameInstance.cpp" />
     <ClCompile Include="Engine\UI\Button.cpp">
       <Filter>UI</Filter>
     </ClCompile>
@@ -204,7 +201,6 @@
     <ClCompile Include="Engine\UI\UIBase.cpp">
       <Filter>UI</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Actor\Component\Animator\AnimatorComponent.cpp" />
     <ClCompile Include="Engine\UI\BoxComponent.cpp">
       <Filter>UI\Base</Filter>
     </ClCompile>
@@ -225,6 +221,36 @@
     </ClCompile>
     <ClCompile Include="Engine\UI\Image.cpp">
       <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Actor\Component\Animator\AnimationClip.cpp">
+      <Filter>Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Actor\Component\Animator\AnimatorComponent.cpp">
+      <Filter>Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Actor\Component\SpriteRendererComponent.cpp">
+      <Filter>Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\GameInstance.cpp">
+      <Filter>Other</Filter>
+    </ClCompile>
+    <ClCompile Include="Disinteractable.cpp">
+      <Filter>Structure\Disinteractable</Filter>
+    </ClCompile>
+    <ClCompile Include="Interactable.cpp">
+      <Filter>Structure\Interactable</Filter>
+    </ClCompile>
+    <ClCompile Include="Character.cpp">
+      <Filter>Structure\Interactable</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy.cpp">
+      <Filter>Structure\Interactable</Filter>
+    </ClCompile>
+    <ClCompile Include="NPC.cpp">
+      <Filter>Structure\Interactable</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>Structure\Interactable</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -708,9 +734,6 @@
     <ClInclude Include="Game\Map\MainMap.h">
       <Filter>UI</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Actor\Component\Animator\AnimationClip.h" />
-    <ClInclude Include="Engine\Actor\Component\SpriteRendererComponent.h" />
-    <ClInclude Include="Game\GameInstance.h" />
     <ClInclude Include="Engine\UI\Button.h">
       <Filter>UI</Filter>
     </ClInclude>
@@ -726,7 +749,6 @@
     <ClInclude Include="Engine\UI\UIBase.h">
       <Filter>UI</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Actor\Component\Animator\AnimatorComponent.h" />
     <ClInclude Include="Engine\UI\BoxComponent.h">
       <Filter>UI\Base</Filter>
     </ClInclude>
@@ -748,6 +770,36 @@
     <ClInclude Include="Engine\UI\Image.h">
       <Filter>UI</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\Actor\Component\Animator\AnimationClip.h">
+      <Filter>Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Actor\Component\Animator\AnimatorComponent.h">
+      <Filter>Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Actor\Component\SpriteRendererComponent.h">
+      <Filter>Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\GameInstance.h">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Disinteractable.h">
+      <Filter>Structure\Disinteractable</Filter>
+    </ClInclude>
+    <ClInclude Include="Interactable.h">
+      <Filter>Structure\Interactable</Filter>
+    </ClInclude>
+    <ClInclude Include="Character.h">
+      <Filter>Structure\Interactable</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy.h">
+      <Filter>Structure\Interactable</Filter>
+    </ClInclude>
+    <ClInclude Include="NPC.h">
+      <Filter>Structure\Interactable</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>Structure\Interactable</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="TileMap">
@@ -762,8 +814,17 @@
     <Filter Include="UI\Base">
       <UniqueIdentifier>{39e9e138-ba43-4c96-ab84-c5ab4e68b701}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Joint">
-      <UniqueIdentifier>{9b83cf01-20d7-4b24-914b-ff9aafbfb820}</UniqueIdentifier>
+    <Filter Include="Structure">
+      <UniqueIdentifier>{bc5f8b29-345f-40b1-a2ba-8f40dda71504}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Animation">
+      <UniqueIdentifier>{42ddda06-8f33-4d5f-af90-9eeb4d872622}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Structure\Interactable">
+      <UniqueIdentifier>{5167afec-a445-418e-8c8f-2e4f41cd3bad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Structure\Disinteractable">
+      <UniqueIdentifier>{270006f9-3369-4e70-ae4f-386ab7b95e77}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

@@ -24,12 +24,7 @@ public:
     virtual inline void PreInitializeComponents() {};
     virtual inline void PostInitializeComponents() {};
     
-    virtual void OnCollisionEnter(Actor* other);
-    virtual void OnCollisionStay(Actor* other);
-    virtual void OnCollisionExit(Actor* other);
-    virtual void OnTriggerEnter(Actor* other);
-    virtual void OnTriggerStay(Actor* other);
-    virtual void OnTriggerExit(Actor* other);
+    
     virtual void BeginPlay();
     virtual void EndPlay(EndPlayReason type);
     virtual void PhysicsTick(float delta_time);
@@ -76,6 +71,13 @@ public:
 
     inline Actor* GetParent() const { return parent_; }
     
+    virtual void OnCollisionEnter(Actor* other);
+    virtual void OnCollisionStay(Actor* other);
+    virtual void OnCollisionExit(Actor* other);
+    virtual void OnTriggerEnter(Actor* other);
+    virtual void OnTriggerStay(Actor* other);
+    virtual void OnTriggerExit(Actor* other);
+
     ContactSignature on_collision_enter;
     ContactSignature on_collision_stay;
     ContactSignature on_collision_exit;
@@ -86,22 +88,6 @@ public:
 
 protected:
     TimerHandle life_span_timer_;
-
-private:
-    // 추후 정리 예정
-    friend class Level;
-    friend class EventManager;
-    friend class ColliderComponent;
-    friend class RigidBodyComponent;
-    friend class TransformComponent;
-    friend class Pawn;
-    friend class PlayerController;
-    friend class DistanceJointComponent;
-    friend class HingeJointComponent;
-    friend class MotorJointComponent;
-    friend class PrismaticJointComponent;
-    friend class WheelJointComponent;
-
     void InitializeActor();
     void InitializeComponents();
     void UninitializeComponents();
@@ -127,6 +113,22 @@ private:
     std::vector<Actor*> children_;
 
     class b2Joint* parent_joint_;
+private:
+    // 추후 정리 예정
+    friend class Level;
+    friend class EventManager;
+    friend class ColliderComponent;
+    friend class RigidBodyComponent;
+    friend class TransformComponent;
+    friend class Pawn;
+    friend class PlayerController;
+    friend class DistanceJointComponent;
+    friend class HingeJointComponent;
+    friend class MotorJointComponent;
+    friend class PrismaticJointComponent;
+    friend class WheelJointComponent;
+
+    
     
 };
 
@@ -150,3 +152,4 @@ T* Actor::GetComponent()
 
     return nullptr;
 }
+
