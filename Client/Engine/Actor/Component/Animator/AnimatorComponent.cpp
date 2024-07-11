@@ -59,7 +59,7 @@ void AnimatorComponent::TickComponent(float delta_time)
 
 void AnimatorComponent::AddClip(const std::wstring& kName, int* sprite_idx_arr, int size)
 {
-    SHARED_PTR<AnimationClip> clip = MAKE_SHARED<AnimationClip>();
+    std::shared_ptr<AnimationClip> clip = std::make_shared<AnimationClip>();
 
     for (int i = 0; i < size; i++)
     {
