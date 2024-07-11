@@ -21,17 +21,6 @@ public:
     Actor(const std::wstring& kName);
     virtual ~Actor() = default;
 
-    virtual inline void PreInitializeComponents() {};
-    virtual inline void PostInitializeComponents() {};
-    
-    
-    virtual void BeginPlay();
-    virtual void EndPlay(EndPlayReason type);
-    virtual void PhysicsTick(float delta_time);
-    virtual void Tick(float delta_time);
-    virtual void PostTick(float delta_time);
-    virtual void Render(float alpha);
-
     void AttachToActor(Actor* actor);
     void DetachFromActor();
     void Destroy();
@@ -39,7 +28,6 @@ public:
     void SpawnActor(const Actor* kActor);
     void SetActive(bool active);
     void SetLifeSpan(float life_span);
-
     bool CompareTag(ActorTag tag) const;
 
     template <typename T>
@@ -71,6 +59,28 @@ public:
 
     inline Actor* GetParent() const { return parent_; }
     
+    
+
+protected:
+    TimerHandle life_span_timer_;
+    void InitializeActor();
+    void InitializeComponents();
+    void UninitializeComponents();
+    void Destroyed();
+    void CreateBody();
+    void OnLifeSpanExpired();
+
+    virtual inline void PreInitializeComponents() {};
+    virtual inline void PostInitializeComponents() {};
+    virtual void BeginPlay();
+    virtual void EndPlay(EndPlayReason type);
+
+
+    virtual void PhysicsTick(float delta_time);
+    virtual void Tick(float delta_time);
+    virtual void PostTick(float delta_time);
+    virtual void Render(float alpha);
+
     virtual void OnCollisionEnter(Actor* other);
     virtual void OnCollisionStay(Actor* other);
     virtual void OnCollisionExit(Actor* other);
@@ -85,15 +95,6 @@ public:
     ContactSignature on_trigger_enter;
     ContactSignature on_trigger_stay;
     ContactSignature on_trigger_exit;
-
-protected:
-    TimerHandle life_span_timer_;
-    void InitializeActor();
-    void InitializeComponents();
-    void UninitializeComponents();
-    void Destroyed();
-    void CreateBody();
-    void OnLifeSpanExpired();
 
     std::wstring name_;
 
@@ -120,13 +121,8 @@ private:
     friend class ColliderComponent;
     friend class RigidBodyComponent;
     friend class TransformComponent;
-    friend class Pawn;
     friend class PlayerController;
-    friend class DistanceJointComponent;
-    friend class HingeJointComponent;
-    friend class MotorJointComponent;
-    friend class PrismaticJointComponent;
-    friend class WheelJointComponent;
+    friend class ContactListener;
 
     
     
