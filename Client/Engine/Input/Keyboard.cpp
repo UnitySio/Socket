@@ -26,9 +26,19 @@ void Keyboard::Tick()
 		key_state.is_down = state == InputState::kPressed || state == InputState::kRepeat;
 	}
 
-	if (IsKeyReleased(VK_RIGHT))
+	if (IsKeyDown(VK_RIGHT))
 	{
 		LOG(L"Right key is down");
+	}
+
+	if (IsKeyPressed(VK_RIGHT))
+	{
+		LOG(L"Right key is pressed");
+	}
+
+	if (IsKeyReleased(VK_RIGHT))
+	{
+		LOG(L"Right key is released");
 	}
 
 	for (auto it = key_states_.begin(); it != key_states_.end(); ++it)
@@ -40,7 +50,7 @@ void Keyboard::Tick()
 
 bool Keyboard::IsKeyDown(WORD key_code) const
 {
-	return key_states_.at(key_code).is_down;
+	return key_states_.at(key_code).is_down && key_states_.at(key_code).was_down;
 }
 
 bool Keyboard::IsKeyPressed(WORD key_code) const
