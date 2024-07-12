@@ -13,7 +13,16 @@
 
 Core::Core() :
     current_application_(nullptr),
-    game_window_()
+    game_window_(),
+    game_engine_(nullptr),
+    is_running_(false),
+    main_thread_(),
+    mutex_(),
+    current_time_(0.),
+    last_time_(0.),
+    delta_time_(0.),
+    resize_width_(0),
+    resize_height_(0)
 {
 }
 

@@ -18,15 +18,15 @@ private:
     void MainThread();
     void Start();
     void Stop();
-
-    std::atomic<bool> is_running_;
-    std::thread main_thread_;
-    std::mutex mutex_;
     
     std::shared_ptr<WindowsApplication> current_application_;
     std::weak_ptr<WindowsWindow> game_window_;
 
     std::shared_ptr<GameEngine> game_engine_;
+    
+    std::atomic<bool> is_running_;
+    std::thread main_thread_;
+    std::mutex mutex_;
 
     double current_time_;
     double last_time_;
