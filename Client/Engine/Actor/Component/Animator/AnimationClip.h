@@ -36,6 +36,7 @@ public:
     template <typename Ret, typename... Args>
     void AddEvent(int frame, Function<Ret(Args...)>&& func);
 
+
     inline const std::vector<int>& GetFrames() { return frames_; }
     inline void AddFrame(int frame_idx) { frames_.push_back(frame_idx); }
 

@@ -41,6 +41,8 @@ PlayerController::PlayerController(const std::wstring& kName) : CharacterBase(kN
     std::shared_ptr<AnimationClip> clip = animator_->AddClip(L"Idle", temp, 6);
     clip->SetRepeat(true);
     clip->SetFrameRate(6.f);
+    Function<void(void)> func = [this]()->void {text_block_->SetText(L"Hello World"); };
+    clip->AddEvent(2.0f, std::move(func));
     //animator_->PlayClip(L"Idle");
     animator_->PlayClip(clip);
 }
