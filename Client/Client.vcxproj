@@ -134,11 +134,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="AnimComp.h" />
-    <ClInclude Include="Character.h" />
     <ClInclude Include="Client.h" />
-    <ClInclude Include="Disinteractable.h" />
-    <ClInclude Include="Enemy.h" />
     <ClInclude Include="Engine\Actor\Actor.h" />
     <ClInclude Include="Engine\Actor\Component\ActorComponent.h" />
     <ClInclude Include="Engine\Actor\Component\Animator\AnimationClip.h" />
@@ -185,6 +181,16 @@
     <ClInclude Include="Engine\Physics\RayCastCallback.h" />
     <ClInclude Include="Engine\Physics\RayCastResult.h" />
     <ClInclude Include="Engine\Singleton.h" />
+    <ClInclude Include="Engine\Sio\AnimComp.h" />
+    <ClInclude Include="Engine\Sio\InputComp.h" />
+    <ClInclude Include="Engine\Sio\PhysicsComp.h" />
+    <ClInclude Include="Engine\Sio\Sio.h" />
+    <ClInclude Include="Engine\Structure\Character.h" />
+    <ClInclude Include="Engine\Structure\Disinteractable.h" />
+    <ClInclude Include="Engine\Structure\Enemy.h" />
+    <ClInclude Include="Engine\Structure\Interactable.h" />
+    <ClInclude Include="Engine\Structure\NPC.h" />
+    <ClInclude Include="Engine\Structure\Player.h" />
     <ClInclude Include="Engine\Time\Time.h" />
     <ClInclude Include="Engine\Time\TimerManager.h" />
     <ClInclude Include="Engine\UI\BitmapComponent.h" />
@@ -313,21 +319,11 @@
     <ClInclude Include="Include\tmxlite\Tileset.hpp" />
     <ClInclude Include="Include\tmxlite\Types.hpp" />
     <ClInclude Include="Include\tmxlite\Types.inl" />
-    <ClInclude Include="InputComp.h" />
-    <ClInclude Include="Interactable.h" />
-    <ClInclude Include="NPC.h" />
-    <ClInclude Include="PhysicsComp.h" />
-    <ClInclude Include="Player.h" />
     <ClInclude Include="resource.h" />
-    <ClInclude Include="Sio.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="AnimComp.cpp" />
-    <ClCompile Include="Character.cpp" />
     <ClCompile Include="Client.cpp" />
-    <ClCompile Include="Disinteractable.cpp" />
-    <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="Engine\Actor\Actor.cpp" />
     <ClCompile Include="Engine\Actor\Component\ActorComponent.cpp" />
     <ClCompile Include="Engine\Actor\Component\Animator\AnimationClip.cpp" />
@@ -365,6 +361,16 @@
     <ClCompile Include="Engine\Physics\CircleQueryCallback.cpp" />
     <ClCompile Include="Engine\Physics\Physics.cpp" />
     <ClCompile Include="Engine\Physics\RayCastCallback.cpp" />
+    <ClCompile Include="Engine\Sio\AnimComp.cpp" />
+    <ClCompile Include="Engine\Sio\InputComp.cpp" />
+    <ClCompile Include="Engine\Sio\PhysicsComp.cpp" />
+    <ClCompile Include="Engine\Sio\Sio.cpp" />
+    <ClCompile Include="Engine\Structure\Character.cpp" />
+    <ClCompile Include="Engine\Structure\Disinteractable.cpp" />
+    <ClCompile Include="Engine\Structure\Enemy.cpp" />
+    <ClCompile Include="Engine\Structure\Interactable.cpp" />
+    <ClCompile Include="Engine\Structure\NPC.cpp" />
+    <ClCompile Include="Engine\Structure\Player.cpp" />
     <ClCompile Include="Engine\Time\Time.cpp" />
     <ClCompile Include="Engine\Time\TimerManager.cpp" />
     <ClCompile Include="Engine\UI\BitmapComponent.cpp" />
@@ -403,12 +409,6 @@
     <ClCompile Include="Include\imgui\imgui_impl_win32.cpp" />
     <ClCompile Include="Include\imgui\imgui_tables.cpp" />
     <ClCompile Include="Include\imgui\imgui_widgets.cpp" />
-    <ClCompile Include="InputComp.cpp" />
-    <ClCompile Include="Interactable.cpp" />
-    <ClCompile Include="NPC.cpp" />
-    <ClCompile Include="PhysicsComp.cpp" />
-    <ClCompile Include="Player.cpp" />
-    <ClCompile Include="Sio.cpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Engine\Shader\DefaultPixelShader.hlsl">

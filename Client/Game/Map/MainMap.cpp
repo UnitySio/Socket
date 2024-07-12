@@ -14,9 +14,9 @@
 #include "UI/BitmapComponent.h"
 #include "UI/StringComponent.h"
 #include "UI/Image.h"
-#include "../Sio.h"
-#include "../PhysicsComp.h"
-#include "../AnimComp.h"
+#include "Sio/Sio.h"
+#include "Sio/PhysicsComp.h"
+#include "Sio/AnimComp.h"
 
 
 MainMap::MainMap(const std::wstring& kName) : Level(kName)
