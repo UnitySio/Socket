@@ -12,7 +12,7 @@ Keyboard::Keyboard() : key_states_(), key_events_()
 	key_states_['Z'] = KeyState();
 }
 
-void Keyboard::Tick()
+void Keyboard::Begin()
 {
 	while (!key_events_.empty())
 	{
@@ -25,22 +25,10 @@ void Keyboard::Tick()
 		KeyState& key_state = key_states_[key_code];
 		key_state.is_down = state == InputState::kPressed || state == InputState::kRepeat;
 	}
+}
 
-	if (IsKeyDown(VK_RIGHT))
-	{
-		LOG(L"Right key is down");
-	}
-
-	if (IsKeyPressed(VK_RIGHT))
-	{
-		LOG(L"Right key is pressed");
-	}
-
-	if (IsKeyReleased(VK_RIGHT))
-	{
-		LOG(L"Right key is released");
-	}
-
+void Keyboard::End()
+{
 	for (auto it = key_states_.begin(); it != key_states_.end(); ++it)
 	{
 		KeyState& key_state = it->second;

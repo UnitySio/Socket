@@ -15,8 +15,6 @@ public:
 private:
     void OnFire();
     
-    class InputComponent* input_;
-    
     std::shared_ptr<class Sprite> sprite_;
 
     class TextBlock* text_block_;

@@ -37,7 +37,8 @@ public:
     Keyboard();
     virtual ~Keyboard() override = default;
 
-    void Tick();
+    void Begin();
+    void End();
 
     bool IsKeyDown(WORD key_code) const;
     bool IsKeyPressed(WORD key_code) const;

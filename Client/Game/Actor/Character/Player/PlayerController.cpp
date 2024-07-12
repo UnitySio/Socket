@@ -1,35 +1,18 @@
 ﻿#include "PlayerController.h"
 
-#include "GameInstance.h"
-#include "Windows.h"
 #include "Actor/Box.h"
-
-#include "Actor/Component/BoxColliderComponent.h"
 #include "Actor/Component/RigidBodyComponent.h"
-#include "Actor/Component/InputComponent.h"
 #include "Actor/Component/SpriteRendererComponent.h"
 #include "Actor/Component/TransformComponent.h"
 #include "Actor/Component/Animator/AnimationClip.h"
 #include "Actor/Component/Animator/AnimatorComponent.h"
-#include "box2d/b2_mouse_joint.h"
 #include "Input/Keyboard.h"
-#include "Level/World.h"
-#include "Misc/Debug.h"
-#include "Physics/HitResult.h"
-#include "Physics/Physics.h"
 #include "UI/Canvas.h"
 #include "UI/TextBlock.h"
-#include "Windows/DX/Shape.h"
 #include "Windows/DX/Sprite.h"
 
 PlayerController::PlayerController(const std::wstring& kName) : CharacterBase(kName)
 {
-    input_ = CreateComponent<InputComponent>(L"Input");
-    input_->RegisterKey(VK_RIGHT);
-    input_->RegisterKey(VK_LEFT);
-    input_->RegisterKey('C');
-    input_->RegisterKey('Z');
-    
     sprite_ = std::make_shared<Sprite>();
     CHECK_IF(sprite_->Load(L".\\Game_Data\\spritesheet.png"), L"Failed to load texture");
     
@@ -89,7 +72,7 @@ void PlayerController::Tick(float delta_time)
     
     if (keyboard->IsKeyPressed('C'))
     {
-        // rigid_body_->SetVelocity(Math::Vector2::Zero());
+        rigid_body_->SetVelocity(Math::Vector2::Zero());
         rigid_body_->AddForce(Math::Vector2::Up() * 5.f, ForceMode::kImpulse);
     }
     
