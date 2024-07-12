@@ -235,35 +235,35 @@
       <Filter>Other</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Logger\Logger.cpp" />
-    <ClCompile Include="Engine\Structure\Disinteractable.cpp">
+    <ClCompile Include="Game\Sio\AnimComp.cpp">
+      <Filter>Sio</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Sio\InputComp.cpp">
+      <Filter>Sio</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Sio\PhysicsComp.cpp">
+      <Filter>Sio</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Sio\Sio.cpp">
+      <Filter>Sio</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Structure\Disinteractable.cpp">
       <Filter>Structure\Disinteractable</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Structure\Character.cpp">
+    <ClCompile Include="Game\Structure\Character.cpp">
       <Filter>Structure\Interactable</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Structure\Enemy.cpp">
+    <ClCompile Include="Game\Structure\Enemy.cpp">
       <Filter>Structure\Interactable</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Structure\Interactable.cpp">
+    <ClCompile Include="Game\Structure\Interactable.cpp">
       <Filter>Structure\Interactable</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Structure\NPC.cpp">
+    <ClCompile Include="Game\Structure\NPC.cpp">
       <Filter>Structure\Interactable</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Structure\Player.cpp">
+    <ClCompile Include="Game\Structure\Player.cpp">
       <Filter>Structure\Interactable</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Sio\AnimComp.cpp">
-      <Filter>Sio</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Sio\InputComp.cpp">
-      <Filter>Sio</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Sio\PhysicsComp.cpp">
-      <Filter>Sio</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Sio\Sio.cpp">
-      <Filter>Sio</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -796,35 +796,35 @@
       <Filter>Other</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Logger\Logger.h" />
-    <ClInclude Include="Engine\Structure\Disinteractable.h">
+    <ClInclude Include="Game\Sio\AnimComp.h">
+      <Filter>Sio</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Sio\InputComp.h">
+      <Filter>Sio</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Sio\PhysicsComp.h">
+      <Filter>Sio</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Sio\Sio.h">
+      <Filter>Sio</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Structure\Disinteractable.h">
       <Filter>Structure\Disinteractable</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Structure\Character.h">
+    <ClInclude Include="Game\Structure\Character.h">
       <Filter>Structure\Interactable</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Structure\Enemy.h">
+    <ClInclude Include="Game\Structure\Enemy.h">
       <Filter>Structure\Interactable</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Structure\Interactable.h">
+    <ClInclude Include="Game\Structure\Interactable.h">
       <Filter>Structure\Interactable</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Structure\NPC.h">
+    <ClInclude Include="Game\Structure\NPC.h">
       <Filter>Structure\Interactable</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Structure\Player.h">
+    <ClInclude Include="Game\Structure\Player.h">
       <Filter>Structure\Interactable</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Sio\AnimComp.h">
-      <Filter>Sio</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Sio\InputComp.h">
-      <Filter>Sio</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Sio\PhysicsComp.h">
-      <Filter>Sio</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Sio\Sio.h">
-      <Filter>Sio</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
