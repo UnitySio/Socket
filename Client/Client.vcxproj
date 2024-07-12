@@ -134,11 +134,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="AnimComp.h" />
-    <ClInclude Include="Character.h" />
     <ClInclude Include="Client.h" />
-    <ClInclude Include="Disinteractable.h" />
-    <ClInclude Include="Enemy.h" />
     <ClInclude Include="Engine\Actor\Actor.h" />
     <ClInclude Include="Engine\Actor\Component\ActorComponent.h" />
     <ClInclude Include="Engine\Actor\Component\Animator\AnimationClip.h" />
@@ -221,6 +217,16 @@
     <ClInclude Include="Game\GameInstance.h" />
     <ClInclude Include="Game\Map\MainMap.h" />
     <ClInclude Include="Game\ProjectSettings.h" />
+    <ClInclude Include="Game\Sio\AnimComp.h" />
+    <ClInclude Include="Game\Sio\InputComp.h" />
+    <ClInclude Include="Game\Sio\PhysicsComp.h" />
+    <ClInclude Include="Game\Sio\Sio.h" />
+    <ClInclude Include="Game\Structure\Character.h" />
+    <ClInclude Include="Game\Structure\Disinteractable.h" />
+    <ClInclude Include="Game\Structure\Enemy.h" />
+    <ClInclude Include="Game\Structure\Interactable.h" />
+    <ClInclude Include="Game\Structure\NPC.h" />
+    <ClInclude Include="Game\Structure\Player.h" />
     <ClInclude Include="Include\box2d\b2_api.h" />
     <ClInclude Include="Include\box2d\b2_block_allocator.h" />
     <ClInclude Include="Include\box2d\b2_body.h" />
@@ -313,21 +319,11 @@
     <ClInclude Include="Include\tmxlite\Tileset.hpp" />
     <ClInclude Include="Include\tmxlite\Types.hpp" />
     <ClInclude Include="Include\tmxlite\Types.inl" />
-    <ClInclude Include="InputComp.h" />
-    <ClInclude Include="Interactable.h" />
-    <ClInclude Include="NPC.h" />
-    <ClInclude Include="PhysicsComp.h" />
-    <ClInclude Include="Player.h" />
     <ClInclude Include="resource.h" />
-    <ClInclude Include="Sio.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="AnimComp.cpp" />
-    <ClCompile Include="Character.cpp" />
     <ClCompile Include="Client.cpp" />
-    <ClCompile Include="Disinteractable.cpp" />
-    <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="Engine\Actor\Actor.cpp" />
     <ClCompile Include="Engine\Actor\Component\ActorComponent.cpp" />
     <ClCompile Include="Engine\Actor\Component\Animator\AnimationClip.cpp" />
@@ -396,6 +392,16 @@
     <ClCompile Include="Game\Actor\Tilemap.cpp" />
     <ClCompile Include="Game\GameInstance.cpp" />
     <ClCompile Include="Game\Map\MainMap.cpp" />
+    <ClCompile Include="Game\Sio\AnimComp.cpp" />
+    <ClCompile Include="Game\Sio\InputComp.cpp" />
+    <ClCompile Include="Game\Sio\PhysicsComp.cpp" />
+    <ClCompile Include="Game\Sio\Sio.cpp" />
+    <ClCompile Include="Game\Structure\Character.cpp" />
+    <ClCompile Include="Game\Structure\Disinteractable.cpp" />
+    <ClCompile Include="Game\Structure\Enemy.cpp" />
+    <ClCompile Include="Game\Structure\Interactable.cpp" />
+    <ClCompile Include="Game\Structure\NPC.cpp" />
+    <ClCompile Include="Game\Structure\Player.cpp" />
     <ClCompile Include="Include\imgui\imgui.cpp" />
     <ClCompile Include="Include\imgui\imgui_demo.cpp" />
     <ClCompile Include="Include\imgui\imgui_draw.cpp" />
@@ -403,12 +409,6 @@
     <ClCompile Include="Include\imgui\imgui_impl_win32.cpp" />
     <ClCompile Include="Include\imgui\imgui_tables.cpp" />
     <ClCompile Include="Include\imgui\imgui_widgets.cpp" />
-    <ClCompile Include="InputComp.cpp" />
-    <ClCompile Include="Interactable.cpp" />
-    <ClCompile Include="NPC.cpp" />
-    <ClCompile Include="PhysicsComp.cpp" />
-    <ClCompile Include="Player.cpp" />
-    <ClCompile Include="Sio.cpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Engine\Shader\DefaultPixelShader.hlsl">

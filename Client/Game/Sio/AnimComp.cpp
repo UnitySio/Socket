@@ -1,7 +1,7 @@
 #include "AnimComp.h"
-#include "Engine/Windows/DX/Sprite.h"
-#include "Engine/Actor/Component/Animator/AnimationClip.h"
-#include "Engine/Actor/Actor.h"
+#include "Windows/DX/Sprite.h"
+#include "Actor/Component/Animator/AnimationClip.h"
+#include "Actor/Actor.h"
 
 AnimComp::AnimComp(Actor* owner, const std::wstring& kName)
 	:ActorComponent(owner, kName)

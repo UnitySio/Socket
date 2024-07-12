@@ -1,5 +1,5 @@
 #pragma once
-#include "Character.h"
+#include "Structure/Character.h"
 
 class PhysicsComp;
 class AnimComp;
