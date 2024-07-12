@@ -18,12 +18,9 @@ struct KeyState
     bool is_down;
     bool was_down;
 
-    MathTypes::uint32 event_accumulator[static_cast<MathTypes::uint32>(InputState::kMax)];
-
     KeyState() :
         is_down(false),
-        was_down(false),
-        event_accumulator()
+        was_down(false)
     {
     }
 };
