@@ -23,8 +23,18 @@ void Keyboard::Tick()
 		InputState state = event.state;
 
 		KeyState& key_state = key_states_[key_code];
-		key_state.was_down = key_state.is_down;
 		key_state.is_down = state == InputState::kPressed || state == InputState::kRepeat;
+	}
+
+	if (IsKeyReleased(VK_RIGHT))
+	{
+		LOG(L"Right key is down");
+	}
+
+	for (auto it = key_states_.begin(); it != key_states_.end(); ++it)
+	{
+		KeyState& key_state = it->second;
+		key_state.was_down = key_state.is_down;
 	}
 }
 
