@@ -10,6 +10,7 @@ public:
     virtual void BeginPlay() override;
     virtual void PhysicsTick(float delta_time) override;
     virtual void Tick(float delta_time) override;
+    void Test();
 
 private:
     void OnFire();

@@ -13,3 +13,8 @@ void AnimationClip::AddEvent(int frame, Function<Ret(Args...)>&& func)
 {
     events_[frame] = AnimationEvent(std::forward<Function<Ret(Args...)>>(func));
 }
+
+void AnimationClip::DelEvent(int frame)
+{
+    events_.erase(frame);
+}

@@ -42,6 +42,15 @@ PlayerController::PlayerController(const std::wstring& kName) : CharacterBase(kN
     clip->SetFrameRate(6.f);
     //animator_->PlayClip(L"Idle");
     animator_->PlayClip(clip);
+
+
+    Function<void(void)> test(this, &PlayerController::Test);
+    clip->AddEvent(2, std::move(test));
+}
+
+void PlayerController::Test()
+{
+    std::cout << "a";
 }
 
 void PlayerController::BeginPlay()
