@@ -18,6 +18,12 @@ public:
         func_ = std::make_shared<Function<void(void)>>(std::forward<Function<Ret(Args...)>>(func));
     }
 
+    template <typename M>
+    AnimationEvent(M* target, Function<void(void)>&& func)
+    {
+        func_ = std::make_shared<Function<void(void)>>(Function<void(void)>(target, func));
+    }
+
     void operator()() const
     {
         (*func_)();
@@ -35,8 +41,14 @@ public:
 
     template <typename Ret, typename... Args>
     void AddEvent(int frame, Function<Ret(Args...)>&& func);
-    void DelEvent(int frame);
 
+    template<typename M>
+    void AddEvent(M* target,  void(M::* func)(void), int frame);
+
+    template<typename L>
+    void AddEvent(L&& lamda, int frame);
+
+    void DelEvent(int frame);
 
     inline const std::vector<int>& GetFrames() { return frames_; }
     inline void AddFrame(int frame_idx) { frames_.push_back(frame_idx); }
@@ -55,3 +67,15 @@ private:
     bool is_repeat_;
     float frame_rate_;
 };
+
+template<typename M>
+void AnimationClip::AddEvent(M* target, void(M::* func)(void), int frame)
+{
+    events_[frame] = AnimationEvent(std::move(Function<void(void)>(target, func)));
+}
+
+template<typename L>
+void AnimationClip::AddEvent(L&& lamda, int frame)
+{
+    events_[frame] = AnimationEvent(std::move(Function<void(void)>(std::move(lamda))));
+}

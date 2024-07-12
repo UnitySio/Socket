@@ -29,13 +29,10 @@ void AnimatorComponent::TickComponent(float delta_time)
     ActorComponent::TickComponent(delta_time);
     if (!sprite_renderer_) return;
 
-    if (current_clip_->events_.contains(current_index_)) current_clip_->events_[current_index_]();
-
     timer_ += delta_time;
     if (timer_ >= 1.f / current_clip_->GetFrameRate())
     {
         timer_ = 0.f;
-
         if (current_index_ < current_clip_->frames_.size() - 1)
         {
             current_index_++;
@@ -49,6 +46,8 @@ void AnimatorComponent::TickComponent(float delta_time)
                 sprite_renderer_->frame_index_ = current_clip_->frames_[0];
             }
         }
+
+        if (current_clip_->events_.contains(current_index_)) current_clip_->events_[current_index_]();
     }
 }
 

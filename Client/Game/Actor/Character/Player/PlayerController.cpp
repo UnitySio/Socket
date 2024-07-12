@@ -21,6 +21,7 @@
 #include "UI/TextBlock.h"
 #include "Windows/DX/Shape.h"
 #include "Windows/DX/Sprite.h"
+#include "Logger/Logger.h"
 
 PlayerController::PlayerController(const std::wstring& kName) : CharacterBase(kName)
 {
@@ -41,19 +42,16 @@ PlayerController::PlayerController(const std::wstring& kName) : CharacterBase(kN
     std::shared_ptr<AnimationClip> clip = animator_->AddClip(L"Idle", temp, 6);
     clip->SetRepeat(true);
     clip->SetFrameRate(6.f);
-    Function<void(void)> func = [this]()->void {text_block_->SetText(L"Hello World"); };
-    clip->AddEvent(2.0f, std::move(func));
-    //animator_->PlayClip(L"Idle");
+    clip->AddEvent([this]()->void {text_block_->SetText(L"Hello World"); }, 1);
+    clip->AddEvent(this, &PlayerController::Test, 2);
+
     animator_->PlayClip(clip);
-
-
-    Function<void(void)> test(this, &PlayerController::Test);
-    clip->AddEvent(2, std::move(test));
 }
 
 void PlayerController::Test()
 {
-    std::cout << "a";
+    Logger log;
+    log.AddLog(L"a");
 }
 
 void PlayerController::BeginPlay()
