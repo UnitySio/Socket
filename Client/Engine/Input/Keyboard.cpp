@@ -2,8 +2,45 @@
 
 #include <ranges>
 
-Keyboard::Keyboard() : key_states_()
+#include "Logger/Logger.h"
+
+Keyboard::Keyboard() : key_states_(), key_events_()
 {
+	key_states_[VK_RIGHT] = KeyState();
+	key_states_[VK_LEFT] = KeyState();
+	key_states_['C'] = KeyState();
+	key_states_['Z'] = KeyState();
+}
+
+void Keyboard::Tick()
+{
+	while (!key_events_.empty())
+	{
+		KeyEvent event = key_events_.front();
+		key_events_.pop();
+
+		WORD key_code = event.key_code;
+		InputState state = event.state;
+
+		KeyState& key_state = key_states_[key_code];
+		key_state.was_down = key_state.is_down;
+		key_state.is_down = state == InputState::kPressed || state == InputState::kRepeat;
+	}
+}
+
+bool Keyboard::IsKeyDown(WORD key_code) const
+{
+	return key_states_.at(key_code).is_down;
+}
+
+bool Keyboard::IsKeyPressed(WORD key_code) const
+{
+	return key_states_.at(key_code).is_down && !key_states_.at(key_code).was_down;
+}
+
+bool Keyboard::IsKeyReleased(WORD key_code) const
+{
+	return !key_states_.at(key_code).is_down && key_states_.at(key_code).was_down;
 }
 
 bool Keyboard::ProcessMessage(UINT message, WPARAM wParam, LPARAM lParam, MathTypes::uint32 handler_result)
@@ -51,4 +88,9 @@ bool Keyboard::OnKeyChar(WCHAR character)
 
 void Keyboard::OnInputKey(WORD key_code, InputState state)
 {
+	KeyEvent event;
+	event.state = state;
+	event.key_code = key_code;
+
+	key_events_.push(event);
 }

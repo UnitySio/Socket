@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include <map>
+#include <queue>
 #include <Windows.h>
 
 #include "Singleton.h"
@@ -9,8 +10,7 @@ enum class InputState
 {
     kPressed,
     kReleased,
-    kRepeat,
-    kMax
+    kRepeat
 };
 
 struct KeyState
@@ -25,11 +25,23 @@ struct KeyState
     }
 };
 
+struct KeyEvent
+{
+    InputState state;
+    WORD key_code;
+};
+
 class Keyboard : public Singleton<Keyboard>
 {
 public:
     Keyboard();
     virtual ~Keyboard() override = default;
+
+    void Tick();
+
+    bool IsKeyDown(WORD key_code) const;
+    bool IsKeyPressed(WORD key_code) const;
+    bool IsKeyReleased(WORD key_code) const;
 
 private:
     friend class Core;
@@ -42,5 +54,7 @@ private:
     void OnInputKey(WORD key_code, InputState state);
 
     std::map<WORD, KeyState> key_states_;
+
+    std::queue<KeyEvent> key_events_;
     
 };

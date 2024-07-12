@@ -12,6 +12,7 @@
 #include "Actor/Component/Animator/AnimationClip.h"
 #include "Actor/Component/Animator/AnimatorComponent.h"
 #include "box2d/b2_mouse_joint.h"
+#include "Input/Keyboard.h"
 #include "Level/World.h"
 #include "Misc/Debug.h"
 #include "Physics/HitResult.h"
@@ -60,8 +61,10 @@ void PlayerController::BeginPlay()
 void PlayerController::PhysicsTick(float delta_time)
 {
     CharacterBase::PhysicsTick(delta_time);
-    
-    const float h = input_->IsKeyPressed(VK_RIGHT) - input_->IsKeyPressed(VK_LEFT);
+
+    Keyboard* keyboard = Keyboard::Get();
+
+    const float h = keyboard->IsKeyDown(VK_RIGHT) - keyboard->IsKeyDown(VK_LEFT);
     if (h != 0.f) sprite_renderer_->SetFlipX(h > 0.f);
     
     rigid_body_->SetVelocity({h * 6.f, rigid_body_->GetVelocity().y});
@@ -71,13 +74,15 @@ void PlayerController::Tick(float delta_time)
 {
     CharacterBase::Tick(delta_time);
     
-    if (input_->IsKeyDown('C'))
+    Keyboard* keyboard = Keyboard::Get();
+    
+    if (keyboard->IsKeyPressed('C'))
     {
-        rigid_body_->SetVelocity(Math::Vector2::Zero());
+        // rigid_body_->SetVelocity(Math::Vector2::Zero());
         rigid_body_->AddForce(Math::Vector2::Up() * 5.f, ForceMode::kImpulse);
     }
     
-    if (input_->IsKeyDown('Z'))
+    if (keyboard->IsKeyPressed('Z'))
     {
         Box* box = new Box(L"Box");
         box->GetTransform()->SetRelativePosition(GetTransform()->GetWorldPosition());
