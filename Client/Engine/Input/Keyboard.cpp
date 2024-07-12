@@ -14,6 +14,8 @@ Keyboard::Keyboard() : key_states_(), key_events_()
 
 void Keyboard::Begin()
 {
+	std::lock_guard<std::mutex> lock(mutex_);
+	
 	while (!key_events_.empty())
 	{
 		KeyEvent event = key_events_.front();
@@ -96,6 +98,8 @@ bool Keyboard::OnKeyChar(WCHAR character)
 
 void Keyboard::OnInputKey(WORD key_code, InputState state)
 {
+	std::lock_guard<std::mutex> lock(mutex_);
+	
 	KeyEvent event;
 	event.state = state;
 	event.key_code = key_code;
