@@ -11,18 +11,18 @@
 #include "Windows/DX/Renderer.h"
 #include "UI/Canvas.h"
 
-double Core::current_time_ = 0.;
-double Core::last_time_ = 0.;
-double Core::delta_time_ = 0.;
-
-MathTypes::uint32 Core::resize_width_ = 0;
-MathTypes::uint32 Core::resize_height_ = 0;
-
 Core::Core() :
     current_application_(nullptr),
     game_window_(),
-    game_thread_handle_(nullptr),
-    is_game_running_(false)
+    game_engine_(nullptr),
+    is_running_(false),
+    main_thread_(),
+    mutex_(),
+    current_time_(0.),
+    last_time_(0.),
+    delta_time_(0.),
+    resize_width_(0),
+    resize_height_(0)
 {
 }
 
@@ -61,8 +61,7 @@ void Core::Init(const HINSTANCE instance_handle)
 
     current_time_ = Time::Init();
 
-    // 게임 스레드 생성
-    game_thread_handle_ = CreateThread(nullptr, 0, GameThread, this, 0, nullptr);
+    Start();
 }
 
 extern LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
@@ -88,10 +87,7 @@ bool Core::ProcessMessage(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam,
         {
             if (window->GetHWnd() == hWnd)
             {
-                is_game_running_ = false;
-
-                // 게임 스레드가 종료될 때까지 대기
-                WaitForSingleObject(game_thread_handle_, INFINITE);
+                Stop();
                 game_engine_->OnQuit();
 
                 World::Get()->Release();
@@ -104,16 +100,15 @@ bool Core::ProcessMessage(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam,
     return false;
 }
 
-DWORD Core::GameThread(LPVOID lpParam)
+void Core::MainThread()
 {
-    Core* core = static_cast<Core*>(lpParam);
-    if (!core) return 0;
-
-    GameEngine* game_engine = core->game_engine_.get();
-    core->is_game_running_ = true;
-
     while (true)
     {
+        {
+            std::lock_guard<std::mutex> lock(mutex_);
+            if (!is_running_) break;
+        }
+        
 #pragma region DeltaTime
         last_time_ = current_time_;
         current_time_ = Time::Seconds();
@@ -121,8 +116,8 @@ DWORD Core::GameThread(LPVOID lpParam)
         double elapsed_time = current_time_ - last_time_;
         delta_time_ = elapsed_time;
 #pragma endregion
-
-        if (const auto& window = core->game_window_.lock())
+        
+        if (const auto& window = game_window_.lock())
         {
             if (resize_width_ > 0 && resize_height_ > 0)
             {
@@ -132,11 +127,30 @@ DWORD Core::GameThread(LPVOID lpParam)
                 resize_height_ = 0;
             }
 
-            game_engine->GameLoop(delta_time_);
+            game_engine_->GameLoop(delta_time_);
         }
-
-        if (!core->is_game_running_) break;
     }
+}
 
-    return 0;
+void Core::Start()
+{
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        is_running_ = true;
+    }
+    
+    main_thread_ = std::thread(&Core::MainThread, this);
+}
+
+void Core::Stop()
+{
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        is_running_ = false;
+    }
+    
+    if (main_thread_.joinable())
+    {
+        main_thread_.join();
+    }
 }

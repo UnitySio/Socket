@@ -12,8 +12,10 @@ Keyboard::Keyboard() : key_states_(), key_events_()
 	key_states_['Z'] = KeyState();
 }
 
-void Keyboard::Tick()
+void Keyboard::Begin()
 {
+	std::lock_guard<std::mutex> lock(mutex_);
+	
 	while (!key_events_.empty())
 	{
 		KeyEvent event = key_events_.front();
@@ -23,14 +25,22 @@ void Keyboard::Tick()
 		InputState state = event.state;
 
 		KeyState& key_state = key_states_[key_code];
-		key_state.was_down = key_state.is_down;
 		key_state.is_down = state == InputState::kPressed || state == InputState::kRepeat;
+	}
+}
+
+void Keyboard::End()
+{
+	for (auto it = key_states_.begin(); it != key_states_.end(); ++it)
+	{
+		KeyState& key_state = it->second;
+		key_state.was_down = key_state.is_down;
 	}
 }
 
 bool Keyboard::IsKeyDown(WORD key_code) const
 {
-	return key_states_.at(key_code).is_down;
+	return key_states_.at(key_code).is_down && key_states_.at(key_code).was_down;
 }
 
 bool Keyboard::IsKeyPressed(WORD key_code) const
@@ -88,6 +98,8 @@ bool Keyboard::OnKeyChar(WCHAR character)
 
 void Keyboard::OnInputKey(WORD key_code, InputState state)
 {
+	std::lock_guard<std::mutex> lock(mutex_);
+	
 	KeyEvent event;
 	event.state = state;
 	event.key_code = key_code;

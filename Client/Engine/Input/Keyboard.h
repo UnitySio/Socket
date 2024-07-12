@@ -37,7 +37,8 @@ public:
     Keyboard();
     virtual ~Keyboard() override = default;
 
-    void Tick();
+    void Begin();
+    void End();
 
     bool IsKeyDown(WORD key_code) const;
     bool IsKeyPressed(WORD key_code) const;
@@ -56,5 +57,8 @@ private:
     std::map<WORD, KeyState> key_states_;
 
     std::queue<KeyEvent> key_events_;
+
+    // 스레드로 부터 안전을 위한 뮤텍스
+    std::mutex mutex_;
     
 };

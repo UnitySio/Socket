@@ -62,7 +62,7 @@ void GameEngine::GameLoop(float delta_time)
     ImGui::NewFrame();
 
 #pragma region Tick
-    Keyboard::Get()->Tick();
+    Keyboard::Get()->Begin();
     
     // 죽음의 나선형을 방지하기 위해 delta_time을 제한
     const float kLimitFrameTime = min(delta_time, .25f);
@@ -78,6 +78,8 @@ void GameEngine::GameLoop(float delta_time)
     alpha = accumulator / ProjectSettings::kFixedTimeStep;
     World::Get()->Tick(delta_time);
     World::Get()->PostTick(delta_time);
+
+    Keyboard::Get()->End();
 #pragma endregion
 
 #pragma region Render
