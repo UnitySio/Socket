@@ -14,6 +14,11 @@ void AnimationClip::AddEvent(int frame, Function<void(void)>&& func)
     events_[frame] = AnimationEvent(std::forward<Function<void(void)>>(func));
 }
 
+void AnimationClip::AddEvent(void(*func)(void), int frame)
+{
+    events_[frame] = AnimationEvent(std::forward<Function<void(void)>>(func));
+}
+
 void AnimationClip::DelEvent(int frame)
 {
     events_.erase(frame);

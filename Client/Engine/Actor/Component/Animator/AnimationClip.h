@@ -41,9 +41,13 @@ public:
 
     template <typename Ret, typename... Args>
     void AddEvent(int frame, Function<Ret(Args...)>&& func);
+    void AddEvent(void(*func)(void), int frame);
 
     template<typename M>
     void AddEvent(M* target,  void(M::* func)(void), int frame);
+
+    template<typename M>
+    void AddEvent(M* target, void(M::* func)(void) const, int frame);
 
     template<typename L>
     void AddEvent(L&& lamda, int frame);
@@ -70,6 +74,12 @@ private:
 
 template<typename M>
 void AnimationClip::AddEvent(M* target, void(M::* func)(void), int frame)
+{
+    events_[frame] = AnimationEvent(std::move(Function<void(void)>(target, func)));
+}
+
+template<typename M>
+void AnimationClip::AddEvent(M* target, void(M::* func)(void) const, int frame)
 {
     events_[frame] = AnimationEvent(std::move(Function<void(void)>(target, func)));
 }
