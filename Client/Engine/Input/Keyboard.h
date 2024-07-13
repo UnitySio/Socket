@@ -39,6 +39,7 @@ public:
 
     void Begin();
     void End();
+    void Clear();
 
     bool IsKeyDown(WORD key_code) const;
     bool IsKeyPressed(WORD key_code) const;

@@ -81,6 +81,11 @@ bool Core::ProcessMessage(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam,
         resize_height_ = HIWORD(lParam);
     }
 
+    if (message == WM_KILLFOCUS)
+    {
+        Keyboard::Get()->Clear();
+    }
+
     if (message == WM_DESTROY)
     {
         if (const auto window = game_window_.lock())

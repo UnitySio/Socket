@@ -38,6 +38,23 @@ void Keyboard::End()
 	}
 }
 
+void Keyboard::Clear()
+{
+	std::lock_guard<std::mutex> lock(mutex_);
+	
+	while (!key_events_.empty())
+	{
+		key_events_.pop();
+	}
+
+	for (auto it = key_states_.begin(); it != key_states_.end(); ++it)
+	{
+		KeyState& key_state = it->second;
+		key_state.is_down = false;
+		key_state.was_down = false;
+	}
+}
+
 bool Keyboard::IsKeyDown(WORD key_code) const
 {
 	return key_states_.at(key_code).is_down && key_states_.at(key_code).was_down;
