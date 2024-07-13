@@ -139,7 +139,7 @@ void RigidBodyComponent::AddForce(const Math::Vector2& kForce, ForceMode mode)
     }
 }
 
-void RigidBodyComponent::AddForceAtPosition(const Math::Vector2& kForce, const Math::Vector2& kLocation, ForceMode mode)
+void RigidBodyComponent::AddForceAtPosition(const Math::Vector2& kForce, const Math::Vector2& kPosition, ForceMode mode)
 {
     Actor* owner = GetOwner();
     assert(owner);
@@ -150,11 +150,11 @@ void RigidBodyComponent::AddForceAtPosition(const Math::Vector2& kForce, const M
     switch (mode)
     {
     case ForceMode::kForce:
-        body->ApplyForce({kForce.x, kForce.y}, {kLocation.x, kLocation.y}, true);
+        body->ApplyForce({kForce.x, kForce.y}, {kPosition.x, kPosition.y}, true);
         break;
 
     case ForceMode::kImpulse:
-        body->ApplyLinearImpulse({kForce.x, kForce.y}, {kLocation.x, kLocation.y}, true);
+        body->ApplyLinearImpulse({kForce.x, kForce.y}, {kPosition.x, kPosition.y}, true);
         break;
     }
 }

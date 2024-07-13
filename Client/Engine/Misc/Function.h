@@ -1,9 +1,7 @@
 #pragma once
 #include <memory>
 #include <type_traits>
-#include <any>
 #include <tuple>
-#include <functional>
 
 template<typename>
 class Delegate;
@@ -40,6 +38,13 @@ public:
     template<typename M, typename std::enable_if<std::is_class<M>::value>::type* = nullptr>
     Function(M* target, Ret(M::*func)(Args...))
         : func_(std::make_shared<MCallable<M>>(target, func)), kFunc_(nullptr)
+    {
+        addr_ = reinterpret_cast<std::uintptr_t&>(func);
+    }
+
+    template<typename M, typename std::enable_if<std::is_class<M>::value>::type* = nullptr>
+    Function(M* target, Ret(M::* func)(Args...), Args&&... args)
+        : func_(std::make_shared<CCMCallable<M>>(target, func, std::forward<Args>(args)...)), kFunc_(nullptr)
     {
         addr_ = reinterpret_cast<std::uintptr_t&>(func);
     }
@@ -82,15 +87,11 @@ private:
     struct ICallable
     {
         virtual ~ICallable() = default;
-        virtual Ret operator()(Args&&... args) const 
+        virtual Ret operator()(Args&&... args) const abstract;
+        virtual Ret operator()() const
         {
-            return Ret();
-        };
 
-        virtual Ret operator()()
-        {
-            return Ret();
-        };
+        }
     };
 
     struct GCallable : public ICallable
@@ -111,6 +112,12 @@ private:
         {
             return func_(std::forward<Args>(args)...);
         }
+        virtual Ret operator()() const override
+        {
+            return Ret();
+        }
+
+
         F func_;
     };
 
@@ -123,6 +130,11 @@ private:
             return (target_->*func_)(std::forward<Args>(args)...);
         }
         
+        /*virtual Ret operator()() const override
+        {
+            return (target_->*func_)();
+        }*/
+
         M* target_;
         Ret(M::* func_)(Args...);
     };
@@ -139,6 +151,30 @@ private:
         
         M* target_;
         Ret(M::* func_)(Args...) const;
+    };
+
+    template<typename M>
+    struct CCMCallable : public ICallable
+    {
+        CCMCallable(M* target, Ret(M::* func)(Args...), Args&&... args)
+            : target_(target), func_(func), args_(std::make_tuple(std::forward<Args>(args)...)) {}
+        virtual Ret operator()(Args&&... args) const override
+        {
+            return (target_->*func_)(std::forward<Args>(args)...);
+        }
+
+        virtual Ret operator()() const override
+        {
+            return std::apply([this](auto&&... args)->Ret 
+                {
+                    return (target_->*func_)(std::forward<decltype(args)>(args)...);
+                }
+                ,args_);
+        }
+
+        M* target_;
+        Ret(M::* func_)(Args...);
+        std::tuple<Args...> args_;
     };
 
     struct FCallable : public ICallable

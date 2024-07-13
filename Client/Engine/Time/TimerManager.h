@@ -56,7 +56,7 @@ struct TimerData
         : callback(std::forward<Function<void(void)>>(target, func)), loop(false), rate(0.f), expire_time(0.f), status(TimerStatus::Active)
     {};
 
-    bool operator==(const TimerData& kInput)
+    bool operator==(const TimerData& kInput) const
     {
         return kInput.handle == handle;
     }
@@ -94,6 +94,12 @@ public:
     void UnPauseTimer(const TimerHandle& kHandle);
     
     TimerData* FindTimer(const TimerHandle& kHandle);
+
+    float GetTimerElapsed(const TimerHandle& kHandle);
+    float GetTimerRemaining(const TimerHandle& kHandle);
+
+    bool IsTimerActive(const TimerHandle& kHandle);
+    bool IsTimerPaused(const TimerHandle& kHandle);
 private:
     float internal_time_;
     std::vector<TimerData> timers_;

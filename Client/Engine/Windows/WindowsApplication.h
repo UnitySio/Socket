@@ -24,24 +24,24 @@ public:
 
     ATOM RegisterClass(const HINSTANCE instance_handle, const HICON icon_handle);
 
-    SHARED_PTR<WindowsWindow> MakeWindow();
+    std::shared_ptr<WindowsWindow> MakeWindow();
     
-    void InitWindow(const SHARED_PTR<WindowsWindow>& kWindow, const SHARED_PTR<WindowDefinition>& kDefinition, const SHARED_PTR<WindowsWindow>& kParentWindow);
+    void InitWindow(const std::shared_ptr<WindowsWindow>& kWindow, const std::shared_ptr<WindowDefinition>& kDefinition, const std::shared_ptr<WindowsWindow>& kParentWindow);
     void AddMessageHandler(IWindowsMessageHandler& message_handler);
     void RemoveMessageHandler(IWindowsMessageHandler& message_handler);
 
-    const std::vector<SHARED_PTR<WindowsWindow>>& GetWindows() const { return windows_; }
+    const std::vector<std::shared_ptr<WindowsWindow>>& GetWindows() const { return windows_; }
 
 private:
     static LRESULT CALLBACK StaticWndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 
     MathTypes::uint32 ProcessMessage(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 
-    SHARED_PTR<WindowsWindow> FindWindowByHWND(HWND hWnd) const;
+    std::shared_ptr<WindowsWindow> FindWindowByHWND(HWND hWnd) const;
 
     HINSTANCE instance_handle_;
 
-    std::vector<SHARED_PTR<WindowsWindow>> windows_;
+    std::vector<std::shared_ptr<WindowsWindow>> windows_;
     std::vector<IWindowsMessageHandler*> message_handlers_;
     
 };

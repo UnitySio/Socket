@@ -1,6 +1,8 @@
 ﻿#pragma once
 #include "Level/Level.h"
 
+class Button;
+
 class MainMap : public Level
 {
 public:
@@ -8,4 +10,7 @@ public:
     virtual ~MainMap() override = default;
 
     virtual void Load() override;
+
+
+
 };

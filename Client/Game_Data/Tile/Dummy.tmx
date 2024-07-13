@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="80" height="20" tilewidth="32" tileheight="32" infinite="0" nextlayerid="6" nextobjectid="21">
+ <tileset firstgid="1" name="DummyTileset" tilewidth="32" tileheight="32" tilecount="247" columns="19">
+  <image source="images/tilemap/DummyTileset.png" width="608" height="416"/>
+ </tileset>
+ <layer id="3" name="Tile Layer 1" width="80" height="20">
+  <data encoding="base64" compression="zlib">
+   eJzt0MEJgFAMRMG08/tv0BIEIe6KszDXQN6ZmQNAjY2lf9LvOzaW/km/Homlf27vd3c//bN+PTb2p34bffXTT78OT6affvrBey69pdBe
+  </data>
+ </layer>
+ <layer id="4" name="Tile Layer 2" width="80" height="20">
+  <data encoding="base64" compression="zlib">
+   eJztlckNgCAQRWlCPWgB4kEb0GLU/nsQgyRuMG6jRP5L/glmCC8sQgAAwHOkKjVDsjc38SEFU9+cqa9vwN894M8N9b41TOv+xR/X+aKAPzeRSqySWMZD9teqdLP0O3OMH1v/kP0dIRR/pdD3zBbb/aMIxR/F1fMJfxr4u8dZf+bfrYh6+Nsyuhu9ySmuevhbsnYHfxrqfzZZu5NEfSWAbwyh8BSs
+  </data>
+ </layer>
+ <objectgroup id="5" name="Object Layer 1">
+  <object id="3" x="928" y="224" width="32" height="192"/>
+  <object id="4" x="960" y="224" width="256" height="32"/>
+  <object id="5" x="960" y="384" width="256" height="32"/>
+  <object id="6" x="1184" y="416" width="32" height="192"/>
+  <object id="7" x="1216" y="576" width="416" height="32"/>
+  <object id="8" x="1632" y="288.5" width="96.5" height="320"/>
+  <object id="9" x="1728" y="576" width="192" height="32"/>
+  <object id="10" x="1888" y="96" width="32" height="478.5"/>
+  <object id="12" x="1184" y="96" width="704" height="32"/>
+  <object id="13" x="1184" y="128" width="32" height="96"/>
+  <object id="14" x="1344" y="320" width="160" height="32"/>
+  <object id="20" x="1632" y="480">
+   <polygon points="0,0 -62.6667,0 -160,96 -0.33333,95.6667"/>
+  </object>
+ </objectgroup>
+</map>

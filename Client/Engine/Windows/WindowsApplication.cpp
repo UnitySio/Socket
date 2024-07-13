@@ -33,12 +33,12 @@ ATOM WindowsApplication::RegisterClass(const HINSTANCE instance_handle, const HI
     return RegisterClassEx(&wcex);
 }
 
-SHARED_PTR<WindowsWindow> WindowsApplication::MakeWindow()
+std::shared_ptr<WindowsWindow> WindowsApplication::MakeWindow()
 {
     return WindowsWindow::Make();
 }
 
-void WindowsApplication::InitWindow(const SHARED_PTR<WindowsWindow>& kWindow, const SHARED_PTR<WindowDefinition>& kDefinition, const SHARED_PTR<WindowsWindow>& kParentWindow)
+void WindowsApplication::InitWindow(const std::shared_ptr<WindowsWindow>& kWindow, const std::shared_ptr<WindowDefinition>& kDefinition, const std::shared_ptr<WindowsWindow>& kParentWindow)
 {
     windows_.push_back(kWindow);
     kWindow->Init(this, kDefinition, instance_handle_, kParentWindow);
@@ -77,7 +77,7 @@ LRESULT WindowsApplication::StaticWndProc(HWND hWnd, UINT message, WPARAM wParam
 
 MathTypes::uint32 WindowsApplication::ProcessMessage(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-    SHARED_PTR<WindowsWindow> window = FindWindowByHWND(hWnd);
+    std::shared_ptr<WindowsWindow> window = FindWindowByHWND(hWnd);
     
     if (window)
     {
@@ -97,6 +97,25 @@ MathTypes::uint32 WindowsApplication::ProcessMessage(HWND hWnd, UINT message, WP
             }
         }
         
+        if (message == WM_GETMINMAXINFO)
+        {
+            MathTypes::uint32 window_ex_style = 0;
+            MathTypes::uint32 window_style = 0;
+    
+            window_style |= WS_OVERLAPPED;
+            window_style |= WS_CAPTION;
+            window_style |= WS_SYSMENU;
+            window_style |= WS_THICKFRAME;
+            window_style |= WS_MINIMIZEBOX;
+
+            RECT border_rect = {0, 0, 0, 0};
+            AdjustWindowRectEx(&border_rect, window_style, false, window_ex_style);
+        
+            MINMAXINFO* info = reinterpret_cast<MINMAXINFO*>(lParam);
+            info->ptMinTrackSize.x = 100 + border_rect.right - border_rect.left;
+            info->ptMinTrackSize.y = 100 + border_rect.bottom - border_rect.top;
+        }
+        
         if (message == WM_DESTROY)
         {
             std::erase(windows_, window);
@@ -111,7 +130,7 @@ MathTypes::uint32 WindowsApplication::ProcessMessage(HWND hWnd, UINT message, WP
     return DefWindowProc(hWnd, message, wParam, lParam);
 }
 
-SHARED_PTR<WindowsWindow> WindowsApplication::FindWindowByHWND(HWND hWnd) const
+std::shared_ptr<WindowsWindow> WindowsApplication::FindWindowByHWND(HWND hWnd) const
 {
     for (const auto& window : windows_)
     {

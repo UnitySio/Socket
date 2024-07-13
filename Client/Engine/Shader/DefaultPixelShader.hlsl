@@ -33,6 +33,9 @@ float4 main(PS_INPUT input) : SV_TARGET
 	color.g *= g;
 	color.b *= b;
 	color.a *= a;
+
+	float gamma = 2.2f;
+	color.rgb = pow(color.rgb, 1.0 / gamma);
 	
 	return color;
 }

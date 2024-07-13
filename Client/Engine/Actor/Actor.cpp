@@ -11,6 +11,7 @@
 #include "Component/RigidBodyComponent.h"
 #include "Component/TransformComponent.h"
 #include "Level/World.h"
+#include "Time/TimerManager.h"
 
 Actor::Actor(const std::wstring& kName) :
     tag_(ActorTag::kNone),
@@ -25,37 +26,42 @@ Actor::Actor(const std::wstring& kName) :
     parent_joint_(nullptr)
 {
     name_ = kName;
-
     transform_ = CreateComponent<TransformComponent>(L"Transform");
 }
 
 void Actor::OnCollisionEnter(Actor* other)
 {
+    on_collision_enter.Execute(std::move(other));
     if (parent_) parent_->OnCollisionEnter(other);
 }
 
 void Actor::OnCollisionStay(Actor* other)
 {
+    on_collision_stay.Execute(std::move(other));
     if (parent_) parent_->OnCollisionStay(other);
 }
 
 void Actor::OnCollisionExit(Actor* other)
 {
+    on_collision_exit.Execute(std::move(other));
     if (parent_) parent_->OnCollisionExit(other);
 }
 
 void Actor::OnTriggerEnter(Actor* other)
 {
+    on_trigger_enter.Execute(std::move(other));
     if (parent_) parent_->OnTriggerEnter(other);
 }
 
 void Actor::OnTriggerStay(Actor* other)
 {
+    on_trigger_stay.Execute(std::move(other));
     if (parent_) parent_->OnTriggerStay(other);
 }
 
 void Actor::OnTriggerExit(Actor* other)
 {
+    on_trigger_exit.Execute(std::move(other));
     if (parent_) parent_->OnTriggerExit(other);
 }
 
@@ -103,6 +109,14 @@ void Actor::Tick(float delta_time)
     }
 }
 
+void Actor::PostTick(float delta_time)
+{
+    for (const auto& component : components_)
+    {
+        component->PostTickComponent(delta_time);
+    }
+}
+
 void Actor::Render(float alpha)
 {
     for (const auto& component : components_)
@@ -116,7 +130,7 @@ void Actor::AttachToActor(Actor* actor)
     parent_ = actor;
     actor->children_.push_back(this);
 
-    transform_->SetRelativeLocation(transform_->GetWorldLocation() - actor->transform_->GetWorldLocation());
+    transform_->SetRelativePosition(transform_->GetWorldPosition() - actor->transform_->GetWorldPosition());
 
     if (!body_ || !actor->body_) return;
 
@@ -186,6 +200,18 @@ void Actor::SetActive(bool active)
         });
 }
 
+void Actor::SetLifeSpan(float life_span)
+{
+    if (life_span > 0.f)
+    {
+        life_span_timer_ = TimerManager::Get()->SetTimer(this, &Actor::OnLifeSpanExpired, life_span);
+    }
+    else
+    {
+        TimerManager::Get()->ClearTimer(life_span_timer_);
+    }
+}
+
 bool Actor::CompareTag(ActorTag tag) const
 {
     return tag_ == tag;
@@ -228,4 +254,9 @@ void Actor::CreateBody()
 
     body_ = World::Get()->physics_world_->CreateBody(&body_def);
     body_->SetEnabled(false);
+}
+
+void Actor::OnLifeSpanExpired()
+{
+    Destroy();
 }

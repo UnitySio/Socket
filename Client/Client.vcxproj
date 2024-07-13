@@ -111,7 +111,7 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)\Client\Lib\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>box2d.lib;DirectXTK.lib;fmod_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>libtmxlite.lib;box2d.lib;DirectXTK.lib;fmod_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -137,14 +137,19 @@
     <ClInclude Include="Client.h" />
     <ClInclude Include="Engine\Actor\Actor.h" />
     <ClInclude Include="Engine\Actor\Component\ActorComponent.h" />
+    <ClInclude Include="Engine\Actor\Component\Animator\AnimationClip.h" />
+    <ClInclude Include="Engine\Actor\Component\Animator\AnimatorComponent.h" />
     <ClInclude Include="Engine\Actor\Component\AudioComponent.h" />
     <ClInclude Include="Engine\Actor\Component\AudioListenerComponent.h" />
     <ClInclude Include="Engine\Actor\Component\BoxColliderComponent.h" />
     <ClInclude Include="Engine\Actor\Component\CameraComponent.h" />
     <ClInclude Include="Engine\Actor\Component\CircleColliderComponent.h" />
     <ClInclude Include="Engine\Actor\Component\ColliderComponent.h" />
-    <ClInclude Include="Engine\Actor\Component\InputComponent.h" />
     <ClInclude Include="Engine\Actor\Component\RigidBodyComponent.h" />
+    <ClInclude Include="Engine\Actor\Component\SpriteRendererComponent.h" />
+    <ClInclude Include="Engine\Actor\Component\Tilemap\TilemapChunk.h" />
+    <ClInclude Include="Engine\Actor\Component\Tilemap\TilemapComponent.h" />
+    <ClInclude Include="Engine\Actor\Component\Tilemap\TilemapLayer.h" />
     <ClInclude Include="Engine\Actor\Component\TransformComponent.h" />
     <ClInclude Include="Engine\Audio\AudioManager.h" />
     <ClInclude Include="Engine\Core.h" />
@@ -153,25 +158,43 @@
     <ClInclude Include="Engine\EventManager.h" />
     <ClInclude Include="Engine\GameEngine.h" />
     <ClInclude Include="Engine\Input\Keyboard.h" />
+    <ClInclude Include="Engine\Input\Mouse.h" />
     <ClInclude Include="Engine\Level\Level.h" />
     <ClInclude Include="Engine\Level\Listener\ContactListener.h" />
     <ClInclude Include="Engine\Level\Listener\QueryCallback.h" />
     <ClInclude Include="Engine\Level\World.h" />
+    <ClInclude Include="Engine\Logger\Logger.h" />
     <ClInclude Include="Engine\Math\Bounds.h" />
     <ClInclude Include="Engine\Math\Color.h" />
+    <ClInclude Include="Engine\Math\Math.h" />
     <ClInclude Include="Engine\Math\MathTypes.h" />
     <ClInclude Include="Engine\Math\Vector2.h" />
+    <ClInclude Include="Engine\Misc\Debug.h" />
     <ClInclude Include="Engine\Misc\DelegateMacros.h" />
     <ClInclude Include="Engine\Misc\EngineMacros.h" />
     <ClInclude Include="Engine\Misc\Delegate.h" />
     <ClInclude Include="Engine\Misc\Function.h" />
+    <ClInclude Include="Engine\Physics\CircleQueryCallback.h" />
     <ClInclude Include="Engine\Physics\HitResult.h" />
+    <ClInclude Include="Engine\Physics\BoxQueryCallback.h" />
     <ClInclude Include="Engine\Physics\Physics.h" />
     <ClInclude Include="Engine\Physics\RayCastCallback.h" />
     <ClInclude Include="Engine\Physics\RayCastResult.h" />
     <ClInclude Include="Engine\Singleton.h" />
     <ClInclude Include="Engine\Time\Time.h" />
     <ClInclude Include="Engine\Time\TimerManager.h" />
+    <ClInclude Include="Engine\UI\BitmapComponent.h" />
+    <ClInclude Include="Engine\UI\BoxComponent.h" />
+    <ClInclude Include="Engine\UI\Button.h" />
+    <ClInclude Include="Engine\UI\Canvas.h" />
+    <ClInclude Include="Engine\UI\CircleComponent.h" />
+    <ClInclude Include="Engine\UI\Image.h" />
+    <ClInclude Include="Engine\UI\LineComponent.h" />
+    <ClInclude Include="Engine\UI\ProgressBar.h" />
+    <ClInclude Include="Engine\UI\ScrollView.h" />
+    <ClInclude Include="Engine\UI\StringComponent.h" />
+    <ClInclude Include="Engine\UI\TextBlock.h" />
+    <ClInclude Include="Engine\UI\UIBase.h" />
     <ClInclude Include="Engine\Windows\DX\ConstantBuffer.h" />
     <ClInclude Include="Engine\Windows\DX\IndexBuffer.h" />
     <ClInclude Include="Engine\Windows\DX\Renderer.h" />
@@ -186,11 +209,24 @@
     <ClInclude Include="Engine\Windows\WindowsApplication.h" />
     <ClInclude Include="Engine\Windows\WindowsWindow.h" />
     <ClInclude Include="framework.h" />
-    <ClInclude Include="Game\Actor\Floor.h" />
+    <ClInclude Include="Game\Actor\Box.h" />
+    <ClInclude Include="Game\Actor\Character\CharacterBase.h" />
+    <ClInclude Include="Game\Actor\Character\Player\PlayerController.h" />
     <ClInclude Include="Game\Actor\FollowCamera.h" />
-    <ClInclude Include="Game\Actor\Pawn.h" />
+    <ClInclude Include="Game\Actor\Tilemap.h" />
+    <ClInclude Include="Game\GameInstance.h" />
     <ClInclude Include="Game\Map\MainMap.h" />
     <ClInclude Include="Game\ProjectSettings.h" />
+    <ClInclude Include="Game\Sio\AnimComp.h" />
+    <ClInclude Include="Game\Sio\InputComp.h" />
+    <ClInclude Include="Game\Sio\PhysicsComp.h" />
+    <ClInclude Include="Game\Sio\Sio.h" />
+    <ClInclude Include="Game\Structure\Character.h" />
+    <ClInclude Include="Game\Structure\Disinteractable.h" />
+    <ClInclude Include="Game\Structure\Enemy.h" />
+    <ClInclude Include="Game\Structure\Interactable.h" />
+    <ClInclude Include="Game\Structure\NPC.h" />
+    <ClInclude Include="Game\Structure\Player.h" />
     <ClInclude Include="Include\box2d\b2_api.h" />
     <ClInclude Include="Include\box2d\b2_block_allocator.h" />
     <ClInclude Include="Include\box2d\b2_body.h" />
@@ -269,6 +305,20 @@
     <ClInclude Include="Include\imgui\imstb_rectpack.h" />
     <ClInclude Include="Include\imgui\imstb_textedit.h" />
     <ClInclude Include="Include\imgui\imstb_truetype.h" />
+    <ClInclude Include="Include\tmxlite\Config.hpp" />
+    <ClInclude Include="Include\tmxlite\FreeFuncs.hpp" />
+    <ClInclude Include="Include\tmxlite\ImageLayer.hpp" />
+    <ClInclude Include="Include\tmxlite\Layer.hpp" />
+    <ClInclude Include="Include\tmxlite\LayerGroup.hpp" />
+    <ClInclude Include="Include\tmxlite\Map.hpp" />
+    <ClInclude Include="Include\tmxlite\Object.hpp" />
+    <ClInclude Include="Include\tmxlite\ObjectGroup.hpp" />
+    <ClInclude Include="Include\tmxlite\ObjectTypes.hpp" />
+    <ClInclude Include="Include\tmxlite\Property.hpp" />
+    <ClInclude Include="Include\tmxlite\TileLayer.hpp" />
+    <ClInclude Include="Include\tmxlite\Tileset.hpp" />
+    <ClInclude Include="Include\tmxlite\Types.hpp" />
+    <ClInclude Include="Include\tmxlite\Types.inl" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
@@ -276,14 +326,19 @@
     <ClCompile Include="Client.cpp" />
     <ClCompile Include="Engine\Actor\Actor.cpp" />
     <ClCompile Include="Engine\Actor\Component\ActorComponent.cpp" />
+    <ClCompile Include="Engine\Actor\Component\Animator\AnimationClip.cpp" />
+    <ClCompile Include="Engine\Actor\Component\Animator\AnimatorComponent.cpp" />
     <ClCompile Include="Engine\Actor\Component\AudioComponent.cpp" />
     <ClCompile Include="Engine\Actor\Component\AudioListenerComponent.cpp" />
     <ClCompile Include="Engine\Actor\Component\BoxColliderComponent.cpp" />
     <ClCompile Include="Engine\Actor\Component\CameraComponent.cpp" />
     <ClCompile Include="Engine\Actor\Component\CircleColliderComponent.cpp" />
     <ClCompile Include="Engine\Actor\Component\ColliderComponent.cpp" />
-    <ClCompile Include="Engine\Actor\Component\InputComponent.cpp" />
     <ClCompile Include="Engine\Actor\Component\RigidBodyComponent.cpp" />
+    <ClCompile Include="Engine\Actor\Component\SpriteRendererComponent.cpp" />
+    <ClCompile Include="Engine\Actor\Component\Tilemap\TilemapChunk.cpp" />
+    <ClCompile Include="Engine\Actor\Component\Tilemap\TilemapComponent.cpp" />
+    <ClCompile Include="Engine\Actor\Component\Tilemap\TilemapLayer.cpp" />
     <ClCompile Include="Engine\Actor\Component\TransformComponent.cpp" />
     <ClCompile Include="Engine\Audio\AudioManager.cpp" />
     <ClCompile Include="Engine\Core.cpp" />
@@ -291,17 +346,35 @@
     <ClCompile Include="Engine\EventManager.cpp" />
     <ClCompile Include="Engine\GameEngine.cpp" />
     <ClCompile Include="Engine\Input\Keyboard.cpp" />
+    <ClCompile Include="Engine\Input\Mouse.cpp" />
     <ClCompile Include="Engine\Level\Level.cpp" />
     <ClCompile Include="Engine\Level\Listener\ContactListener.cpp" />
     <ClCompile Include="Engine\Level\Listener\QueryCallback.cpp" />
     <ClCompile Include="Engine\Level\World.cpp" />
+    <ClCompile Include="Engine\Logger\Logger.cpp" />
     <ClCompile Include="Engine\Math\Bounds.cpp" />
     <ClCompile Include="Engine\Math\Color.cpp" />
+    <ClCompile Include="Engine\Math\Math.cpp" />
     <ClCompile Include="Engine\Math\Vector2.cpp" />
+    <ClCompile Include="Engine\Misc\Debug.cpp" />
+    <ClCompile Include="Engine\Physics\BoxQueryCallback.cpp" />
+    <ClCompile Include="Engine\Physics\CircleQueryCallback.cpp" />
     <ClCompile Include="Engine\Physics\Physics.cpp" />
     <ClCompile Include="Engine\Physics\RayCastCallback.cpp" />
     <ClCompile Include="Engine\Time\Time.cpp" />
     <ClCompile Include="Engine\Time\TimerManager.cpp" />
+    <ClCompile Include="Engine\UI\BitmapComponent.cpp" />
+    <ClCompile Include="Engine\UI\BoxComponent.cpp" />
+    <ClCompile Include="Engine\UI\Button.cpp" />
+    <ClCompile Include="Engine\UI\Canvas.cpp" />
+    <ClCompile Include="Engine\UI\CircleComponent.cpp" />
+    <ClCompile Include="Engine\UI\Image.cpp" />
+    <ClCompile Include="Engine\UI\LineComponent.cpp" />
+    <ClCompile Include="Engine\UI\ProgressBar.cpp" />
+    <ClCompile Include="Engine\UI\ScrollView.cpp" />
+    <ClCompile Include="Engine\UI\StringComponent.cpp" />
+    <ClCompile Include="Engine\UI\TextBlock.cpp" />
+    <ClCompile Include="Engine\UI\UIBase.cpp" />
     <ClCompile Include="Engine\Windows\DX\IndexBuffer.cpp" />
     <ClCompile Include="Engine\Windows\DX\Renderer.cpp" />
     <ClCompile Include="Engine\Windows\DX\Shaders.cpp" />
@@ -312,10 +385,23 @@
     <ClCompile Include="Engine\Windows\DX\VertexBuffer.cpp" />
     <ClCompile Include="Engine\Windows\WindowsApplication.cpp" />
     <ClCompile Include="Engine\Windows\WindowsWindow.cpp" />
-    <ClCompile Include="Game\Actor\Floor.cpp" />
+    <ClCompile Include="Game\Actor\Box.cpp" />
+    <ClCompile Include="Game\Actor\Character\CharacterBase.cpp" />
+    <ClCompile Include="Game\Actor\Character\Player\PlayerController.cpp" />
     <ClCompile Include="Game\Actor\FollowCamera.cpp" />
-    <ClCompile Include="Game\Actor\Pawn.cpp" />
+    <ClCompile Include="Game\Actor\Tilemap.cpp" />
+    <ClCompile Include="Game\GameInstance.cpp" />
     <ClCompile Include="Game\Map\MainMap.cpp" />
+    <ClCompile Include="Game\Sio\AnimComp.cpp" />
+    <ClCompile Include="Game\Sio\InputComp.cpp" />
+    <ClCompile Include="Game\Sio\PhysicsComp.cpp" />
+    <ClCompile Include="Game\Sio\Sio.cpp" />
+    <ClCompile Include="Game\Structure\Character.cpp" />
+    <ClCompile Include="Game\Structure\Disinteractable.cpp" />
+    <ClCompile Include="Game\Structure\Enemy.cpp" />
+    <ClCompile Include="Game\Structure\Interactable.cpp" />
+    <ClCompile Include="Game\Structure\NPC.cpp" />
+    <ClCompile Include="Game\Structure\Player.cpp" />
     <ClCompile Include="Include\imgui\imgui.cpp" />
     <ClCompile Include="Include\imgui\imgui_demo.cpp" />
     <ClCompile Include="Include\imgui\imgui_draw.cpp" />
@@ -351,6 +437,12 @@
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
+    <ResourceCompile Include="Resource.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Client.ico" />
+  </ItemGroup>
+  <ItemGroup>
     <Compile Include="Include\FMOD\fmod.cs" />
     <Compile Include="Include\FMOD\fmod_dsp.cs" />
     <Compile Include="Include\FMOD\fmod_errors.cs" />
@@ -363,17 +455,13 @@
     <Content Include="Lib\Debug\fmodL.dll" />
     <Content Include="Lib\Debug\fmodL_vc.lib" />
     <Content Include="Lib\Debug\fmod_vc.lib" />
+    <Content Include="Lib\Debug\libtmxlite.lib" />
     <Content Include="Lib\DirectXTK.lib" />
     <Content Include="Lib\fmod.dll" />
     <Content Include="Lib\fmodL.dll" />
     <Content Include="Lib\fmodL_vc.lib" />
     <Content Include="Lib\fmod_vc.lib" />
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="Resource.rc" />
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="Client.ico" />
+    <Content Include="Lib\libtmxlite.lib" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

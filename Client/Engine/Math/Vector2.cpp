@@ -1,6 +1,10 @@
 ﻿#include "Math/Vector2.h"
 
-#include <algorithm>
+#include <cmath>
+#include <limits>
+
+#include "Math.h"
+
 
 Math::Vector2::Vector2() :
     x(),
@@ -170,7 +174,7 @@ Math::Vector2 Math::Vector2::Down()
 
 Math::Vector2 Math::Vector2::Lerp(Vector2 a, Vector2 b, float t)
 {
-    t = std::clamp(t, 0.f, 1.f);
+    t = Math::Clamp(t, 0.f, 1.f);
     return a + (b - a) * t;
 }
 
@@ -188,18 +192,28 @@ float Math::Vector2::Dot(Vector2 a, Vector2 b)
 
 Math::Vector2 Math::Vector2::Max(Vector2 a, Vector2 b)
 {
-    const float max_x = std::max(a.x, b.x);
-    const float max_y = std::max(a.y, b.y);
+    const float max_x = Math::Max(a.x, b.x);
+    const float max_y = Math::Max(a.y, b.y);
 
     return {max_x, max_y};
 }
 
 Math::Vector2 Math::Vector2::Min(Vector2 a, Vector2 b)
 {
-    const float min_x = std::min(a.x, b.x);
-    const float min_y = std::min(a.y, b.y);
+    const float min_x = Math::Min(a.x, b.x);
+    const float min_y = Math::Min(a.y, b.y);
 
     return {min_x, min_y};
+}
+
+Math::Vector2 Math::Vector2::PositiveInfinity()
+{
+    return {std::numeric_limits<float>::max(), std::numeric_limits<float>::max()};
+}
+
+Math::Vector2 Math::Vector2::NegativeInfinity()
+{
+    return {std::numeric_limits<float>::lowest(), std::numeric_limits<float>::lowest()};
 }
 
 Math::Vector2 Math::Vector2::Normalized()

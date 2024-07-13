@@ -53,11 +53,16 @@ public:
     bool Init();
     bool CreateDevice();
     bool CreateDWrite();
-    bool CreateViewport(SHARED_PTR<WindowsWindow> window, Math::Vector2 window_size);
-    bool CreateD2DViewport(SHARED_PTR<WindowsWindow> window);
+    bool CreateViewport(std::shared_ptr<WindowsWindow> window, Math::Vector2 window_size);
+    bool CreateD2DViewport(std::shared_ptr<WindowsWindow> window);
     bool CreateDepthStencilBuffer(Viewport& viewport);
-    bool ResizeViewport(const SHARED_PTR<WindowsWindow>& window, MathTypes::uint32 width, MathTypes::uint32 height);
+    bool ResizeViewport(const std::shared_ptr<WindowsWindow>& window, MathTypes::uint32 width, MathTypes::uint32 height);
 
+    // UI TEST
+    D2DViewport* GetCurrentD2dViewport() { return current_d2d_viewport_; }
+
+
+    
     // TEST
     bool CreateRenderToTexture();
 
@@ -69,23 +74,23 @@ public:
     Viewport* FindViewport(WindowsWindow* window);
     D2DViewport* FindD2DViewport(WindowsWindow* window);
 
-    void BeginRender(const SHARED_PTR<WindowsWindow>& kWindow);
+    void BeginRender(const std::shared_ptr<WindowsWindow>& kWindow);
     void EndRender();
-    void BeginRenderD2D(const SHARED_PTR<WindowsWindow>& kWindow);
+    void BeginRenderD2D(const std::shared_ptr<WindowsWindow>& kWindow);
     void EndRenderD2D();
-
-    // Direct2D
-    void DrawBox(const SHARED_PTR<WindowsWindow>& kWindow, Math::Vector2 position, Math::Vector2 size, Math::Color color, float rotation_z = 0.f, float stroke = 1.f);
-    void DrawCircle(const SHARED_PTR<WindowsWindow>& kWindow, Math::Vector2 position, float radius, Math::Color color, float stroke = 1.f);
-    void DrawLine(const SHARED_PTR<WindowsWindow>& kWindow, Math::Vector2 start, Math::Vector2 end, Math::Color color, float stroke = 1.f);
-    void DrawString(const SHARED_PTR<WindowsWindow>& kWindow, const std::wstring& kString, Math::Vector2 position, Math::Vector2 size, float font_size, Math::Color color);
-    void DrawBitmap(const SHARED_PTR<WindowsWindow>& kWindow, const Microsoft::WRL::ComPtr<ID2D1Bitmap>& kBitmap, Math::Vector2 position, Math::Vector2 size, float rotation_z = 0.f);
+    void BeginLayer();
+    void EndLayer();
     
-    bool LoadBitmap(const SHARED_PTR<WindowsWindow>& kWindow, const std::wstring& kFileName, Microsoft::WRL::ComPtr<ID2D1Bitmap>& bitmap);
+    Math::Vector2 ConvertScreenToWorld(const Math::Vector2& kScreenPosition) const;
+    Math::Vector2 ConvertWorldToScreen(const Math::Vector2& kWorldPosition) const;
+
+
+    
+
 
     inline ID3D11Device* GetDevice() const { return d3d_device_.Get(); }
     inline ID3D11DeviceContext* GetDeviceContext() const { return d3d_device_context_.Get(); }
-
+    inline Microsoft::WRL::ComPtr<IWICImagingFactory> GetImageFactory() const { return wic_imaging_factory_; }
 private:
     bool CreateBackBufferResources(Microsoft::WRL::ComPtr<IDXGISwapChain>& dxgi_swap_chain, Microsoft::WRL::ComPtr<ID3D11Texture2D>& back_buffer, Microsoft::WRL::ComPtr<ID3D11RenderTargetView>& d3d_render_target_view);
 
@@ -93,10 +98,6 @@ private:
     Microsoft::WRL::ComPtr<ID3D11DeviceContext> d3d_device_context_;
 
     Microsoft::WRL::ComPtr<ID2D1Factory> d2d_factory_;
-
-    Microsoft::WRL::ComPtr<IDWriteFactory5> dwrite_factory_;
-    Microsoft::WRL::ComPtr<IDWriteFontCollection1> dwrite_font_collection_;
-    
     Microsoft::WRL::ComPtr<IWICImagingFactory> wic_imaging_factory_;
     
     std::map<WindowsWindow*, Viewport> viewports_;

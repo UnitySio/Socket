@@ -1,5 +1,7 @@
 ﻿#include "Physics.h"
 
+#include "BoxQueryCallback.h"
+#include "CircleQueryCallback.h"
 #include "HitResult.h"
 #include "RayCastCallback.h"
 #include "box2d/b2_fixture.h"
@@ -7,17 +9,17 @@
 #include "Level/Level.h"
 #include "Level/World.h"
 
-bool Physics::RayCastSingle(HitResult& hit_result, const Math::Vector2& start, const Math::Vector2& end, MathTypes::uint16 layer)
+bool Physics::RayCast(HitResult& hit_result, const Math::Vector2& start, const Math::Vector2& end, MathTypes::uint16 layer)
 {
     RayCastCallback callback(true, layer);
-    if (!PerformRayCast(callback, start, end)) return false;
+    World::Get()->physics_world_->RayCast(&callback, {start.x, start.y}, {end.x, end.y});
 
     const std::vector<RayCastResult>& kResults = callback.GetResults();
     if (kResults.empty()) return false;
 
-    Math::Vector2 location = {kResults[0].point.x, kResults[0].point.y};
-    hit_result.distance = Math::Vector2::Distance(start, location);
-    hit_result.location = location;
+    Math::Vector2 position = {kResults[0].point.x, kResults[0].point.y};
+    hit_result.distance = Math::Vector2::Distance(start, position);
+    hit_result.position = position;
     hit_result.normal = {kResults[0].normal.x, kResults[0].normal.y};
     hit_result.trace_start = start;
     hit_result.trace_end = end;
@@ -26,10 +28,10 @@ bool Physics::RayCastSingle(HitResult& hit_result, const Math::Vector2& start, c
     return true;
 }
 
-bool Physics::RayCastMulti(std::vector<HitResult>& hit_results, const Math::Vector2& start, const Math::Vector2& end, MathTypes::uint16 layer)
+bool Physics::RayCastAll(std::vector<HitResult>& hit_results, const Math::Vector2& start, const Math::Vector2& end, MathTypes::uint16 layer)
 {
     RayCastCallback callback(false, layer);
-    if (!PerformRayCast(callback, start, end)) return false;
+    World::Get()->physics_world_->RayCast(&callback, {start.x, start.y}, {end.x, end.y});
 
     const std::vector<RayCastResult>& kResults = callback.GetResults();
     if (kResults.empty()) return false;
@@ -37,9 +39,9 @@ bool Physics::RayCastMulti(std::vector<HitResult>& hit_results, const Math::Vect
     for (const auto& result : kResults)
     {
         HitResult hit_result;
-        Math::Vector2 location = {result.point.x, result.point.y};
-        hit_result.distance = Math::Vector2::Distance(start, location);
-        hit_result.location = location;
+        Math::Vector2 position = {result.point.x, result.point.y};
+        hit_result.distance = Math::Vector2::Distance(start, position);
+        hit_result.position = position;
         hit_result.normal = {result.normal.x, result.normal.y};
         hit_result.trace_start = start;
         hit_result.trace_end = end;
@@ -51,8 +53,62 @@ bool Physics::RayCastMulti(std::vector<HitResult>& hit_results, const Math::Vect
     return true;
 }
 
-bool Physics::PerformRayCast(RayCastCallback& callback, const Math::Vector2& start, const Math::Vector2& end)
+bool Physics::OverlapBox(const Math::Vector2& center, const Math::Vector2& extent, Actor** actor, MathTypes::uint16 layer)
 {
-    World::Get()->physics_world_->RayCast(&callback, {start.x, start.y}, {end.x, end.y});
+    b2AABB aabb;
+    aabb.lowerBound = {center.x - extent.x, center.y - extent.y};
+    aabb.upperBound = {center.x + extent.x, center.y + extent.y};
+
+    BoxQueryCallback callback(false, layer);
+    World::Get()->physics_world_->QueryAABB(&callback, aabb);
+
+    if (callback.GetActors().empty()) return false;
+    *actor = callback.GetActors()[0];
+
+    return true;
+}
+
+bool Physics::OverlapBoxAll(const Math::Vector2& center, const Math::Vector2& extent, std::vector<Actor*>& actors, MathTypes::uint16 layer)
+{
+    b2AABB aabb;
+    aabb.lowerBound = {center.x - extent.x, center.y - extent.y};
+    aabb.upperBound = {center.x + extent.x, center.y + extent.y};
+
+    BoxQueryCallback callback(true, layer);
+    World::Get()->physics_world_->QueryAABB(&callback, aabb);
+
+    if (callback.GetActors().empty()) return false;
+    actors = callback.GetActors();
+
+    return true;
+}
+
+bool Physics::OverlapCircle(const Math::Vector2& center, float radius, Actor** actor, MathTypes::uint16 layer)
+{
+    b2AABB aabb;
+    aabb.lowerBound = {center.x - radius, center.y - radius};
+    aabb.upperBound = {center.x + radius, center.y + radius};
+    
+    CircleQueryCallback callback(false, {center.x, center.y}, radius, layer);
+    World::Get()->physics_world_->QueryAABB(&callback, aabb);
+
+    if (callback.GetActors().empty()) return false;
+    *actor = callback.GetActors()[0];
+
+    return true;
+}
+
+bool Physics::OverlapCircleAll(const Math::Vector2& center, float radius, std::vector<Actor*>& actors, MathTypes::uint16 layer)
+{
+    b2AABB aabb;
+    aabb.lowerBound = {center.x - radius, center.y - radius};
+    aabb.upperBound = {center.x + radius, center.y + radius};
+    
+    CircleQueryCallback callback(true, {center.x, center.y}, radius, layer);
+    World::Get()->physics_world_->QueryAABB(&callback, aabb);
+
+    if (callback.GetActors().empty()) return false;
+    actors = callback.GetActors();
+
     return true;
 }

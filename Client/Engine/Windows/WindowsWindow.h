@@ -14,9 +14,9 @@ public:
 
     static WCHAR window_class[];
 
-    static SHARED_PTR<WindowsWindow> Make();
+    static std::shared_ptr<WindowsWindow> Make();
 
-    void Init(WindowsApplication* const application, const SHARED_PTR<WindowDefinition>& kDefinition, HINSTANCE instance_handle, const SHARED_PTR<WindowsWindow>& kParentWindow);
+    void Init(WindowsApplication* const application, const std::shared_ptr<WindowDefinition>& kDefinition, HINSTANCE instance_handle, const std::shared_ptr<WindowsWindow>& kParentWindow);
     void SetWindowFocus();
 
     inline HWND GetHWnd() const { return hWnd_; }
@@ -26,6 +26,6 @@ private:
     WindowsApplication* application_;
     HWND hWnd_;
 
-    SHARED_PTR<WindowDefinition> definition_;
+    std::shared_ptr<WindowDefinition> definition_;
     
 };

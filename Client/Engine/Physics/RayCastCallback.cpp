@@ -13,8 +13,7 @@ RayCastCallback::RayCastCallback(bool is_single, MathTypes::uint16 layer) :
 float RayCastCallback::ReportFixture(b2Fixture* fixture, const b2Vec2& point, const b2Vec2& normal, float fraction)
 {
     Actor* actor = reinterpret_cast<Actor*>(fixture->GetBody()->GetUserData().pointer);
-    if (!actor) return 1.f;
-    if ((actor->GetLayer() & layer_) == 0) return 1.f;
+    if (!actor || (actor->GetLayer() & layer_) == 0) return true;
     
     RayCastResult result;
     result.fixture = fixture;

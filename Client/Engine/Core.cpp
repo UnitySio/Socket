@@ -2,27 +2,27 @@
 
 #include "GameEngine.h"
 #include "Input/Keyboard.h"
+#include "Input/Mouse.h"
 #include "Level/World.h"
-#include "Math/Color.h"
 #include "Math/Vector2.h"
 #include "Time/Time.h"
 #include "Windows/WindowDefinition.h"
 #include "Windows/WindowsWindow.h"
 #include "Windows/DX/Renderer.h"
-
-double Core::current_time_ = 0.;
-double Core::last_time_ = 0.;
-double Core::time_step_ = 1. / 60.;
-double Core::delta_time_ = 0.;
-
-MathTypes::uint32 Core::resize_width_ = 0;
-MathTypes::uint32 Core::resize_height_ = 0;
+#include "UI/Canvas.h"
 
 Core::Core() :
     current_application_(nullptr),
     game_window_(),
-    game_thread_handle_(nullptr),
-    is_game_running_(false)
+    game_engine_(nullptr),
+    is_running_(false),
+    main_thread_(),
+    mutex_(),
+    current_time_(0.),
+    last_time_(0.),
+    delta_time_(0.),
+    resize_width_(0),
+    resize_height_(0)
 {
 }
 
@@ -30,22 +30,22 @@ void Core::Init(const HINSTANCE instance_handle)
 {
     // 윈도우 애플리케이션을 생성하고 메시지 핸들러로 등록
     HICON icon_handle = LoadIcon(instance_handle, MAKEINTRESOURCE(IDI_ICON1));
-    current_application_ = MAKE_SHARED<WindowsApplication>(instance_handle, icon_handle);
+    current_application_ = std::make_shared<WindowsApplication>(instance_handle, icon_handle);
     current_application_->AddMessageHandler(*this);
 
     // DirectX 11 렌더러 초기화
     CHECK_IF(Renderer::Get()->Init(), L"Failed to initialize renderer.");
 
     // 게임 윈도우 정의 생성
-    SHARED_PTR<WindowDefinition> definition = MAKE_SHARED<WindowDefinition>();
+    std::shared_ptr<WindowDefinition> definition = std::make_shared<WindowDefinition>();
     definition->title = L"Fusion2D";
     definition->screen_x = 100;
     definition->screen_y = 100;
-    definition->width = 640;
-    definition->height = 480;
+    definition->width = 800;
+    definition->height = 600;
 
     // 게임 윈도우 생성
-    SHARED_PTR<WindowsWindow> new_window = current_application_->MakeWindow();
+    std::shared_ptr<WindowsWindow> new_window = current_application_->MakeWindow();
     current_application_->InitWindow(new_window, definition, nullptr);
 
     // 렌더러에 뷰포트 생성
@@ -56,13 +56,12 @@ void Core::Init(const HINSTANCE instance_handle)
     game_window_ = new_window;
 
     // 게임 엔진 생성
-    game_engine_ = MAKE_SHARED<GameEngine>();
+    game_engine_ = std::make_shared<GameEngine>();
     game_engine_->Init(new_window);
 
     current_time_ = Time::Init();
 
-    // 게임 스레드 생성
-    game_thread_handle_ = CreateThread(nullptr, 0, GameThread, this, 0, nullptr);
+    Start();
 }
 
 extern LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
@@ -71,22 +70,9 @@ bool Core::ProcessMessage(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam,
 {
     if (ImGui_ImplWin32_WndProcHandler(hWnd, message, wParam, lParam)) return true;
     if (Keyboard::Get()->ProcessMessage(message, wParam, lParam, handler_result)) return true;
-
-    if (message == WM_SETFOCUS)
-    {
-        if (const auto window = game_window_.lock())
-        {
-            time_step_ = 1. / 60.;
-        }
-    }
-
-    if (message == WM_KILLFOCUS)
-    {
-        if (const auto window = game_window_.lock())
-        {
-            time_step_ = 1. / 3.;
-        }
-    }
+    if (Mouse::Get()->ProcessMessage(message, wParam, lParam, handler_result)) return true;
+    
+    if (Canvas::Get()->ProcessMessage(hWnd, message, wParam, lParam, handler_result)) return true;
 
     if (message == WM_SIZE)
     {
@@ -96,20 +82,23 @@ bool Core::ProcessMessage(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam,
         resize_height_ = HIWORD(lParam);
     }
 
+    if (message == WM_KILLFOCUS)
+    {
+        Keyboard::Get()->Clear();
+    }
+
     if (message == WM_DESTROY)
     {
         if (const auto window = game_window_.lock())
         {
             if (window->GetHWnd() == hWnd)
             {
-                is_game_running_ = false;
-
-                // 게임 스레드가 종료될 때까지 대기
-                WaitForSingleObject(game_thread_handle_, INFINITE);
+                Stop();
                 game_engine_->OnQuit();
 
                 World::Get()->Release();
                 Renderer::Get()->Release();
+                Canvas::Get()->Release();
             }
         }
     }
@@ -117,32 +106,24 @@ bool Core::ProcessMessage(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam,
     return false;
 }
 
-DWORD Core::GameThread(LPVOID lpParam)
+void Core::MainThread()
 {
-    Core* core = static_cast<Core*>(lpParam);
-    if (!core) return 0;
-
-    GameEngine* game_engine = core->game_engine_.get();
-    core->is_game_running_ = true;
-
     while (true)
     {
+        {
+            std::lock_guard<std::mutex> lock(mutex_);
+            if (!is_running_) break;
+        }
+        
 #pragma region DeltaTime
         last_time_ = current_time_;
         current_time_ = Time::Seconds();
 
         double elapsed_time = current_time_ - last_time_;
-        double sleep_time = time_step_ - elapsed_time;
-        if (sleep_time > 0.f)
-        {
-            DWORD sleep_ms = static_cast<DWORD>(sleep_time * 1000.f);
-            Sleep(sleep_ms);
-        }
-
-        delta_time_ = elapsed_time + sleep_time;
+        delta_time_ = elapsed_time;
 #pragma endregion
-
-        if (const auto& window = core->game_window_.lock())
+        
+        if (const auto& window = game_window_.lock())
         {
             if (resize_width_ > 0 && resize_height_ > 0)
             {
@@ -152,11 +133,30 @@ DWORD Core::GameThread(LPVOID lpParam)
                 resize_height_ = 0;
             }
 
-            game_engine->GameLoop(delta_time_);
+            game_engine_->GameLoop(delta_time_);
         }
-
-        if (!core->is_game_running_) break;
     }
+}
 
-    return 0;
+void Core::Start()
+{
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        is_running_ = true;
+    }
+    
+    main_thread_ = std::thread(&Core::MainThread, this);
+}
+
+void Core::Stop()
+{
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        is_running_ = false;
+    }
+    
+    if (main_thread_.joinable())
+    {
+        main_thread_.join();
+    }
 }

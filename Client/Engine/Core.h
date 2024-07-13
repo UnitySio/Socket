@@ -15,23 +15,24 @@ public:
     virtual bool ProcessMessage(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam, MathTypes::uint32 handler_result) override;
 
 private:
-    static DWORD WINAPI GameThread(LPVOID lpParam);
+    void MainThread();
+    void Start();
+    void Stop();
     
-    SHARED_PTR<WindowsApplication> current_application_;
-    WEAK_PTR<WindowsWindow> game_window_;
+    std::shared_ptr<WindowsApplication> current_application_;
+    std::weak_ptr<WindowsWindow> game_window_;
 
-    SHARED_PTR<GameEngine> game_engine_;
-
-    HANDLE game_thread_handle_;
-
-    bool is_game_running_;
-
-    static double current_time_;
-    static double last_time_;
-    static double time_step_;
-    static double delta_time_;
+    std::shared_ptr<GameEngine> game_engine_;
     
-    static MathTypes::uint32 resize_width_;
-    static MathTypes::uint32 resize_height_;
+    std::atomic<bool> is_running_;
+    std::thread main_thread_;
+    std::mutex mutex_;
+
+    double current_time_;
+    double last_time_;
+    double delta_time_;
+    
+    MathTypes::uint32 resize_width_;
+    MathTypes::uint32 resize_height_;
     
 };

@@ -11,7 +11,7 @@ public:
 
     static T* Get()
     {
-        if (!instance_) instance_ = MAKE_UNIQUE<T>();
+        if (!instance_) instance_ = std::make_unique<T>();
         return instance_.get();
     }
 
@@ -25,9 +25,9 @@ protected:
     virtual ~Singleton() = default;
     
 private:
-    static UNIQUE_PTR<T> instance_;
+    static std::unique_ptr<T> instance_;
     
 };
 
 template <typename T>
-UNIQUE_PTR<T> Singleton<T>::instance_ = nullptr;
+std::unique_ptr<T> Singleton<T>::instance_ = nullptr;

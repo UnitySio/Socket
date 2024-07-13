@@ -3,7 +3,11 @@
 #include <algorithm>
 
 #include "EventManager.h"
+#include "GameInstance.h"
 #include "Level.h"
+#include "Actor/FollowCamera.h"
+#include "Actor/Component/CameraComponent.h"
+#include "imgui/imgui.h"
 #include "Map/MainMap.h"
 #include "Math/Color.h"
 #include "Math/Vector2.h"
@@ -11,24 +15,24 @@
 #include "Windows/DX/Renderer.h"
 #include "Windows/DX/Shape.h"
 #include "Windows/DX/ShapeBatch.h"
+#include "UI/Canvas.h"
 
 World::World() :
+    window_(nullptr),
     shape_batch_(nullptr),
     shapes_(),
     current_level_(nullptr),
-    levels_(),
-    fps_(0),
-    window_(nullptr)
+    levels_()
 {
-    shape_batch_ = MAKE_SHARED<ShapeBatch>();
+    shape_batch_ = std::make_shared<ShapeBatch>();
     shape_batch_->Init();
     
     b2Vec2 gravity(0.f, -9.81f);
-    physics_world_ = MAKE_UNIQUE<b2World>(gravity);
+    physics_world_ = std::make_unique<b2World>(gravity);
     physics_world_->SetContactListener(&contact_listener_);
     
     uint32 flags = 0;
-    flags += b2Draw::e_shapeBit;
+    // flags += b2Draw::e_shapeBit;
     // flags += b2Draw::e_jointBit;
     // flags += b2Draw::e_aabbBit;
     // flags += b2Draw::e_pairBit;
@@ -39,9 +43,9 @@ World::World() :
     
 }
 
-void World::Init(const SHARED_PTR<WindowsWindow>& window)
+void World::Init(const std::shared_ptr<WindowsWindow>& kWindow)
 {
-    window_ = window;
+    window_ = kWindow;
     
     AddLevel<MainMap>(LevelType::kDefault, L"Map 0");
     OpenLevel(LevelType::kDefault);
@@ -78,19 +82,13 @@ void World::Tick(float delta_time)
     {
         current_level_->Tick(delta_time);
     }
+}
 
-    static float timer = 0.f;
-    static int frame_count = 0;
-    
-    timer += delta_time;
-    ++frame_count;
-
-    if (timer >= 1.f)
+void World::PostTick(float delta_time)
+{
+    if (current_level_)
     {
-        fps_ = frame_count;
-
-        frame_count = 0;
-        timer = 0.f;
+        current_level_->PostTick(delta_time);
     }
 }
 
@@ -102,22 +100,33 @@ void World::Render(float alpha)
         physics_world_->DebugDraw();
     }
 
-    // 추후 개선 필요
-    std::ranges::sort(shapes_, Shape::CompareZOrder);
+    std::vector<std::shared_ptr<Shape>> shapes;
 
-    shape_batch_->DrawShapes(window_, shapes_);
+    if (const std::shared_ptr<Actor> actor = camera_.lock())
+    {
+        if (FollowCamera* camera = dynamic_cast<FollowCamera*>(actor.get()))
+        {
+            Bounds bounds = camera->GetCamera()->GetBounds();
+
+            for (const auto& shape : shapes_)
+            {
+                if (Bounds::Contains(bounds, shape->GetBounds()))
+                {
+                    shapes.push_back(shape);
+                }
+            }
+        }
+    }
+    
+    std::ranges::sort(shapes, Shape::CompareZOrder);
     shapes_.clear();
+    
+    shape_batch_->DrawShapes(window_, shapes);
 }
 
 void World::RenderUI()
 {
-    Viewport* viewport = Renderer::Get()->FindViewport(window_.get());
-    
-    const float kMS = 1000.f / fps_;
-    
-    wchar_t buffer[256];
-    swprintf_s(buffer, L"FPS: %d(%.fms)", fps_, kMS);
-    Renderer::Get()->DrawString(window_, buffer, {viewport->d3d_viewport.Width, 10.f}, {300.f, 100.f}, 24.f, {255, 255, 255, 255});
+    Canvas::Get()->Render();
 }
 
 void World::DestroyActor()
@@ -128,7 +137,7 @@ void World::DestroyActor()
     }
 }
 
-void World::AddShape(const SHARED_PTR<Shape>& shape)
+void World::AddShape(const std::shared_ptr<Shape>& kShape)
 {
-    shapes_.push_back(shape);
+    shapes_.push_back(kShape);
 }

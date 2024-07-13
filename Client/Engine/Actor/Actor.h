@@ -5,7 +5,12 @@
 
 #include "ProjectSettings.h"
 #include "Component/ActorComponent.h"
+#include "Misc/DelegateMacros.h"
 #include "Misc/EngineMacros.h"
+#include "Time/TimerManager.h"
+
+class Actor;
+DECLARE_DELEGATE(ContactSignature, Actor*);
 
 enum class EndPlayReason : size_t;
 class TransformComponent;
@@ -16,28 +21,13 @@ public:
     Actor(const std::wstring& kName);
     virtual ~Actor() = default;
 
-    virtual inline void PreInitializeComponents() {};
-    virtual inline void PostInitializeComponents() {};
-    
-    virtual void OnCollisionEnter(Actor* other);
-    virtual void OnCollisionStay(Actor* other);
-    virtual void OnCollisionExit(Actor* other);
-    virtual void OnTriggerEnter(Actor* other);
-    virtual void OnTriggerStay(Actor* other);
-    virtual void OnTriggerExit(Actor* other);
-    virtual void BeginPlay();
-    virtual void EndPlay(EndPlayReason type);
-    virtual void PhysicsTick(float delta_time);
-    virtual void Tick(float delta_time);
-    virtual void Render(float alpha);
-
     void AttachToActor(Actor* actor);
     void DetachFromActor();
     void Destroy();
     void Destroy(const Actor* kOther);
     void SpawnActor(const Actor* kActor);
     void SetActive(bool active);
-
+    void SetLifeSpan(float life_span);
     bool CompareTag(ActorTag tag) const;
 
     template <typename T>
@@ -49,7 +39,7 @@ public:
 
     // Reflection 구현 필요
 
-    inline SHARED_PTR<Actor> GetSharedPtr() { return shared_from_this(); }
+    inline std::shared_ptr<Actor> GetSharedPtr() { return shared_from_this(); }
     
     inline void SetTag(ActorTag tag) { tag_ = tag; }
     inline void SetLayer(ActorLayer layer) { layer_ = layer; }
@@ -68,21 +58,43 @@ public:
     inline TransformComponent* GetTransform() const { return transform_; }
 
     inline Actor* GetParent() const { return parent_; }
+    
+    
 
-private:
-    // 추후 정리 예정
-    friend class Level;
-    friend class EventManager;
-    friend class ColliderComponent;
-    friend class RigidBodyComponent;
-    friend class TransformComponent;
-    friend class Pawn;
-
+protected:
+    TimerHandle life_span_timer_;
     void InitializeActor();
     void InitializeComponents();
     void UninitializeComponents();
     void Destroyed();
     void CreateBody();
+    void OnLifeSpanExpired();
+
+    virtual inline void PreInitializeComponents() {};
+    virtual inline void PostInitializeComponents() {};
+    virtual void BeginPlay();
+    virtual void EndPlay(EndPlayReason type);
+
+
+    virtual void PhysicsTick(float delta_time);
+    virtual void Tick(float delta_time);
+    virtual void PostTick(float delta_time);
+    virtual void Render(float alpha);
+
+    virtual void OnCollisionEnter(Actor* other);
+    virtual void OnCollisionStay(Actor* other);
+    virtual void OnCollisionExit(Actor* other);
+    virtual void OnTriggerEnter(Actor* other);
+    virtual void OnTriggerStay(Actor* other);
+    virtual void OnTriggerExit(Actor* other);
+
+    ContactSignature on_collision_enter;
+    ContactSignature on_collision_stay;
+    ContactSignature on_collision_exit;
+
+    ContactSignature on_trigger_enter;
+    ContactSignature on_trigger_stay;
+    ContactSignature on_trigger_exit;
 
     std::wstring name_;
 
@@ -94,7 +106,7 @@ private:
     bool is_active_;
     bool is_destroy_;
 
-    std::vector<SHARED_PTR<ActorComponent>> components_;
+    std::vector<std::shared_ptr<ActorComponent>> components_;
 
     TransformComponent* transform_;
 
@@ -102,13 +114,24 @@ private:
     std::vector<Actor*> children_;
 
     class b2Joint* parent_joint_;
+private:
+    // 추후 정리 예정
+    friend class Level;
+    friend class EventManager;
+    friend class ColliderComponent;
+    friend class RigidBodyComponent;
+    friend class TransformComponent;
+    friend class PlayerController;
+    friend class ContactListener;
+
+    
     
 };
 
 template <typename T>
 T* Actor::CreateComponent(const std::wstring& kName)
 {
-    components_.push_back(MAKE_SHARED<T>(this, kName));
+    components_.push_back(std::make_shared<T>(this, kName));
     return static_cast<T*>(components_.back().get());
 }
 
@@ -125,3 +148,4 @@ T* Actor::GetComponent()
 
     return nullptr;
 }
+

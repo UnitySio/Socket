@@ -3,6 +3,7 @@
 #include <vector>
 
 #include "Vertex.h"
+#include "Math/Bounds.h"
 #include "Math/MathTypes.h"
 #include "Math/Vector2.h"
 #include "Misc/EngineMacros.h"
@@ -21,6 +22,8 @@ public:
     void SetScale(Math::Vector2 scale);
     void SetPivot(Math::Vector2 pivot);
     void SetRotation(float rotation);
+
+    Bounds GetBounds() const;
 
     inline void SetVertices(const std::vector<DefaultVertex>& kVertices) { vertices_ = kVertices; }
     inline void SetIndices(const std::vector<MathTypes::uint32>& kIndices) { indices_ = kIndices; }
@@ -45,13 +48,13 @@ public:
     
     inline float GetRotation() const { return rotation_; }
 
-    inline void SetTexture(const SHARED_PTR<Texture>& kTexture) { texture_ = kTexture; }
-    inline const SHARED_PTR<Texture>& GetTexture() const { return texture_; }
+    inline void SetTexture(const std::shared_ptr<Texture>& kTexture) { texture_ = kTexture; }
+    inline const std::shared_ptr<Texture>& GetTexture() const { return texture_; }
 
     inline void SetZOrder(int z_order) { z_order_ = z_order; }
     inline int GetZOrder() const { return z_order_; }
 
-    static bool CompareZOrder(const SHARED_PTR<Shape>& lhs, const SHARED_PTR<Shape>& rhs);
+    static bool CompareZOrder(const std::shared_ptr<Shape>& lhs, const std::shared_ptr<Shape>& rhs);
 
 protected:
     virtual void UpdateMatrixx();
@@ -71,7 +74,7 @@ protected:
     
     float rotation_;
 
-    SHARED_PTR<Texture> texture_;
+    std::shared_ptr<Texture> texture_;
 
     int z_order_;
     

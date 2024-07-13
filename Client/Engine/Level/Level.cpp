@@ -43,15 +43,6 @@ void Level::InitializeActors()
 
 void Level::PhysicsTick(float delta_time)
 {
-    // for (const auto& actor : actors_)
-    // {
-    //     if (!actor->is_active_ || actor->is_destroy_) continue;
-    //
-    //     b2Vec2 position = actor->body_->GetPosition();
-    //     actor->previous_location_ = {position.x, position.y};
-    //     actor->previous_angle_ = actor->body_->GetAngle();
-    // }
-
     for (const auto& actor : actors_)
     {
         if (!actor->is_active_ || actor->is_destroy_) continue;
@@ -65,6 +56,15 @@ void Level::Tick(float delta_time)
     {
         if (!actor->is_active_ || actor->is_destroy_) continue;
         actor->Tick(delta_time);
+    }
+}
+
+void Level::PostTick(float delta_time)
+{
+    for (const auto& actor : actors_)
+    {
+        if (!actor->is_active_ || actor->is_destroy_) continue;
+        actor->PostTick(delta_time);
     }
 }
 
@@ -93,7 +93,7 @@ void Level::DestroyActor()
     }
 }
 
-void Level::AddActor(const SHARED_PTR<Actor>& actor)
+void Level::AddActor(const std::shared_ptr<Actor>& actor)
 {
     actors_.push_back(actor);
 }

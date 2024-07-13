@@ -19,6 +19,8 @@ void CameraComponent::InitializeComponent()
 {
     ActorComponent::InitializeComponent();
 
+    World::Get()->SetCamera(GetOwner()->GetSharedPtr());
+
     UpdateProjectionMatrix();
 }
 
@@ -27,15 +29,16 @@ void CameraComponent::TickComponent(float delta_time)
     ActorComponent::TickComponent(delta_time);
 
     TransformComponent* transform = GetOwner()->GetTransform();
-    Math::Vector2 location = transform->GetWorldLocation();
+    Math::Vector2 position = transform->GetWorldPosition();
 
     if (Viewport* viewport = Renderer::Get()->FindViewport(World::Get()->GetWindow()))
     {
-        viewport->view_matrix = DirectX::XMMatrixTranslation(-location.x, -location.y, 0.f)
+        viewport->view_matrix = DirectX::XMMatrixTranslation(-position.x, -position.y, 0.f)
             * DirectX::XMMatrixRotationZ(-transform->GetWorldRotationZ());
     }
 
     UpdateProjectionMatrix();
+    UpdateAspect();
 }
 
 void CameraComponent::SetSize(float size)
@@ -58,11 +61,21 @@ void CameraComponent::SetFarZ(float far_z)
     UpdateProjectionMatrix();
 }
 
+Bounds CameraComponent::GetBounds() const
+{
+    Math::Vector2 position = GetOwner()->GetTransform()->GetWorldPosition();
+
+    const float height = size_ * 2.f;
+    const float width = height * aspect_;
+    
+    return {position, {width, height}};
+}
+
 void CameraComponent::UpdateAspect()
 {
     if (Viewport* viewport = Renderer::Get()->FindViewport(World::Get()->GetWindow()))
     {
-        aspect_ = size_ * viewport->d3d_viewport.Width / viewport->d3d_viewport.Height;
+        aspect_ = viewport->d3d_viewport.Width / viewport->d3d_viewport.Height;
     }
 }
 

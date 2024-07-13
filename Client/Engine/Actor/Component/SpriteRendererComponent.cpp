@@ -1,35 +1,60 @@
-//#include "Graphics/Graphics.h"
-//#include "Graphics/SpriteBatch.h"
-#include "SpriteRendererComponent.h"
-//#include "Graphics/Sprite.h"
+﻿#include "SpriteRendererComponent.h"
+
 #include "TransformComponent.h"
+#include "Actor/Actor.h"
+#include "Level/World.h"
+#include "Windows/DX/Shape.h"
+#include "Windows/DX/Sprite.h"
 
-SpriteRendererComponent::SpriteRendererComponent(Actor* owner, const std::wstring& kName)
-    :ActorComponent(owner, kName), sprite_(nullptr), flipX(false), flipY(false)
+SpriteRendererComponent::SpriteRendererComponent(Actor* owner, const std::wstring& kName) :
+    ActorComponent(owner, kName),
+    shape_(nullptr),
+    sprite_(nullptr),
+    frame_index_(0),
+    flip_x_(false),
+    flip_y_(false)
 {
-    SetRenderTarget();
 }
 
-void SpriteRendererComponent::SetRenderTarget()
+void SpriteRendererComponent::InitializeComponent()
 {
-    /*Graphics* gfx = Graphics::Get();
-    sprite_ = std::make_unique<Sprite>();
-    assert(sprite_->Load(gfx->GetD3DDevice(), L"spritesheet.png"));
+    ActorComponent::InitializeComponent();
+    if (!sprite_) return;
 
-    sprite_->Split(3, 15, { .5f, 0.f });*/
+    shape_ = std::make_shared<Shape>();
+    shape_->SetVertices(sprite_->GetVertices());
+    shape_->SetIndices(sprite_->GetIndices());
+    shape_->SetTexture(sprite_);
 }
 
-void SpriteRendererComponent::RenderSprite()
+void SpriteRendererComponent::Render(float alpha)
 {
-    /*Graphics* gfx = Graphics::Get();
-    SpriteBatch* batch = gfx->GetSpriteBatch();*/
+    ActorComponent::Render(alpha);
+    if (!sprite_) return;
 
-    Actor* owner = GetOwner();
-    TransformComponent* transform = owner->GetTransform();
+    const TransformComponent* transform = GetOwner()->GetTransform();
+    if (!transform) return;
 
-    const Math::Vector2 location = transform->GetRelativeLocation();
-    const float angle = transform->GetRelativeRotationZ();
+    const std::vector<SpriteFrame>& frames = sprite_->GetFrames();
+    if (frames.empty() || frame_index_ >= frames.size()) return;
 
-    Math::Vector2 dir = { flipX ? 1.f : -1.f,flipY ? -1.f : 1.f };
-    //batch->Draw(sprite_.get(), L"spritesheet_" + std::to_wstring(0), location, { dir.x * 1.f, dir.y * 1.f }, angle);
+    const SpriteFrame& current_frame = frames[frame_index_];
+
+    const float width = (sprite_->GetWidth() * current_frame.uv_scale.x / sprite_->GetPPU()) * transform->GetWorldScale().x;
+    const float height = (sprite_->GetHeight() * current_frame.uv_scale.y / sprite_->GetPPU()) * transform->GetWorldScale().y;
+
+    const float pivot_x = current_frame.pivot.x * width;
+    const float pivot_y = current_frame.pivot.y * height;
+
+    const int flip_x = flip_x_ ? -1 : 1;
+    const int flip_y = flip_y_ ? -1 : 1;
+
+    shape_->SetPosition(transform->GetWorldPosition());
+    shape_->SetRotation(transform->GetWorldRotationZ());
+    shape_->SetScale({width * flip_x, height * flip_y});
+    shape_->SetUVOffset(current_frame.uv_offset);
+    shape_->SetUVScale(current_frame.uv_scale);
+    shape_->SetPivot({pivot_x, pivot_y});
+
+    World::Get()->AddShape(shape_);
 }

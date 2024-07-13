@@ -52,6 +52,14 @@ public:
         }
     }
 
+    void Execute() const
+    {
+        for (const auto& temp : functions_)
+        {
+            temp();
+        }
+    }
+
     void RemoveAll()
     {
         functions_.clear();
@@ -76,6 +84,20 @@ public:
 
     template<typename M, typename std::enable_if<std::is_class<M>::value>::type* = nullptr>
     void Remove(Ret(M::* func)(Args...))
+    {
+        std::uintptr_t tt = reinterpret_cast<std::uintptr_t&>(func);
+        for (auto temp = functions_.begin(); temp != functions_.end(); ++temp)
+        {
+            if (temp->GetAddr() == tt)
+            {
+                functions_.erase(temp);
+                break;
+            }
+        }
+    }
+
+    template<typename M, typename std::enable_if<std::is_class<M>::value>::type* = nullptr>
+    void Remove(Ret(M::* func)(Args...) const)
     {
         std::uintptr_t tt = reinterpret_cast<std::uintptr_t&>(func);
         for (auto temp = functions_.begin(); temp != functions_.end(); ++temp)
@@ -120,6 +142,20 @@ public:
 
     template<typename M, typename std::enable_if<std::is_class<M>::value>::type* = nullptr>
     bool IsBound(Ret(M::* func)(Args...))
+    {
+        std::uintptr_t tt = reinterpret_cast<std::uintptr_t&>(func);
+        for (auto temp = functions_.begin(); temp != functions_.end(); ++temp)
+        {
+            if (temp->GetAddr() == tt)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    template<typename M, typename std::enable_if<std::is_class<M>::value>::type* = nullptr>
+    bool IsBound(Ret(M::* func)(Args...) const)
     {
         std::uintptr_t tt = reinterpret_cast<std::uintptr_t&>(func);
         for (auto temp = functions_.begin(); temp != functions_.end(); ++temp)
