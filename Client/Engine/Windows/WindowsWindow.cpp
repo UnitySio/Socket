@@ -1,4 +1,5 @@
-﻿#include "WindowsWindow.h"
+﻿#include "pch.h"
+#include "WindowsWindow.h"
 
 #include "WindowDefinition.h"
 #include "Math/MathTypes.h"

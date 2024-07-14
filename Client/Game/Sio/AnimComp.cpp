@@ -1,3 +1,4 @@
+#include "pch.h"
 #include "AnimComp.h"
 #include "Windows/DX/Sprite.h"
 #include "Actor/Component/Animator/AnimationClip.h"

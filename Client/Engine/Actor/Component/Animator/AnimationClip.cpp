@@ -1,4 +1,5 @@
-﻿#include "AnimationClip.h"
+﻿#include "pch.h"
+#include "AnimationClip.h"
 
 AnimationClip::AnimationClip() :
     events_(),

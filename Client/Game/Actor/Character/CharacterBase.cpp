@@ -1,4 +1,5 @@
-﻿#include "CharacterBase.h"
+﻿#include "pch.h"
+#include "CharacterBase.h"
 
 #include "Actor/Component/SpriteRendererComponent.h"
 #include "Actor/Component/Animator/AnimatorComponent.h"

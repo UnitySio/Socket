@@ -1,4 +1,5 @@
-﻿#include "AudioComponent.h"
+﻿#include "pch.h"
+#include "AudioComponent.h"
 
 #include "TransformComponent.h"
 #include "Math/Vector2.h"

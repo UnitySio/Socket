@@ -1,4 +1,5 @@
-﻿#include "WindowsApplication.h"
+﻿#include "pch.h"
+#include "WindowsApplication.h"
 
 #include "WindowsWindow.h"
 #include "combaseapi.h"

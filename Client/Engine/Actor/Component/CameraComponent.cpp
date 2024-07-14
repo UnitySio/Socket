@@ -1,4 +1,5 @@
-﻿#include "CameraComponent.h"
+﻿#include "pch.h"
+#include "CameraComponent.h"
 
 #include "TransformComponent.h"
 #include "Actor/Actor.h"

@@ -1,3 +1,4 @@
+#include "pch.h"
 #include "Sio.h"
 #include "PhysicsComp.h"
 #include "AnimComp.h"

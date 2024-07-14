@@ -1,4 +1,5 @@
-﻿#include "Sprite.h"
+﻿#include "pch.h"
+#include "Sprite.h"
 
 const Math::Vector2 Sprite::kCenter = Math::Vector2(.5f, .5f);
 const Math::Vector2 Sprite::kTopLeft = Math::Vector2(0.f, 1.f);

@@ -1,4 +1,5 @@
-﻿#include "TransformComponent.h"
+﻿#include "pch.h"
+#include "TransformComponent.h"
 
 #include "Actor/Actor.h"
 #include "box2d/b2_body.h"

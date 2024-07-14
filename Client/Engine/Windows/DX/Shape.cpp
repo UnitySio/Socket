@@ -1,4 +1,5 @@
-﻿#include "Shape.h"
+﻿#include "pch.h"
+#include "Shape.h"
 
 #include "Math/Math.h"
 

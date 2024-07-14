@@ -1,4 +1,5 @@
-﻿#include "QueryCallback.h"
+﻿#include "pch.h"
+#include "QueryCallback.h"
 
 #include "box2d/b2_fixture.h"
 

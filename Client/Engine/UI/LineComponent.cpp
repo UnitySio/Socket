@@ -1,3 +1,4 @@
+#include "pch.h"
 #include "LineComponent.h"
 #include "Windows/DX/Renderer.h"
 

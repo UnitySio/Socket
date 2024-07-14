@@ -1,4 +1,5 @@
-﻿#include "Math/Bounds.h"
+﻿#include "pch.h"
+#include "Math/Bounds.h"
 
 Bounds::Bounds(Math::Vector2 center, Math::Vector2 size) :
         center(center),

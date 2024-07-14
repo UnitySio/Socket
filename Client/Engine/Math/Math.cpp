@@ -1,4 +1,5 @@
-﻿#include "Math.h"
+﻿#include "pch.h"
+#include "Math.h"
 
 float Math::Sign(float a)
 {

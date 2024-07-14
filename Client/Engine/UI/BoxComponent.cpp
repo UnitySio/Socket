@@ -1,3 +1,4 @@
+#include "pch.h"
 #include "BoxComponent.h"
 #include "../Engine/Windows/DX/Renderer.h"
 

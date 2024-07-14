@@ -1,4 +1,5 @@
-﻿#include "Core.h"
+﻿#include "pch.h"
+#include "Core.h"
 
 #include "GameEngine.h"
 #include "Input/Keyboard.h"

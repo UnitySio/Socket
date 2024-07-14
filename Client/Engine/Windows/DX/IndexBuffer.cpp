@@ -1,4 +1,5 @@
-﻿#include "IndexBuffer.h"
+﻿#include "pch.h"
+#include "IndexBuffer.h"
 
 #include "Renderer.h"
 

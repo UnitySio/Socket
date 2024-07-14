@@ -1,4 +1,5 @@
-﻿#include "GameEngine.h"
+﻿#include "pch.h"
+#include "GameEngine.h"
 
 #include "EventManager.h"
 #include "ProjectSettings.h"

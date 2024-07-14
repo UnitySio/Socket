@@ -1,3 +1,4 @@
+#include "pch.h"
 #include "StringComponent.h"
 #include "Windows/DX/Renderer.h"
 
