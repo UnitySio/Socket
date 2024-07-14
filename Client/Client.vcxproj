@@ -184,6 +184,8 @@
     <ClInclude Include="Engine\Physics\Physics.h" />
     <ClInclude Include="Engine\Physics\RayCastCallback.h" />
     <ClInclude Include="Engine\Physics\RayCastResult.h" />
+    <ClInclude Include="Engine\Resource\Resource.h" />
+    <ClInclude Include="Engine\Resource\ResourceManager.h" />
     <ClInclude Include="Engine\Singleton.h" />
     <ClInclude Include="Engine\Time\Time.h" />
     <ClInclude Include="Engine\Time\TimerManager.h" />
@@ -366,6 +368,8 @@
     <ClCompile Include="Engine\Physics\CircleQueryCallback.cpp" />
     <ClCompile Include="Engine\Physics\Physics.cpp" />
     <ClCompile Include="Engine\Physics\RayCastCallback.cpp" />
+    <ClCompile Include="Engine\Resource\Resource.cpp" />
+    <ClCompile Include="Engine\Resource\ResourceManager.cpp" />
     <ClCompile Include="Engine\Time\Time.cpp" />
     <ClCompile Include="Engine\Time\TimerManager.cpp" />
     <ClCompile Include="Engine\UI\BitmapComponent.cpp" />
