@@ -8,6 +8,7 @@
 #include "Actor/Component/Animator/AnimationClip.h"
 #include "Actor/Component/Animator/AnimatorComponent.h"
 #include "Input/Keyboard.h"
+#include "Input/Mouse.h"
 #include "UI/Canvas.h"
 #include "UI/TextBlock.h"
 #include "Windows/DX/Sprite.h"
@@ -85,4 +86,15 @@ void PlayerController::Tick(float delta_time)
     TransformComponent* transform = GetTransform();
     Math::Vector2 world_position = Renderer::Get()->ConvertWorldToScreen(transform->GetWorldPosition());
     text_block_->SetPosition(world_position);
+
+    // Math::Vector2 mouse_position = Mouse::Get()->GetMousePosition();
+    // LOG(L"Mouse Position: %f, %f", mouse_position.x, mouse_position.y);
+
+    int scroll_x = Mouse::Get()->GetScrollX();
+    int scroll_y = Mouse::Get()->GetScrollY();
+
+    if (scroll_x != 0 || scroll_y != 0)
+    {
+        LOG(L"Scroll X: %d, Scroll Y: %d", scroll_x, scroll_y);
+    }
 }

@@ -7,6 +7,7 @@
 #include "imgui/imgui_impl_dx11.h"
 #include "imgui/imgui_impl_win32.h"
 #include "Input/Keyboard.h"
+#include "Input/Mouse.h"
 #include "Level/Level.h"
 #include "Level/World.h"
 #include "Logger/Logger.h"
@@ -64,6 +65,7 @@ void GameEngine::GameLoop(float delta_time)
 
 #pragma region Tick
     Keyboard::Get()->Begin();
+    Mouse::Get()->Begin();
     
     // 죽음의 나선형을 방지하기 위해 delta_time을 제한
     const float kLimitFrameTime = min(delta_time, .25f);
@@ -80,6 +82,7 @@ void GameEngine::GameLoop(float delta_time)
     World::Get()->Tick(delta_time);
     World::Get()->PostTick(delta_time);
 
+    Mouse::Get()->End();
     Keyboard::Get()->End();
 #pragma endregion
 

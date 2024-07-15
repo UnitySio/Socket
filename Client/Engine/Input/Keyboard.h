@@ -6,7 +6,7 @@
 #include "Singleton.h"
 #include "Math/MathTypes.h"
 
-enum class InputState
+enum class KeyboardEventType
 {
     kPressed,
     kReleased,
@@ -27,7 +27,7 @@ struct KeyState
 
 struct KeyEvent
 {
-    InputState state;
+    KeyboardEventType state;
     WORD key_code;
 };
 
@@ -52,7 +52,7 @@ private:
     bool OnKeyUp(WORD key_code, MathTypes::uint32 char_code);
     bool OnKeyChar(WCHAR character);
 
-    void OnInputKey(WORD key_code, InputState state);
+    void OnInputKey(WORD key_code, KeyboardEventType state);
     void Begin();
     void End();
     void Clear();

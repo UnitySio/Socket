@@ -19,17 +19,17 @@ void Keyboard::Begin()
 	
 	while (!key_events_.empty())
 	{
-		KeyEvent event = key_events_.front();
+		KeyEvent& event = key_events_.front();
 		key_events_.pop();
 
 		WORD key_code = event.key_code;
-		InputState state = event.state;
+		KeyboardEventType type = event.state;
 
 		auto it = key_states_.find(key_code);
 		if (it != key_states_.end())
 		{
 			KeyState& key_state = it->second;
-			key_state.is_down = state == InputState::kPressed || state == InputState::kRepeat;
+			key_state.is_down = type == KeyboardEventType::kPressed || type == KeyboardEventType::kRepeat;
 		}
 	}
 }
@@ -127,13 +127,13 @@ bool Keyboard::ProcessMessage(UINT message, WPARAM wParam, LPARAM lParam, MathTy
 
 bool Keyboard::OnKeyDown(WORD key_code, MathTypes::uint32 char_code, bool is_repeat)
 {
-	OnInputKey(key_code, is_repeat ? InputState::kRepeat : InputState::kPressed);
+	OnInputKey(key_code, is_repeat ? KeyboardEventType::kRepeat : KeyboardEventType::kPressed);
 	return true;
 }
 
 bool Keyboard::OnKeyUp(WORD key_code, MathTypes::uint32 char_code)
 {
-	OnInputKey(key_code, InputState::kReleased);
+	OnInputKey(key_code, KeyboardEventType::kReleased);
 	return true;
 }
 
@@ -142,7 +142,7 @@ bool Keyboard::OnKeyChar(WCHAR character)
 	return true;
 }
 
-void Keyboard::OnInputKey(WORD key_code, InputState state)
+void Keyboard::OnInputKey(WORD key_code, KeyboardEventType state)
 {
 	std::lock_guard<std::mutex> lock(mutex_);
 	
