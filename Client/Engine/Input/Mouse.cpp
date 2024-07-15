@@ -7,32 +7,32 @@
 
 Mouse::Mouse() :
     mouse_events_(),
-    scroll_x_(0),
-    scroll_y_(0),
+    wheel_axis_(0),
+    wheel_h_axis_(0),
     mouse_position_(Math::Vector2::Zero())
 {
 }
 
 bool Mouse::ProcessMessage(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam, MathTypes::uint32 handler_result)
 {
-    if (message == WM_MOUSEHWHEEL)
+    if (message == WM_MOUSEWHEEL)
     {
         const int z_delta = GET_WHEEL_DELTA_WPARAM(wParam);
 
         MouseEvent event;
-        event.type = MouseEventType::kHWeel;
+        event.type = MouseEventType::kWheel;
         event.wheel_delta = z_delta / WHEEL_DELTA;
         
         mouse_events_.push(event);
         return true;
     }
     
-    if (message == WM_MOUSEWHEEL)
+    if (message == WM_MOUSEHWHEEL)
     {
         const int z_delta = GET_WHEEL_DELTA_WPARAM(wParam);
 
         MouseEvent event;
-        event.type = MouseEventType::kVWheel;
+        event.type = MouseEventType::kHWeel;
         event.wheel_delta = z_delta / WHEEL_DELTA;
         
         mouse_events_.push(event);
@@ -68,15 +68,15 @@ void Mouse::Begin()
 
         switch (type)
         {
-        case MouseEventType::kHWeel:
+        case MouseEventType::kWheel:
             {
-                scroll_x_ = event.wheel_delta;
+                wheel_axis_ = event.wheel_delta;
             }
             break;
             
-        case MouseEventType::kVWheel:
+        case MouseEventType::kHWeel:
             {
-                scroll_y_ = event.wheel_delta;
+                wheel_h_axis_ = event.wheel_delta;
             }
             break;
             
@@ -91,8 +91,8 @@ void Mouse::Begin()
 
 void Mouse::End()
 {
-    scroll_x_ = 0;
-    scroll_y_ = 0;
+    wheel_axis_ = 0;
+    wheel_h_axis_ = 0;
 }
 
 void Mouse::Clear()
@@ -104,6 +104,6 @@ void Mouse::Clear()
         mouse_events_.pop();
     }
 
-    scroll_x_ = 0;
-    scroll_y_ = 0;
+    wheel_axis_ = 0;
+    wheel_h_axis_ = 0;
 }

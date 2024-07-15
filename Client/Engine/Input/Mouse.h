@@ -8,8 +8,8 @@
 
 enum class MouseEventType
 {
+    kWheel,
     kHWeel,
-    kVWheel,
     kMove
 };
 
@@ -47,8 +47,8 @@ public:
     Mouse();
     virtual ~Mouse() override = default;
 
-    inline int GetScrollX() const { return scroll_x_; }
-    inline int GetScrollY() const { return scroll_y_; }
+    inline int GetWheelAxis() const { return wheel_axis_; }
+    inline int GetWheelHAxis() const { return wheel_h_axis_; }
     
     inline Math::Vector2 GetMousePosition() const { return mouse_position_; }
 
@@ -64,8 +64,8 @@ private:
 
     std::queue<MouseEvent> mouse_events_;
 
-    int scroll_x_;
-    int scroll_y_;
+    int wheel_axis_;
+    int wheel_h_axis_;
     
     Math::Vector2 mouse_position_;
 
