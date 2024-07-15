@@ -7,6 +7,10 @@
 
 Keyboard::Keyboard() : key_states_(), key_events_()
 {
+	RegisterKey(VK_LEFT);
+	RegisterKey(VK_RIGHT);
+	RegisterKey('Z');
+	RegisterKey('C');
 }
 
 void Keyboard::Begin()
