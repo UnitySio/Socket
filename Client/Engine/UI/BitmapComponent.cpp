@@ -1,3 +1,4 @@
+#include "pch.h"
 #include "BitmapComponent.h"
 #include "Windows/DX/Renderer.h"
 #include <d2d1.h>

@@ -1,4 +1,5 @@
-﻿#include "Box.h"
+﻿#include "pch.h"
+#include "Box.h"
 
 #include "Actor/Component/SpriteRendererComponent.h"
 #include "Actor/Component/BoxColliderComponent.h"

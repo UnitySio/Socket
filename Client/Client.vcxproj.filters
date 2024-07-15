@@ -102,9 +102,6 @@
     <ClCompile Include="Engine\Windows\DX\IndexBuffer.cpp">
       <Filter>Other</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Actor\Component\InputComponent.cpp">
-      <Filter>Other</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\Input\Keyboard.cpp">
       <Filter>Other</Filter>
     </ClCompile>
@@ -265,6 +262,8 @@
     <ClCompile Include="Game\Structure\Player.cpp">
       <Filter>Structure\Interactable</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Input\Mouse.cpp" />
+    <ClCompile Include="pch.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Actor\Actor.h">
@@ -567,9 +566,6 @@
     <ClInclude Include="Engine\Windows\DX\IndexBuffer.h">
       <Filter>Other</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Actor\Component\InputComponent.h">
-      <Filter>Other</Filter>
-    </ClInclude>
     <ClInclude Include="Include\DirectXTK\Keyboard.h">
       <Filter>Other</Filter>
     </ClInclude>
@@ -826,6 +822,8 @@
     <ClInclude Include="Game\Structure\Player.h">
       <Filter>Structure\Interactable</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\Input\Mouse.h" />
+    <ClInclude Include="pch.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="TileMap">

@@ -1,4 +1,5 @@
-﻿#include "RigidBodyComponent.h"
+﻿#include "pch.h"
+#include "RigidBodyComponent.h"
 
 #include "TransformComponent.h"
 #include "Actor/Actor.h"

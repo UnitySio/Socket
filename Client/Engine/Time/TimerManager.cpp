@@ -1,4 +1,5 @@
-﻿#include "TimerManager.h"
+﻿#include "pch.h"
+#include "TimerManager.h"
 
 #include "Math/MathTypes.h"
 

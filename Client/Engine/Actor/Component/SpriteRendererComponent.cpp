@@ -1,4 +1,5 @@
-﻿#include "SpriteRendererComponent.h"
+﻿#include "pch.h"
+#include "SpriteRendererComponent.h"
 
 #include "TransformComponent.h"
 #include "Actor/Actor.h"

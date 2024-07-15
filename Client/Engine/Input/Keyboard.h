@@ -6,11 +6,10 @@
 #include "Singleton.h"
 #include "Math/MathTypes.h"
 
-enum class InputState
+enum class KeyboardEventType
 {
     kPressed,
-    kReleased,
-    kRepeat
+    kReleased
 };
 
 struct KeyState
@@ -27,7 +26,7 @@ struct KeyState
 
 struct KeyEvent
 {
-    InputState state;
+    KeyboardEventType state;
     WORD key_code;
 };
 
@@ -37,9 +36,7 @@ public:
     Keyboard();
     virtual ~Keyboard() override = default;
 
-    void Begin();
-    void End();
-    void Clear();
+    void RegisterKey(WORD key_code);
 
     bool IsKeyDown(WORD key_code) const;
     bool IsKeyPressed(WORD key_code) const;
@@ -47,13 +44,17 @@ public:
 
 private:
     friend class Core;
+    friend class GameEngine;
     
     bool ProcessMessage(UINT message, WPARAM wParam, LPARAM lParam, MathTypes::uint32 handler_result);
-    bool OnKeyDown(WORD key_code, MathTypes::uint32 char_code, bool is_repeat);
+    bool OnKeyDown(WORD key_code, MathTypes::uint32 char_code);
     bool OnKeyUp(WORD key_code, MathTypes::uint32 char_code);
     bool OnKeyChar(WCHAR character);
 
-    void OnInputKey(WORD key_code, InputState state);
+    void OnInputKey(WORD key_code, KeyboardEventType state);
+    void Begin();
+    void End();
+    void Clear();
 
     std::map<WORD, KeyState> key_states_;
 

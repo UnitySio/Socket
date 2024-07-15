@@ -1,4 +1,5 @@
-﻿#include "Color.h"
+﻿#include "pch.h"
+#include "Color.h"
 
 const Math::Color Math::Color::Red = Math::Color(255, 0, 0, 255);
 const Math::Color Math::Color::Green = Math::Color(0, 255, 0, 255);

@@ -1,4 +1,5 @@
-﻿#include "Math/Vector2.h"
+﻿#include "pch.h"
+#include "Math/Vector2.h"
 
 #include <cmath>
 #include <limits>

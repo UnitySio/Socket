@@ -1,4 +1,5 @@
-﻿#define _CRTDBG_MAP_ALLOC
+﻿#include "pch.h"
+#define _CRTDBG_MAP_ALLOC
 
 #include "Client.h"
 #include "Misc/EngineMacros.h"

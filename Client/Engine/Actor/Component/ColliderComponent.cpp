@@ -1,4 +1,5 @@
-﻿#include "ColliderComponent.h"
+﻿#include "pch.h"
+#include "ColliderComponent.h"
 
 #include "ProjectSettings.h"
 #include "TransformComponent.h"

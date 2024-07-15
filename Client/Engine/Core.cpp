@@ -1,4 +1,5 @@
-﻿#include "Core.h"
+﻿#include "pch.h"
+#include "Core.h"
 
 #include "GameEngine.h"
 #include "Input/Keyboard.h"
@@ -69,8 +70,9 @@ extern LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam
 bool Core::ProcessMessage(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam, MathTypes::uint32 handler_result)
 {
     if (ImGui_ImplWin32_WndProcHandler(hWnd, message, wParam, lParam)) return true;
+    
     if (Keyboard::Get()->ProcessMessage(message, wParam, lParam, handler_result)) return true;
-    if (Mouse::Get()->ProcessMessage(message, wParam, lParam, handler_result)) return true;
+    if (Mouse::Get()->ProcessMessage(hWnd, message, wParam, lParam, handler_result)) return true;
     
     if (Canvas::Get()->ProcessMessage(hWnd, message, wParam, lParam, handler_result)) return true;
 
@@ -85,6 +87,7 @@ bool Core::ProcessMessage(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam,
     if (message == WM_KILLFOCUS)
     {
         Keyboard::Get()->Clear();
+        Mouse::Get()->Clear();
     }
 
     if (message == WM_DESTROY)

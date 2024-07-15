@@ -1,3 +1,4 @@
+#include "pch.h"
 #include "ProgressBar.h"
 #include "BoxComponent.h"
 #include <Windows.h>

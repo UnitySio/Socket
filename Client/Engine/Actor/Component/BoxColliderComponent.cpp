@@ -1,4 +1,5 @@
-﻿#include "BoxColliderComponent.h"
+﻿#include "pch.h"
+#include "BoxColliderComponent.h"
 
 #include "box2d/b2_polygon_shape.h"
 

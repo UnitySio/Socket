@@ -1,4 +1,5 @@
-﻿#include "FollowCamera.h"
+﻿#include "pch.h"
+#include "FollowCamera.h"
 
 #include "Actor/Component/BoxColliderComponent.h"
 #include "Actor/Component/CameraComponent.h"

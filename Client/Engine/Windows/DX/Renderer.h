@@ -84,10 +84,6 @@ public:
     Math::Vector2 ConvertScreenToWorld(const Math::Vector2& kScreenPosition) const;
     Math::Vector2 ConvertWorldToScreen(const Math::Vector2& kWorldPosition) const;
 
-
-    
-
-
     inline ID3D11Device* GetDevice() const { return d3d_device_.Get(); }
     inline ID3D11DeviceContext* GetDeviceContext() const { return d3d_device_context_.Get(); }
     inline Microsoft::WRL::ComPtr<IWICImagingFactory> GetImageFactory() const { return wic_imaging_factory_; }

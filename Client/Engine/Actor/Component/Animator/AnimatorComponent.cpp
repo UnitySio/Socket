@@ -1,4 +1,5 @@
-﻿#include "AnimatorComponent.h"
+﻿#include "pch.h"
+#include "AnimatorComponent.h"
 
 #include <ranges>
 

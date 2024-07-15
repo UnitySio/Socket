@@ -1,4 +1,5 @@
-﻿#include "PlayerController.h"
+﻿#include "pch.h"
+#include "PlayerController.h"
 
 #include "Actor/Box.h"
 #include "Actor/Component/RigidBodyComponent.h"
@@ -7,6 +8,7 @@
 #include "Actor/Component/Animator/AnimationClip.h"
 #include "Actor/Component/Animator/AnimatorComponent.h"
 #include "Input/Keyboard.h"
+#include "Input/Mouse.h"
 #include "UI/Canvas.h"
 #include "UI/TextBlock.h"
 #include "Windows/DX/Sprite.h"
@@ -84,4 +86,20 @@ void PlayerController::Tick(float delta_time)
     TransformComponent* transform = GetTransform();
     Math::Vector2 world_position = Renderer::Get()->ConvertWorldToScreen(transform->GetWorldPosition());
     text_block_->SetPosition(world_position);
+
+    Mouse* mouse = Mouse::Get();
+    if (mouse->IsButtonDown(MouseButton::kLeft))
+    {
+        LOG(L"Left Button Down");
+    }
+    
+    if (mouse->IsButtonPressed(MouseButton::kLeft))
+    {
+        LOG(L"Left Button Pressed");
+    }
+
+    if (mouse->IsButtonReleased(MouseButton::kLeft))
+    {
+        LOG(L"Left Button Released");
+    }
 }

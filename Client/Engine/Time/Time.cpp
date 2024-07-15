@@ -1,4 +1,5 @@
-﻿#include "Time.h"
+﻿#include "pch.h"
+#include "Time.h"
 
 double Time::second_per_count_ = 0.f;
 

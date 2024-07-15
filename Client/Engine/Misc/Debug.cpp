@@ -1,4 +1,5 @@
-﻿#include "Debug.h"
+﻿#include "pch.h"
+#include "Debug.h"
 
 #include "EngineMacros.h"
 #include "Level/World.h"
