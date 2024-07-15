@@ -7,10 +7,6 @@
 
 Keyboard::Keyboard() : key_states_(), key_events_()
 {
-	key_states_[VK_RIGHT] = KeyState();
-	key_states_[VK_LEFT] = KeyState();
-	key_states_['C'] = KeyState();
-	key_states_['Z'] = KeyState();
 }
 
 void Keyboard::Begin()
@@ -25,16 +21,19 @@ void Keyboard::Begin()
 		WORD key_code = event.key_code;
 		InputState state = event.state;
 
-		KeyState& key_state = key_states_[key_code];
-		key_state.is_down = state == InputState::kPressed || state == InputState::kRepeat;
+		auto it = key_states_.find(key_code);
+		if (it != key_states_.end())
+		{
+			KeyState& key_state = it->second;
+			key_state.is_down = state == InputState::kPressed || state == InputState::kRepeat;
+		}
 	}
 }
 
 void Keyboard::End()
 {
-	for (auto it = key_states_.begin(); it != key_states_.end(); ++it)
+	for (auto& key_state : key_states_ | std::views::values)
 	{
-		KeyState& key_state = it->second;
 		key_state.was_down = key_state.is_down;
 	}
 }
@@ -48,28 +47,53 @@ void Keyboard::Clear()
 		key_events_.pop();
 	}
 
-	for (auto it = key_states_.begin(); it != key_states_.end(); ++it)
+	for (auto& key_state : key_states_ | std::views::values)
 	{
-		KeyState& key_state = it->second;
 		key_state.is_down = false;
 		key_state.was_down = false;
 	}
 }
 
+void Keyboard::RegisterKey(WORD key_code)
+{
+	std::lock_guard<std::mutex> lock(mutex_);
+	
+	key_states_[key_code] = KeyState();
+}
+
 bool Keyboard::IsKeyDown(WORD key_code) const
 {
-	return key_states_.at(key_code).is_down && key_states_.at(key_code).was_down;
+	auto it = key_states_.find(key_code);
+	if (it != key_states_.end())
+	{
+		return it->second.is_down && it->second.was_down;
+	}
+	
+	return false;
 }
 
 bool Keyboard::IsKeyPressed(WORD key_code) const
 {
-	return key_states_.at(key_code).is_down && !key_states_.at(key_code).was_down;
+	auto it = key_states_.find(key_code);
+	if (it != key_states_.end())
+	{
+		return it->second.is_down && !it->second.was_down;
+	}
+	
+	return false;
 }
 
 bool Keyboard::IsKeyReleased(WORD key_code) const
 {
-	return !key_states_.at(key_code).is_down && key_states_.at(key_code).was_down;
+	auto it = key_states_.find(key_code);
+	if (it != key_states_.end())
+	{
+		return !it->second.is_down && it->second.was_down;
+	}
+	
+	return false;
 }
+
 
 bool Keyboard::ProcessMessage(UINT message, WPARAM wParam, LPARAM lParam, MathTypes::uint32 handler_result)
 {

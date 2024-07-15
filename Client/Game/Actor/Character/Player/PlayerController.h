@@ -7,6 +7,7 @@ public:
     PlayerController(const std::wstring& kName);
     virtual ~PlayerController() override = default;
 
+    virtual void PostInitializeComponents() override;
     virtual void BeginPlay() override;
     virtual void PhysicsTick(float delta_time) override;
     virtual void Tick(float delta_time) override;

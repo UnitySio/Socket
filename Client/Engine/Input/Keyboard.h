@@ -37,9 +37,7 @@ public:
     Keyboard();
     virtual ~Keyboard() override = default;
 
-    void Begin();
-    void End();
-    void Clear();
+    void RegisterKey(WORD key_code);
 
     bool IsKeyDown(WORD key_code) const;
     bool IsKeyPressed(WORD key_code) const;
@@ -47,6 +45,7 @@ public:
 
 private:
     friend class Core;
+    friend class GameEngine;
     
     bool ProcessMessage(UINT message, WPARAM wParam, LPARAM lParam, MathTypes::uint32 handler_result);
     bool OnKeyDown(WORD key_code, MathTypes::uint32 char_code, bool is_repeat);
@@ -54,6 +53,9 @@ private:
     bool OnKeyChar(WCHAR character);
 
     void OnInputKey(WORD key_code, InputState state);
+    void Begin();
+    void End();
+    void Clear();
 
     std::map<WORD, KeyState> key_states_;
 

@@ -38,6 +38,17 @@ void PlayerController::Test()
     log.AddLog(L"a");
 }
 
+void PlayerController::PostInitializeComponents()
+{
+    CharacterBase::PostInitializeComponents();
+    
+    Keyboard* keyboard = Keyboard::Get();
+    keyboard->RegisterKey(VK_LEFT);
+    keyboard->RegisterKey(VK_RIGHT);
+    keyboard->RegisterKey('Z');
+    keyboard->RegisterKey('C');
+}
+
 void PlayerController::BeginPlay()
 {
     CharacterBase::BeginPlay();
