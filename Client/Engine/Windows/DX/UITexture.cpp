@@ -1,0 +1,40 @@
+﻿#include "pch.h"
+#include "UITexture.h"
+
+#include "Renderer.h"
+
+UITexture::UITexture() :
+    bitmap_(nullptr),
+    width_(0),
+    height_(0)
+{
+}
+
+bool UITexture::Load(WindowsWindow* window, const std::wstring& kFileName)
+{
+    D2DViewport* d2d_viewport = Renderer::Get()->FindD2DViewport(window);
+    if (!d2d_viewport) return false;
+    
+    Microsoft::WRL::ComPtr<IWICImagingFactory> factory_ = Renderer::Get()->GetImageFactory();
+
+    Microsoft::WRL::ComPtr<IWICBitmapDecoder> decoder;
+    HRESULT hr = factory_->CreateDecoderFromFilename(kFileName.c_str(), nullptr, GENERIC_READ, WICDecodeMetadataCacheOnLoad, decoder.GetAddressOf());
+    if (FAILED(hr)) return false;
+
+    Microsoft::WRL::ComPtr<IWICBitmapFrameDecode> frame;
+    hr = decoder->GetFrame(0, frame.GetAddressOf());
+    if (FAILED(hr)) return false;
+
+    hr = frame->GetSize(&width_, &height_);
+    if (FAILED(hr)) return false;
+
+    Microsoft::WRL::ComPtr<IWICFormatConverter> format_converter;
+    hr = factory_->CreateFormatConverter(format_converter.GetAddressOf());
+    if (FAILED(hr)) return false;
+
+    hr = format_converter->Initialize(frame.Get(), GUID_WICPixelFormat32bppPBGRA, WICBitmapDitherTypeNone, nullptr, 0.f, WICBitmapPaletteTypeMedianCut);
+    if (FAILED(hr)) return false;
+
+    hr = d2d_viewport->d2d_render_target->CreateBitmapFromWicBitmap(format_converter.Get(), bitmap_.GetAddressOf());
+    return SUCCEEDED(hr);
+}
