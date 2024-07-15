@@ -29,7 +29,7 @@ void Keyboard::Begin()
 		if (it != key_states_.end())
 		{
 			KeyState& key_state = it->second;
-			key_state.is_down = type == KeyboardEventType::kPressed || type == KeyboardEventType::kRepeat;
+			key_state.is_down = type == KeyboardEventType::kPressed;
 		}
 	}
 }
@@ -98,7 +98,6 @@ bool Keyboard::IsKeyReleased(WORD key_code) const
 	return false;
 }
 
-
 bool Keyboard::ProcessMessage(UINT message, WPARAM wParam, LPARAM lParam, MathTypes::uint32 handler_result)
 {
 	if (message == WM_KEYDOWN || message == WM_SYSKEYDOWN ||
@@ -127,7 +126,7 @@ bool Keyboard::ProcessMessage(UINT message, WPARAM wParam, LPARAM lParam, MathTy
 
 bool Keyboard::OnKeyDown(WORD key_code, MathTypes::uint32 char_code, bool is_repeat)
 {
-	OnInputKey(key_code, is_repeat ? KeyboardEventType::kRepeat : KeyboardEventType::kPressed);
+	OnInputKey(key_code, KeyboardEventType::kPressed);
 	return true;
 }
 

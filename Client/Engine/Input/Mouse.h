@@ -8,9 +8,19 @@
 
 enum class MouseEventType
 {
+    kPressed,
+    kReleased,
     kWheel,
     kHWeel,
     kMove
+};
+
+enum class MouseButton
+{
+    kLeft,
+    kRight,
+    kMiddle,
+    kNone
 };
 
 struct MouseState
@@ -61,6 +71,8 @@ private:
     void Begin();
     void End();
     void Clear();
+
+    MouseState mouse_states_[static_cast<int>(MouseButton::kNone)];
 
     std::queue<MouseEvent> mouse_events_;
 
