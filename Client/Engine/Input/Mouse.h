@@ -35,16 +35,18 @@ struct MouseState
     }
 };
 
-struct MouseEvent
+struct ButtonEvent
 {
     MouseEventType type;
+    MouseButton button;
 
     int wheel_delta;
     
     Math::Vector2 mouse_position;
 
-    MouseEvent() :
+    ButtonEvent() :
         type(MouseEventType::kMove),
+        button(MouseButton::kNone),
         wheel_delta(0),
         mouse_position(Math::Vector2::Zero())
     {
@@ -56,6 +58,10 @@ class Mouse : public Singleton<Mouse>
 public:
     Mouse();
     virtual ~Mouse() override = default;
+
+    bool IsButtonDown(MouseButton button) const;
+    bool IsButtonPressed(MouseButton button) const;
+    bool IsButtonReleased(MouseButton button) const;
 
     inline int GetWheelAxis() const { return wheel_axis_; }
     inline int GetWheelHAxis() const { return wheel_h_axis_; }
@@ -74,7 +80,7 @@ private:
 
     MouseState mouse_states_[static_cast<int>(MouseButton::kNone)];
 
-    std::queue<MouseEvent> mouse_events_;
+    std::queue<ButtonEvent> mouse_events_;
 
     int wheel_axis_;
     int wheel_h_axis_;

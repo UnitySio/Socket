@@ -14,6 +14,24 @@ Mouse::Mouse() :
 {
 }
 
+bool Mouse::IsButtonDown(MouseButton button) const
+{
+    MouseState state = mouse_states_[static_cast<int>(button)];
+    return state.is_down && state.was_down;
+}
+
+bool Mouse::IsButtonPressed(MouseButton button) const
+{
+    MouseState state = mouse_states_[static_cast<int>(button)];
+    return state.is_down && !state.was_down;
+}
+
+bool Mouse::IsButtonReleased(MouseButton button) const
+{
+    MouseState state = mouse_states_[static_cast<int>(button)];
+    return !state.is_down && state.was_down;
+}
+
 bool Mouse::ProcessMessage(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam, MathTypes::uint32 handler_result)
 {
     if (message == WM_LBUTTONDOWN ||
@@ -68,6 +86,11 @@ bool Mouse::ProcessMessage(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam
             break;
         }
 
+        ButtonEvent event;
+        event.type = is_released ? MouseEventType::kReleased : MouseEventType::kPressed;
+        event.button = mouse_button;
+
+        mouse_events_.push(event);
         return true;
     }
 
@@ -75,7 +98,7 @@ bool Mouse::ProcessMessage(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam
     {
         const int z_delta = GET_WHEEL_DELTA_WPARAM(wParam);
 
-        MouseEvent event;
+        ButtonEvent event;
         event.type = MouseEventType::kWheel;
         event.wheel_delta = z_delta / WHEEL_DELTA;
 
@@ -87,7 +110,7 @@ bool Mouse::ProcessMessage(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam
     {
         const int z_delta = GET_WHEEL_DELTA_WPARAM(wParam);
 
-        MouseEvent event;
+        ButtonEvent event;
         event.type = MouseEventType::kHWeel;
         event.wheel_delta = z_delta / WHEEL_DELTA;
 
@@ -100,7 +123,7 @@ bool Mouse::ProcessMessage(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam
         const int x = GET_X_LPARAM(lParam);
         const int y = GET_Y_LPARAM(lParam);
 
-        MouseEvent event;
+        ButtonEvent event;
         event.type = MouseEventType::kMove;
         event.mouse_position = Math::Vector2(static_cast<float>(x), static_cast<float>(y));
 
@@ -117,13 +140,25 @@ void Mouse::Begin()
 
     while (!mouse_events_.empty())
     {
-        MouseEvent& event = mouse_events_.front();
+        ButtonEvent& event = mouse_events_.front();
         mouse_events_.pop();
 
         MouseEventType type = event.type;
 
         switch (type)
         {
+        case MouseEventType::kPressed:
+            {
+                mouse_states_[static_cast<int>(event.button)].is_down = true;
+            }
+            break;
+
+        case MouseEventType::kReleased:
+            {
+                mouse_states_[static_cast<int>(event.button)].is_down = false;
+            }
+            break;
+
         case MouseEventType::kWheel:
             {
                 wheel_axis_ = event.wheel_delta;
@@ -151,7 +186,7 @@ void Mouse::End()
     {
         mouse_state.was_down = mouse_state.is_down;
     }
-    
+
     wheel_axis_ = 0;
     wheel_h_axis_ = 0;
 }

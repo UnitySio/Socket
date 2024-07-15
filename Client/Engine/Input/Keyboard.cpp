@@ -109,9 +109,8 @@ bool Keyboard::ProcessMessage(UINT message, WPARAM wParam, LPARAM lParam, MathTy
 		MathTypes::uint32 char_code =  MapVirtualKey(key_code, MAPVK_VK_TO_CHAR);
 
 		bool is_released = (key_flags & KF_UP) == KF_UP;
-		bool is_repeat = (key_flags & KF_REPEAT) == KF_REPEAT;
         
-		if (!is_released) return OnKeyDown(key_code, char_code, is_repeat);
+		if (!is_released) return OnKeyDown(key_code, char_code);
 		return OnKeyUp(key_code, char_code);
 	}
 
@@ -124,7 +123,7 @@ bool Keyboard::ProcessMessage(UINT message, WPARAM wParam, LPARAM lParam, MathTy
 	return false;
 }
 
-bool Keyboard::OnKeyDown(WORD key_code, MathTypes::uint32 char_code, bool is_repeat)
+bool Keyboard::OnKeyDown(WORD key_code, MathTypes::uint32 char_code)
 {
 	OnInputKey(key_code, KeyboardEventType::kPressed);
 	return true;
