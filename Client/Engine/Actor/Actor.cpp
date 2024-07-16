@@ -99,6 +99,10 @@ void Actor::EndPlay(EndPlayReason type)
 
 void Actor::PhysicsTick(float delta_time)
 {
+    for (const auto& component : components_)
+    {
+        component->PhysicsTickComponent(delta_time);
+    }
 }
 
 void Actor::Tick(float delta_time)

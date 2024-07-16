@@ -16,8 +16,9 @@ protected:
     virtual inline void UninitializeComponent() {};
     virtual inline void BeginPlay() {};
     virtual inline void EndPlay(EndPlayReason type) {};
-    virtual inline void PostTickComponent(float delta_time) {};
+    virtual inline void PhysicsTickComponent(float delta_time) {};
     virtual inline void TickComponent(float delta_time) {};
+    virtual inline void PostTickComponent(float delta_time) {};
     virtual inline void Render(float alpha) {};
     
     Actor* owner_;
