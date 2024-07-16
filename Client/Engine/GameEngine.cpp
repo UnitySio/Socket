@@ -2,6 +2,7 @@
 #include "GameEngine.h"
 
 #include "EventManager.h"
+#include "Audio/AudioManager.h"
 #include "imgui/imgui.h"
 #include "imgui/imgui_impl_dx11.h"
 #include "imgui/imgui_impl_win32.h"
@@ -30,6 +31,8 @@ GameEngine::~GameEngine()
 
 void GameEngine::Init(const std::shared_ptr<WindowsWindow>& window)
 {
+    CHECK(AudioManager::Get()->Init());
+    
     game_window_ = window;
     World::Get()->Init(game_window_);
 
@@ -63,6 +66,8 @@ void GameEngine::GameLoop(float delta_time)
     ImGui::NewFrame();
 
 #pragma region Tick
+    AudioManager::Get()->Tick();
+    
     Keyboard::Get()->Begin();
     Mouse::Get()->Begin();
     

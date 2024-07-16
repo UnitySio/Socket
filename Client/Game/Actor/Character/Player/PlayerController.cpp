@@ -7,6 +7,7 @@
 #include "Actor/Component/TransformComponent.h"
 #include "Actor/Component/Animator/AnimationClip.h"
 #include "Actor/Component/Animator/AnimatorComponent.h"
+#include "Audio/AudioManager.h"
 #include "Input/Keyboard.h"
 #include "Input/Mouse.h"
 #include "UI/Canvas.h"
@@ -36,6 +37,9 @@ PlayerController::PlayerController(const std::wstring& kName) : CharacterBase(kN
     animator_->PlayClip(clip);
 
     GetTransform()->SetRelativeScale({2.f, 2.f});
+    
+    CHECK(AudioManager::Get()->AddSound(L"BGM", L"bgm.mp3"));
+    AudioManager::Get()->PlaySound2D(L"BGM");
 }
 
 void PlayerController::BeginPlay()

@@ -41,7 +41,7 @@ void AudioComponent::Play()
 {
     if (!sound_) return;
 
-    channel_ = AudioManager::PlaySound(sound_);
+    // channel_ = AudioManager::Get()->PlaySound(sound_);
     
     const Math::Vector2 position = GetOwner()->GetTransform()->GetWorldPosition();
     const FMOD_VECTOR sound_position = {position.x, position.y, 0.f};
