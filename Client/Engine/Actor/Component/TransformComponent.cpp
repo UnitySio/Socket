@@ -31,7 +31,7 @@ void TransformComponent::TickComponent(float delta_time)
         relative_position_ = {position.x, position.y};
 
         const float angle = body->GetAngle();
-        relative_rotation_z_ = angle * 180.f / b2_pi;
+        relative_rotation_z_ = angle * 180.f / MATH_PI;
 
         UpdateTransform();
         return;
@@ -44,9 +44,21 @@ void TransformComponent::TickComponent(float delta_time)
     relative_position_ = {position.x, position.y};
 
     const float angle = body->GetAngle() - GetOwner()->parent_->body_->GetAngle();
-    relative_rotation_z_ = angle * 180.f / b2_pi;
+    relative_rotation_z_ = angle * 180.f / MATH_PI; 
     
     UpdateTransform();
+}
+
+void TransformComponent::SetWorldPosition(Math::Vector2 position)
+{
+}
+
+void TransformComponent::SetWorldRotationZ(float angle)
+{
+}
+
+void TransformComponent::SetWorldScale(Math::Vector2 scale)
+{
 }
 
 void TransformComponent::SetRelativePosition(Math::Vector2 position)
