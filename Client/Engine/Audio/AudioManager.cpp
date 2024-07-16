@@ -3,7 +3,6 @@
 
 #include <ranges>
 
-#include "ProjectSettings.h"
 #include "FMOD/fmod.hpp"
 
 AudioManager::AudioManager() :

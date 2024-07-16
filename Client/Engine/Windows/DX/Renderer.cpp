@@ -1,7 +1,6 @@
 ﻿#include "pch.h"
 #include "Renderer.h"
 
-#include "ProjectSettings.h"
 #include "Level/World.h"
 #include "Math/Color.h"
 #include "Math/Vector2.h"

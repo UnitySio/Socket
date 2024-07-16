@@ -5,7 +5,6 @@
 
 #include "EventManager.h"
 #include "Enums.h"
-#include "ProjectSettings.h"
 #include "box2d/b2_body.h"
 #include "box2d/b2_weld_joint.h"
 #include "box2d/b2_world.h"

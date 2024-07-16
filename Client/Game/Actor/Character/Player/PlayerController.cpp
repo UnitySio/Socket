@@ -17,9 +17,9 @@
 PlayerController::PlayerController(const std::wstring& kName) : CharacterBase(kName)
 {
     sprite_ = std::make_shared<Sprite>();
-    CHECK_IF(sprite_->Load(L".\\Game_Data\\spritesheet.png"), L"Failed to load texture");
+    CHECK_IF(sprite_->Load(L".\\Game_Data\\Soldier.png"), L"Failed to load texture");
     
-    sprite_->Split(15, 3, Sprite::kCenter);
+    sprite_->Split(9, 7, Sprite::kCenter);
 
     sprite_renderer_->SetSprite(sprite_);
 
@@ -27,16 +27,15 @@ PlayerController::PlayerController(const std::wstring& kName) : CharacterBase(kN
     std::shared_ptr<AnimationClip> clip = animator_->AddClip(L"Idle", temp, 6);
     clip->SetRepeat(true);
     clip->SetFrameRate(6.f);
-    clip->AddEvent([this]()->void {text_block_->SetText(L"Hello World"); }, 1);
-    clip->AddEvent(this, &PlayerController::Test, 2);
+
+    int walk_indices[] = {9, 10, 11, 12, 13, 14, 15, 16};
+    clip = animator_->AddClip(L"Walk", walk_indices, 8);
+    clip->SetRepeat(true);
+    clip->SetFrameRate(6.f);
 
     animator_->PlayClip(clip);
-}
 
-void PlayerController::Test()
-{
-    Logger log;
-    log.AddLog(L"a");
+    GetTransform()->SetRelativeScale({2.f, 2.f});
 }
 
 void PlayerController::BeginPlay()
@@ -59,9 +58,14 @@ void PlayerController::PhysicsTick(float delta_time)
     Keyboard* keyboard = Keyboard::Get();
 
     const float h = keyboard->IsKeyDown(VK_RIGHT) - keyboard->IsKeyDown(VK_LEFT);
-    if (h != 0.f) sprite_renderer_->SetFlipX(h > 0.f);
+    if (h != 0.f)
+    {
+        sprite_renderer_->SetFlipX(h < 0.f);
+        animator_->PlayClip(L"Walk");
+    }
+    else animator_->PlayClip(L"Idle");
     
-    rigid_body_->SetVelocity({h * 6.f, rigid_body_->GetVelocity().y});
+    rigid_body_->SetVelocity({h * 2.f, rigid_body_->GetVelocity().y});
 }
 
 void PlayerController::Tick(float delta_time)
@@ -88,18 +92,18 @@ void PlayerController::Tick(float delta_time)
     text_block_->SetPosition(world_position);
 
     Mouse* mouse = Mouse::Get();
-    if (mouse->IsButtonDown(MouseButton::kLeft))
-    {
-        LOG(L"Left Button Down");
-    }
+    // if (mouse->IsButtonDown(MouseButton::kLeft))
+    // {
+    //     LOG(L"Left Button Down");
+    // }
     
     if (mouse->IsButtonPressed(MouseButton::kLeft))
     {
         LOG(L"Left Button Pressed");
     }
 
-    if (mouse->IsButtonReleased(MouseButton::kLeft))
-    {
-        LOG(L"Left Button Released");
-    }
+    // if (mouse->IsButtonReleased(MouseButton::kLeft))
+    // {
+    //     LOG(L"Left Button Released");
+    // }
 }
