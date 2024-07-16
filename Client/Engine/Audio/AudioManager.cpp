@@ -4,6 +4,7 @@
 #include <ranges>
 
 #include "FMOD/fmod.hpp"
+#include "Math/Math.h"
 
 AudioManager::AudioManager() :
     fmod_system_(nullptr),
@@ -96,6 +97,14 @@ void AudioManager::ResumeSound(FMOD_CHANNEL* channel)
 void AudioManager::StopSound(FMOD_CHANNEL* channel)
 {
     FMOD_Channel_Stop(channel);
+}
+
+void AudioManager::SetVolume(FMOD_CHANNEL* channel, int volume)
+{
+    volume = Math::Clamp(volume, 0.f, 100.f);
+    
+    const float final_volume = volume / 100.f;
+    FMOD_Channel_SetVolume(channel, final_volume);
 }
 
 FMOD_CHANNEL* AudioManager::PlaySound2D(const std::wstring& kName, FMOD_CHANNELGROUP* channel_group)

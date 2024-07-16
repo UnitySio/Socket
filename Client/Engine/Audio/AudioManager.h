@@ -26,13 +26,11 @@ public:
     void PauseSound(FMOD_CHANNEL* channel);
     void ResumeSound(FMOD_CHANNEL* channel);
     void StopSound(FMOD_CHANNEL* channel);
+    void SetVolume(FMOD_CHANNEL* channel, int volume);
 
     FMOD_CHANNEL* PlaySound2D(const std::wstring& kName, FMOD_CHANNELGROUP* channel_group = nullptr);
 
 private:
-    friend class AudioListenerComponent;
-    friend class AudioComponent;
-    
     class FMOD_SYSTEM* fmod_system_;
     FMOD_CHANNEL* channels_[MAX_CHANNEL_COUNT];
 

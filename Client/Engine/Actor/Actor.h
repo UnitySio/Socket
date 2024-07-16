@@ -59,10 +59,17 @@ public:
 
     inline Actor* GetParent() const { return parent_; }
     
+    TimerHandle life_span_timer_;
     
+    ContactSignature on_collision_enter;
+    ContactSignature on_collision_stay;
+    ContactSignature on_collision_exit;
+
+    ContactSignature on_trigger_enter;
+    ContactSignature on_trigger_stay;
+    ContactSignature on_trigger_exit;
 
 protected:
-    TimerHandle life_span_timer_;
     void InitializeActor();
     void InitializeComponents();
     void UninitializeComponents();
@@ -75,7 +82,6 @@ protected:
     virtual void BeginPlay();
     virtual void EndPlay(EndPlayReason type);
 
-
     virtual void PhysicsTick(float delta_time);
     virtual void Tick(float delta_time);
     virtual void PostTick(float delta_time);
@@ -87,14 +93,6 @@ protected:
     virtual void OnTriggerEnter(Actor* other);
     virtual void OnTriggerStay(Actor* other);
     virtual void OnTriggerExit(Actor* other);
-
-    ContactSignature on_collision_enter;
-    ContactSignature on_collision_stay;
-    ContactSignature on_collision_exit;
-
-    ContactSignature on_trigger_enter;
-    ContactSignature on_trigger_stay;
-    ContactSignature on_trigger_exit;
 
     std::wstring name_;
 
