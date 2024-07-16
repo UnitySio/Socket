@@ -37,6 +37,7 @@ void AnimatorComponent::TickComponent(float delta_time)
         timer_ = 0.f;
         if (current_index_ < current_clip_->frames_.size() - 1)
         {
+            SetPlaying(true);
             current_index_++;
             sprite_renderer_->frame_index_ = current_clip_->frames_[current_index_];
         }
@@ -44,7 +45,7 @@ void AnimatorComponent::TickComponent(float delta_time)
         {
             //여기에 재생완료 체크
             //end_event_->operator()();
-            //LOG(L"Animation Is End");
+            SetPlaying(false);
 
             if (current_clip_->is_repeat_)
             {

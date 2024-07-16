@@ -30,19 +30,16 @@ public:
         current_clip_ = clip;
     }
 
-    template<typename L>
-    inline void AddEndEvent(L&& lamda)
-    {
-        end_event_ = std::make_shared<AnimationEvent>(AnimationEvent(std::move(Function<void(void)>(std::move(lamda)))));
-    }
+    void SetPlaying(bool value) { is_playing_ = value; }
+    bool GetPlaying() { return is_playing_; }
 
 private:
     SpriteRendererComponent* sprite_renderer_;
 
     std::map<std::wstring, std::shared_ptr<AnimationClip>> clips_;
     std::shared_ptr<AnimationClip> current_clip_;
-    std::shared_ptr<AnimationEvent> end_event_;
 
     float timer_;
     int current_index_;
+    bool is_playing_;
 };
