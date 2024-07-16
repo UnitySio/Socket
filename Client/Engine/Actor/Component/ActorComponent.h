@@ -8,9 +8,6 @@ public:
     ActorComponent(class Actor* owner, const std::wstring& kName);
     virtual ~ActorComponent() = default;
 
-    
-    
-
     inline Actor* GetOwner() const { return owner_; }
     inline std::wstring GetName() const { return name_; }
 
@@ -19,9 +16,11 @@ protected:
     virtual inline void UninitializeComponent() {};
     virtual inline void BeginPlay() {};
     virtual inline void EndPlay(EndPlayReason type) {};
-    virtual inline void PostTickComponent(float delta_time) {};
+    virtual inline void PhysicsTickComponent(float delta_time) {};
     virtual inline void TickComponent(float delta_time) {};
+    virtual inline void PostTickComponent(float delta_time) {};
     virtual inline void Render(float alpha) {};
+    
     Actor* owner_;
     std::wstring name_;
     bool tickable_;
