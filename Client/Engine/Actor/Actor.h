@@ -59,8 +59,6 @@ public:
 
     inline Actor* GetParent() const { return parent_; }
     
-    TimerHandle life_span_timer_;
-    
     ContactSignature on_collision_enter;
     ContactSignature on_collision_stay;
     ContactSignature on_collision_exit;
@@ -112,6 +110,8 @@ protected:
     std::vector<Actor*> children_;
 
     class b2Joint* parent_joint_;
+    
+    TimerHandle life_span_timer_;
 private:
     // 추후 정리 예정
     friend class Level;
@@ -121,9 +121,6 @@ private:
     friend class TransformComponent;
     friend class PlayerController;
     friend class ContactListener;
-
-    
-    
 };
 
 template <typename T>
