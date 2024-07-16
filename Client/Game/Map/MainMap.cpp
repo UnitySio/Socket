@@ -5,19 +5,8 @@
 #include "Actor/Tilemap.h"
 #include "Actor/Character/Player/PlayerController.h"
 #include "Actor/Component/TransformComponent.h"
-#include "Misc/Delegate.h"
-#include "Misc/Function.h"
 #include "UI/Canvas.h"
-#include "UI/Button.h"
-#include "UI/ProgressBar.h"
-#include "UI/ScrollView.h"
-#include "UI/TextBlock.h"
-#include "UI/BitmapComponent.h"
-#include "UI/StringComponent.h"
-#include "UI/Image.h"
 #include "Sio/Sio.h"
-#include "Sio/PhysicsComp.h"
-#include "Sio/AnimComp.h"
 
 
 MainMap::MainMap(const std::wstring& kName) : Level(kName)

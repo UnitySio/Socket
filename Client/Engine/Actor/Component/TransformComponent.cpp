@@ -57,14 +57,14 @@ void TransformComponent::SetWorldPosition(Math::Vector2 position)
         const Math::Vector2 parent_position = GetOwner()->parent_->transform_->world_position_;
         const float parent_rotation = GetOwner()->parent_->transform_->world_rotation_z_;
 
-        const float theta = -parent_rotation * MATH_PI / 180.f;
-        const float c = cosf(theta);
-        const float s = sinf(theta);
+        // 부모의 위치를 기준으로 자식의 위치를 상대 좌표로 변환
+        Math::Vector2 local_position = position - parent_position;
 
-        const float x = (position.x - parent_position.x) * c - (position.y - parent_position.y) * s;
-        const float y = (position.x - parent_position.x) * s + (position.y - parent_position.y) * c;
+        // 부모의 회전을 고려하여 상대 좌표 계산
+        b2Rot rotation(-parent_rotation * MATH_PI / 180.f);
+        b2Vec2 relative_position = b2MulT(rotation, {local_position.x, local_position.y});
 
-        relative_position_ = {x, y};
+        relative_position_ = {relative_position.x, relative_position.y};
     }
     else
     {
@@ -79,6 +79,7 @@ void TransformComponent::SetWorldPosition(Math::Vector2 position)
         body->SetAwake(true);
     }
 }
+
 
 void TransformComponent::SetWorldRotationZ(float angle)
 {
