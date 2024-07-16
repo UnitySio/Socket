@@ -6,6 +6,7 @@
 #include "AnimationClip.h"
 #include "Actor/Actor.h"
 #include "Actor/Component/SpriteRendererComponent.h"
+#include "Logger/Logger.h"
 
 AnimatorComponent::AnimatorComponent(Actor* owner, const std::wstring& kName) :
     ActorComponent(owner, kName),
@@ -42,6 +43,8 @@ void AnimatorComponent::TickComponent(float delta_time)
         else
         {
             //여기에 재생완료 체크
+            //end_event_->operator()();
+            //LOG(L"Animation Is End");
 
             if (current_clip_->is_repeat_)
             {

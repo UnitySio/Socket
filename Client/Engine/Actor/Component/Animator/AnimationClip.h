@@ -52,6 +52,12 @@ public:
     template<typename L>
     void AddEvent(L&& lamda, int frame);
 
+    template<typename L>
+    inline void AddEndEvent(L&& lamda)
+    {
+        end_event_ = std::make_shared<AnimationEvent>(AnimationEvent(std::move(Function<void(void)>(std::move(lamda)))));
+    }
+
     void DelEvent(int frame);
 
     inline const std::vector<int>& GetFrames() { return frames_; }
@@ -67,6 +73,7 @@ private:
     friend class AnimatorComponent;
     
     std::map<int, AnimationEvent> events_;
+    std::shared_ptr<AnimationEvent> end_event_;
     std::vector<int> frames_;
     bool is_repeat_;
     float frame_rate_;

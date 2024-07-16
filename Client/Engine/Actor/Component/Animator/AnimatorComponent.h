@@ -6,6 +6,7 @@
 
 class AnimationClip;
 class SpriteRendererComponent;
+class AnimationEvent;
 
 class AnimatorComponent : public ActorComponent
 {
@@ -29,11 +30,18 @@ public:
         current_clip_ = clip;
     }
 
+    template<typename L>
+    inline void AddEndEvent(L&& lamda)
+    {
+        end_event_ = std::make_shared<AnimationEvent>(AnimationEvent(std::move(Function<void(void)>(std::move(lamda)))));
+    }
+
 private:
     SpriteRendererComponent* sprite_renderer_;
 
     std::map<std::wstring, std::shared_ptr<AnimationClip>> clips_;
     std::shared_ptr<AnimationClip> current_clip_;
+    std::shared_ptr<AnimationEvent> end_event_;
 
     float timer_;
     int current_index_;
