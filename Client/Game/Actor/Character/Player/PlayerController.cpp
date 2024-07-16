@@ -100,10 +100,14 @@ void PlayerController::Tick(float delta_time)
     // {
     //     LOG(L"Left Button Down");
     // }
+
+    Math::Vector2 mouse_position = mouse->GetMousePosition();
+    mouse_position = Renderer::Get()->ConvertScreenToWorld(mouse_position);
     
     if (mouse->IsButtonPressed(MouseButton::kLeft))
     {
         LOG(L"Left Button Pressed");
+        GetTransform()->SetWorldPosition(mouse_position);
     }
 
     // if (mouse->IsButtonReleased(MouseButton::kLeft))
