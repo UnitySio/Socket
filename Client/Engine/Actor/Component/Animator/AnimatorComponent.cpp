@@ -41,6 +41,8 @@ void AnimatorComponent::TickComponent(float delta_time)
         }
         else
         {
+            //여기에 재생완료 체크
+
             if (current_clip_->is_repeat_)
             {
                 current_index_ = 0;
