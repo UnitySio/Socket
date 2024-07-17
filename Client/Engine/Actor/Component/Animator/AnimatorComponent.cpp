@@ -34,24 +34,23 @@ void AnimatorComponent::TickComponent(float delta_time)
     timer_ += delta_time;
     if (timer_ >= 1.f / current_clip_->GetFrameRate())
     {
-        timer_ = 0.f;
+        timer_ = 0.f; 
+        //if (!IsPlaying()) LOG(L"Animation is end");
         if (current_index_ < current_clip_->frames_.size() - 1)
         {
-            SetPlaying(true);
+            is_playing_ = true;
             current_index_++;
             sprite_renderer_->frame_index_ = current_clip_->frames_[current_index_];
         }
+        else if(current_clip_->is_repeat_)
+        {
+            current_index_ = 0;
+            sprite_renderer_->frame_index_ = current_clip_->frames_[0];
+        }
         else
         {
-            //여기에 재생완료 체크
-            //end_event_->operator()();
-            SetPlaying(false);
-
-            if (current_clip_->is_repeat_)
-            {
-                current_index_ = 0;
-                sprite_renderer_->frame_index_ = current_clip_->frames_[0];
-            }
+            is_playing_ = false;
+            return;
         }
 
         if (current_clip_->events_.contains(current_index_)) current_clip_->events_[current_index_]();
@@ -69,4 +68,16 @@ std::shared_ptr<AnimationClip> AnimatorComponent::AddClip(const std::wstring& kN
     clips_[kName] = clip;
 
     return clip;
+}
+
+bool AnimatorComponent::PlayClip(std::wstring clip_name)
+{
+    if (clips_[clip_name] == current_clip_) return false;
+    current_clip_ = clips_[clip_name];
+}
+
+bool AnimatorComponent::PlayClip(std::shared_ptr<AnimationClip> clip)
+{
+    if (clip == current_clip_) return false;
+    current_clip_ = clip;
 }

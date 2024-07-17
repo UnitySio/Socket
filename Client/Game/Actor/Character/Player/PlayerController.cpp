@@ -32,13 +32,11 @@ PlayerController::PlayerController(const std::wstring& kName) : CharacterBase(kN
     std::shared_ptr<AnimationClip> clip = animator_->AddClip(L"Idle", temp, 6);
     clip->SetRepeat(true);
     clip->SetFrameRate(6.f);
-    //clip->AddEndEvent([this]()-> void { LOG(L"Idle Is End"); });
 
     int walk_indices[] = {9, 10, 11, 12, 13, 14, 15, 16};
     clip = animator_->AddClip(L"Walk", walk_indices, 8);
     clip->SetRepeat(true);
     clip->SetFrameRate(6.f);
-    //clip->AddEndEvent([this]()-> void { LOG(L"Walk Is End"); });
     
     animator_->PlayClip(clip);
 

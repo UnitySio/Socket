@@ -19,19 +19,9 @@ public:
 
     std::shared_ptr<AnimationClip> AddClip(const std::wstring& kName, int* sprite_idx_arr, int size);
     inline std::shared_ptr<AnimationClip> GetClip(std::wstring clip_name) { return clips_[clip_name]; }
-    inline bool PlayClip(std::wstring clip_name) 
-    { 
-        if (clips_[clip_name] == current_clip_) return false;
-        current_clip_ = clips_[clip_name]; 
-    }
-    inline bool PlayClip(std::shared_ptr<AnimationClip> clip)
-    { 
-        if (clip == current_clip_) return false;
-        current_clip_ = clip;
-    }
-
-    void SetPlaying(bool value) { is_playing_ = value; }
-    bool GetPlaying() { return is_playing_; }
+    bool PlayClip(std::wstring clip_name);
+    bool PlayClip(std::shared_ptr<AnimationClip> clip);
+    bool IsPlaying() { return is_playing_; }
 
 private:
     SpriteRendererComponent* sprite_renderer_;
