@@ -8,6 +8,7 @@
 #include "Actor/Component/Animator/AnimationClip.h"
 #include "Actor/Component/Animator/AnimatorComponent.h"
 #include "Audio/AudioManager.h"
+#include "imgui/imgui.h"
 #include "Input/Keyboard.h"
 #include "Input/Mouse.h"
 #include "UI/Canvas.h"
@@ -116,7 +117,7 @@ void PlayerController::Tick(float delta_time)
     if (mouse->IsButtonPressed(MouseButton::kLeft))
     {
         LOG(L"Left Button Pressed");
-        GetTransform()->SetWorldPosition(mouse_position);
+        // GetTransform()->SetWorldPosition(mouse_position);
     }
 
     // if (mouse->IsButtonReleased(MouseButton::kLeft))
@@ -124,14 +125,16 @@ void PlayerController::Tick(float delta_time)
     //     LOG(L"Left Button Released");
     // }
 
-    // 색 서서히 변화
-    Math::Color color = sprite_renderer_->GetColor();
-    color.r += 1.f;
-    color.g += 2.f;
-    color.b += 3.f;
-    if (color.r > 255.f) color.r = 0.f;
-    if (color.g > 255.f) color.g = 0.f;
-    if (color.b > 255.f) color.b = 0.f;
-    sprite_renderer_->SetColor(color);
+    static int r = 255;
+    static int g = 255;
+    static int b = 255;
+    static int a = 255;
+
+    ImGui::SliderInt("R", &r, 0, 255);
+    ImGui::SliderInt("G", &g, 0, 255);
+    ImGui::SliderInt("B", &b, 0, 255);
+    ImGui::SliderInt("A", &a, 0, 255);
+
+    sprite_renderer_->SetColor(Math::Color(r, g, b, a));
     
 }
