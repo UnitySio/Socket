@@ -13,7 +13,8 @@ SpriteRendererComponent::SpriteRendererComponent(Actor* owner, const std::wstrin
     sprite_(nullptr),
     frame_index_(0),
     flip_x_(false),
-    flip_y_(false)
+    flip_y_(false),
+    color_(Math::Color::White)
 {
 }
 
@@ -55,6 +56,7 @@ void SpriteRendererComponent::Render(float alpha)
     shape_->SetScale({width * flip_x, height * flip_y});
     shape_->SetUVOffset(current_frame.uv_offset);
     shape_->SetUVScale(current_frame.uv_scale);
+    shape_->SetColor(color_);
     shape_->SetPivot({pivot_x, pivot_y});
 
     World::Get()->AddShape(shape_);

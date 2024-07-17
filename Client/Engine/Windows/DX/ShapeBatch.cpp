@@ -129,6 +129,7 @@ void ShapeBatch::DrawShapes(const std::shared_ptr<WindowsWindow>& kWindow, const
         vertex_shader_->SetUVScale({shape->GetUVScale().x, shape->GetUVScale().y});
 
         pixel_shader_->EnableTexture(shape->GetTexture() != nullptr);
+        pixel_shader_->SetColor(shape->GetColor());
         pixel_shader_->BindParameters();
 
         Renderer::Get()->GetDeviceContext()->OMSetBlendState(blend_state_.Get(), nullptr, 0xffffffff);

@@ -13,6 +13,7 @@ Shape::Shape() :
     pivot_(Math::Vector2::Zero()),
     uv_offset_(Math::Vector2::Zero()),
     uv_scale_(Math::Vector2::One()),
+    color_(Math::Color::White),
     rotation_(0.f),
     texture_(nullptr),
     z_order_(0)

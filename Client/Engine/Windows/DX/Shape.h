@@ -4,6 +4,7 @@
 
 #include "Vertex.h"
 #include "Math/Bounds.h"
+#include "Math/Color.h"
 #include "Math/MathTypes.h"
 #include "Math/Vector2.h"
 #include "Misc/EngineMacros.h"
@@ -45,6 +46,9 @@ public:
 
     inline void SetUVScale(Math::Vector2 uv_scale) { uv_scale_ = uv_scale; }
     inline const Math::Vector2& GetUVScale() const { return uv_scale_; }
+
+    inline void SetColor(const Math::Color& kColor) { color_ = kColor; }
+    inline const Math::Color& GetColor() const { return color_; }
     
     inline float GetRotation() const { return rotation_; }
 
@@ -71,6 +75,8 @@ protected:
     Math::Vector2 pivot_;
     Math::Vector2 uv_offset_;
     Math::Vector2 uv_scale_;
+
+    Math::Color color_;
     
     float rotation_;
 

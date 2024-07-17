@@ -123,4 +123,15 @@ void PlayerController::Tick(float delta_time)
     // {
     //     LOG(L"Left Button Released");
     // }
+
+    // 색 서서히 변화
+    Math::Color color = sprite_renderer_->GetColor();
+    color.r += 1.f;
+    color.g += 2.f;
+    color.b += 3.f;
+    if (color.r > 255.f) color.r = 0.f;
+    if (color.g > 255.f) color.g = 0.f;
+    if (color.b > 255.f) color.b = 0.f;
+    sprite_renderer_->SetColor(color);
+    
 }

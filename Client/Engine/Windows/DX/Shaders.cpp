@@ -3,6 +3,7 @@
 
 #include <d3dcompiler.h>
 
+#include "Math/Color.h"
 #include "Misc/EngineMacros.h"
 #include "Windows/DX/Renderer.h"
 
@@ -117,6 +118,14 @@ DefaultPixelShader::DefaultPixelShader()
 void DefaultPixelShader::EnableTexture(BOOL has_texture)
 {
     constant_buffer_.GetBufferData().has_texture = has_texture;
+}
+
+void DefaultPixelShader::SetColor(const Math::Color& kColor)
+{
+    constant_buffer_.GetBufferData().r = kColor.r / 255.f;
+    constant_buffer_.GetBufferData().g = kColor.g / 255.f;
+    constant_buffer_.GetBufferData().b = kColor.b / 255.f;
+    constant_buffer_.GetBufferData().a = kColor.a / 255.f;
 }
 
 void DefaultPixelShader::UpdateParameters()
