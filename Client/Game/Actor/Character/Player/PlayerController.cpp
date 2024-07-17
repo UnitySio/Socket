@@ -14,6 +14,7 @@
 #include "UI/TextBlock.h"
 #include "Windows/DX/Sprite.h"
 #include "Logger/Logger.h"
+#include "Resource/ResourceManager.h"
 
 PlayerController::PlayerController(const std::wstring& kName) : CharacterBase(kName)
 {
@@ -42,6 +43,12 @@ PlayerController::PlayerController(const std::wstring& kName) : CharacterBase(kN
     
     CHECK(AudioManager::Get()->AddSound(L"BGM", L"bgm.mp3"));
     AudioManager::Get()->PlaySound2D(L"BGM");
+
+    // if (ResourceManager::Get()->Load<Sprite>(L"Soldier", L".\\Game_Data\\Soldier.png"))
+    // {
+    //     Sprite* sprite = ResourceManager::Get()->GetResource<Sprite>(L"Soldier");
+    //     sprite->Split(9, 7, Sprite::kCenter);
+    // }
 }
 
 void PlayerController::BeginPlay()

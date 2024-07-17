@@ -8,6 +8,7 @@
 #include "Vertex.h"
 #include "Math/MathTypes.h"
 #include "Math/Vector2.h"
+#include "Resource/Resource.h"
 
 enum class WrapMode
 {
@@ -21,13 +22,13 @@ enum class FilterMode
     kBilinear
 };
 
-class Texture
+class Texture : public Resource
 {
 public:
     Texture();
-    virtual ~Texture() = default;
+    virtual ~Texture() override = default;
     
-    virtual bool Load(const std::wstring& kFileName);
+    virtual bool Load(const std::wstring& kPath) override;
 
     void Bind();
 

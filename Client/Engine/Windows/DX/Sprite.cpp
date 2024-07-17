@@ -17,9 +17,9 @@ Sprite::Sprite() :
 {
 }
 
-bool Sprite::Load(const std::wstring& kFileName)
+bool Sprite::Load(const std::wstring& kPath)
 {
-    if (!Texture::Load(kFileName)) return false;
+    if (!Texture::Load(kPath)) return false;
     
     return true;;
 }

@@ -30,11 +30,11 @@ public:
     void SetLifeSpan(float life_span);
     bool CompareTag(ActorTag tag) const;
 
-    template <typename T>
+    template <std::derived_from<ActorComponent> T>
     T* CreateComponent(const std::wstring& kName);
 
     // 추후 리플렉션으로 변경
-    template <typename T>
+    template <std::derived_from<ActorComponent> T>
     T* GetComponent();
 
     // Reflection 구현 필요
@@ -123,14 +123,14 @@ private:
     friend class ContactListener;
 };
 
-template <typename T>
+template <std::derived_from<ActorComponent> T>
 T* Actor::CreateComponent(const std::wstring& kName)
 {
     components_.push_back(std::make_shared<T>(this, kName));
     return static_cast<T*>(components_.back().get());
 }
 
-template <typename T>
+template <std::derived_from<ActorComponent> T>
 T* Actor::GetComponent()
 {
     for (const auto& component : components_)
