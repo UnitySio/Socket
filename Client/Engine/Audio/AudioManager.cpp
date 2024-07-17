@@ -84,45 +84,50 @@ void AudioManager::PlayOneShot(const std::wstring& kName, float volume)
     if (channel) FMOD_Channel_SetVolume(channel, volume);
 }
 
-void AudioManager::PauseSound(FMOD_CHANNEL* channel)
+void AudioManager::PauseSound(int id)
 {
-    FMOD_Channel_SetPaused(channel, true);
+    if (id < 0 || id >= MAX_CHANNEL_COUNT) return;
+    FMOD_Channel_SetPaused(channels_[id], true);
 }
 
-void AudioManager::ResumeSound(FMOD_CHANNEL* channel)
+void AudioManager::ResumeSound(int id)
 {
-    FMOD_Channel_SetPaused(channel, false);
+    if (id < 0 || id >= MAX_CHANNEL_COUNT) return;
+    FMOD_Channel_SetPaused(channels_[id], false);
 }
 
-void AudioManager::StopSound(FMOD_CHANNEL* channel)
+void AudioManager::StopSound(int id)
 {
-    FMOD_Channel_Stop(channel);
+    if (id < 0 || id >= MAX_CHANNEL_COUNT) return;
+    FMOD_Channel_Stop(channels_[id]);
 }
 
-void AudioManager::SetVolume(FMOD_CHANNEL* channel, int volume)
+void AudioManager::SetVolume(int id, int volume)
 {
+    if (id < 0 || id >= MAX_CHANNEL_COUNT) return;
     volume = Math::Clamp(volume, 0.f, 100.f);
     
     const float final_volume = volume / 100.f;
-    FMOD_Channel_SetVolume(channel, final_volume);
+    FMOD_Channel_SetVolume(channels_[id], final_volume);
 }
 
-FMOD_CHANNEL* AudioManager::PlaySound2D(const std::wstring& kName, FMOD_CHANNELGROUP* channel_group)
+int AudioManager::PlaySound2D(const std::wstring& kName, FMOD_CHANNELGROUP* channel_group)
 {
     const auto it = sound_map_.find(kName);
-    if (it == sound_map_.end()) return nullptr;
-    
-    for (FMOD_CHANNEL* channel : channels_)
+    if (it == sound_map_.end()) return -1;
+
+    for (int i = 0; i < MAX_CHANNEL_COUNT; ++i)
     {
+        FMOD_CHANNEL* channel = channels_[i];
         FMOD_BOOL is_playing = false;
         FMOD_Channel_IsPlaying(channel, &is_playing);
-
+        
         if (!is_playing)
         {
-            FMOD_System_PlaySound(fmod_system_, it->second, channel_group, false, &channel);
-            return channel;
+            FMOD_System_PlaySound(fmod_system_, it->second, channel_group, false, &channels_[i]);
+            return i;
         }
     }
-    
-    return nullptr;
+
+    return -1;
 }

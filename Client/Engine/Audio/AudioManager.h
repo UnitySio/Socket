@@ -23,12 +23,12 @@ public:
     void Tick();
     void SetLoop(const std::wstring& kName, bool is_loop);
     void PlayOneShot(const std::wstring& kName, float volume = 1.f);
-    void PauseSound(FMOD_CHANNEL* channel);
-    void ResumeSound(FMOD_CHANNEL* channel);
-    void StopSound(FMOD_CHANNEL* channel);
-    void SetVolume(FMOD_CHANNEL* channel, int volume);
+    void PauseSound(int id);
+    void ResumeSound(int id);
+    void StopSound(int id);
+    void SetVolume(int id, int volume);
 
-    FMOD_CHANNEL* PlaySound2D(const std::wstring& kName, FMOD_CHANNELGROUP* channel_group = nullptr);
+    int PlaySound2D(const std::wstring& kName, FMOD_CHANNELGROUP* channel_group = nullptr);
 
 private:
     class FMOD_SYSTEM* fmod_system_;
