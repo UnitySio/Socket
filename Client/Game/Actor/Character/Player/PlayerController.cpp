@@ -8,6 +8,7 @@
 #include "Actor/Component/Animator/AnimationClip.h"
 #include "Actor/Component/Animator/AnimatorComponent.h"
 #include "Audio/AudioManager.h"
+#include "Data/DataManager.h"
 #include "imgui/imgui.h"
 #include "Input/Keyboard.h"
 #include "Input/Mouse.h"
@@ -63,6 +64,10 @@ void PlayerController::BeginPlay()
     text_block_->SetFontStyle(false, false);
     // text_block_->SetTextColor(Math::Color::Cyan);
     text_block_->SetSize({ 250,50 });
+
+    float x = DataManager::Get()->GetFloat("PlayerX");
+    float y = DataManager::Get()->GetFloat("PlayerY");
+    GetTransform()->SetWorldPosition({x, y});
 }
 
 void PlayerController::EndPlay(EndPlayReason type)
@@ -70,6 +75,8 @@ void PlayerController::EndPlay(EndPlayReason type)
     CharacterBase::EndPlay(type);
     
     Math::Vector2 position = GetTransform()->GetWorldPosition();
+    DataManager::Get()->SetFloat("PlayerX", position.x);
+    DataManager::Get()->SetFloat("PlayerY", position.y);
 }
 
 void PlayerController::PhysicsTick(float delta_time)
