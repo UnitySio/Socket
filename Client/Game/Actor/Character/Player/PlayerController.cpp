@@ -41,7 +41,7 @@ PlayerController::PlayerController(const std::wstring& kName) : CharacterBase(kN
 
     GetTransform()->SetRelativeScale({2.f, 2.f});
     
-    CHECK(AudioManager::Get()->AddSound(L"BGM", L"bgm.mp3"));
+    CHECK(AudioManager::Get()->AddSound(L"BGM", L".\\Game_Data\\bgm.mp3"));
     int id = AudioManager::Get()->PlaySound2D(L"BGM");
 
     // if (ResourceManager::Get()->Load<Sprite>(L"Soldier", L".\\Game_Data\\Soldier.png"))

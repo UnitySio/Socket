@@ -37,10 +37,9 @@ bool AudioManager::AddSound(const std::wstring& kName, const std::wstring& kPath
 {
     FMOD_SOUND* sound = nullptr;
 
-    const std::wstring kFinalPath = L".\\Game_Data\\" + kPath;
-    const std::string kFinalPathStr(kFinalPath.begin(), kFinalPath.end());
+    const std::string kFinalPath(kPath.begin(), kPath.end());
 
-    FMOD_RESULT result = FMOD_System_CreateSound(fmod_system_, kFinalPathStr.c_str(), FMOD_DEFAULT, nullptr, &sound);
+    FMOD_RESULT result = FMOD_System_CreateSound(fmod_system_, kFinalPath.c_str(), FMOD_DEFAULT, nullptr, &sound);
     if (result != FMOD_OK) return false;
 
     sound_map_[kName] = sound;

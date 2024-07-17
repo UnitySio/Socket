@@ -15,7 +15,7 @@ class AudioManager : public Singleton<AudioManager>
 public:
     AudioManager();
     virtual ~AudioManager() override;
-    
+
     bool AddSound(const std::wstring& kName, const std::wstring& kPath);
 
     void SetLoop(const std::wstring& kName, bool is_loop);
