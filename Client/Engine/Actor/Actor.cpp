@@ -26,7 +26,9 @@ Actor::Actor(const std::wstring& kName) :
     parent_joint_(nullptr)
 {
     name_ = kName;
-    transform_ = CreateComponent<TransformComponent>(L"Transform");
+    
+    TransformComponent* transform = CreateComponent<TransformComponent>(L"Transform");
+    transform_ = std::static_pointer_cast<TransformComponent>(transform->GetSharedPtr());
 }
 
 void Actor::OnCollisionEnter(Actor* other)

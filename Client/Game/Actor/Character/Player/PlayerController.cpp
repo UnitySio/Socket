@@ -65,6 +65,13 @@ void PlayerController::BeginPlay()
     text_block_->SetSize({ 250,50 });
 }
 
+void PlayerController::EndPlay(EndPlayReason type)
+{
+    CharacterBase::EndPlay(type);
+    
+    Math::Vector2 position = GetTransform()->GetWorldPosition();
+}
+
 void PlayerController::PhysicsTick(float delta_time)
 {
     CharacterBase::PhysicsTick(delta_time);

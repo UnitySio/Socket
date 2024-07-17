@@ -97,7 +97,6 @@ bool Core::ProcessMessage(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam,
             if (window->GetHWnd() == hWnd)
             {
                 Stop();
-                game_engine_->OnQuit();
 
                 World::Get()->Release();
                 Renderer::Get()->Release();
@@ -115,7 +114,11 @@ void Core::MainThread()
     {
         {
             std::lock_guard<std::mutex> lock(mutex_);
-            if (!is_running_) break;
+            if (!is_running_)
+            {
+                game_engine_->OnQuit();
+                break;
+            }
         }
         
 #pragma region DeltaTime

@@ -55,7 +55,7 @@ public:
 
     inline bool IsActive() const { return is_active_; }
 
-    inline TransformComponent* GetTransform() const { return transform_; }
+    inline TransformComponent* GetTransform() const { return transform_.get(); }
 
     inline Actor* GetParent() const { return parent_; }
     
@@ -104,7 +104,7 @@ protected:
 
     std::vector<std::shared_ptr<ActorComponent>> components_;
 
-    TransformComponent* transform_;
+    std::shared_ptr<TransformComponent> transform_;
 
     Actor* parent_;
     std::vector<Actor*> children_;
