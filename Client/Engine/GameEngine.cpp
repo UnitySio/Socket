@@ -10,7 +10,6 @@
 #include "Input/Mouse.h"
 #include "Level/Level.h"
 #include "Level/World.h"
-#include "Logger/Logger.h"
 #include "Windows/WindowsWindow.h"
 #include "Windows/DX/Renderer.h"
 #include "Windows/DX/Shape.h"
@@ -91,10 +90,6 @@ void GameEngine::GameLoop(float delta_time)
 #pragma endregion
 
 #pragma region Render
-#ifdef _DEBUG
-    Logger::Get()->Render();
-#endif
-    
     ImGui::Render();
     
     Renderer::Get()->BeginRender(game_window_);

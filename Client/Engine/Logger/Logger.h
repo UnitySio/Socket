@@ -9,10 +9,6 @@ public:
     Logger();
     virtual ~Logger() override = default;
 
-    void Render();
     void AddLog(std::wstring format, ...);
-
-private:
-    std::vector<std::string> logs_;
     
 };
