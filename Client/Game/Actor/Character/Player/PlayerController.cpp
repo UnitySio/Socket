@@ -63,8 +63,8 @@ void PlayerController::BeginPlay()
     // text_block_->SetTextColor(Math::Color::Cyan);
     text_block_->SetSize({ 250,50 });
 
-    float x = DataManager::Get()->GetFloat("PlayerX");
-    float y = DataManager::Get()->GetFloat("PlayerY");
+    float x = DataManager::GetFloat(L"PlayerX", 0.f);
+    float y = DataManager::GetFloat(L"PlayerY", 0.f);
     GetTransform()->SetWorldPosition({x, y});
 }
 
@@ -73,8 +73,8 @@ void PlayerController::EndPlay(EndPlayReason type)
     CharacterBase::EndPlay(type);
     
     Math::Vector2 position = GetTransform()->GetWorldPosition();
-    DataManager::Get()->SetFloat("PlayerX", position.x);
-    DataManager::Get()->SetFloat("PlayerY", position.y);
+    DataManager::SetFloat(L"PlayerX", position.x);
+    DataManager::SetFloat(L"PlayerY", position.y);
 }
 
 void PlayerController::PhysicsTick(float delta_time)
