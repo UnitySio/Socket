@@ -73,11 +73,15 @@ std::shared_ptr<AnimationClip> AnimatorComponent::AddClip(const std::wstring& kN
 bool AnimatorComponent::PlayClip(std::wstring clip_name)
 {
     if (clips_[clip_name] == current_clip_) return false;
+    current_index_ = 0;
     current_clip_ = clips_[clip_name];
+    return true;
 }
 
 bool AnimatorComponent::PlayClip(std::shared_ptr<AnimationClip> clip)
 {
     if (clip == current_clip_) return false;
+    current_index_ = 0;
     current_clip_ = clip;
+    return true;
 }
