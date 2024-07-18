@@ -39,3 +39,14 @@
     do { \
         Logger::Get()->AddLog(format, __VA_ARGS__); \
     } while (0)
+
+#define LOG_ERROR(format, ...) \
+    do { \
+        Logger::Get()->AddErrorLog(format, __VA_ARGS__); \
+    } while (0)
+
+#define LOG_WARNING(format, ...) \
+    do { \
+        Logger::Get()->AddWarningLog(format, __VA_ARGS__); \
+    } while (0)
+    

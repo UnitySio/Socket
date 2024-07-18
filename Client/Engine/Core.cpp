@@ -75,26 +75,6 @@ bool Core::ProcessMessage(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam,
     if (Mouse::Get()->ProcessMessage(hWnd, message, wParam, lParam, handler_result)) return true;
     
     if (Canvas::Get()->ProcessMessage(hWnd, message, wParam, lParam, handler_result)) return true;
-    
-    if (message == WM_CREATE)
-    {
-#ifdef _DEBUG
-        AllocConsole();
-        SetConsoleTitle(L"Output Log");
-
-        FILE* file = nullptr;
-        freopen_s(&file, "CONOUT$", "w", stdout);
-        freopen_s(&file, "CONOUT$", "w", stderr);
-        // freopen_s(&file, "CONIN$", "r", stdin);
-#endif
-    }
-
-    if (message == WM_CLOSE)
-    {
-#ifdef _DEBUG
-        FreeConsole();
-#endif
-    }
 
     if (message == WM_SIZE)
     {
