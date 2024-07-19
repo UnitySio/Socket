@@ -155,7 +155,7 @@ void World::AddShape(const std::shared_ptr<Shape>& kShape)
 
 void World::TransitionLevel()
 {
-    if (!next_level_ || next_level_ == current_level_) return;
+    if (!next_level_) return;
     
     WCHAR buffer[256];
     swprintf_s(buffer, L"Body Count: %d", physics_world_->GetBodyCount());
