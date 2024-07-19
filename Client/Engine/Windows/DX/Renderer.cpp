@@ -232,6 +232,49 @@ bool Renderer::ResizeViewport(const std::shared_ptr<WindowsWindow>& window, Math
     return false;
 }
 
+// void Renderer::DrawImage(WindowsWindow* window, const Math::Vector2& kPosition,
+//     const Math::Vector2& kScale, const Microsoft::WRL::ComPtr<ID2D1Bitmap>& kBitmap, const Math::Color& kColor)
+// {
+//     D2DViewport* d2d_viewport = FindD2DViewport(window);
+//     if (!d2d_viewport) return;
+//
+//     // 현재 변환 행렬을 저장합니다.
+//     D2D1_MATRIX_3X2_F transform;
+//     d2d_viewport->d2d_render_target->GetTransform(&transform);
+//
+//     // 컬러 효과를 설정합니다.
+//     Microsoft::WRL::ComPtr<ID2D1Effect> effect;
+//     Microsoft::WRL::ComPtr<ID2D1DeviceContext> deviceContext;
+//     HRESULT hr = d2d_viewport->d2d_render_target.As(&deviceContext);
+//     if (FAILED(hr)) return;
+//
+//     hr = deviceContext->CreateEffect(CLSID_D2D1ColorMatrix, effect.GetAddressOf());
+//     if (FAILED(hr)) return;
+//
+//     effect->SetInput(0, kBitmap.Get());
+//
+//     float r = kColor.r / 255.0f;
+//     float g = kColor.g / 255.0f;
+//     float b = kColor.b / 255.0f;
+//     float a = kColor.a / 255.0f;
+//
+//     D2D1_MATRIX_5X4_F colorMatrix = {
+//         r, 0.0f, 0.0f, 0.0f,
+//         0.0f, g, 0.0f, 0.0f,
+//         0.0f, 0.0f, b, 0.0f,
+//         0.0f, 0.0f, 0.0f, a,
+//         0.0f, 0.0f, 0.0f, 0.0f
+//     };
+//
+//     effect->SetValue(D2D1_COLORMATRIX_PROP_COLOR_MATRIX, colorMatrix);
+//
+//     // 이미지를 그립니다.
+//     deviceContext->DrawImage(effect.Get(), D2D1_INTERPOLATION_MODE_LINEAR, D2D1_COMPOSITE_MODE_SOURCE_OVER);
+//
+//     // 원래 변환 행렬로 복원합니다.
+//     d2d_viewport->d2d_render_target->SetTransform(transform);
+// }
+
 bool Renderer::CreateRenderToTexture()
 {
     D3D11_TEXTURE2D_DESC texture_desc;

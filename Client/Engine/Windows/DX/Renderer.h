@@ -6,7 +6,7 @@
 
 #include <wrl/client.h>
 #include <d3d11.h>
-#include <d2d1.h>
+#include <d2d1_1.h>
 #include <dwrite_3.h>
 #include <wincodec.h>
 #include <DirectXMath.h>
@@ -14,6 +14,7 @@
 
 #include "Singleton.h"
 #include "Math/MathTypes.h"
+#include "Math/Vector2.h"
 
 class DefaultPixelShader;
 class DefaultVertexShader;
@@ -57,6 +58,8 @@ public:
     bool CreateD2DViewport(std::shared_ptr<WindowsWindow> window);
     bool CreateDepthStencilBuffer(Viewport& viewport);
     bool ResizeViewport(const std::shared_ptr<WindowsWindow>& window, MathTypes::uint32 width, MathTypes::uint32 height);
+
+    // void DrawImage(WindowsWindow* window, const Math::Vector2& kPosition, const Math::Vector2& kScale, const Microsoft::WRL::ComPtr<ID2D1Bitmap>& kBitmap, const Math::Color& kColor);
 
     // UI TEST
     D2DViewport* GetCurrentD2dViewport() { return current_d2d_viewport_; }

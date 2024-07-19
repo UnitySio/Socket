@@ -47,7 +47,7 @@ PlayerController::PlayerController(const std::wstring& kName) : CharacterBase(kN
 
     // if (ResourceManager::Get()->Load<UITexture>(L"Soldier", L".\\Game_Data\\Soldier.png"))
     // {
-    //     UITexture* texture = ResourceManager::Get()->GetResource<UITexture>(L"Soldier");
+    //     LOG(L"Success");
     // }
 }
 
@@ -150,5 +150,4 @@ void PlayerController::Tick(float delta_time)
     ImGui::SliderInt("A", &a, 0, 255);
 
     sprite_renderer_->SetColor(Math::Color(r, g, b, a));
-    
 }
