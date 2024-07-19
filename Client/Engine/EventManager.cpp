@@ -53,4 +53,5 @@ void EventManager::ExcuteEvent(const Event& kEvent)
             actor->is_active_ = active;
         }
         break;
+    }
 }
