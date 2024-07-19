@@ -3,7 +3,7 @@
 enum class LevelType : size_t
 {
     kDefault = 0,
-    kTemp = 1,
+    kWorld = 1,
     kEnd
 };
 

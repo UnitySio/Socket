@@ -83,6 +83,8 @@ void Actor::EndPlay(EndPlayReason type)
     {
         component->EndPlay(type);
     }
+    
+    UninitializeComponents();
 
     components_.clear();
 
@@ -250,7 +252,6 @@ void Actor::UninitializeComponents()
 void Actor::Destroyed()
 {
     EndPlay(EndPlayReason::kDestroyed);
-    UninitializeComponents();
 }
 
 void Actor::CreateBody()

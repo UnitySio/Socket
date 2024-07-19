@@ -9,7 +9,10 @@
 #include "Actor/FollowCamera.h"
 #include "Actor/Component/CameraComponent.h"
 #include "imgui/imgui.h"
+#include "Input/Keyboard.h"
+#include "Logger/Logger.h"
 #include "Map/MainMap.h"
+#include "Map/WorldMap.h"
 #include "Math/Color.h"
 #include "Math/Vector2.h"
 #include "Time/TimerManager.h"
@@ -23,6 +26,7 @@ World::World() :
     shape_batch_(nullptr),
     shapes_(),
     current_level_(nullptr),
+    next_level_(nullptr),
     levels_()
 {
     shape_batch_ = std::make_shared<ShapeBatch>();
@@ -49,19 +53,14 @@ void World::Init(const std::shared_ptr<WindowsWindow>& kWindow)
     window_ = kWindow;
     
     AddLevel<MainMap>(LevelType::kDefault, L"Map 0");
+    AddLevel<WorldMap>(LevelType::kWorld, L"Map 1");
+    
     OpenLevel(LevelType::kDefault);
 }
 
 void World::OpenLevel(LevelType type)
 {
-    if (current_level_)
-    {
-        current_level_->Unload(EndPlayReason::kLevelTransition);
-    }
-
-    current_level_ = levels_[static_cast<size_t>(type)].get();
-    current_level_->Load();
-    current_level_->InitializeActors();
+    next_level_ = levels_[static_cast<size_t>(type)].get();
 }
 
 void World::PhysicsTick(float delta_time)
@@ -82,6 +81,17 @@ void World::Tick(float delta_time)
     if (current_level_)
     {
         current_level_->Tick(delta_time);
+    }
+
+    Keyboard* keyboard = Keyboard::Get();
+    if (keyboard->IsKeyPressed(VK_F1))
+    {
+        OpenLevel(LevelType::kDefault);
+    }
+
+    if (keyboard->IsKeyPressed(VK_F2))
+    {
+        OpenLevel(LevelType::kWorld);
     }
 }
 
@@ -141,4 +151,27 @@ void World::DestroyActor()
 void World::AddShape(const std::shared_ptr<Shape>& kShape)
 {
     shapes_.push_back(kShape);
+}
+
+void World::TransitionLevel()
+{
+    if (!next_level_) return;
+    
+    WCHAR buffer[256];
+    swprintf_s(buffer, L"Body Count: %d", physics_world_->GetBodyCount());
+    LOG(buffer);
+    
+    if (current_level_)
+    {
+        current_level_->Unload(EndPlayReason::kLevelTransition);
+    }
+
+    current_level_ = next_level_;
+    current_level_->Load();
+    current_level_->InitializeActors();
+
+    next_level_ = nullptr;
+    
+    swprintf_s(buffer, L"Body Count: %d", physics_world_->GetBodyCount());
+    LOG(buffer);
 }
