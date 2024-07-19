@@ -70,6 +70,8 @@ void GameEngine::GameLoop(float delta_time)
     Keyboard::Get()->Begin();
     Mouse::Get()->Begin();
     
+    World::Get()->TransitionLevel();
+    
     // 죽음의 나선형을 방지하기 위해 delta_time을 제한
     const float kLimitFrameTime = min(delta_time, .25f);
     accumulator += kLimitFrameTime;
@@ -106,7 +108,6 @@ void GameEngine::GameLoop(float delta_time)
 #pragma endregion
 
     World::Get()->DestroyActor();
-    World::Get()->TransitionLevel();
     EventManager::Get()->Tick();
     
 }
