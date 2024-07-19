@@ -53,11 +53,4 @@ void EventManager::ExcuteEvent(const Event& kEvent)
             actor->is_active_ = active;
         }
         break;
-
-    case EventType::kLevelTransition:
-        {
-            LevelType level_type = static_cast<LevelType>(kEvent.wParam);
-            World::Get()->OpenLevel(level_type);
-        }
-    }
 }
