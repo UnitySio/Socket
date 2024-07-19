@@ -120,6 +120,20 @@ void AudioManager::SetVolume(int id, int volume)
     FMOD_Channel_SetVolume(channels_[id], final_volume);
 }
 
+void AudioManager::SetMute(int id, bool is_mute)
+{
+    if (id < 0 || id >= MAX_CHANNEL_COUNT) return;
+    FMOD_Channel_SetMute(channels_[id], is_mute);
+}
+
+void AudioManager::SetAllMutes(bool is_mute)
+{
+    for (const auto& channel : channels_)
+    {
+        FMOD_Channel_SetMute(channel, is_mute);
+    }
+}
+
 int AudioManager::PlaySound2D(const std::wstring& kName, FMOD_CHANNELGROUP* channel_group)
 {
     const auto it = sound_map_.find(kName);

@@ -2,6 +2,7 @@
 #include "Core.h"
 
 #include "GameEngine.h"
+#include "Audio/AudioManager.h"
 #include "Input/Keyboard.h"
 #include "Input/Mouse.h"
 #include "Level/World.h"
@@ -84,8 +85,15 @@ bool Core::ProcessMessage(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam,
         resize_height_ = HIWORD(lParam);
     }
 
+    if (message == WM_SETFOCUS)
+    {
+        AudioManager::Get()->SetAllMutes(false);
+    }
+
     if (message == WM_KILLFOCUS)
     {
+        AudioManager::Get()->SetAllMutes(true);
+        
         Keyboard::Get()->Clear();
         Mouse::Get()->Clear();
     }

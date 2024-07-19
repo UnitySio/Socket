@@ -25,6 +25,8 @@ public:
     void StopSound(int id);
     void StopAllSounds();
     void SetVolume(int id, int volume);
+    void SetMute(int id, bool is_mute);
+    void SetAllMutes(bool is_mute);
 
     int PlaySound2D(const std::wstring& kName, FMOD_CHANNELGROUP* channel_group = nullptr);
 
