@@ -32,6 +32,11 @@ void Canvas::Render(WindowsWindow* kWindow)
 	}
 }
 
+void Canvas::Clear()
+{
+	renderList_.clear();
+}
+
 Button* Canvas::CreateButton()
 {
 	std::shared_ptr<Button> button = std::make_shared<Button>();

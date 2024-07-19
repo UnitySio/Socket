@@ -20,7 +20,10 @@ class Canvas : public Singleton<Canvas>
 public:
 	Canvas();
 	virtual ~Canvas();
+	
 	void Render(WindowsWindow* kWindow = World::Get()->GetWindow());
+	void Clear();
+	
 	Button* CreateButton();
 	ProgressBar* CreateProgressBar();
 	ScrollView* CreateScrollView();
