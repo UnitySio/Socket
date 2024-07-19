@@ -21,6 +21,9 @@
 
 PlayerController::PlayerController(const std::wstring& kName) : CharacterBase(kName)
 {
+    // ResourceManager::Get()->Load<Sprite>(L"Soldier", L".\\Game_Data\\Soldier.png");
+    // Sprite* sprite = ResourceManager::Get()->GetResource<Sprite>(L"Soldier");
+    
     sprite_ = std::make_shared<Sprite>();
     CHECK_IF(sprite_->Load(L".\\Game_Data\\Soldier.png"), L"Failed to load texture");
     

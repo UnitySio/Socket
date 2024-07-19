@@ -15,25 +15,25 @@ public:
     T* GetResource(const std::wstring& kName);
 
 private:
-    std::map<std::wstring, std::shared_ptr<Resource>> resources_;
+    std::map<std::wstring, std::unique_ptr<Resource>> resources_;
     
 };
 
 template <std::derived_from<Resource> T>
 bool ResourceManager::Load(const std::wstring& kName, const std::wstring& kPath)
 {
-    std::shared_ptr<Resource> resource = std::make_shared<T>();
+    if (resources_.contains(kName)) return false;
+
+    T* resource = new T();
     if (!resource->Load(kPath)) return false;
 
-    resources_[kName] = resource;
+    resources_[kName] = std::unique_ptr<T>(resource);
     return true;
 }
 
 template <std::derived_from<Resource> T>
 T* ResourceManager::GetResource(const std::wstring& kName)
 {
-    auto iter = resources_.find(kName);
-    if (iter == resources_.end()) return nullptr;
-
-    return dynamic_cast<T*>(iter->second.get());
+    if (!resources_.contains(kName)) return nullptr;
+    return dynamic_cast<T*>(resources_[kName].get());
 }
