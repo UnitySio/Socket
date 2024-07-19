@@ -103,6 +103,14 @@ void AudioManager::StopSound(int id)
     FMOD_Channel_Stop(channels_[id]);
 }
 
+void AudioManager::StopAllSounds()
+{
+    for (const auto& channel : channels_)
+    {
+        FMOD_Channel_Stop(channel);
+    }
+}
+
 void AudioManager::SetVolume(int id, int volume)
 {
     if (id < 0 || id >= MAX_CHANNEL_COUNT) return;

@@ -5,6 +5,7 @@
 #include "World.h"
 
 #include "Actor/Actor.h"
+#include "Audio/AudioManager.h"
 
 Level::Level(const std::wstring& kName) :
     actors_(),
@@ -15,6 +16,8 @@ Level::Level(const std::wstring& kName) :
 
 void Level::Unload(EndPlayReason type)
 {
+    AudioManager::Get()->StopAllSounds();
+    
     for (const auto& actor : actors_)
     {
         actor->EndPlay(type);
