@@ -11,7 +11,6 @@
 #include "Windows/WindowDefinition.h"
 #include "Windows/WindowsWindow.h"
 #include "Windows/DX/Renderer.h"
-#include "UI/Canvas.h"
 
 Core::Core() :
     current_application_(nullptr),
@@ -74,8 +73,6 @@ bool Core::ProcessMessage(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam,
     
     if (Keyboard::Get()->ProcessMessage(message, wParam, lParam, handler_result)) return true;
     if (Mouse::Get()->ProcessMessage(hWnd, message, wParam, lParam, handler_result)) return true;
-    
-    if (Canvas::Get()->ProcessMessage(hWnd, message, wParam, lParam, handler_result)) return true;
 
     if (message == WM_SIZE)
     {
@@ -108,7 +105,6 @@ bool Core::ProcessMessage(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam,
 
                 World::Get()->Release();
                 Renderer::Get()->Release();
-                Canvas::Get()->Release();
             }
         }
     }

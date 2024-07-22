@@ -12,8 +12,6 @@
 #include "imgui/imgui.h"
 #include "Input/Keyboard.h"
 #include "Input/Mouse.h"
-#include "UI/Canvas.h"
-#include "UI/TextBlock.h"
 #include "Windows/DX/Sprite.h"
 #include "Logger/Logger.h"
 #include "Resource/ResourceManager.h"
@@ -57,14 +55,6 @@ PlayerController::PlayerController(const std::wstring& kName) : CharacterBase(kN
 void PlayerController::BeginPlay()
 {
     CharacterBase::BeginPlay();
-
-    text_block_ = Canvas::Get()->CreateTextBlock();
-    //text_block_->SetAnchorType(UIBase::AnchorType::Center);
-    text_block_->SetText(L"Hello, World!");
-    text_block_->SetAlignment(TextBlock::TextAlignment::Center, TextBlock::ParaAlignment::Center);
-    text_block_->SetFontStyle(false, false);
-    // text_block_->SetTextColor(Math::Color::Cyan);
-    text_block_->SetSize({ 250,50 });
 
     float x = DataManager::GetFloat(L"PlayerX", 0.f);
     float y = DataManager::GetFloat(L"PlayerY", 0.f);
@@ -118,7 +108,6 @@ void PlayerController::Tick(float delta_time)
 
     TransformComponent* transform = GetTransform();
     Math::Vector2 world_position = Renderer::Get()->ConvertWorldToScreen(transform->GetWorldPosition());
-    text_block_->SetPosition(world_position);
 
     Mouse* mouse = Mouse::Get();
     // if (mouse->IsButtonDown(MouseButton::kLeft))

@@ -19,7 +19,6 @@
 #include "Windows/DX/Renderer.h"
 #include "Windows/DX/Shape.h"
 #include "Windows/DX/ShapeBatch.h"
-#include "UI/Canvas.h"
 
 World::World() :
     window_(nullptr),
@@ -137,7 +136,6 @@ void World::Render(float alpha)
 
 void World::RenderUI()
 {
-    Canvas::Get()->Render();
 }
 
 void World::DestroyActor()
@@ -164,7 +162,6 @@ void World::TransitionLevel()
     if (current_level_)
     {
         current_level_->Unload(EndPlayReason::kLevelTransition);
-        Canvas::Get()->Clear();
     }
 
     current_level_ = next_level_;
