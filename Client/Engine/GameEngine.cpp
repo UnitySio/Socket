@@ -10,6 +10,7 @@
 #include "Input/Mouse.h"
 #include "Level/Level.h"
 #include "Level/World.h"
+#include "UI/Canvas.h"
 #include "Windows/WindowsWindow.h"
 #include "Windows/DX/Renderer.h"
 #include "Windows/DX/Shape.h"
@@ -98,7 +99,7 @@ void GameEngine::GameLoop(float delta_time)
     World::Get()->Render(alpha);
 
     Renderer::Get()->BeginRenderD2D(game_window_);
-    World::Get()->RenderUI();
+    Canvas::Get()->Render();
     Renderer::Get()->EndRenderD2D();
     
     ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());

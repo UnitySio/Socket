@@ -1,6 +1,7 @@
 ﻿#include "pch.h"
 #include "Renderer.h"
 
+#include "ProjectSettings.h"
 #include "Level/World.h"
 #include "Math/Color.h"
 #include "Math/Vector2.h"
@@ -10,6 +11,9 @@ Renderer::Renderer() :
     d3d_device_(nullptr),
     d3d_device_context_(nullptr),
     d2d_factory_(nullptr),
+    dwrite_factory_(nullptr),
+    dwrite_font_collection_(nullptr),
+    wic_imaging_factory_(nullptr),
     viewports_(),
     d2d_viewports_(),
     current_viewport_(nullptr),
@@ -23,6 +27,8 @@ bool Renderer::Init()
 
     HRESULT hr = D2D1CreateFactory(D2D1_FACTORY_TYPE_SINGLE_THREADED, d2d_factory_.GetAddressOf());
     if (FAILED(hr)) return false;
+    
+    if (!CreateDWrite()) return false;
 
     hr = CoCreateInstance(CLSID_WICImagingFactory, nullptr, CLSCTX_INPROC_SERVER, IID_PPV_ARGS(wic_imaging_factory_.GetAddressOf()));
     if (FAILED(hr)) return false;
@@ -58,6 +64,38 @@ bool Renderer::CreateDevice()
     return true;
 }
 
+bool Renderer::CreateDWrite()
+{
+    HRESULT hr = DWriteCreateFactory(DWRITE_FACTORY_TYPE_SHARED, __uuidof(IDWriteFactory5),
+                                     reinterpret_cast<IUnknown**>(dwrite_factory_.GetAddressOf()));
+    if (FAILED(hr)) return false;
+
+    Microsoft::WRL::ComPtr<IDWriteFontSetBuilder1> font_set_builder;
+    hr = dwrite_factory_->CreateFontSetBuilder(font_set_builder.GetAddressOf());
+    if (FAILED(hr)) return false;
+
+    Microsoft::WRL::ComPtr<IDWriteFontFile> silver_font;
+    hr = dwrite_factory_->CreateFontFileReference(L".\\Game_Data\\Silver.ttf", nullptr, silver_font.GetAddressOf());
+    if (FAILED(hr)) return false;
+
+    hr = font_set_builder->AddFontFile(silver_font.Get());
+    if (FAILED(hr)) return false;
+
+    Microsoft::WRL::ComPtr<IDWriteFontFile> nanum_font;
+    hr = dwrite_factory_->CreateFontFileReference(L".\\Game_Data\\NanumBarunGothic.ttf", nullptr,
+                                                  nanum_font.GetAddressOf());
+    if (FAILED(hr)) return false;
+
+    hr = font_set_builder->AddFontFile(nanum_font.Get());
+    if (FAILED(hr)) return false;
+
+    Microsoft::WRL::ComPtr<IDWriteFontSet> font_set;
+    hr = font_set_builder->CreateFontSet(font_set.GetAddressOf());
+    if (FAILED(hr)) return false;
+
+    hr = dwrite_factory_->CreateFontCollectionFromFontSet(font_set.Get(), dwrite_font_collection_.GetAddressOf());
+    return SUCCEEDED(hr);
+}
 
 bool Renderer::CreateViewport(std::shared_ptr<WindowsWindow> window, Math::Vector2 window_size)
 {
@@ -231,49 +269,6 @@ bool Renderer::ResizeViewport(const std::shared_ptr<WindowsWindow>& window, Math
 
     return false;
 }
-
-// void Renderer::DrawImage(WindowsWindow* window, const Math::Vector2& kPosition,
-//     const Math::Vector2& kScale, const Microsoft::WRL::ComPtr<ID2D1Bitmap>& kBitmap, const Math::Color& kColor)
-// {
-//     D2DViewport* d2d_viewport = FindD2DViewport(window);
-//     if (!d2d_viewport) return;
-//
-//     // 현재 변환 행렬을 저장합니다.
-//     D2D1_MATRIX_3X2_F transform;
-//     d2d_viewport->d2d_render_target->GetTransform(&transform);
-//
-//     // 컬러 효과를 설정합니다.
-//     Microsoft::WRL::ComPtr<ID2D1Effect> effect;
-//     Microsoft::WRL::ComPtr<ID2D1DeviceContext> deviceContext;
-//     HRESULT hr = d2d_viewport->d2d_render_target.As(&deviceContext);
-//     if (FAILED(hr)) return;
-//
-//     hr = deviceContext->CreateEffect(CLSID_D2D1ColorMatrix, effect.GetAddressOf());
-//     if (FAILED(hr)) return;
-//
-//     effect->SetInput(0, kBitmap.Get());
-//
-//     float r = kColor.r / 255.0f;
-//     float g = kColor.g / 255.0f;
-//     float b = kColor.b / 255.0f;
-//     float a = kColor.a / 255.0f;
-//
-//     D2D1_MATRIX_5X4_F colorMatrix = {
-//         r, 0.0f, 0.0f, 0.0f,
-//         0.0f, g, 0.0f, 0.0f,
-//         0.0f, 0.0f, b, 0.0f,
-//         0.0f, 0.0f, 0.0f, a,
-//         0.0f, 0.0f, 0.0f, 0.0f
-//     };
-//
-//     effect->SetValue(D2D1_COLORMATRIX_PROP_COLOR_MATRIX, colorMatrix);
-//
-//     // 이미지를 그립니다.
-//     deviceContext->DrawImage(effect.Get(), D2D1_INTERPOLATION_MODE_LINEAR, D2D1_COMPOSITE_MODE_SOURCE_OVER);
-//
-//     // 원래 변환 행렬로 복원합니다.
-//     d2d_viewport->d2d_render_target->SetTransform(transform);
-// }
 
 bool Renderer::CreateRenderToTexture()
 {
@@ -459,6 +454,145 @@ Math::Vector2 Renderer::ConvertWorldToScreen(const Math::Vector2& kWorldPosition
     return { x, y };
 }
 
+void Renderer::DrawBox(const std::shared_ptr<WindowsWindow>& kWindow, Math::Vector2 position, Math::Vector2 size,
+                       Math::Color color, float rotation_z, float stroke)
+{
+    D2DViewport* d2d_viewport = FindD2DViewport(kWindow.get());
+    if (!d2d_viewport) return;
+
+    D2D1_MATRIX_3X2_F transform;
+    d2d_viewport->d2d_render_target->GetTransform(&transform);
+
+    const float half_width = size.x * 0.5f;
+    const float half_height = size.y * 0.5f;
+
+    const D2D1_RECT_F rect = D2D1::RectF(position.x - half_width, position.y - half_height,
+                                         position.x + half_width, position.y + half_height);
+
+    Microsoft::WRL::ComPtr<ID2D1SolidColorBrush> brush;
+    HRESULT hr = current_d2d_viewport_->d2d_render_target->CreateSolidColorBrush(
+        D2D1::ColorF(color.r / 255.f, color.g / 255.f, color.b / 255.f, color.a / 255.f),
+        brush.GetAddressOf());
+    if (FAILED(hr)) return;
+
+    D2D1_POINT_2F center = D2D1::Point2F(position.x, position.y);
+    d2d_viewport->d2d_render_target->SetTransform(D2D1::Matrix3x2F::Rotation(rotation_z, center));
+
+    d2d_viewport->d2d_render_target->DrawRectangle(rect, brush.Get(), stroke);
+    d2d_viewport->d2d_render_target->SetTransform(transform);
+}
+
+void Renderer::DrawCircle(const std::shared_ptr<WindowsWindow>& kWindow, Math::Vector2 position, float radius,
+                          Math::Color color, float stroke)
+{
+    D2DViewport* d2d_viewport = FindD2DViewport(kWindow.get());
+    if (!d2d_viewport) return;
+
+    Microsoft::WRL::ComPtr<ID2D1SolidColorBrush> brush;
+    HRESULT hr = d2d_viewport->d2d_render_target->CreateSolidColorBrush(
+        D2D1::ColorF(color.r / 255.f, color.g / 255.f, color.b / 255.f, color.a / 255.f),
+        brush.GetAddressOf());
+    if (FAILED(hr)) return;
+
+    D2D1_ELLIPSE ellipse = D2D1::Ellipse(D2D1::Point2F(position.x, position.y), radius, radius);
+    d2d_viewport->d2d_render_target->DrawEllipse(ellipse, brush.Get(), stroke);
+}
+
+void Renderer::DrawLine(const std::shared_ptr<WindowsWindow>& kWindow, Math::Vector2 start, Math::Vector2 end,
+                        Math::Color color, float stroke)
+{
+    D2DViewport* d2d_viewport = FindD2DViewport(kWindow.get());
+    if (!d2d_viewport) return;
+
+    Microsoft::WRL::ComPtr<ID2D1SolidColorBrush> brush;
+    HRESULT hr = d2d_viewport->d2d_render_target->CreateSolidColorBrush(
+        D2D1::ColorF(color.r / 255.f, color.g / 255.f, color.b / 255.f, color.a / 255.f),
+        brush.GetAddressOf());
+    if (FAILED(hr)) return;
+
+    d2d_viewport->d2d_render_target->DrawLine(D2D1::Point2F(start.x, start.y), D2D1::Point2F(end.x, end.y), brush.Get(),
+                                              stroke);
+}
+
+void Renderer::DrawString(const std::shared_ptr<WindowsWindow>& kWindow, const std::wstring& kString,
+                          Math::Vector2 position, Math::Vector2 size, float font_size, Math::Color color)
+{
+    D2DViewport* d2d_viewport = FindD2DViewport(kWindow.get());
+    if (!d2d_viewport) return;
+
+    D2D1_MATRIX_3X2_F transform;
+    d2d_viewport->d2d_render_target->GetTransform(&transform);
+
+    const D2D1_RECT_F rect = D2D1::RectF(position.x - size.x, position.y + size.y, position.x, position.y);
+
+    Microsoft::WRL::ComPtr<IDWriteTextFormat> text_format;
+    HRESULT hr = dwrite_factory_->CreateTextFormat(L"Silver", dwrite_font_collection_.Get(),
+                                                   DWRITE_FONT_WEIGHT_REGULAR, DWRITE_FONT_STYLE_NORMAL,
+                                                   DWRITE_FONT_STRETCH_NORMAL, font_size, L"en-us",
+                                                   text_format.GetAddressOf());
+    if (FAILED(hr)) return;
+
+    text_format->SetTextAlignment(DWRITE_TEXT_ALIGNMENT_TRAILING);
+    text_format->SetParagraphAlignment(DWRITE_PARAGRAPH_ALIGNMENT_NEAR);
+
+    Microsoft::WRL::ComPtr<ID2D1SolidColorBrush> brush;
+    hr = d2d_viewport->d2d_render_target->CreateSolidColorBrush(
+        D2D1::ColorF(color.r / 255.f, color.g / 255.f, color.b / 255.f, color.a / 255.f),
+        brush.GetAddressOf());
+    if (FAILED(hr)) return;
+
+    d2d_viewport->d2d_render_target->DrawTextW(kString.c_str(), static_cast<UINT32>(kString.size()),
+                                               text_format.Get(), rect, brush.Get());
+    d2d_viewport->d2d_render_target->SetTransform(transform);
+}
+
+void Renderer::DrawBitmap(const std::shared_ptr<WindowsWindow>& kWindow, const Microsoft::WRL::ComPtr<ID2D1Bitmap>& kBitmap, Math::Vector2 position, Math::Vector2 size, float rotation_z)
+{
+    D2DViewport* d2d_viewport = FindD2DViewport(kWindow.get());
+    if (!d2d_viewport) return;
+
+    D2D1_MATRIX_3X2_F transform;
+    d2d_viewport->d2d_render_target->GetTransform(&transform);
+
+    const float half_width = size.x * 0.5f;
+    const float half_height = size.y * 0.5f;
+
+    const D2D1_RECT_F rect = D2D1::RectF(position.x - half_width, position.y - half_height,
+                                         position.x + half_width, position.y + half_height);
+
+    D2D1_POINT_2F center = D2D1::Point2F(position.x, position.y);
+    d2d_viewport->d2d_render_target->SetTransform(D2D1::Matrix3x2F::Rotation(rotation_z, center));
+
+    d2d_viewport->d2d_render_target->DrawBitmap(kBitmap.Get(), rect);
+    d2d_viewport->d2d_render_target->SetTransform(transform);
+}
+
+bool Renderer::LoadBitmap(const std::shared_ptr<WindowsWindow>& kWindow, const std::wstring& kFileName, Microsoft::WRL::ComPtr<ID2D1Bitmap>& bitmap)
+{
+    D2DViewport* d2d_viewport = FindD2DViewport(kWindow.get());
+    if (!d2d_viewport) return false;
+    
+    Microsoft::WRL::ComPtr<IWICBitmapDecoder> decoder;
+    HRESULT hr = wic_imaging_factory_->CreateDecoderFromFilename(kFileName.c_str(), nullptr, GENERIC_READ,
+                                                                WICDecodeMetadataCacheOnLoad, decoder.GetAddressOf());
+    if (FAILED(hr)) return false;
+
+    Microsoft::WRL::ComPtr<IWICBitmapFrameDecode> frame;
+    hr = decoder->GetFrame(0, frame.GetAddressOf());
+    if (FAILED(hr)) return false;
+
+    Microsoft::WRL::ComPtr<IWICFormatConverter> format_converter;
+    hr = wic_imaging_factory_->CreateFormatConverter(format_converter.GetAddressOf());
+    if (FAILED(hr)) return false;
+
+    hr = format_converter->Initialize(frame.Get(), GUID_WICPixelFormat32bppPBGRA, WICBitmapDitherTypeNone,
+                                       nullptr, 0.f, WICBitmapPaletteTypeMedianCut);
+    if (FAILED(hr)) return false;
+    
+    hr = d2d_viewport->d2d_render_target->CreateBitmapFromWicBitmap(format_converter.Get(), bitmap.GetAddressOf());
+    return SUCCEEDED(hr);
+}
+
 bool Renderer::CreateBackBufferResources(Microsoft::WRL::ComPtr<IDXGISwapChain>& dxgi_swap_chain,
                                          Microsoft::WRL::ComPtr<ID3D11Texture2D>& back_buffer,
                                          Microsoft::WRL::ComPtr<ID3D11RenderTargetView>& d3d_render_target_view)
@@ -469,5 +603,4 @@ bool Renderer::CreateBackBufferResources(Microsoft::WRL::ComPtr<IDXGISwapChain>&
     hr = d3d_device_->CreateRenderTargetView(back_buffer.Get(), nullptr, d3d_render_target_view.GetAddressOf());
     return SUCCEEDED(hr);
 }
-
 

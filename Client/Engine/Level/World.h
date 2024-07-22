@@ -23,7 +23,6 @@ public:
     void Tick(float delta_time);
     void PostTick(float delta_time);
     void Render(float alpha);
-    void RenderUI();
     void DestroyActor();
     void AddShape(const std::shared_ptr<Shape>& kShape);
     void TransitionLevel();

@@ -134,10 +134,6 @@ void World::Render(float alpha)
     shape_batch_->DrawShapes(window_, shapes);
 }
 
-void World::RenderUI()
-{
-}
-
 void World::DestroyActor()
 {
     if (current_level_)

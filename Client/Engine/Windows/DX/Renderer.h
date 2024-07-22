@@ -6,7 +6,7 @@
 
 #include <wrl/client.h>
 #include <d3d11.h>
-#include <d2d1_1.h>
+#include <d2d1.h>
 #include <dwrite_3.h>
 #include <wincodec.h>
 #include <DirectXMath.h>
@@ -14,7 +14,6 @@
 
 #include "Singleton.h"
 #include "Math/MathTypes.h"
-#include "Math/Vector2.h"
 
 class DefaultPixelShader;
 class DefaultVertexShader;
@@ -58,13 +57,6 @@ public:
     bool CreateD2DViewport(std::shared_ptr<WindowsWindow> window);
     bool CreateDepthStencilBuffer(Viewport& viewport);
     bool ResizeViewport(const std::shared_ptr<WindowsWindow>& window, MathTypes::uint32 width, MathTypes::uint32 height);
-
-    // void DrawImage(WindowsWindow* window, const Math::Vector2& kPosition, const Math::Vector2& kScale, const Microsoft::WRL::ComPtr<ID2D1Bitmap>& kBitmap, const Math::Color& kColor);
-
-    // UI TEST
-    D2DViewport* GetCurrentD2dViewport() { return current_d2d_viewport_; }
-
-
     
     // TEST
     bool CreateRenderToTexture();
@@ -87,9 +79,19 @@ public:
     Math::Vector2 ConvertScreenToWorld(const Math::Vector2& kScreenPosition) const;
     Math::Vector2 ConvertWorldToScreen(const Math::Vector2& kWorldPosition) const;
 
+    // Direct2D
+    void DrawBox(const std::shared_ptr<WindowsWindow>& kWindow, Math::Vector2 position, Math::Vector2 size, Math::Color color, float rotation_z = 0.f, float stroke = 1.f);
+    void DrawCircle(const std::shared_ptr<WindowsWindow>& kWindow, Math::Vector2 position, float radius, Math::Color color, float stroke = 1.f);
+    void DrawLine(const std::shared_ptr<WindowsWindow>& kWindow, Math::Vector2 start, Math::Vector2 end, Math::Color color, float stroke = 1.f);
+    void DrawString(const std::shared_ptr<WindowsWindow>& kWindow, const std::wstring& kString, Math::Vector2 position, Math::Vector2 size, float font_size, Math::Color color);
+    void DrawBitmap(const std::shared_ptr<WindowsWindow>& kWindow, const Microsoft::WRL::ComPtr<ID2D1Bitmap>& kBitmap, Math::Vector2 position, Math::Vector2 size, float rotation_z = 0.f);
+    
+    bool LoadBitmap(const std::shared_ptr<WindowsWindow>& kWindow, const std::wstring& kFileName, Microsoft::WRL::ComPtr<ID2D1Bitmap>& bitmap);
+
     inline ID3D11Device* GetDevice() const { return d3d_device_.Get(); }
     inline ID3D11DeviceContext* GetDeviceContext() const { return d3d_device_context_.Get(); }
     inline Microsoft::WRL::ComPtr<IWICImagingFactory> GetImageFactory() const { return wic_imaging_factory_; }
+
 private:
     bool CreateBackBufferResources(Microsoft::WRL::ComPtr<IDXGISwapChain>& dxgi_swap_chain, Microsoft::WRL::ComPtr<ID3D11Texture2D>& back_buffer, Microsoft::WRL::ComPtr<ID3D11RenderTargetView>& d3d_render_target_view);
 
@@ -97,6 +99,10 @@ private:
     Microsoft::WRL::ComPtr<ID3D11DeviceContext> d3d_device_context_;
 
     Microsoft::WRL::ComPtr<ID2D1Factory> d2d_factory_;
+
+    Microsoft::WRL::ComPtr<IDWriteFactory5> dwrite_factory_;
+    Microsoft::WRL::ComPtr<IDWriteFontCollection1> dwrite_font_collection_;
+    
     Microsoft::WRL::ComPtr<IWICImagingFactory> wic_imaging_factory_;
     
     std::map<WindowsWindow*, Viewport> viewports_;
