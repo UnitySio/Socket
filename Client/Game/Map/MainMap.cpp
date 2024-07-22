@@ -35,7 +35,7 @@ void MainMap::Load()
     sio->GetTransform()->SetRelativePosition({ -1.5f, 0.f });
 
     std::shared_ptr<UIBase> ui = std::make_shared<UIBase>();
-    ui->SetPosition({0.f, 0.f});
+    ui->SetPosition({0.f, 100.f});
     ui->SetSize({100.f, 100.f});
     
     Canvas::Get()->AddUI(ui);

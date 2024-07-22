@@ -33,9 +33,9 @@ void UIBase::Render()
     MathTypes::uint32 canvas_height = Canvas::Get()->height_;
 
     float left = canvas_width * anchor_min_.x + position_.x;
-    float top = canvas_height * (1.f - anchor_max_.y) - position_.y;
+    float top = canvas_height * (1.f - anchor_max_.y) + position_.y;
     float right = (anchor_max_.x - anchor_min_.x) * canvas_width + size_.x;
-    float bottom = (anchor_max_.y - anchor_min_.y) * canvas_height + size_.y;
+    float bottom = (anchor_max_.y - anchor_min_.y) * canvas_height - size_.y - position_.y;
 
     Math::Rect rect(left, top, right, bottom);
 
