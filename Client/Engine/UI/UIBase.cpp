@@ -10,8 +10,8 @@
 UIBase::UIBase() :
     position_(Math::Vector2::Zero()),
     size_(Math::Vector2::Zero()),
-    anchor_min_({0.f, 0.f}),
-    anchor_max_({.75f, .75f})
+    anchor_min_({.25f, .25f}),
+    anchor_max_({.25f, .25f})
 {
 }
 
@@ -35,7 +35,7 @@ void UIBase::Render()
     float left = canvas_width * anchor_min_.x + position_.x;
     float top = canvas_height * (1.f - anchor_max_.y) + position_.y;
     float right = (anchor_max_.x - anchor_min_.x) * canvas_width + size_.x;
-    float bottom = (anchor_max_.y - anchor_min_.y) * canvas_height - size_.y - position_.y;
+    float bottom = (anchor_max_.y - anchor_min_.y) * canvas_height - size_.y;
 
     Math::Rect rect(left, top, right, bottom);
 
