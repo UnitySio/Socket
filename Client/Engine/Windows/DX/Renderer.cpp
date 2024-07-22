@@ -4,6 +4,7 @@
 #include "ProjectSettings.h"
 #include "Level/World.h"
 #include "Math/Color.h"
+#include "Math/Rect.h"
 #include "Math/Vector2.h"
 #include "Windows/WindowsWindow.h"
 
@@ -454,20 +455,16 @@ Math::Vector2 Renderer::ConvertWorldToScreen(const Math::Vector2& kWorldPosition
     return { x, y };
 }
 
-void Renderer::DrawBox(const std::shared_ptr<WindowsWindow>& kWindow, Math::Vector2 position, Math::Vector2 size,
+void Renderer::DrawBox(WindowsWindow* window, const Math::Rect& rect,
                        Math::Color color, float rotation_z, float stroke)
 {
-    D2DViewport* d2d_viewport = FindD2DViewport(kWindow.get());
+    D2DViewport* d2d_viewport = FindD2DViewport(window);
     if (!d2d_viewport) return;
 
     D2D1_MATRIX_3X2_F transform;
     d2d_viewport->d2d_render_target->GetTransform(&transform);
 
-    const float half_width = size.x * 0.5f;
-    const float half_height = size.y * 0.5f;
-
-    const D2D1_RECT_F rect = D2D1::RectF(position.x - half_width, position.y - half_height,
-                                         position.x + half_width, position.y + half_height);
+    const D2D1_RECT_F d2d_rect = D2D1::RectF(rect.Left(), rect.Top(), rect.Right(), rect.Bottom());
 
     Microsoft::WRL::ComPtr<ID2D1SolidColorBrush> brush;
     HRESULT hr = current_d2d_viewport_->d2d_render_target->CreateSolidColorBrush(
@@ -475,10 +472,11 @@ void Renderer::DrawBox(const std::shared_ptr<WindowsWindow>& kWindow, Math::Vect
         brush.GetAddressOf());
     if (FAILED(hr)) return;
 
-    D2D1_POINT_2F center = D2D1::Point2F(position.x, position.y);
+    D2D1_POINT_2F center = D2D1::Point2F(rect.Center().x, rect.Center().y);
     d2d_viewport->d2d_render_target->SetTransform(D2D1::Matrix3x2F::Rotation(rotation_z, center));
 
-    d2d_viewport->d2d_render_target->DrawRectangle(rect, brush.Get(), stroke);
+    // d2d_viewport->d2d_render_target->DrawRectangle(d2d_rect, brush.Get(), stroke);
+    d2d_viewport->d2d_render_target->FillRectangle(d2d_rect, brush.Get());
     d2d_viewport->d2d_render_target->SetTransform(transform);
 }
 

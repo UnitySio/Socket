@@ -8,6 +8,7 @@
 #include "Level/World.h"
 #include "Math/Vector2.h"
 #include "Time/Time.h"
+#include "UI/Canvas.h"
 #include "Windows/WindowDefinition.h"
 #include "Windows/WindowsWindow.h"
 #include "Windows/DX/Renderer.h"
@@ -80,6 +81,8 @@ bool Core::ProcessMessage(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam,
 
         resize_width_ = LOWORD(lParam);
         resize_height_ = HIWORD(lParam);
+
+        Canvas::Get()->OnResize(resize_width_, resize_height_);
     }
 
     if (message == WM_SETFOCUS)

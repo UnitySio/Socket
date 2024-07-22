@@ -14,9 +14,15 @@ public:
     void AddUI(const std::shared_ptr<UIBase>& kUI);
 
 private:
+    friend class Core;
     friend class GameEngine;
+    friend class UIBase;
 
+    void OnResize(MathTypes::uint32 width, MathTypes::uint32 height);
     void Render();
+
+    MathTypes::uint32 width_;
+    MathTypes::uint32 height_;
 
     std::vector<std::shared_ptr<UIBase>> uis_;
     
