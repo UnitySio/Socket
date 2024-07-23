@@ -37,6 +37,7 @@ void MainMap::Load()
     std::shared_ptr<UIBase> ui = std::make_shared<UIBase>();
     ui->SetPosition({0.f, 0.f});
     ui->SetSize({100.f, 100.f});
+    ui->SetAnchorPreset(AnchorPresets::kLeft | AnchorPresets::kTop, true);
     
     Canvas::Get()->AddUI(ui);
     

@@ -15,7 +15,6 @@ UIBase::UIBase() :
     anchor_max_({.5f, .5f}),
     pivot_({.5f, .5f})
 {
-    SetAnchorPreset(kMiddle | kCenter, false);
 }
 
 void UIBase::SetPosition(const Math::Vector2& kPosition)
@@ -83,13 +82,13 @@ void UIBase::SetAnchorPreset(MathTypes::uint16 anchor, bool match_pivot)
         if (anchor & kTop) pivot_.y = 1.f;
         else if (anchor & kBottom) pivot_.y = 0.f;
         else pivot_.y = .5f;
+
+        UpdateRect();
     }
 }
 
 void UIBase::Render()
 {
-    UpdateRect();
-    
     WindowsWindow* window = World::Get()->GetWindow();
     Renderer::Get()->DrawString(window, L"Hello, World!", rect_, pivot_, Math::Color::White);
     Renderer::Get()->DrawBox(window, rect_, pivot_, Math::Color::Red);
