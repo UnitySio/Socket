@@ -455,7 +455,7 @@ Math::Vector2 Renderer::ConvertWorldToScreen(const Math::Vector2& kWorldPosition
     return { x, y };
 }
 
-void Renderer::DrawBox(WindowsWindow* window, const Math::Rect& rect, const Math::Vector2& kPivot, Math::Color color, float rotation_z, float stroke)
+void Renderer::DrawBox(WindowsWindow* window, const Math::Rect& kRect, const Math::Vector2& kPivot, const Math::Color& kColor, float rotation_z, float stroke)
 {
     D2DViewport* d2d_viewport = FindD2DViewport(window);
     if (!d2d_viewport) return;
@@ -463,24 +463,23 @@ void Renderer::DrawBox(WindowsWindow* window, const Math::Rect& rect, const Math
     D2D1_MATRIX_3X2_F transform;
     d2d_viewport->d2d_render_target->GetTransform(&transform);
 
-    const D2D1_RECT_F d2d_rect = D2D1::RectF(rect.Left(), rect.Top(), rect.Right(), rect.Bottom());
+    const D2D1_RECT_F rect = D2D1::RectF(kRect.Left(), kRect.Top(), kRect.Right(), kRect.Bottom());
 
     Microsoft::WRL::ComPtr<ID2D1SolidColorBrush> brush;
     HRESULT hr = current_d2d_viewport_->d2d_render_target->CreateSolidColorBrush(
-        D2D1::ColorF(color.r / 255.f, color.g / 255.f, color.b / 255.f, color.a / 255.f),
+        D2D1::ColorF(kColor.r / 255.f, kColor.g / 255.f, kColor.b / 255.f, kColor.a / 255.f),
         brush.GetAddressOf()
     );
     
     if (FAILED(hr)) return;
 
-    float pivot_x = rect.width * kPivot.x;
-    float pivot_y = rect.height * (1.f - kPivot.y);
+    float pivot_x = kRect.width * kPivot.x;
+    float pivot_y = kRect.height * (1.f - kPivot.y);
 
-    D2D1_POINT_2F center = D2D1::Point2F(rect.x + pivot_x, rect.y + pivot_y);
+    D2D1_POINT_2F center = D2D1::Point2F(kRect.x + pivot_x, kRect.y + pivot_y);
     d2d_viewport->d2d_render_target->SetTransform(D2D1::Matrix3x2F::Rotation(rotation_z, center));
 
-    // d2d_viewport->d2d_render_target->DrawRectangle(d2d_rect, brush.Get(), stroke);
-    d2d_viewport->d2d_render_target->FillRectangle(d2d_rect, brush.Get());
+    d2d_viewport->d2d_render_target->DrawRectangle(rect, brush.Get(), stroke);
     d2d_viewport->d2d_render_target->SetTransform(transform);
 }
 
@@ -512,20 +511,18 @@ void Renderer::DrawLine(const std::shared_ptr<WindowsWindow>& kWindow, Math::Vec
         brush.GetAddressOf());
     if (FAILED(hr)) return;
 
-    d2d_viewport->d2d_render_target->DrawLine(D2D1::Point2F(start.x, start.y), D2D1::Point2F(end.x, end.y), brush.Get(),
-                                              stroke);
+    d2d_viewport->d2d_render_target->DrawLine(D2D1::Point2F(start.x, start.y), D2D1::Point2F(end.x, end.y), brush.Get(), stroke);
 }
 
-void Renderer::DrawString(const std::shared_ptr<WindowsWindow>& kWindow, const std::wstring& kString,
-                          Math::Vector2 position, Math::Vector2 size, float font_size, Math::Color color)
+void Renderer::DrawString(WindowsWindow* window, const std::wstring& kString, const Math::Rect& kRect, const Math::Vector2& kPivot, const Math::Color& kColor, float rotation_z, float font_size)
 {
-    D2DViewport* d2d_viewport = FindD2DViewport(kWindow.get());
+    D2DViewport* d2d_viewport = FindD2DViewport(window);
     if (!d2d_viewport) return;
 
     D2D1_MATRIX_3X2_F transform;
     d2d_viewport->d2d_render_target->GetTransform(&transform);
 
-    const D2D1_RECT_F rect = D2D1::RectF(position.x - size.x, position.y + size.y, position.x, position.y);
+    const D2D1_RECT_F rect = D2D1::RectF(kRect.Left(), kRect.Top(), kRect.Right(), kRect.Bottom());
 
     Microsoft::WRL::ComPtr<IDWriteTextFormat> text_format;
     HRESULT hr = dwrite_factory_->CreateTextFormat(L"Silver", dwrite_font_collection_.Get(),
@@ -534,14 +531,22 @@ void Renderer::DrawString(const std::shared_ptr<WindowsWindow>& kWindow, const s
                                                    text_format.GetAddressOf());
     if (FAILED(hr)) return;
 
-    text_format->SetTextAlignment(DWRITE_TEXT_ALIGNMENT_TRAILING);
-    text_format->SetParagraphAlignment(DWRITE_PARAGRAPH_ALIGNMENT_NEAR);
+    text_format->SetTextAlignment(DWRITE_TEXT_ALIGNMENT_CENTER);
+    text_format->SetParagraphAlignment(DWRITE_PARAGRAPH_ALIGNMENT_CENTER);
 
     Microsoft::WRL::ComPtr<ID2D1SolidColorBrush> brush;
     hr = d2d_viewport->d2d_render_target->CreateSolidColorBrush(
-        D2D1::ColorF(color.r / 255.f, color.g / 255.f, color.b / 255.f, color.a / 255.f),
-        brush.GetAddressOf());
+        D2D1::ColorF(kColor.r / 255.f, kColor.g / 255.f, kColor.b / 255.f, kColor.a / 255.f),
+        brush.GetAddressOf()
+    );
+    
     if (FAILED(hr)) return;
+    
+    float pivot_x = kRect.width * kPivot.x;
+    float pivot_y = kRect.height * (1.f - kPivot.y);
+
+    D2D1_POINT_2F center = D2D1::Point2F(kRect.x + pivot_x, kRect.y + pivot_y);
+    d2d_viewport->d2d_render_target->SetTransform(D2D1::Matrix3x2F::Rotation(rotation_z, center));
 
     d2d_viewport->d2d_render_target->DrawTextW(kString.c_str(), static_cast<UINT32>(kString.size()),
                                                text_format.Get(), rect, brush.Get());

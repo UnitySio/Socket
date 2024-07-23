@@ -7,6 +7,7 @@ namespace Math
     {
         Rect();
         Rect(float x, float y, float width, float height);
+        Rect operator=(const Rect& other);
 
         inline float Left() const { return x; }
         inline float Right() const { return x + width; }

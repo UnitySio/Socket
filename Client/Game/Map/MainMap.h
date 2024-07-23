@@ -1,8 +1,6 @@
 ﻿#pragma once
 #include "Level/Level.h"
 
-class Button;
-
 class MainMap : public Level
 {
 public:

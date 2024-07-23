@@ -16,3 +16,12 @@ Math::Rect::Rect(float x, float y, float width, float height) :
     height(height)
 {
 }
+
+Math::Rect Math::Rect::operator=(const Rect& other)
+{
+    x = other.x;
+    y = other.y;
+    width = other.width;
+    height = other.height;
+    return *this;
+}
