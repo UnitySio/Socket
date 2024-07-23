@@ -10,9 +10,9 @@
 UIBase::UIBase() :
     position_(Math::Vector2::Zero()),
     size_(Math::Vector2::Zero()),
-    anchor_min_({.5f, .5f}),
-    anchor_max_({.5f, .5f}),
-    pivot_({.5f, .75f})
+    anchor_min_({.25f, .25f}),
+    anchor_max_({.25f, .25f}),
+    pivot_({.25f, .5f})
 {
 }
 
@@ -28,8 +28,6 @@ void UIBase::SetSize(const Math::Vector2& size)
 
 void UIBase::Render()
 {
-    // pivot 왼쪽 상단을 기준
-
     Canvas* canvas = Canvas::Get();
     MathTypes::uint32 canvas_width = canvas->width_;
     MathTypes::uint32 canvas_height = canvas->height_;
@@ -43,12 +41,8 @@ void UIBase::Render()
     {
         right = size_.x;
         bottom = size_.y;
-        
-        float pivot_x = right * pivot_.x;
-        float pivot_y = bottom * pivot_.y;
-        
-        left = canvas_width * anchor_min_.x + position_.x - pivot_x;
-        top = canvas_height * (1.f - anchor_min_.y) - position_.y - pivot_y;
+        left = canvas_width * anchor_min_.x + position_.x;
+        top = canvas_height * (1.f - anchor_min_.y) - position_.y;
     }
     else
     {
@@ -57,9 +51,18 @@ void UIBase::Render()
         right = (anchor_max_.x - anchor_min_.x) * canvas_width - position_.x - size_.x;
         bottom = (anchor_max_.y - anchor_min_.y) * canvas_height - position_.y - size_.y;
     }
+    
+    const float pivot_x = right * pivot_.x;
+    const float pivot_y = bottom * pivot_.y;
+
+    if (anchor_min_ == anchor_max_)
+    {
+        left -= pivot_x;
+        top -= pivot_y;
+    }
 
     Math::Rect rect(left, top, right, bottom);
 
     WindowsWindow* window = World::Get()->GetWindow();
-    Renderer::Get()->DrawBox(window, rect, Math::Color::White);
+    Renderer::Get()->DrawBox(window, rect, pivot_, Math::Color::White);
 }

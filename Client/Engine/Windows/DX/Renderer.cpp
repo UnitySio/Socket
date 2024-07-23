@@ -455,8 +455,7 @@ Math::Vector2 Renderer::ConvertWorldToScreen(const Math::Vector2& kWorldPosition
     return { x, y };
 }
 
-void Renderer::DrawBox(WindowsWindow* window, const Math::Rect& rect,
-                       Math::Color color, float rotation_z, float stroke)
+void Renderer::DrawBox(WindowsWindow* window, const Math::Rect& rect, const Math::Vector2& kPivot, Math::Color color, float rotation_z, float stroke)
 {
     D2DViewport* d2d_viewport = FindD2DViewport(window);
     if (!d2d_viewport) return;
@@ -469,10 +468,15 @@ void Renderer::DrawBox(WindowsWindow* window, const Math::Rect& rect,
     Microsoft::WRL::ComPtr<ID2D1SolidColorBrush> brush;
     HRESULT hr = current_d2d_viewport_->d2d_render_target->CreateSolidColorBrush(
         D2D1::ColorF(color.r / 255.f, color.g / 255.f, color.b / 255.f, color.a / 255.f),
-        brush.GetAddressOf());
+        brush.GetAddressOf()
+    );
+    
     if (FAILED(hr)) return;
 
-    D2D1_POINT_2F center = D2D1::Point2F(rect.Center().x, rect.Center().y);
+    float pivot_x = rect.width * kPivot.x;
+    float pivot_y = rect.height * (1.f - kPivot.y);
+
+    D2D1_POINT_2F center = D2D1::Point2F(rect.x + pivot_x, rect.y + pivot_y);
     d2d_viewport->d2d_render_target->SetTransform(D2D1::Matrix3x2F::Rotation(rotation_z, center));
 
     // d2d_viewport->d2d_render_target->DrawRectangle(d2d_rect, brush.Get(), stroke);

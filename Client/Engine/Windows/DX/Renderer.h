@@ -82,7 +82,7 @@ public:
     Math::Vector2 ConvertWorldToScreen(const Math::Vector2& kWorldPosition) const;
 
     // Direct2D
-    void DrawBox(WindowsWindow* window, const Math::Rect& rect, Math::Color color, float rotation_z = 0.f, float stroke = 1.f);
+    void DrawBox(WindowsWindow* window, const Math::Rect& kRect, const Math::Vector2& kPivot, Math::Color color, float rotation_z = 0.f, float stroke = 1.f);
     void DrawCircle(const std::shared_ptr<WindowsWindow>& kWindow, Math::Vector2 position, float radius, Math::Color color, float stroke = 1.f);
     void DrawLine(const std::shared_ptr<WindowsWindow>& kWindow, Math::Vector2 start, Math::Vector2 end, Math::Color color, float stroke = 1.f);
     void DrawString(const std::shared_ptr<WindowsWindow>& kWindow, const std::wstring& kString, Math::Vector2 position, Math::Vector2 size, float font_size, Math::Color color);
