@@ -25,3 +25,13 @@ Math::Rect Math::Rect::operator=(const Rect& other)
     height = other.height;
     return *this;
 }
+
+bool Math::Rect::Contains(const Math::Vector2& point) const
+{
+    return point.x >= x && point.x <= x + width && point.y >= y && point.y <= y + height;
+}
+
+bool Math::Rect::Overlaps(const Rect& other) const
+{
+    return x < other.Right() && Right() > other.x && y < other.Bottom() && Bottom() > other.y;
+}

@@ -6,7 +6,7 @@ namespace UI
     class Text : public UIBase
     {
     public:
-        Text();
+        Text(const std::wstring& kName);
         virtual ~Text() override = default;
 
         void SetText(const std::wstring& text) { text_ = text; }

@@ -26,6 +26,14 @@ void Canvas::OnResize(MathTypes::uint32 width, MathTypes::uint32 height)
     }
 }
 
+void Canvas::Tick(float deltaTime)
+{
+    for (const auto& ui : uis_)
+    {
+        ui->Tick(deltaTime);
+    }
+}
+
 void Canvas::Render()
 {
     for (const auto& ui : uis_)

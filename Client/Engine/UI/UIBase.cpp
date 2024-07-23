@@ -6,7 +6,8 @@
 #include "Math/Color.h"
 #include "Math/Rect.h"
 
-UIBase::UIBase() :
+UIBase::UIBase(const std::wstring& kName) :
+    name_(kName),
     rect_(),
     position_(Math::Vector2::Zero()),
     size_({100.f, 100.f}),

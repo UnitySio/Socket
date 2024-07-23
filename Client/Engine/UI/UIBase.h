@@ -16,7 +16,7 @@ enum AnchorPresets
 class UIBase
 {
 public:
-    UIBase();
+    UIBase(const std::wstring& kName);
     virtual ~UIBase() = default;
 
     void SetPosition(const Math::Vector2& kPosition);
@@ -30,10 +30,13 @@ public:
 
 protected:
     friend class Canvas;
-
-    virtual void Render() = 0;
+    
+    virtual inline void Tick(float deltaTime) {}
+    virtual inline void Render() {}
     
     virtual void UpdateRect();
+
+    std::wstring name_;
 
     Math::Rect rect_;
     

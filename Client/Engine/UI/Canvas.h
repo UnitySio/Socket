@@ -19,6 +19,7 @@ private:
     friend class UIBase;
 
     void OnResize(MathTypes::uint32 width, MathTypes::uint32 height);
+    void Tick(float deltaTime);
     void Render();
 
     MathTypes::uint32 width_;

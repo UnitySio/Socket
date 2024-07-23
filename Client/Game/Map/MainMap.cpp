@@ -6,6 +6,7 @@
 #include "Actor/Character/Player/PlayerController.h"
 #include "Actor/Component/TransformComponent.h"
 #include "Sio/Sio.h"
+#include "UI/Button.h"
 #include "UI/Canvas.h"
 #include "UI/Text.h"
 #include "UI/UIBase.h"
@@ -35,13 +36,20 @@ void MainMap::Load()
     AddActor(sio);
     sio->GetTransform()->SetRelativePosition({ -1.5f, 0.f });
 
-    ui = std::make_shared<UI::Text>();
+    ui = std::make_shared<UI::Text>(L"Text");
     ui->SetPosition({0.f, 0.f});
     ui->SetSize({100.f, 100.f});
     ui->SetAnchorPreset(AnchorPresets::kTop, true);
     ui->SetText(L"이방인");
     
     Canvas::Get()->AddUI(ui);
+
+    std::shared_ptr<UI::Button> button = std::make_shared<UI::Button>(L"Button");
+    button->SetPosition({ 0.f, 0.f });
+    button->SetSize({ 100.f, 100.f });
+    button->SetAnchorPreset(AnchorPresets::kMiddle | AnchorPresets::kCenter, true);
+
+    Canvas::Get()->AddUI(button);
     
 }
 
