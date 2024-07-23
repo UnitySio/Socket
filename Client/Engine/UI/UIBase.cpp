@@ -11,7 +11,8 @@ UIBase::UIBase() :
     position_(Math::Vector2::Zero()),
     size_(Math::Vector2::Zero()),
     anchor_min_({.5f, .5f}),
-    anchor_max_({.5f, .5f})
+    anchor_max_({.5f, .5f}),
+    pivot_({.5f, .75f})
 {
 }
 
@@ -40,10 +41,14 @@ void UIBase::Render()
 
     if (anchor_min_ == anchor_max_)
     {
-        left = canvas_width * anchor_min_.x + position_.x;
-        top = canvas_height * (1.f - anchor_min_.y) - position_.y;
         right = size_.x;
         bottom = size_.y;
+        
+        float pivot_x = right * pivot_.x;
+        float pivot_y = bottom * pivot_.y;
+        
+        left = canvas_width * anchor_min_.x + position_.x - pivot_x;
+        top = canvas_height * (1.f - anchor_min_.y) - position_.y - pivot_y;
     }
     else
     {

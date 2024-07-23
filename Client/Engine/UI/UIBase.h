@@ -19,5 +19,6 @@ protected:
     Math::Vector2 size_;
     Math::Vector2 anchor_min_;
     Math::Vector2 anchor_max_;
+    Math::Vector2 pivot_;
     
 };
