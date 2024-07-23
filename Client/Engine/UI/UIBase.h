@@ -2,6 +2,17 @@
 #include "Math/Rect.h"
 #include "Math/Vector2.h"
 
+enum AnchorPresets
+{
+    kLeft = (0x01<<0),
+    kRight = (0x01<<1),
+    kTop = (0x01<<2),
+    kBottom = (0x01<<3),
+    kCenter = (0x01<<4),
+    kMiddle = (0x01<<5),
+    kStretch = (0x01<<6)
+};
+
 class UIBase
 {
 public:
@@ -13,6 +24,8 @@ public:
     void SetAnchorMin(const Math::Vector2& kAnchorMin);
     void SetAnchorMax(const Math::Vector2& kAnchorMax);
     void SetPivot(const Math::Vector2& kPivot);
+    void SetAnchors(const Math::Vector2& kAnchorMin, const Math::Vector2& kAnchorMax);
+    void SetAnchorPreset(MathTypes::uint16 anchor, bool match_pivot = false);
 
 protected:
     friend class Canvas;
