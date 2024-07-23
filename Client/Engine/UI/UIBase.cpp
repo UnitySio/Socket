@@ -10,8 +10,8 @@
 UIBase::UIBase() :
     position_(Math::Vector2::Zero()),
     size_(Math::Vector2::Zero()),
-    anchor_min_({.25f, .25f}),
-    anchor_max_({.25f, .25f})
+    anchor_min_({.5f, .5f}),
+    anchor_max_({.5f, .5f})
 {
 }
 
@@ -29,13 +29,29 @@ void UIBase::Render()
 {
     // pivot 왼쪽 상단을 기준
 
-    MathTypes::uint32 canvas_width = Canvas::Get()->width_;
-    MathTypes::uint32 canvas_height = Canvas::Get()->height_;
+    Canvas* canvas = Canvas::Get();
+    MathTypes::uint32 canvas_width = canvas->width_;
+    MathTypes::uint32 canvas_height = canvas->height_;
 
-    float left = canvas_width * anchor_min_.x + position_.x;
-    float top = canvas_height * (1.f - anchor_max_.y) + position_.y;
-    float right = (anchor_max_.x - anchor_min_.x) * canvas_width + size_.x;
-    float bottom = (anchor_max_.y - anchor_min_.y) * canvas_height - size_.y;
+    float left = 0.f;
+    float top = 0.f;
+    float right = 0.f;
+    float bottom = 0.f;
+
+    if (anchor_min_ == anchor_max_)
+    {
+        left = canvas_width * anchor_min_.x + position_.x;
+        top = canvas_height * (1.f - anchor_min_.y) - position_.y;
+        right = size_.x;
+        bottom = size_.y;
+    }
+    else
+    {
+        left = canvas_width * anchor_min_.x + position_.x;
+        top = canvas_height * (1.f - anchor_max_.y) + position_.y;
+        right = (anchor_max_.x - anchor_min_.x) * canvas_width - position_.x - size_.x;
+        bottom = (anchor_max_.y - anchor_min_.y) * canvas_height - position_.y - size_.y;
+    }
 
     Math::Rect rect(left, top, right, bottom);
 
