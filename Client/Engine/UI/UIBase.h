@@ -31,7 +31,8 @@ public:
 protected:
     friend class Canvas;
 
-    virtual void Render();
+    virtual void Render() = 0;
+    
     virtual void UpdateRect();
 
     Math::Rect rect_;

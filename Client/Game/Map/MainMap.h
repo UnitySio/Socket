@@ -1,6 +1,11 @@
 ﻿#pragma once
 #include "Level/Level.h"
 
+namespace UI
+{
+    class Text;
+}
+
 class MainMap : public Level
 {
 public:
@@ -12,6 +17,6 @@ public:
 
 private:
     std::shared_ptr<Actor> player;
-    std::shared_ptr<class UIBase> ui;
+    std::shared_ptr<UI::Text> ui;
 
 };

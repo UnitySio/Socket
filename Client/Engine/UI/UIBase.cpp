@@ -5,7 +5,6 @@
 #include "Level/World.h"
 #include "Math/Color.h"
 #include "Math/Rect.h"
-#include "Windows/DX/Renderer.h"
 
 UIBase::UIBase() :
     rect_(),
@@ -99,13 +98,6 @@ void UIBase::SetAnchorPreset(MathTypes::uint16 anchor, bool match_pivot)
 
         UpdateRect();
     }
-}
-
-void UIBase::Render()
-{
-    WindowsWindow* window = World::Get()->GetWindow();
-    Renderer::Get()->DrawString(window, L"Hello, World!", rect_, pivot_, Math::Color::White);
-    Renderer::Get()->DrawBox(window, rect_, pivot_, Math::Color::Red);
 }
 
 void UIBase::UpdateRect()

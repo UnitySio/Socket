@@ -7,9 +7,9 @@
 #include "Actor/Component/TransformComponent.h"
 #include "Sio/Sio.h"
 #include "UI/Canvas.h"
+#include "UI/Text.h"
 #include "UI/UIBase.h"
 #include "Windows/DX/Renderer.h"
-
 
 MainMap::MainMap(const std::wstring& kName) : Level(kName)
 {
@@ -35,10 +35,11 @@ void MainMap::Load()
     AddActor(sio);
     sio->GetTransform()->SetRelativePosition({ -1.5f, 0.f });
 
-    ui = std::make_shared<UIBase>();
+    ui = std::make_shared<UI::Text>();
     ui->SetPosition({0.f, 0.f});
     ui->SetSize({100.f, 100.f});
     ui->SetAnchorPreset(AnchorPresets::kTop, true);
+    ui->SetText(L"이방인");
     
     Canvas::Get()->AddUI(ui);
     
