@@ -10,8 +10,8 @@
 UIBase::UIBase() :
     rect_(),
     position_(Math::Vector2::Zero()),
-    size_(Math::Vector2::Zero()),
-    anchor_min_({.5f, .5f}),
+    size_({100.f, 100.f}),
+    anchor_min_({0.f, 0.f}),
     anchor_max_({.5f, .5f}),
     pivot_({.5f, .5f})
 {

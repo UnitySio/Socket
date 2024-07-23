@@ -19,6 +19,11 @@ void Canvas::OnResize(MathTypes::uint32 width, MathTypes::uint32 height)
 {
     width_ = width;
     height_ = height;
+
+    for (const auto& ui : uis_)
+    {
+        ui->UpdateRect();
+    }
 }
 
 void Canvas::Render()
