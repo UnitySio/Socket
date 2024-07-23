@@ -116,19 +116,19 @@ void UIBase::UpdateRect()
         right = (anchor_max_.x - anchor_min_.x) * canvas_width - position_.x - size_.x;
     }
 
-    float anchored_min_y = canvas_height * (1.f - anchor_min_.y);
-    if (anchor_min_.y == 0.f) anchored_min_y = canvas_height;
-
-    float anchored_max_y = canvas_height * (1.f - anchor_max_.y);
-    if (anchor_max_.y == 0.f) anchored_max_y = 0.f;
-
     if (anchor_min_.y == anchor_max_.y)
     {
-        top = anchored_min_y - position_.y;
+        float anchored_min_y = canvas_height * (1.f - anchor_min_.y);
+        if (anchor_min_.y == 0.f) anchored_min_y = canvas_height;
+        
+        top = anchored_min_y + position_.y;
         bottom = size_.y;
     }
     else
     {
+        float anchored_max_y = canvas_height * (1.f - anchor_max_.y);
+        if (anchor_max_.y == 0.f) anchored_max_y = 0.f;
+        
         top = anchored_max_y + position_.y;
         bottom = (anchor_max_.y - anchor_min_.y) * canvas_height - position_.y - size_.y;
     }
