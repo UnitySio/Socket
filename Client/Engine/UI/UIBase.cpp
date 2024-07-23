@@ -15,11 +15,25 @@ UIBase::UIBase() :
     anchor_max_({.5f, .5f}),
     pivot_({.5f, .5f})
 {
+    UpdateRect();
 }
 
 void UIBase::SetPosition(const Math::Vector2& kPosition)
 {
     position_ = kPosition;
+    UpdateRect();
+}
+
+void UIBase::SetPositionScreen(const Math::Vector2& kPosition)
+{
+    Canvas* canvas = Canvas::Get();
+    MathTypes::uint32 canvas_width = canvas->width_;
+    MathTypes::uint32 canvas_height = canvas->height_;
+
+    float x = kPosition.x - canvas_width * anchor_min_.x;
+    float y = kPosition.y - canvas_height * (1.f - anchor_min_.y);
+    position_ = {x, y};
+    
     UpdateRect();
 }
 

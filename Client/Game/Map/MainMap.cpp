@@ -8,6 +8,7 @@
 #include "Sio/Sio.h"
 #include "UI/Canvas.h"
 #include "UI/UIBase.h"
+#include "Windows/DX/Renderer.h"
 
 
 MainMap::MainMap(const std::wstring& kName) : Level(kName)
@@ -19,7 +20,7 @@ void MainMap::Load()
     std::shared_ptr<Actor> tilemap = std::make_shared<Tilemap>(L"Tilemap");
     AddActor(tilemap);
 
-    std::shared_ptr<Actor> player = std::make_shared<PlayerController>(L"Player");
+    player = std::make_shared<PlayerController>(L"Player");
     AddActor(player);
     
     player->GetTransform()->SetRelativePosition({ 1.5f, 0.f });
@@ -34,12 +35,22 @@ void MainMap::Load()
     AddActor(sio);
     sio->GetTransform()->SetRelativePosition({ -1.5f, 0.f });
 
-    std::shared_ptr<UIBase> ui = std::make_shared<UIBase>();
+    ui = std::make_shared<UIBase>();
     ui->SetPosition({0.f, 0.f});
-    ui->SetSize({0.f, 0.f});
-    ui->SetAnchorPreset(AnchorPresets::kStretch, true);
+    ui->SetSize({100.f, 100.f});
+    ui->SetAnchorPreset(AnchorPresets::kTop, true);
     
     Canvas::Get()->AddUI(ui);
     
+}
+
+void MainMap::Tick(float delta_time)
+{
+    Level::Tick(delta_time);
+
+    Math::Vector2 position = player->GetTransform()->GetWorldPosition();
+    position = Renderer::Get()->ConvertWorldToScreen(position);
+
+    ui->SetPositionScreen(position);
 }
 
