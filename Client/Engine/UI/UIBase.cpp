@@ -13,7 +13,9 @@ UIBase::UIBase(const std::wstring& kName) :
     size_({100.f, 100.f}),
     anchor_min_({.5f, .5f}),
     anchor_max_({.5f, .5f}),
-    pivot_({.5f, .5f})
+    pivot_({.5f, .5f}),
+    parent_(nullptr),
+    children_()
 {
     UpdateRect();
 }
@@ -101,11 +103,39 @@ void UIBase::SetAnchorPreset(MathTypes::uint16 anchor, bool match_pivot)
     }
 }
 
+void UIBase::AttachToUI(UIBase* parent)
+{
+    parent_ = parent;
+    parent_->children_.push_back(this);
+    UpdateRect();
+}
+
+void UIBase::DetachFromUI()
+{
+    if (!parent_) return;
+
+    std::erase(parent_->children_, this);
+    parent_ = nullptr;
+}
+
 void UIBase::UpdateRect()
 {
-    Canvas* canvas = Canvas::Get();
-    MathTypes::uint32 canvas_width = canvas->width_;
-    MathTypes::uint32 canvas_height = canvas->height_;
+    MathTypes::uint32 parent_width = 0;
+    MathTypes::uint32 parent_height = 0;
+    Math::Vector2 parent_position = {0.f, 0.f};
+
+    if (parent_)
+    {
+        parent_width = parent_->rect_.width;
+        parent_height = parent_->rect_.height;
+        parent_position = {parent_->rect_.x, parent_->rect_.y};
+    }
+    else
+    {
+        Canvas* canvas = Canvas::Get();
+        parent_width = canvas->width_;
+        parent_height = canvas->height_;
+    }
 
     float left = 0.f;
     float top = 0.f;
@@ -114,34 +144,34 @@ void UIBase::UpdateRect()
 
     if (anchor_min_.x == anchor_max_.x)
     {
-        left = canvas_width * anchor_min_.x + position_.x;
+        left = parent_width * anchor_min_.x + position_.x + parent_position.x;
         right = size_.x;
     }
     else
     {
-        left = canvas_width * anchor_min_.x + position_.x;
-        right = (anchor_max_.x - anchor_min_.x) * canvas_width - position_.x - size_.x;
+        left = parent_width * anchor_min_.x + position_.x + parent_position.x;
+        right = (anchor_max_.x - anchor_min_.x) * parent_width - position_.x - size_.x;
     }
 
     if (anchor_min_.y == anchor_max_.y)
     {
-        float anchored_min_y = canvas_height * (1.f - anchor_min_.y);
-        if (anchor_min_.y == 0.f) anchored_min_y = canvas_height;
-        
+        float anchored_min_y = parent_height * (1.f - anchor_min_.y) + parent_position.y;
+        if (anchor_min_.y == 0.f) anchored_min_y = parent_height + parent_position.y;
+
         top = anchored_min_y + position_.y;
         bottom = size_.y;
     }
     else
     {
-        float anchored_max_y = canvas_height * (1.f - anchor_max_.y);
-        if (anchor_max_.y == 0.f) anchored_max_y = 0.f;
-        
+        float anchored_max_y = parent_height * (1.f - anchor_max_.y) + parent_position.y;
+        if (anchor_max_.y == 0.f) anchored_max_y = 0.f + parent_position.y;
+
         top = anchored_max_y + position_.y;
-        bottom = (anchor_max_.y - anchor_min_.y) * canvas_height - position_.y - size_.y;
+        bottom = (anchor_max_.y - anchor_min_.y) * parent_height - position_.y - size_.y;
     }
-    
+
     const float pivot_x = right * pivot_.x;
-    
+
     float pivot_y = bottom * pivot_.y;
     if (pivot_y == 0.f) pivot_y = bottom;
     else if (pivot_y == bottom) pivot_y = 0.f;
@@ -157,4 +187,9 @@ void UIBase::UpdateRect()
     }
 
     rect_ = {left, top, right, bottom};
+
+    for (UIBase* child : children_)
+    {
+        child->UpdateRect();
+    }
 }

@@ -1,4 +1,6 @@
 ﻿#pragma once
+#include <vector>
+
 #include "Math/Rect.h"
 #include "Math/Vector2.h"
 
@@ -27,6 +29,8 @@ public:
     void SetPivot(const Math::Vector2& kPivot);
     void SetAnchors(const Math::Vector2& kAnchorMin, const Math::Vector2& kAnchorMax);
     void SetAnchorPreset(MathTypes::uint16 anchor, bool match_pivot = false);
+    void AttachToUI(UIBase* parent);
+    void DetachFromUI();
 
 protected:
     friend class Canvas;
@@ -45,5 +49,8 @@ protected:
     Math::Vector2 anchor_min_;
     Math::Vector2 anchor_max_;
     Math::Vector2 pivot_;
+
+    UIBase* parent_;
+    std::vector<UIBase*> children_;
     
 };

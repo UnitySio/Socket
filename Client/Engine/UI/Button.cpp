@@ -3,13 +3,13 @@
 
 #include "Input/Mouse.h"
 #include "Level/World.h"
-#include "Logger/Logger.h"
 #include "Math/Color.h"
 #include "Windows/WindowsWindow.h"
 
 UI::Button::Button(const std::wstring& kName) :
     UIBase(kName)
 {
+    size_ = {180.f, 30.f};
 }
 
 void UI::Button::Tick(float deltaTime)
@@ -21,8 +21,7 @@ void UI::Button::Tick(float deltaTime)
     {
         if (rect_.Contains(mouse_position))
         {
-            LOG(L"Button Clicked");
-            OnClick.Execute();
+            on_click.Execute();
         }
     }
 }

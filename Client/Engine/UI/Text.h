@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include "UIBase.h"
+#include "Math/Color.h"
 
 namespace UI
 {
@@ -9,13 +10,16 @@ namespace UI
         Text(const std::wstring& kName);
         virtual ~Text() override = default;
 
-        void SetText(const std::wstring& text) { text_ = text; }
+        inline void SetText(const std::wstring& text) { text_ = text; }
+        inline void SetColor(const Math::Color& color) { color_ = color; }
         
     protected:
         virtual void Render() override;
 
     private:
         std::wstring text_;
+
+        Math::Color color_;
         
     };
 }

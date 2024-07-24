@@ -12,7 +12,7 @@ namespace UI
         Button(const std::wstring& kName);
         virtual ~Button() override = default;
         
-        ButtonSignature OnClick;
+        ButtonSignature on_click;
         
     protected:
         virtual void Tick(float deltaTime) override;

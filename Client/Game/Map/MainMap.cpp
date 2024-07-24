@@ -46,11 +46,21 @@ void MainMap::Load()
 
     std::shared_ptr<UI::Button> button = std::make_shared<UI::Button>(L"Button");
     button->SetPosition({ 0.f, 0.f });
-    button->SetSize({ 100.f, 100.f });
-    button->SetAnchorPreset(AnchorPresets::kMiddle | AnchorPresets::kCenter, true);
-    button->OnClick.Add(this, &MainMap::OnCallback);
-
+    button->SetSize({ 180.f, 30.f });
+    button->SetAnchorPreset(AnchorPresets::kLeft, true);
+    button->on_click.Add(this, &MainMap::OnCallback);
+    
     Canvas::Get()->AddUI(button);
+
+    std::shared_ptr<UI::Text> text = std::make_shared<UI::Text>(L"ButtonText");
+    text->SetPosition({ 0.f, 0.f });
+    text->SetSize({ 0.f, 0.f });
+    text->SetAnchorPreset(AnchorPresets::kStretch, true);
+    text->SetColor(Math::Color::Black);
+    text->SetText(L"테스트 버튼");
+    text->AttachToUI(button.get());
+    
+    Canvas::Get()->AddUI(text);
     
 }
 
@@ -66,5 +76,5 @@ void MainMap::Tick(float delta_time)
 
 void MainMap::OnCallback()
 {
+    OutputDebugString(L"Button Clicked\n");
 }
-
