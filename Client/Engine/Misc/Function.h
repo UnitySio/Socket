@@ -280,6 +280,9 @@ public:
         addr_ = reinterpret_cast<std::uintptr_t&>(func);
     };
 
+
+
+
     void operator()() const
     {
         if (kFunc_)

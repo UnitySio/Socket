@@ -11,7 +11,7 @@ class Delegate<Ret(Args...)>
 public:
     Delegate() {}
 
-    template<typename F, typename = typename std::enable_if<!std::is_same<Function<Ret(Args...)>, typename std::decay<F>::type>::value>::type>
+    /*template<typename F, typename = typename std::enable_if<!std::is_same<Function<Ret(Args...)>, typename std::decay<F>::type>::value>::type>
     void Add(F&& func)
     {
         auto temp = std::make_shared<Function<Ret(Args...)>>(std::forward<F>(func));
@@ -38,11 +38,35 @@ public:
         functions_.push_back(*temp);
     }
 
+    
+
+    template<typename M>
+    void Add(void(M::*func)(void), M* m)
+    {
+        auto temp = std::make_shared<Function<void(void)>>(func, m);
+        functions_.push_back(*temp);
+    }
+
     void Add(Ret(*func)(Args...), Args... args)
     {
         auto temp = std::make_shared<Function<Ret(Args...)>>(func, args...);
         functions_.push_back(*temp);
     }
+
+    template<typename M>
+    void Add(Ret(M::*func)(Args...), M* m)
+    {
+        auto temp = std::make_shared<Function<Ret(Args...)>>(func, m);
+        functions_.push_back(*temp);
+    }*/
+
+    void Add(Ret(*func)(Args&&...))
+    {
+        auto temp = std::make_shared<Function<Ret(Args...)>>(func);
+        functions_.push_back(*temp);
+    }
+
+
 
     void Execute(Args&&...args) const
     {
@@ -52,13 +76,13 @@ public:
         }
     }
 
-    void Execute() const
+    /*void Execute() const
     {
         for (const auto& temp : functions_)
         {
             temp();
         }
-    }
+    }*/
 
     void RemoveAll()
     {
