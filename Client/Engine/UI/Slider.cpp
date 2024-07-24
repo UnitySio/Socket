@@ -10,7 +10,7 @@
 
 UI::Slider::Slider(const std::wstring& kName) :
     UIBase(kName),
-    value_(0),
+    value_(100),
     min_value_(0),
     max_value_(100)
 {
@@ -37,7 +37,7 @@ void UI::Slider::Render()
 {
     WindowsWindow* window = World::Get()->GetWindow();
     Renderer::Get()->DrawBox(window, rect_, pivot_, Math::Color::White);
-    Renderer::Get()->DrawBox(window, {rect_.x, rect_.y, rect_.width * value_ / max_value_, size_.y}, pivot_, Math::Color::Red);
+    Renderer::Get()->DrawBox(window, {rect_.x, rect_.y, rect_.width * value_ / max_value_, rect_.height}, pivot_, Math::Color::Red);
     
     UIBase::Render();
 }
