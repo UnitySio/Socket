@@ -66,6 +66,13 @@ public:
         functions_.push_back(*temp);
     }
 
+    template<typename M>
+    void Add(M* m, Ret(M::*func)(Args&&...))
+    {
+        auto temp = std::make_shared<Function<Ret(Args...)>>(func, m);
+        functions_.push_back(*temp);
+    }
+
 
 
     void Execute(Args&&...args) const
