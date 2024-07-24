@@ -31,13 +31,13 @@ public:
     void SetAnchorPreset(MathTypes::uint16 anchor, bool match_pivot = false);
     void AttachToUI(UIBase* parent);
     void DetachFromUI();
+    void Translate(const Math::Vector2& kTranslation);
 
 protected:
     friend class Canvas;
     
-    virtual inline void Tick(float deltaTime) {}
-    virtual inline void Render() {}
-    
+    virtual void Tick(float deltaTime);
+    virtual void Render();
     virtual void UpdateRect();
 
     std::wstring name_;

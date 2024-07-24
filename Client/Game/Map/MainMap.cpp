@@ -9,6 +9,7 @@
 #include "Sio/Sio.h"
 #include "UI/Button.h"
 #include "UI/Canvas.h"
+#include "UI/ScrollBox.h"
 #include "UI/Text.h"
 #include "UI/UIBase.h"
 #include "Windows/DX/Renderer.h"
@@ -45,10 +46,18 @@ void MainMap::Load()
     
     Canvas::Get()->AddUI(ui);
 
+    std::shared_ptr<UI::ScrollBox> scroll_box = std::make_shared<UI::ScrollBox>(L"ScrollBox");
+    scroll_box->SetPosition({ 0.f, 0.f });
+    scroll_box->SetSize({ 180.f, 200.f });
+    scroll_box->SetAnchorPreset(AnchorPresets::kLeft, true);
+
+    Canvas::Get()->AddUI(scroll_box);
+
     std::shared_ptr<UI::Button> button = std::make_shared<UI::Button>(L"Button");
     button->SetPosition({ 0.f, 0.f });
     button->SetSize({ 180.f, 30.f });
     button->SetAnchorPreset(AnchorPresets::kLeft, true);
+    button->AttachToUI(scroll_box.get());
     button->on_click.Add(this, &MainMap::OnCallback);
     
     Canvas::Get()->AddUI(button);

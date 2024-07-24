@@ -393,12 +393,12 @@ void Renderer::EndRenderD2D()
     current_d2d_viewport_ = nullptr;
 }
 
-void Renderer::BeginLayer()
+void Renderer::BeginLayer(const Math::Rect& kRect)
 {
     Microsoft::WRL::ComPtr<ID2D1Layer> layer;
     current_d2d_viewport_->d2d_render_target->CreateLayer(nullptr, &layer);
 
-    D2D1_RECT_F clipRect = D2D1::RectF(50, 50, 200, 200);
+    D2D1_RECT_F clipRect = D2D1::RectF(kRect.Left(), kRect.Top(), kRect.Right(), kRect.Bottom());
     current_d2d_viewport_->d2d_render_target->PushLayer(
         D2D1::LayerParameters(
             clipRect,

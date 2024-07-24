@@ -118,6 +118,28 @@ void UIBase::DetachFromUI()
     parent_ = nullptr;
 }
 
+void UIBase::Translate(const Math::Vector2& kTranslation)
+{
+    position_ += kTranslation;
+    UpdateRect();
+}
+
+void UIBase::Tick(float deltaTime)
+{
+    for (UIBase* child : children_)
+    {
+        child->Tick(deltaTime);
+    }
+}
+
+void UIBase::Render()
+{
+    for (UIBase* child : children_)
+    {
+        child->Render();
+    }
+}
+
 void UIBase::UpdateRect()
 {
     MathTypes::uint32 parent_width = 0;

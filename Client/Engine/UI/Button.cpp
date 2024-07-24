@@ -28,8 +28,8 @@ void UI::Button::Tick(float deltaTime)
 
 void UI::Button::Render()
 {
-    UIBase::Render();
-    
     WindowsWindow* window = World::Get()->GetWindow();
     Renderer::Get()->DrawBox(window, rect_, pivot_, Math::Color::White);
+    
+    UIBase::Render();
 }

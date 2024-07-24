@@ -75,7 +75,7 @@ public:
     void EndRender();
     void BeginRenderD2D(const std::shared_ptr<WindowsWindow>& kWindow);
     void EndRenderD2D();
-    void BeginLayer();
+    void BeginLayer(const Math::Rect& kRect);
     void EndLayer();
     
     Math::Vector2 ConvertScreenToWorld(const Math::Vector2& kScreenPosition) const;

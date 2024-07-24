@@ -14,8 +14,8 @@ UI::Text::Text(const std::wstring& kName) :
 
 void UI::Text::Render()
 {
-    UIBase::Render();
-    
     WindowsWindow* window = World::Get()->GetWindow();
     Renderer::Get()->DrawString(window, text_, rect_, pivot_, color_);
+    
+    UIBase::Render();
 }
