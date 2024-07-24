@@ -22,6 +22,7 @@ void UI::Button::Tick(float deltaTime)
         if (rect_.Contains(mouse_position))
         {
             LOG(L"Button Clicked");
+            OnClick.Execute();
         }
     }
 }

@@ -1,5 +1,8 @@
 ﻿#pragma once
 #include "UIBase.h"
+#include "Misc/DelegateMacros.h"
+
+DECLARE_DELEGATE(ButtonSignature);
 
 namespace UI
 {
@@ -9,8 +12,11 @@ namespace UI
         Button(const std::wstring& kName);
         virtual ~Button() override = default;
         
+        ButtonSignature OnClick;
+        
     protected:
         virtual void Tick(float deltaTime) override;
         virtual void Render() override;
+        
     };
 }
