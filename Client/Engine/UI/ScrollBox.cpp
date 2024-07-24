@@ -28,6 +28,15 @@ void UI::ScrollBox::Tick(float deltaTime)
             }
         }
     }
+    
+    if (is_clicked_)
+    {
+        Math::Vector2 delta = mouse->GetMouseDelta();
+        for (UIBase* child : children_)
+        {
+            child->Translate({0.f, delta.y});
+        }
+    }
 }
 
 void UI::ScrollBox::Render()

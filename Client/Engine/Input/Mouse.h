@@ -67,6 +67,7 @@ public:
     inline int GetWheelHAxis() const { return wheel_h_axis_; }
     
     inline Math::Vector2 GetMousePosition() const { return mouse_position_; }
+    inline Math::Vector2 GetMouseDelta() const { return mouse_delta_; }
 
 private:
     friend class Core;
@@ -86,6 +87,8 @@ private:
     int wheel_h_axis_;
     
     Math::Vector2 mouse_position_;
+    Math::Vector2 previous_mouse_position_;
+    Math::Vector2 mouse_delta_;
 
     // 스레드로 부터 안전을 위한 뮤텍스
     std::mutex mutex_;
