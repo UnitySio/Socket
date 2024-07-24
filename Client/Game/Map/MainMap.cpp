@@ -48,6 +48,7 @@ void MainMap::Load()
     button->SetPosition({ 0.f, 0.f });
     button->SetSize({ 100.f, 100.f });
     button->SetAnchorPreset(AnchorPresets::kMiddle | AnchorPresets::kCenter, true);
+    button->OnClick.Add(this, &MainMap::OnCallback);
 
     Canvas::Get()->AddUI(button);
     
@@ -61,5 +62,9 @@ void MainMap::Tick(float delta_time)
     position = Renderer::Get()->ConvertWorldToScreen(position);
 
     ui->SetPositionScreen(position);
+}
+
+void MainMap::OnCallback()
+{
 }
 
