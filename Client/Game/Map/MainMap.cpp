@@ -10,6 +10,7 @@
 #include "UI/Button.h"
 #include "UI/Canvas.h"
 #include "UI/ScrollBox.h"
+#include "UI/Slider.h"
 #include "UI/Text.h"
 #include "UI/UIBase.h"
 #include "Windows/DX/Renderer.h"
@@ -71,6 +72,13 @@ void MainMap::Load()
     text->AttachToUI(button.get());
     
     Canvas::Get()->AddUI(text);
+
+    std::shared_ptr<UI::Slider> slider = std::make_shared<UI::Slider>(L"Slider");
+    slider->SetPosition({ 0.f, 0.f });
+    slider->SetSize({ 160.f, 20.f });
+    slider->SetAnchorPreset(AnchorPresets::kTop, true);
+
+    Canvas::Get()->AddUI(slider);
     
 }
 

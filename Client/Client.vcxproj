@@ -192,6 +192,7 @@
     <ClInclude Include="Engine\UI\Button.h" />
     <ClInclude Include="Engine\UI\Canvas.h" />
     <ClInclude Include="Engine\UI\ScrollBox.h" />
+    <ClInclude Include="Engine\UI\Slider.h" />
     <ClInclude Include="Engine\UI\Text.h" />
     <ClInclude Include="Engine\UI\UIBase.h" />
     <ClInclude Include="Engine\Windows\DX\ConstantBuffer.h" />
@@ -370,6 +371,7 @@
     <ClCompile Include="Engine\UI\Button.cpp" />
     <ClCompile Include="Engine\UI\Canvas.cpp" />
     <ClCompile Include="Engine\UI\ScrollBox.cpp" />
+    <ClCompile Include="Engine\UI\Slider.cpp" />
     <ClCompile Include="Engine\UI\Text.cpp" />
     <ClCompile Include="Engine\UI\UIBase.cpp" />
     <ClCompile Include="Engine\Windows\DX\IndexBuffer.cpp" />
