@@ -1,7 +1,6 @@
 ﻿#include "pch.h"
 #include "ColliderComponent.h"
 
-#include "ProjectSettings.h"
 #include "TransformComponent.h"
 #include "Actor/Actor.h"
 #include "box2d/b2_fixture.h"

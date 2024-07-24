@@ -80,6 +80,26 @@ MathTypes::uint32 WindowsApplication::ProcessMessage(HWND hWnd, UINT message, WP
 {
     std::shared_ptr<WindowsWindow> window = FindWindowByHWND(hWnd);
     
+    if (message == WM_CREATE)
+    {
+#ifdef _DEBUG
+        AllocConsole();
+        SetConsoleTitle(L"Output Log");
+
+        FILE* file = nullptr;
+        freopen_s(&file, "CONOUT$", "w", stdout);
+        freopen_s(&file, "CONOUT$", "w", stderr);
+        // freopen_s(&file, "CONIN$", "r", stdin);
+#endif
+    }
+
+    if (message == WM_CLOSE)
+    {
+#ifdef _DEBUG
+        FreeConsole();
+#endif
+    }
+    
     if (window)
     {
         bool is_external_handled = false;

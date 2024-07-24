@@ -10,7 +10,9 @@ Mouse::Mouse() :
     mouse_events_(),
     wheel_axis_(0),
     wheel_h_axis_(0),
-    mouse_position_(Math::Vector2::Zero())
+    mouse_position_(Math::Vector2::Zero()),
+    previous_mouse_position_(Math::Vector2::Zero()),
+    mouse_delta_(Math::Vector2::Zero())
 {
 }
 
@@ -173,7 +175,9 @@ void Mouse::Begin()
 
         case MouseEventType::kMove:
             {
+                previous_mouse_position_ = mouse_position_;
                 mouse_position_ = event.mouse_position;
+                mouse_delta_ = mouse_position_ - previous_mouse_position_;
             }
             break;
         }
@@ -189,6 +193,7 @@ void Mouse::End()
 
     wheel_axis_ = 0;
     wheel_h_axis_ = 0;
+    mouse_delta_ = Math::Vector2::Zero();
 }
 
 void Mouse::Clear()

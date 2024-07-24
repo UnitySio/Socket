@@ -6,6 +6,7 @@
 
 class AnimationClip;
 class SpriteRendererComponent;
+class AnimationEvent;
 
 class AnimatorComponent : public ActorComponent
 {
@@ -18,8 +19,10 @@ public:
 
     std::shared_ptr<AnimationClip> AddClip(const std::wstring& kName, int* sprite_idx_arr, int size);
     inline std::shared_ptr<AnimationClip> GetClip(std::wstring clip_name) { return clips_[clip_name]; }
-    inline void PlayClip(std::wstring clip_name) { current_clip_ = clips_[clip_name]; }
-    inline void PlayClip(std::shared_ptr<AnimationClip> clip) { current_clip_ = clip; }
+    inline std::shared_ptr<AnimationClip> GetClip() { return current_clip_; }
+    bool PlayClip(std::wstring clip_name);
+    bool PlayClip(std::shared_ptr<AnimationClip> clip);
+    bool IsPlaying() { return is_playing_; }
 
 private:
     SpriteRendererComponent* sprite_renderer_;
@@ -29,4 +32,5 @@ private:
 
     float timer_;
     int current_index_;
+    bool is_playing_;
 };

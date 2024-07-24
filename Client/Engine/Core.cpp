@@ -2,15 +2,16 @@
 #include "Core.h"
 
 #include "GameEngine.h"
+#include "Audio/AudioManager.h"
 #include "Input/Keyboard.h"
 #include "Input/Mouse.h"
 #include "Level/World.h"
 #include "Math/Vector2.h"
 #include "Time/Time.h"
+#include "UI/Canvas.h"
 #include "Windows/WindowDefinition.h"
 #include "Windows/WindowsWindow.h"
 #include "Windows/DX/Renderer.h"
-#include "UI/Canvas.h"
 
 Core::Core() :
     current_application_(nullptr),
@@ -73,8 +74,6 @@ bool Core::ProcessMessage(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam,
     
     if (Keyboard::Get()->ProcessMessage(message, wParam, lParam, handler_result)) return true;
     if (Mouse::Get()->ProcessMessage(hWnd, message, wParam, lParam, handler_result)) return true;
-    
-    if (Canvas::Get()->ProcessMessage(hWnd, message, wParam, lParam, handler_result)) return true;
 
     if (message == WM_SIZE)
     {
@@ -82,10 +81,19 @@ bool Core::ProcessMessage(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam,
 
         resize_width_ = LOWORD(lParam);
         resize_height_ = HIWORD(lParam);
+
+        Canvas::Get()->OnResize(resize_width_, resize_height_);
+    }
+
+    if (message == WM_SETFOCUS)
+    {
+        AudioManager::Get()->SetAllMutes(false);
     }
 
     if (message == WM_KILLFOCUS)
     {
+        AudioManager::Get()->SetAllMutes(true);
+        
         Keyboard::Get()->Clear();
         Mouse::Get()->Clear();
     }
@@ -97,11 +105,9 @@ bool Core::ProcessMessage(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam,
             if (window->GetHWnd() == hWnd)
             {
                 Stop();
-                game_engine_->OnQuit();
 
                 World::Get()->Release();
                 Renderer::Get()->Release();
-                Canvas::Get()->Release();
             }
         }
     }
@@ -115,7 +121,11 @@ void Core::MainThread()
     {
         {
             std::lock_guard<std::mutex> lock(mutex_);
-            if (!is_running_) break;
+            if (!is_running_)
+            {
+                game_engine_->OnQuit();
+                break;
+            }
         }
         
 #pragma region DeltaTime

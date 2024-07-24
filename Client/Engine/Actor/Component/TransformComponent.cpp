@@ -31,7 +31,7 @@ void TransformComponent::TickComponent(float delta_time)
         relative_position_ = {position.x, position.y};
 
         const float angle = body->GetAngle();
-        relative_rotation_z_ = angle * 180.f / b2_pi;
+        relative_rotation_z_ = angle * 180.f / MATH_PI;
 
         UpdateTransform();
         return;
@@ -44,10 +44,81 @@ void TransformComponent::TickComponent(float delta_time)
     relative_position_ = {position.x, position.y};
 
     const float angle = body->GetAngle() - GetOwner()->parent_->body_->GetAngle();
-    relative_rotation_z_ = angle * 180.f / b2_pi;
+    relative_rotation_z_ = angle * 180.f / MATH_PI; 
     
     UpdateTransform();
 }
+
+void TransformComponent::SetWorldPosition(Math::Vector2 position)
+{
+    world_position_ = position;
+    if (GetOwner()->parent_)
+    {
+        const Math::Vector2 parent_position = GetOwner()->parent_->transform_->world_position_;
+        const float parent_rotation = GetOwner()->parent_->transform_->world_rotation_z_;
+
+        // 부모의 위치를 기준으로 자식의 위치를 상대 좌표로 변환
+        Math::Vector2 local_position = position - parent_position;
+
+        // 부모의 회전을 고려하여 상대 좌표 계산
+        b2Rot rotation(-parent_rotation * MATH_PI / 180.f);
+        b2Vec2 relative_position = b2MulT(rotation, {local_position.x, local_position.y});
+
+        relative_position_ = {relative_position.x, relative_position.y};
+    }
+    else
+    {
+        relative_position_ = position;
+    }
+    
+    UpdateTransform();
+
+    if (b2Body* body = GetOwner()->body_)
+    {
+        body->SetTransform({position.x, position.y}, world_rotation_z_ * MATH_PI / 180.f);
+        body->SetAwake(true);
+    }
+}
+
+
+void TransformComponent::SetWorldRotationZ(float angle)
+{
+    world_rotation_z_ = angle;
+    if (GetOwner()->parent_)
+    {
+        const float parent_rotation = GetOwner()->parent_->transform_->world_rotation_z_;
+        relative_rotation_z_ = angle - parent_rotation;
+    }
+    else
+    {
+        relative_rotation_z_ = angle;
+    }
+    
+    UpdateTransform();
+
+    if (b2Body* body = GetOwner()->body_)
+    {
+        body->SetTransform({world_position_.x, world_position_.y}, angle * MATH_PI / 180.f);
+        body->SetAwake(true);
+    }
+}
+
+void TransformComponent::SetWorldScale(Math::Vector2 scale)
+{
+    world_scale_ = scale;
+    if (GetOwner()->parent_)
+    {
+        const Math::Vector2 parent_scale = GetOwner()->parent_->transform_->world_scale_;
+        relative_scale_ = scale / parent_scale;
+    }
+    else
+    {
+        relative_scale_ = scale;
+    }
+    
+    UpdateTransform();
+}
+
 
 void TransformComponent::SetRelativePosition(Math::Vector2 position)
 {
@@ -57,6 +128,7 @@ void TransformComponent::SetRelativePosition(Math::Vector2 position)
     if (b2Body* body = GetOwner()->body_)
     {
         body->SetTransform({world_position_.x, world_position_.y}, world_rotation_z_ * MATH_PI / 180.f);
+        body->SetAwake(true);
     }
 }
 
@@ -68,6 +140,7 @@ void TransformComponent::SetRelativeRotationZ(float angle)
     if (b2Body* body = GetOwner()->body_)
     {
         body->SetTransform({world_position_.x, world_position_.y}, world_rotation_z_ * MATH_PI / 180.f);
+        body->SetAwake(true);
     }
 }
 
@@ -129,6 +202,7 @@ void TransformComponent::UpdateTransform()
                 if (b2Body* body = GetOwner()->body_)
                 {
                     body->SetTransform({world_position_.x, world_position_.y}, world_rotation_z_ * MATH_PI / 180.f);
+                    body->SetAwake(true);
                 }
             }
         }

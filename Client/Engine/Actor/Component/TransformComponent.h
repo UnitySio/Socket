@@ -11,6 +11,9 @@ public:
 
     virtual void TickComponent(float delta_time) override;
 
+    void SetWorldPosition(Math::Vector2 position);
+    void SetWorldRotationZ(float angle);
+    void SetWorldScale(Math::Vector2 scale);
     void SetRelativePosition(Math::Vector2 position);
     void SetRelativeRotationZ(float angle);
     void SetRelativeScale(Math::Vector2 scale);

@@ -3,7 +3,7 @@
 enum class LevelType : size_t
 {
     kDefault = 0,
-    kTemp = 1,
+    kWorld = 1,
     kEnd
 };
 
@@ -11,8 +11,7 @@ enum class EventType : size_t
 {
     kSpawnActor = 0,
     kDestroyActor,
-    kActiveActor,
-    kLevelTransition
+    kActiveActor
 };
 
 enum class EndPlayReason : size_t

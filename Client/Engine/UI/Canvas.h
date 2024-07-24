@@ -1,37 +1,32 @@
-#pragma once
-#include "Singleton.h"
+﻿#pragma once
 #include <vector>
-#include <memory>
-#include "Level/World.h"
-#include "UIBase.h"
-#include <Windows.h>
-#include <stack>
 
-class Button;
-class WindowsWindow;
-class StringComponent;
-class ProgressBar;
-class ScrollView;
-class TextBlock;
-class Image;
+#include "Singleton.h"
+
+class UIBase;
 
 class Canvas : public Singleton<Canvas>
 {
 public:
-	Canvas();
-	virtual ~Canvas();
-	void Render(WindowsWindow* kWindow = World::Get()->GetWindow());
-	Button* CreateButton();
-	ProgressBar* CreateProgressBar();
-	ScrollView* CreateScrollView();
-	TextBlock* CreateTextBlock();
-	Image* CreateImage();
+    Canvas();
+    virtual ~Canvas() override = default;
 
-	bool ProcessMessage(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam, MathTypes::uint32 handler_result);
-	const bool& IsDown() { return isDown_; }
-	
+    void AddUI(const std::shared_ptr<UIBase>& kUI);
+
 private:
-	bool isDown_;
-	std::vector<std::shared_ptr<UIBase>> renderList_;
-	std::vector<std::shared_ptr<UINT>> messages_;
+    friend class Core;
+    friend class GameEngine;
+    friend class World;
+    friend class UIBase;
+
+    void OnResize(MathTypes::uint32 width, MathTypes::uint32 height);
+    void Tick(float deltaTime);
+    void Render();
+    void Clear();
+
+    MathTypes::uint32 width_;
+    MathTypes::uint32 height_;
+
+    std::vector<std::shared_ptr<UIBase>> uis_;
+    
 };

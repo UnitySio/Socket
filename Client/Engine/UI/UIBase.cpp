@@ -1,250 +1,231 @@
-#include "pch.h"
+﻿#include "pch.h"
 #include "UIBase.h"
-#include <d3d11.h>
-#include <wrl.h>
-#include <d2d1.h>
-#include "../Engine/Windows/DX/Renderer.h"
-#include <Windows.h>
+
 #include "Canvas.h"
-#include "Misc/Function.h"
+#include "Input/Mouse.h"
+#include "Level/World.h"
+#include "Math/Color.h"
+#include "Math/Rect.h"
 
-
-UIBase::UIBase()
-    :
-    position_(Math::Vector2(0, 0)),
-    color_(Math::Color(255, 255, 255, 255)),
-    offset_(Math::Vector2(0, 0)),
-    rotation_(0),
-    parentRectsize_(800, 600),
-    rectsize_(0, 0),
+UIBase::UIBase(const std::wstring& kName) :
+    name_(kName),
+    rect_(),
+    position_(Math::Vector2::Zero()),
+    size_({100.f, 100.f}),
+    anchor_min_({.5f, .5f}),
+    anchor_max_({.5f, .5f}),
+    pivot_({.5f, .5f}),
     parent_(nullptr),
-    stroke_(1.0f),
-    anchorType_(AnchorType::None),
-    isEnabled_(false),
-    isVisible_(true)
+    children_(),
+    is_clicked_(false)
 {
+    UpdateRect();
+}
+
+void UIBase::SetPosition(const Math::Vector2& kPosition)
+{
+    position_ = kPosition;
+    UpdateRect();
+}
+
+void UIBase::SetPositionScreen(const Math::Vector2& kPosition)
+{
+    Canvas* canvas = Canvas::Get();
+    MathTypes::uint32 canvas_width = canvas->width_;
+    MathTypes::uint32 canvas_height = canvas->height_;
+
+    float x = kPosition.x - canvas_width * anchor_min_.x;
+    float y = kPosition.y - canvas_height * (1.f - anchor_min_.y);
+    position_ = {x, y};
     
+    UpdateRect();
 }
 
-void UIBase::SetParent(UIBase* parent)
+void UIBase::SetSize(const Math::Vector2& kSize)
 {
-	parent->children_.push_back(this);
-	parent_ = parent;
-    parentRectsize_ = parent->rectsize_;
+    size_ = kSize;
+    UpdateRect();
 }
 
-void UIBase::SetSize(const Math::Vector2& value)
+void UIBase::SetAnchorMin(const Math::Vector2& kAnchorMin)
 {
-    rectsize_ = value;
-    if (!children_.empty())
+    anchor_min_ = kAnchorMin;
+    UpdateRect();
+}
+
+void UIBase::SetAnchorMax(const Math::Vector2& kAnchorMax)
+{
+    anchor_max_ = kAnchorMax;
+    UpdateRect();
+}
+
+void UIBase::SetPivot(const Math::Vector2& kPivot)
+{
+    pivot_ = kPivot;
+    UpdateRect();
+}
+
+void UIBase::SetAnchors(const Math::Vector2& kAnchorMin, const Math::Vector2& kAnchorMax)
+{
+    anchor_min_ = kAnchorMin;
+    anchor_max_ = kAnchorMax;
+    UpdateRect();
+}
+
+void UIBase::SetAnchorPreset(MathTypes::uint16 anchor, bool match_pivot)
+{
+    if ((anchor & kLeft) && (anchor & kTop)) SetAnchors({0.f, 1.f}, {0.f, 1.f});
+    else if ((anchor & kRight) && (anchor & kTop)) SetAnchors({1.f, 1.f}, {1.f, 1.f});
+    else if ((anchor & kMiddle) && (anchor & kCenter)) SetAnchors({.5f, .5f}, {.5f, .5f});
+    else if ((anchor & kLeft) && (anchor & kBottom)) SetAnchors({0.f, 0.f}, {0.f, 0.f});
+    else if ((anchor & kRight) && (anchor & kBottom)) SetAnchors({1.f, 0.f}, {1.f, 0.f});
+    else if ((anchor & kStretch) && (anchor & kTop)) SetAnchors({0.f, 1.f}, {1.f, 1.f});
+    else if ((anchor & kStretch) && (anchor & kCenter)) SetAnchors({0.f, .5f}, {1.f, .5f});
+    else if ((anchor & kStretch) && (anchor & kBottom)) SetAnchors({0.f, 0.f}, {1.f, 0.f});
+    else if ((anchor & kStretch) && (anchor & kLeft)) SetAnchors({0.f, 0.f}, {0.f, 1.f});
+    else if ((anchor & kStretch) && (anchor & kMiddle)) SetAnchors({.5f, 0.f}, {.5f, 1.f});
+    else if ((anchor & kStretch) && (anchor & kRight)) SetAnchors({1.f, 0.f}, {1.f, 1.f});
+    else if (anchor & kTop) SetAnchors({.5f, 1.f}, {.5f, 1.f});
+    else if (anchor & kLeft) SetAnchors({0.f, .5f}, {0.f, .5f});
+    else if (anchor & kRight) SetAnchors({1.f, .5f}, {1.f, .5f});
+    else if (anchor & kBottom) SetAnchors({.5f, 0.f}, {.5f, 0.f});
+    else if (anchor & kStretch) SetAnchors({0.f, 0.f}, {1.f, 1.f});
+
+    if (match_pivot)
     {
-        for (auto& temp : children_)
-        {
-            temp->SetSize(value);
-        }
+        if (anchor & kLeft) pivot_.x = 0.f;
+        else if (anchor & kRight) pivot_.x = 1.f;
+        else pivot_.x = .5f;
+
+        if (anchor & kTop) pivot_.y = 1.f;
+        else if (anchor & kBottom) pivot_.y = 0.f;
+        else pivot_.y = .5f;
+
+        UpdateRect();
     }
 }
 
-void UIBase::SetPosition(const Math::Vector2& pos)
+void UIBase::AttachToUI(UIBase* parent)
 {
-    position_ = pos;
-    /*if (!children_.empty())
+    parent_ = parent;
+    parent_->children_.push_back(this);
+    UpdateRect();
+}
+
+void UIBase::DetachFromUI()
+{
+    if (!parent_) return;
+
+    std::erase(parent_->children_, this);
+    parent_ = nullptr;
+}
+
+void UIBase::Translate(const Math::Vector2& kTranslation)
+{
+    position_ += kTranslation;
+    UpdateRect();
+}
+
+void UIBase::Tick(float deltaTime)
+{
+    Mouse* mouse = Mouse::Get();
+    Math::Vector2 mouse_position = mouse->GetMousePosition();
+
+    if (rect_.Contains(mouse_position) && mouse->IsButtonPressed(MouseButton::kLeft))
     {
-        for(const auto& temp : children_)
-            
-    }*/
+        is_clicked_ = true;
+    }
+    else if (is_clicked_ && mouse->IsButtonReleased(MouseButton::kLeft))
+    {
+        is_clicked_ = false;
+    }
+    
+    for (UIBase* child : children_)
+    {
+        child->Tick(deltaTime);
+    }
 }
 
-void UIBase::SetOffset(const Math::Vector2& pos)
+void UIBase::Render()
 {
-    offset_ = pos;
+    for (UIBase* child : children_)
+    {
+        child->Render();
+    }
 }
 
-const Math::Vector2 UIBase::GetPosition()
+void UIBase::UpdateRect()
 {
+    MathTypes::uint32 parent_width = 0;
+    MathTypes::uint32 parent_height = 0;
+    Math::Vector2 parent_position = {0.f, 0.f};
+
     if (parent_)
-        return offset_ + anchor_ + position_ + parent_->GetPosition() + parent_->anchor_;
-    return position_;
-}
-
-void UIBase::SetAnchorType(const AnchorType& type)
-{
-    anchorType_ = type;
-    RefreshAnchorPos();
-}
-
-void UIBase::SetEnable(const bool& flag)
-{
-    isEnabled_ = flag;
-}
-
-void UIBase::SetVisibility(const bool& flag)
-{
-    isVisible_ = flag;
-}
-
-void UIBase::BindAction(const EventType& type, Function<void(void)>&& func)
-{
-    switch (type)
     {
-    case EventType::OnClicked:
+        parent_width = parent_->rect_.width;
+        parent_height = parent_->rect_.height;
+        parent_position = {parent_->rect_.x, parent_->rect_.y};
+    }
+    else
     {
-        onClickedFunc_ = std::make_shared<Function<void(void)>>(std::forward<Function<void(void)>>(func));
-        break;
+        Canvas* canvas = Canvas::Get();
+        parent_width = canvas->width_;
+        parent_height = canvas->height_;
     }
 
-    case EventType::OnReleased:
+    float left = 0.f;
+    float top = 0.f;
+    float right = 0.f;
+    float bottom = 0.f;
+
+    if (anchor_min_.x == anchor_max_.x)
     {
-        onReleasedFunc_ = std::make_shared<Function<void(void)>>(std::forward<Function<void(void)>>(func));
-        break;
+        left = parent_width * anchor_min_.x + position_.x + parent_position.x;
+        right = size_.x;
+    }
+    else
+    {
+        left = parent_width * anchor_min_.x + position_.x + parent_position.x;
+        right = (anchor_max_.x - anchor_min_.x) * parent_width - position_.x - size_.x;
     }
 
-    case EventType::Pressing:
+    if (anchor_min_.y == anchor_max_.y)
     {
-        pressingFunc_ = std::make_shared<Function<void(void)>>(std::forward<Function<void(void)>>(func));
-        break;
-    }
-    }
-}
+        float anchored_min_y = parent_height * (1.f - anchor_min_.y) + parent_position.y;
+        if (anchor_min_.y == 0.f) anchored_min_y = parent_height + parent_position.y;
 
-void UIBase::SetColor(const Math::Color& kColor)
-{
-    color_ = kColor;
-}
-
-void UIBase::Tick()
-{
-    if (isDown_ == Canvas::Get()->IsDown())
-    {
-        onClicked_ = false;
-        onReleased_ = false;
-        if (isDown_ && pressingFunc_)
-            (*pressingFunc_)();
+        top = anchored_min_y + position_.y;
+        bottom = size_.y;
     }
-    else if (isDown_ != Canvas::Get()->IsDown())
+    else
     {
-        if (isDown_)
-        {
-            isDown_ = Canvas::Get()->IsDown();
-            onReleased_ = true;
-            pressed_ = false;
-            if (onReleasedFunc_)
-                (*onReleasedFunc_)();
-        }
-        else if (!isDown_)
-        {
-            isDown_ = Canvas::Get()->IsDown();
-            onClicked_ = true;
-            released_ = false;
-            if (onClickedFunc_ && onMouse_)
-                (*onClickedFunc_)();
-        }
-    }
-}
+        float anchored_max_y = parent_height * (1.f - anchor_max_.y) + parent_position.y;
+        if (anchor_max_.y == 0.f) anchored_max_y = 0.f + parent_position.y;
 
-void UIBase::Render(WindowsWindow* kWindow)
-{
-    if (!parent_)
-    {
-        Viewport* viewport = Renderer::Get()->FindViewport(World::Get()->GetWindow());
-        parentRectsize_.x = viewport->d3d_viewport.Width;
-        parentRectsize_.y = viewport->d3d_viewport.Height;
+        top = anchored_max_y + position_.y;
+        bottom = (anchor_max_.y - anchor_min_.y) * parent_height - position_.y - size_.y;
     }
 
-    else if (parent_)
+    const float pivot_x = right * pivot_.x;
+
+    float pivot_y = bottom * pivot_.y;
+    if (pivot_y == 0.f) pivot_y = bottom;
+    else if (pivot_y == bottom) pivot_y = 0.f;
+
+    if (anchor_min_.x == anchor_max_.x)
     {
-        Viewport* viewport = Renderer::Get()->FindViewport(World::Get()->GetWindow());
-        anchor_.x *= parentRectsize_.x / viewport->d3d_viewport.Width;
-        anchor_.y *= parentRectsize_.y / viewport->d3d_viewport.Height;
+        left -= pivot_x;
     }
 
-    RefreshAnchorPos();
-}
-
-void UIBase::RefreshAnchorPos()
-{
-    if (!parent_)
+    if (anchor_min_.y == anchor_max_.y)
     {
-        switch (anchorType_)
-        {
-        case AnchorType::LeftTop:
-            anchor_ = Math::Vector2(0.0f, 0.0f);
-            break;
-
-        case AnchorType::CenterTop:
-            anchor_ = Math::Vector2(parentRectsize_.x / 2, 0.0f);
-            break;
-
-        case AnchorType::RightTop:
-            anchor_ = Math::Vector2(parentRectsize_.x, 0.0f);
-            break;
-
-        case AnchorType::CenterLeft:
-            anchor_ = Math::Vector2(0.0f, parentRectsize_.y / 2);
-            break;
-
-        case AnchorType::Center:
-            anchor_ = Math::Vector2(parentRectsize_.x / 2, parentRectsize_.y / 2);
-            break;
-
-        case AnchorType::CenterRight:
-            anchor_ = Math::Vector2(parentRectsize_.x, parentRectsize_.y / 2);
-            break;
-
-        case AnchorType::LeftBottom:
-            anchor_ = Math::Vector2(0.0f, parentRectsize_.y);
-            break;
-
-        case AnchorType::CenterBottom:
-            anchor_ = Math::Vector2(parentRectsize_.x / 2, parentRectsize_.y);
-            break;
-
-        case AnchorType::RightBottom:
-            anchor_ = Math::Vector2(parentRectsize_.x, parentRectsize_.y);
-            break;
-        }
+        top -= pivot_y;
     }
 
-    else if (parent_)
+    rect_ = {left, top, right, bottom};
+
+    for (UIBase* child : children_)
     {
-        switch (anchorType_)
-        {
-        case AnchorType::LeftTop:
-            anchor_ = Math::Vector2(-parentRectsize_.x / 2, -parentRectsize_.y / 2);
-            break;
-
-        case AnchorType::CenterTop:
-            anchor_ = Math::Vector2(0.0f, -parentRectsize_.y / 2);
-            break;
-
-        case AnchorType::RightTop:
-            anchor_ = Math::Vector2(parentRectsize_.x - parentRectsize_.x / 2, -parentRectsize_.y / 2);
-            break;
-
-        case AnchorType::CenterLeft:
-            anchor_ = Math::Vector2(-parentRectsize_.x / 2, parentRectsize_.y / 2);
-            break;
-
-        case AnchorType::Center:
-            anchor_ = Math::Vector2(parentRectsize_.x / 2, parentRectsize_.y / 2);
-            break;
-
-        case AnchorType::CenterRight:
-            anchor_ = Math::Vector2(parentRectsize_.x, parentRectsize_.y / 2);
-            break;
-
-        case AnchorType::LeftBottom:
-            anchor_ = Math::Vector2(-parentRectsize_.x / 2, parentRectsize_.y - parentRectsize_.y / 2);
-            break;
-
-        case AnchorType::CenterBottom:
-            anchor_ = Math::Vector2(parentRectsize_.x / 2, parentRectsize_.y - parentRectsize_.y / 2);
-            break;
-
-        case AnchorType::RightBottom:
-            anchor_ = Math::Vector2(parentRectsize_.x - parentRectsize_.x / 2, parentRectsize_.y - parentRectsize_.y / 2);
-            break;
-
-        }
+        child->UpdateRect();
     }
 }

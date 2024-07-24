@@ -2,6 +2,8 @@
 #include <vector>
 
 #include "ActorComponent.h"
+#include "Math/Color.h"
+#include "Math/Math.h"
 #include "Math/MathTypes.h"
 #include "Misc/EngineMacros.h"
 
@@ -28,6 +30,9 @@ public:
     inline void IsFlipX(bool flip_y) { flip_y_ = flip_y; }
     inline bool IsFlipY() const { return flip_y_; }
 
+    inline void SetColor(const Math::Color& color) { color_ = color; }
+    inline Math::Color GetColor() const { return color_; }
+
 private:
     friend class AnimatorComponent;
     
@@ -38,5 +43,7 @@ private:
 
     bool flip_x_;
     bool flip_y_;
+
+    Math::Color color_;
     
 };

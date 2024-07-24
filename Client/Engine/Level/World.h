@@ -23,9 +23,9 @@ public:
     void Tick(float delta_time);
     void PostTick(float delta_time);
     void Render(float alpha);
-    void RenderUI();
     void DestroyActor();
     void AddShape(const std::shared_ptr<Shape>& kShape);
+    void TransitionLevel();
 
     template<std::derived_from<Level> T>
     T* AddLevel(LevelType type, std::wstring name);
@@ -41,14 +41,6 @@ private:
     friend class TilemapComponent;
     friend class CameraComponent;
     friend class PlayerController;
-    template< typename T, typename U>
-    friend class BaseJointComponent;
-    friend class DistanceJointComponent;
-    friend class HingeJointComponent;
-    friend class MotorJointComponent;
-    friend class PrismaticJointComponent;
-    friend class WheelJointComponent;
-    friend class MainMap;
 
     inline void SetCamera(const std::shared_ptr<Actor>& kCamera) { camera_ = kCamera; }
 
@@ -65,6 +57,8 @@ private:
     DebugDraw debug_draw_;
     
     Level* current_level_;
+    Level* next_level_;
+    
     std::shared_ptr<Level> levels_[static_cast<size_t>(LevelType::kEnd)];
 
     std::weak_ptr<Actor> camera_;

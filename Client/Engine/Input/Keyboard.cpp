@@ -11,6 +11,8 @@ Keyboard::Keyboard() : key_states_(), key_events_()
 	RegisterKey(VK_RIGHT);
 	RegisterKey('Z');
 	RegisterKey('C');
+	RegisterKey(VK_F1);
+	RegisterKey(VK_F2);
 }
 
 void Keyboard::Begin()

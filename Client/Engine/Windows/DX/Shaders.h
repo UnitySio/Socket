@@ -76,6 +76,7 @@ public:
     virtual ~DefaultPixelShader() override = default;
 
     void EnableTexture(BOOL has_texture);
+    void SetColor(const Math::Color& kColor);
 
 protected:
     virtual void UpdateParameters() override;

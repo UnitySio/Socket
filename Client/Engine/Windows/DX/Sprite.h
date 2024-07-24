@@ -14,7 +14,7 @@ public:
     Sprite();
     virtual ~Sprite() override = default;
 
-    virtual bool Load(const std::wstring& kFileName) override;
+    virtual bool Load(const std::wstring& kPath) override;
     
     void Split(MathTypes::uint32 cols, MathTypes::uint32 rows, Math::Vector2 pivot);
 

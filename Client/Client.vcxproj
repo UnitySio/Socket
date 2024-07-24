@@ -143,8 +143,6 @@
     <ClInclude Include="Engine\Actor\Component\ActorComponent.h" />
     <ClInclude Include="Engine\Actor\Component\Animator\AnimationClip.h" />
     <ClInclude Include="Engine\Actor\Component\Animator\AnimatorComponent.h" />
-    <ClInclude Include="Engine\Actor\Component\AudioComponent.h" />
-    <ClInclude Include="Engine\Actor\Component\AudioListenerComponent.h" />
     <ClInclude Include="Engine\Actor\Component\BoxColliderComponent.h" />
     <ClInclude Include="Engine\Actor\Component\CameraComponent.h" />
     <ClInclude Include="Engine\Actor\Component\CircleColliderComponent.h" />
@@ -157,6 +155,7 @@
     <ClInclude Include="Engine\Actor\Component\TransformComponent.h" />
     <ClInclude Include="Engine\Audio\AudioManager.h" />
     <ClInclude Include="Engine\Core.h" />
+    <ClInclude Include="Engine\Data\DataManager.h" />
     <ClInclude Include="Engine\DebugDraw.h" />
     <ClInclude Include="Engine\Enums.h" />
     <ClInclude Include="Engine\EventManager.h" />
@@ -172,6 +171,7 @@
     <ClInclude Include="Engine\Math\Color.h" />
     <ClInclude Include="Engine\Math\Math.h" />
     <ClInclude Include="Engine\Math\MathTypes.h" />
+    <ClInclude Include="Engine\Math\Rect.h" />
     <ClInclude Include="Engine\Math\Vector2.h" />
     <ClInclude Include="Engine\Misc\Debug.h" />
     <ClInclude Include="Engine\Misc\DelegateMacros.h" />
@@ -189,17 +189,11 @@
     <ClInclude Include="Engine\Singleton.h" />
     <ClInclude Include="Engine\Time\Time.h" />
     <ClInclude Include="Engine\Time\TimerManager.h" />
-    <ClInclude Include="Engine\UI\BitmapComponent.h" />
-    <ClInclude Include="Engine\UI\BoxComponent.h" />
     <ClInclude Include="Engine\UI\Button.h" />
     <ClInclude Include="Engine\UI\Canvas.h" />
-    <ClInclude Include="Engine\UI\CircleComponent.h" />
-    <ClInclude Include="Engine\UI\Image.h" />
-    <ClInclude Include="Engine\UI\LineComponent.h" />
-    <ClInclude Include="Engine\UI\ProgressBar.h" />
-    <ClInclude Include="Engine\UI\ScrollView.h" />
-    <ClInclude Include="Engine\UI\StringComponent.h" />
-    <ClInclude Include="Engine\UI\TextBlock.h" />
+    <ClInclude Include="Engine\UI\ScrollBox.h" />
+    <ClInclude Include="Engine\UI\Slider.h" />
+    <ClInclude Include="Engine\UI\Text.h" />
     <ClInclude Include="Engine\UI\UIBase.h" />
     <ClInclude Include="Engine\Windows\DX\ConstantBuffer.h" />
     <ClInclude Include="Engine\Windows\DX\IndexBuffer.h" />
@@ -223,6 +217,7 @@
     <ClInclude Include="Game\Actor\Tilemap.h" />
     <ClInclude Include="Game\GameInstance.h" />
     <ClInclude Include="Game\Map\MainMap.h" />
+    <ClInclude Include="Game\Map\WorldMap.h" />
     <ClInclude Include="Game\ProjectSettings.h" />
     <ClInclude Include="Game\Sio\AnimComp.h" />
     <ClInclude Include="Game\Sio\InputComp.h" />
@@ -336,8 +331,6 @@
     <ClCompile Include="Engine\Actor\Component\ActorComponent.cpp" />
     <ClCompile Include="Engine\Actor\Component\Animator\AnimationClip.cpp" />
     <ClCompile Include="Engine\Actor\Component\Animator\AnimatorComponent.cpp" />
-    <ClCompile Include="Engine\Actor\Component\AudioComponent.cpp" />
-    <ClCompile Include="Engine\Actor\Component\AudioListenerComponent.cpp" />
     <ClCompile Include="Engine\Actor\Component\BoxColliderComponent.cpp" />
     <ClCompile Include="Engine\Actor\Component\CameraComponent.cpp" />
     <ClCompile Include="Engine\Actor\Component\CircleColliderComponent.cpp" />
@@ -350,6 +343,7 @@
     <ClCompile Include="Engine\Actor\Component\TransformComponent.cpp" />
     <ClCompile Include="Engine\Audio\AudioManager.cpp" />
     <ClCompile Include="Engine\Core.cpp" />
+    <ClCompile Include="Engine\Data\DataManager.cpp" />
     <ClCompile Include="Engine\DebugDraw.cpp" />
     <ClCompile Include="Engine\EventManager.cpp" />
     <ClCompile Include="Engine\GameEngine.cpp" />
@@ -363,6 +357,7 @@
     <ClCompile Include="Engine\Math\Bounds.cpp" />
     <ClCompile Include="Engine\Math\Color.cpp" />
     <ClCompile Include="Engine\Math\Math.cpp" />
+    <ClCompile Include="Engine\Math\Rect.cpp" />
     <ClCompile Include="Engine\Math\Vector2.cpp" />
     <ClCompile Include="Engine\Misc\Debug.cpp" />
     <ClCompile Include="Engine\Physics\BoxQueryCallback.cpp" />
@@ -373,17 +368,11 @@
     <ClCompile Include="Engine\Resource\ResourceManager.cpp" />
     <ClCompile Include="Engine\Time\Time.cpp" />
     <ClCompile Include="Engine\Time\TimerManager.cpp" />
-    <ClCompile Include="Engine\UI\BitmapComponent.cpp" />
-    <ClCompile Include="Engine\UI\BoxComponent.cpp" />
     <ClCompile Include="Engine\UI\Button.cpp" />
     <ClCompile Include="Engine\UI\Canvas.cpp" />
-    <ClCompile Include="Engine\UI\CircleComponent.cpp" />
-    <ClCompile Include="Engine\UI\Image.cpp" />
-    <ClCompile Include="Engine\UI\LineComponent.cpp" />
-    <ClCompile Include="Engine\UI\ProgressBar.cpp" />
-    <ClCompile Include="Engine\UI\ScrollView.cpp" />
-    <ClCompile Include="Engine\UI\StringComponent.cpp" />
-    <ClCompile Include="Engine\UI\TextBlock.cpp" />
+    <ClCompile Include="Engine\UI\ScrollBox.cpp" />
+    <ClCompile Include="Engine\UI\Slider.cpp" />
+    <ClCompile Include="Engine\UI\Text.cpp" />
     <ClCompile Include="Engine\UI\UIBase.cpp" />
     <ClCompile Include="Engine\Windows\DX\IndexBuffer.cpp" />
     <ClCompile Include="Engine\Windows\DX\Renderer.cpp" />
@@ -403,6 +392,7 @@
     <ClCompile Include="Game\Actor\Tilemap.cpp" />
     <ClCompile Include="Game\GameInstance.cpp" />
     <ClCompile Include="Game\Map\MainMap.cpp" />
+    <ClCompile Include="Game\Map\WorldMap.cpp" />
     <ClCompile Include="Game\Sio\AnimComp.cpp" />
     <ClCompile Include="Game\Sio\InputComp.cpp" />
     <ClCompile Include="Game\Sio\PhysicsComp.cpp" />

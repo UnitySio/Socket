@@ -2,6 +2,7 @@
 #include "UITexture.h"
 
 #include "Renderer.h"
+#include "Level/World.h"
 
 UITexture::UITexture() :
     bitmap_(nullptr),
@@ -10,15 +11,15 @@ UITexture::UITexture() :
 {
 }
 
-bool UITexture::Load(WindowsWindow* window, const std::wstring& kFileName)
+bool UITexture::Load(const std::wstring& kPath)
 {
-    D2DViewport* d2d_viewport = Renderer::Get()->FindD2DViewport(window);
+    D2DViewport* d2d_viewport = Renderer::Get()->FindD2DViewport(World::Get()->GetWindow());
     if (!d2d_viewport) return false;
     
     Microsoft::WRL::ComPtr<IWICImagingFactory> factory_ = Renderer::Get()->GetImageFactory();
 
     Microsoft::WRL::ComPtr<IWICBitmapDecoder> decoder;
-    HRESULT hr = factory_->CreateDecoderFromFilename(kFileName.c_str(), nullptr, GENERIC_READ, WICDecodeMetadataCacheOnLoad, decoder.GetAddressOf());
+    HRESULT hr = factory_->CreateDecoderFromFilename(kPath.c_str(), nullptr, GENERIC_READ, WICDecodeMetadataCacheOnLoad, decoder.GetAddressOf());
     if (FAILED(hr)) return false;
 
     Microsoft::WRL::ComPtr<IWICBitmapFrameDecode> frame;

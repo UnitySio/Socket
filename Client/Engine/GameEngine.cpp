@@ -2,7 +2,7 @@
 #include "GameEngine.h"
 
 #include "EventManager.h"
-#include "ProjectSettings.h"
+#include "Audio/AudioManager.h"
 #include "imgui/imgui.h"
 #include "imgui/imgui_impl_dx11.h"
 #include "imgui/imgui_impl_win32.h"
@@ -10,7 +10,7 @@
 #include "Input/Mouse.h"
 #include "Level/Level.h"
 #include "Level/World.h"
-#include "Logger/Logger.h"
+#include "UI/Canvas.h"
 #include "Windows/WindowsWindow.h"
 #include "Windows/DX/Renderer.h"
 #include "Windows/DX/Shape.h"
@@ -31,6 +31,8 @@ GameEngine::~GameEngine()
 
 void GameEngine::Init(const std::shared_ptr<WindowsWindow>& window)
 {
+    CHECK(AudioManager::Get()->Init());
+    
     game_window_ = window;
     World::Get()->Init(game_window_);
 
@@ -64,8 +66,12 @@ void GameEngine::GameLoop(float delta_time)
     ImGui::NewFrame();
 
 #pragma region Tick
+    AudioManager::Get()->Tick();
+    
     Keyboard::Get()->Begin();
     Mouse::Get()->Begin();
+    
+    World::Get()->TransitionLevel();
     
     // 죽음의 나선형을 방지하기 위해 delta_time을 제한
     const float kLimitFrameTime = min(delta_time, .25f);
@@ -82,22 +88,20 @@ void GameEngine::GameLoop(float delta_time)
     World::Get()->Tick(delta_time);
     World::Get()->PostTick(delta_time);
 
+    Canvas::Get()->Tick(delta_time);
+
     Mouse::Get()->End();
     Keyboard::Get()->End();
 #pragma endregion
 
 #pragma region Render
-#ifdef _DEBUG
-    Logger::Get()->Render();
-#endif
-    
     ImGui::Render();
     
     Renderer::Get()->BeginRender(game_window_);
     World::Get()->Render(alpha);
 
     Renderer::Get()->BeginRenderD2D(game_window_);
-    World::Get()->RenderUI();
+    Canvas::Get()->Render();
     Renderer::Get()->EndRenderD2D();
     
     ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());

@@ -1,35 +1,12 @@
 ﻿#include "pch.h"
 #include "Logger.h"
 
-#include "imgui/imgui.h"
+#include <cstdarg>
 
-Logger::Logger() :
-    logs_()
+#include "Windows.h"
+
+Logger::Logger()
 {
-}
-
-void Logger::Render()
-{
-    ImGui::SetNextWindowSize(ImVec2(300, 200), ImGuiCond_FirstUseEver);
-    if (!ImGui::Begin("Output Log"))
-    {
-        ImGui::End();
-        return;
-    }
-
-    if (ImGui::BeginChild("ScrollingRegion", ImVec2(0, 0), false, ImGuiWindowFlags_HorizontalScrollbar))
-    {
-        for (const auto& log : logs_)
-        {
-            ImGui::Text(log.c_str());
-        }
-        
-        if (ImGui::GetScrollY() >= ImGui::GetScrollMaxY()) ImGui::SetScrollHereY(1.f);
-    }
-
-    ImGui::EndChild();
-    ImGui::End();
-
 }
 
 void Logger::AddLog(std::wstring format, ...)
@@ -39,11 +16,48 @@ void Logger::AddLog(std::wstring format, ...)
 
     wchar_t buffer[256];
     vswprintf_s(buffer, format.c_str(), args);
-    wcscat_s(buffer, L"\n");
 
-    std::string str;
-    str.assign(buffer, buffer + wcslen(buffer));
+    std::wcout << buffer << std::endl;
+    
+    va_end(args);
+}
 
-    logs_.push_back(str);
+void Logger::AddErrorLog(std::wstring format, ...)
+{
+    va_list args;
+    va_start(args, format);
+
+    wchar_t buffer[256];
+    vswprintf_s(buffer, format.c_str(), args);
+
+    std::wstring log = L"Error: ";
+    log += buffer;
+
+    HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+
+    SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_INTENSITY);
+    std::wcerr << log << std::endl;
+    SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
+
+    va_end(args);
+}
+
+void Logger::AddWarningLog(std::wstring format, ...)
+{
+    va_list args;
+    va_start(args, format);
+
+    wchar_t buffer[256];
+    vswprintf_s(buffer, format.c_str(), args);
+
+    std::wstring log = L"Warning: ";
+    log += buffer;
+
+    HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+
+    SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_INTENSITY);
+    std::wcerr << log << std::endl;
+    SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
+
     va_end(args);
 }

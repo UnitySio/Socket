@@ -30,11 +30,11 @@ public:
     void SetLifeSpan(float life_span);
     bool CompareTag(ActorTag tag) const;
 
-    template <typename T>
+    template <std::derived_from<ActorComponent> T>
     T* CreateComponent(const std::wstring& kName);
 
     // 추후 리플렉션으로 변경
-    template <typename T>
+    template <std::derived_from<ActorComponent> T>
     T* GetComponent();
 
     // Reflection 구현 필요
@@ -55,14 +55,19 @@ public:
 
     inline bool IsActive() const { return is_active_; }
 
-    inline TransformComponent* GetTransform() const { return transform_; }
+    inline TransformComponent* GetTransform() const { return transform_.get(); }
 
     inline Actor* GetParent() const { return parent_; }
     
-    
+    ContactSignature on_collision_enter;
+    ContactSignature on_collision_stay;
+    ContactSignature on_collision_exit;
+
+    ContactSignature on_trigger_enter;
+    ContactSignature on_trigger_stay;
+    ContactSignature on_trigger_exit;
 
 protected:
-    TimerHandle life_span_timer_;
     void InitializeActor();
     void InitializeComponents();
     void UninitializeComponents();
@@ -74,7 +79,6 @@ protected:
     virtual inline void PostInitializeComponents() {};
     virtual void BeginPlay();
     virtual void EndPlay(EndPlayReason type);
-
 
     virtual void PhysicsTick(float delta_time);
     virtual void Tick(float delta_time);
@@ -88,14 +92,6 @@ protected:
     virtual void OnTriggerStay(Actor* other);
     virtual void OnTriggerExit(Actor* other);
 
-    ContactSignature on_collision_enter;
-    ContactSignature on_collision_stay;
-    ContactSignature on_collision_exit;
-
-    ContactSignature on_trigger_enter;
-    ContactSignature on_trigger_stay;
-    ContactSignature on_trigger_exit;
-
     std::wstring name_;
 
     ActorTag tag_;
@@ -108,12 +104,14 @@ protected:
 
     std::vector<std::shared_ptr<ActorComponent>> components_;
 
-    TransformComponent* transform_;
+    std::shared_ptr<TransformComponent> transform_;
 
     Actor* parent_;
     std::vector<Actor*> children_;
 
     class b2Joint* parent_joint_;
+    
+    TimerHandle life_span_timer_;
 private:
     // 추후 정리 예정
     friend class Level;
@@ -123,19 +121,16 @@ private:
     friend class TransformComponent;
     friend class PlayerController;
     friend class ContactListener;
-
-    
-    
 };
 
-template <typename T>
+template <std::derived_from<ActorComponent> T>
 T* Actor::CreateComponent(const std::wstring& kName)
 {
     components_.push_back(std::make_shared<T>(this, kName));
     return static_cast<T*>(components_.back().get());
 }
 
-template <typename T>
+template <std::derived_from<ActorComponent> T>
 T* Actor::GetComponent()
 {
     for (const auto& component : components_)

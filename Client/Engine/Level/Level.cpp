@@ -5,6 +5,8 @@
 #include "World.h"
 
 #include "Actor/Actor.h"
+#include "Audio/AudioManager.h"
+#include "Logger/Logger.h"
 
 Level::Level(const std::wstring& kName) :
     actors_(),
@@ -15,12 +17,27 @@ Level::Level(const std::wstring& kName) :
 
 void Level::Unload(EndPlayReason type)
 {
+    AudioManager::Get()->StopAllSounds();
+    
     for (const auto& actor : actors_)
     {
         actor->EndPlay(type);
     }
 
     actors_.clear();
+
+    if (type == EndPlayReason::kLevelTransition)
+    {
+        LOG(L"Level Transition");
+    }
+    else if (type == EndPlayReason::kQuit)
+    {
+        LOG(L"Game Quit");
+    }
+    else if (type == EndPlayReason::kDestroyed)
+    {
+        LOG(L"Actor Destroyed");
+    }
 }
 
 void Level::InitializeActors()

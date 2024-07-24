@@ -27,11 +27,11 @@ Texture::Texture() :
     };
 }
 
-bool Texture::Load(const std::wstring& kFileName)
+bool Texture::Load(const std::wstring& kPath)
 {
     HRESULT hr = DirectX::CreateWICTextureFromFile(
         Renderer::Get()->GetDevice(),
-        kFileName.c_str(),
+        kPath.c_str(),
         resource_.GetAddressOf(),
         resource_view_.GetAddressOf()
     );

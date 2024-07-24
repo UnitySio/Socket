@@ -5,14 +5,15 @@
 #include <d2d1.h>
 
 #include "Math/MathTypes.h"
+#include "Resource/Resource.h"
 
-class UITexture
+class UITexture : public Resource
 {
 public:
     UITexture();
-    virtual ~UITexture() = default;
+    virtual ~UITexture() override = default;
 
-    virtual bool Load(class WindowsWindow* window, const std::wstring& kFileName);
+    virtual bool Load(const std::wstring& kPath) override;
 
     inline Microsoft::WRL::ComPtr<ID2D1Bitmap> GetTexture() const { return bitmap_; }
     

@@ -5,7 +5,6 @@
 
 #include "EventManager.h"
 #include "Enums.h"
-#include "ProjectSettings.h"
 #include "box2d/b2_body.h"
 #include "box2d/b2_weld_joint.h"
 #include "box2d/b2_world.h"
@@ -27,7 +26,9 @@ Actor::Actor(const std::wstring& kName) :
     parent_joint_(nullptr)
 {
     name_ = kName;
-    transform_ = CreateComponent<TransformComponent>(L"Transform");
+    
+    TransformComponent* transform = CreateComponent<TransformComponent>(L"Transform");
+    transform_ = std::static_pointer_cast<TransformComponent>(transform->GetSharedPtr());
 }
 
 void Actor::OnCollisionEnter(Actor* other)
@@ -82,6 +83,8 @@ void Actor::EndPlay(EndPlayReason type)
     {
         component->EndPlay(type);
     }
+    
+    UninitializeComponents();
 
     components_.clear();
 
@@ -100,6 +103,10 @@ void Actor::EndPlay(EndPlayReason type)
 
 void Actor::PhysicsTick(float delta_time)
 {
+    for (const auto& component : components_)
+    {
+        component->PhysicsTickComponent(delta_time);
+    }
 }
 
 void Actor::Tick(float delta_time)
@@ -245,7 +252,6 @@ void Actor::UninitializeComponents()
 void Actor::Destroyed()
 {
     EndPlay(EndPlayReason::kDestroyed);
-    UninitializeComponents();
 }
 
 void Actor::CreateBody()
