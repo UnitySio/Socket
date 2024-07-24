@@ -16,11 +16,13 @@ public:
 private:
     friend class Core;
     friend class GameEngine;
+    friend class World;
     friend class UIBase;
 
     void OnResize(MathTypes::uint32 width, MathTypes::uint32 height);
     void Tick(float deltaTime);
     void Render();
+    void Clear();
 
     MathTypes::uint32 width_;
     MathTypes::uint32 height_;

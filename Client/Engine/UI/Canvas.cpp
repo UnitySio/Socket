@@ -41,3 +41,8 @@ void Canvas::Render()
         ui->Render();
     }
 }
+
+void Canvas::Clear()
+{
+    uis_.clear();
+}

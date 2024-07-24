@@ -16,6 +16,7 @@
 #include "Math/Color.h"
 #include "Math/Vector2.h"
 #include "Time/TimerManager.h"
+#include "UI/Canvas.h"
 #include "Windows/DX/Renderer.h"
 #include "Windows/DX/Shape.h"
 #include "Windows/DX/ShapeBatch.h"
@@ -158,6 +159,7 @@ void World::TransitionLevel()
     if (current_level_)
     {
         current_level_->Unload(EndPlayReason::kLevelTransition);
+        Canvas::Get()->Clear();
     }
 
     current_level_ = next_level_;

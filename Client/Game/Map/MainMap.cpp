@@ -5,6 +5,7 @@
 #include "Actor/Tilemap.h"
 #include "Actor/Character/Player/PlayerController.h"
 #include "Actor/Component/TransformComponent.h"
+#include "Level/World.h"
 #include "Sio/Sio.h"
 #include "UI/Button.h"
 #include "UI/Canvas.h"
@@ -57,7 +58,7 @@ void MainMap::Load()
     text->SetSize({ 0.f, 0.f });
     text->SetAnchorPreset(AnchorPresets::kStretch, true);
     text->SetColor(Math::Color::Black);
-    text->SetText(L"테스트 버튼");
+    text->SetText(L"다음 맵");
     text->AttachToUI(button.get());
     
     Canvas::Get()->AddUI(text);
@@ -76,5 +77,5 @@ void MainMap::Tick(float delta_time)
 
 void MainMap::OnCallback()
 {
-    OutputDebugString(L"Button Clicked\n");
+    World::Get()->OpenLevel(LevelType::kWorld);
 }
