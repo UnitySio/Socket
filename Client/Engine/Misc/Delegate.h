@@ -185,3 +185,4 @@ public:
 private:
     std::vector<Function<Ret(Args...)>> functions_;
 };
+

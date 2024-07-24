@@ -1,6 +1,8 @@
 ﻿#pragma once
 #include "Level/Level.h"
 
+
+
 class WorldMap : public Level
 {
 public:
@@ -9,4 +11,12 @@ public:
 
     virtual void Load() override;
     
+
+    Function<void(void)> func;
+
+    void ABETest(void)
+    {
+
+    }
+
 };
