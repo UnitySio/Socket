@@ -31,11 +31,16 @@ void UIBase::SetPosition(const Math::Vector2& kPosition)
 void UIBase::SetPositionScreen(const Math::Vector2& kPosition)
 {
     Canvas* canvas = Canvas::Get();
-    MathTypes::uint32 canvas_width = canvas->width_;
-    MathTypes::uint32 canvas_height = canvas->height_;
+    const MathTypes::uint32 canvas_width = canvas->width_;
+    const MathTypes::uint32 canvas_height = canvas->height_;
+    
+    const float width_ratio = canvas_width / static_cast<float>(canvas->reference_resolution_width_);
+    const float height_ratio = canvas_height / static_cast<float>(canvas->reference_resolution_height_);
 
-    float x = kPosition.x - canvas_width * anchor_min_.x;
-    float y = kPosition.y - canvas_height * (1.f - anchor_min_.y);
+    const float scale_ratio = width_ratio * (1.f - canvas->match_mode_) + height_ratio * canvas->match_mode_;
+
+    float x = (kPosition.x - canvas_width * anchor_min_.x) / scale_ratio;
+    float y = (kPosition.y - canvas_height * (1.f - anchor_min_.y)) / scale_ratio;
     position_ = {x, y};
     
     UpdateRect();
@@ -160,6 +165,15 @@ void UIBase::UpdateRect()
     MathTypes::uint32 parent_height = 0;
     Math::Vector2 parent_position = {0.f, 0.f};
 
+    Canvas* canvas = Canvas::Get();
+    const MathTypes::uint32 canvas_width = canvas->width_;
+    const MathTypes::uint32 canvas_height = canvas->height_;
+    
+    const float width_ratio = canvas_width / static_cast<float>(canvas->reference_resolution_width_);
+    const float height_ratio = canvas_height / static_cast<float>(canvas->reference_resolution_height_);
+
+    const float scale_ratio = width_ratio * (1.f - canvas->match_mode_) + height_ratio * canvas->match_mode_;
+
     if (parent_)
     {
         parent_width = parent_->rect_.width;
@@ -180,13 +194,13 @@ void UIBase::UpdateRect()
 
     if (anchor_min_.x == anchor_max_.x)
     {
-        left = parent_width * anchor_min_.x + position_.x + parent_position.x;
-        right = size_.x;
+        left = parent_width * anchor_min_.x + position_.x * scale_ratio + parent_position.x;
+        right = size_.x * scale_ratio;
     }
     else
     {
-        left = parent_width * anchor_min_.x + position_.x + parent_position.x;
-        right = (anchor_max_.x - anchor_min_.x) * parent_width - position_.x - size_.x;
+        left = parent_width * anchor_min_.x + position_.x * scale_ratio + parent_position.x;
+        right = (anchor_max_.x - anchor_min_.x) * parent_width - position_.x * scale_ratio - size_.x;
     }
 
     if (anchor_min_.y == anchor_max_.y)
@@ -194,16 +208,16 @@ void UIBase::UpdateRect()
         float anchored_min_y = parent_height * (1.f - anchor_min_.y) + parent_position.y;
         if (anchor_min_.y == 0.f) anchored_min_y = parent_height + parent_position.y;
 
-        top = anchored_min_y + position_.y;
-        bottom = size_.y;
+        top = anchored_min_y + position_.y * scale_ratio;
+        bottom = size_.y * scale_ratio;
     }
     else
     {
         float anchored_max_y = parent_height * (1.f - anchor_max_.y) + parent_position.y;
         if (anchor_max_.y == 0.f) anchored_max_y = 0.f + parent_position.y;
 
-        top = anchored_max_y + position_.y;
-        bottom = (anchor_max_.y - anchor_min_.y) * parent_height - position_.y - size_.y;
+        top = anchored_max_y + position_.y * scale_ratio;
+        bottom = (anchor_max_.y - anchor_min_.y) * parent_height - position_.y * scale_ratio - size_.y * scale_ratio;
     }
 
     const float pivot_x = right * pivot_.x;

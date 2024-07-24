@@ -21,7 +21,7 @@ void UI::ScrollBox::Tick(float deltaTime)
         int wheel_axis = mouse->GetWheelAxis();
         if (wheel_axis != 0)
         {
-            Math::Vector2 scroll = Math::Vector2(0.0f, -wheel_axis * 10.0f);
+            Math::Vector2 scroll = Math::Vector2(0.f, -wheel_axis * 10.f);
             for (UIBase* child : children_)
             {
                 child->Translate(scroll);

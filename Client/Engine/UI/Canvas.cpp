@@ -6,6 +6,9 @@
 Canvas::Canvas() :
     width_(0.f),
     height_(0.f),
+    reference_resolution_width_(800.f),
+    reference_resolution_height_(600.f),
+    match_mode_(0.f),
     uis_()
 {
 }

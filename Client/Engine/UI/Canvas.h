@@ -26,6 +26,10 @@ private:
 
     MathTypes::uint32 width_;
     MathTypes::uint32 height_;
+    MathTypes::uint32 reference_resolution_width_;
+    MathTypes::uint32 reference_resolution_height_;
+
+    float match_mode_;
 
     std::vector<std::shared_ptr<UIBase>> uis_;
     
