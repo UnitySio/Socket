@@ -17,7 +17,7 @@ void UI::Button::Tick(float deltaTime)
     UIBase::Tick(deltaTime);
 
     Math::Vector2 mouse_position = Mouse::Get()->GetMousePosition();
-    if (Mouse::Get()->IsButtonPressed(MouseButton::kLeft))
+    if (Mouse::Get()->IsButtonReleased(MouseButton::kLeft))
     {
         if (rect_.Contains(mouse_position))
         {
