@@ -234,7 +234,14 @@ public:
     }
 
     Function(void(*func)(void))
-        : func_(std::make_shared<GCallable>(func)), kFunc_(nullptr)
+        : func_(std::make_shared<VCallable>(func))
+    {
+        addr_ = reinterpret_cast<std::uintptr_t&>(func);
+    };
+
+    template<typename M>
+    Function(void(M::*func)(void), M* m)
+        : func_(std::make_shared<VMCallable<M>>(func, m))
     {
         addr_ = reinterpret_cast<std::uintptr_t&>(func);
     };
@@ -429,6 +436,36 @@ private:
 
         L func_;
         std::tuple<Args...> args_;
+    };
+
+    struct VCallable : public ICallable
+    {
+        VCallable(void(*func)(void))
+            : func_(func)
+        {};
+        virtual void operator()() const override
+        {
+            func_();
+        }
+
+        void(*func_)(void);
+    };
+
+    template<typename M>
+    struct VMCallable : public ICallable
+    {
+        VMCallable(void(M::*func)(void), M* m)
+            : 
+            func_(func), 
+            m_(m)
+        {};
+        virtual void operator()() const override
+        {
+            (m_->*func_)();
+        }
+
+        void(M::*func_)(void);
+        M* m_;
     };
 
 private:
