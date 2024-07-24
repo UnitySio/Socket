@@ -23,15 +23,13 @@ void UI::Slider::Tick(float deltaTime)
 
     Mouse* mouse = Mouse::Get();
     Math::Vector2 mouse_position = mouse->GetMousePosition();
-    if (mouse->IsButtonDown(MouseButton::kLeft))
-    {
-        if (rect_.Contains(mouse_position))
-        {
-            value_ = static_cast<int>((mouse_position.x - rect_.x) / size_.x * max_value_);
-            value_ = Math::Clamp(value_, min_value_, max_value_);
 
-            LOG(L"value: %d", value_);
-        }
+    if (is_clicked_)
+    {
+        value_ = static_cast<int>((mouse_position.x - rect_.x) / size_.x * max_value_);
+        value_ = Math::Clamp(value_, min_value_, max_value_);
+
+        LOG(L"value: %d", value_);
     }
 }
 

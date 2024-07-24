@@ -2,6 +2,7 @@
 #include "UIBase.h"
 
 #include "Canvas.h"
+#include "Input/Mouse.h"
 #include "Level/World.h"
 #include "Math/Color.h"
 #include "Math/Rect.h"
@@ -15,7 +16,8 @@ UIBase::UIBase(const std::wstring& kName) :
     anchor_max_({.5f, .5f}),
     pivot_({.5f, .5f}),
     parent_(nullptr),
-    children_()
+    children_(),
+    is_clicked_(false)
 {
     UpdateRect();
 }
@@ -126,6 +128,18 @@ void UIBase::Translate(const Math::Vector2& kTranslation)
 
 void UIBase::Tick(float deltaTime)
 {
+    Mouse* mouse = Mouse::Get();
+    Math::Vector2 mouse_position = mouse->GetMousePosition();
+
+    if (rect_.Contains(mouse_position) && mouse->IsButtonPressed(MouseButton::kLeft))
+    {
+        is_clicked_ = true;
+    }
+    else if (is_clicked_ && mouse->IsButtonReleased(MouseButton::kLeft))
+    {
+        is_clicked_ = false;
+    }
+    
     for (UIBase* child : children_)
     {
         child->Tick(deltaTime);
