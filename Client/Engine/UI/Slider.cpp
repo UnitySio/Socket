@@ -26,7 +26,7 @@ void UI::Slider::Tick(float deltaTime)
 
     if (is_clicked_)
     {
-        value_ = static_cast<int>((mouse_position.x - rect_.x) / size_.x * max_value_);
+        value_ = static_cast<int>((mouse_position.x - rect_.x) / rect_.width * max_value_);
         value_ = Math::Clamp(value_, min_value_, max_value_);
 
         LOG(L"value: %d", value_);
@@ -37,7 +37,7 @@ void UI::Slider::Render()
 {
     WindowsWindow* window = World::Get()->GetWindow();
     Renderer::Get()->DrawBox(window, rect_, pivot_, Math::Color::White);
-    Renderer::Get()->DrawBox(window, {rect_.x, rect_.y, size_.x * value_ / max_value_, size_.y}, pivot_, Math::Color::Red);
+    Renderer::Get()->DrawBox(window, {rect_.x, rect_.y, rect_.width * value_ / max_value_, size_.y}, pivot_, Math::Color::Red);
     
     UIBase::Render();
 }
