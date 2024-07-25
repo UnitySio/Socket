@@ -13,6 +13,8 @@ public:
 
     void AddUI(const std::shared_ptr<UIBase>& kUI);
 
+    float GetScaleRatio() const;
+
 private:
     friend class Core;
     friend class GameEngine;

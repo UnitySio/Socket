@@ -33,11 +33,8 @@ void UIBase::SetPositionScreen(const Math::Vector2& kPosition)
     Canvas* canvas = Canvas::Get();
     const MathTypes::uint32 canvas_width = canvas->width_;
     const MathTypes::uint32 canvas_height = canvas->height_;
-    
-    const float width_ratio = canvas_width / static_cast<float>(canvas->reference_resolution_width_);
-    const float height_ratio = canvas_height / static_cast<float>(canvas->reference_resolution_height_);
 
-    const float scale_ratio = width_ratio * (1.f - canvas->match_mode_) + height_ratio * canvas->match_mode_;
+    const float scale_ratio = canvas->GetScaleRatio();
 
     float x = (kPosition.x - canvas_width * anchor_min_.x) / scale_ratio;
     float y = (kPosition.y - canvas_height * (1.f - anchor_min_.y)) / scale_ratio;
@@ -166,13 +163,7 @@ void UIBase::UpdateRect()
     Math::Vector2 parent_position = {0.f, 0.f};
 
     Canvas* canvas = Canvas::Get();
-    const MathTypes::uint32 canvas_width = canvas->width_;
-    const MathTypes::uint32 canvas_height = canvas->height_;
-    
-    const float width_ratio = canvas_width / static_cast<float>(canvas->reference_resolution_width_);
-    const float height_ratio = canvas_height / static_cast<float>(canvas->reference_resolution_height_);
-
-    const float scale_ratio = width_ratio * (1.f - canvas->match_mode_) + height_ratio * canvas->match_mode_;
+    const float scale_ratio = canvas->GetScaleRatio();
 
     if (parent_)
     {

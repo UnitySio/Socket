@@ -6,6 +6,7 @@
 #include "Math/Color.h"
 #include "Math/Rect.h"
 #include "Math/Vector2.h"
+#include "UI/Canvas.h"
 #include "Windows/WindowsWindow.h"
 
 Renderer::Renderer() :
@@ -525,10 +526,14 @@ void Renderer::DrawString(WindowsWindow* window, const std::wstring& kString, co
 
     const D2D1_RECT_F rect = D2D1::RectF(kRect.Left(), kRect.Top(), kRect.Right(), kRect.Bottom());
 
+    Canvas* canvas = Canvas::Get();
+    float scale_ratio = canvas->GetScaleRatio();
+    float scaled_font_size = font_size * scale_ratio;
+
     Microsoft::WRL::ComPtr<IDWriteTextFormat> text_format;
     HRESULT hr = dwrite_factory_->CreateTextFormat(L"Silver", dwrite_font_collection_.Get(),
                                                    DWRITE_FONT_WEIGHT_REGULAR, DWRITE_FONT_STYLE_NORMAL,
-                                                   DWRITE_FONT_STRETCH_NORMAL, font_size, L"en-us",
+                                                   DWRITE_FONT_STRETCH_NORMAL, scaled_font_size, L"en-us",
                                                    text_format.GetAddressOf());
     if (FAILED(hr)) return;
 
