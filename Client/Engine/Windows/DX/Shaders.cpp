@@ -80,7 +80,7 @@ DefaultVertexShader::DefaultVertexShader()
         {"TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0}
     };
 
-    bool r = Create(L"..\\x64\\Debug\\DefaultVertexShader.cso", layout, ARRAYSIZE(layout));
+    bool r = Create(L".\\Game_Data\\Shaders\\DefaultVertexShader.cso", layout, ARRAYSIZE(layout));
     CHECK(r);
 }
 
@@ -111,7 +111,7 @@ DefaultPixelShader::DefaultPixelShader()
 {
     CHECK(constant_buffer_.Create());
 
-    bool r = Create(L"..\\x64\\Debug\\DefaultPixelShader.cso");
+    bool r = Create(L".\\Game_Data\\Shaders\\DefaultPixelShader.cso");
     CHECK(r);
 }
 
