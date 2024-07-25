@@ -5,7 +5,7 @@
 
 #include "Logger/Logger.h"
 
-Keyboard::Keyboard() : key_states_(), key_events_()
+Keyboard::Keyboard() : input_string_(), key_states_(), key_events_()
 {
 	RegisterKey(VK_LEFT);
 	RegisterKey(VK_RIGHT);
@@ -24,20 +24,30 @@ void Keyboard::Begin()
 		KeyEvent& event = key_events_.front();
 		key_events_.pop();
 
-		WORD key_code = event.key_code;
 		KeyboardEventType type = event.state;
 
-		auto it = key_states_.find(key_code);
-		if (it != key_states_.end())
+		if (type == KeyboardEventType::kPressed || type == KeyboardEventType::kReleased)
 		{
-			KeyState& key_state = it->second;
-			key_state.is_down = type == KeyboardEventType::kPressed;
+			WORD key_code = event.key_code;
+			
+			auto it = key_states_.find(key_code);
+			if (it != key_states_.end())
+			{
+				KeyState& key_state = it->second;
+				key_state.is_down = type == KeyboardEventType::kPressed;
+			}
+		}
+		else if (type == KeyboardEventType::kChar)
+		{
+			input_string_.push_back(event.character);
 		}
 	}
 }
 
 void Keyboard::End()
 {
+	input_string_.clear();
+	
 	for (auto& key_state : key_states_ | std::views::values)
 	{
 		key_state.was_down = key_state.is_down;
@@ -47,6 +57,8 @@ void Keyboard::End()
 void Keyboard::Clear()
 {
 	std::lock_guard<std::mutex> lock(mutex_);
+	
+	input_string_.clear();
 	
 	while (!key_events_.empty())
 	{
@@ -139,6 +151,14 @@ bool Keyboard::OnKeyUp(WORD key_code, MathTypes::uint32 char_code)
 
 bool Keyboard::OnKeyChar(WCHAR character)
 {
+	std::lock_guard<std::mutex> lock(mutex_);
+
+	KeyEvent event;
+	event.state = KeyboardEventType::kChar;
+	event.character = character;
+
+	key_events_.push(event);
+	
 	return true;
 }
 

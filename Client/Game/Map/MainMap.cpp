@@ -5,6 +5,7 @@
 #include "Actor/Tilemap.h"
 #include "Actor/Character/Player/PlayerController.h"
 #include "Actor/Component/TransformComponent.h"
+#include "Input/Keyboard.h"
 #include "Level/World.h"
 #include "Sio/Sio.h"
 #include "UI/Button.h"
@@ -114,5 +115,9 @@ void MainMap::Tick(float delta_time)
     Math::Vector2 position = player->GetTransform()->GetWorldPosition();
     position = Renderer::Get()->ConvertWorldToScreen(position);
 
+    static std::wstring input_string = L"";
+    input_string += Keyboard::Get()->GetInputString();
+    
+    ui->SetText(input_string);
     ui->SetPositionScreen(position);
 }

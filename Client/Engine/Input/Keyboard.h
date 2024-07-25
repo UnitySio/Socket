@@ -9,7 +9,8 @@
 enum class KeyboardEventType
 {
     kPressed,
-    kReleased
+    kReleased,
+    kChar
 };
 
 struct KeyState
@@ -28,6 +29,7 @@ struct KeyEvent
 {
     KeyboardEventType state;
     WORD key_code;
+    WCHAR character;
 };
 
 class Keyboard : public Singleton<Keyboard>
@@ -42,6 +44,8 @@ public:
     bool IsKeyPressed(WORD key_code) const;
     bool IsKeyReleased(WORD key_code) const;
 
+    inline const std::wstring& GetInputString() const { return input_string_; }
+
 private:
     friend class Core;
     friend class GameEngine;
@@ -55,6 +59,8 @@ private:
     void Begin();
     void End();
     void Clear();
+
+    std::wstring input_string_;
 
     std::map<WORD, KeyState> key_states_;
 
