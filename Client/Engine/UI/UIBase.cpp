@@ -184,7 +184,6 @@ void UIBase::UpdateRect()
     }
     else
     {
-        Canvas* canvas = Canvas::Get();
         parent_width = canvas->width_;
         parent_height = canvas->height_;
     }

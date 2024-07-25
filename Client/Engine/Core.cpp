@@ -77,17 +77,22 @@ bool Core::ProcessMessage(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam,
 
     if (message == WM_SIZE)
     {
+        Keyboard::Get()->Clear();
+        Mouse::Get()->Clear();
+        
         if (wParam == SIZE_MINIMIZED) return false;
-
+        
         resize_width_ = LOWORD(lParam);
         resize_height_ = HIWORD(lParam);
 
         Canvas::Get()->OnResize(resize_width_, resize_height_);
+        return true;
     }
 
     if (message == WM_SETFOCUS)
     {
         AudioManager::Get()->SetAllMutes(false);
+        return true;
     }
 
     if (message == WM_KILLFOCUS)
@@ -96,6 +101,7 @@ bool Core::ProcessMessage(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam,
         
         Keyboard::Get()->Clear();
         Mouse::Get()->Clear();
+        return true;
     }
 
     if (message == WM_DESTROY)
@@ -110,6 +116,7 @@ bool Core::ProcessMessage(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam,
                 Renderer::Get()->Release();
             }
         }
+        return true;
     }
 
     return false;

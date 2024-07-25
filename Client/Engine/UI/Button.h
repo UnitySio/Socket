@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include "UIBase.h"
+#include "Math/Color.h"
 #include "Misc/DelegateMacros.h"
 
 DECLARE_DELEGATE(ButtonSignature);
@@ -17,6 +18,9 @@ namespace UI
     protected:
         virtual void Tick(float deltaTime) override;
         virtual void Render() override;
+
+    private:
+        Math::Color color_;
         
     };
 }
