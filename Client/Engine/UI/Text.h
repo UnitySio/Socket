@@ -16,7 +16,6 @@ namespace UI
     protected:
         virtual void Render() override;
 
-    private:
         std::wstring text_;
 
         Math::Color color_;

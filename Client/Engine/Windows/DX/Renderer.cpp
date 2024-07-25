@@ -522,10 +522,10 @@ void Renderer::DrawCircle(const std::shared_ptr<WindowsWindow>& kWindow, Math::V
     d2d_viewport->d2d_render_target->DrawEllipse(ellipse, brush.Get(), stroke);
 }
 
-void Renderer::DrawLine(const std::shared_ptr<WindowsWindow>& kWindow, Math::Vector2 start, Math::Vector2 end,
+void Renderer::DrawLine(WindowsWindow* window, Math::Vector2 start, Math::Vector2 end,
                         Math::Color color, float stroke)
 {
-    D2DViewport* d2d_viewport = FindD2DViewport(kWindow.get());
+    D2DViewport* d2d_viewport = FindD2DViewport(window);
     if (!d2d_viewport) return;
 
     Microsoft::WRL::ComPtr<ID2D1SolidColorBrush> brush;
@@ -558,8 +558,8 @@ void Renderer::DrawString(WindowsWindow* window, const std::wstring& kString, co
                                                    text_format.GetAddressOf());
     if (FAILED(hr)) return;
 
-    text_format->SetTextAlignment(DWRITE_TEXT_ALIGNMENT_CENTER);
-    text_format->SetParagraphAlignment(DWRITE_PARAGRAPH_ALIGNMENT_CENTER);
+    text_format->SetTextAlignment(DWRITE_TEXT_ALIGNMENT_LEADING);
+    text_format->SetParagraphAlignment(DWRITE_PARAGRAPH_ALIGNMENT_NEAR);
 
     Microsoft::WRL::ComPtr<ID2D1SolidColorBrush> brush;
     hr = d2d_viewport->d2d_render_target->CreateSolidColorBrush(
@@ -599,6 +599,39 @@ void Renderer::DrawBitmap(const std::shared_ptr<WindowsWindow>& kWindow, const M
 
     d2d_viewport->d2d_render_target->DrawBitmap(kBitmap.Get(), rect);
     d2d_viewport->d2d_render_target->SetTransform(transform);
+}
+
+void Renderer::GetStringSize(WindowsWindow* window, const std::wstring& kString, float font_size, Math::Vector2& size)
+{
+    D2DViewport* d2d_viewport = FindD2DViewport(window);
+    if (!d2d_viewport) return;
+
+    Canvas* canvas = Canvas::Get();
+    float scale_ratio = canvas->GetScaleRatio();
+    float scaled_font_size = font_size * scale_ratio;
+
+    Microsoft::WRL::ComPtr<IDWriteTextFormat> text_format;
+    HRESULT hr = dwrite_factory_->CreateTextFormat(
+        L"Silver", dwrite_font_collection_.Get(),
+        DWRITE_FONT_WEIGHT_REGULAR, DWRITE_FONT_STYLE_NORMAL,
+        DWRITE_FONT_STRETCH_NORMAL, scaled_font_size, L"en-us",
+        text_format.GetAddressOf()
+    );
+    
+    if (FAILED(hr)) return;
+
+    text_format->SetTextAlignment(DWRITE_TEXT_ALIGNMENT_LEADING);
+    text_format->SetParagraphAlignment(DWRITE_PARAGRAPH_ALIGNMENT_NEAR);
+
+    Microsoft::WRL::ComPtr<IDWriteTextLayout> text_layout;
+    hr = dwrite_factory_->CreateTextLayout(kString.c_str(), static_cast<UINT32>(kString.size()), text_format.Get(), FLT_MAX, FLT_MAX, text_layout.GetAddressOf());
+    if (FAILED(hr)) return;
+
+    DWRITE_TEXT_METRICS text_metrics;
+    text_layout->GetMetrics(&text_metrics);
+
+    size.x = text_metrics.width;
+    size.y = text_metrics.height;
 }
 
 bool Renderer::LoadBitmap(const std::shared_ptr<WindowsWindow>& kWindow, const std::wstring& kFileName, Microsoft::WRL::ComPtr<ID2D1Bitmap>& bitmap)

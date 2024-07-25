@@ -17,6 +17,7 @@ UIBase::UIBase(const std::wstring& kName) :
     pivot_({.5f, .5f}),
     parent_(nullptr),
     children_(),
+    is_focused_(false),
     is_clicked_(false)
 {
     UpdateRect();
@@ -133,11 +134,21 @@ void UIBase::Tick(float deltaTime)
     Mouse* mouse = Mouse::Get();
     Math::Vector2 mouse_position = mouse->GetMousePosition();
 
-    if (rect_.Contains(mouse_position) && mouse->IsButtonPressed(MouseButton::kLeft))
+    bool is_mouse_over = rect_.Contains(mouse_position);
+    bool is_pressed = mouse->IsButtonPressed(MouseButton::kLeft);
+    bool is_released = mouse->IsButtonReleased(MouseButton::kLeft);
+
+    if (is_mouse_over && is_pressed)
     {
+        is_focused_ = true;
         is_clicked_ = true;
     }
-    else if (is_clicked_ && mouse->IsButtonReleased(MouseButton::kLeft))
+    else if (!is_mouse_over && is_pressed)
+    {
+        is_focused_ = false;
+    }
+
+    if (is_clicked_ && is_released)
     {
         is_clicked_ = false;
     }

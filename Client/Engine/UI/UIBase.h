@@ -53,6 +53,7 @@ protected:
     UIBase* parent_;
     std::vector<UIBase*> children_;
 
+    bool is_focused_;
     bool is_clicked_;
     
 };

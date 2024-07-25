@@ -9,6 +9,7 @@ namespace UI
         Slider(const std::wstring& kName);
         virtual ~Slider() override = default;
 
+    protected:
         virtual void Tick(float deltaTime) override;
         virtual void Render() override;
 

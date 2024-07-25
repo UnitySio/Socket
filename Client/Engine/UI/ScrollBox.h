@@ -9,6 +9,7 @@ namespace UI
         ScrollBox(const std::wstring& kName);
         virtual ~ScrollBox() override = default;
 
+    protected:
         virtual void Tick(float deltaTime) override;
         virtual void Render() override;
     };

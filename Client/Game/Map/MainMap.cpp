@@ -13,6 +13,7 @@
 #include "UI/ScrollBox.h"
 #include "UI/Slider.h"
 #include "UI/Text.h"
+#include "UI/TextBox.h"
 #include "UI/UIBase.h"
 #include "Windows/DX/Renderer.h"
 
@@ -105,6 +106,13 @@ void MainMap::Load()
     slider->SetAnchorPreset(AnchorPresets::kTop, true);
 
     Canvas::Get()->AddUI(slider);
+
+    std::shared_ptr<UI::TextBox> text_box = std::make_shared<UI::TextBox>(L"TextBox");
+    text_box->SetPosition({ 0.f, 0.f });
+    text_box->SetSize({ 160.f, 20.f });
+    text_box->SetAnchorPreset(AnchorPresets::kMiddle | AnchorPresets::kCenter, true);
+
+    Canvas::Get()->AddUI(text_box);
     
 }
 
@@ -115,9 +123,5 @@ void MainMap::Tick(float delta_time)
     Math::Vector2 position = player->GetTransform()->GetWorldPosition();
     position = Renderer::Get()->ConvertWorldToScreen(position);
 
-    static std::wstring input_string = L"";
-    input_string += Keyboard::Get()->GetInputString();
-    
-    ui->SetText(input_string);
     ui->SetPositionScreen(position);
 }
