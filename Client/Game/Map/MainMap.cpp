@@ -68,10 +68,29 @@ void MainMap::Load()
     text->SetSize({ 0.f, 0.f });
     text->SetAnchorPreset(AnchorPresets::kStretch, true);
     text->SetColor(Math::Color::Black);
-    text->SetText(L"다음 맵");
+    text->SetText(L"640x480");
     text->AttachToUI(button.get());
     
     Canvas::Get()->AddUI(text);
+
+    std::shared_ptr<UI::Button> button2 = std::make_shared<UI::Button>(L"Button2");
+    button2->SetPosition({ 0.f, 40.f });
+    button2->SetSize({ 180.f, 30.f });
+    button2->SetAnchorPreset(AnchorPresets::kLeft, true);
+    button2->AttachToUI(scroll_box.get());
+    button2->on_click.Add(this, &MainMap::OnCallback2);
+
+    Canvas::Get()->AddUI(button2);
+
+    std::shared_ptr<UI::Text> text2 = std::make_shared<UI::Text>(L"ButtonText2");
+    text2->SetPosition({ 0.f, 0.f });
+    text2->SetSize({ 0.f, 0.f });
+    text2->SetAnchorPreset(AnchorPresets::kStretch, true);
+    text2->SetColor(Math::Color::Black);
+    text2->SetText(L"800x600");
+    text2->AttachToUI(button2.get());
+
+    Canvas::Get()->AddUI(text2);
 
     std::shared_ptr<UI::Slider> slider = std::make_shared<UI::Slider>(L"Slider");
     slider->SetPosition({ 0.f, 0.f });
@@ -94,5 +113,30 @@ void MainMap::Tick(float delta_time)
 
 void MainMap::OnCallback()
 {
-    World::Get()->OpenLevel(LevelType::kWorld);
+    // World::Get()->OpenLevel(LevelType::kWorld);
+
+    DXGI_MODE_DESC mode_desc;
+    mode_desc.Width = 640;
+    mode_desc.Height = 480;
+    mode_desc.RefreshRate.Numerator = 60;
+    mode_desc.RefreshRate.Denominator = 1;
+    mode_desc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+    mode_desc.ScanlineOrdering = DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED;
+    mode_desc.Scaling = DXGI_MODE_SCALING_UNSPECIFIED;
+
+    Renderer::Get()->ChangeResolution(World::Get()->GetWindow(), mode_desc);
+}
+
+void MainMap::OnCallback2()
+{
+    DXGI_MODE_DESC mode_desc;
+    mode_desc.Width = 800;
+    mode_desc.Height = 600;
+    mode_desc.RefreshRate.Numerator = 60;
+    mode_desc.RefreshRate.Denominator = 1;
+    mode_desc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+    mode_desc.ScanlineOrdering = DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED;
+    mode_desc.Scaling = DXGI_MODE_SCALING_UNSPECIFIED;
+
+    Renderer::Get()->ChangeResolution(World::Get()->GetWindow(), mode_desc);
 }

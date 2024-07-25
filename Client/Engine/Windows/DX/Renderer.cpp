@@ -418,6 +418,15 @@ void Renderer::EndLayer()
     current_d2d_viewport_->d2d_render_target->PopLayer();
 }
 
+void Renderer::ChangeResolution(WindowsWindow* window, DXGI_MODE_DESC mode_desc)
+{
+    Viewport* viewport = FindViewport(window);
+    if (!viewport) return;
+
+    viewport->dxgi_swap_chain->ResizeTarget(&mode_desc);
+    // viewport->dxgi_swap_chain->SetFullscreenState(true, nullptr);
+}
+
 Math::Vector2 Renderer::ConvertScreenToWorld(const Math::Vector2& kScreenPosition) const
 {
     Viewport* viewport = Renderer::Get()->FindViewport(World::Get()->GetWindow());

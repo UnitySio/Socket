@@ -17,6 +17,7 @@ public:
 
 private:
     void OnCallback();
+    void OnCallback2();
     
     std::shared_ptr<Actor> player;
     std::shared_ptr<UI::Text> ui;
