@@ -418,13 +418,25 @@ void Renderer::EndLayer()
     current_d2d_viewport_->d2d_render_target->PopLayer();
 }
 
-void Renderer::ChangeResolution(WindowsWindow* window, DXGI_MODE_DESC mode_desc)
+void Renderer::ChangeResolution(WindowsWindow* window, MathTypes::uint32 width, MathTypes::uint32 height, bool is_fullscreen)
 {
     Viewport* viewport = FindViewport(window);
     if (!viewport) return;
 
+    viewport->dxgi_swap_chain->SetFullscreenState(is_fullscreen, nullptr);
+
+    DXGI_MODE_DESC mode_desc;
+    ZeroMemory(&mode_desc, sizeof(DXGI_MODE_DESC));
+
+    mode_desc.Width = width;
+    mode_desc.Height = height;
+    mode_desc.RefreshRate.Numerator = 60;
+    mode_desc.RefreshRate.Denominator = 1;
+    mode_desc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+    mode_desc.ScanlineOrdering = DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED;
+    mode_desc.Scaling = DXGI_MODE_SCALING_UNSPECIFIED;
+
     viewport->dxgi_swap_chain->ResizeTarget(&mode_desc);
-    // viewport->dxgi_swap_chain->SetFullscreenState(true, nullptr);
 }
 
 Math::Vector2 Renderer::ConvertScreenToWorld(const Math::Vector2& kScreenPosition) const

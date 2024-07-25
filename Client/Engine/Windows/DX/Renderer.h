@@ -77,9 +77,7 @@ public:
     void EndRenderD2D();
     void BeginLayer(const Math::Rect& kRect);
     void EndLayer();
-
-    // 테스트 중인 함수
-    void ChangeResolution(WindowsWindow* window, DXGI_MODE_DESC mode_desc);
+    void ChangeResolution(WindowsWindow* window, MathTypes::uint32 width, MathTypes::uint32 height, bool is_fullscreen = false);
     
     Math::Vector2 ConvertScreenToWorld(const Math::Vector2& kScreenPosition) const;
     Math::Vector2 ConvertWorldToScreen(const Math::Vector2& kWorldPosition) const;
