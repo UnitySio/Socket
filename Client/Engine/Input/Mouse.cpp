@@ -87,10 +87,14 @@ bool Mouse::ProcessMessage(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam
             }
             break;
         }
+        
+        const int x = GET_X_LPARAM(lParam);
+        const int y = GET_Y_LPARAM(lParam);
 
         ButtonEvent event;
         event.type = is_released ? MouseEventType::kReleased : MouseEventType::kPressed;
         event.button = mouse_button;
+        event.mouse_position = Math::Vector2(static_cast<float>(x), static_cast<float>(y));
 
         mouse_events_.push(event);
         return true;
@@ -98,11 +102,14 @@ bool Mouse::ProcessMessage(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam
 
     if (message == WM_MOUSEWHEEL)
     {
+        const int x = GET_X_LPARAM(lParam);
+        const int y = GET_Y_LPARAM(lParam);
         const int z_delta = GET_WHEEL_DELTA_WPARAM(wParam);
 
         ButtonEvent event;
         event.type = MouseEventType::kWheel;
         event.wheel_delta = z_delta / WHEEL_DELTA;
+        event.mouse_position = Math::Vector2(static_cast<float>(x), static_cast<float>(y));
 
         mouse_events_.push(event);
         return true;
@@ -110,11 +117,14 @@ bool Mouse::ProcessMessage(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam
 
     if (message == WM_MOUSEHWHEEL)
     {
+        const int x = GET_X_LPARAM(lParam);
+        const int y = GET_Y_LPARAM(lParam);
         const int z_delta = GET_WHEEL_DELTA_WPARAM(wParam);
 
         ButtonEvent event;
         event.type = MouseEventType::kHWeel;
         event.wheel_delta = z_delta / WHEEL_DELTA;
+        event.mouse_position = Math::Vector2(static_cast<float>(x), static_cast<float>(y));
 
         mouse_events_.push(event);
         return true;
@@ -152,24 +162,28 @@ void Mouse::Begin()
         case MouseEventType::kPressed:
             {
                 mouse_states_[static_cast<int>(event.button)].is_down = true;
+                mouse_position_ = event.mouse_position;
             }
             break;
 
         case MouseEventType::kReleased:
             {
                 mouse_states_[static_cast<int>(event.button)].is_down = false;
+                mouse_position_ = event.mouse_position;
             }
             break;
 
         case MouseEventType::kWheel:
             {
                 wheel_axis_ = event.wheel_delta;
+                mouse_position_ = event.mouse_position;
             }
             break;
 
         case MouseEventType::kHWeel:
             {
                 wheel_h_axis_ = event.wheel_delta;
+                mouse_position_ = event.mouse_position;
             }
             break;
 

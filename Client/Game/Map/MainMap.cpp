@@ -13,7 +13,6 @@
 #include "UI/ScrollBox.h"
 #include "UI/Slider.h"
 #include "UI/Text.h"
-#include "UI/TextBox.h"
 #include "UI/UIBase.h"
 #include "Windows/DX/Renderer.h"
 
@@ -63,7 +62,7 @@ void MainMap::Load()
     button->AttachToUI(scroll_box.get());
     button->on_click.Add([]()
     {
-        Renderer::Get()->ChangeResolution(World::Get()->GetWindow(), 640, 480);
+        Renderer::Get()->ChangeResolution(World::Get()->GetWindow(), 800, 600);
     });
     
     Canvas::Get()->AddUI(button);
@@ -73,7 +72,7 @@ void MainMap::Load()
     text->SetSize({ 0.f, 0.f });
     text->SetAnchorPreset(AnchorPresets::kStretch, true);
     text->SetColor(Math::Color::Black);
-    text->SetText(L"640x480");
+    text->SetText(L"800x600");
     text->AttachToUI(button.get());
     
     Canvas::Get()->AddUI(text);
@@ -85,7 +84,7 @@ void MainMap::Load()
     button2->AttachToUI(scroll_box.get());
     button2->on_click.Add([]()
     {
-        Renderer::Get()->ChangeResolution(World::Get()->GetWindow(), 800, 480);
+        Renderer::Get()->ChangeResolution(World::Get()->GetWindow(), 1024, 768);
     });
 
     Canvas::Get()->AddUI(button2);
@@ -95,24 +94,39 @@ void MainMap::Load()
     text2->SetSize({ 0.f, 0.f });
     text2->SetAnchorPreset(AnchorPresets::kStretch, true);
     text2->SetColor(Math::Color::Black);
-    text2->SetText(L"800x480");
+    text2->SetText(L"1024x768");
     text2->AttachToUI(button2.get());
 
     Canvas::Get()->AddUI(text2);
 
+    std::shared_ptr<UI::Button> button3 = std::make_shared<UI::Button>(L"Button3");
+    button3->SetPosition({ 0.f, 80.f });
+    button3->SetSize({ 180.f, 30.f });
+    button3->SetAnchorPreset(AnchorPresets::kLeft, true);
+    button3->AttachToUI(scroll_box.get());
+    button3->on_click.Add([]()
+    {
+        Renderer::Get()->ChangeResolution(World::Get()->GetWindow(), 1280, 720);
+    });
+
+    Canvas::Get()->AddUI(button3);
+
+    std::shared_ptr<UI::Text> text3 = std::make_shared<UI::Text>(L"ButtonText3");
+    text3->SetPosition({ 0.f, 0.f });
+    text3->SetSize({ 0.f, 0.f });
+    text3->SetAnchorPreset(AnchorPresets::kStretch, true);
+    text3->SetColor(Math::Color::Black);
+    text3->SetText(L"1280x720");
+    text3->AttachToUI(button3.get());
+
+    Canvas::Get()->AddUI(text3);
+
     std::shared_ptr<UI::Slider> slider = std::make_shared<UI::Slider>(L"Slider");
     slider->SetPosition({ 0.f, 0.f });
-    slider->SetSize({ 160.f, 20.f });
+    slider->SetSize({ 180.f, 30.f });
     slider->SetAnchorPreset(AnchorPresets::kTop, true);
 
     Canvas::Get()->AddUI(slider);
-
-    std::shared_ptr<UI::TextBox> text_box = std::make_shared<UI::TextBox>(L"TextBox");
-    text_box->SetPosition({ 0.f, 0.f });
-    text_box->SetSize({ 160.f, 20.f });
-    text_box->SetAnchorPreset(AnchorPresets::kMiddle | AnchorPresets::kCenter, true);
-
-    Canvas::Get()->AddUI(text_box);
     
 }
 

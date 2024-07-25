@@ -43,8 +43,8 @@ void Core::Init(const HINSTANCE instance_handle)
     definition->title = L"Fusion2D";
     definition->screen_x = 100;
     definition->screen_y = 100;
-    definition->width = 640;
-    definition->height = 480;
+    definition->width = 800;
+    definition->height = 600;
 
     // 게임 윈도우 생성
     std::shared_ptr<WindowsWindow> new_window = current_application_->MakeWindow();

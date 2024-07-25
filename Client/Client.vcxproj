@@ -194,7 +194,6 @@
     <ClInclude Include="Engine\UI\ScrollBox.h" />
     <ClInclude Include="Engine\UI\Slider.h" />
     <ClInclude Include="Engine\UI\Text.h" />
-    <ClInclude Include="Engine\UI\TextBox.h" />
     <ClInclude Include="Engine\UI\UIBase.h" />
     <ClInclude Include="Engine\Windows\DX\ConstantBuffer.h" />
     <ClInclude Include="Engine\Windows\DX\IndexBuffer.h" />
@@ -374,7 +373,6 @@
     <ClCompile Include="Engine\UI\ScrollBox.cpp" />
     <ClCompile Include="Engine\UI\Slider.cpp" />
     <ClCompile Include="Engine\UI\Text.cpp" />
-    <ClCompile Include="Engine\UI\TextBox.cpp" />
     <ClCompile Include="Engine\UI\UIBase.cpp" />
     <ClCompile Include="Engine\Windows\DX\IndexBuffer.cpp" />
     <ClCompile Include="Engine\Windows\DX\Renderer.cpp" />
