@@ -35,7 +35,7 @@ public:
 
 protected:
     friend class Canvas;
-    
+
     virtual void Tick(float deltaTime);
     virtual void Render();
     virtual void UpdateRect();
