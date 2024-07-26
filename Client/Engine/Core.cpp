@@ -97,6 +97,9 @@ bool Core::ProcessMessage(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam,
 
     if (message == WM_KILLFOCUS)
     {
+        Keyboard::Get()->Clear();
+        Mouse::Get()->Clear();
+        
         AudioManager::Get()->SetAllMutes(true);
         return true;
     }
@@ -144,9 +147,6 @@ void Core::MainThread()
         {
             if (resize_width_ > 0 && resize_height_ > 0)
             {
-                Keyboard::Get()->Clear();
-                Mouse::Get()->Clear();
-                
                 Renderer::Get()->ResizeViewport(window, resize_width_, resize_height_);
 
                 resize_width_ = 0;
