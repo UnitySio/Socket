@@ -31,7 +31,13 @@ public:
     void SetAnchorPreset(MathTypes::uint16 anchor, bool match_pivot = false);
     void AttachToUI(Widget* parent);
     void DetachFromUI();
-    void Translate(const Math::Vector2& kTranslation);
+    
+    Math::Vector2 GetPivotPosition() const;
+    
+    inline float GetAngle() const { return angle_; }
+    
+    inline Widget* GetParent() const { return parent_; }
+    inline const std::vector<Widget*>& GetChildren() const { return children_; }
 
 protected:
     friend class Canvas;
@@ -49,6 +55,8 @@ protected:
     Math::Vector2 anchor_min_;
     Math::Vector2 anchor_max_;
     Math::Vector2 pivot_;
+
+    float angle_;
 
     Widget* parent_;
     std::vector<Widget*> children_;

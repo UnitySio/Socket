@@ -14,6 +14,7 @@ Widget::Widget(const std::wstring& kName) :
     anchor_min_({.5f, .5f}),
     anchor_max_({.5f, .5f}),
     pivot_({.5f, .5f}),
+    angle_(0.f),
     parent_(nullptr),
     children_()
 {
@@ -120,10 +121,9 @@ void Widget::DetachFromUI()
     parent_ = nullptr;
 }
 
-void Widget::Translate(const Math::Vector2& kTranslation)
+Math::Vector2 Widget::GetPivotPosition() const
 {
-    position_ += kTranslation;
-    UpdateRect();
+    return {rect_.x + rect_.width * pivot_.x, rect_.y + rect_.height * (1.f - pivot_.y)};
 }
 
 void Widget::UpdateRect()

@@ -1,11 +1,6 @@
 ﻿#pragma once
 #include "Level/Level.h"
 
-namespace UI
-{
-    class Text;
-}
-
 class MainMap : public Level
 {
 public:
