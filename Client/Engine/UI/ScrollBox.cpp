@@ -59,7 +59,7 @@ void UI::ScrollBox::Tick(float deltaTime)
         is_dragging_ = false;
     }
 
-    if (is_dragging_)
+    if (is_dragging_ && (mouse_position.y > scroll_bar_.y && mouse_position.y < scroll_bar_.y + scroll_bar_.height))
     {
         scroll_offset_ += mouse_delta.y;
         scroll_offset_ = Math::Clamp(scroll_offset_, 0.f, scroll_bar_.height - scroll_bar_thumb_.height);
@@ -86,9 +86,9 @@ void UI::ScrollBox::Render()
     Renderer* renderer = Renderer::Get();
 
     renderer->DrawBox(window, rect_, pivot_, Math::Color::Black);
-    renderer->DrawBox(window, content_rect_, pivot_, Math::Color::White);
     
     renderer->BeginLayer(rect_);
+    renderer->DrawString(window, L"This is a scroll box.", {content_rect_.x, content_rect_.y, 180.f, 30.f}, {0.f, 1.f}, Math::Color::White);
     UIBase::Render();
     renderer->EndLayer();
 
