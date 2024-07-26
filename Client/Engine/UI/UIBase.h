@@ -36,8 +36,8 @@ public:
 protected:
     friend class Canvas;
 
-    virtual void Tick(float deltaTime);
-    virtual void Render();
+    virtual void Render() = 0;
+    
     virtual void UpdateRect();
 
     std::wstring name_;
@@ -52,8 +52,5 @@ protected:
 
     UIBase* parent_;
     std::vector<UIBase*> children_;
-
-    bool is_focused_;
-    bool is_clicked_;
     
 };

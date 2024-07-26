@@ -13,10 +13,5 @@ public:
     virtual ~MainMap() override = default;
 
     virtual void Load() override;
-    virtual void Tick(float delta_time) override;
-
-private:
-    std::shared_ptr<Actor> player;
-    std::shared_ptr<UI::Text> ui;
 
 };

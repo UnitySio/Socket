@@ -16,9 +16,7 @@ UIBase::UIBase(const std::wstring& kName) :
     anchor_max_({.5f, .5f}),
     pivot_({.5f, .5f}),
     parent_(nullptr),
-    children_(),
-    is_focused_(false),
-    is_clicked_(false)
+    children_()
 {
     UpdateRect();
 }
@@ -127,44 +125,6 @@ void UIBase::Translate(const Math::Vector2& kTranslation)
 {
     position_ += kTranslation;
     UpdateRect();
-}
-
-void UIBase::Tick(float deltaTime)
-{
-    Mouse* mouse = Mouse::Get();
-    Math::Vector2 mouse_position = mouse->GetMousePosition();
-
-    bool is_mouse_over = rect_.Contains(mouse_position);
-    bool is_pressed = mouse->IsButtonPressed(MouseButton::kLeft);
-    bool is_released = mouse->IsButtonReleased(MouseButton::kLeft);
-
-    if (is_mouse_over && is_pressed)
-    {
-        is_focused_ = true;
-        is_clicked_ = true;
-    }
-    else if (!is_mouse_over && is_pressed)
-    {
-        is_focused_ = false;
-    }
-
-    if (is_clicked_ && is_released)
-    {
-        is_clicked_ = false;
-    }
-    
-    for (UIBase* child : children_)
-    {
-        child->Tick(deltaTime);
-    }
-}
-
-void UIBase::Render()
-{
-    for (UIBase* child : children_)
-    {
-        child->Render();
-    }
 }
 
 void UIBase::UpdateRect()

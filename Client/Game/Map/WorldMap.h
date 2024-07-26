@@ -9,7 +9,4 @@ public:
 
     virtual void Load() override;
 
-private:
-    void OnCallback();
-
 };
