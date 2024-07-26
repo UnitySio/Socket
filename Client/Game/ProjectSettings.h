@@ -12,12 +12,21 @@ enum class ActorTag : size_t
 
 enum ActorLayer : MathTypes::uint16
 {
-    kDefault = 0x0001
+    kDefault = (0x01<<0)
 };
 
 class ProjectSettings
 {
 public:
+    static inline const std::wstring kWindowTitle = L"Fusion2D"; // 윈도우 타이틀
+
+    static inline constexpr MathTypes::uint32 kScreenWidth = 800; // 화면 너비
+    static inline constexpr MathTypes::uint32 kScreenHeight = 600; // 화면 높이
+
+    static inline constexpr MathTypes::uint32 kCanvasReferenceWidth = 800;
+    static inline constexpr MathTypes::uint32 kCanvasReferenceHeight = 600;
+    static inline constexpr float kMatchMode = 0.f;
+    
     static inline constexpr bool kShowFrameRate = true; // 프레임레이트 표시 여부
     static inline constexpr bool kUseVSync = false; // 수직동기화 사용 여부
 
@@ -25,10 +34,6 @@ public:
 
     static inline const std::map<MathTypes::uint16, MathTypes::uint16> kLayerCollisionMatrix = { // 레이어 충돌 매트릭스
         {kDefault, kDefault},
-    };
-    
-    static inline const std::map<std::wstring, std::wstring> kPath = { // 경로
-        {L"GameData", L".\\Game_Data\\"},
     };
     
 };

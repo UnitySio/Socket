@@ -40,11 +40,11 @@ void Core::Init(const HINSTANCE instance_handle)
 
     // 게임 윈도우 정의 생성
     std::shared_ptr<WindowDefinition> definition = std::make_shared<WindowDefinition>();
-    definition->title = L"Fusion2D";
+    definition->title = ProjectSettings::kWindowTitle;
     definition->screen_x = 100;
     definition->screen_y = 100;
-    definition->width = 800;
-    definition->height = 600;
+    definition->width = ProjectSettings::kScreenWidth;
+    definition->height = ProjectSettings::kScreenHeight;
 
     // 게임 윈도우 생성
     std::shared_ptr<WindowsWindow> new_window = current_application_->MakeWindow();
@@ -98,9 +98,6 @@ bool Core::ProcessMessage(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam,
     if (message == WM_KILLFOCUS)
     {
         AudioManager::Get()->SetAllMutes(true);
-        
-        Keyboard::Get()->Clear();
-        Mouse::Get()->Clear();
         return true;
     }
 
@@ -147,6 +144,9 @@ void Core::MainThread()
         {
             if (resize_width_ > 0 && resize_height_ > 0)
             {
+                Keyboard::Get()->Clear();
+                Mouse::Get()->Clear();
+                
                 Renderer::Get()->ResizeViewport(window, resize_width_, resize_height_);
 
                 resize_width_ = 0;
