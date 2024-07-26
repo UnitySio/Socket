@@ -1,7 +1,7 @@
 ﻿#include "pch.h"
 #include "Canvas.h"
 
-#include "UIBase.h"
+#include "Widget.h"
 
 Canvas::Canvas() :
     width_(0.f),
@@ -13,7 +13,7 @@ Canvas::Canvas() :
 {
 }
 
-void Canvas::AddUI(const std::shared_ptr<UIBase>& kUI)
+void Canvas::AddUI(const std::shared_ptr<Widget>& kUI)
 {
     uis_.push_back(kUI);
 }

@@ -1,13 +1,12 @@
 ﻿#include "pch.h"
-#include "UIBase.h"
+#include "Widget.h"
 
 #include "Canvas.h"
 #include "Input/Mouse.h"
 #include "Level/World.h"
-#include "Math/Color.h"
 #include "Math/Rect.h"
 
-UIBase::UIBase(const std::wstring& kName) :
+Widget::Widget(const std::wstring& kName) :
     name_(kName),
     rect_(),
     position_(Math::Vector2::Zero()),
@@ -21,13 +20,13 @@ UIBase::UIBase(const std::wstring& kName) :
     UpdateRect();
 }
 
-void UIBase::SetPosition(const Math::Vector2& kPosition)
+void Widget::SetPosition(const Math::Vector2& kPosition)
 {
     position_ = kPosition;
     UpdateRect();
 }
 
-void UIBase::SetPositionScreen(const Math::Vector2& kPosition)
+void Widget::SetPositionScreen(const Math::Vector2& kPosition)
 {
     Canvas* canvas = Canvas::Get();
     const MathTypes::uint32 canvas_width = canvas->width_;
@@ -42,38 +41,38 @@ void UIBase::SetPositionScreen(const Math::Vector2& kPosition)
     UpdateRect();
 }
 
-void UIBase::SetSize(const Math::Vector2& kSize)
+void Widget::SetSize(const Math::Vector2& kSize)
 {
     size_ = kSize;
     UpdateRect();
 }
 
-void UIBase::SetAnchorMin(const Math::Vector2& kAnchorMin)
+void Widget::SetAnchorMin(const Math::Vector2& kAnchorMin)
 {
     anchor_min_ = kAnchorMin;
     UpdateRect();
 }
 
-void UIBase::SetAnchorMax(const Math::Vector2& kAnchorMax)
+void Widget::SetAnchorMax(const Math::Vector2& kAnchorMax)
 {
     anchor_max_ = kAnchorMax;
     UpdateRect();
 }
 
-void UIBase::SetPivot(const Math::Vector2& kPivot)
+void Widget::SetPivot(const Math::Vector2& kPivot)
 {
     pivot_ = kPivot;
     UpdateRect();
 }
 
-void UIBase::SetAnchors(const Math::Vector2& kAnchorMin, const Math::Vector2& kAnchorMax)
+void Widget::SetAnchors(const Math::Vector2& kAnchorMin, const Math::Vector2& kAnchorMax)
 {
     anchor_min_ = kAnchorMin;
     anchor_max_ = kAnchorMax;
     UpdateRect();
 }
 
-void UIBase::SetAnchorPreset(MathTypes::uint16 anchor, bool match_pivot)
+void Widget::SetAnchorPreset(MathTypes::uint16 anchor, bool match_pivot)
 {
     if ((anchor & kLeft) && (anchor & kTop)) SetAnchors({0.f, 1.f}, {0.f, 1.f});
     else if ((anchor & kRight) && (anchor & kTop)) SetAnchors({1.f, 1.f}, {1.f, 1.f});
@@ -106,14 +105,14 @@ void UIBase::SetAnchorPreset(MathTypes::uint16 anchor, bool match_pivot)
     }
 }
 
-void UIBase::AttachToUI(UIBase* parent)
+void Widget::AttachToUI(Widget* parent)
 {
     parent_ = parent;
     parent_->children_.push_back(this);
     UpdateRect();
 }
 
-void UIBase::DetachFromUI()
+void Widget::DetachFromUI()
 {
     if (!parent_) return;
 
@@ -121,13 +120,13 @@ void UIBase::DetachFromUI()
     parent_ = nullptr;
 }
 
-void UIBase::Translate(const Math::Vector2& kTranslation)
+void Widget::Translate(const Math::Vector2& kTranslation)
 {
     position_ += kTranslation;
     UpdateRect();
 }
 
-void UIBase::UpdateRect()
+void Widget::UpdateRect()
 {
     MathTypes::uint32 parent_width = 0;
     MathTypes::uint32 parent_height = 0;
@@ -199,7 +198,7 @@ void UIBase::UpdateRect()
 
     rect_ = {left, top, right, bottom};
 
-    for (UIBase* child : children_)
+    for (Widget* child : children_)
     {
         child->UpdateRect();
     }

@@ -15,11 +15,11 @@ enum AnchorPresets
     kStretch = (0x01<<6)
 };
 
-class UIBase
+class Widget
 {
 public:
-    UIBase(const std::wstring& kName);
-    virtual ~UIBase() = default;
+    Widget(const std::wstring& kName);
+    virtual ~Widget() = default;
 
     void SetPosition(const Math::Vector2& kPosition);
     void SetPositionScreen(const Math::Vector2& kPosition);
@@ -29,7 +29,7 @@ public:
     void SetPivot(const Math::Vector2& kPivot);
     void SetAnchors(const Math::Vector2& kAnchorMin, const Math::Vector2& kAnchorMax);
     void SetAnchorPreset(MathTypes::uint16 anchor, bool match_pivot = false);
-    void AttachToUI(UIBase* parent);
+    void AttachToUI(Widget* parent);
     void DetachFromUI();
     void Translate(const Math::Vector2& kTranslation);
 
@@ -50,7 +50,7 @@ protected:
     Math::Vector2 anchor_max_;
     Math::Vector2 pivot_;
 
-    UIBase* parent_;
-    std::vector<UIBase*> children_;
+    Widget* parent_;
+    std::vector<Widget*> children_;
     
 };

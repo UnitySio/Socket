@@ -3,7 +3,7 @@
 
 #include "Singleton.h"
 
-class UIBase;
+class Widget;
 
 class Canvas : public Singleton<Canvas>
 {
@@ -11,7 +11,7 @@ public:
     Canvas();
     virtual ~Canvas() override = default;
 
-    void AddUI(const std::shared_ptr<UIBase>& kUI);
+    void AddUI(const std::shared_ptr<Widget>& kUI);
 
     float GetScaleRatio() const;
 
@@ -19,7 +19,7 @@ private:
     friend class Core;
     friend class GameEngine;
     friend class World;
-    friend class UIBase;
+    friend class Widget;
 
     void OnResize(MathTypes::uint32 width, MathTypes::uint32 height);
     void Render();
@@ -32,6 +32,6 @@ private:
 
     float match_mode_;
 
-    std::vector<std::shared_ptr<UIBase>> uis_;
+    std::vector<std::shared_ptr<Widget>> uis_;
     
 };

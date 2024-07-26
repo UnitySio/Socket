@@ -190,7 +190,7 @@
     <ClInclude Include="Engine\Time\Time.h" />
     <ClInclude Include="Engine\Time\TimerManager.h" />
     <ClInclude Include="Engine\UI\Canvas.h" />
-    <ClInclude Include="Engine\UI\UIBase.h" />
+    <ClInclude Include="Engine\UI\Widget.h" />
     <ClInclude Include="Engine\Windows\DX\ConstantBuffer.h" />
     <ClInclude Include="Engine\Windows\DX\IndexBuffer.h" />
     <ClInclude Include="Engine\Windows\DX\Renderer.h" />
@@ -365,7 +365,7 @@
     <ClCompile Include="Engine\Time\Time.cpp" />
     <ClCompile Include="Engine\Time\TimerManager.cpp" />
     <ClCompile Include="Engine\UI\Canvas.cpp" />
-    <ClCompile Include="Engine\UI\UIBase.cpp" />
+    <ClCompile Include="Engine\UI\Widget.cpp" />
     <ClCompile Include="Engine\Windows\DX\IndexBuffer.cpp" />
     <ClCompile Include="Engine\Windows\DX\Renderer.cpp" />
     <ClCompile Include="Engine\Windows\DX\Shaders.cpp" />
