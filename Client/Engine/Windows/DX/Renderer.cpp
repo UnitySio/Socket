@@ -577,21 +577,17 @@ void Renderer::DrawString(WindowsWindow* window, const std::wstring& kString, co
     d2d_viewport->d2d_render_target->SetTransform(transform);
 }
 
-void Renderer::DrawBitmap(const std::shared_ptr<WindowsWindow>& kWindow, const Microsoft::WRL::ComPtr<ID2D1Bitmap>& kBitmap, Math::Vector2 position, Math::Vector2 size, float rotation_z)
+void Renderer::DrawBitmap(WindowsWindow* window, const Microsoft::WRL::ComPtr<ID2D1Bitmap>& kBitmap, const Math::Rect& kRect, const Math::Vector2& kPivot, float rotation_z)
 {
-    D2DViewport* d2d_viewport = FindD2DViewport(kWindow.get());
+    D2DViewport* d2d_viewport = FindD2DViewport(window);
     if (!d2d_viewport) return;
 
     D2D1_MATRIX_3X2_F transform;
     d2d_viewport->d2d_render_target->GetTransform(&transform);
 
-    const float half_width = size.x * 0.5f;
-    const float half_height = size.y * 0.5f;
+    const D2D1_RECT_F rect = D2D1::RectF(kRect.Left(), kRect.Top(), kRect.Right(), kRect.Bottom());
 
-    const D2D1_RECT_F rect = D2D1::RectF(position.x - half_width, position.y - half_height,
-                                         position.x + half_width, position.y + half_height);
-
-    D2D1_POINT_2F center = D2D1::Point2F(position.x, position.y);
+    D2D1_POINT_2F center = D2D1::Point2F(kPivot.x, kPivot.y);
     d2d_viewport->d2d_render_target->SetTransform(D2D1::Matrix3x2F::Rotation(rotation_z, center));
 
     d2d_viewport->d2d_render_target->DrawBitmap(kBitmap.Get(), rect);

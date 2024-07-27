@@ -4,9 +4,11 @@
 #include "Level/World.h"
 #include "Math/Color.h"
 #include "Windows/WindowsWindow.h"
+#include "Windows/DX/UITexture.h"
 
 UI::Image::Image(const std::wstring& kName) :
-    Widget(kName)
+    Widget(kName),
+    texture_(nullptr)
 {
 }
 
@@ -21,5 +23,11 @@ void UI::Image::Render()
     Math::Vector2 pivot_position = GetPivotPosition();
     if (GetParent()) pivot_position = GetParent()->GetPivotPosition();
 
-    renderer->DrawBox(window, rect_, pivot_position, Math::Color::White, angle_);
+    if (!texture_)
+    {
+        renderer->DrawBox(window, rect_, pivot_position, Math::Color::White, angle_);
+        return;
+    }
+
+    renderer->DrawBitmap(window, texture_->GetTexture(), rect_, pivot_position, angle_);
 }

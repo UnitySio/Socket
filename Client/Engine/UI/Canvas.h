@@ -11,7 +11,7 @@ public:
     Canvas();
     virtual ~Canvas() override = default;
 
-    void AddUI(const std::shared_ptr<Widget>& kUI);
+    void AddWidget(const std::shared_ptr<Widget>& kWidget);
 
     float GetScaleRatio() const;
 

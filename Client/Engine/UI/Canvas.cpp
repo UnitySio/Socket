@@ -13,9 +13,9 @@ Canvas::Canvas() :
 {
 }
 
-void Canvas::AddUI(const std::shared_ptr<Widget>& kUI)
+void Canvas::AddWidget(const std::shared_ptr<Widget>& kWidget)
 {
-    uis_.push_back(kUI);
+    uis_.push_back(kWidget);
 }
 
 float Canvas::GetScaleRatio() const

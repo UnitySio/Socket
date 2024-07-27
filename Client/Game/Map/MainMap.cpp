@@ -5,6 +5,10 @@
 #include "Actor/Tilemap.h"
 #include "Actor/Character/Player/PlayerController.h"
 #include "Actor/Component/TransformComponent.h"
+#include "Resource/ResourceManager.h"
+#include "UI/Canvas.h"
+#include "UI/Widget/Image.h"
+#include "Windows/DX/UITexture.h"
 
 MainMap::MainMap(const std::wstring& kName) : Level(kName)
 {
@@ -25,4 +29,17 @@ void MainMap::Load()
     
     FollowCamera* follow_camera = dynamic_cast<FollowCamera*>(camera.get());
     follow_camera->SetFollow(player.get());
+
+    ResourceManager::Get()->Load<UITexture>(L"box", L".\\Game_Data\\box.png");
+    UITexture* texture = ResourceManager::Get()->GetResource<UITexture>(L"box");
+    if (texture)
+    {
+        std::shared_ptr<UI::Image> image = std::make_shared<UI::Image>(L"Image");
+        image->SetPosition({ 0.f, 0.f });
+        image->SetSize({ 100.f, 100.f });
+        image->SetAnchorPreset(AnchorPresets::kLeft, true);
+        image->SetTexture(texture);
+
+        Canvas::Get()->AddWidget(image);
+    }
 }
