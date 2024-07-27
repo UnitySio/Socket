@@ -36,7 +36,7 @@ void MainMap::Load()
     {
         std::shared_ptr<UI::Image> image = std::make_shared<UI::Image>(L"Image");
         image->SetPosition({ 0.f, 0.f });
-        image->SetSize({ 100.f, 100.f });
+        image->SetSize({ 256.f, 256.f });
         image->SetAnchorPreset(AnchorPresets::kLeft, true);
         image->SetTexture(texture);
 

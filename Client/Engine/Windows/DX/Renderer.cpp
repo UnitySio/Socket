@@ -590,7 +590,10 @@ void Renderer::DrawBitmap(WindowsWindow* window, const Microsoft::WRL::ComPtr<ID
     D2D1_POINT_2F center = D2D1::Point2F(kPivot.x, kPivot.y);
     d2d_viewport->d2d_render_target->SetTransform(D2D1::Matrix3x2F::Rotation(rotation_z, center));
 
-    d2d_viewport->d2d_render_target->DrawBitmap(kBitmap.Get(), rect);
+    // D2D1_BITMAP_INTERPOLATION_MODE_NEAREST_NEIGHBOR - Point
+    // D2D1_BITMAP_INTERPOLATION_MODE_LINEAR - Bilinear
+
+    d2d_viewport->d2d_render_target->DrawBitmap(kBitmap.Get(), rect, 1.f, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR);
     d2d_viewport->d2d_render_target->SetTransform(transform);
 }
 
