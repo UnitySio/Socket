@@ -5,8 +5,10 @@
 #include "Actor/Tilemap.h"
 #include "Actor/Character/Player/PlayerController.h"
 #include "Actor/Component/TransformComponent.h"
+#include "Logger/Logger.h"
 #include "Resource/ResourceManager.h"
 #include "UI/Canvas.h"
+#include "UI/Widget/Button.h"
 #include "UI/Widget/Image.h"
 #include "Windows/DX/UITexture.h"
 
@@ -42,4 +44,24 @@ void MainMap::Load()
 
         Canvas::Get()->AddWidget(image);
     }
+
+    std::shared_ptr<UI::Button> button = std::make_shared<UI::Button>(L"Button");
+    button->SetPosition({ 0.f, 0.f });
+    button->SetAnchorPreset(AnchorPresets::kTop, true);
+    button->on_click.Add([]()
+    {
+        LOG(L"Button Clicked");
+    });
+
+    Canvas::Get()->AddWidget(button);
+    
+    std::shared_ptr<UI::Button> button2 = std::make_shared<UI::Button>(L"Button");
+    button2->SetPosition({ 90.f, 0.f });
+    button2->SetAnchorPreset(AnchorPresets::kTop, true);
+    button2->on_click.Add([]()
+    {
+        LOG(L"Button2 Clicked");
+    });
+
+    Canvas::Get()->AddWidget(button2);
 }

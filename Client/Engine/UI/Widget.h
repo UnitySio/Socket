@@ -42,9 +42,13 @@ public:
 protected:
     friend class Canvas;
 
+    virtual inline void OnMousePressed() {}
+    virtual inline void OnMouseReleased() {}
     virtual void Render() = 0;
     
     virtual void UpdateRect();
+    
+    static MathTypes::uint32 next_z_index_;
 
     std::wstring name_;
 
@@ -60,5 +64,9 @@ protected:
 
     Widget* parent_;
     std::vector<Widget*> children_;
+
+    MathTypes::uint32 z_index_;
+
+    bool is_hovered_;
     
 };

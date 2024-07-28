@@ -2,6 +2,7 @@
 #include <vector>
 
 #include "Singleton.h"
+#include "Math/Vector2.h"
 
 class Widget;
 
@@ -15,6 +16,8 @@ public:
 
     float GetScaleRatio() const;
 
+    Widget* GetWidgetAtPosition(const Math::Vector2& kPosition);
+
 private:
     friend class Core;
     friend class GameEngine;
@@ -22,6 +25,7 @@ private:
     friend class Widget;
 
     void OnResize(MathTypes::uint32 width, MathTypes::uint32 height);
+    void Tick();
     void Render();
     void Clear();
 
@@ -32,6 +36,6 @@ private:
 
     float match_mode_;
 
-    std::vector<std::shared_ptr<Widget>> uis_;
+    std::vector<std::shared_ptr<Widget>> widgets_;
     
 };

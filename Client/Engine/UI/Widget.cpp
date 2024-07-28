@@ -6,6 +6,8 @@
 #include "Level/World.h"
 #include "Math/Rect.h"
 
+MathTypes::uint32 Widget::next_z_index_ = 0;
+
 Widget::Widget(const std::wstring& kName) :
     name_(kName),
     rect_(),
@@ -16,7 +18,9 @@ Widget::Widget(const std::wstring& kName) :
     pivot_({.5f, .5f}),
     angle_(0.f),
     parent_(nullptr),
-    children_()
+    children_(),
+    z_index_(next_z_index_++),
+    is_hovered_(false)
 {
     UpdateRect();
 }

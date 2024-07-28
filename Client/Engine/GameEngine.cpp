@@ -88,6 +88,8 @@ void GameEngine::GameLoop(float delta_time)
     World::Get()->Tick(delta_time);
     World::Get()->PostTick(delta_time);
 
+    Canvas::Get()->Tick();
+
     Mouse::Get()->End();
     Keyboard::Get()->End();
 #pragma endregion
