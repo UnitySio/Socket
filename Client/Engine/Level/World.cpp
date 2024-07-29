@@ -12,6 +12,7 @@
 #include "Input/Keyboard.h"
 #include "Logger/Logger.h"
 #include "Map/MainMap.h"
+#include "Map/SplashMap.h"
 #include "Map/WorldMap.h"
 #include "Math/Color.h"
 #include "Math/Vector2.h"
@@ -54,8 +55,9 @@ void World::Init(const std::shared_ptr<WindowsWindow>& kWindow)
     
     AddLevel<MainMap>(LevelType::kDefault, L"Map 0");
     AddLevel<WorldMap>(LevelType::kWorld, L"Map 1");
+    AddLevel<SplashMap>(LevelType::kSplash, L"Splash");
     
-    OpenLevel(LevelType::kDefault);
+    OpenLevel(LevelType::kSplash);
 }
 
 void World::OpenLevel(LevelType type)

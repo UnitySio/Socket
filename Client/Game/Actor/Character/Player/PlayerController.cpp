@@ -120,9 +120,9 @@ void PlayerController::Tick(float delta_time)
     
     if (mouse->IsButtonPressed(MouseButton::kLeft))
     {
-        LOG(L"Left Button Pressed %d", 10);
-        LOG_ERROR(L"Left Button Pressed %d", 10);
-        LOG_WARNING(L"Left Button Pressed %d", 10);
+        // LOG(L"Left Button Pressed %d", 10);
+        // LOG_ERROR(L"Left Button Pressed %d", 10);
+        // LOG_WARNING(L"Left Button Pressed %d", 10);
         // GetTransform()->SetWorldPosition(mouse_position);
     }
 

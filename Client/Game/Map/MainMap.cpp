@@ -5,11 +5,13 @@
 #include "Actor/Tilemap.h"
 #include "Actor/Character/Player/PlayerController.h"
 #include "Actor/Component/TransformComponent.h"
+#include "Level/World.h"
 #include "Logger/Logger.h"
 #include "Resource/ResourceManager.h"
 #include "UI/Canvas.h"
 #include "UI/Widget/Button.h"
 #include "UI/Widget/Image.h"
+#include "Windows/DX/Renderer.h"
 #include "Windows/DX/UITexture.h"
 
 MainMap::MainMap(const std::wstring& kName) : Level(kName)
@@ -54,6 +56,8 @@ void MainMap::Load()
     });
 
     Canvas::Get()->AddWidget(button);
+
+    static bool is_fullscreen = false;
     
     std::shared_ptr<UI::Button> button2 = std::make_shared<UI::Button>(L"Button");
     button2->SetPosition({ 90.f, 0.f });
@@ -61,6 +65,9 @@ void MainMap::Load()
     button2->on_click.Add([]()
     {
         LOG(L"Button2 Clicked");
+        WindowsWindow* window = World::Get()->GetWindow();
+        is_fullscreen = !is_fullscreen;
+        Renderer::Get()->ChangeResolution(window, 1366, 768, is_fullscreen);
     });
 
     Canvas::Get()->AddWidget(button2);
