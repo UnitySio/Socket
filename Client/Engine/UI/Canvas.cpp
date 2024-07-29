@@ -10,7 +10,8 @@ Canvas::Canvas() :
     reference_resolution_width_(ProjectSettings::kCanvasReferenceWidth),
     reference_resolution_height_(ProjectSettings::kCanvasReferenceHeight),
     match_mode_(ProjectSettings::kMatchMode),
-    widgets_()
+    widgets_(),
+    hovered_widget_(nullptr)
 {
 }
 
@@ -27,33 +28,14 @@ float Canvas::GetScaleRatio() const
     return width_ratio * (1.f - match_mode_) + height_ratio * match_mode_;
 }
 
-Widget* Canvas::GetWidgetAtPosition(const Math::Vector2& kPosition)
-{
-    Widget* selected_widget = nullptr;
-    for (auto it = widgets_.rbegin(); it != widgets_.rend(); ++it)
-    {
-        Widget* widget = it->get();
-        if (widget->rect_.Contains(kPosition))
-        {
-            if (selected_widget)
-            {
-                if (widget->z_index_ > selected_widget->z_index_) selected_widget = widget;
-            }
-            else selected_widget = widget;
-        }
-    }
-
-    return selected_widget;
-}
-
 void Canvas::OnResize(MathTypes::uint32 width, MathTypes::uint32 height)
 {
     width_ = width;
     height_ = height;
 
-    for (const auto& ui : widgets_)
+    for (const auto& widget : widgets_)
     {
-        ui->UpdateRect();
+        widget->UpdateRect();
     }
 }
 
@@ -63,20 +45,34 @@ void Canvas::Tick()
     if (!mouse) return;
 
     Math::Vector2 mouse_position = mouse->GetMousePosition();
-
-    bool is_mouse_pressed = mouse->IsButtonPressed(MouseButton::kLeft);
-    bool is_mouse_released = mouse->IsButtonReleased(MouseButton::kLeft);
     
-    if (is_mouse_pressed)
+    Widget* hovered_widget = nullptr;
+    for (auto it = widgets_.rbegin(); it != widgets_.rend(); ++it)
     {
-        Widget* selected_widget = GetWidgetAtPosition(mouse_position);
-        if (selected_widget) selected_widget->OnMousePressed();
+        Widget* widget = it->get();
+        if (widget->rect_.Contains(mouse_position))
+        {
+            if (!hovered_widget || widget->z_index_ > hovered_widget->z_index_)
+            {
+                hovered_widget = widget;
+            }
+        }
     }
-    
-    if (is_mouse_released)
+
+    if (hovered_widget_ != hovered_widget)
     {
-        Widget* selected_widget = GetWidgetAtPosition(mouse_position);
-        if (selected_widget) selected_widget->OnMouseReleased();
+        if (hovered_widget_) hovered_widget_->OnMouseLeave();
+        hovered_widget_ = hovered_widget;
+        if (hovered_widget_) hovered_widget->OnMouseHover();
+    }
+
+    if (mouse->IsButtonPressed(MouseButton::kLeft))
+    {
+        if (hovered_widget_) hovered_widget_->OnMousePressed();
+    }
+    else if (mouse->IsButtonReleased(MouseButton::kLeft))
+    {
+        if (hovered_widget_) hovered_widget_->OnMouseReleased();
     }
 }
 

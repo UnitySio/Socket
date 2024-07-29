@@ -44,6 +44,9 @@ protected:
 
     virtual inline void OnMousePressed() {}
     virtual inline void OnMouseReleased() {}
+    virtual inline void OnMouseHover() {}
+    virtual inline void OnMouseLeave() {}
+    
     virtual void Render() = 0;
     
     virtual void UpdateRect();
@@ -66,7 +69,5 @@ protected:
     std::vector<Widget*> children_;
 
     MathTypes::uint32 z_index_;
-
-    bool is_hovered_;
     
 };

@@ -1,4 +1,5 @@
 ﻿#pragma once
+#include "Math/Color.h"
 #include "Misc/DelegateMacros.h"
 #include "UI/Widget.h"
 
@@ -16,7 +17,12 @@ namespace UI
 
     protected:
         virtual void OnMouseReleased() override;
+        virtual void OnMouseHover() override;
+        virtual void OnMouseLeave() override;
         virtual void Render() override;
+
+    private:
+        Math::Color color_;
         
     };
 }

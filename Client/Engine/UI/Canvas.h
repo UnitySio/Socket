@@ -2,7 +2,6 @@
 #include <vector>
 
 #include "Singleton.h"
-#include "Math/Vector2.h"
 
 class Widget;
 
@@ -15,8 +14,6 @@ public:
     void AddWidget(const std::shared_ptr<Widget>& kWidget);
 
     float GetScaleRatio() const;
-
-    Widget* GetWidgetAtPosition(const Math::Vector2& kPosition);
 
 private:
     friend class Core;
@@ -37,5 +34,7 @@ private:
     float match_mode_;
 
     std::vector<std::shared_ptr<Widget>> widgets_;
+
+    Widget* hovered_widget_;
     
 };

@@ -19,8 +19,7 @@ Widget::Widget(const std::wstring& kName) :
     angle_(0.f),
     parent_(nullptr),
     children_(),
-    z_index_(next_z_index_++),
-    is_hovered_(false)
+    z_index_(next_z_index_++)
 {
     UpdateRect();
 }
