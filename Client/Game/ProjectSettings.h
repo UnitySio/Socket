@@ -20,11 +20,11 @@ class ProjectSettings
 public:
     static inline const std::wstring kWindowTitle = L"Fusion2D"; // 윈도우 타이틀
 
-    static inline constexpr MathTypes::uint32 kScreenWidth = 800; // 화면 너비
-    static inline constexpr MathTypes::uint32 kScreenHeight = 600; // 화면 높이
+    static inline constexpr MathTypes::uint32 kScreenWidth = 1280; // 화면 너비
+    static inline constexpr MathTypes::uint32 kScreenHeight = 720; // 화면 높이
 
-    static inline constexpr MathTypes::uint32 kCanvasReferenceWidth = 800;
-    static inline constexpr MathTypes::uint32 kCanvasReferenceHeight = 600;
+    static inline constexpr MathTypes::uint32 kCanvasReferenceWidth = 1280;
+    static inline constexpr MathTypes::uint32 kCanvasReferenceHeight = 720;
     static inline constexpr float kMatchMode = 0.f;
     
     static inline constexpr bool kShowFrameRate = true; // 프레임레이트 표시 여부
