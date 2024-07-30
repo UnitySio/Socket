@@ -113,7 +113,7 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)\Client\Lib\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>libtmxlite.lib;box2d.lib;DirectXTK.lib;fmod_vc.lib;steam_api.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>libtmxlite.lib;box2d.lib;DirectXTK.lib;fmod_vc.lib;steam_api64.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -134,7 +134,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)\Client\Lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>box2d.lib;DirectXTK.lib;fmod_vc.lib;steam_api.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>box2d.lib;DirectXTK.lib;fmod_vc.lib;steam_api64.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -526,16 +526,16 @@
     <Content Include="Lib\Debug\fmodL_vc.lib" />
     <Content Include="Lib\Debug\fmod_vc.lib" />
     <Content Include="Lib\Debug\libtmxlite.lib" />
-    <Content Include="Lib\Debug\steam_api.dll" />
-    <Content Include="Lib\Debug\steam_api.lib" />
+    <Content Include="Lib\Debug\steam_api64.dll" />
+    <Content Include="Lib\Debug\steam_api64.lib" />
     <Content Include="Lib\DirectXTK.lib" />
     <Content Include="Lib\fmod.dll" />
     <Content Include="Lib\fmodL.dll" />
     <Content Include="Lib\fmodL_vc.lib" />
     <Content Include="Lib\fmod_vc.lib" />
     <Content Include="Lib\libtmxlite.lib" />
-    <Content Include="Lib\steam_api.dll" />
-    <Content Include="Lib\steam_api.lib" />
+    <Content Include="Lib\steam_api64.dll" />
+    <Content Include="Lib\steam_api64.lib" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

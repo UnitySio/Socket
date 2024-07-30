@@ -6,7 +6,10 @@
 #include "Input/Keyboard.h"
 #include "Input/Mouse.h"
 #include "Level/World.h"
+#include "Logger/Logger.h"
 #include "Math/Vector2.h"
+#include "steam/isteamapps.h"
+#include "steam/steam_api.h"
 #include "Time/Time.h"
 #include "UI/Canvas.h"
 #include "Windows/WindowDefinition.h"
@@ -62,6 +65,16 @@ void Core::Init(const HINSTANCE instance_handle)
     game_engine_->Init(new_window);
 
     current_time_ = Time::Init();
+
+    // if (SteamAPI_RestartAppIfNecessary(480))
+    // {
+    //     LOG(L"SteamAPI_RestartAppIfNecessary() success.");
+    // }
+    //
+    // if (SteamAPI_Init())
+    // {
+    //     LOG(L"SteamAPI_Init() success.");
+    // }
 
     Start();
 }
