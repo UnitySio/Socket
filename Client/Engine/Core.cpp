@@ -2,6 +2,7 @@
 #include "Core.h"
 
 #include "GameEngine.h"
+#include "../Include/steam/steam_api.h"
 #include "Audio/AudioManager.h"
 #include "Input/Keyboard.h"
 #include "Input/Mouse.h"
@@ -66,15 +67,8 @@ void Core::Init(const HINSTANCE instance_handle)
 
     current_time_ = Time::Init();
 
-    // if (SteamAPI_RestartAppIfNecessary(480))
-    // {
-    //     LOG(L"SteamAPI_RestartAppIfNecessary() success.");
-    // }
-    //
-    // if (SteamAPI_Init())
-    // {
-    //     LOG(L"SteamAPI_Init() success.");
-    // }
+    // CHECK_IF(!SteamAPI_RestartAppIfNecessary(ProjectSettings::kSteamAppID), L"Failed to restart app if necessary.");
+    // CHECK_IF(SteamAPI_Init(), L"Failed to initialize Steam API.");
 
     Start();
 }
@@ -129,6 +123,12 @@ bool Core::ProcessMessage(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam,
                 Renderer::Get()->Release();
             }
         }
+        return true;
+    }
+
+    if (message == WM_QUIT)
+    {
+        // SteamAPI_Shutdown();
         return true;
     }
 

@@ -19,6 +19,8 @@ class ProjectSettings
 {
 public:
     static inline const std::wstring kWindowTitle = L"Fusion2D"; // 윈도우 타이틀
+    
+    static inline constexpr MathTypes::uint32 kSteamAppID = 480; // 스팀 앱 ID (480은 테스트 앱 ID)
 
     static inline constexpr MathTypes::uint32 kScreenWidth = 1280; // 화면 너비
     static inline constexpr MathTypes::uint32 kScreenHeight = 720; // 화면 높이
