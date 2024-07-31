@@ -12,6 +12,14 @@ UI::Button::Button(const std::wstring& kName) :
     size_ = {160.f, 30.f};
 }
 
+void UI::Button::OnMousePressed()
+{
+    Widget::OnMousePressed();
+
+    color_ = Math::Color::Green;
+    
+}
+
 void UI::Button::OnMouseReleased()
 {
     Widget::OnMouseReleased();

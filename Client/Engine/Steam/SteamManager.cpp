@@ -9,11 +9,11 @@ SteamManager::SteamManager()
 
 int SteamManager::Init()
 {
-    if (SteamAPI_RestartAppIfNecessary(ProjectSettings::kSteamAppID))
+    if (ProjectSettings::kSteamAppID != 480 && SteamAPI_RestartAppIfNecessary(ProjectSettings::kSteamAppID))
     {
-        return 1;
+        return -1;
     }
-
+    
     if (!SteamAPI_Init())
     {
         return -1;

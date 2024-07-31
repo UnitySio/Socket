@@ -10,6 +10,7 @@
 #include "Input/Mouse.h"
 #include "Level/Level.h"
 #include "Level/World.h"
+#include "Steam/SteamManager.h"
 #include "UI/Canvas.h"
 #include "Windows/WindowsWindow.h"
 #include "Windows/DX/Renderer.h"
@@ -66,6 +67,7 @@ void GameEngine::GameLoop(float delta_time)
     ImGui::NewFrame();
 
 #pragma region Tick
+    // SteamManager::Get()->Tick();
     AudioManager::Get()->Tick();
     
     Keyboard::Get()->Begin();

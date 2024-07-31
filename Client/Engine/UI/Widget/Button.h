@@ -16,6 +16,7 @@ namespace UI
         ButtonSignature on_click;
 
     protected:
+        virtual void OnMousePressed() override;
         virtual void OnMouseReleased() override;
         virtual void OnMouseHover() override;
         virtual void OnMouseLeave() override;

@@ -46,6 +46,8 @@ START
     }
 
     SAFE_RELEASE(core);
+
+    // steam->Shutdown();
     
     return 0;
 }

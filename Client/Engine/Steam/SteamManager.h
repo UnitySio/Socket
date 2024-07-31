@@ -8,9 +8,11 @@ public:
     virtual ~SteamManager() override = default;
     
     int Init();
+    void Shutdown();
 
 private:
+    friend class GameEngine;
+    
     void Tick();
-    void Shutdown();
     
 };
