@@ -2,9 +2,8 @@
 
 enum class LevelType : size_t
 {
-    kDefault = 0,
-    kWorld,
-    kSplash,
+    kSplash = 0,
+    kDefault,
     kEnd
 };
 

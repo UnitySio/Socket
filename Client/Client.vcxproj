@@ -300,7 +300,6 @@
     <ClInclude Include="Game\GameInstance.h" />
     <ClInclude Include="Game\Map\MainMap.h" />
     <ClInclude Include="Game\Map\SplashMap.h" />
-    <ClInclude Include="Game\Map\WorldMap.h" />
     <ClInclude Include="Game\ProjectSettings.h" />
     <ClInclude Include="Include\box2d\b2_api.h" />
     <ClInclude Include="Include\box2d\b2_block_allocator.h" />
@@ -509,7 +508,6 @@
     <ClCompile Include="Game\GameInstance.cpp" />
     <ClCompile Include="Game\Map\MainMap.cpp" />
     <ClCompile Include="Game\Map\SplashMap.cpp" />
-    <ClCompile Include="Game\Map\WorldMap.cpp" />
     <ClCompile Include="Include\imgui\imgui.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>

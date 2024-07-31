@@ -4,7 +4,6 @@
 #include <algorithm>
 
 #include "EventManager.h"
-#include "GameInstance.h"
 #include "Level.h"
 #include "Actor/FollowCamera.h"
 #include "Actor/Component/CameraComponent.h"
@@ -13,9 +12,6 @@
 #include "Logger/Logger.h"
 #include "Map/MainMap.h"
 #include "Map/SplashMap.h"
-#include "Map/WorldMap.h"
-#include "Math/Color.h"
-#include "Math/Vector2.h"
 #include "Time/TimerManager.h"
 #include "UI/Canvas.h"
 #include "Windows/DX/Renderer.h"
@@ -54,7 +50,6 @@ void World::Init(const std::shared_ptr<WindowsWindow>& kWindow)
     window_ = kWindow;
     
     AddLevel<MainMap>(LevelType::kDefault, L"Map 0");
-    AddLevel<WorldMap>(LevelType::kWorld, L"Map 1");
     AddLevel<SplashMap>(LevelType::kSplash, L"Splash");
     
     OpenLevel(LevelType::kSplash);
@@ -83,17 +78,6 @@ void World::Tick(float delta_time)
     if (current_level_)
     {
         current_level_->Tick(delta_time);
-    }
-
-    Keyboard* keyboard = Keyboard::Get();
-    if (keyboard->IsKeyPressed(VK_F1))
-    {
-        OpenLevel(LevelType::kDefault);
-    }
-
-    if (keyboard->IsKeyPressed(VK_F2))
-    {
-        OpenLevel(LevelType::kWorld);
     }
 }
 

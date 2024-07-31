@@ -105,41 +105,4 @@ void PlayerController::Tick(float delta_time)
         box->GetTransform()->SetRelativePosition(GetTransform()->GetWorldPosition());
         SpawnActor(box);
     }
-
-    TransformComponent* transform = GetTransform();
-    Math::Vector2 world_position = Renderer::Get()->ConvertWorldToScreen(transform->GetWorldPosition());
-
-    Mouse* mouse = Mouse::Get();
-    // if (mouse->IsButtonDown(MouseButton::kLeft))
-    // {
-    //     LOG(L"Left Button Down");
-    // }
-
-    Math::Vector2 mouse_position = mouse->GetMousePosition();
-    mouse_position = Renderer::Get()->ConvertScreenToWorld(mouse_position);
-    
-    if (mouse->IsButtonPressed(MouseButton::kLeft))
-    {
-        // LOG(L"Left Button Pressed %d", 10);
-        // LOG_ERROR(L"Left Button Pressed %d", 10);
-        // LOG_WARNING(L"Left Button Pressed %d", 10);
-        // GetTransform()->SetWorldPosition(mouse_position);
-    }
-
-    // if (mouse->IsButtonReleased(MouseButton::kLeft))
-    // {
-    //     LOG(L"Left Button Released");
-    // }
-
-    static int r = 255;
-    static int g = 255;
-    static int b = 255;
-    static int a = 255;
-
-    ImGui::SliderInt("R", &r, 0, 255);
-    ImGui::SliderInt("G", &g, 0, 255);
-    ImGui::SliderInt("B", &b, 0, 255);
-    ImGui::SliderInt("A", &a, 0, 255);
-
-    sprite_renderer_->SetColor(Math::Color(r, g, b, a));
 }
