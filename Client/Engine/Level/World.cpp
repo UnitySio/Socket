@@ -52,7 +52,7 @@ void World::Init(const std::shared_ptr<WindowsWindow>& kWindow)
     
     AddLevel<SplashMap>(LevelType::kSplash, L"Splash");
     AddLevel<MainMenu>(LevelType::kMainMenu, L"Main Menu");
-    AddLevel<MainMap>(LevelType::kDefault, L"Map 0");
+    AddLevel<MainMap>(LevelType::kDefault, L"Unknown");
     
     OpenLevel(LevelType::kSplash);
 }
@@ -155,6 +155,8 @@ void World::TransitionLevel()
     
     current_level_->Load();
     current_level_->InitializeActors();
+    
+    SetWindowText(window_->GetHWnd(), current_level_->GetName().c_str());
     
     swprintf_s(buffer, L"Body Count: %d", physics_world_->GetBodyCount());
     LOG(buffer);
