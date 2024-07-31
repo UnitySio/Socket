@@ -60,6 +60,14 @@ void WindowsApplication::RemoveMessageHandler(IWindowsMessageHandler& message_ha
     std::erase(message_handlers_, &message_handler);
 }
 
+void WindowsApplication::Quit()
+{
+    for (const auto& window : windows_)
+    {
+        window->Destroy();
+    }
+}
+
 LRESULT WindowsApplication::StaticWndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
     WindowsApplication* application = nullptr;
@@ -90,13 +98,6 @@ MathTypes::uint32 WindowsApplication::ProcessMessage(HWND hWnd, UINT message, WP
         freopen_s(&file, "CONOUT$", "w", stdout);
         freopen_s(&file, "CONOUT$", "w", stderr);
         // freopen_s(&file, "CONIN$", "r", stdin);
-#endif
-    }
-
-    if (message == WM_CLOSE)
-    {
-#ifdef _DEBUG
-        FreeConsole();
 #endif
     }
     
@@ -141,7 +142,14 @@ MathTypes::uint32 WindowsApplication::ProcessMessage(HWND hWnd, UINT message, WP
         {
             std::erase(windows_, window);
 
-            if (windows_.empty()) PostQuitMessage(0);
+            if (windows_.empty())
+            {
+#ifdef _DEBUG
+                FreeConsole();
+#endif
+                
+                PostQuitMessage(0);
+            }
             return 0;
         }
 

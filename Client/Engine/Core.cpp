@@ -121,11 +121,6 @@ bool Core::ProcessMessage(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam,
         return true;
     }
 
-    if (message == WM_QUIT)
-    {
-        return true;
-    }
-
     return false;
 }
 

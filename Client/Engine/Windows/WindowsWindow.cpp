@@ -70,3 +70,8 @@ void WindowsWindow::SetWindowFocus()
 {
     if (GetFocus() != hWnd_) SetFocus(hWnd_);
 }
+
+void WindowsWindow::Destroy()
+{
+    DestroyWindow(hWnd_);
+}
