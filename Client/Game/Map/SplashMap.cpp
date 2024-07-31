@@ -27,5 +27,5 @@ void SplashMap::Load()
     TimerManager::Get()->SetTimer([]()
     {
         World::Get()->OpenLevel(LevelType::kDefault);
-    }, 1.5f);
+    }, 2.f);
 }
