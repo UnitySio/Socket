@@ -9,8 +9,6 @@
 #include "Level/World.h"
 #include "Logger/Logger.h"
 #include "Math/Vector2.h"
-#include "steam/isteamapps.h"
-#include "steam/steam_api.h"
 #include "Time/Time.h"
 #include "UI/Canvas.h"
 #include "Windows/WindowDefinition.h"
@@ -66,9 +64,6 @@ void Core::Init(const HINSTANCE instance_handle)
     game_engine_->Init(new_window);
 
     current_time_ = Time::Init();
-
-    // CHECK_IF(!SteamAPI_RestartAppIfNecessary(ProjectSettings::kSteamAppID), L"Failed to restart app if necessary.");
-    // CHECK_IF(SteamAPI_Init(), L"Failed to initialize Steam API.");
 
     Start();
 }
@@ -128,7 +123,6 @@ bool Core::ProcessMessage(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam,
 
     if (message == WM_QUIT)
     {
-        // SteamAPI_Shutdown();
         return true;
     }
 
