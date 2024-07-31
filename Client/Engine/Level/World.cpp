@@ -11,6 +11,7 @@
 #include "Input/Keyboard.h"
 #include "Logger/Logger.h"
 #include "Map/MainMap.h"
+#include "Map/MainMenu.h"
 #include "Map/SplashMap.h"
 #include "Time/TimerManager.h"
 #include "UI/Canvas.h"
@@ -49,8 +50,9 @@ void World::Init(const std::shared_ptr<WindowsWindow>& kWindow)
 {
     window_ = kWindow;
     
-    AddLevel<MainMap>(LevelType::kDefault, L"Map 0");
     AddLevel<SplashMap>(LevelType::kSplash, L"Splash");
+    AddLevel<MainMenu>(LevelType::kMainMenu, L"Main Menu");
+    AddLevel<MainMap>(LevelType::kDefault, L"Map 0");
     
     OpenLevel(LevelType::kSplash);
 }
@@ -149,10 +151,10 @@ void World::TransitionLevel()
     }
 
     current_level_ = next_level_;
+    next_level_ = nullptr;
+    
     current_level_->Load();
     current_level_->InitializeActors();
-
-    next_level_ = nullptr;
     
     swprintf_s(buffer, L"Body Count: %d", physics_world_->GetBodyCount());
     LOG(buffer);

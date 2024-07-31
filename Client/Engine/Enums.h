@@ -3,6 +3,7 @@
 enum class LevelType : size_t
 {
     kSplash = 0,
+    kMainMenu,
     kDefault,
     kEnd
 };

@@ -299,6 +299,7 @@
     <ClInclude Include="Game\Actor\Tilemap.h" />
     <ClInclude Include="Game\GameInstance.h" />
     <ClInclude Include="Game\Map\MainMap.h" />
+    <ClInclude Include="Game\Map\MainMenu.h" />
     <ClInclude Include="Game\Map\SplashMap.h" />
     <ClInclude Include="Game\ProjectSettings.h" />
     <ClInclude Include="Include\box2d\b2_api.h" />
@@ -507,6 +508,7 @@
     <ClCompile Include="Game\Actor\Tilemap.cpp" />
     <ClCompile Include="Game\GameInstance.cpp" />
     <ClCompile Include="Game\Map\MainMap.cpp" />
+    <ClCompile Include="Game\Map\MainMenu.cpp" />
     <ClCompile Include="Game\Map\SplashMap.cpp" />
     <ClCompile Include="Include\imgui\imgui.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
