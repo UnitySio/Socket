@@ -109,7 +109,7 @@ void Widget::SetAnchorPreset(MathTypes::uint16 anchor, bool match_pivot)
     }
 }
 
-void Widget::AttachToUI(Widget* parent)
+void Widget::AttachToWidget(Widget* parent)
 {
     parent_ = parent;
     parent_->children_.push_back(this);

@@ -60,14 +60,6 @@ void WindowsApplication::RemoveMessageHandler(IWindowsMessageHandler& message_ha
     std::erase(message_handlers_, &message_handler);
 }
 
-void WindowsApplication::Quit()
-{
-    for (const auto& window : windows_)
-    {
-        window->Destroy();
-    }
-}
-
 LRESULT WindowsApplication::StaticWndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
     WindowsApplication* application = nullptr;
@@ -150,6 +142,12 @@ MathTypes::uint32 WindowsApplication::ProcessMessage(HWND hWnd, UINT message, WP
                 
                 PostQuitMessage(0);
             }
+            return 0;
+        }
+
+        if (message == WM_USER)
+        {
+            window->Destroy();
             return 0;
         }
 

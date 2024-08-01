@@ -541,7 +541,7 @@ void Renderer::DrawLine(WindowsWindow* window, Math::Vector2 start, Math::Vector
     d2d_viewport->d2d_render_target->DrawLine(D2D1::Point2F(start.x, start.y), D2D1::Point2F(end.x, end.y), brush.Get(), stroke);
 }
 
-void Renderer::DrawString(WindowsWindow* window, const std::wstring& kString, const Math::Rect& kRect, const Math::Vector2& kPivot, const Math::Color& kColor, float rotation_z, float font_size)
+void Renderer::DrawString(WindowsWindow* window, const std::wstring& kString, const Math::Rect& kRect, const Math::Vector2& kPivot, const Math::Color& kColor, float rotation_z, float font_size, DWRITE_TEXT_ALIGNMENT text_alignment, DWRITE_PARAGRAPH_ALIGNMENT paragraph_alignment)
 {
     D2DViewport* d2d_viewport = FindD2DViewport(window);
     if (!d2d_viewport) return;
@@ -562,8 +562,8 @@ void Renderer::DrawString(WindowsWindow* window, const std::wstring& kString, co
                                                    text_format.GetAddressOf());
     if (FAILED(hr)) return;
 
-    text_format->SetTextAlignment(DWRITE_TEXT_ALIGNMENT_LEADING);
-    text_format->SetParagraphAlignment(DWRITE_PARAGRAPH_ALIGNMENT_NEAR);
+    text_format->SetTextAlignment(text_alignment);
+    text_format->SetParagraphAlignment(paragraph_alignment);
 
     Microsoft::WRL::ComPtr<ID2D1SolidColorBrush> brush;
     hr = d2d_viewport->d2d_render_target->CreateSolidColorBrush(

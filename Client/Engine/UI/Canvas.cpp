@@ -3,6 +3,7 @@
 
 #include "Widget.h"
 #include "Input/Mouse.h"
+#include "Widget/Button.h"
 
 Canvas::Canvas() :
     width_(0.f),
@@ -52,9 +53,12 @@ void Canvas::Tick()
         Widget* widget = it->get();
         if (widget->rect_.Contains(mouse_position))
         {
-            if (!hovered_widget || widget->z_index_ > hovered_widget->z_index_)
+            if (dynamic_cast<UI::Button*>(widget))
             {
-                hovered_widget = widget;
+                if (!hovered_widget || widget->z_index_ > hovered_widget->z_index_)
+                {
+                    hovered_widget = widget;
+                }
             }
         }
     }

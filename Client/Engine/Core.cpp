@@ -53,8 +53,7 @@ void Core::Init(const HINSTANCE instance_handle)
     current_application_->InitWindow(new_window, definition, nullptr);
 
     // 렌더러에 뷰포트 생성
-    CHECK_IF(Renderer::Get()->CreateViewport(new_window, {definition->width, definition->height}),
-             L"Failed to create viewport.");
+    CHECK_IF(Renderer::Get()->CreateViewport(new_window, {definition->width, definition->height}), L"Failed to create viewport.");
     CHECK_IF(Renderer::Get()->CreateD2DViewport(new_window), L"Failed to create D2D viewport.");
 
     game_window_ = new_window;
