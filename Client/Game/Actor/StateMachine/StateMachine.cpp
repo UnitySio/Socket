@@ -8,13 +8,33 @@ StateMachine::StateMachine(const std::wstring& kName) :
 {
 }
 
+void StateMachine::PhysicsTick(float delta_time)
+{
+    Actor::PhysicsTick(delta_time);
+
+    if (current_state_)
+    {
+        current_state_->OnPhysicsTick(delta_time);
+    }
+}
+
 void StateMachine::Tick(float delta_time)
 {
     Actor::Tick(delta_time);
 
     if (current_state_)
     {
-        current_state_->OnUpdate(delta_time);
+        current_state_->OnTick(delta_time);
+    }
+}
+
+void StateMachine::PostTick(float delta_time)
+{
+    Actor::PostTick(delta_time);
+
+    if (current_state_)
+    {
+        current_state_->OnPostTick(delta_time);
     }
 }
 
@@ -26,5 +46,9 @@ void StateMachine::ChangeState(const std::shared_ptr<State>& new_state)
     }
 
     current_state_ = new_state;
-    current_state_->OnEnter();
+
+    if (current_state_)
+    {
+        current_state_->OnEnter();
+    }
 }

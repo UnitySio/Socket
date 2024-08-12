@@ -8,6 +8,6 @@ public:
     virtual ~PlayerIdleState() override = default;
 
 protected:
-    virtual void OnUpdate(float delta_time) override;
+    virtual void OnTick(float delta_time) override;
     
 };

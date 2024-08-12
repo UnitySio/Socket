@@ -11,9 +11,9 @@ PlayerIdleState::PlayerIdleState(StateMachine* owner) :
 {
 }
 
-void PlayerIdleState::OnUpdate(float delta_time)
+void PlayerIdleState::OnTick(float delta_time)
 {
-    State::OnUpdate(delta_time);
+    State::OnTick(delta_time);
 
     Keyboard* keyboard = Keyboard::Get();
 
