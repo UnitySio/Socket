@@ -15,9 +15,11 @@
 #include "Windows/DX/Sprite.h"
 #include "Logger/Logger.h"
 #include "Resource/ResourceManager.h"
+#include "States/PlayerIdleState.h"
 #include "Windows/DX/UITexture.h"
 
-PlayerController::PlayerController(const std::wstring& kName) : CharacterBase(kName)
+PlayerController::PlayerController(const std::wstring& kName) :
+    CharacterBase(kName)
 {
     // ResourceManager::Get()->Load<Sprite>(L"Soldier", L".\\Game_Data\\Soldier.png");
     // Sprite* sprite = ResourceManager::Get()->GetResource<Sprite>(L"Soldier");
@@ -50,6 +52,8 @@ PlayerController::PlayerController(const std::wstring& kName) : CharacterBase(kN
     // {
     //     LOG(L"Success");
     // }
+
+    ChangeState(std::make_shared<PlayerIdleState>(this));
 }
 
 void PlayerController::BeginPlay()
@@ -92,12 +96,6 @@ void PlayerController::Tick(float delta_time)
     CharacterBase::Tick(delta_time);
     
     Keyboard* keyboard = Keyboard::Get();
-    
-    if (keyboard->IsKeyPressed('C'))
-    {
-        rigid_body_->SetVelocity(Math::Vector2::Zero());
-        rigid_body_->AddForce(Math::Vector2::Up() * 5.f, ForceMode::kImpulse);
-    }
     
     if (keyboard->IsKeyPressed('Z'))
     {

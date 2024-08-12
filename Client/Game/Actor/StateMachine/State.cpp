@@ -1,7 +1,7 @@
 ﻿#include "pch.h"
 #include "State.h"
 
-State::State(StateMachine* kOwner) :
-    owner_(kOwner)
+State::State(StateMachine* owner) :
+    owner_(owner)
 {
 }

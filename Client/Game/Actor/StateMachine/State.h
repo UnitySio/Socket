@@ -5,7 +5,7 @@ class StateMachine;
 class State
 {
 public:
-    State(StateMachine* kOwner);
+    State(StateMachine* owner);
     virtual ~State() = default;
 
 protected:

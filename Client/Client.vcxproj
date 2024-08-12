@@ -214,6 +214,7 @@
     <ClInclude Include="Game\Actor\Box.h" />
     <ClInclude Include="Game\Actor\Character\CharacterBase.h" />
     <ClInclude Include="Game\Actor\Character\Player\PlayerController.h" />
+    <ClInclude Include="Game\Actor\Character\Player\States\PlayerIdleState.h" />
     <ClInclude Include="Game\Actor\FollowCamera.h" />
     <ClInclude Include="Game\Actor\StateMachine\State.h" />
     <ClInclude Include="Game\Actor\StateMachine\StateMachine.h" />
@@ -427,6 +428,7 @@
     <ClCompile Include="Game\Actor\Box.cpp" />
     <ClCompile Include="Game\Actor\Character\CharacterBase.cpp" />
     <ClCompile Include="Game\Actor\Character\Player\PlayerController.cpp" />
+    <ClCompile Include="Game\Actor\Character\Player\States\PlayerIdleState.cpp" />
     <ClCompile Include="Game\Actor\FollowCamera.cpp" />
     <ClCompile Include="Game\Actor\StateMachine\State.cpp" />
     <ClCompile Include="Game\Actor\StateMachine\StateMachine.cpp" />

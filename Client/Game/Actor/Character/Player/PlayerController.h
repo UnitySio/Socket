@@ -1,6 +1,12 @@
 ﻿#pragma once
 #include "Actor/Character/CharacterBase.h"
 
+enum class PlayerStates
+{
+    kIdle,
+    kEnd
+};
+
 class PlayerController : public CharacterBase
 {
 public:
