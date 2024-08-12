@@ -1,11 +1,12 @@
 ﻿#pragma once
 #include "Actor/Actor.h"
+#include "Actor/StateMachine/StateMachine.h"
 
 class AnimatorComponent;
 class SpriteRendererComponent;
 class BoxColliderComponent;
 
-class CharacterBase : public Actor
+class CharacterBase : public StateMachine
 {
 public:
     CharacterBase(const std::wstring& kName);
