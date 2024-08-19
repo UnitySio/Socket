@@ -25,7 +25,8 @@ World::World() :
     shapes_(),
     current_level_(nullptr),
     next_level_(nullptr),
-    levels_()
+    levels_(),
+    pending_actors_()
 {
     shape_batch_ = std::make_shared<ShapeBatch>();
     shape_batch_->Init();
@@ -160,4 +161,15 @@ void World::TransitionLevel()
     
     swprintf_s(buffer, L"Body Count: %d", physics_world_->GetBodyCount());
     LOG(buffer);
+}
+
+void World::SpawnActors()
+{
+    for (const auto& actor : pending_actors_)
+    {
+        current_level_->AddActor(actor);
+        actor->BeginPlay();
+    }
+
+    pending_actors_.clear();
 }

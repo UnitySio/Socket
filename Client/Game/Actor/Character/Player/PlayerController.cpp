@@ -12,6 +12,7 @@
 #include "imgui/imgui.h"
 #include "Input/Keyboard.h"
 #include "Input/Mouse.h"
+#include "Level/World.h"
 #include "Windows/DX/Sprite.h"
 #include "Logger/Logger.h"
 #include "Resource/ResourceManager.h"
@@ -99,8 +100,7 @@ void PlayerController::Tick(float delta_time)
     
     if (keyboard->IsKeyPressed('Z'))
     {
-        Box* box = new Box(L"Box");
+        Box* box = World::Get()->SpawnActor<Box>(L"Box");
         box->GetTransform()->SetRelativePosition(GetTransform()->GetWorldPosition());
-        SpawnActor(box);
     }
 }

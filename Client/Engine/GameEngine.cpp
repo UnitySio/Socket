@@ -113,6 +113,7 @@ void GameEngine::GameLoop(float delta_time)
 #pragma endregion
 
     World::Get()->DestroyActor();
+    World::Get()->SpawnActors();
     EventManager::Get()->Tick();
     
 }

@@ -2,11 +2,11 @@
 #include "DebugDraw.h"
 #include "Enums.h"
 #include "Singleton.h"
+#include "Actor/Actor.h"
 #include "box2d/b2_world.h"
 #include "Listener/ContactListener.h"
 #include "Windows/DX/Renderer.h"
 
-class Actor;
 class Shape;
 class ShapeBatch;
 class Level;
@@ -26,6 +26,10 @@ public:
     void DestroyActor();
     void AddShape(const std::shared_ptr<Shape>& kShape);
     void TransitionLevel();
+    void SpawnActors();
+
+    template<std::derived_from<Actor> T>
+    T* SpawnActor(const std::wstring& kName);
 
     template<std::derived_from<Level> T>
     T* AddLevel(LevelType type, std::wstring name);
@@ -62,7 +66,19 @@ private:
     std::shared_ptr<Level> levels_[static_cast<size_t>(LevelType::kEnd)];
 
     std::weak_ptr<Actor> camera_;
+
+    std::vector<std::shared_ptr<Actor>> pending_actors_;
 };
+
+template <std::derived_from<Actor> T>
+T* World::SpawnActor(const std::wstring& kName)
+{
+    std::shared_ptr<Actor> actor = std::make_shared<T>(kName);
+    pending_actors_.emplace_back(actor);
+    
+    actor->InitializeActor();
+    return static_cast<T*>(actor.get());
+}
 
 template <std::derived_from<Level> T>
 T* World::AddLevel(LevelType type, std::wstring name)

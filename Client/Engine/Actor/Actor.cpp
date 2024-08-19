@@ -230,7 +230,6 @@ void Actor::InitializeActor()
     PreInitializeComponents();
     InitializeComponents();
     PostInitializeComponents();
-    BeginPlay();
 }
 
 void Actor::InitializeComponents()

@@ -121,6 +121,7 @@ private:
     friend class TransformComponent;
     friend class PlayerController;
     friend class ContactListener;
+    friend class World;
 };
 
 template <std::derived_from<ActorComponent> T>
