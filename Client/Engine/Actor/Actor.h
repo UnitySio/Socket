@@ -5,6 +5,7 @@
 
 #include "ProjectSettings.h"
 #include "Component/ActorComponent.h"
+#include "Level/World.h"
 #include "Misc/DelegateMacros.h"
 #include "Misc/EngineMacros.h"
 #include "Time/TimerManager.h"
@@ -35,6 +36,9 @@ public:
     // 추후 리플렉션으로 변경
     template <std::derived_from<ActorComponent> T>
     T* GetComponent();
+
+    template <std::derived_from<Actor> T>
+    T* SpawnActor(const std::wstring& kName);
 
     // Reflection 구현 필요
 
@@ -142,5 +146,11 @@ T* Actor::GetComponent()
     }
 
     return nullptr;
+}
+
+template <std::derived_from<Actor> T>
+T* Actor::SpawnActor(const std::wstring& kName)
+{
+    return World::Get()->SpawnActor<T>(kName);
 }
 
