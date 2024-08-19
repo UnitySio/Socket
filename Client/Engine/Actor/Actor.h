@@ -25,7 +25,6 @@ public:
     void DetachFromActor();
     void Destroy();
     void Destroy(const Actor* kOther);
-    void SpawnActor(const Actor* kActor);
     void SetActive(bool active);
     void SetLifeSpan(float life_span);
     bool CompareTag(ActorTag tag) const;

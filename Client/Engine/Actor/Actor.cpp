@@ -189,15 +189,6 @@ void Actor::Destroy(const Actor* kOther)
         });
 }
 
-void Actor::SpawnActor(const Actor* kActor)
-{
-    EventManager::Get()->AddEvent(
-        {
-            EventType::kSpawnActor,
-            reinterpret_cast<uintptr_t>(kActor)
-        });
-}
-
 void Actor::SetActive(bool active)
 {
     EventManager::Get()->AddEvent(
