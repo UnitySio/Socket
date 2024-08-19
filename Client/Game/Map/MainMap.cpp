@@ -13,17 +13,8 @@ MainMap::MainMap(const std::wstring& kName) : Level(kName)
 
 void MainMap::Load()
 {
-    std::shared_ptr<Actor> tilemap = std::make_shared<Tilemap>(L"Tilemap");
-    AddActor(tilemap);
-
-    std::shared_ptr<Actor> player = std::make_shared<PlayerController>(L"Player");
-    AddActor(player);
-    
-    player->GetTransform()->SetRelativePosition({ 1.5f, 0.f });
-    
-    std::shared_ptr<Actor> camera = std::make_shared<FollowCamera>(L"FollowCamera");
-    AddActor(camera);
-    
-    FollowCamera* follow_camera = dynamic_cast<FollowCamera*>(camera.get());
-    follow_camera->SetFollow(player.get());
+    Tilemap* tilemap = AddActor<Tilemap>(L"Tilemap");
+    PlayerController* player = AddActor<PlayerController>(L"Player");
+    FollowCamera* camera = AddActor<FollowCamera>(L"FollowCamera");
+    camera->SetFollow(player);
 }

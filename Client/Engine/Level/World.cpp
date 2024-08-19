@@ -167,7 +167,7 @@ void World::SpawnActors()
 {
     for (const auto& actor : pending_actors_)
     {
-        current_level_->AddActor(actor);
+        current_level_->actors_.push_back(actor);
         actor->BeginPlay();
     }
 

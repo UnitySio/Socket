@@ -24,14 +24,27 @@ public:
     virtual void Render(float alpha);
     virtual void DestroyActor();
 
-    void AddActor(const std::shared_ptr<Actor>& actor);
-
     inline const std::wstring& GetName() const { return name_; }
 
+protected:
+    template<std::derived_from<Actor> T>
+    T* AddActor(const std::wstring& kName);
+
 private:
+    friend class World;
+    
     std::wstring name_;
 
     std::vector<std::shared_ptr<Actor>> actors_;
 
     DebugDraw debug_draw_;
 };
+
+template <std::derived_from<Actor> T>
+T* Level::AddActor(const std::wstring& kName)
+{
+    std::shared_ptr<Actor> actor = std::make_shared<T>(kName);
+    actors_.push_back(actor);
+
+    return static_cast<T*>(actor.get());
+}

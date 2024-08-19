@@ -114,7 +114,6 @@ void GameEngine::GameLoop(float delta_time)
 
     World::Get()->DestroyActor();
     World::Get()->SpawnActors();
-    EventManager::Get()->Tick();
     
 }
 
