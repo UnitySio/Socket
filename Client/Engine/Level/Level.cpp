@@ -97,9 +97,19 @@ void Level::Render(float alpha)
 
 void Level::DestroyActors()
 {
+}
+
+void Level::ProcessPendingActors()
+{
     for (auto iter = actors_.begin(); iter != actors_.end();)
     {
-        if ((*iter)->is_pending_deletion_)
+        if ((*iter)->is_pending_activation_)
+        {
+            (*iter)->is_active_ = true;
+            (*iter)->is_pending_activation_ = false;
+            ++iter;
+        }
+        else if ((*iter)->is_pending_deletion_)
         {
             iter = actors_.erase(iter);
         }

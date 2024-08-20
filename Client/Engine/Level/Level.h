@@ -23,6 +23,7 @@ public:
     virtual void PostTick(float delta_time);
     virtual void Render(float alpha);
     virtual void DestroyActors();
+    virtual void ProcessPendingActors();
 
     inline const std::wstring& GetName() const { return name_; }
 
