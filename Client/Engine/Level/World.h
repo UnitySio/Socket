@@ -25,11 +25,9 @@ public:
     void Tick(float delta_time);
     void PostTick(float delta_time);
     void Render(float alpha);
-    void DestroyActors();
     void AddShape(const std::shared_ptr<Shape>& kShape);
     void TransitionLevel();
     void SpawnActors();
-    void DestroyActor(Actor* actor);
 
     template<std::derived_from<Actor> T>
     T* SpawnActor(const std::wstring& kName);
@@ -48,6 +46,9 @@ private:
     friend class TilemapComponent;
     friend class CameraComponent;
     friend class PlayerController;
+    
+    void DestroyActor(Actor* actor);
+    void DestroyActors();
 
     inline void SetCamera(const std::shared_ptr<Actor>& kCamera) { camera_ = kCamera; }
 
@@ -71,6 +72,7 @@ private:
     std::weak_ptr<Actor> camera_;
 
     std::queue<std::shared_ptr<Actor>> pending_actors_;
+    std::queue<std::shared_ptr<Actor>> pending_destroy_actors_;
 };
 
 template <std::derived_from<Actor> T>

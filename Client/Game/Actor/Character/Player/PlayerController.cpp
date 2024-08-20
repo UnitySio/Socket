@@ -20,7 +20,8 @@
 #include "Windows/DX/UITexture.h"
 
 PlayerController::PlayerController(const std::wstring& kName) :
-    CharacterBase(kName)
+    CharacterBase(kName),
+    box_(nullptr)
 {
     // ResourceManager::Get()->Load<Sprite>(L"Soldier", L".\\Game_Data\\Soldier.png");
     // Sprite* sprite = ResourceManager::Get()->GetResource<Sprite>(L"Soldier");
@@ -100,7 +101,18 @@ void PlayerController::Tick(float delta_time)
     
     if (keyboard->IsKeyPressed('Z'))
     {
+        Destroy();
+        return;
+        
+        if (IsValid(box_))
+        {
+            box_->Destroy();
+            return;
+        }
+        
         Box* box = SpawnActor<Box>(L"Box");
         box->GetTransform()->SetRelativePosition(GetTransform()->GetWorldPosition());
+
+        box_ = box;
     }
 }

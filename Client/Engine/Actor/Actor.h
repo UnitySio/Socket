@@ -59,7 +59,7 @@ public:
 
     inline Actor* GetParent() const { return parent_; }
 
-    inline bool IsPendingDeletion() const { return is_pending_deletion_; }
+    inline bool IsPendingDeletion() const { return is_pending_destroy_; }
     
     ContactSignature on_collision_enter;
     ContactSignature on_collision_stay;
@@ -73,14 +73,15 @@ protected:
     void InitializeActor();
     void InitializeComponents();
     void UninitializeComponents();
-    void Destroyed();
     void CreateBody();
     void OnLifeSpanExpired();
 
     virtual inline void PreInitializeComponents() {};
     virtual inline void PostInitializeComponents() {};
+    
     virtual void BeginPlay();
     virtual void EndPlay(EndPlayReason type);
+    virtual void Destroyed();
 
     virtual void PhysicsTick(float delta_time);
     virtual void Tick(float delta_time);
@@ -102,8 +103,7 @@ protected:
     class b2Body* body_;
 
     bool is_active_;
-    bool is_pending_activation_;
-    bool is_pending_deletion_;
+    bool is_pending_destroy_;
 
     std::vector<std::shared_ptr<ActorComponent>> components_;
 

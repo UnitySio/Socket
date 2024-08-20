@@ -111,7 +111,6 @@ void GameEngine::GameLoop(float delta_time)
 
 #pragma endregion
 
-    World::Get()->DestroyActors();
     World::Get()->SpawnActors();
     
 }

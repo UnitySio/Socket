@@ -17,8 +17,7 @@ Actor::Actor(const std::wstring& kName) :
     layer_(ActorLayer::kDefault),
     body_(nullptr),
     is_active_(true),
-    is_pending_activation_(false),
-    is_pending_deletion_(false),
+    is_pending_destroy_(false),
     components_(),
     transform_(nullptr),
     parent_(nullptr),
@@ -101,6 +100,11 @@ void Actor::EndPlay(EndPlayReason type)
     }
 }
 
+void Actor::Destroyed()
+{
+    EndPlay(EndPlayReason::kDestroyed);
+}
+
 void Actor::PhysicsTick(float delta_time)
 {
     for (const auto& component : components_)
@@ -173,13 +177,7 @@ void Actor::DetachFromActor()
 
 void Actor::Destroy()
 {
-    if (is_pending_deletion_) return;
     World::Get()->DestroyActor(this);
-}
-
-void Actor::SetActive(bool active)
-{
-    is_pending_activation_ = active;
 }
 
 void Actor::SetLifeSpan(float life_span)
@@ -220,11 +218,6 @@ void Actor::UninitializeComponents()
     {
         component->UninitializeComponent();
     }
-}
-
-void Actor::Destroyed()
-{
-    EndPlay(EndPlayReason::kDestroyed);
 }
 
 void Actor::CreateBody()

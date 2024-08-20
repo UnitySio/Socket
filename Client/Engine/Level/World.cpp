@@ -70,6 +70,7 @@ void World::PhysicsTick(float delta_time)
         contact_listener_.Tick();
         
         current_level_->PhysicsTick(delta_time);
+        DestroyActors();
     }
 }
 
@@ -80,6 +81,7 @@ void World::Tick(float delta_time)
     if (current_level_)
     {
         current_level_->Tick(delta_time);
+        DestroyActors();
     }
 }
 
@@ -88,6 +90,7 @@ void World::PostTick(float delta_time)
     if (current_level_)
     {
         current_level_->PostTick(delta_time);
+        DestroyActors();
     }
 }
 
@@ -121,14 +124,6 @@ void World::Render(float alpha)
     shapes_.clear();
     
     shape_batch_->DrawShapes(window_, shapes);
-}
-
-void World::DestroyActors()
-{
-    if (current_level_)
-    {
-        current_level_->DestroyActors();
-    }
 }
 
 void World::AddShape(const std::shared_ptr<Shape>& kShape)
@@ -176,6 +171,20 @@ void World::SpawnActors()
 
 void World::DestroyActor(Actor* actor)
 {
-    actor->is_pending_deletion_ = true;
-    actor->Destroyed();
+    actor->is_pending_destroy_ = true;
+    
+    std::shared_ptr<Actor> shared_actor = actor->shared_from_this();
+    pending_destroy_actors_.push(shared_actor);
+}
+
+void World::DestroyActors()
+{
+    while (!pending_destroy_actors_.empty())
+    {
+        std::shared_ptr<Actor> actor = pending_destroy_actors_.front();
+        actor->Destroyed();
+        
+        std::erase(current_level_->actors_, actor);
+        pending_destroy_actors_.pop();
+    }
 }

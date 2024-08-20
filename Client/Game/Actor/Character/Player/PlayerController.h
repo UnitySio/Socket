@@ -22,5 +22,7 @@ private:
     std::shared_ptr<class Sprite> sprite_;
 
     class TextBlock* text_block_;
+
+    Actor* box_;
     
 };
