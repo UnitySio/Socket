@@ -1,7 +1,6 @@
 ﻿#include "pch.h"
 #include "GameEngine.h"
 
-#include "EventManager.h"
 #include "Audio/AudioManager.h"
 #include "imgui/imgui.h"
 #include "imgui/imgui_impl_dx11.h"
@@ -112,7 +111,7 @@ void GameEngine::GameLoop(float delta_time)
 
 #pragma endregion
 
-    World::Get()->DestroyActor();
+    World::Get()->DestroyActors();
     World::Get()->SpawnActors();
     
 }

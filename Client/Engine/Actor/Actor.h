@@ -25,7 +25,6 @@ public:
     void AttachToActor(Actor* actor);
     void DetachFromActor();
     void Destroy();
-    void Destroy(const Actor* kOther);
     void SetActive(bool active);
     void SetLifeSpan(float life_span);
     bool CompareTag(ActorTag tag) const;
@@ -103,7 +102,7 @@ protected:
     class b2Body* body_;
 
     bool is_active_;
-    bool is_destroy_;
+    bool is_pending_kill_;
 
     std::vector<std::shared_ptr<ActorComponent>> components_;
 
@@ -118,7 +117,6 @@ protected:
 private:
     // 추후 정리 예정
     friend class Level;
-    friend class EventManager;
     friend class ColliderComponent;
     friend class RigidBodyComponent;
     friend class TransformComponent;

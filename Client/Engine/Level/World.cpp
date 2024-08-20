@@ -3,7 +3,6 @@
 
 #include <algorithm>
 
-#include "EventManager.h"
 #include "Level.h"
 #include "Actor/FollowCamera.h"
 #include "Actor/Component/CameraComponent.h"
@@ -124,11 +123,11 @@ void World::Render(float alpha)
     shape_batch_->DrawShapes(window_, shapes);
 }
 
-void World::DestroyActor()
+void World::DestroyActors()
 {
     if (current_level_)
     {
-        current_level_->DestroyActor();
+        current_level_->DestroyActors();
     }
 }
 
@@ -172,4 +171,10 @@ void World::SpawnActors()
     }
 
     pending_actors_.clear();
+}
+
+void World::DestroyActor(Actor* actor)
+{
+    actor->is_pending_kill_ = true;
+    actor->Destroyed();
 }

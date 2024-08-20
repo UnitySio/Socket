@@ -3,7 +3,6 @@
 
 #include <iostream>
 
-#include "EventManager.h"
 #include "Enums.h"
 #include "box2d/b2_body.h"
 #include "box2d/b2_weld_joint.h"
@@ -18,7 +17,7 @@ Actor::Actor(const std::wstring& kName) :
     layer_(ActorLayer::kDefault),
     body_(nullptr),
     is_active_(true),
-    is_destroy_(false),
+    is_pending_kill_(false),
     components_(),
     transform_(nullptr),
     parent_(nullptr),
@@ -173,30 +172,12 @@ void Actor::DetachFromActor()
 
 void Actor::Destroy()
 {
-    EventManager::Get()->AddEvent(
-        {
-            EventType::kDestroyActor,
-            reinterpret_cast<uintptr_t>(this)
-        });
-}
-
-void Actor::Destroy(const Actor* kOther)
-{
-    EventManager::Get()->AddEvent(
-        {
-            EventType::kDestroyActor,
-            reinterpret_cast<uintptr_t>(kOther)
-        });
+    if (is_pending_kill_) return;
+    World::Get()->DestroyActor(this);
 }
 
 void Actor::SetActive(bool active)
 {
-    EventManager::Get()->AddEvent(
-        {
-            EventType::kActiveActor,
-            reinterpret_cast<uintptr_t>(this),
-            static_cast<bool>(active)
-        });
 }
 
 void Actor::SetLifeSpan(float life_span)

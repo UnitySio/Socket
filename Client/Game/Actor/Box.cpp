@@ -29,3 +29,10 @@ Box::Box(const std::wstring& kName) : Actor(kName)
     GetTransform()->SetRelativeScale({.125f, .125f});
     
 }
+
+void Box::BeginPlay()
+{
+    Actor::BeginPlay();
+
+    SetLifeSpan(1.f);
+}

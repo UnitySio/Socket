@@ -8,13 +8,6 @@ enum class LevelType : size_t
     kEnd
 };
 
-enum class EventType : size_t
-{
-    kSpawnActor = 0,
-    kDestroyActor,
-    kActiveActor
-};
-
 enum class EndPlayReason : size_t
 {
     kDestroyed,

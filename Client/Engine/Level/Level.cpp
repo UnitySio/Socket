@@ -63,7 +63,7 @@ void Level::PhysicsTick(float delta_time)
 {
     for (const auto& actor : actors_)
     {
-        if (!actor->is_active_ || actor->is_destroy_) continue;
+        if (!actor->is_active_) continue;
         actor->PhysicsTick(delta_time);
     }
 }
@@ -72,7 +72,7 @@ void Level::Tick(float delta_time)
 {
     for (const auto& actor : actors_)
     {
-        if (!actor->is_active_ || actor->is_destroy_) continue;
+        if (!actor->is_active_) continue;
         actor->Tick(delta_time);
     }
 }
@@ -81,7 +81,7 @@ void Level::PostTick(float delta_time)
 {
     for (const auto& actor : actors_)
     {
-        if (!actor->is_active_ || actor->is_destroy_) continue;
+        if (!actor->is_active_) continue;
         actor->PostTick(delta_time);
     }
 }
@@ -90,18 +90,17 @@ void Level::Render(float alpha)
 {
     for (const auto& actor : actors_)
     {
-        if (!actor->is_active_ || actor->is_destroy_) continue;
+        if (!actor->is_active_) continue;
         actor->Render(alpha);
     }
 }
 
-void Level::DestroyActor()
+void Level::DestroyActors()
 {
     for (auto iter = actors_.begin(); iter != actors_.end();)
     {
-        if ((*iter)->is_destroy_)
+        if ((*iter)->is_pending_kill_)
         {
-            (*iter)->Destroyed();
             iter = actors_.erase(iter);
         }
         else

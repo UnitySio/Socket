@@ -159,7 +159,6 @@
     <ClInclude Include="Engine\Data\DataManager.h" />
     <ClInclude Include="Engine\DebugDraw.h" />
     <ClInclude Include="Engine\Enums.h" />
-    <ClInclude Include="Engine\EventManager.h" />
     <ClInclude Include="Engine\GameEngine.h" />
     <ClInclude Include="Engine\Input\Keyboard.h" />
     <ClInclude Include="Engine\Input\Mouse.h" />
@@ -385,7 +384,6 @@
     <ClCompile Include="Engine\Core.cpp" />
     <ClCompile Include="Engine\Data\DataManager.cpp" />
     <ClCompile Include="Engine\DebugDraw.cpp" />
-    <ClCompile Include="Engine\EventManager.cpp" />
     <ClCompile Include="Engine\GameEngine.cpp" />
     <ClCompile Include="Engine\Input\Keyboard.cpp" />
     <ClCompile Include="Engine\Input\Mouse.cpp" />

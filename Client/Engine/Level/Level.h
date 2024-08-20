@@ -22,7 +22,7 @@ public:
     virtual void Tick(float delta_time);
     virtual void PostTick(float delta_time);
     virtual void Render(float alpha);
-    virtual void DestroyActor();
+    virtual void DestroyActors();
 
     inline const std::wstring& GetName() const { return name_; }
 

@@ -23,10 +23,11 @@ public:
     void Tick(float delta_time);
     void PostTick(float delta_time);
     void Render(float alpha);
-    void DestroyActor();
+    void DestroyActors();
     void AddShape(const std::shared_ptr<Shape>& kShape);
     void TransitionLevel();
     void SpawnActors();
+    void DestroyActor(Actor* actor);
 
     template<std::derived_from<Actor> T>
     T* SpawnActor(const std::wstring& kName);

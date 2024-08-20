@@ -7,6 +7,8 @@ public:
     Box(const std::wstring& kName);
     virtual ~Box() override = default;
 
+    virtual void BeginPlay() override;
+
 private:
     class SpriteRendererComponent* sprite_renderer_;
     class BoxColliderComponent* box_collider_;
