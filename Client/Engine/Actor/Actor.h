@@ -102,6 +102,7 @@ protected:
     class b2Body* body_;
 
     bool is_active_;
+    bool is_pending_activation_;
     bool is_pending_deletion_;
 
     std::vector<std::shared_ptr<ActorComponent>> components_;

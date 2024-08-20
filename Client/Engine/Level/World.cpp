@@ -164,13 +164,14 @@ void World::TransitionLevel()
 
 void World::SpawnActors()
 {
-    for (const auto& actor : pending_actors_)
+    while (!pending_actors_.empty())
     {
+        std::shared_ptr<Actor> actor = pending_actors_.front();
         current_level_->actors_.push_back(actor);
         actor->BeginPlay();
+        
+        pending_actors_.pop();
     }
-
-    pending_actors_.clear();
 }
 
 void World::DestroyActor(Actor* actor)

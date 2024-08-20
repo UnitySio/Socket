@@ -17,6 +17,7 @@ Actor::Actor(const std::wstring& kName) :
     layer_(ActorLayer::kDefault),
     body_(nullptr),
     is_active_(true),
+    is_pending_activation_(false),
     is_pending_deletion_(false),
     components_(),
     transform_(nullptr),
@@ -178,6 +179,7 @@ void Actor::Destroy()
 
 void Actor::SetActive(bool active)
 {
+    is_pending_activation_ = active;
 }
 
 void Actor::SetLifeSpan(float life_span)

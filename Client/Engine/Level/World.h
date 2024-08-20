@@ -1,4 +1,6 @@
 ﻿#pragma once
+#include <queue>
+
 #include "DebugDraw.h"
 #include "Enums.h"
 #include "Singleton.h"
@@ -68,14 +70,14 @@ private:
 
     std::weak_ptr<Actor> camera_;
 
-    std::vector<std::shared_ptr<Actor>> pending_actors_;
+    std::queue<std::shared_ptr<Actor>> pending_actors_;
 };
 
 template <std::derived_from<Actor> T>
 T* World::SpawnActor(const std::wstring& kName)
 {
     std::shared_ptr<Actor> actor = std::make_shared<T>(kName);
-    pending_actors_.emplace_back(actor);
+    pending_actors_.push(actor);
     
     actor->InitializeActor();
     return static_cast<T*>(actor.get());
