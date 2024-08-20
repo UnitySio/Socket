@@ -26,17 +26,19 @@ void FollowCamera::BeginPlay()
 {
     Actor::BeginPlay();
 
-    PlayerController* player = dynamic_cast<PlayerController*>(target_);
-    if (player)
+    if (IsValid(target_))
     {
-        box_collider_ = player->GetBoxCollider();
-        if (box_collider_)
+        CharacterBase* player = dynamic_cast<CharacterBase*>(target_);
+        if (player)
         {
-            Bounds bounds = box_collider_->GetBounds();
-            focus_area_ = std::make_unique<FocusArea>(bounds, focus_area_size_);
+            box_collider_ = player->GetBoxCollider();
+            if (box_collider_)
+            {
+                Bounds bounds = box_collider_->GetBounds();
+                focus_area_ = std::make_unique<FocusArea>(bounds, focus_area_size_);
+            }
         }
     }
-    
 }
 
 void FollowCamera::PhysicsTick(float delta_time)

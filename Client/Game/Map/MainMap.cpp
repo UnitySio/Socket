@@ -15,6 +15,7 @@ void MainMap::Load()
 {
     Tilemap* tilemap = AddActor<Tilemap>(L"Tilemap");
     PlayerController* player = AddActor<PlayerController>(L"Player");
+    
     FollowCamera* camera = AddActor<FollowCamera>(L"FollowCamera");
     camera->SetFollow(player);
 }
