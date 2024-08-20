@@ -40,8 +40,6 @@ public:
     T* SpawnActor(const std::wstring& kName);
 
     // Reflection 구현 필요
-
-    inline std::shared_ptr<Actor> GetSharedPtr() { return shared_from_this(); }
     
     inline void SetTag(ActorTag tag) { tag_ = tag; }
     inline void SetLayer(ActorLayer layer) { layer_ = layer; }
@@ -60,6 +58,8 @@ public:
     inline TransformComponent* GetTransform() const { return transform_.get(); }
 
     inline Actor* GetParent() const { return parent_; }
+
+    inline bool IsPendingDeletion() const { return is_pending_deletion_; }
     
     ContactSignature on_collision_enter;
     ContactSignature on_collision_stay;
@@ -102,7 +102,7 @@ protected:
     class b2Body* body_;
 
     bool is_active_;
-    bool is_pending_kill_;
+    bool is_pending_deletion_;
 
     std::vector<std::shared_ptr<ActorComponent>> components_;
 
@@ -152,3 +152,10 @@ T* Actor::SpawnActor(const std::wstring& kName)
     return World::Get()->SpawnActor<T>(kName);
 }
 
+inline bool IsValid(Actor* actor)
+{
+    if (!actor) return false;
+    
+    const std::shared_ptr<Actor> shared_actor = actor->shared_from_this();
+    return shared_actor && !actor->IsPendingDeletion();
+}

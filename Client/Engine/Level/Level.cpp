@@ -99,7 +99,7 @@ void Level::DestroyActors()
 {
     for (auto iter = actors_.begin(); iter != actors_.end();)
     {
-        if ((*iter)->is_pending_kill_)
+        if ((*iter)->is_pending_deletion_)
         {
             iter = actors_.erase(iter);
         }

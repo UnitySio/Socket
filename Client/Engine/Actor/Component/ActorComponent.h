@@ -9,8 +9,6 @@ public:
     ActorComponent(class Actor* owner, const std::wstring& kName);
     virtual ~ActorComponent() = default;
 
-    inline std::shared_ptr<ActorComponent> GetSharedPtr() { return shared_from_this(); }
-
     inline Actor* GetOwner() const { return owner_; }
     inline std::wstring GetName() const { return name_; }
 

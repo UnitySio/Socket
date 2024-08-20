@@ -17,7 +17,7 @@ Actor::Actor(const std::wstring& kName) :
     layer_(ActorLayer::kDefault),
     body_(nullptr),
     is_active_(true),
-    is_pending_kill_(false),
+    is_pending_deletion_(false),
     components_(),
     transform_(nullptr),
     parent_(nullptr),
@@ -27,7 +27,7 @@ Actor::Actor(const std::wstring& kName) :
     name_ = kName;
     
     TransformComponent* transform = CreateComponent<TransformComponent>(L"Transform");
-    transform_ = std::static_pointer_cast<TransformComponent>(transform->GetSharedPtr());
+    transform_ = std::static_pointer_cast<TransformComponent>(transform->shared_from_this());
 }
 
 void Actor::OnCollisionEnter(Actor* other)
@@ -172,7 +172,7 @@ void Actor::DetachFromActor()
 
 void Actor::Destroy()
 {
-    if (is_pending_kill_) return;
+    if (is_pending_deletion_) return;
     World::Get()->DestroyActor(this);
 }
 

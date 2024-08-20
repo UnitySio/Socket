@@ -175,6 +175,6 @@ void World::SpawnActors()
 
 void World::DestroyActor(Actor* actor)
 {
-    actor->is_pending_kill_ = true;
+    actor->is_pending_deletion_ = true;
     actor->Destroyed();
 }
