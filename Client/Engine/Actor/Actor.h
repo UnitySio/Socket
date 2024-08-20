@@ -154,8 +154,5 @@ T* Actor::SpawnActor(const std::wstring& kName)
 
 inline bool IsValid(Actor* actor)
 {
-    if (!actor) return false;
-    
-    const std::shared_ptr<Actor> shared_actor = actor->shared_from_this();
-    return shared_actor && !actor->IsPendingDeletion();
+    return actor && !actor->IsPendingDeletion();
 }
