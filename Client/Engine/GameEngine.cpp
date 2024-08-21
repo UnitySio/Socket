@@ -18,7 +18,8 @@
 
 GameEngine::GameEngine() :
     game_window_(nullptr),
-    shape_batch_(nullptr)
+    shape_batch_(nullptr),
+    accumulator_(0.f)
 {
 }
 
@@ -58,33 +59,48 @@ void GameEngine::Init(const std::shared_ptr<WindowsWindow>& window)
 
 void GameEngine::GameLoop(float delta_time)
 {
-    static float accumulator = 0.f;
-    
     World::Get()->TransitionLevel();
+
+    StartFrame();
+    Tick(delta_time);
+
+    // 물리 시뮬레이션으로 인해 발생한 오차를 보정하기 위해 alpha를 계산
+    float alpha = accumulator_ / ProjectSettings::kFixedTimeStep;
+    Render(alpha);
     
+    EndFrame();
+}
+
+void GameEngine::OnQuit()
+{
+    World::Get()->GetLevel()->Unload(EndPlayReason::kQuit);
+}
+
+void GameEngine::StartFrame()
+{
     ImGui_ImplDX11_NewFrame();
     ImGui_ImplWin32_NewFrame();
     ImGui::NewFrame();
+}
 
-#pragma region Tick
+void GameEngine::Tick(float delta_time)
+{
+    // 죽음의 나선형을 방지하기 위해 delta_time을 제한
+    const float kLimitFrameTime = min(delta_time, .25f);
+    accumulator_ += kLimitFrameTime;
+    
     // SteamManager::Get()->Tick();
     AudioManager::Get()->Tick();
     
     Keyboard::Get()->Begin();
     Mouse::Get()->Begin();
-    
-    // 죽음의 나선형을 방지하기 위해 delta_time을 제한
-    const float kLimitFrameTime = min(delta_time, .25f);
-    accumulator += kLimitFrameTime;
 
-    while (accumulator >= ProjectSettings::kFixedTimeStep)
+    while (accumulator_ >= ProjectSettings::kFixedTimeStep)
     {
         World::Get()->PhysicsTick(ProjectSettings::kFixedTimeStep);
-        accumulator -= ProjectSettings::kFixedTimeStep;
+        accumulator_ -= ProjectSettings::kFixedTimeStep;
     }
 
-    // 물리 시뮬레이션으로 인해 발생한 오차를 보정하기 위해 alpha를 계산
-    float alpha = accumulator / ProjectSettings::kFixedTimeStep;
     World::Get()->Tick(delta_time);
     World::Get()->PostTick(delta_time);
 
@@ -92,9 +108,10 @@ void GameEngine::GameLoop(float delta_time)
 
     Mouse::Get()->End();
     Keyboard::Get()->End();
-#pragma endregion
+}
 
-#pragma region Render
+void GameEngine::Render(float alpha)
+{
     ImGui::Render();
     
     Renderer::Get()->BeginRender(game_window_);
@@ -107,14 +124,9 @@ void GameEngine::GameLoop(float delta_time)
     ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
     
     Renderer::Get()->EndRender();
-
-#pragma endregion
-
-    World::Get()->SpawnActors();
-    
 }
 
-void GameEngine::OnQuit()
+void GameEngine::EndFrame()
 {
-    World::Get()->GetLevel()->Unload(EndPlayReason::kQuit);
+    World::Get()->SpawnActors();
 }
