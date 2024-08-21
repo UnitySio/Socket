@@ -4,7 +4,7 @@
 #include "box2d/b2_circle_shape.h"
 
 CircleColliderComponent::CircleColliderComponent(Actor* owner, const std::wstring& kName) :
-    ColliderComponent(owner, kName),
+    Super(owner, kName),
     radius_(.5f)
 {
     SetCircle();
@@ -12,7 +12,7 @@ CircleColliderComponent::CircleColliderComponent(Actor* owner, const std::wstrin
 
 void CircleColliderComponent::SetOffset(const Math::Vector2& kOffset)
 {
-    ColliderComponent::SetOffset(kOffset);
+    Super::SetOffset(kOffset);
 
     SetCircle();
 }

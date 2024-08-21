@@ -3,6 +3,8 @@
 
 class CircleColliderComponent : public ColliderComponent
 {
+    DECLARE_SHARED_CLASS(ColliderComponent, CircleColliderComponent)
+    
 public:
     CircleColliderComponent(Actor* owner, const std::wstring& kName);
     virtual ~CircleColliderComponent() override = default;

@@ -5,6 +5,8 @@
 
 class ColliderComponent : public ActorComponent
 {
+    DECLARE_SHARED_CLASS(ActorComponent, ColliderComponent)
+    
 public:
     ColliderComponent(Actor* owner, const std::wstring& kName);
     virtual ~ColliderComponent() override = default;

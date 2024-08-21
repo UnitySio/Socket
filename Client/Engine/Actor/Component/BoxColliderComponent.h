@@ -3,6 +3,8 @@
 
 class BoxColliderComponent : public ColliderComponent
 {
+    DECLARE_SHARED_CLASS(ColliderComponent, BoxColliderComponent)
+    
 public:
     BoxColliderComponent(Actor* owner, const std::wstring& kName);
     virtual ~BoxColliderComponent() override = default;

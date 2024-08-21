@@ -5,7 +5,7 @@ class State;
 
 class StateMachine : public Actor
 {
-    DECLARE_CLASS(Actor, StateMachine)
+    DECLARE_SHARED_CLASS(Actor, StateMachine)
     
 public:
     StateMachine(const std::wstring& kName);

@@ -3,6 +3,8 @@
 
 class Box : public Actor
 {
+    DECLARE_SHARED_CLASS(Actor, Box)
+    
 public:
     Box(const std::wstring& kName);
     virtual ~Box() override = default;

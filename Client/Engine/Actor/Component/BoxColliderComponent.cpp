@@ -4,7 +4,7 @@
 #include "box2d/b2_polygon_shape.h"
 
 BoxColliderComponent::BoxColliderComponent(Actor* owner, const std::wstring& kName) :
-    ColliderComponent(owner, kName),
+    Super(owner, kName),
     size_(Math::Vector2::One())
 {
     SetBox();
@@ -12,7 +12,7 @@ BoxColliderComponent::BoxColliderComponent(Actor* owner, const std::wstring& kNa
 
 void BoxColliderComponent::SetOffset(const Math::Vector2& kOffset)
 {
-    ColliderComponent::SetOffset(kOffset);
+    Super::SetOffset(kOffset);
     
     SetBox();
 }

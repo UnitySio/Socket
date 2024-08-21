@@ -3,6 +3,8 @@
 
 class Tilemap : public Actor
 {
+    DECLARE_SHARED_CLASS(Actor, Tilemap)
+    
 public:
     Tilemap(const std::wstring& kName);
     virtual ~Tilemap() override = default;

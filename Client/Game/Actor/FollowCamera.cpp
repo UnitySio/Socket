@@ -8,7 +8,7 @@
 #include "Math/Math.h"
 
 FollowCamera::FollowCamera(const std::wstring& kName) :
-    Actor(kName),
+    Super(kName),
     target_(nullptr),
     box_collider_(nullptr),
     focus_area_(nullptr),
@@ -24,7 +24,7 @@ FollowCamera::FollowCamera(const std::wstring& kName) :
 
 void FollowCamera::BeginPlay()
 {
-    Actor::BeginPlay();
+    Super::BeginPlay();
 
     if (IsValid(target_))
     {
@@ -43,7 +43,7 @@ void FollowCamera::BeginPlay()
 
 void FollowCamera::PhysicsTick(float delta_time)
 {
-    Actor::PhysicsTick(delta_time);
+    Super::PhysicsTick(delta_time);
 
     if (IsValid(target_))
     {
@@ -73,7 +73,7 @@ void FollowCamera::PhysicsTick(float delta_time)
 
 void FollowCamera::Tick(float delta_time)
 {
-    Actor::Tick(delta_time);
+    Super::Tick(delta_time);
     
     // AddDebugBox(focus_area_->center, focus_area_size_ / 2.f);
     

@@ -8,7 +8,7 @@
 #include "RigidBodyComponent.h"
 
 TransformComponent::TransformComponent(Actor* owner, const std::wstring& kName) :
-    ActorComponent(owner, kName),
+    Super(owner, kName),
     world_position_(Math::Vector2::Zero()),
     world_scale_(Math::Vector2::One()),
     relative_position_(Math::Vector2::Zero()),
@@ -20,7 +20,7 @@ TransformComponent::TransformComponent(Actor* owner, const std::wstring& kName) 
 
 void TransformComponent::TickComponent(float delta_time)
 {
-    ActorComponent::TickComponent(delta_time);
+    Super::TickComponent(delta_time);
 
     const b2Body* body = GetOwner()->body_;
     if (!body || body->GetType() == b2_staticBody) return;

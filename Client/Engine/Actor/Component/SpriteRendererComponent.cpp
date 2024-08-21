@@ -8,7 +8,7 @@
 #include "Windows/DX/Sprite.h"
 
 SpriteRendererComponent::SpriteRendererComponent(Actor* owner, const std::wstring& kName) :
-    ActorComponent(owner, kName),
+    Super(owner, kName),
     shape_(nullptr),
     sprite_(nullptr),
     frame_index_(0),
@@ -20,7 +20,7 @@ SpriteRendererComponent::SpriteRendererComponent(Actor* owner, const std::wstrin
 
 void SpriteRendererComponent::InitializeComponent()
 {
-    ActorComponent::InitializeComponent();
+    Super::InitializeComponent();
     if (!sprite_) return;
 
     shape_ = std::make_shared<Shape>();
@@ -31,7 +31,7 @@ void SpriteRendererComponent::InitializeComponent()
 
 void SpriteRendererComponent::Render(float alpha)
 {
-    ActorComponent::Render(alpha);
+    Super::Render(alpha);
     if (!sprite_) return;
 
     const TransformComponent* transform = GetOwner()->GetTransform();

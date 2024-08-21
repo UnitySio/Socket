@@ -12,7 +12,7 @@
 #include "tmxlite/ImageLayer.hpp"
 
 TilemapComponent::TilemapComponent(Actor* owner, const std::wstring& kName) :
-	ActorComponent(owner, kName),
+	Super(owner, kName),
 	tilemap_layers_(),
 	tilemap_body_(nullptr)
 {
@@ -20,21 +20,21 @@ TilemapComponent::TilemapComponent(Actor* owner, const std::wstring& kName) :
 
 void TilemapComponent::InitializeComponent()
 {
-	ActorComponent::InitializeComponent();
+	Super::InitializeComponent();
 
 	if (tilemap_body_) tilemap_body_->SetEnabled(true);
 }
 
 void TilemapComponent::UninitializeComponent()
 {
-	ActorComponent::UninitializeComponent();
+	Super::UninitializeComponent();
 
 	if (tilemap_body_) World::Get()->physics_world_->DestroyBody(tilemap_body_);
 }
 
 void TilemapComponent::Render(float alpha)
 {
-	ActorComponent::Render(alpha);
+	Super::Render(alpha);
 
 	for (const auto& tilemap_layer : tilemap_layers_)
 	{

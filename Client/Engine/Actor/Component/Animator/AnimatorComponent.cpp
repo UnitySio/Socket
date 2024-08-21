@@ -9,7 +9,7 @@
 #include "Logger/Logger.h"
 
 AnimatorComponent::AnimatorComponent(Actor* owner, const std::wstring& kName) :
-    ActorComponent(owner, kName),
+    Super(owner, kName),
     sprite_renderer_(nullptr),
     clips_(),
     timer_(0.f),
@@ -20,7 +20,7 @@ AnimatorComponent::AnimatorComponent(Actor* owner, const std::wstring& kName) :
 
 void AnimatorComponent::BeginPlay()
 {
-    ActorComponent::BeginPlay();
+    Super::BeginPlay();
     
     SpriteRendererComponent* sprite_renderer = GetOwner()->GetComponent<SpriteRendererComponent>();
     if (sprite_renderer) sprite_renderer_ = sprite_renderer;
@@ -28,7 +28,7 @@ void AnimatorComponent::BeginPlay()
 
 void AnimatorComponent::TickComponent(float delta_time)
 {
-    ActorComponent::TickComponent(delta_time);
+    Super::TickComponent(delta_time);
     if (!sprite_renderer_) return;
 
     timer_ += delta_time;

@@ -58,6 +58,8 @@ struct FocusArea
 
 class FollowCamera : public Actor
 {
+    DECLARE_SHARED_CLASS(Actor, FollowCamera)
+    
 public:
     FollowCamera(const std::wstring& kName);
     virtual ~FollowCamera() override = default;

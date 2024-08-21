@@ -5,11 +5,10 @@
 #include "Actor/Component/BoxColliderComponent.h"
 #include "Actor/Component/RigidBodyComponent.h"
 #include "Actor/Component/TransformComponent.h"
-#include "Level/World.h"
 #include "Windows/DX/Shape.h"
 #include "Windows/DX/Sprite.h"
 
-Box::Box(const std::wstring& kName) : Actor(kName)
+Box::Box(const std::wstring& kName) : Super(kName)
 {
     sprite_renderer_ = CreateComponent<SpriteRendererComponent>(L"SpriteRenderer");
     
@@ -32,7 +31,7 @@ Box::Box(const std::wstring& kName) : Actor(kName)
 
 void Box::BeginPlay()
 {
-    Actor::BeginPlay();
+    Super::BeginPlay();
 
     SetLifeSpan(1.f);
 }

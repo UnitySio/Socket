@@ -5,6 +5,8 @@
 
 class TransformComponent : public ActorComponent
 {
+    DECLARE_SHARED_CLASS(ActorComponent, TransformComponent)
+    
 public:
     TransformComponent(class Actor* owner, const std::wstring& kName);
     virtual ~TransformComponent() override = default;

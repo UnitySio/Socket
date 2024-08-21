@@ -10,6 +10,8 @@ class AnimationEvent;
 
 class AnimatorComponent : public ActorComponent
 {
+    DECLARE_SHARED_CLASS(ActorComponent, AnimatorComponent)
+    
 public:
     AnimatorComponent(class Actor* owner, const std::wstring& kName);
     virtual ~AnimatorComponent() override = default;
