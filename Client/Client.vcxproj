@@ -178,6 +178,7 @@
     <ClInclude Include="Engine\Misc\EngineMacros.h" />
     <ClInclude Include="Engine\Misc\Delegate.h" />
     <ClInclude Include="Engine\Misc\Function.h" />
+    <ClInclude Include="Engine\Object.h" />
     <ClInclude Include="Engine\Physics\CircleQueryCallback.h" />
     <ClInclude Include="Engine\Physics\HitResult.h" />
     <ClInclude Include="Engine\Physics\BoxQueryCallback.h" />
@@ -398,6 +399,7 @@
     <ClCompile Include="Engine\Math\Rect.cpp" />
     <ClCompile Include="Engine\Math\Vector2.cpp" />
     <ClCompile Include="Engine\Misc\Debug.cpp" />
+    <ClCompile Include="Engine\Object.cpp" />
     <ClCompile Include="Engine\Physics\BoxQueryCallback.cpp" />
     <ClCompile Include="Engine\Physics\CircleQueryCallback.cpp" />
     <ClCompile Include="Engine\Physics\Physics.cpp" />

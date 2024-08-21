@@ -2,12 +2,14 @@
 #include <memory>
 #include <string>
 
+#include "Object.h"
+
 enum class EndPlayReason : size_t;
-class ActorComponent : public std::enable_shared_from_this<ActorComponent>
+class ActorComponent : public Object
 {
 public:
     ActorComponent(class Actor* owner, const std::wstring& kName);
-    virtual ~ActorComponent() = default;
+    virtual ~ActorComponent() override = default;
 
     inline Actor* GetOwner() const { return owner_; }
     inline std::wstring GetName() const { return name_; }

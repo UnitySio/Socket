@@ -3,6 +3,7 @@
 #include <string>
 #include <vector>
 
+#include "Object.h"
 #include "ProjectSettings.h"
 #include "Component/ActorComponent.h"
 #include "Level/World.h"
@@ -16,13 +17,11 @@ DECLARE_DELEGATE(ContactSignature, Actor*);
 enum class EndPlayReason : size_t;
 class TransformComponent;
 
-class Actor : public std::enable_shared_from_this<Actor>
+class Actor : public Object
 {
 public:
     Actor(const std::wstring& kName);
-    virtual ~Actor() = default;
-
-    bool operator==(const Actor& other) const;
+    virtual ~Actor() override = default;
 
     void AttachToActor(Actor* actor);
     void DetachFromActor();
@@ -45,7 +44,6 @@ public:
     inline void SetLayer(ActorLayer layer) { layer_ = layer; }
 
     inline const std::wstring& GetName() const { return name_; }
-    inline MathTypes::uint64 GetInstanceID() const { return instance_id_; }
 
     inline ActorTag GetTag() const { return tag_; }
     inline ActorLayer GetLayer() const { return layer_; }
@@ -92,8 +90,6 @@ protected:
 
     std::wstring name_;
 
-    MathTypes::uint64 instance_id_;
-
     ActorTag tag_;
     ActorLayer layer_;
 
@@ -120,8 +116,6 @@ private:
     friend class PlayerController;
     friend class ContactListener;
     friend class World;
-
-    static MathTypes::uint64 instance_id_counter_;
 };
 
 template <std::derived_from<ActorComponent> T>
