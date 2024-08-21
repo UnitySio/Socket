@@ -12,7 +12,10 @@
 #include "Level/World.h"
 #include "Time/TimerManager.h"
 
+MathTypes::uint64 Actor::instance_id_counter_ = 0;
+
 Actor::Actor(const std::wstring& kName) :
+    instance_id_(instance_id_counter_++), // 추후 Instance ID의 생성 방식을 고도화할 예정
     tag_(ActorTag::kNone),
     layer_(ActorLayer::kDefault),
     body_(nullptr),
@@ -134,6 +137,11 @@ void Actor::Render(float alpha)
     {
         component->Render(alpha);
     }
+}
+
+bool Actor::operator==(const Actor& other) const
+{
+    return instance_id_ == other.instance_id_;
 }
 
 void Actor::AttachToActor(Actor* actor)

@@ -22,6 +22,8 @@ public:
     Actor(const std::wstring& kName);
     virtual ~Actor() = default;
 
+    bool operator==(const Actor& other) const;
+
     void AttachToActor(Actor* actor);
     void DetachFromActor();
     void Destroy();
@@ -38,17 +40,12 @@ public:
 
     template <std::derived_from<Actor> T>
     T* SpawnActor(const std::wstring& kName);
-
-    // Reflection 구현 필요
     
     inline void SetTag(ActorTag tag) { tag_ = tag; }
     inline void SetLayer(ActorLayer layer) { layer_ = layer; }
 
-    // 추후 구현 예정
-    inline size_t GetUniqueID() const { return -1; }
-    inline size_t GetTypeHash() const { return -1; }
-
     inline const std::wstring& GetName() const { return name_; }
+    inline MathTypes::uint64 GetInstanceID() const { return instance_id_; }
 
     inline ActorTag GetTag() const { return tag_; }
     inline ActorLayer GetLayer() const { return layer_; }
@@ -95,6 +92,8 @@ protected:
 
     std::wstring name_;
 
+    MathTypes::uint64 instance_id_;
+
     ActorTag tag_;
     ActorLayer layer_;
 
@@ -121,6 +120,8 @@ private:
     friend class PlayerController;
     friend class ContactListener;
     friend class World;
+
+    static MathTypes::uint64 instance_id_counter_;
 };
 
 template <std::derived_from<ActorComponent> T>
