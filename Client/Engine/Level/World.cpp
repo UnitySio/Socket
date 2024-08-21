@@ -23,7 +23,7 @@ World::World() :
     shape_batch_(nullptr),
     shapes_(),
     current_level_(nullptr),
-    next_level_(nullptr),
+    pending_level_(nullptr),
     levels_(),
     pending_actors_()
 {
@@ -59,7 +59,7 @@ void World::Init(const std::shared_ptr<WindowsWindow>& kWindow)
 
 void World::OpenLevel(LevelType type)
 {
-    next_level_ = levels_[static_cast<size_t>(type)].get();
+    pending_level_ = levels_[static_cast<size_t>(type)].get();
 }
 
 void World::PhysicsTick(float delta_time)
@@ -70,7 +70,13 @@ void World::PhysicsTick(float delta_time)
         contact_listener_.Tick();
         
         current_level_->PhysicsTick(delta_time);
+        
         DestroyActors();
+    }
+    
+    if (pending_level_)
+    {
+        TransitionLevel();
     }
 }
 
@@ -81,7 +87,13 @@ void World::Tick(float delta_time)
     if (current_level_)
     {
         current_level_->Tick(delta_time);
+        
         DestroyActors();
+    }
+    
+    if (pending_level_)
+    {
+        TransitionLevel();
     }
 }
 
@@ -90,7 +102,13 @@ void World::PostTick(float delta_time)
     if (current_level_)
     {
         current_level_->PostTick(delta_time);
+        
         DestroyActors();
+    }
+    
+    if (pending_level_)
+    {
+        TransitionLevel();
     }
 }
 
@@ -133,28 +151,19 @@ void World::AddShape(const std::shared_ptr<Shape>& kShape)
 
 void World::TransitionLevel()
 {
-    if (!next_level_) return;
-    
-    WCHAR buffer[256];
-    swprintf_s(buffer, L"Body Count: %d", physics_world_->GetBodyCount());
-    LOG(buffer);
-    
     if (current_level_)
     {
         current_level_->Unload(EndPlayReason::kLevelTransition);
         Canvas::Get()->Clear();
     }
 
-    current_level_ = next_level_;
-    next_level_ = nullptr;
+    current_level_ = pending_level_;
+    pending_level_ = nullptr;
     
     current_level_->Load();
     current_level_->InitializeActors();
     
     SetWindowText(window_->GetHWnd(), current_level_->GetName().c_str());
-    
-    swprintf_s(buffer, L"Body Count: %d", physics_world_->GetBodyCount());
-    LOG(buffer);
 }
 
 void World::SpawnActors()

@@ -65,7 +65,7 @@ private:
     DebugDraw debug_draw_;
     
     Level* current_level_;
-    Level* next_level_;
+    Level* pending_level_;
     
     std::shared_ptr<Level> levels_[static_cast<size_t>(LevelType::kEnd)];
 
