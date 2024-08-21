@@ -73,11 +73,6 @@ void World::PhysicsTick(float delta_time)
         
         DestroyActors();
     }
-    
-    if (pending_level_)
-    {
-        TransitionLevel();
-    }
 }
 
 void World::Tick(float delta_time)
@@ -90,11 +85,6 @@ void World::Tick(float delta_time)
         
         DestroyActors();
     }
-    
-    if (pending_level_)
-    {
-        TransitionLevel();
-    }
 }
 
 void World::PostTick(float delta_time)
@@ -104,11 +94,6 @@ void World::PostTick(float delta_time)
         current_level_->PostTick(delta_time);
         
         DestroyActors();
-    }
-    
-    if (pending_level_)
-    {
-        TransitionLevel();
     }
 }
 
@@ -151,6 +136,8 @@ void World::AddShape(const std::shared_ptr<Shape>& kShape)
 
 void World::TransitionLevel()
 {
+    if (!pending_level_) return;
+    
     if (current_level_)
     {
         current_level_->Unload(EndPlayReason::kLevelTransition);
