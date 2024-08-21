@@ -53,8 +53,6 @@ public:
     inline ActorTag GetTag() const { return tag_; }
     inline ActorLayer GetLayer() const { return layer_; }
 
-    inline bool IsActive() const { return is_active_; }
-
     inline TransformComponent* GetTransform() const { return transform_.get(); }
 
     inline Actor* GetParent() const { return parent_; }
