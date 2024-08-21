@@ -3,10 +3,13 @@
 #include <string>
 
 #include "Object.h"
+#include "Misc/EngineMacros.h"
 
 enum class EndPlayReason : size_t;
 class ActorComponent : public Object
 {
+    DECLARE_CLASS(ActorComponent, Object)
+    
 public:
     ActorComponent(class Actor* owner, const std::wstring& kName);
     virtual ~ActorComponent() override = default;

@@ -4,6 +4,8 @@
 
 class CameraComponent : public ActorComponent
 {
+    DECLARE_CLASS(ActorComponent, CameraComponent);
+    
 public:
     CameraComponent(Actor* owner, const std::wstring& kName);
     virtual ~CameraComponent() override = default;

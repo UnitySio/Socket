@@ -169,7 +169,7 @@ void World::DestroyActor(Actor* actor)
 {
     actor->is_pending_destroy_ = true;
     
-    std::shared_ptr<Actor> shared_actor = std::dynamic_pointer_cast<Actor>(actor->shared_from_this());
+    std::shared_ptr<Actor> shared_actor = actor->GetSharedThis();
     pending_destroy_actors_.push(shared_actor);
 }
 

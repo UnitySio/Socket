@@ -8,6 +8,8 @@ class BoxColliderComponent;
 
 class CharacterBase : public StateMachine
 {
+    DECLARE_CLASS(StateMachine, CharacterBase)
+    
 public:
     CharacterBase(const std::wstring& kName);
     virtual ~CharacterBase() override = default;

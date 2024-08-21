@@ -19,6 +19,8 @@ class TransformComponent;
 
 class Actor : public Object
 {
+    DECLARE_CLASS(Object, Actor)
+    
 public:
     Actor(const std::wstring& kName);
     virtual ~Actor() override = default;

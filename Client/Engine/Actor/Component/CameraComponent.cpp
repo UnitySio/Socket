@@ -7,7 +7,7 @@
 #include "Windows/DX/Renderer.h"
 
 CameraComponent::CameraComponent(Actor* owner, const std::wstring& kName) :
-    ActorComponent(owner, kName),
+    Super(owner, kName),
     size_(5.f),
     near_z_(.3f),
     far_z_(1000.f),
@@ -18,16 +18,16 @@ CameraComponent::CameraComponent(Actor* owner, const std::wstring& kName) :
 
 void CameraComponent::InitializeComponent()
 {
-    ActorComponent::InitializeComponent();
+    Super::InitializeComponent();
 
-    World::Get()->SetCamera(std::dynamic_pointer_cast<Actor>(GetOwner()->shared_from_this()));
+    World::Get()->SetCamera(GetOwner()->GetSharedThis());
 
     UpdateProjectionMatrix();
 }
 
 void CameraComponent::TickComponent(float delta_time)
 {
-    ActorComponent::TickComponent(delta_time);
+    Super::TickComponent(delta_time);
 
     TransformComponent* transform = GetOwner()->GetTransform();
     Math::Vector2 position = transform->GetWorldPosition();

@@ -9,6 +9,8 @@ enum class PlayerStates
 
 class PlayerController : public CharacterBase
 {
+    DECLARE_CLASS(CharacterBase, PlayerController)
+    
 public:
     PlayerController(const std::wstring& kName);
     virtual ~PlayerController() override = default;

@@ -7,7 +7,7 @@
 #include "Actor/Component/RigidBodyComponent.h"
 
 CharacterBase::CharacterBase(const std::wstring& kName) :
-    StateMachine(kName)
+    Super(kName)
 {
     sprite_renderer_ = CreateComponent<SpriteRendererComponent>(L"SpriteRenderer");
     animator_ = CreateComponent<AnimatorComponent>(L"Animator");

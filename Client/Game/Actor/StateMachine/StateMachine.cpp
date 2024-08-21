@@ -4,13 +4,13 @@
 #include "State.h"
 
 StateMachine::StateMachine(const std::wstring& kName) :
-    Actor(kName)
+    Super(kName)
 {
 }
 
 void StateMachine::PhysicsTick(float delta_time)
 {
-    Actor::PhysicsTick(delta_time);
+    Super::PhysicsTick(delta_time);
 
     if (current_state_)
     {
@@ -20,7 +20,7 @@ void StateMachine::PhysicsTick(float delta_time)
 
 void StateMachine::Tick(float delta_time)
 {
-    Actor::Tick(delta_time);
+    Super::Tick(delta_time);
 
     if (current_state_)
     {
@@ -30,7 +30,7 @@ void StateMachine::Tick(float delta_time)
 
 void StateMachine::PostTick(float delta_time)
 {
-    Actor::PostTick(delta_time);
+    Super::PostTick(delta_time);
 
     if (current_state_)
     {

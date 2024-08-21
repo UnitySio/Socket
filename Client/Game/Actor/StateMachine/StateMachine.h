@@ -5,6 +5,8 @@ class State;
 
 class StateMachine : public Actor
 {
+    DECLARE_CLASS(Actor, StateMachine)
+    
 public:
     StateMachine(const std::wstring& kName);
     virtual ~StateMachine() override = default;
