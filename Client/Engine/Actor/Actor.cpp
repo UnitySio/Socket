@@ -16,7 +16,6 @@ Actor::Actor(const std::wstring& kName) :
     tag_(ActorTag::kNone),
     layer_(ActorLayer::kDefault),
     body_(nullptr),
-    is_active_(true),
     is_pending_destroy_(false),
     components_(),
     transform_(nullptr),
