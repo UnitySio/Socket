@@ -95,7 +95,8 @@ protected:
     ActorTag tag_;
     ActorLayer layer_;
 
-    class b2Body* body_;
+    b2BodyId body_id_;
+    b2JointId joint_id_;
 
     bool is_pending_destroy_;
 
@@ -105,8 +106,6 @@ protected:
 
     Actor* parent_;
     std::vector<Actor*> children_;
-
-    class b2Joint* parent_joint_;
     
     TimerHandle life_span_timer_;
 private:

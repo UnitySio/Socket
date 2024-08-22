@@ -8,7 +8,6 @@
 #include "Actor/Component/CameraComponent.h"
 #include "imgui/imgui.h"
 #include "Input/Keyboard.h"
-#include "Logger/Logger.h"
 #include "Map/MainMap.h"
 #include "Map/MainMenu.h"
 #include "Map/SplashMap.h"
@@ -30,19 +29,14 @@ World::World() :
     shape_batch_ = std::make_shared<ShapeBatch>();
     shape_batch_->Init();
     
-    b2Vec2 gravity(0.f, -9.81f);
-    physics_world_ = std::make_unique<b2World>(gravity);
-    physics_world_->SetContactListener(&contact_listener_);
+    // physics_world_ = std::make_unique<b2World>(gravity);
+    // physics_world_->SetContactListener(&contact_listener_);
     
-    uint32 flags = 0;
-    // flags += b2Draw::e_shapeBit;
-    // flags += b2Draw::e_jointBit;
-    // flags += b2Draw::e_aabbBit;
-    // flags += b2Draw::e_pairBit;
-    // flags += b2Draw::e_centerOfMassBit;
-    debug_draw_.SetFlags(flags);
+    b2Vec2 gravity(0.f, -9.81f);
+    b2WorldDef world_def = b2DefaultWorldDef();
+    world_def.gravity = gravity;
 
-    physics_world_->SetDebugDraw(&debug_draw_);
+    world_id_ = b2CreateWorld(&world_def);
     
 }
 
@@ -66,7 +60,7 @@ void World::PhysicsTick(float delta_time)
 {
     if (current_level_)
     {
-        physics_world_->Step(delta_time, 8, 3);
+        b2World_Step(world_id_, delta_time, 4);
         contact_listener_.Tick();
         
         current_level_->PhysicsTick(delta_time);
@@ -102,7 +96,6 @@ void World::Render(float alpha)
     if (current_level_)
     {
         current_level_->Render(alpha);
-        physics_world_->DebugDraw();
     }
 
     std::vector<std::shared_ptr<Shape>> shapes;

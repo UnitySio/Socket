@@ -3,7 +3,6 @@
 #include <string>
 #include <vector>
 
-#include "DebugDraw.h"
 #include "Actor/Actor.h"
 
 enum class EndPlayReason : size_t;
@@ -35,8 +34,6 @@ private:
     std::wstring name_;
 
     std::vector<std::shared_ptr<Actor>> actors_;
-
-    DebugDraw debug_draw_;
 };
 
 template <std::derived_from<Actor> T>

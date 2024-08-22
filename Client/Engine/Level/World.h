@@ -1,11 +1,10 @@
 ﻿#pragma once
 #include <queue>
 
-#include "DebugDraw.h"
 #include "Enums.h"
 #include "Singleton.h"
 #include "Actor/Actor.h"
-#include "box2d/b2_world.h"
+#include "box2d/box2d.h"
 #include "Listener/ContactListener.h"
 #include "Windows/DX/Renderer.h"
 
@@ -57,12 +56,10 @@ private:
     std::shared_ptr<ShapeBatch> shape_batch_;
     
     std::vector<std::shared_ptr<Shape>> shapes_;
-    
-    std::unique_ptr<b2World> physics_world_;
+
+    b2WorldId world_id_;
     
     ContactListener contact_listener_;
-    
-    DebugDraw debug_draw_;
     
     Level* current_level_;
     Level* pending_level_;

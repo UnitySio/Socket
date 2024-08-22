@@ -63,9 +63,6 @@
     <ClCompile Include="Engine\DebugDraw.cpp">
       <Filter>Other</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\EventManager.cpp">
-      <Filter>Other</Filter>
-    </ClCompile>
     <ClCompile Include="Game\Actor\FollowCamera.cpp">
       <Filter>Other</Filter>
     </ClCompile>
@@ -207,6 +204,10 @@
     <ClCompile Include="Engine\Steam\SteamManager.cpp" />
     <ClCompile Include="Engine\UI\Widget\Text.cpp" />
     <ClCompile Include="Game\Map\MainMenu.cpp" />
+    <ClCompile Include="Engine\Object.cpp" />
+    <ClCompile Include="Game\Actor\Character\Player\States\PlayerIdleState.cpp" />
+    <ClCompile Include="Game\Actor\StateMachine\State.cpp" />
+    <ClCompile Include="Game\Actor\StateMachine\StateMachine.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Actor\Actor.h">
@@ -417,9 +418,6 @@
       <Filter>Other</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Enums.h">
-      <Filter>Other</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\EventManager.h">
       <Filter>Other</Filter>
     </ClInclude>
     <ClInclude Include="Include\FMOD\fmod.h">
@@ -755,6 +753,10 @@
     <ClInclude Include="Engine\Steam\SteamManager.h" />
     <ClInclude Include="Engine\UI\Widget\Text.h" />
     <ClInclude Include="Game\Map\MainMenu.h" />
+    <ClInclude Include="Engine\Object.h" />
+    <ClInclude Include="Game\Actor\Character\Player\States\PlayerIdleState.h" />
+    <ClInclude Include="Game\Actor\StateMachine\State.h" />
+    <ClInclude Include="Game\Actor\StateMachine\StateMachine.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Other">

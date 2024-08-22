@@ -9,8 +9,7 @@
 #include "Logger/Logger.h"
 
 Level::Level(const std::wstring& kName) :
-    actors_(),
-    debug_draw_()
+    actors_()
 {
     name_ = kName;
 }
