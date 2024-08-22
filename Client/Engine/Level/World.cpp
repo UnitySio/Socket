@@ -29,15 +29,17 @@ World::World() :
     shape_batch_ = std::make_shared<ShapeBatch>();
     shape_batch_->Init();
     
-    // physics_world_ = std::make_unique<b2World>(gravity);
-    // physics_world_->SetContactListener(&contact_listener_);
-    
     b2Vec2 gravity(0.f, -9.81f);
     b2WorldDef world_def = b2DefaultWorldDef();
     world_def.gravity = gravity;
 
     world_id_ = b2CreateWorld(&world_def);
-    
+}
+
+World::~World()
+{
+    b2DestroyWorld(world_id_);
+    world_id_ = b2_nullWorldId;
 }
 
 void World::Init(const std::shared_ptr<WindowsWindow>& kWindow)
@@ -58,11 +60,10 @@ void World::OpenLevel(LevelType type)
 
 void World::PhysicsTick(float delta_time)
 {
+    b2World_Step(world_id_, delta_time, 4);
+    
     if (current_level_)
     {
-        b2World_Step(world_id_, delta_time, 4);
-        contact_listener_.Tick();
-        
         current_level_->PhysicsTick(delta_time);
         
         DestroyActors();

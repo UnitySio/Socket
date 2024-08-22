@@ -162,8 +162,6 @@
     <ClInclude Include="Engine\Input\Keyboard.h" />
     <ClInclude Include="Engine\Input\Mouse.h" />
     <ClInclude Include="Engine\Level\Level.h" />
-    <ClInclude Include="Engine\Level\Listener\ContactListener.h" />
-    <ClInclude Include="Engine\Level\Listener\QueryCallback.h" />
     <ClInclude Include="Engine\Level\World.h" />
     <ClInclude Include="Engine\Logger\Logger.h" />
     <ClInclude Include="Engine\Math\Bounds.h" />
@@ -353,8 +351,6 @@
     <ClCompile Include="Engine\Input\Keyboard.cpp" />
     <ClCompile Include="Engine\Input\Mouse.cpp" />
     <ClCompile Include="Engine\Level\Level.cpp" />
-    <ClCompile Include="Engine\Level\Listener\ContactListener.cpp" />
-    <ClCompile Include="Engine\Level\Listener\QueryCallback.cpp" />
     <ClCompile Include="Engine\Level\World.cpp" />
     <ClCompile Include="Engine\Logger\Logger.cpp" />
     <ClCompile Include="Engine\Math\Bounds.cpp" />

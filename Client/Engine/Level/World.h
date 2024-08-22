@@ -5,7 +5,6 @@
 #include "Singleton.h"
 #include "Actor/Actor.h"
 #include "box2d/box2d.h"
-#include "Listener/ContactListener.h"
 #include "Windows/DX/Renderer.h"
 
 class Shape;
@@ -16,7 +15,7 @@ class World : public Singleton<World>
 {
 public:
     World();
-    virtual ~World() override = default;
+    virtual ~World() override;
 
     void Init(const std::shared_ptr<WindowsWindow>& kWindow);
     void OpenLevel(LevelType type);
@@ -58,8 +57,6 @@ private:
     std::vector<std::shared_ptr<Shape>> shapes_;
 
     b2WorldId world_id_;
-    
-    ContactListener contact_listener_;
     
     Level* current_level_;
     Level* pending_level_;

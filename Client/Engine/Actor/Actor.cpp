@@ -99,6 +99,26 @@ void Actor::Destroyed()
 
 void Actor::PhysicsTick(float delta_time)
 {
+    b2WorldId world_id = World::Get()->world_id_;
+    b2ContactEvents contact_events = b2World_GetContactEvents(world_id);
+    for (MathTypes::uint32 i = 0; i < contact_events.beginCount; ++i)
+    {
+        b2ContactBeginTouchEvent* contact_event = contact_events.beginEvents + i;
+        
+        b2BodyId body_a_id = b2Shape_GetBody(contact_event->shapeIdA);
+        b2BodyId body_b_id = b2Shape_GetBody(contact_event->shapeIdB);
+
+        Actor* actor_a = static_cast<Actor*>(b2Body_GetUserData(body_a_id));
+        Actor* actor_b = static_cast<Actor*>(b2Body_GetUserData(body_b_id));
+
+        if (!actor_a || !actor_b) continue;
+        
+        actor_a->OnCollisionEnter(actor_b);
+        actor_b->OnCollisionEnter(actor_a);
+    }
+    
+    b2SensorEvents sensor_events = b2World_GetSensorEvents(world_id);
+    
     for (const auto& component : components_)
     {
         component->PhysicsTickComponent(delta_time);
