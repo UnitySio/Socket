@@ -17,7 +17,7 @@ DECLARE_DELEGATE(ContactSignature, Actor*);
 enum class EndPlayReason : size_t;
 class TransformComponent;
 
-class Actor : public Object
+class Actor : public Object, public std::enable_shared_from_this<Actor>
 {
     DECLARE_SHARED_CLASS(Object, Actor)
     

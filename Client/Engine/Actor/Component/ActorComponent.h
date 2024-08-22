@@ -6,7 +6,7 @@
 #include "Misc/EngineMacros.h"
 
 enum class EndPlayReason : size_t;
-class ActorComponent : public Object
+class ActorComponent : public Object, public std::enable_shared_from_this<ActorComponent>
 {
     DECLARE_SHARED_CLASS(ActorComponent, Object)
     

@@ -26,7 +26,7 @@ Actor::Actor(const std::wstring& kName) :
     name_ = kName;
     
     TransformComponent* transform = CreateComponent<TransformComponent>(L"Transform");
-    transform_ = std::static_pointer_cast<TransformComponent>(transform->shared_from_this());
+    transform_ = transform->GetSharedThis();
 }
 
 void Actor::OnCollisionEnter(Actor* other)

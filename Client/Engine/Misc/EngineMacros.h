@@ -50,9 +50,13 @@
         Logger::Get()->AddWarningLog(format, __VA_ARGS__); \
     } while (0)
 
+#define DECLARE_CLASS(parent_class_name, class_name) \
+    using Super = parent_class_name;
+
 #define DECLARE_SHARED_CLASS(parent_class_name, class_name) \
-    using Super = parent_class_name; \
-    public:\
+    DECLARE_CLASS(parent_class_name, class_name) \
+    \
+    public: \
         std::shared_ptr<class_name> GetSharedThis() \
         { \
             return std::dynamic_pointer_cast<class_name>(shared_from_this()); \
