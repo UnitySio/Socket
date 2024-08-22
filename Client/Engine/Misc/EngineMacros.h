@@ -51,7 +51,7 @@
     } while (0)
 
 #define DECLARE_CLASS(class_name, parent_class_name) \
-    typedef parent_class_name Super; \
+    typedef parent_class_name Super;
 
 #define DECLARE_SHARED_CLASS(class_name, parent_class_name) \
     DECLARE_CLASS(class_name, parent_class_name) \
