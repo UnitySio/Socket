@@ -9,5 +9,5 @@ public:
 
 protected:
     virtual void OnTick(float delta_time) override;
-    
+    virtual void OnEnter() override;
 };

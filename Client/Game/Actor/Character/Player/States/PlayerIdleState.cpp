@@ -1,9 +1,11 @@
 ﻿#include "pch.h"
 #include "PlayerIdleState.h"
 #include "PlayerAttackState.h"
+#include "PlayerMoveState.h"
 
 #include "Actor/Character/Player/PlayerController.h"
 #include "Actor/Component/RigidBodyComponent.h"
+#include "Actor/Component/Animator/AnimatorComponent.h"
 #include "Input/Keyboard.h"
 #include "Math/Vector2.h"
 
@@ -17,6 +19,13 @@ void PlayerIdleState::OnTick(float delta_time)
     State::OnTick(delta_time);
 
     Keyboard* keyboard = Keyboard::Get();
+
+    const float h = keyboard->IsKeyDown(VK_RIGHT) - keyboard->IsKeyDown(VK_LEFT);
+    if (h != 0.f)
+    {
+        PlayerController* player = dynamic_cast<PlayerController*>(owner_);
+        player->ChangeState(std::make_shared<PlayerMoveState>(player));
+    }
 
     if (keyboard->IsKeyPressed('C'))
     {
@@ -37,8 +46,13 @@ void PlayerIdleState::OnTick(float delta_time)
         PlayerController* player = dynamic_cast<PlayerController*>(owner_);
         if (player)
         {
-            //owner_->ChangeState(std::make_shared<PlayerAttackState>(this));
+            player->ChangeState(std::make_shared<PlayerAttackState>(player));
         }
-
     }
+}
+
+void PlayerIdleState::OnEnter()
+{
+    PlayerController* player = dynamic_cast<PlayerController*>(owner_);
+    player->GetAnimator()->PlayClip(L"Idle");
 }
