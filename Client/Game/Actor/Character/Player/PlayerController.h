@@ -9,7 +9,7 @@ enum class PlayerStates
 
 class PlayerController : public CharacterBase
 {
-    DECLARE_SHARED_CLASS(CharacterBase, PlayerController)
+    DECLARE_SHARED_CLASS(PlayerController, CharacterBase)
     
 public:
     PlayerController(const std::wstring& kName);

@@ -8,7 +8,7 @@ class BoxColliderComponent;
 
 class CharacterBase : public StateMachine
 {
-    DECLARE_SHARED_CLASS(StateMachine, CharacterBase)
+    DECLARE_SHARED_CLASS(CharacterBase, StateMachine)
     
 public:
     CharacterBase(const std::wstring& kName);

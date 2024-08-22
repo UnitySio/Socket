@@ -11,7 +11,7 @@ class Sprite;
 
 class SpriteRendererComponent : public ActorComponent
 {
-    DECLARE_SHARED_CLASS(ActorComponent, SpriteRendererComponent)
+    DECLARE_SHARED_CLASS(SpriteRendererComponent, ActorComponent)
     
 public:
     SpriteRendererComponent(class Actor* owner, const std::wstring& kName);

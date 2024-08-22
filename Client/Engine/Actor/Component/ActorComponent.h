@@ -8,7 +8,7 @@
 enum class EndPlayReason : size_t;
 class ActorComponent : public Object, public std::enable_shared_from_this<ActorComponent>
 {
-    DECLARE_SHARED_CLASS(ActorComponent, Object)
+    DECLARE_SHARED_CLASS(Object, ActorComponent)
     
 public:
     ActorComponent(class Actor* owner, const std::wstring& kName);

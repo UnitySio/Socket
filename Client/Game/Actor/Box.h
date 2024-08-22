@@ -3,7 +3,7 @@
 
 class Box : public Actor
 {
-    DECLARE_SHARED_CLASS(Actor, Box)
+    DECLARE_SHARED_CLASS(Box, Actor)
     
 public:
     Box(const std::wstring& kName);

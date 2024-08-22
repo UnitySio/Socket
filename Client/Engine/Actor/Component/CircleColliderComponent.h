@@ -3,7 +3,7 @@
 
 class CircleColliderComponent : public ColliderComponent
 {
-    DECLARE_SHARED_CLASS(ColliderComponent, CircleColliderComponent)
+    DECLARE_SHARED_CLASS(CircleColliderComponent, ColliderComponent)
     
 public:
     CircleColliderComponent(Actor* owner, const std::wstring& kName);

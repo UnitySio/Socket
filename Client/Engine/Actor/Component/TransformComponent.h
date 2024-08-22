@@ -5,7 +5,7 @@
 
 class TransformComponent : public ActorComponent
 {
-    DECLARE_SHARED_CLASS(ActorComponent, TransformComponent)
+    DECLARE_SHARED_CLASS(TransformComponent, ActorComponent)
     
 public:
     TransformComponent(class Actor* owner, const std::wstring& kName);

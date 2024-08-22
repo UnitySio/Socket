@@ -3,7 +3,7 @@
 
 class BoxColliderComponent : public ColliderComponent
 {
-    DECLARE_SHARED_CLASS(ColliderComponent, BoxColliderComponent)
+    DECLARE_SHARED_CLASS(BoxColliderComponent, ColliderComponent)
     
 public:
     BoxColliderComponent(Actor* owner, const std::wstring& kName);

@@ -3,7 +3,7 @@
 
 class Tilemap : public Actor
 {
-    DECLARE_SHARED_CLASS(Actor, Tilemap)
+    DECLARE_SHARED_CLASS(Tilemap, Actor)
     
 public:
     Tilemap(const std::wstring& kName);
