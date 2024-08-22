@@ -60,4 +60,5 @@
         std::shared_ptr<class_name> GetSharedThis() \
         { \
             return std::dynamic_pointer_cast<class_name>(shared_from_this()); \
-        }
+        } \
+    private:
