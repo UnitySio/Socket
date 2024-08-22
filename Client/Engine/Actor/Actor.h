@@ -10,6 +10,7 @@
 #include "Misc/DelegateMacros.h"
 #include "Misc/EngineMacros.h"
 #include "Time/TimerManager.h"
+#include "box2d/box2d.h"
 
 class Actor;
 DECLARE_DELEGATE(ContactSignature, Actor*);
@@ -112,6 +113,8 @@ private:
     // 추후 정리 예정
     friend class Level;
     friend class ColliderComponent;
+    friend class BoxColliderComponent;
+    friend class CircleColliderComponent;
     friend class RigidBodyComponent;
     friend class TransformComponent;
     friend class PlayerController;

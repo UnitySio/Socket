@@ -1,6 +1,6 @@
 ﻿#pragma once
 #include "ActorComponent.h"
-#include "box2d/b2_body.h"
+#include "box2d/types.h"
 
 namespace Math
 {

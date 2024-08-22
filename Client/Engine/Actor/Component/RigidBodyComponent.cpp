@@ -3,13 +3,12 @@
 
 #include "TransformComponent.h"
 #include "Actor/Actor.h"
-#include "box2d/b2_body.h"
 #include "Math/Vector2.h"
 
 RigidBodyComponent::RigidBodyComponent(Actor* owner, const std::wstring& kName) :
     ActorComponent(owner, kName)
 {
-    if (!GetOwner()->body_) GetOwner()->CreateBody();
+    if (!b2Body_IsValid(GetOwner()->body_id_)) GetOwner()->CreateBody();
 }
 
 void RigidBodyComponent::SetBodyType(BodyType type)
@@ -17,21 +16,21 @@ void RigidBodyComponent::SetBodyType(BodyType type)
     Actor* owner = GetOwner();
     assert(owner);
 
-    b2Body* body = owner->body_;
-    assert(body);
+    b2BodyId body_id = owner->body_id_;
+    assert(b2Body_IsValid(body_id));
 
     switch (type)
     {
     case BodyType::kDynamic:
-        body->SetType(b2_dynamicBody);
+        b2Body_SetType(body_id, b2_dynamicBody);
         break;
 
     case BodyType::kKinematic:
-        body->SetType(b2_kinematicBody);
+        b2Body_SetType(body_id, b2_kinematicBody);
         break;
 
     case BodyType::kStatic:
-        body->SetType(b2_staticBody);
+        b2Body_SetType(body_id, b2_staticBody);
         break;
     }
 }
@@ -41,10 +40,10 @@ void RigidBodyComponent::SetGravityScale(float scale)
     Actor* owner = GetOwner();
     assert(owner);
 
-    b2Body* body = owner->body_;
-    assert(body);
+    b2BodyId body_id = owner->body_id_;
+    assert(b2Body_IsValid(body_id));
 
-    body->SetGravityScale(scale);
+    b2Body_SetGravityScale(body_id, scale);
 }
 
 void RigidBodyComponent::SetSleepMode(SleepMode mode)
@@ -52,17 +51,17 @@ void RigidBodyComponent::SetSleepMode(SleepMode mode)
     Actor* owner = GetOwner();
     assert(owner);
 
-    b2Body* body = owner->body_;
-    assert(body);
+    b2BodyId body_id = owner->body_id_;
+    assert(b2Body_IsValid(body_id));
 
     switch (mode)
     {
     case SleepMode::kNeverSleep:
-        body->SetSleepingAllowed(false);
+        b2Body_EnableSleep(body_id, false);
         break;
 
     case SleepMode::kStartAwake:
-        body->SetSleepingAllowed(true);
+        b2Body_EnableSleep(body_id, true);
         break;
     }
 }
@@ -72,17 +71,17 @@ void RigidBodyComponent::SetCollisionDetectionMode(CollisionDetectionMode mode)
     Actor* owner = GetOwner();
     assert(owner);
 
-    b2Body* body = owner->body_;
-    assert(body);
+    b2BodyId body_id = owner->body_id_;
+    assert(b2Body_IsValid(body_id));
 
     switch (mode)
     {
     case CollisionDetectionMode::kDiscrete:
-        body->SetBullet(false);
+        b2Body_SetBullet(body_id, false);
         break;
 
     case CollisionDetectionMode::kContinuous:
-        body->SetBullet(true);
+        b2Body_SetBullet(body_id, true);
         break;
     }
 }
@@ -92,10 +91,10 @@ void RigidBodyComponent::SetFreezeRotation(bool freeze)
     Actor* owner = GetOwner();
     assert(owner);
 
-    b2Body* body = owner->body_;
-    assert(body);
-
-    body->SetFixedRotation(freeze);
+    b2BodyId body_id = owner->body_id_;
+    assert(b2Body_IsValid(body_id));
+    
+    b2Body_SetFixedRotation(body_id, freeze);
 }
 
 void RigidBodyComponent::SetVelocity(const Math::Vector2& kVelocity)
@@ -103,10 +102,10 @@ void RigidBodyComponent::SetVelocity(const Math::Vector2& kVelocity)
     Actor* owner = GetOwner();
     assert(owner);
 
-    b2Body* body = owner->body_;
-    assert(body);
-
-    body->SetLinearVelocity({kVelocity.x, kVelocity.y});
+    b2BodyId body_id = owner->body_id_;
+    assert(b2Body_IsValid(body_id));
+    
+    b2Body_SetLinearVelocity(body_id, {kVelocity.x, kVelocity.y});
 }
 
 void RigidBodyComponent::SetAngularVelocity(float velocity)
@@ -114,10 +113,10 @@ void RigidBodyComponent::SetAngularVelocity(float velocity)
     Actor* owner = GetOwner();
     assert(owner);
 
-    b2Body* body = owner->body_;
-    assert(body);
+    b2BodyId body_id = owner->body_id_;
+    assert(b2Body_IsValid(body_id));
 
-    body->SetAngularVelocity(velocity);
+    b2Body_SetAngularVelocity(body_id, velocity);
 }
 
 void RigidBodyComponent::AddForce(const Math::Vector2& kForce, ForceMode mode)
@@ -125,17 +124,17 @@ void RigidBodyComponent::AddForce(const Math::Vector2& kForce, ForceMode mode)
     Actor* owner = GetOwner();
     assert(owner);
 
-    b2Body* body = owner->body_;
-    assert(body);
+    b2BodyId body_id = owner->body_id_;
+    assert(b2Body_IsValid(body_id));
 
     switch (mode)
     {
     case ForceMode::kForce:
-        body->ApplyForce({kForce.x, kForce.y}, body->GetWorldCenter(), true);
+        b2Body_ApplyForceToCenter(body_id, {kForce.x, kForce.y}, true);
         break;
 
     case ForceMode::kImpulse:
-        body->ApplyLinearImpulse({kForce.x, kForce.y}, body->GetWorldCenter(), true);
+        b2Body_ApplyLinearImpulseToCenter(body_id, {kForce.x, kForce.y}, true);
         break;
     }
 }
@@ -145,17 +144,17 @@ void RigidBodyComponent::AddForceAtPosition(const Math::Vector2& kForce, const M
     Actor* owner = GetOwner();
     assert(owner);
 
-    b2Body* body = owner->body_;
-    assert(body);
+    b2BodyId body_id = owner->body_id_;
+    assert(b2Body_IsValid(body_id));
 
     switch (mode)
     {
     case ForceMode::kForce:
-        body->ApplyForce({kForce.x, kForce.y}, {kPosition.x, kPosition.y}, true);
+        b2Body_ApplyForce(body_id, {kForce.x, kForce.y}, {kPosition.x, kPosition.y}, true);
         break;
 
     case ForceMode::kImpulse:
-        body->ApplyLinearImpulse({kForce.x, kForce.y}, {kPosition.x, kPosition.y}, true);
+        b2Body_ApplyLinearImpulse(body_id, {kForce.x, kForce.y}, {kPosition.x, kPosition.y}, true);
         break;
     }
 }
@@ -165,17 +164,17 @@ void RigidBodyComponent::AddTorque(float torque, ForceMode mode)
     Actor* owner = GetOwner();
     assert(owner);
 
-    b2Body* body = owner->body_;
-    assert(body);
+    b2BodyId body_id = owner->body_id_;
+    assert(b2Body_IsValid(body_id));
 
     switch (mode)
     {
     case ForceMode::kForce:
-        body->ApplyTorque(torque, true);
+        b2Body_ApplyTorque(body_id, torque, true);
         break;
 
     case ForceMode::kImpulse:
-        body->ApplyAngularImpulse(torque, true);
+        b2Body_ApplyAngularImpulse(body_id, torque, true);
         break;
     }
 }
@@ -185,10 +184,10 @@ void RigidBodyComponent::Sleep()
     Actor* owner = GetOwner();
     assert(owner);
 
-    b2Body* body = owner->body_;
-    assert(body);
+    b2BodyId body_id = owner->body_id_;
+    assert(b2Body_IsValid(body_id));
 
-    body->SetAwake(false);
+    b2Body_SetAwake(body_id, false);
 }
 
 void RigidBodyComponent::WakeUp()
@@ -196,10 +195,10 @@ void RigidBodyComponent::WakeUp()
     Actor* owner = GetOwner();
     assert(owner);
 
-    b2Body* body = owner->body_;
-    assert(body);
+    b2BodyId body_id = owner->body_id_;
+    assert(b2Body_IsValid(body_id));
 
-    body->SetAwake(true);
+    b2Body_SetAwake(body_id, true);
 }
 
 Math::Vector2 RigidBodyComponent::GetVelocity() const
@@ -207,10 +206,11 @@ Math::Vector2 RigidBodyComponent::GetVelocity() const
     Actor* owner = GetOwner();
     assert(owner);
 
-    b2Body* body = owner->body_;
-    assert(body);
+    b2BodyId body_id = owner->body_id_;
+    assert(b2Body_IsValid(body_id));
 
-    return {body->GetLinearVelocity().x, body->GetLinearVelocity().y};
+    b2Vec2 velocity = b2Body_GetLinearVelocity(body_id);
+    return {velocity.x, velocity.y};
 }
 
 float RigidBodyComponent::GetAngularVelocity() const
@@ -218,10 +218,10 @@ float RigidBodyComponent::GetAngularVelocity() const
     Actor* owner = GetOwner();
     assert(owner);
 
-    b2Body* body = owner->body_;
-    assert(body);
+    b2BodyId body_id = owner->body_id_;
+    assert(b2Body_IsValid(body_id));
 
-    return body->GetAngularVelocity();
+    return b2Body_GetAngularVelocity(body_id);
 }
 
 bool RigidBodyComponent::IsAwake() const
@@ -229,10 +229,10 @@ bool RigidBodyComponent::IsAwake() const
     Actor* owner = GetOwner();
     assert(owner);
 
-    b2Body* body = owner->body_;
-    assert(body);
+    b2BodyId body_id = owner->body_id_;
+    assert(b2Body_IsValid(body_id));
 
-    return body->IsAwake();
+    return b2Body_IsAwake(body_id);
 }
 
 b2BodyType RigidBodyComponent::GetBodyType() const
@@ -240,8 +240,8 @@ b2BodyType RigidBodyComponent::GetBodyType() const
     Actor* owner = GetOwner();
     assert(owner);
 
-    b2Body* body = owner->body_;
-    assert(body);
+    b2BodyId body_id = owner->body_id_;
+    assert(b2Body_IsValid(body_id));
 
-    return body->GetType();
+    return b2Body_GetType(body_id);
 }

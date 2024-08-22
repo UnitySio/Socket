@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include "ActorComponent.h"
+#include "box2d/id.h"
 #include "Math/Bounds.h"
 #include "Math/Vector2.h"
 
@@ -18,9 +19,7 @@ public:
     const Bounds& GetBounds();
 
 protected:
-    void CreateFixture(class b2Shape* shape);
-    
-    class b2Fixture* fixture_;
+    b2ShapeId shape_id_;
 
     Math::Vector2 offset_;
     
