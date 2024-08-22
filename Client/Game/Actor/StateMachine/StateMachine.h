@@ -16,7 +16,6 @@ public:
     virtual void PostTick(float delta_time) override;
 
     void ChangeState(const std::shared_ptr<State>& new_state);
-
 private:
     std::shared_ptr<State> current_state_;
     

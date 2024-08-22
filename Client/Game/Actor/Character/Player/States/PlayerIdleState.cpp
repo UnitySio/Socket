@@ -1,5 +1,6 @@
 ﻿#include "pch.h"
 #include "PlayerIdleState.h"
+#include "PlayerAttackState.h"
 
 #include "Actor/Character/Player/PlayerController.h"
 #include "Actor/Component/RigidBodyComponent.h"
@@ -29,5 +30,15 @@ void PlayerIdleState::OnTick(float delta_time)
                 rigid_body->AddForce(Math::Vector2::Up() * 5.f, ForceMode::kImpulse);
             }
         }
+    }
+
+    if (keyboard->IsKeyPressed('Z'))
+    {
+        PlayerController* player = dynamic_cast<PlayerController*>(owner_);
+        if (player)
+        {
+            //owner_->ChangeState(std::make_shared<PlayerAttackState>(this));
+        }
+
     }
 }

@@ -17,6 +17,7 @@
 #include "Logger/Logger.h"
 #include "Resource/ResourceManager.h"
 #include "States/PlayerIdleState.h"
+#include "States/PlayerAttackState.h"
 #include "Windows/DX/UITexture.h"
 
 PlayerController::PlayerController(const std::wstring& kName) :
@@ -35,6 +36,12 @@ PlayerController::PlayerController(const std::wstring& kName) :
     int temp[] = {0, 1, 2, 3, 4, 5};
     std::shared_ptr<AnimationClip> clip = animator_->AddClip(L"Idle", temp, 6);
     clip->SetRepeat(true);
+    clip->SetFrameRate(6.f);
+
+    int attack1_indices[] = { 18, 19, 20, 21, 22, 23 };
+    clip = animator_->AddClip(L"Attack1", attack1_indices, 6);
+    //clip->AddEvent([] {})
+    clip->SetRepeat(false);
     clip->SetFrameRate(6.f);
 
     int walk_indices[] = {9, 10, 11, 12, 13, 14, 15, 16};
@@ -98,9 +105,9 @@ void PlayerController::Tick(float delta_time)
     
     Keyboard* keyboard = Keyboard::Get();
     
-    if (keyboard->IsKeyPressed('Z'))
+    /*if (keyboard->IsKeyPressed('Z'))
     {
         Box* box = SpawnActor<Box>(L"Box");
         box->GetTransform()->SetRelativePosition(GetTransform()->GetWorldPosition());
-    }
+    }*/
 }

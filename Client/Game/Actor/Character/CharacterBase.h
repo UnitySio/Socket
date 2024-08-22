@@ -2,9 +2,10 @@
 #include "Actor/Actor.h"
 #include "Actor/StateMachine/StateMachine.h"
 
-class AnimatorComponent;
 class SpriteRendererComponent;
+class AnimatorComponent;
 class BoxColliderComponent;
+class RigidBodyComponent;
 
 class CharacterBase : public StateMachine
 {
@@ -15,6 +16,7 @@ public:
     virtual ~CharacterBase() override = default;
 
     inline SpriteRendererComponent* GetSpriteRenderer() const { return sprite_renderer_; }
+    inline AnimatorComponent* GetAnimator() const { return animator_; }
     inline BoxColliderComponent* GetBoxCollider() const { return box_collider_; }
     inline RigidBodyComponent* GetRigidBody() const { return rigid_body_; }
 
