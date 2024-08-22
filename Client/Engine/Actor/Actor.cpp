@@ -60,7 +60,7 @@ void Actor::OnTriggerExit(Actor* other)
 
 void Actor::BeginPlay()
 {
-    if (b2Body_IsValid(body_id_) && b2Body_IsEnabled(body_id_)) b2Body_Enable(body_id_);
+    if (b2Body_IsValid(body_id_) && !b2Body_IsEnabled(body_id_)) b2Body_Enable(body_id_);
     
     for (const auto& component : components_)
     {
@@ -99,25 +99,25 @@ void Actor::Destroyed()
 
 void Actor::PhysicsTick(float delta_time)
 {
-    b2WorldId world_id = World::Get()->world_id_;
-    b2ContactEvents contact_events = b2World_GetContactEvents(world_id);
-    for (MathTypes::uint32 i = 0; i < contact_events.beginCount; ++i)
-    {
-        b2ContactBeginTouchEvent* contact_event = contact_events.beginEvents + i;
-        
-        b2BodyId body_a_id = b2Shape_GetBody(contact_event->shapeIdA);
-        b2BodyId body_b_id = b2Shape_GetBody(contact_event->shapeIdB);
-
-        Actor* actor_a = static_cast<Actor*>(b2Body_GetUserData(body_a_id));
-        Actor* actor_b = static_cast<Actor*>(b2Body_GetUserData(body_b_id));
-
-        if (!actor_a || !actor_b) continue;
-        
-        actor_a->OnCollisionEnter(actor_b);
-        actor_b->OnCollisionEnter(actor_a);
-    }
-    
-    b2SensorEvents sensor_events = b2World_GetSensorEvents(world_id);
+    // b2WorldId world_id = World::Get()->world_id_;
+    // b2ContactEvents contact_events = b2World_GetContactEvents(world_id);
+    // for (MathTypes::uint32 i = 0; i < contact_events.beginCount; ++i)
+    // {
+    //     b2ContactBeginTouchEvent* contact_event = contact_events.beginEvents + i;
+    //     
+    //     b2BodyId body_a_id = b2Shape_GetBody(contact_event->shapeIdA);
+    //     b2BodyId body_b_id = b2Shape_GetBody(contact_event->shapeIdB);
+    //
+    //     Actor* actor_a = static_cast<Actor*>(b2Body_GetUserData(body_a_id));
+    //     Actor* actor_b = static_cast<Actor*>(b2Body_GetUserData(body_b_id));
+    //
+    //     if (!actor_a || !actor_b) continue;
+    //     
+    //     actor_a->OnCollisionEnter(actor_b);
+    //     actor_b->OnCollisionEnter(actor_a);
+    // }
+    //
+    // b2SensorEvents sensor_events = b2World_GetSensorEvents(world_id);
     
     for (const auto& component : components_)
     {
@@ -238,7 +238,7 @@ void Actor::UninitializeComponents()
 
 void Actor::CreateBody()
 {
-    b2BodyDef body_def;
+    b2BodyDef body_def = b2DefaultBodyDef();
     body_def.userData = this;
 
     body_id_ = b2CreateBody(World::Get()->world_id_, &body_def);

@@ -5,6 +5,7 @@
 #include "Actor/Component/BoxColliderComponent.h"
 #include "Actor/Component/RigidBodyComponent.h"
 #include "Actor/Component/TransformComponent.h"
+#include "Logger/Logger.h"
 #include "Windows/DX/Shape.h"
 #include "Windows/DX/Sprite.h"
 
@@ -33,5 +34,11 @@ void Box::BeginPlay()
 {
     Actor::BeginPlay();
 
-    SetLifeSpan(1.f);
+    // SetLifeSpan(1.f);
+}
+
+void Box::Tick(float delta_time)
+{
+    Actor::Tick(delta_time);
+
 }

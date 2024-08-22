@@ -7,6 +7,7 @@
 
 #include "TilemapChunk.h"
 #include "TilemapLayer.h"
+#include "box2d/id.h"
 
 class Shape;
 
@@ -34,6 +35,7 @@ private:
     Math::Vector2 map_size_;
 
     std::vector<std::unique_ptr<TilemapLayer>> tilemap_layers_;
-    class b2Body* tilemap_body_;
+
+    b2BodyId tilemap_body_id_;
     
 };

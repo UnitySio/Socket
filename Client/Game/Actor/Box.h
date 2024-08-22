@@ -10,6 +10,7 @@ public:
     virtual ~Box() override = default;
 
     virtual void BeginPlay() override;
+    virtual void Tick(float delta_time) override;
 
 private:
     class SpriteRendererComponent* sprite_renderer_;

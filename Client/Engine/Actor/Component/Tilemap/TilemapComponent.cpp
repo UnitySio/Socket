@@ -13,8 +13,7 @@
 
 TilemapComponent::TilemapComponent(Actor* owner, const std::wstring& kName) :
 	ActorComponent(owner, kName),
-	tilemap_layers_(),
-	tilemap_body_(nullptr)
+	tilemap_layers_()
 {
 }
 
@@ -22,14 +21,14 @@ void TilemapComponent::InitializeComponent()
 {
 	ActorComponent::InitializeComponent();
 
-	if (tilemap_body_) tilemap_body_->SetEnabled(true);
+	if (b2Body_IsValid(tilemap_body_id_)) b2Body_Enable(tilemap_body_id_);
 }
 
 void TilemapComponent::UninitializeComponent()
 {
 	ActorComponent::UninitializeComponent();
 
-	if (tilemap_body_) World::Get()->physics_world_->DestroyBody(tilemap_body_);
+	if (b2Body_IsValid(tilemap_body_id_)) b2DestroyBody(tilemap_body_id_);
 }
 
 void TilemapComponent::Render(float alpha)
@@ -81,22 +80,19 @@ void TilemapComponent::GeneratePhysics(const tmx::ObjectGroup& object)
 {
 	const auto& objects = object.getObjects();
 
-	b2BodyDef body_def;
-	body_def.userData.pointer = reinterpret_cast<uintptr_t>(GetOwner());
+	b2BodyDef body_def = b2DefaultBodyDef();
+	body_def.userData = GetOwner();
 	
-	tilemap_body_ = World::Get()->physics_world_->CreateBody(&body_def);
+	tilemap_body_id_ = b2CreateBody(World::Get()->world_id_, &body_def);
 
 	for (const auto& temp : objects)
 	{
-		b2PolygonShape shape;
+		b2Polygon shape;
 		
 		if (temp.getShape() == tmx::Object::Shape::Rectangle)
 		{
-			shape.SetAsBox(
-				temp.getAABB().width / 2 / PPU, temp.getAABB().height / 2 / PPU,
-				{temp.getPosition().x / PPU + ((temp.getAABB().width / 2) / PPU) - map_size_.x / 2.f, -1 * temp.getPosition().y / PPU - ((temp.getAABB().height / 2) / PPU) + map_size_.y / 2.f},
-				0.f
-			);
+			b2Vec2 center = {temp.getPosition().x / PPU + ((temp.getAABB().width / 2) / PPU) - map_size_.x / 2.f, -1 * temp.getPosition().y / PPU - ((temp.getAABB().height / 2) / PPU) + map_size_.y / 2.f};
+			shape = b2MakeOffsetBox(temp.getAABB().width / 2 / PPU, temp.getAABB().height / 2 / PPU, center, 0.f);
 		}
 		else if (temp.getShape() == tmx::Object::Shape::Polygon)
 		{
@@ -108,19 +104,19 @@ void TilemapComponent::GeneratePhysics(const tmx::ObjectGroup& object)
 				vertices.push_back(vertex);
 			}
 
-			shape.Set(vertices.data(), vertices.size());
+			b2Hull hull = b2ComputeHull(vertices.data(), vertices.size());
+			shape = b2MakePolygon(&hull, 0.f);
 		}
 		
 		b2Filter filter;
 		filter.categoryBits = GetOwner()->GetLayer();
 		filter.maskBits = ProjectSettings::kLayerCollisionMatrix.at(GetOwner()->GetLayer());
 		
-		b2FixtureDef fixture_def;
-		fixture_def.shape = &shape;
-		fixture_def.filter = filter;
-		
-		tilemap_body_->CreateFixture(&fixture_def);
+		b2ShapeDef shape_def = b2DefaultShapeDef();
+		// shape_def.filter = filter;
+
+		b2CreatePolygonShape(tilemap_body_id_, &shape_def, &shape);
 	}
 
-	tilemap_body_->SetEnabled(false);
+	b2Body_Disable(tilemap_body_id_);
 }
