@@ -5,7 +5,7 @@
 
 class ColliderComponent : public ActorComponent
 {
-    DECLARE_SHARED_CLASS(ColliderComponent, ActorComponent)
+    SHADER_CLASS_HELPER(ColliderComponent)
     
 public:
     ColliderComponent(Actor* owner, const std::wstring& kName);

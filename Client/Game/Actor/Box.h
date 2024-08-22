@@ -3,7 +3,7 @@
 
 class Box : public Actor
 {
-    DECLARE_SHARED_CLASS(Box, Actor)
+    SHADER_CLASS_HELPER(Box)
     
 public:
     Box(const std::wstring& kName);

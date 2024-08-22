@@ -7,7 +7,7 @@
 #include "Windows/DX/Renderer.h"
 
 CameraComponent::CameraComponent(Actor* owner, const std::wstring& kName) :
-    Super(owner, kName),
+    ActorComponent(owner, kName),
     size_(5.f),
     near_z_(.3f),
     far_z_(1000.f),
@@ -18,7 +18,7 @@ CameraComponent::CameraComponent(Actor* owner, const std::wstring& kName) :
 
 void CameraComponent::InitializeComponent()
 {
-    Super::InitializeComponent();
+    ActorComponent::InitializeComponent();
 
     World::Get()->SetCamera(GetOwner()->GetSharedThis());
 
@@ -27,7 +27,7 @@ void CameraComponent::InitializeComponent()
 
 void CameraComponent::TickComponent(float delta_time)
 {
-    Super::TickComponent(delta_time);
+    ActorComponent::TickComponent(delta_time);
 
     TransformComponent* transform = GetOwner()->GetTransform();
     Math::Vector2 position = transform->GetWorldPosition();

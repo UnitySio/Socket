@@ -6,7 +6,7 @@
 #include "box2d/b2_fixture.h"
 
 ColliderComponent::ColliderComponent(Actor* owner, const std::wstring& kName) :
-    Super(owner, kName),
+    ActorComponent(owner, kName),
     fixture_(nullptr),
     offset_(Math::Vector2::Zero())
 {

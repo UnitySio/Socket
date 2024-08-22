@@ -58,7 +58,7 @@ struct FocusArea
 
 class FollowCamera : public Actor
 {
-    DECLARE_SHARED_CLASS(FollowCamera, Actor)
+    SHADER_CLASS_HELPER(FollowCamera)
     
 public:
     FollowCamera(const std::wstring& kName);

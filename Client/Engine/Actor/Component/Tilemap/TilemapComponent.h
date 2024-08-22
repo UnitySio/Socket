@@ -12,7 +12,7 @@ class Shape;
 
 class TilemapComponent : public ActorComponent
 {
-    DECLARE_SHARED_CLASS(TilemapComponent, ActorComponent)
+    SHADER_CLASS_HELPER(TilemapComponent)
     
     const float PPU = 32.f;
     const MathTypes::uint32 VertexBufferSize = 2048;

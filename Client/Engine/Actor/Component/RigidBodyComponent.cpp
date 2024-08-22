@@ -7,7 +7,7 @@
 #include "Math/Vector2.h"
 
 RigidBodyComponent::RigidBodyComponent(Actor* owner, const std::wstring& kName) :
-    Super(owner, kName)
+    ActorComponent(owner, kName)
 {
     if (!GetOwner()->body_) GetOwner()->CreateBody();
 }

@@ -8,7 +8,7 @@ class BoxColliderComponent;
 
 class CharacterBase : public StateMachine
 {
-    DECLARE_SHARED_CLASS(CharacterBase, StateMachine)
+    SHADER_CLASS_HELPER(CharacterBase)
     
 public:
     CharacterBase(const std::wstring& kName);

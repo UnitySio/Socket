@@ -4,7 +4,7 @@
 
 class CameraComponent : public ActorComponent
 {
-    DECLARE_SHARED_CLASS(CameraComponent, ActorComponent);
+    SHADER_CLASS_HELPER(CameraComponent);
     
 public:
     CameraComponent(Actor* owner, const std::wstring& kName);

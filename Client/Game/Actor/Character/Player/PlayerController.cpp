@@ -20,7 +20,7 @@
 #include "Windows/DX/UITexture.h"
 
 PlayerController::PlayerController(const std::wstring& kName) :
-    Super(kName)
+    CharacterBase(kName)
 {
     // ResourceManager::Get()->Load<Sprite>(L"Soldier", L".\\Game_Data\\Soldier.png");
     // Sprite* sprite = ResourceManager::Get()->GetResource<Sprite>(L"Soldier");
@@ -59,7 +59,7 @@ PlayerController::PlayerController(const std::wstring& kName) :
 
 void PlayerController::BeginPlay()
 {
-    Super::BeginPlay();
+    CharacterBase::BeginPlay();
 
     float x = DataManager::GetFloat(L"PlayerX", 0.f);
     float y = DataManager::GetFloat(L"PlayerY", 0.f);
@@ -68,7 +68,7 @@ void PlayerController::BeginPlay()
 
 void PlayerController::EndPlay(EndPlayReason type)
 {
-    Super::EndPlay(type);
+    CharacterBase::EndPlay(type);
     
     Math::Vector2 position = GetTransform()->GetWorldPosition();
     DataManager::SetFloat(L"PlayerX", position.x);
@@ -77,7 +77,7 @@ void PlayerController::EndPlay(EndPlayReason type)
 
 void PlayerController::PhysicsTick(float delta_time)
 {
-    Super::PhysicsTick(delta_time);
+    CharacterBase::PhysicsTick(delta_time);
 
     Keyboard* keyboard = Keyboard::Get();
 
@@ -94,7 +94,7 @@ void PlayerController::PhysicsTick(float delta_time)
 
 void PlayerController::Tick(float delta_time)
 {
-    Super::Tick(delta_time);
+    CharacterBase::Tick(delta_time);
     
     Keyboard* keyboard = Keyboard::Get();
     

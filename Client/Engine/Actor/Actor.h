@@ -19,7 +19,7 @@ class TransformComponent;
 
 class Actor : public Object, public std::enable_shared_from_this<Actor>
 {
-    DECLARE_SHARED_CLASS(Actor, Object)
+    SHADER_CLASS_HELPER(Actor)
     
 public:
     Actor(const std::wstring& kName);

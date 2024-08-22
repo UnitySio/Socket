@@ -3,7 +3,7 @@
 
 class CircleColliderComponent : public ColliderComponent
 {
-    DECLARE_SHARED_CLASS(CircleColliderComponent, ColliderComponent)
+    SHADER_CLASS_HELPER(CircleColliderComponent)
     
 public:
     CircleColliderComponent(Actor* owner, const std::wstring& kName);

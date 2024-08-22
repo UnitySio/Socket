@@ -5,7 +5,7 @@ class State;
 
 class StateMachine : public Actor
 {
-    DECLARE_SHARED_CLASS(StateMachine, Actor)
+    SHADER_CLASS_HELPER(StateMachine)
     
 public:
     StateMachine(const std::wstring& kName);

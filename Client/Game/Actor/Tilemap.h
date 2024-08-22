@@ -3,7 +3,7 @@
 
 class Tilemap : public Actor
 {
-    DECLARE_SHARED_CLASS(Tilemap, Actor)
+    SHADER_CLASS_HELPER(Tilemap)
     
 public:
     Tilemap(const std::wstring& kName);

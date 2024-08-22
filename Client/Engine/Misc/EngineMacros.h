@@ -50,12 +50,7 @@
         Logger::Get()->AddWarningLog(format, __VA_ARGS__); \
     } while (0)
 
-#define DECLARE_CLASS(class_name, parent_class_name) \
-    typedef parent_class_name Super;
-
-#define DECLARE_SHARED_CLASS(class_name, parent_class_name) \
-    DECLARE_CLASS(class_name, parent_class_name) \
-    \
+#define SHADER_CLASS_HELPER(class_name) \
     public: \
         std::shared_ptr<class_name> GetSharedThis() \
         { \

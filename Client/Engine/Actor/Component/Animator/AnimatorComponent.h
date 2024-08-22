@@ -10,7 +10,7 @@ class AnimationEvent;
 
 class AnimatorComponent : public ActorComponent
 {
-    DECLARE_SHARED_CLASS(AnimatorComponent, ActorComponent)
+    SHADER_CLASS_HELPER(AnimatorComponent)
     
 public:
     AnimatorComponent(class Actor* owner, const std::wstring& kName);

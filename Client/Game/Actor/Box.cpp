@@ -8,7 +8,7 @@
 #include "Windows/DX/Shape.h"
 #include "Windows/DX/Sprite.h"
 
-Box::Box(const std::wstring& kName) : Super(kName)
+Box::Box(const std::wstring& kName) : Actor(kName)
 {
     sprite_renderer_ = CreateComponent<SpriteRendererComponent>(L"SpriteRenderer");
     
@@ -31,7 +31,7 @@ Box::Box(const std::wstring& kName) : Super(kName)
 
 void Box::BeginPlay()
 {
-    Super::BeginPlay();
+    Actor::BeginPlay();
 
     SetLifeSpan(1.f);
 }

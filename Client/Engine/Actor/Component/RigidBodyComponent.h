@@ -34,7 +34,7 @@ enum class ForceMode : size_t
 
 class RigidBodyComponent : public ActorComponent
 {
-    DECLARE_SHARED_CLASS(RigidBodyComponent, ActorComponent)
+    SHADER_CLASS_HELPER(RigidBodyComponent)
     
 public:
     RigidBodyComponent(class Actor* owner, const std::wstring& kName);
