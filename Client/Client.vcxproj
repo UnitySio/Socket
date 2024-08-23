@@ -146,6 +146,7 @@
     <ClInclude Include="Engine\Actor\Component\Animator\AnimatorComponent.h" />
     <ClInclude Include="Engine\Actor\Component\BoxColliderComponent.h" />
     <ClInclude Include="Engine\Actor\Component\CameraComponent.h" />
+    <ClInclude Include="Engine\Actor\Component\CapsuleColliderComponent.h" />
     <ClInclude Include="Engine\Actor\Component\CircleColliderComponent.h" />
     <ClInclude Include="Engine\Actor\Component\ColliderComponent.h" />
     <ClInclude Include="Engine\Actor\Component\RigidBodyComponent.h" />
@@ -157,7 +158,6 @@
     <ClInclude Include="Engine\Audio\AudioManager.h" />
     <ClInclude Include="Engine\Core.h" />
     <ClInclude Include="Engine\Data\DataManager.h" />
-    <ClInclude Include="Engine\DebugDraw.h" />
     <ClInclude Include="Engine\Enums.h" />
     <ClInclude Include="Engine\GameEngine.h" />
     <ClInclude Include="Engine\Input\Keyboard.h" />
@@ -331,6 +331,7 @@
     <ClCompile Include="Engine\Actor\Component\Animator\AnimatorComponent.cpp" />
     <ClCompile Include="Engine\Actor\Component\BoxColliderComponent.cpp" />
     <ClCompile Include="Engine\Actor\Component\CameraComponent.cpp" />
+    <ClCompile Include="Engine\Actor\Component\CapsuleColliderComponent.cpp" />
     <ClCompile Include="Engine\Actor\Component\CircleColliderComponent.cpp" />
     <ClCompile Include="Engine\Actor\Component\ColliderComponent.cpp" />
     <ClCompile Include="Engine\Actor\Component\RigidBodyComponent.cpp" />
@@ -342,7 +343,6 @@
     <ClCompile Include="Engine\Audio\AudioManager.cpp" />
     <ClCompile Include="Engine\Core.cpp" />
     <ClCompile Include="Engine\Data\DataManager.cpp" />
-    <ClCompile Include="Engine\DebugDraw.cpp" />
     <ClCompile Include="Engine\GameEngine.cpp" />
     <ClCompile Include="Engine\Input\Keyboard.cpp" />
     <ClCompile Include="Engine\Input\Mouse.cpp" />

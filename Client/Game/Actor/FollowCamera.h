@@ -77,7 +77,7 @@ private:
     
     class Actor* target_;
 
-    class BoxColliderComponent* box_collider_;
+    class ColliderComponent* collider_;
 
     std::unique_ptr<FocusArea> focus_area_;
 

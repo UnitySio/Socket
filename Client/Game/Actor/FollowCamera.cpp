@@ -1,7 +1,8 @@
 ﻿#include "pch.h"
 #include "FollowCamera.h"
 
-#include "Actor/Component/BoxColliderComponent.h"
+#include "Actor/Component/ColliderComponent.h"
+#include "Actor/Component/CapsuleColliderComponent.h"
 #include "Actor/Component/CameraComponent.h"
 #include "Actor/Component/TransformComponent.h"
 #include "Character/Player/PlayerController.h"
@@ -10,7 +11,7 @@
 FollowCamera::FollowCamera(const std::wstring& kName) :
     Actor(kName),
     target_(nullptr),
-    box_collider_(nullptr),
+    collider_(nullptr),
     focus_area_(nullptr),
     focus_area_size_({3.f, 5.f}),
     vertical_offset_(1.f),
@@ -31,10 +32,10 @@ void FollowCamera::BeginPlay()
         CharacterBase* player = dynamic_cast<CharacterBase*>(target_);
         if (player)
         {
-            box_collider_ = player->GetBoxCollider();
-            if (box_collider_)
+            collider_ = player->GetCapsuleCollider();
+            if (collider_)
             {
-                Bounds bounds = box_collider_->GetBounds();
+                Bounds bounds = collider_->GetBounds();
                 focus_area_ = std::make_unique<FocusArea>(bounds, focus_area_size_);
             }
         }
@@ -47,7 +48,7 @@ void FollowCamera::PhysicsTick(float delta_time)
 
     if (IsValid(target_))
     {
-        Bounds bounds = box_collider_->GetBounds();
+        Bounds bounds = collider_->GetBounds();
         focus_area_->Tick(bounds);
     
         const Math::Vector2 position = GetTransform()->GetWorldPosition();

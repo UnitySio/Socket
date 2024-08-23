@@ -2,6 +2,7 @@
 #include "PlayerController.h"
 
 #include "Actor/Box.h"
+#include "Actor/Component/CapsuleColliderComponent.h"
 #include "Actor/Component/RigidBodyComponent.h"
 #include "Actor/Component/SpriteRendererComponent.h"
 #include "Actor/Component/TransformComponent.h"
@@ -24,6 +25,8 @@ PlayerController::PlayerController(const std::wstring& kName) :
 {
     // ResourceManager::Get()->Load<Sprite>(L"Soldier", L".\\Game_Data\\Soldier.png");
     // Sprite* sprite = ResourceManager::Get()->GetResource<Sprite>(L"Soldier");
+
+    capsule_collider_->SetSize({.5f, .5f});
     
     sprite_ = std::make_shared<Sprite>();
     CHECK_IF(sprite_->Load(L".\\Game_Data\\Soldier.png"), L"Failed to load texture");

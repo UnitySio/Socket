@@ -115,6 +115,7 @@ private:
     friend class ColliderComponent;
     friend class BoxColliderComponent;
     friend class CircleColliderComponent;
+    friend class CapsuleColliderComponent;
     friend class RigidBodyComponent;
     friend class TransformComponent;
     friend class PlayerController;

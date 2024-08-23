@@ -18,6 +18,8 @@ void ColliderComponent::SetOffset(const Math::Vector2& kOffset)
 
 const Bounds& ColliderComponent::GetBounds()
 {
+    if (!b2Shape_IsValid(shape_id_)) return Bounds();
+    
     b2AABB aabb = b2Shape_GetAABB(shape_id_);
 
     Bounds bounds;
