@@ -108,12 +108,12 @@ void TilemapComponent::GeneratePhysics(const tmx::ObjectGroup& object)
 			shape = b2MakePolygon(&hull, 0.f);
 		}
 		
-		b2Filter filter;
+		b2Filter filter = b2DefaultFilter();
 		filter.categoryBits = GetOwner()->GetLayer();
 		filter.maskBits = ProjectSettings::kLayerCollisionMatrix.at(GetOwner()->GetLayer());
 		
 		b2ShapeDef shape_def = b2DefaultShapeDef();
-		// shape_def.filter = filter;
+		shape_def.filter = filter;
 
 		b2CreatePolygonShape(tilemap_body_id_, &shape_def, &shape);
 	}

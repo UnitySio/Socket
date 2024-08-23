@@ -34,6 +34,9 @@ World::World() :
     world_def.gravity = gravity;
 
     world_id_ = b2CreateWorld(&world_def);
+
+    debug_draw_ = {
+    };
 }
 
 World::~World()
@@ -98,6 +101,8 @@ void World::Render(float alpha)
     {
         current_level_->Render(alpha);
     }
+    
+    b2World_Draw(world_id_, &debug_draw_);
 
     std::vector<std::shared_ptr<Shape>> shapes;
 

@@ -57,6 +57,7 @@ private:
     std::vector<std::shared_ptr<Shape>> shapes_;
 
     b2WorldId world_id_;
+    b2DebugDraw debug_draw_;
     
     Level* current_level_;
     Level* pending_level_;

@@ -37,7 +37,7 @@ void CircleColliderComponent::SetCircle()
     }
     else
     {
-        b2Filter filter;
+        b2Filter filter = b2DefaultFilter();
         filter.categoryBits = GetOwner()->GetLayer();
         filter.maskBits = ProjectSettings::kLayerCollisionMatrix.at(GetOwner()->GetLayer());
         

@@ -37,14 +37,14 @@ void BoxColliderComponent::SetBox()
     }
     else
     {
-        b2Filter filter;
+        b2Filter filter = b2DefaultFilter();
         filter.categoryBits = GetOwner()->GetLayer();
         filter.maskBits = ProjectSettings::kLayerCollisionMatrix.at(GetOwner()->GetLayer());
         
         b2ShapeDef shape_def = b2DefaultShapeDef();
         shape_def.density = 1.f;
         shape_def.friction = .3f;
-        // shape_def.filter = filter;
+        shape_def.filter = filter;
 
         shape_id_ = b2CreatePolygonShape(GetOwner()->body_id_, &shape_def, &box);
     }
