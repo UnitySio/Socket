@@ -12,6 +12,7 @@ public:
     virtual void SetOffset(const Math::Vector2& kOffset) override;
 
     void SetSize(Math::Vector2 size);
+    void SetTrigger(bool is_trigger);
 
 private:
     void SetBox();

@@ -25,6 +25,22 @@ void BoxColliderComponent::SetSize(Math::Vector2 size)
     SetBox();
 }
 
+void BoxColliderComponent::SetTrigger(bool is_trigger)
+{
+    if (!b2Shape_IsValid(shape_id_)) return;
+
+    b2Polygon box = b2Shape_GetPolygon(shape_id_);
+    
+    b2ShapeDef shape_def = b2DefaultShapeDef();
+    shape_def.density = b2Shape_GetDensity(shape_id_);
+    shape_def.friction = b2Shape_GetFriction(shape_id_);
+    shape_def.filter = b2Shape_GetFilter(shape_id_);
+    shape_def.isSensor = is_trigger;
+
+    b2DestroyShape(shape_id_);
+    shape_id_ = b2CreatePolygonShape(GetOwner()->body_id_, &shape_def, &box);
+}
+
 void BoxColliderComponent::SetBox()
 {
     const Math::Vector2 half_size = size_ * .5f;

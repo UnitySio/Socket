@@ -31,6 +31,7 @@ public:
     void Destroy();
     void SetActive(bool active);
     void SetLifeSpan(float life_span);
+    
     bool CompareTag(ActorTag tag) const;
 
     template <std::derived_from<ActorComponent> T>
@@ -123,6 +124,9 @@ private:
     friend class PlayerController;
     friend class ContactListener;
     friend class World;
+
+    void ProcessCollisionEvents();
+    void ProcessTriggerEvents();
 };
 
 template <std::derived_from<ActorComponent> T>

@@ -12,8 +12,6 @@ public:
     ColliderComponent(Actor* owner, const std::wstring& kName);
     virtual ~ColliderComponent() override = default;
 
-    void SetTrigger(bool isTrigger);
-
     virtual void SetOffset(const Math::Vector2& kOffset);
 
     const Bounds& GetBounds();

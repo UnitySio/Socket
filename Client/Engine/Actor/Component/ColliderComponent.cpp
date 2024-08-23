@@ -11,12 +11,6 @@ ColliderComponent::ColliderComponent(Actor* owner, const std::wstring& kName) :
     if (!b2Body_IsValid(GetOwner()->body_id_)) GetOwner()->CreateBody();
 }
 
-void ColliderComponent::SetTrigger(bool isTrigger)
-{
-    if (!b2Shape_IsValid(shape_id_)) return;
-    b2Shape_EnableSensorEvents(shape_id_, isTrigger);
-}
-
 void ColliderComponent::SetOffset(const Math::Vector2& kOffset)
 {
     offset_ = kOffset;
