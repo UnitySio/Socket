@@ -22,7 +22,7 @@ void TransformComponent::TickComponent(float delta_time)
     ActorComponent::TickComponent(delta_time);
     
     b2BodyId body_id = GetOwner()->body_id_;
-    if (!b2Body_IsValid(body_id) || b2Body_GetType(body_id) == b2_kinematicBody) return;
+    if (!b2Body_IsValid(body_id)) return;
     
     if (!GetOwner()->parent_)
     {
