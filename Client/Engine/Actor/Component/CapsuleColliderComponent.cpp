@@ -7,6 +7,7 @@
 
 CapsuleColliderComponent::CapsuleColliderComponent(Actor* owner, const std::wstring& kName) :
     ColliderComponent(owner, kName),
+    direction_(CapsuleDirection::Vertical),
     size_(Math::Vector2::One())
 {
 }
@@ -42,11 +43,20 @@ void CapsuleColliderComponent::SetTrigger(bool is_trigger)
 
 void CapsuleColliderComponent::SetCapsule()
 {
-    b2Capsule capsule = {
-        {offset_.x, offset_.y - size_.y},
-        {offset_.x, offset_.y + size_.y},
-        size_.x * .5f
-    };
+    b2Capsule capsule;
+
+    if (direction_ == CapsuleDirection::Horizontal)
+    {
+        capsule.center1 = {offset_.x - size_.x, offset_.y};
+        capsule.center2 = {offset_.x + size_.x, offset_.y};
+        capsule.radius = size_.y * .5f;
+    }
+    else
+    {
+        capsule.center1 = {offset_.x, offset_.y - size_.y};
+        capsule.center2 = {offset_.x, offset_.y + size_.y};
+        capsule.radius = size_.x * .5f;
+    }
 
     if (b2Shape_IsValid(shape_id_))
     {
