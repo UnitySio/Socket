@@ -45,6 +45,8 @@ private:
     friend class CameraComponent;
     friend class PlayerController;
     
+    void ProcessCollisionEvents();
+    void ProcessTriggerEvents();
     void DestroyActor(Actor* actor);
     void DestroyActors();
 

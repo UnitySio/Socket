@@ -59,11 +59,9 @@ public:
     inline bool IsPendingDeletion() const { return is_pending_destroy_; }
     
     ContactSignature on_collision_enter;
-    ContactSignature on_collision_stay;
     ContactSignature on_collision_exit;
 
     ContactSignature on_trigger_enter;
-    ContactSignature on_trigger_stay;
     ContactSignature on_trigger_exit;
 
 protected:
@@ -89,10 +87,8 @@ protected:
     virtual void Render(float alpha);
 
     virtual void OnCollisionEnter(Actor* other);
-    virtual void OnCollisionStay(Actor* other);
     virtual void OnCollisionExit(Actor* other);
     virtual void OnTriggerEnter(Actor* other);
-    virtual void OnTriggerStay(Actor* other);
     virtual void OnTriggerExit(Actor* other);
 
     std::wstring name_;
@@ -125,8 +121,6 @@ private:
     friend class ContactListener;
     friend class World;
 
-    void ProcessCollisionEvents();
-    void ProcessTriggerEvents();
 };
 
 template <std::derived_from<ActorComponent> T>

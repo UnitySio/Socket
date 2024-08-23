@@ -28,12 +28,6 @@ void Actor::OnCollisionEnter(Actor* other)
     if (parent_) parent_->OnCollisionEnter(other);
 }
 
-void Actor::OnCollisionStay(Actor* other)
-{
-    on_collision_stay.Execute(std::move(other));
-    if (parent_) parent_->OnCollisionStay(other);
-}
-
 void Actor::OnCollisionExit(Actor* other)
 {
     on_collision_exit.Execute(std::move(other));
@@ -46,84 +40,10 @@ void Actor::OnTriggerEnter(Actor* other)
     if (parent_) parent_->OnTriggerEnter(other);
 }
 
-void Actor::OnTriggerStay(Actor* other)
-{
-    on_trigger_stay.Execute(std::move(other));
-    if (parent_) parent_->OnTriggerStay(other);
-}
-
 void Actor::OnTriggerExit(Actor* other)
 {
     on_trigger_exit.Execute(std::move(other));
     if (parent_) parent_->OnTriggerExit(other);
-}
-
-void Actor::ProcessCollisionEvents()
-{
-    b2ContactEvents events = b2World_GetContactEvents(World::Get()->world_id_);
-    for (MathTypes::uint32 i = 0; i < events.beginCount; ++i)
-    {
-        b2ContactBeginTouchEvent event = events.beginEvents[i];
-        b2BodyId body_id_a = b2Shape_GetBody(event.shapeIdA);
-        b2BodyId body_id_b = b2Shape_GetBody(event.shapeIdB);
-
-        if (!b2Body_IsValid(body_id_a) || !b2Body_IsValid(body_id_b)) continue;
-        Actor* actor_a = static_cast<Actor*>(b2Body_GetUserData(body_id_a));
-        Actor* actor_b = static_cast<Actor*>(b2Body_GetUserData(body_id_b));
-
-        if (!actor_a || !actor_b) continue;
-        actor_a->OnCollisionEnter(actor_b);
-        actor_b->OnCollisionEnter(actor_a);
-    }
-
-    for (MathTypes::uint32 i = 0; i < events.endCount; ++i)
-    {
-        b2ContactEndTouchEvent event = events.endEvents[i];
-        b2BodyId body_id_a = b2Shape_GetBody(event.shapeIdA);
-        b2BodyId body_id_b = b2Shape_GetBody(event.shapeIdB);
-
-        if (!b2Body_IsValid(body_id_a) || !b2Body_IsValid(body_id_b)) continue;
-        Actor* actor_a = static_cast<Actor*>(b2Body_GetUserData(body_id_a));
-        Actor* actor_b = static_cast<Actor*>(b2Body_GetUserData(body_id_b));
-
-        if (!actor_a || !actor_b) continue;
-        actor_a->OnCollisionExit(actor_b);
-        actor_b->OnCollisionExit(actor_a);
-    }
-}
-
-void Actor::ProcessTriggerEvents()
-{
-    b2SensorEvents events = b2World_GetSensorEvents(World::Get()->world_id_);
-    for (MathTypes::uint32 i = 0; i < events.beginCount; ++i)
-    {
-        b2SensorBeginTouchEvent event = events.beginEvents[i];
-        b2BodyId body_id_a = b2Shape_GetBody(event.sensorShapeId);
-        b2BodyId body_id_b = b2Shape_GetBody(event.visitorShapeId);
-        
-        if (!b2Body_IsValid(body_id_a) || !b2Body_IsValid(body_id_b)) continue;
-        Actor* actor_a = static_cast<Actor*>(b2Body_GetUserData(body_id_a));
-        Actor* actor_b = static_cast<Actor*>(b2Body_GetUserData(body_id_b));
-        
-        if (!actor_a || !actor_b) continue;
-        actor_a->OnTriggerEnter(actor_b);
-        actor_b->OnTriggerEnter(actor_a);
-    }
-    
-    for (MathTypes::uint32 i = 0; i < events.endCount; ++i)
-    {
-        b2SensorEndTouchEvent event = events.endEvents[i];
-        b2BodyId body_id_a = b2Shape_GetBody(event.sensorShapeId);
-        b2BodyId body_id_b = b2Shape_GetBody(event.visitorShapeId);
-        
-        if (!b2Body_IsValid(body_id_a) || !b2Body_IsValid(body_id_b)) continue;
-        Actor* actor_a = static_cast<Actor*>(b2Body_GetUserData(body_id_a));
-        Actor* actor_b = static_cast<Actor*>(b2Body_GetUserData(body_id_b));
-        
-        if (!actor_a || !actor_b) continue;
-        actor_a->OnTriggerExit(actor_b);
-        actor_b->OnTriggerExit(actor_a);
-    }
 }
 
 void Actor::BeginPlay()
@@ -167,9 +87,6 @@ void Actor::Destroyed()
 
 void Actor::PhysicsTick(float delta_time)
 {
-    ProcessCollisionEvents();
-    ProcessTriggerEvents();
-    
     for (const auto& component : components_)
     {
         component->PhysicsTickComponent(delta_time);
