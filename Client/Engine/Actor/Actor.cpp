@@ -133,11 +133,11 @@ void Actor::AttachToActor(Actor* actor)
     {
         b2Body_SetType(body_id_, b2Body_GetType(actor->body_id_));
         
-        b2WeldJointDef joint_def;
+        b2WeldJointDef joint_def = b2DefaultWeldJointDef();
         joint_def.bodyIdA = actor->body_id_;
         joint_def.bodyIdB = body_id_;
-        joint_def.localAnchorA = b2Body_GetLocalPoint(actor->body_id_, {0.f, 0.f}); // Center 값 구해서 변경 필요
-        joint_def.localAnchorB = b2Body_GetLocalPoint(body_id_, {0.f, 0.f}); // Center 값 구해서 변경 필요
+        joint_def.localAnchorA = b2Body_GetLocalPoint(actor->body_id_, b2Body_GetLocalCenterOfMass(actor->body_id_));
+        joint_def.localAnchorB = b2Body_GetLocalPoint(body_id_, b2Body_GetLocalCenterOfMass(body_id_));
         joint_def.referenceAngle = b2Rot_GetAngle(b2Body_GetRotation(body_id_)) - b2Rot_GetAngle(b2Body_GetRotation(actor->body_id_));
 
         joint_id_ = b2CreateWeldJoint(World::Get()->world_id_, &joint_def);
