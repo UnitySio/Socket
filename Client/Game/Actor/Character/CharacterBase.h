@@ -17,7 +17,6 @@ public:
 
     inline SpriteRendererComponent* GetSpriteRenderer() const { return sprite_renderer_; }
     inline AnimatorComponent* GetAnimator() const { return animator_; }
-    inline BoxColliderComponent* GetBoxCollider() const { return box_collider_; }
     inline CapsuleColliderComponent* GetCapsuleCollider() const { return capsule_collider_; }
     inline RigidBodyComponent* GetRigidBody() const { return rigid_body_; }
 
