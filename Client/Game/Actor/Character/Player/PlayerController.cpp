@@ -94,12 +94,6 @@ void PlayerController::PhysicsTick(float delta_time)
     else animator_->PlayClip(L"Idle");
     
     rigid_body_->SetVelocity({h * 2.f, rigid_body_->GetVelocity().y});
-
-    std::vector<Actor*> actors;
-    if (Physics2D::OverlapBoxAll(GetTransform()->GetWorldPosition(), Math::Vector2(10.f, 10.f), this, actors, ActorLayer::kDefault))
-    {
-        LOG(L"Overlap with %d actors", actors.size());
-    }
 }
 
 void PlayerController::Tick(float delta_time)
