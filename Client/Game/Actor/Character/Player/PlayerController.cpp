@@ -2,6 +2,7 @@
 #include "PlayerController.h"
 
 #include "Actor/Box.h"
+#include "Actor/Component/CapsuleColliderComponent.h"
 #include "Actor/Component/RigidBodyComponent.h"
 #include "Actor/Component/SpriteRendererComponent.h"
 #include "Actor/Component/TransformComponent.h"
@@ -25,6 +26,8 @@ PlayerController::PlayerController(const std::wstring& kName) :
 {
     // ResourceManager::Get()->Load<Sprite>(L"Soldier", L".\\Game_Data\\Soldier.png");
     // Sprite* sprite = ResourceManager::Get()->GetResource<Sprite>(L"Soldier");
+
+    capsule_collider_->SetSize({.5f, .5f});
     
     sprite_ = std::make_shared<Sprite>();
     CHECK_IF(sprite_->Load(L".\\Game_Data\\Soldier.png"), L"Failed to load texture");
@@ -87,6 +90,16 @@ void PlayerController::PhysicsTick(float delta_time)
     CharacterBase::PhysicsTick(delta_time);
 
     Keyboard* keyboard = Keyboard::Get();
+
+    const float h = keyboard->IsKeyDown(VK_RIGHT) - keyboard->IsKeyDown(VK_LEFT);
+    if (h != 0.f)
+    {
+        sprite_renderer_->SetFlipX(h < 0.f);
+        animator_->PlayClip(L"Walk");
+    }
+    else animator_->PlayClip(L"Idle");
+    
+    rigid_body_->SetVelocity({h * 2.f, rigid_body_->GetVelocity().y});
 }
 
 void PlayerController::Tick(float delta_time)

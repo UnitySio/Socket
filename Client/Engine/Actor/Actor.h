@@ -10,6 +10,7 @@
 #include "Misc/DelegateMacros.h"
 #include "Misc/EngineMacros.h"
 #include "Time/TimerManager.h"
+#include "box2d/box2d.h"
 
 class Actor;
 DECLARE_DELEGATE(ContactSignature, Actor*);
@@ -30,6 +31,7 @@ public:
     void Destroy();
     void SetActive(bool active);
     void SetLifeSpan(float life_span);
+    
     bool CompareTag(ActorTag tag) const;
 
     template <std::derived_from<ActorComponent> T>
@@ -57,14 +59,14 @@ public:
     inline bool IsPendingDeletion() const { return is_pending_destroy_; }
     
     ContactSignature on_collision_enter;
-    ContactSignature on_collision_stay;
     ContactSignature on_collision_exit;
 
     ContactSignature on_trigger_enter;
-    ContactSignature on_trigger_stay;
     ContactSignature on_trigger_exit;
 
 protected:
+    friend class Physics2D;
+    
     void InitializeActor();
     void InitializeComponents();
     void UninitializeComponents();
@@ -84,10 +86,8 @@ protected:
     virtual void Render(float alpha);
 
     virtual void OnCollisionEnter(Actor* other);
-    virtual void OnCollisionStay(Actor* other);
     virtual void OnCollisionExit(Actor* other);
     virtual void OnTriggerEnter(Actor* other);
-    virtual void OnTriggerStay(Actor* other);
     virtual void OnTriggerExit(Actor* other);
 
     std::wstring name_;
@@ -95,7 +95,8 @@ protected:
     ActorTag tag_;
     ActorLayer layer_;
 
-    class b2Body* body_;
+    b2BodyId body_id_;
+    b2JointId joint_id_;
 
     bool is_pending_destroy_;
 
@@ -105,19 +106,21 @@ protected:
 
     Actor* parent_;
     std::vector<Actor*> children_;
-
-    class b2Joint* parent_joint_;
     
     TimerHandle life_span_timer_;
 private:
     // 추후 정리 예정
     friend class Level;
     friend class ColliderComponent;
+    friend class BoxColliderComponent;
+    friend class CircleColliderComponent;
+    friend class CapsuleColliderComponent;
     friend class RigidBodyComponent;
     friend class TransformComponent;
     friend class PlayerController;
     friend class ContactListener;
     friend class World;
+
 };
 
 template <std::derived_from<ActorComponent> T>

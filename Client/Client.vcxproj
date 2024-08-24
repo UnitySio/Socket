@@ -146,6 +146,7 @@
     <ClInclude Include="Engine\Actor\Component\Animator\AnimatorComponent.h" />
     <ClInclude Include="Engine\Actor\Component\BoxColliderComponent.h" />
     <ClInclude Include="Engine\Actor\Component\CameraComponent.h" />
+    <ClInclude Include="Engine\Actor\Component\CapsuleColliderComponent.h" />
     <ClInclude Include="Engine\Actor\Component\CircleColliderComponent.h" />
     <ClInclude Include="Engine\Actor\Component\ColliderComponent.h" />
     <ClInclude Include="Engine\Actor\Component\RigidBodyComponent.h" />
@@ -157,14 +158,11 @@
     <ClInclude Include="Engine\Audio\AudioManager.h" />
     <ClInclude Include="Engine\Core.h" />
     <ClInclude Include="Engine\Data\DataManager.h" />
-    <ClInclude Include="Engine\DebugDraw.h" />
     <ClInclude Include="Engine\Enums.h" />
     <ClInclude Include="Engine\GameEngine.h" />
     <ClInclude Include="Engine\Input\Keyboard.h" />
     <ClInclude Include="Engine\Input\Mouse.h" />
     <ClInclude Include="Engine\Level\Level.h" />
-    <ClInclude Include="Engine\Level\Listener\ContactListener.h" />
-    <ClInclude Include="Engine\Level\Listener\QueryCallback.h" />
     <ClInclude Include="Engine\Level\World.h" />
     <ClInclude Include="Engine\Logger\Logger.h" />
     <ClInclude Include="Engine\Math\Bounds.h" />
@@ -179,12 +177,7 @@
     <ClInclude Include="Engine\Misc\Delegate.h" />
     <ClInclude Include="Engine\Misc\Function.h" />
     <ClInclude Include="Engine\Object.h" />
-    <ClInclude Include="Engine\Physics\CircleQueryCallback.h" />
-    <ClInclude Include="Engine\Physics\HitResult.h" />
-    <ClInclude Include="Engine\Physics\BoxQueryCallback.h" />
-    <ClInclude Include="Engine\Physics\Physics.h" />
-    <ClInclude Include="Engine\Physics\RayCastCallback.h" />
-    <ClInclude Include="Engine\Physics\RayCastResult.h" />
+    <ClInclude Include="Engine\Physics\Physics2D.h" />
     <ClInclude Include="Engine\Resource\Resource.h" />
     <ClInclude Include="Engine\Resource\ResourceManager.h" />
     <ClInclude Include="Engine\Singleton.h" />
@@ -226,46 +219,12 @@
     <ClInclude Include="Game\Map\MainMenu.h" />
     <ClInclude Include="Game\Map\SplashMap.h" />
     <ClInclude Include="Game\ProjectSettings.h" />
-    <ClInclude Include="Include\box2d\b2_api.h" />
-    <ClInclude Include="Include\box2d\b2_block_allocator.h" />
-    <ClInclude Include="Include\box2d\b2_body.h" />
-    <ClInclude Include="Include\box2d\b2_broad_phase.h" />
-    <ClInclude Include="Include\box2d\b2_chain_shape.h" />
-    <ClInclude Include="Include\box2d\b2_circle_shape.h" />
-    <ClInclude Include="Include\box2d\b2_collision.h" />
-    <ClInclude Include="Include\box2d\b2_common.h" />
-    <ClInclude Include="Include\box2d\b2_contact.h" />
-    <ClInclude Include="Include\box2d\b2_contact_manager.h" />
-    <ClInclude Include="Include\box2d\b2_distance.h" />
-    <ClInclude Include="Include\box2d\b2_distance_joint.h" />
-    <ClInclude Include="Include\box2d\b2_draw.h" />
-    <ClInclude Include="Include\box2d\b2_dynamic_tree.h" />
-    <ClInclude Include="Include\box2d\b2_edge_shape.h" />
-    <ClInclude Include="Include\box2d\b2_fixture.h" />
-    <ClInclude Include="Include\box2d\b2_friction_joint.h" />
-    <ClInclude Include="Include\box2d\b2_gear_joint.h" />
-    <ClInclude Include="Include\box2d\b2_growable_stack.h" />
-    <ClInclude Include="Include\box2d\b2_joint.h" />
-    <ClInclude Include="Include\box2d\b2_math.h" />
-    <ClInclude Include="Include\box2d\b2_motor_joint.h" />
-    <ClInclude Include="Include\box2d\b2_mouse_joint.h" />
-    <ClInclude Include="Include\box2d\b2_polygon_shape.h" />
-    <ClInclude Include="Include\box2d\b2_prismatic_joint.h" />
-    <ClInclude Include="Include\box2d\b2_pulley_joint.h" />
-    <ClInclude Include="Include\box2d\b2_revolute_joint.h" />
-    <ClInclude Include="Include\box2d\b2_rope.h" />
-    <ClInclude Include="Include\box2d\b2_settings.h" />
-    <ClInclude Include="Include\box2d\b2_shape.h" />
-    <ClInclude Include="Include\box2d\b2_stack_allocator.h" />
-    <ClInclude Include="Include\box2d\b2_timer.h" />
-    <ClInclude Include="Include\box2d\b2_time_of_impact.h" />
-    <ClInclude Include="Include\box2d\b2_time_step.h" />
-    <ClInclude Include="Include\box2d\b2_types.h" />
-    <ClInclude Include="Include\box2d\b2_weld_joint.h" />
-    <ClInclude Include="Include\box2d\b2_wheel_joint.h" />
-    <ClInclude Include="Include\box2d\b2_world.h" />
-    <ClInclude Include="Include\box2d\b2_world_callbacks.h" />
+    <ClInclude Include="Include\box2d\base.h" />
     <ClInclude Include="Include\box2d\box2d.h" />
+    <ClInclude Include="Include\box2d\collision.h" />
+    <ClInclude Include="Include\box2d\id.h" />
+    <ClInclude Include="Include\box2d\math_functions.h" />
+    <ClInclude Include="Include\box2d\types.h" />
     <ClInclude Include="Include\DirectXTK\Audio.h" />
     <ClInclude Include="Include\DirectXTK\BufferHelpers.h" />
     <ClInclude Include="Include\DirectXTK\CommonStates.h" />
@@ -375,6 +334,7 @@
     <ClCompile Include="Engine\Actor\Component\Animator\AnimatorComponent.cpp" />
     <ClCompile Include="Engine\Actor\Component\BoxColliderComponent.cpp" />
     <ClCompile Include="Engine\Actor\Component\CameraComponent.cpp" />
+    <ClCompile Include="Engine\Actor\Component\CapsuleColliderComponent.cpp" />
     <ClCompile Include="Engine\Actor\Component\CircleColliderComponent.cpp" />
     <ClCompile Include="Engine\Actor\Component\ColliderComponent.cpp" />
     <ClCompile Include="Engine\Actor\Component\RigidBodyComponent.cpp" />
@@ -386,13 +346,10 @@
     <ClCompile Include="Engine\Audio\AudioManager.cpp" />
     <ClCompile Include="Engine\Core.cpp" />
     <ClCompile Include="Engine\Data\DataManager.cpp" />
-    <ClCompile Include="Engine\DebugDraw.cpp" />
     <ClCompile Include="Engine\GameEngine.cpp" />
     <ClCompile Include="Engine\Input\Keyboard.cpp" />
     <ClCompile Include="Engine\Input\Mouse.cpp" />
     <ClCompile Include="Engine\Level\Level.cpp" />
-    <ClCompile Include="Engine\Level\Listener\ContactListener.cpp" />
-    <ClCompile Include="Engine\Level\Listener\QueryCallback.cpp" />
     <ClCompile Include="Engine\Level\World.cpp" />
     <ClCompile Include="Engine\Logger\Logger.cpp" />
     <ClCompile Include="Engine\Math\Bounds.cpp" />
@@ -402,10 +359,7 @@
     <ClCompile Include="Engine\Math\Vector2.cpp" />
     <ClCompile Include="Engine\Misc\Debug.cpp" />
     <ClCompile Include="Engine\Object.cpp" />
-    <ClCompile Include="Engine\Physics\BoxQueryCallback.cpp" />
-    <ClCompile Include="Engine\Physics\CircleQueryCallback.cpp" />
-    <ClCompile Include="Engine\Physics\Physics.cpp" />
-    <ClCompile Include="Engine\Physics\RayCastCallback.cpp" />
+    <ClCompile Include="Engine\Physics\Physics2D.cpp" />
     <ClCompile Include="Engine\Resource\Resource.cpp" />
     <ClCompile Include="Engine\Resource\ResourceManager.cpp" />
     <ClCompile Include="Engine\Steam\SteamManager.cpp" />
@@ -446,24 +400,24 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Include\imgui\imgui_demo.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Include\imgui\imgui_draw.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Include\imgui\imgui_impl_dx11.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Include\imgui\imgui_impl_win32.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Include\imgui\imgui_tables.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Include\imgui\imgui_widgets.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
@@ -522,7 +476,7 @@
     <Content Include="Lib\Debug\fmodL.dll" />
     <Content Include="Lib\Debug\fmodL_vc.lib" />
     <Content Include="Lib\Debug\fmod_vc.lib" />
-    <Content Include="Lib\Debug\libtmxlite.lib" />
+    <Content Include="Lib\Debug\libtmxlite-s-d.lib" />
     <Content Include="Lib\Debug\steam_api64.dll" />
     <Content Include="Lib\Debug\steam_api64.lib" />
     <Content Include="Lib\DirectXTK.lib" />
@@ -530,7 +484,7 @@
     <Content Include="Lib\fmodL.dll" />
     <Content Include="Lib\fmodL_vc.lib" />
     <Content Include="Lib\fmod_vc.lib" />
-    <Content Include="Lib\libtmxlite.lib" />
+    <Content Include="Lib\libtmxlite-s.lib" />
     <Content Include="Lib\steam_api64.dll" />
     <Content Include="Lib\steam_api64.lib" />
   </ItemGroup>

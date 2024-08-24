@@ -1,12 +1,10 @@
 ﻿#pragma once
 #include <queue>
 
-#include "DebugDraw.h"
 #include "Enums.h"
 #include "Singleton.h"
 #include "Actor/Actor.h"
-#include "box2d/b2_world.h"
-#include "Listener/ContactListener.h"
+#include "box2d/box2d.h"
 #include "Windows/DX/Renderer.h"
 
 class Shape;
@@ -17,7 +15,7 @@ class World : public Singleton<World>
 {
 public:
     World();
-    virtual ~World() override = default;
+    virtual ~World() override;
 
     void Init(const std::shared_ptr<WindowsWindow>& kWindow);
     void OpenLevel(LevelType type);
@@ -40,13 +38,15 @@ public:
     inline std::weak_ptr<Actor> GetCamera() const { return camera_; }
 
 private:
-    friend class Physics;
+    friend class Physics2D;
     friend class Level;
     friend class Actor;
     friend class TilemapComponent;
     friend class CameraComponent;
     friend class PlayerController;
     
+    void ProcessCollisionEvents();
+    void ProcessTriggerEvents();
     void DestroyActor(Actor* actor);
     void DestroyActors();
 
@@ -57,12 +57,9 @@ private:
     std::shared_ptr<ShapeBatch> shape_batch_;
     
     std::vector<std::shared_ptr<Shape>> shapes_;
-    
-    std::unique_ptr<b2World> physics_world_;
-    
-    ContactListener contact_listener_;
-    
-    DebugDraw debug_draw_;
+
+    b2WorldId world_id_;
+    b2DebugDraw debug_draw_;
     
     Level* current_level_;
     Level* pending_level_;

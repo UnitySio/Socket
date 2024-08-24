@@ -29,33 +29,33 @@ void AddDebugBox(const Math::Vector2& center, const Math::Vector2& extent)
 
 void AddDebugCircle(const Math::Vector2& center, float radius)
 {
-    std::vector<DefaultVertex> fill_vertices;
-    fill_vertices.push_back({ { center.x, center.y, 0.f }, { 1.f, 0.f, 0.f, .5f } });
-
-    for (int32 i = 0; i < CIRCLE_SEGMENTS; ++i)
-    {
-        const float theta = 2.f * b2_pi * i / CIRCLE_SEGMENTS;
-        const float x = center.x + radius * cosf(theta);
-        const float y = center.y + radius * sinf(theta);
-        fill_vertices.push_back({ { x, y, 0.f }, { 1.f, 0.f, 0.f, .5f } });
-    }
-
-    fill_vertices.push_back(fill_vertices[1]);
-
-    std::vector<uint32> fill_indices;
-    for (int32 i = 0; i < CIRCLE_SEGMENTS; ++i)
-    {
-        fill_indices.push_back(0);
-        fill_indices.push_back(i + 1);
-        fill_indices.push_back(i + 2);
-    }
-    
-    std::shared_ptr<Shape> shape = std::make_shared<Shape>();
-    shape->SetVertices(fill_vertices);
-    shape->SetIndices(fill_indices);
-    shape->SetZOrder(32767);
-
-    World::Get()->AddShape(shape);
+    // std::vector<DefaultVertex> fill_vertices;
+    // fill_vertices.push_back({ { center.x, center.y, 0.f }, { 1.f, 0.f, 0.f, .5f } });
+    //
+    // for (int32 i = 0; i < CIRCLE_SEGMENTS; ++i)
+    // {
+    //     const float theta = 2.f * b2_pi * i / CIRCLE_SEGMENTS;
+    //     const float x = center.x + radius * cosf(theta);
+    //     const float y = center.y + radius * sinf(theta);
+    //     fill_vertices.push_back({ { x, y, 0.f }, { 1.f, 0.f, 0.f, .5f } });
+    // }
+    //
+    // fill_vertices.push_back(fill_vertices[1]);
+    //
+    // std::vector<uint32> fill_indices;
+    // for (int32 i = 0; i < CIRCLE_SEGMENTS; ++i)
+    // {
+    //     fill_indices.push_back(0);
+    //     fill_indices.push_back(i + 1);
+    //     fill_indices.push_back(i + 2);
+    // }
+    //
+    // std::shared_ptr<Shape> shape = std::make_shared<Shape>();
+    // shape->SetVertices(fill_vertices);
+    // shape->SetIndices(fill_indices);
+    // shape->SetZOrder(32767);
+    //
+    // World::Get()->AddShape(shape);
 }
 
 void AddDebugLine(const Math::Vector2& start, const Math::Vector2& end)

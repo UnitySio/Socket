@@ -8,7 +8,6 @@
 #include "Actor/Component/CameraComponent.h"
 #include "imgui/imgui.h"
 #include "Input/Keyboard.h"
-#include "Logger/Logger.h"
 #include "Map/MainMap.h"
 #include "Map/MainMenu.h"
 #include "Map/SplashMap.h"
@@ -31,19 +30,19 @@ World::World() :
     shape_batch_->Init();
     
     b2Vec2 gravity(0.f, -9.81f);
-    physics_world_ = std::make_unique<b2World>(gravity);
-    physics_world_->SetContactListener(&contact_listener_);
-    
-    uint32 flags = 0;
-    // flags += b2Draw::e_shapeBit;
-    // flags += b2Draw::e_jointBit;
-    // flags += b2Draw::e_aabbBit;
-    // flags += b2Draw::e_pairBit;
-    // flags += b2Draw::e_centerOfMassBit;
-    debug_draw_.SetFlags(flags);
+    b2WorldDef world_def = b2DefaultWorldDef();
+    world_def.gravity = gravity;
 
-    physics_world_->SetDebugDraw(&debug_draw_);
-    
+    world_id_ = b2CreateWorld(&world_def);
+
+    debug_draw_ = {
+    };
+}
+
+World::~World()
+{
+    b2DestroyWorld(world_id_);
+    world_id_ = b2_nullWorldId;
 }
 
 void World::Init(const std::shared_ptr<WindowsWindow>& kWindow)
@@ -64,13 +63,14 @@ void World::OpenLevel(LevelType type)
 
 void World::PhysicsTick(float delta_time)
 {
+    b2World_Step(world_id_, delta_time, 4);
+    
     if (current_level_)
     {
-        physics_world_->Step(delta_time, 8, 3);
-        contact_listener_.Tick();
+        ProcessCollisionEvents();
+        ProcessTriggerEvents();
         
         current_level_->PhysicsTick(delta_time);
-        
         DestroyActors();
     }
 }
@@ -82,7 +82,6 @@ void World::Tick(float delta_time)
     if (current_level_)
     {
         current_level_->Tick(delta_time);
-        
         DestroyActors();
     }
 }
@@ -92,7 +91,6 @@ void World::PostTick(float delta_time)
     if (current_level_)
     {
         current_level_->PostTick(delta_time);
-        
         DestroyActors();
     }
 }
@@ -102,8 +100,9 @@ void World::Render(float alpha)
     if (current_level_)
     {
         current_level_->Render(alpha);
-        physics_world_->DebugDraw();
     }
+    
+    b2World_Draw(world_id_, &debug_draw_);
 
     std::vector<std::shared_ptr<Shape>> shapes;
 
@@ -162,6 +161,70 @@ void World::SpawnActors()
         actor->BeginPlay();
         
         pending_actors_.pop();
+    }
+}
+
+void World::ProcessCollisionEvents()
+{
+    b2ContactEvents events = b2World_GetContactEvents(World::Get()->world_id_);
+    for (MathTypes::uint32 i = 0; i < events.beginCount; ++i)
+    {
+        b2ContactBeginTouchEvent event = events.beginEvents[i];
+        b2BodyId body_id_a = b2Shape_GetBody(event.shapeIdA);
+        b2BodyId body_id_b = b2Shape_GetBody(event.shapeIdB);
+
+        Actor* actor_a = static_cast<Actor*>(b2Body_GetUserData(body_id_a));
+        Actor* actor_b = static_cast<Actor*>(b2Body_GetUserData(body_id_b));
+
+        if (!actor_a || !actor_b) continue;
+        actor_a->OnCollisionEnter(actor_b);
+        actor_b->OnCollisionEnter(actor_a);
+    }
+
+    for (MathTypes::uint32 i = 0; i < events.endCount; ++i)
+    {
+        b2ContactEndTouchEvent event = events.endEvents[i];
+        b2BodyId body_id_a = b2Shape_GetBody(event.shapeIdA);
+        b2BodyId body_id_b = b2Shape_GetBody(event.shapeIdB);
+
+        Actor* actor_a = static_cast<Actor*>(b2Body_GetUserData(body_id_a));
+        Actor* actor_b = static_cast<Actor*>(b2Body_GetUserData(body_id_b));
+
+        if (!actor_a || !actor_b) continue;
+        actor_a->OnCollisionExit(actor_b);
+        actor_b->OnCollisionExit(actor_a);
+    }
+}
+
+void World::ProcessTriggerEvents()
+{
+    b2SensorEvents events = b2World_GetSensorEvents(World::Get()->world_id_);
+    for (MathTypes::uint32 i = 0; i < events.beginCount; ++i)
+    {
+        b2SensorBeginTouchEvent event = events.beginEvents[i];
+        b2BodyId body_id_a = b2Shape_GetBody(event.sensorShapeId);
+        b2BodyId body_id_b = b2Shape_GetBody(event.visitorShapeId);
+        
+        Actor* actor_a = static_cast<Actor*>(b2Body_GetUserData(body_id_a));
+        Actor* actor_b = static_cast<Actor*>(b2Body_GetUserData(body_id_b));
+        
+        if (!actor_a || !actor_b) continue;
+        actor_a->OnTriggerEnter(actor_b);
+        actor_b->OnTriggerEnter(actor_a);
+    }
+    
+    for (MathTypes::uint32 i = 0; i < events.endCount; ++i)
+    {
+        b2SensorEndTouchEvent event = events.endEvents[i];
+        b2BodyId body_id_a = b2Shape_GetBody(event.sensorShapeId);
+        b2BodyId body_id_b = b2Shape_GetBody(event.visitorShapeId);
+        
+        Actor* actor_a = static_cast<Actor*>(b2Body_GetUserData(body_id_a));
+        Actor* actor_b = static_cast<Actor*>(b2Body_GetUserData(body_id_b));
+        
+        if (!actor_a || !actor_b) continue;
+        actor_a->OnTriggerExit(actor_b);
+        actor_b->OnTriggerExit(actor_a);
     }
 }
 

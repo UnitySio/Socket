@@ -1,12 +1,7 @@
 ﻿#include "pch.h"
 #include "Actor.h"
 
-#include <iostream>
-
 #include "Enums.h"
-#include "box2d/b2_body.h"
-#include "box2d/b2_weld_joint.h"
-#include "box2d/b2_world.h"
 #include "Component/RigidBodyComponent.h"
 #include "Component/TransformComponent.h"
 #include "Level/World.h"
@@ -15,13 +10,11 @@
 Actor::Actor(const std::wstring& kName) :
     tag_(ActorTag::kNone),
     layer_(ActorLayer::kDefault),
-    body_(nullptr),
     is_pending_destroy_(false),
     components_(),
     transform_(nullptr),
     parent_(nullptr),
-    children_(),
-    parent_joint_(nullptr)
+    children_()
 {
     name_ = kName;
     
@@ -33,12 +26,6 @@ void Actor::OnCollisionEnter(Actor* other)
 {
     on_collision_enter.Execute(std::move(other));
     if (parent_) parent_->OnCollisionEnter(other);
-}
-
-void Actor::OnCollisionStay(Actor* other)
-{
-    on_collision_stay.Execute(std::move(other));
-    if (parent_) parent_->OnCollisionStay(other);
 }
 
 void Actor::OnCollisionExit(Actor* other)
@@ -53,12 +40,6 @@ void Actor::OnTriggerEnter(Actor* other)
     if (parent_) parent_->OnTriggerEnter(other);
 }
 
-void Actor::OnTriggerStay(Actor* other)
-{
-    on_trigger_stay.Execute(std::move(other));
-    if (parent_) parent_->OnTriggerStay(other);
-}
-
 void Actor::OnTriggerExit(Actor* other)
 {
     on_trigger_exit.Execute(std::move(other));
@@ -67,7 +48,7 @@ void Actor::OnTriggerExit(Actor* other)
 
 void Actor::BeginPlay()
 {
-    if (body_ && !body_->IsEnabled()) body_->SetEnabled(true);
+    if (b2Body_IsValid(body_id_) && !b2Body_IsEnabled(body_id_)) b2Body_Enable(body_id_);
     
     for (const auto& component : components_)
     {
@@ -86,16 +67,16 @@ void Actor::EndPlay(EndPlayReason type)
 
     components_.clear();
 
-    if (parent_joint_)
+    if (b2Joint_IsValid(joint_id_))
     {
-        World::Get()->physics_world_->DestroyJoint(parent_joint_);
-        parent_joint_ = nullptr;
+        b2DestroyJoint(joint_id_);
+        joint_id_ = b2_nullJointId;
     }
 
-    if (body_)
+    if (b2Body_IsValid(body_id_))
     {
-        World::Get()->physics_world_->DestroyBody(body_);
-        body_ = nullptr;
+        b2DestroyBody(body_id_);
+        body_id_ = b2_nullBodyId;
     }
 }
 
@@ -143,23 +124,23 @@ void Actor::AttachToActor(Actor* actor)
 
     transform_->SetRelativePosition(transform_->GetWorldPosition() - actor->transform_->GetWorldPosition());
 
-    if (!body_ || !actor->body_) return;
+    if (!b2Body_IsValid(body_id_) || !b2Body_IsValid(actor->body_id_)) return;
 
     const RigidBodyComponent* rigid_body = GetComponent<RigidBodyComponent>();
     const RigidBodyComponent* parent_rigid_body = actor->GetComponent<RigidBodyComponent>();
 
     if (parent_rigid_body && !rigid_body)
     {
-        body_->SetType(actor->body_->GetType());
+        b2Body_SetType(body_id_, b2Body_GetType(actor->body_id_));
         
-        b2WeldJointDef joint_def;
-        joint_def.bodyA = actor->body_;
-        joint_def.bodyB = body_;
-        joint_def.localAnchorA = actor->body_->GetLocalCenter();
-        joint_def.localAnchorB = body_->GetLocalPoint(actor->body_->GetWorldCenter());
-        joint_def.referenceAngle = body_->GetAngle() - actor->body_->GetAngle();
+        b2WeldJointDef joint_def = b2DefaultWeldJointDef();
+        joint_def.bodyIdA = actor->body_id_;
+        joint_def.bodyIdB = body_id_;
+        joint_def.localAnchorA = b2Body_GetLocalPoint(actor->body_id_, b2Body_GetLocalCenterOfMass(actor->body_id_));
+        joint_def.localAnchorB = b2Body_GetLocalPoint(body_id_, b2Body_GetLocalCenterOfMass(body_id_));
+        joint_def.referenceAngle = b2Rot_GetAngle(b2Body_GetRotation(body_id_)) - b2Rot_GetAngle(b2Body_GetRotation(actor->body_id_));
 
-        parent_joint_ = World::Get()->physics_world_->CreateJoint(&joint_def);
+        joint_id_ = b2CreateWeldJoint(World::Get()->world_id_, &joint_def);
     }
 }
 
@@ -168,10 +149,14 @@ void Actor::DetachFromActor()
     if (!parent_) return;
 
     std::erase(parent_->children_, this);
-    if (parent_joint_) World::Get()->physics_world_->DestroyJoint(parent_joint_);
+    
+    if (b2Joint_IsValid(joint_id_))
+    {
+        b2DestroyJoint(joint_id_);
+        joint_id_ = b2_nullJointId;
+    }
 
     parent_ = nullptr;
-    parent_joint_ = nullptr;
 }
 
 void Actor::Destroy()
@@ -221,11 +206,11 @@ void Actor::UninitializeComponents()
 
 void Actor::CreateBody()
 {
-    b2BodyDef body_def;
-    body_def.userData.pointer = reinterpret_cast<uintptr_t>(this);
+    b2BodyDef body_def = b2DefaultBodyDef();
+    body_def.userData = this;
 
-    body_ = World::Get()->physics_world_->CreateBody(&body_def);
-    body_->SetEnabled(false);
+    body_id_ = b2CreateBody(World::Get()->world_id_, &body_def);
+    b2Body_Disable(body_id_);
 }
 
 void Actor::OnLifeSpanExpired()
