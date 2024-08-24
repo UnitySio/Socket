@@ -6,21 +6,21 @@
 #include "box2d/types.h"
 #include "Level/World.h"
 
-struct SingleQueryContext
+struct SingleOverlapContext
 {
     b2BodyId owner_body_id = b2_nullBodyId;
     Actor** actor;
 };
 
-struct MultiQueryContext
+struct MultiOverlapContext
 {
     b2BodyId owner_body_id = b2_nullBodyId;
     std::vector<Actor*>& actors;
 };
 
-bool SingleQueryCallback(b2ShapeId shapeId, void* context)
+bool SingleOverlapCallback(b2ShapeId shapeId, void* context)
 {
-    SingleQueryContext* query_context = static_cast<SingleQueryContext*>(context);
+    SingleOverlapContext* query_context = static_cast<SingleOverlapContext*>(context);
     b2BodyId body_id = b2Shape_GetBody(shapeId);
     if (B2_IS_NON_NULL(query_context->owner_body_id) && B2_ID_EQUALS(body_id, query_context->owner_body_id)) return true;
 
@@ -31,9 +31,9 @@ bool SingleQueryCallback(b2ShapeId shapeId, void* context)
     return false;
 }
 
-bool MultiQueryCallback(b2ShapeId shapeId, void* context)
+bool MultiOverlapCallback(b2ShapeId shapeId, void* context)
 {
-    MultiQueryContext* query_context = static_cast<MultiQueryContext*>(context);
+    MultiOverlapContext* query_context = static_cast<MultiOverlapContext*>(context);
     b2BodyId body_id = b2Shape_GetBody(shapeId);
     if (B2_IS_NON_NULL(query_context->owner_body_id) && B2_ID_EQUALS(body_id, query_context->owner_body_id)) return true;
 
@@ -58,8 +58,8 @@ bool Physics2D::OverlapBox(const Math::Vector2& center, const Math::Vector2& siz
     b2BodyId owner_body_id = b2_nullBodyId;
     if (owner) owner_body_id = owner->body_id_;
 
-    SingleQueryContext context = {owner_body_id, output_actor};
-    b2World_OverlapPolygon(World::Get()->world_id_, &box, transform, filter, SingleQueryCallback, &context);
+    SingleOverlapContext context = {owner_body_id, output_actor};
+    b2World_OverlapPolygon(World::Get()->world_id_, &box, transform, filter, SingleOverlapCallback, &context);
     if (*output_actor) return true;
 
     return false;
@@ -79,8 +79,8 @@ bool Physics2D::OverlapBoxAll(const Math::Vector2& center, const Math::Vector2& 
     b2BodyId owner_body_id = b2_nullBodyId;
     if (owner) owner_body_id = owner->body_id_;
 
-    MultiQueryContext context = {owner_body_id, output_actors};
-    b2World_OverlapPolygon(World::Get()->world_id_, &box, transform, filter, MultiQueryCallback, &context);
+    MultiOverlapContext context = {owner_body_id, output_actors};
+    b2World_OverlapPolygon(World::Get()->world_id_, &box, transform, filter, MultiOverlapCallback, &context);
     if (!output_actors.empty()) return true;
 
     return false;
@@ -100,8 +100,8 @@ bool Physics2D::OverlapCircle(const Math::Vector2& center, float radius, const A
     b2BodyId owner_body_id = b2_nullBodyId;
     if (owner) owner_body_id = owner->body_id_;
     
-    SingleQueryContext context = {owner_body_id, output_actor};
-    b2World_OverlapCircle(World::Get()->world_id_, &circle, transform, filter, SingleQueryCallback, &context);
+    SingleOverlapContext context = {owner_body_id, output_actor};
+    b2World_OverlapCircle(World::Get()->world_id_, &circle, transform, filter, SingleOverlapCallback, &context);
     if (*output_actor) return true;
 
     return false;
@@ -121,8 +121,8 @@ bool Physics2D::OverlapCircleAll(const Math::Vector2& center, float radius, cons
     b2BodyId owner_body_id = b2_nullBodyId;
     if (owner) owner_body_id = owner->body_id_;
     
-    MultiQueryContext context = {owner_body_id, output_actors};
-    b2World_OverlapCircle(World::Get()->world_id_, &circle, transform, filter, SingleQueryCallback, &context);
+    MultiOverlapContext context = {owner_body_id, output_actors};
+    b2World_OverlapCircle(World::Get()->world_id_, &circle, transform, filter, SingleOverlapCallback, &context);
     if (!output_actors.empty()) return true;
 
     return false;
