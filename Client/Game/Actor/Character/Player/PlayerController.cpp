@@ -16,6 +16,7 @@
 #include "Level/World.h"
 #include "Windows/DX/Sprite.h"
 #include "Logger/Logger.h"
+#include "Physics/Physics2D.h"
 #include "Resource/ResourceManager.h"
 #include "States/PlayerIdleState.h"
 #include "Windows/DX/UITexture.h"
@@ -93,6 +94,12 @@ void PlayerController::PhysicsTick(float delta_time)
     else animator_->PlayClip(L"Idle");
     
     rigid_body_->SetVelocity({h * 2.f, rigid_body_->GetVelocity().y});
+
+    Actor* actor = nullptr;
+    if (Physics2D::OverlapBox(GetTransform()->GetWorldPosition(), Math::Vector2(1.f, 1.f), this, &actor, ActorLayer::kTilemap))
+    {
+        LOG(L"Overlap %s", actor->GetName().c_str());
+    }
 }
 
 void PlayerController::Tick(float delta_time)

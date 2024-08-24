@@ -43,19 +43,21 @@ void CapsuleColliderComponent::SetTrigger(bool is_trigger)
 
 void CapsuleColliderComponent::SetCapsule()
 {
+    const Math::Vector2 half_size = size_ * .5f;
+    
     b2Capsule capsule;
 
     if (direction_ == CapsuleDirection::Horizontal)
     {
-        capsule.center1 = {offset_.x - size_.x, offset_.y};
-        capsule.center2 = {offset_.x + size_.x, offset_.y};
-        capsule.radius = size_.y * .5f;
+        capsule.center1 = {offset_.x - half_size.x, offset_.y};
+        capsule.center2 = {offset_.x + half_size.x, offset_.y};
+        capsule.radius = half_size.y;
     }
     else
     {
-        capsule.center1 = {offset_.x, offset_.y - size_.y};
-        capsule.center2 = {offset_.x, offset_.y + size_.y};
-        capsule.radius = size_.x * .5f;
+        capsule.center1 = {offset_.x, offset_.y - half_size.y};
+        capsule.center2 = {offset_.x, offset_.y + half_size.y};
+        capsule.radius = half_size.x;
     }
 
     if (b2Shape_IsValid(shape_id_))

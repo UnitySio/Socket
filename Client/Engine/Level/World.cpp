@@ -173,7 +173,6 @@ void World::ProcessCollisionEvents()
         b2BodyId body_id_a = b2Shape_GetBody(event.shapeIdA);
         b2BodyId body_id_b = b2Shape_GetBody(event.shapeIdB);
 
-        if (!b2Body_IsValid(body_id_a) || !b2Body_IsValid(body_id_b)) continue;
         Actor* actor_a = static_cast<Actor*>(b2Body_GetUserData(body_id_a));
         Actor* actor_b = static_cast<Actor*>(b2Body_GetUserData(body_id_b));
 
@@ -188,7 +187,6 @@ void World::ProcessCollisionEvents()
         b2BodyId body_id_a = b2Shape_GetBody(event.shapeIdA);
         b2BodyId body_id_b = b2Shape_GetBody(event.shapeIdB);
 
-        if (!b2Body_IsValid(body_id_a) || !b2Body_IsValid(body_id_b)) continue;
         Actor* actor_a = static_cast<Actor*>(b2Body_GetUserData(body_id_a));
         Actor* actor_b = static_cast<Actor*>(b2Body_GetUserData(body_id_b));
 
@@ -207,7 +205,6 @@ void World::ProcessTriggerEvents()
         b2BodyId body_id_a = b2Shape_GetBody(event.sensorShapeId);
         b2BodyId body_id_b = b2Shape_GetBody(event.visitorShapeId);
         
-        if (!b2Body_IsValid(body_id_a) || !b2Body_IsValid(body_id_b)) continue;
         Actor* actor_a = static_cast<Actor*>(b2Body_GetUserData(body_id_a));
         Actor* actor_b = static_cast<Actor*>(b2Body_GetUserData(body_id_b));
         
@@ -222,7 +219,6 @@ void World::ProcessTriggerEvents()
         b2BodyId body_id_a = b2Shape_GetBody(event.sensorShapeId);
         b2BodyId body_id_b = b2Shape_GetBody(event.visitorShapeId);
         
-        if (!b2Body_IsValid(body_id_a) || !b2Body_IsValid(body_id_b)) continue;
         Actor* actor_a = static_cast<Actor*>(b2Body_GetUserData(body_id_a));
         Actor* actor_b = static_cast<Actor*>(b2Body_GetUserData(body_id_b));
         

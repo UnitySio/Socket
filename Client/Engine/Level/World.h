@@ -38,7 +38,7 @@ public:
     inline std::weak_ptr<Actor> GetCamera() const { return camera_; }
 
 private:
-    friend class Physics;
+    friend class Physics2D;
     friend class Level;
     friend class Actor;
     friend class TilemapComponent;

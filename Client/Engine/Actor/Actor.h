@@ -65,8 +65,7 @@ public:
     ContactSignature on_trigger_exit;
 
 protected:
-    friend class Box;
-    friend class PlayerController;
+    friend class Physics2D;
     
     void InitializeActor();
     void InitializeComponents();

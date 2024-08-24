@@ -177,6 +177,7 @@
     <ClInclude Include="Engine\Misc\Delegate.h" />
     <ClInclude Include="Engine\Misc\Function.h" />
     <ClInclude Include="Engine\Object.h" />
+    <ClInclude Include="Engine\Physics\Physics2D.h" />
     <ClInclude Include="Engine\Resource\Resource.h" />
     <ClInclude Include="Engine\Resource\ResourceManager.h" />
     <ClInclude Include="Engine\Singleton.h" />
@@ -356,6 +357,7 @@
     <ClCompile Include="Engine\Math\Vector2.cpp" />
     <ClCompile Include="Engine\Misc\Debug.cpp" />
     <ClCompile Include="Engine\Object.cpp" />
+    <ClCompile Include="Engine\Physics\Physics2D.cpp" />
     <ClCompile Include="Engine\Resource\Resource.cpp" />
     <ClCompile Include="Engine\Resource\ResourceManager.cpp" />
     <ClCompile Include="Engine\Steam\SteamManager.cpp" />
@@ -481,9 +483,6 @@
     <Content Include="Lib\libtmxlite-s.lib" />
     <Content Include="Lib\steam_api64.dll" />
     <Content Include="Lib\steam_api64.lib" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Engine\Physics\" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
