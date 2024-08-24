@@ -15,7 +15,7 @@ public:
     void SetTrigger(bool is_trigger);
 
 private:
-    void SetBox();
+    virtual void SetShape() override;
     
     Math::Vector2 size_;
     

@@ -15,7 +15,7 @@ public:
     void SetTrigger(bool is_trigger);
 
 private:
-    void SetCircle();
+    virtual void SetShape() override;
     
     float radius_;
     

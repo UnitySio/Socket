@@ -9,20 +9,20 @@ CircleColliderComponent::CircleColliderComponent(Actor* owner, const std::wstrin
     ColliderComponent(owner, kName),
     radius_(.5f)
 {
-    SetCircle();
+    SetShape();
 }
 
 void CircleColliderComponent::SetOffset(const Math::Vector2& kOffset)
 {
     ColliderComponent::SetOffset(kOffset);
 
-    SetCircle();
+    SetShape();
 }
 
 void CircleColliderComponent::SetRadius(float radius)
 {
     radius_ = radius;
-    SetCircle();
+    SetShape();
 }
 
 void CircleColliderComponent::SetTrigger(bool is_trigger)
@@ -41,7 +41,7 @@ void CircleColliderComponent::SetTrigger(bool is_trigger)
     shape_id_ = b2CreateCircleShape(GetOwner()->body_id_, &shape_def, &circle);
 }
 
-void CircleColliderComponent::SetCircle()
+void CircleColliderComponent::SetShape()
 {
     b2Circle circle = {
         {offset_.x, offset_.y},

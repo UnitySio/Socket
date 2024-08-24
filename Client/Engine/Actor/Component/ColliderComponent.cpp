@@ -31,3 +31,7 @@ const Bounds& ColliderComponent::GetBounds()
 
     return bounds;
 }
+
+void ColliderComponent::SetShape()
+{
+}

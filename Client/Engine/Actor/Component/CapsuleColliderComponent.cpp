@@ -10,19 +10,20 @@ CapsuleColliderComponent::CapsuleColliderComponent(Actor* owner, const std::wstr
     direction_(CapsuleDirection::Vertical),
     size_(Math::Vector2::One())
 {
+    SetShape();
 }
 
 void CapsuleColliderComponent::SetOffset(const Math::Vector2& kOffset)
 {
     ColliderComponent::SetOffset(kOffset);
 
-    SetCapsule();
+    SetShape();
 }
 
 void CapsuleColliderComponent::SetSize(Math::Vector2 size)
 {
     size_ = size;
-    SetCapsule();
+    SetShape();
 }
 
 void CapsuleColliderComponent::SetTrigger(bool is_trigger)
@@ -41,7 +42,7 @@ void CapsuleColliderComponent::SetTrigger(bool is_trigger)
     shape_id_ = b2CreateCapsuleShape(GetOwner()->body_id_, &shape_def, &capsule);
 }
 
-void CapsuleColliderComponent::SetCapsule()
+void CapsuleColliderComponent::SetShape()
 {
     const Math::Vector2 half_size = size_ * .5f;
     

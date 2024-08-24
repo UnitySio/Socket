@@ -9,20 +9,20 @@ BoxColliderComponent::BoxColliderComponent(Actor* owner, const std::wstring& kNa
     ColliderComponent(owner, kName),
     size_(Math::Vector2::One())
 {
-    SetBox();
+    SetShape();
 }
 
 void BoxColliderComponent::SetOffset(const Math::Vector2& kOffset)
 {
     ColliderComponent::SetOffset(kOffset);
     
-    SetBox();
+    SetShape();
 }
 
 void BoxColliderComponent::SetSize(Math::Vector2 size)
 {
     size_ = size;
-    SetBox();
+    SetShape();
 }
 
 void BoxColliderComponent::SetTrigger(bool is_trigger)
@@ -41,7 +41,7 @@ void BoxColliderComponent::SetTrigger(bool is_trigger)
     shape_id_ = b2CreatePolygonShape(GetOwner()->body_id_, &shape_def, &box);
 }
 
-void BoxColliderComponent::SetBox()
+void BoxColliderComponent::SetShape()
 {
     b2Polygon box = b2MakeOffsetBox(size_.x * .5f, size_.y * .5f, {offset_.x, offset_.y}, 0.f);
 

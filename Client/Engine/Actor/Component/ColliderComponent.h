@@ -20,5 +20,8 @@ protected:
     b2ShapeId shape_id_;
 
     Math::Vector2 offset_;
+
+private:
+    virtual void SetShape();
     
 };

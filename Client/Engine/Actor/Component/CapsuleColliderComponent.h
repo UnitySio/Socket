@@ -23,7 +23,7 @@ public:
     inline void SetDirection(CapsuleDirection direction) { direction_ = direction; }
 
 private:
-    void SetCapsule();
+    virtual void SetShape() override;
 
     CapsuleDirection direction_;
     Math::Vector2 size_;
