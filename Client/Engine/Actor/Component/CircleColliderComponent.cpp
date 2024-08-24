@@ -43,9 +43,10 @@ void CircleColliderComponent::SetTrigger(bool is_trigger)
 
 void CircleColliderComponent::SetCircle()
 {
-    b2Circle circle;
-    circle.center = {offset_.x, offset_.y};
-    circle.radius = radius_;
+    b2Circle circle = {
+        {offset_.x, offset_.y},
+        radius_
+    };
     
     if (b2Shape_IsValid(shape_id_))
     {

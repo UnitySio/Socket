@@ -43,9 +43,7 @@ void BoxColliderComponent::SetTrigger(bool is_trigger)
 
 void BoxColliderComponent::SetBox()
 {
-    const Math::Vector2 half_size = size_ * .5f;
-
-    b2Polygon box = b2MakeOffsetBox(half_size.x, half_size.y, {offset_.x, offset_.y}, 0.f);
+    b2Polygon box = b2MakeOffsetBox(size_.x * .5f, size_.y * .5f, {offset_.x, offset_.y}, 0.f);
 
     if (b2Shape_IsValid(shape_id_))
     {
