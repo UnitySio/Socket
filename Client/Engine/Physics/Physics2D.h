@@ -112,6 +112,29 @@ public:
      */
     static bool BoxCastAll(std::vector<HitResult>& hit_results, const Math::Vector2& kSize, float angle, const Math::Vector2& kOrigin, const Math::Vector2& kDirection, float max_distance, MathTypes::uint16 layer = 0xFFFF);
 
+    /**
+     * 원을 쏴서 충돌하는 액터를 찾습니다.
+     * @param hit_result 충돌 결과
+     * @param radius 원의 반지름
+     * @param angle 원의 회전 각도
+     * @param kOrigin 원의 시작 위치
+     * @param kDirection 원의 방향
+     * @param max_distance 원의 최대 거리
+     * @param layer 충돌 레이어
+     * @return 충돌이 있으면 true, 없으면 false
+     */
     static bool CircleCast(HitResult& hit_result, float radius, float angle, const Math::Vector2& kOrigin, const Math::Vector2& kDirection, float max_distance, MathTypes::uint16 layer = 0xFFFF);
+
+    /**
+     * 원을 쏴서 충돌하는 모든 액터를 찾습니다.
+     * @param hit_results 충돌 결과들
+     * @param radius 원의 반지름
+     * @param angle 원의 회전 각도
+     * @param kOrigin 원의 시작 위치
+     * @param kDirection 원의 방향
+     * @param max_distance 원의 최대 거리
+     * @param layer 충돌 레이어
+     * @return 충돌이 있으면 true, 없으면 false
+     */
     static bool CircleCastAll(std::vector<HitResult>& hit_results, float radius, float angle, const Math::Vector2& kOrigin, const Math::Vector2& kDirection, float max_distance, MathTypes::uint16 layer = 0xFFFF);
 };
