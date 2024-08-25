@@ -73,7 +73,7 @@ float SingleRayCastCallback(b2ShapeId shapeId, b2Vec2 point, b2Vec2 normal, floa
     hit_result.point = {point.x, point.y};
     hit_result.normal = {normal.x, normal.y};
     
-    float ray_length = Math::Vector2(ray_cast_context.end - ray_cast_context.start).Magnitude();
+    float ray_length = Math::Vector2(ray_cast_context->end - ray_cast_context->start).Magnitude();
     hit_result.distance = ray_length * fraction;
     
     return 0.f;

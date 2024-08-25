@@ -101,14 +101,6 @@ void PlayerController::PhysicsTick(float delta_time)
     else animator_->PlayClip(L"Idle");
     
     rigid_body_->SetVelocity({h * 2.f, rigid_body_->GetVelocity().y});
-
-    HitResult hit_result;
-    
-    Math::Vector2 origin = GetTransform()->GetWorldPosition();
-    if (Physics2D::RayCast(hit_result, origin, Math::Vector2::Down(), 10.f))
-    {
-        int a = 0;
-    }
 }
 
 void PlayerController::Tick(float delta_time)
