@@ -44,19 +44,19 @@ bool MultiOverlapCallback(b2ShapeId shapeId, void* context)
     return true;
 }
 
-bool Physics2D::OverlapBox(const Math::Vector2& center, const Math::Vector2& size, const Actor* owner, Actor** output_actor, MathTypes::uint16 layer)
+bool Physics2D::OverlapBox(const Math::Vector2& kCenter, const Math::Vector2& kSize, const Actor* kOwner, Actor** output_actor, MathTypes::uint16 layer)
 {
-    b2Polygon box = b2MakeBox(size.x * .5f, size.y * .5f);
+    b2Polygon box = b2MakeBox(kSize.x * .5f, kSize.y * .5f);
 
     b2Transform transform = b2Transform_identity;
-    transform.p = {center.x, center.y};
+    transform.p = {kCenter.x, kCenter.y};
     
     b2QueryFilter filter = b2DefaultQueryFilter();
     filter.categoryBits = layer;
     filter.maskBits = layer;
 
     b2BodyId owner_body_id = b2_nullBodyId;
-    if (owner) owner_body_id = owner->body_id_;
+    if (kOwner) owner_body_id = kOwner->body_id_;
 
     SingleOverlapContext context = {owner_body_id, output_actor};
     b2World_OverlapPolygon(World::Get()->world_id_, &box, transform, filter, SingleOverlapCallback, &context);
@@ -65,19 +65,19 @@ bool Physics2D::OverlapBox(const Math::Vector2& center, const Math::Vector2& siz
     return false;
 }
 
-bool Physics2D::OverlapBoxAll(const Math::Vector2& center, const Math::Vector2& size, const Actor* owner, std::vector<Actor*>& output_actors, MathTypes::uint16 layer)
+bool Physics2D::OverlapBoxAll(const Math::Vector2& kCenter, const Math::Vector2& kSize, const Actor* kOwner, std::vector<Actor*>& output_actors, MathTypes::uint16 layer)
 {
-    b2Polygon box = b2MakeBox(size.x * .5f, size.y * .5f);
+    b2Polygon box = b2MakeBox(kSize.x * .5f, kSize.y * .5f);
 
     b2Transform transform = b2Transform_identity;
-    transform.p = {center.x, center.y};
+    transform.p = {kCenter.x, kCenter.y};
 
     b2QueryFilter filter = b2DefaultQueryFilter();
     filter.categoryBits = layer;
     filter.maskBits = layer;
 
     b2BodyId owner_body_id = b2_nullBodyId;
-    if (owner) owner_body_id = owner->body_id_;
+    if (kOwner) owner_body_id = kOwner->body_id_;
 
     MultiOverlapContext context = {owner_body_id, output_actors};
     b2World_OverlapPolygon(World::Get()->world_id_, &box, transform, filter, MultiOverlapCallback, &context);
@@ -86,19 +86,19 @@ bool Physics2D::OverlapBoxAll(const Math::Vector2& center, const Math::Vector2& 
     return false;
 }
 
-bool Physics2D::OverlapCircle(const Math::Vector2& center, float radius, const Actor* owner, Actor** output_actor, MathTypes::uint16 layer)
+bool Physics2D::OverlapCircle(const Math::Vector2& kCenter, float radius, const Actor* kOwner, Actor** output_actor, MathTypes::uint16 layer)
 {
     b2Circle circle = {b2Vec2_zero, radius};
     
     b2Transform transform = b2Transform_identity;
-    transform.p = {center.x, center.y};
+    transform.p = {kCenter.x, kCenter.y};
     
     b2QueryFilter filter = b2DefaultQueryFilter();
     filter.categoryBits = layer;
     filter.maskBits = layer;
     
     b2BodyId owner_body_id = b2_nullBodyId;
-    if (owner) owner_body_id = owner->body_id_;
+    if (kOwner) owner_body_id = kOwner->body_id_;
     
     SingleOverlapContext context = {owner_body_id, output_actor};
     b2World_OverlapCircle(World::Get()->world_id_, &circle, transform, filter, SingleOverlapCallback, &context);
@@ -107,23 +107,27 @@ bool Physics2D::OverlapCircle(const Math::Vector2& center, float radius, const A
     return false;
 }
 
-bool Physics2D::OverlapCircleAll(const Math::Vector2& center, float radius, const Actor* owner, std::vector<Actor*>& output_actors, MathTypes::uint16 layer)
+bool Physics2D::OverlapCircleAll(const Math::Vector2& kCenter, float radius, const Actor* kOwner, std::vector<Actor*>& output_actors, MathTypes::uint16 layer)
 {
     b2Circle circle = {b2Vec2_zero, radius};
     
     b2Transform transform = b2Transform_identity;
-    transform.p = {center.x, center.y};
+    transform.p = {kCenter.x, kCenter.y};
     
     b2QueryFilter filter = b2DefaultQueryFilter();
     filter.categoryBits = layer;
     filter.maskBits = layer;
     
     b2BodyId owner_body_id = b2_nullBodyId;
-    if (owner) owner_body_id = owner->body_id_;
+    if (kOwner) owner_body_id = kOwner->body_id_;
     
     MultiOverlapContext context = {owner_body_id, output_actors};
     b2World_OverlapCircle(World::Get()->world_id_, &circle, transform, filter, SingleOverlapCallback, &context);
     if (!output_actors.empty()) return true;
 
     return false;
+}
+
+bool Physics2D::RayCast(const Math::Vector2& kStart, const Math::Vector2& kEnd)
+{
 }

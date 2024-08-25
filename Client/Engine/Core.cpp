@@ -30,11 +30,11 @@ Core::Core() :
 {
 }
 
-void Core::Init(const HINSTANCE instance_handle)
+void Core::Init(const HINSTANCE kInstanceHandle)
 {
     // 윈도우 애플리케이션을 생성하고 메시지 핸들러로 등록
-    HICON icon_handle = LoadIcon(instance_handle, MAKEINTRESOURCE(IDI_ICON1));
-    current_application_ = std::make_shared<WindowsApplication>(instance_handle, icon_handle);
+    HICON icon_handle = LoadIcon(kInstanceHandle, MAKEINTRESOURCE(IDI_ICON1));
+    current_application_ = std::make_shared<WindowsApplication>(kInstanceHandle, icon_handle);
     current_application_->AddMessageHandler(*this);
 
     // DirectX 11 렌더러 초기화
@@ -107,9 +107,9 @@ bool Core::ProcessMessage(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam,
 
     if (message == WM_DESTROY)
     {
-        if (const auto window = game_window_.lock())
+        if (const auto kWindow = game_window_.lock())
         {
-            if (window->GetHWnd() == hWnd)
+            if (kWindow->GetHWnd() == hWnd)
             {
                 Stop();
 
@@ -144,11 +144,11 @@ void Core::MainThread()
         delta_time_ = elapsed_time;
 #pragma endregion
         
-        if (const auto& window = game_window_.lock())
+        if (const auto& kWindow = game_window_.lock())
         {
             if (resize_width_ > 0 && resize_height_ > 0)
             {
-                Renderer::Get()->ResizeViewport(window, resize_width_, resize_height_);
+                Renderer::Get()->ResizeViewport(kWindow, resize_width_, resize_height_);
 
                 resize_width_ = 0;
                 resize_height_ = 0;

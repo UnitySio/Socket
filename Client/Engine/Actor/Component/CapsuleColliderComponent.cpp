@@ -78,4 +78,6 @@ void CapsuleColliderComponent::SetShape()
     
         shape_id_ = b2CreateCapsuleShape(GetOwner()->body_id_, &shape_def, &capsule);
     }
+
+    float a = b2Body_GetMass(GetOwner()->body_id_);
 }

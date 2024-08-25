@@ -38,14 +38,14 @@ void StateMachine::PostTick(float delta_time)
     }
 }
 
-void StateMachine::ChangeState(const std::shared_ptr<State>& new_state)
+void StateMachine::ChangeState(const std::shared_ptr<State>& kNewState)
 {
     if (current_state_)
     {
         current_state_->OnExit();
     }
 
-    current_state_ = new_state;
+    current_state_ = kNewState;
 
     if (current_state_)
     {
