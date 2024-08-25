@@ -111,4 +111,7 @@ public:
      * @return 충돌이 있으면 true, 없으면 false
      */
     static bool BoxCastAll(std::vector<HitResult>& hit_results, const Math::Vector2& kSize, float angle, const Math::Vector2& kOrigin, const Math::Vector2& kDirection, float max_distance, MathTypes::uint16 layer = 0xFFFF);
+
+    static bool CircleCast(HitResult& hit_result, float radius, float angle, const Math::Vector2& kOrigin, const Math::Vector2& kDirection, float max_distance, MathTypes::uint16 layer = 0xFFFF);
+    static bool CircleCastAll(std::vector<HitResult>& hit_results, float radius, float angle, const Math::Vector2& kOrigin, const Math::Vector2& kDirection, float max_distance, MathTypes::uint16 layer = 0xFFFF);
 };
