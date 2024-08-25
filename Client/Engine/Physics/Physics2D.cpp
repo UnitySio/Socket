@@ -203,3 +203,39 @@ bool Physics2D::RayCastAll(std::vector<HitResult>& hit_results, const Math::Vect
 
     return false;
 }
+
+bool Physics2D::BoxCast(HitResult& hit_result, const Math::Vector2& kSize, float angle, const Math::Vector2& kOrigin, const Math::Vector2& kDirection, float max_distance, MathTypes::uint16 layer)
+{
+    b2Polygon box = b2MakeBox(kSize.x * .5f, kSize.y * .5f);
+    b2Transform transform = {{kOrigin.x, kOrigin.y}, b2MakeRot(angle * MATH_PI / 180.f)};
+    
+    b2QueryFilter filter = b2DefaultQueryFilter();
+    filter.categoryBits = layer;
+    filter.maskBits = layer;
+    
+    Math::Vector2 translation = {kDirection.x * max_distance, kDirection.y * max_distance};
+
+    SingleRayCastContext context = {kOrigin, {kOrigin.x + translation.x, kOrigin.y + translation.y}, hit_result};
+    b2World_CastPolygon(World::Get()->world_id_, &box, transform, {translation.x, translation.y}, filter, SingleRayCastCallback, &context);
+    if (hit_result.actor) return true;
+
+    return false;
+}
+
+bool Physics2D::BoxCastAll(std::vector<HitResult>& hit_results, const Math::Vector2& kSize, float angle, const Math::Vector2& kOrigin, const Math::Vector2& kDirection, float max_distance, MathTypes::uint16 layer)
+{
+    b2Polygon box = b2MakeBox(kSize.x * .5f, kSize.y * .5f);
+    b2Transform transform = {{kOrigin.x, kOrigin.y}, b2MakeRot(angle * MATH_PI / 180.f)};
+    
+    b2QueryFilter filter = b2DefaultQueryFilter();
+    filter.categoryBits = layer;
+    filter.maskBits = layer;
+    
+    Math::Vector2 translation = {kDirection.x * max_distance, kDirection.y * max_distance};
+
+    MultiRayCastContext context = {kOrigin, {kOrigin.x + translation.x, kOrigin.y + translation.y}, hit_results};
+    b2World_CastPolygon(World::Get()->world_id_, &box, transform, {translation.x, translation.y}, filter, MultiRayCastCallback, &context);
+    if (!hit_results.empty()) return true;
+
+    return false;
+}
