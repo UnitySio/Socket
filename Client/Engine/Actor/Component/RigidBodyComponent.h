@@ -1,6 +1,6 @@
 ﻿#pragma once
 #include "ActorComponent.h"
-#include "box2d/b2_body.h"
+#include "box2d/types.h"
 
 namespace Math
 {
@@ -34,6 +34,8 @@ enum class ForceMode : size_t
 
 class RigidBodyComponent : public ActorComponent
 {
+    SHADER_CLASS_HELPER(RigidBodyComponent)
+    
 public:
     RigidBodyComponent(class Actor* owner, const std::wstring& kName);
     virtual ~RigidBodyComponent() override = default;

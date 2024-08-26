@@ -58,6 +58,8 @@ struct FocusArea
 
 class FollowCamera : public Actor
 {
+    SHADER_CLASS_HELPER(FollowCamera)
+    
 public:
     FollowCamera(const std::wstring& kName);
     virtual ~FollowCamera() override = default;
@@ -75,7 +77,7 @@ private:
     
     class Actor* target_;
 
-    class BoxColliderComponent* box_collider_;
+    class ColliderComponent* collider_;
 
     std::unique_ptr<FocusArea> focus_area_;
 

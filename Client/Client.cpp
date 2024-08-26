@@ -9,6 +9,7 @@
 #include <iostream>
 
 #include "Core.h"
+#include "Steam/SteamManager.h"
 #include "Windows/WindowsWindow.h"
 
 START
@@ -16,6 +17,20 @@ START
 #ifdef _DEBUG
     _CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 #endif
+
+    // SteamManager* steam = SteamManager::Get();
+    // int result = steam->Init();
+    // if (result == 1)
+    // {
+    //     MessageBox(nullptr, L"Restarting app.", L"Error", MB_OK);
+    //     return 1;
+    // }
+    //
+    // if (result == -1)
+    // {
+    //     MessageBox(nullptr, L"Failed to initialize Steam API.", L"Error", MB_OK);
+    //     return -1;
+    // }
 
     Core* core = new Core();
     core->Init(hInstance);
@@ -31,6 +46,8 @@ START
     }
 
     SAFE_RELEASE(core);
+
+    // steam->Shutdown();
     
     return 0;
 }

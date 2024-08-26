@@ -20,7 +20,7 @@ void CameraComponent::InitializeComponent()
 {
     ActorComponent::InitializeComponent();
 
-    World::Get()->SetCamera(GetOwner()->GetSharedPtr());
+    World::Get()->SetCamera(GetOwner()->GetSharedThis());
 
     UpdateProjectionMatrix();
 }

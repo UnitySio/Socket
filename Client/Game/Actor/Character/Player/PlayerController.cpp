@@ -2,6 +2,7 @@
 #include "PlayerController.h"
 
 #include "Actor/Box.h"
+#include "Actor/Component/CapsuleColliderComponent.h"
 #include "Actor/Component/RigidBodyComponent.h"
 #include "Actor/Component/SpriteRendererComponent.h"
 #include "Actor/Component/TransformComponent.h"
@@ -12,15 +13,22 @@
 #include "imgui/imgui.h"
 #include "Input/Keyboard.h"
 #include "Input/Mouse.h"
+#include "Level/World.h"
 #include "Windows/DX/Sprite.h"
 #include "Logger/Logger.h"
+#include "Physics/Physics2D.h"
 #include "Resource/ResourceManager.h"
+#include "States/PlayerIdleState.h"
+#include "States/PlayerAttackState.h"
 #include "Windows/DX/UITexture.h"
 
-PlayerController::PlayerController(const std::wstring& kName) : CharacterBase(kName)
+PlayerController::PlayerController(const std::wstring& kName) :
+    CharacterBase(kName)
 {
     // ResourceManager::Get()->Load<Sprite>(L"Soldier", L".\\Game_Data\\Soldier.png");
     // Sprite* sprite = ResourceManager::Get()->GetResource<Sprite>(L"Soldier");
+
+    capsule_collider_->SetSize({.5f, .5f});
     
     sprite_ = std::make_shared<Sprite>();
     CHECK_IF(sprite_->Load(L".\\Game_Data\\Soldier.png"), L"Failed to load texture");
@@ -32,6 +40,12 @@ PlayerController::PlayerController(const std::wstring& kName) : CharacterBase(kN
     int temp[] = {0, 1, 2, 3, 4, 5};
     std::shared_ptr<AnimationClip> clip = animator_->AddClip(L"Idle", temp, 6);
     clip->SetRepeat(true);
+    clip->SetFrameRate(6.f);
+
+    int attack1_indices[] = { 18, 19, 20, 21, 22, 23 };
+    clip = animator_->AddClip(L"Attack1", attack1_indices, 6);
+    clip->AddEvent([this]()-> void {ChangeState(std::make_shared<PlayerIdleState>(this)); }, 5);
+    clip->SetRepeat(false);
     clip->SetFrameRate(6.f);
 
     int walk_indices[] = {9, 10, 11, 12, 13, 14, 15, 16};
@@ -50,6 +64,8 @@ PlayerController::PlayerController(const std::wstring& kName) : CharacterBase(kN
     // {
     //     LOG(L"Success");
     // }
+
+    ChangeState(std::make_shared<PlayerIdleState>(this));
 }
 
 void PlayerController::BeginPlay()
@@ -93,53 +109,9 @@ void PlayerController::Tick(float delta_time)
     
     Keyboard* keyboard = Keyboard::Get();
     
-    if (keyboard->IsKeyPressed('C'))
+    /*if (keyboard->IsKeyPressed('Z'))
     {
-        rigid_body_->SetVelocity(Math::Vector2::Zero());
-        rigid_body_->AddForce(Math::Vector2::Up() * 5.f, ForceMode::kImpulse);
-    }
-    
-    if (keyboard->IsKeyPressed('Z'))
-    {
-        Box* box = new Box(L"Box");
+        Box* box = SpawnActor<Box>(L"Box");
         box->GetTransform()->SetRelativePosition(GetTransform()->GetWorldPosition());
-        SpawnActor(box);
-    }
-
-    TransformComponent* transform = GetTransform();
-    Math::Vector2 world_position = Renderer::Get()->ConvertWorldToScreen(transform->GetWorldPosition());
-
-    Mouse* mouse = Mouse::Get();
-    // if (mouse->IsButtonDown(MouseButton::kLeft))
-    // {
-    //     LOG(L"Left Button Down");
-    // }
-
-    Math::Vector2 mouse_position = mouse->GetMousePosition();
-    mouse_position = Renderer::Get()->ConvertScreenToWorld(mouse_position);
-    
-    if (mouse->IsButtonPressed(MouseButton::kLeft))
-    {
-        LOG(L"Left Button Pressed %d", 10);
-        LOG_ERROR(L"Left Button Pressed %d", 10);
-        LOG_WARNING(L"Left Button Pressed %d", 10);
-        // GetTransform()->SetWorldPosition(mouse_position);
-    }
-
-    // if (mouse->IsButtonReleased(MouseButton::kLeft))
-    // {
-    //     LOG(L"Left Button Released");
-    // }
-
-    static int r = 255;
-    static int g = 255;
-    static int b = 255;
-    static int a = 255;
-
-    ImGui::SliderInt("R", &r, 0, 255);
-    ImGui::SliderInt("G", &g, 0, 255);
-    ImGui::SliderInt("B", &b, 0, 255);
-    ImGui::SliderInt("A", &a, 0, 255);
-
-    sprite_renderer_->SetColor(Math::Color(r, g, b, a));
+    }*/
 }

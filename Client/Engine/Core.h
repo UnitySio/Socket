@@ -10,7 +10,7 @@ public:
     Core();
     ~Core() = default;
 
-    void Init(const HINSTANCE instance_handle);
+    void Init(const HINSTANCE kInstanceHandle);
     
     virtual bool ProcessMessage(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam, MathTypes::uint32 handler_result) override;
 

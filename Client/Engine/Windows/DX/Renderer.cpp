@@ -6,6 +6,7 @@
 #include "Math/Color.h"
 #include "Math/Rect.h"
 #include "Math/Vector2.h"
+#include "UI/Canvas.h"
 #include "Windows/WindowsWindow.h"
 
 Renderer::Renderer() :
@@ -351,10 +352,17 @@ void Renderer::BeginRender(const std::shared_ptr<WindowsWindow>& kWindow)
     current_viewport_ = FindViewport(kWindow.get());
     CHECK_IF(current_viewport_, L"Not found viewport for window.");
 
+    // constexpr float clear_color[4] = {
+    //     49.f / 255.f,
+    //     77.f / 255.f,
+    //     121.f / 255.f,
+    //     1.f
+    // };
+
     constexpr float clear_color[4] = {
-        49.f / 255.f,
-        77.f / 255.f,
-        121.f / 255.f,
+        0.f,
+        0.f,
+        0.f,
         1.f
     };
 
@@ -417,6 +425,27 @@ void Renderer::EndLayer()
     current_d2d_viewport_->d2d_render_target->PopLayer();
 }
 
+void Renderer::ChangeResolution(WindowsWindow* window, MathTypes::uint32 width, MathTypes::uint32 height, bool is_fullscreen)
+{
+    Viewport* viewport = FindViewport(window);
+    if (!viewport) return;
+
+    viewport->dxgi_swap_chain->SetFullscreenState(is_fullscreen, nullptr);
+
+    DXGI_MODE_DESC mode_desc;
+    ZeroMemory(&mode_desc, sizeof(DXGI_MODE_DESC));
+
+    mode_desc.Width = width;
+    mode_desc.Height = height;
+    mode_desc.RefreshRate.Numerator = 60;
+    mode_desc.RefreshRate.Denominator = 1;
+    mode_desc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+    mode_desc.ScanlineOrdering = DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED;
+    mode_desc.Scaling = DXGI_MODE_SCALING_UNSPECIFIED;
+
+    viewport->dxgi_swap_chain->ResizeTarget(&mode_desc);
+}
+
 Math::Vector2 Renderer::ConvertScreenToWorld(const Math::Vector2& kScreenPosition) const
 {
     Viewport* viewport = Renderer::Get()->FindViewport(World::Get()->GetWindow());
@@ -473,10 +502,7 @@ void Renderer::DrawBox(WindowsWindow* window, const Math::Rect& kRect, const Mat
     
     if (FAILED(hr)) return;
 
-    float pivot_x = kRect.width * kPivot.x;
-    float pivot_y = kRect.height * (1.f - kPivot.y);
-
-    D2D1_POINT_2F center = D2D1::Point2F(kRect.x + pivot_x, kRect.y + pivot_y);
+    D2D1_POINT_2F center = D2D1::Point2F(kPivot.x, kPivot.y);
     d2d_viewport->d2d_render_target->SetTransform(D2D1::Matrix3x2F::Rotation(rotation_z, center));
 
     // d2d_viewport->d2d_render_target->DrawRectangle(rect, brush.Get(), stroke);
@@ -500,10 +526,10 @@ void Renderer::DrawCircle(const std::shared_ptr<WindowsWindow>& kWindow, Math::V
     d2d_viewport->d2d_render_target->DrawEllipse(ellipse, brush.Get(), stroke);
 }
 
-void Renderer::DrawLine(const std::shared_ptr<WindowsWindow>& kWindow, Math::Vector2 start, Math::Vector2 end,
+void Renderer::DrawLine(WindowsWindow* window, Math::Vector2 start, Math::Vector2 end,
                         Math::Color color, float stroke)
 {
-    D2DViewport* d2d_viewport = FindD2DViewport(kWindow.get());
+    D2DViewport* d2d_viewport = FindD2DViewport(window);
     if (!d2d_viewport) return;
 
     Microsoft::WRL::ComPtr<ID2D1SolidColorBrush> brush;
@@ -515,7 +541,7 @@ void Renderer::DrawLine(const std::shared_ptr<WindowsWindow>& kWindow, Math::Vec
     d2d_viewport->d2d_render_target->DrawLine(D2D1::Point2F(start.x, start.y), D2D1::Point2F(end.x, end.y), brush.Get(), stroke);
 }
 
-void Renderer::DrawString(WindowsWindow* window, const std::wstring& kString, const Math::Rect& kRect, const Math::Vector2& kPivot, const Math::Color& kColor, float rotation_z, float font_size)
+void Renderer::DrawString(WindowsWindow* window, const std::wstring& kString, const Math::Rect& kRect, const Math::Vector2& kPivot, const Math::Color& kColor, float rotation_z, float font_size, DWRITE_TEXT_ALIGNMENT text_alignment, DWRITE_PARAGRAPH_ALIGNMENT paragraph_alignment)
 {
     D2DViewport* d2d_viewport = FindD2DViewport(window);
     if (!d2d_viewport) return;
@@ -525,15 +551,19 @@ void Renderer::DrawString(WindowsWindow* window, const std::wstring& kString, co
 
     const D2D1_RECT_F rect = D2D1::RectF(kRect.Left(), kRect.Top(), kRect.Right(), kRect.Bottom());
 
+    Canvas* canvas = Canvas::Get();
+    float scale_ratio = canvas->GetScaleRatio();
+    float scaled_font_size = font_size * scale_ratio;
+
     Microsoft::WRL::ComPtr<IDWriteTextFormat> text_format;
     HRESULT hr = dwrite_factory_->CreateTextFormat(L"Silver", dwrite_font_collection_.Get(),
                                                    DWRITE_FONT_WEIGHT_REGULAR, DWRITE_FONT_STYLE_NORMAL,
-                                                   DWRITE_FONT_STRETCH_NORMAL, font_size, L"en-us",
+                                                   DWRITE_FONT_STRETCH_NORMAL, scaled_font_size, L"en-us",
                                                    text_format.GetAddressOf());
     if (FAILED(hr)) return;
 
-    text_format->SetTextAlignment(DWRITE_TEXT_ALIGNMENT_CENTER);
-    text_format->SetParagraphAlignment(DWRITE_PARAGRAPH_ALIGNMENT_CENTER);
+    text_format->SetTextAlignment(text_alignment);
+    text_format->SetParagraphAlignment(paragraph_alignment);
 
     Microsoft::WRL::ComPtr<ID2D1SolidColorBrush> brush;
     hr = d2d_viewport->d2d_render_target->CreateSolidColorBrush(
@@ -554,25 +584,57 @@ void Renderer::DrawString(WindowsWindow* window, const std::wstring& kString, co
     d2d_viewport->d2d_render_target->SetTransform(transform);
 }
 
-void Renderer::DrawBitmap(const std::shared_ptr<WindowsWindow>& kWindow, const Microsoft::WRL::ComPtr<ID2D1Bitmap>& kBitmap, Math::Vector2 position, Math::Vector2 size, float rotation_z)
+void Renderer::DrawBitmap(WindowsWindow* window, const Microsoft::WRL::ComPtr<ID2D1Bitmap>& kBitmap, const Math::Rect& kRect, const Math::Vector2& kPivot, float rotation_z)
 {
-    D2DViewport* d2d_viewport = FindD2DViewport(kWindow.get());
+    D2DViewport* d2d_viewport = FindD2DViewport(window);
     if (!d2d_viewport) return;
 
     D2D1_MATRIX_3X2_F transform;
     d2d_viewport->d2d_render_target->GetTransform(&transform);
 
-    const float half_width = size.x * 0.5f;
-    const float half_height = size.y * 0.5f;
+    const D2D1_RECT_F rect = D2D1::RectF(kRect.Left(), kRect.Top(), kRect.Right(), kRect.Bottom());
 
-    const D2D1_RECT_F rect = D2D1::RectF(position.x - half_width, position.y - half_height,
-                                         position.x + half_width, position.y + half_height);
-
-    D2D1_POINT_2F center = D2D1::Point2F(position.x, position.y);
+    D2D1_POINT_2F center = D2D1::Point2F(kPivot.x, kPivot.y);
     d2d_viewport->d2d_render_target->SetTransform(D2D1::Matrix3x2F::Rotation(rotation_z, center));
 
-    d2d_viewport->d2d_render_target->DrawBitmap(kBitmap.Get(), rect);
+    // D2D1_BITMAP_INTERPOLATION_MODE_NEAREST_NEIGHBOR - Point
+    // D2D1_BITMAP_INTERPOLATION_MODE_LINEAR - Bilinear
+
+    d2d_viewport->d2d_render_target->DrawBitmap(kBitmap.Get(), rect, 1.f, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR);
     d2d_viewport->d2d_render_target->SetTransform(transform);
+}
+
+void Renderer::GetStringSize(WindowsWindow* window, const std::wstring& kString, float font_size, Math::Vector2& size)
+{
+    D2DViewport* d2d_viewport = FindD2DViewport(window);
+    if (!d2d_viewport) return;
+
+    Canvas* canvas = Canvas::Get();
+    float scale_ratio = canvas->GetScaleRatio();
+    float scaled_font_size = font_size * scale_ratio;
+
+    Microsoft::WRL::ComPtr<IDWriteTextFormat> text_format;
+    HRESULT hr = dwrite_factory_->CreateTextFormat(
+        L"Silver", dwrite_font_collection_.Get(),
+        DWRITE_FONT_WEIGHT_REGULAR, DWRITE_FONT_STYLE_NORMAL,
+        DWRITE_FONT_STRETCH_NORMAL, scaled_font_size, L"en-us",
+        text_format.GetAddressOf()
+    );
+    
+    if (FAILED(hr)) return;
+
+    text_format->SetTextAlignment(DWRITE_TEXT_ALIGNMENT_LEADING);
+    text_format->SetParagraphAlignment(DWRITE_PARAGRAPH_ALIGNMENT_NEAR);
+
+    Microsoft::WRL::ComPtr<IDWriteTextLayout> text_layout;
+    hr = dwrite_factory_->CreateTextLayout(kString.c_str(), static_cast<UINT32>(kString.size()), text_format.Get(), FLT_MAX, FLT_MAX, text_layout.GetAddressOf());
+    if (FAILED(hr)) return;
+
+    DWRITE_TEXT_METRICS text_metrics;
+    text_layout->GetMetrics(&text_metrics);
+
+    size.x = text_metrics.width;
+    size.y = text_metrics.height;
 }
 
 bool Renderer::LoadBitmap(const std::shared_ptr<WindowsWindow>& kWindow, const std::wstring& kFileName, Microsoft::WRL::ComPtr<ID2D1Bitmap>& bitmap)

@@ -15,12 +15,6 @@
     <ClCompile Include="Engine\Actor\Component\ActorComponent.cpp">
       <Filter>Other</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Actor\Component\AudioComponent.cpp">
-      <Filter>Other</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Actor\Component\AudioListenerComponent.cpp">
-      <Filter>Other</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\Audio\AudioManager.cpp">
       <Filter>Other</Filter>
     </ClCompile>
@@ -67,9 +61,6 @@
       <Filter>Other</Filter>
     </ClCompile>
     <ClCompile Include="Engine\DebugDraw.cpp">
-      <Filter>Other</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\EventManager.cpp">
       <Filter>Other</Filter>
     </ClCompile>
     <ClCompile Include="Game\Actor\FollowCamera.cpp">
@@ -183,41 +174,8 @@
     <ClCompile Include="Game\Map\MainMap.cpp">
       <Filter>UI</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\UI\Button.cpp">
-      <Filter>UI</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\UI\ProgressBar.cpp">
-      <Filter>UI</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\UI\ScrollView.cpp">
-      <Filter>UI</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\UI\TextBlock.cpp">
-      <Filter>UI</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\UI\UIBase.cpp">
-      <Filter>UI</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\UI\BoxComponent.cpp">
-      <Filter>UI\Base</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\UI\CircleComponent.cpp">
-      <Filter>UI\Base</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\UI\StringComponent.cpp">
-      <Filter>UI\Base</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\UI\Canvas.cpp">
       <Filter>UI\Base</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\UI\BitmapComponent.cpp">
-      <Filter>UI\Base</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\UI\LineComponent.cpp">
-      <Filter>UI\Base</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\UI\Image.cpp">
-      <Filter>UI</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Actor\Component\Animator\AnimationClip.cpp">
       <Filter>Animation</Filter>
@@ -232,38 +190,24 @@
       <Filter>Other</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Logger\Logger.cpp" />
-    <ClCompile Include="Game\Sio\AnimComp.cpp">
-      <Filter>Sio</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\Sio\InputComp.cpp">
-      <Filter>Sio</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\Sio\PhysicsComp.cpp">
-      <Filter>Sio</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\Sio\Sio.cpp">
-      <Filter>Sio</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\Structure\Disinteractable.cpp">
-      <Filter>Structure\Disinteractable</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\Structure\Character.cpp">
-      <Filter>Structure\Interactable</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\Structure\Enemy.cpp">
-      <Filter>Structure\Interactable</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\Structure\Interactable.cpp">
-      <Filter>Structure\Interactable</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\Structure\NPC.cpp">
-      <Filter>Structure\Interactable</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\Structure\Player.cpp">
-      <Filter>Structure\Interactable</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\Input\Mouse.cpp" />
     <ClCompile Include="pch.cpp" />
+    <ClCompile Include="Engine\Data\DataManager.cpp" />
+    <ClCompile Include="Engine\Math\Rect.cpp" />
+    <ClCompile Include="Engine\Resource\Resource.cpp" />
+    <ClCompile Include="Engine\Resource\ResourceManager.cpp" />
+    <ClCompile Include="Engine\UI\Widget.cpp" />
+    <ClCompile Include="Engine\UI\Widget\Button.cpp" />
+    <ClCompile Include="Engine\UI\Widget\Image.cpp" />
+    <ClCompile Include="Engine\Windows\DX\UITexture.cpp" />
+    <ClCompile Include="Game\Map\SplashMap.cpp" />
+    <ClCompile Include="Engine\Steam\SteamManager.cpp" />
+    <ClCompile Include="Engine\UI\Widget\Text.cpp" />
+    <ClCompile Include="Game\Map\MainMenu.cpp" />
+    <ClCompile Include="Engine\Object.cpp" />
+    <ClCompile Include="Game\Actor\Character\Player\States\PlayerIdleState.cpp" />
+    <ClCompile Include="Game\Actor\StateMachine\State.cpp" />
+    <ClCompile Include="Game\Actor\StateMachine\StateMachine.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Actor\Actor.h">
@@ -273,12 +217,6 @@
       <Filter>Other</Filter>
     </ClInclude>
     <ClInclude Include="Include\DirectXTK\Audio.h">
-      <Filter>Other</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Actor\Component\AudioComponent.h">
-      <Filter>Other</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Actor\Component\AudioListenerComponent.h">
       <Filter>Other</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Audio\AudioManager.h">
@@ -480,9 +418,6 @@
       <Filter>Other</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Enums.h">
-      <Filter>Other</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\EventManager.h">
       <Filter>Other</Filter>
     </ClInclude>
     <ClInclude Include="Include\FMOD\fmod.h">
@@ -743,41 +678,8 @@
     <ClInclude Include="Game\Map\MainMap.h">
       <Filter>UI</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\UI\Button.h">
-      <Filter>UI</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\UI\ProgressBar.h">
-      <Filter>UI</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\UI\ScrollView.h">
-      <Filter>UI</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\UI\TextBlock.h">
-      <Filter>UI</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\UI\UIBase.h">
-      <Filter>UI</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\UI\BoxComponent.h">
-      <Filter>UI\Base</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\UI\CircleComponent.h">
-      <Filter>UI\Base</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\UI\StringComponent.h">
-      <Filter>UI\Base</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\UI\Canvas.h">
       <Filter>UI\Base</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\UI\BitmapComponent.h">
-      <Filter>UI\Base</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\UI\LineComponent.h">
-      <Filter>UI\Base</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\UI\Image.h">
-      <Filter>UI</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Actor\Component\Animator\AnimationClip.h">
       <Filter>Animation</Filter>
@@ -792,43 +694,71 @@
       <Filter>Other</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Logger\Logger.h" />
-    <ClInclude Include="Game\Sio\AnimComp.h">
-      <Filter>Sio</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Sio\InputComp.h">
-      <Filter>Sio</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Sio\PhysicsComp.h">
-      <Filter>Sio</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Sio\Sio.h">
-      <Filter>Sio</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Structure\Disinteractable.h">
-      <Filter>Structure\Disinteractable</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Structure\Character.h">
-      <Filter>Structure\Interactable</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Structure\Enemy.h">
-      <Filter>Structure\Interactable</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Structure\Interactable.h">
-      <Filter>Structure\Interactable</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Structure\NPC.h">
-      <Filter>Structure\Interactable</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Structure\Player.h">
-      <Filter>Structure\Interactable</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\Input\Mouse.h" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="Engine\Data\DataManager.h" />
+    <ClInclude Include="Engine\Math\Rect.h" />
+    <ClInclude Include="Engine\Resource\Resource.h" />
+    <ClInclude Include="Engine\Resource\ResourceManager.h" />
+    <ClInclude Include="Engine\UI\Widget.h" />
+    <ClInclude Include="Engine\UI\Widget\Button.h" />
+    <ClInclude Include="Engine\UI\Widget\Image.h" />
+    <ClInclude Include="Engine\Windows\DX\UITexture.h" />
+    <ClInclude Include="Game\Map\SplashMap.h" />
+    <ClInclude Include="Include\steam\isteamapps.h" />
+    <ClInclude Include="Include\steam\isteamappticket.h" />
+    <ClInclude Include="Include\steam\isteamclient.h" />
+    <ClInclude Include="Include\steam\isteamcontroller.h" />
+    <ClInclude Include="Include\steam\isteamdualsense.h" />
+    <ClInclude Include="Include\steam\isteamfriends.h" />
+    <ClInclude Include="Include\steam\isteamgamecoordinator.h" />
+    <ClInclude Include="Include\steam\isteamgameserver.h" />
+    <ClInclude Include="Include\steam\isteamgameserverstats.h" />
+    <ClInclude Include="Include\steam\isteamhtmlsurface.h" />
+    <ClInclude Include="Include\steam\isteamhttp.h" />
+    <ClInclude Include="Include\steam\isteaminput.h" />
+    <ClInclude Include="Include\steam\isteaminventory.h" />
+    <ClInclude Include="Include\steam\isteammatchmaking.h" />
+    <ClInclude Include="Include\steam\isteammusic.h" />
+    <ClInclude Include="Include\steam\isteammusicremote.h" />
+    <ClInclude Include="Include\steam\isteamnetworking.h" />
+    <ClInclude Include="Include\steam\isteamnetworkingmessages.h" />
+    <ClInclude Include="Include\steam\isteamnetworkingsockets.h" />
+    <ClInclude Include="Include\steam\isteamnetworkingutils.h" />
+    <ClInclude Include="Include\steam\isteamparentalsettings.h" />
+    <ClInclude Include="Include\steam\isteamps3overlayrenderer.h" />
+    <ClInclude Include="Include\steam\isteamremoteplay.h" />
+    <ClInclude Include="Include\steam\isteamremotestorage.h" />
+    <ClInclude Include="Include\steam\isteamscreenshots.h" />
+    <ClInclude Include="Include\steam\isteamtimeline.h" />
+    <ClInclude Include="Include\steam\isteamugc.h" />
+    <ClInclude Include="Include\steam\isteamuser.h" />
+    <ClInclude Include="Include\steam\isteamuserstats.h" />
+    <ClInclude Include="Include\steam\isteamutils.h" />
+    <ClInclude Include="Include\steam\isteamvideo.h" />
+    <ClInclude Include="Include\steam\matchmakingtypes.h" />
+    <ClInclude Include="Include\steam\steamclientpublic.h" />
+    <ClInclude Include="Include\steam\steamencryptedappticket.h" />
+    <ClInclude Include="Include\steam\steamhttpenums.h" />
+    <ClInclude Include="Include\steam\steamnetworkingfakeip.h" />
+    <ClInclude Include="Include\steam\steamnetworkingtypes.h" />
+    <ClInclude Include="Include\steam\steamps3params.h" />
+    <ClInclude Include="Include\steam\steamtypes.h" />
+    <ClInclude Include="Include\steam\steamuniverse.h" />
+    <ClInclude Include="Include\steam\steam_api.h" />
+    <ClInclude Include="Include\steam\steam_api_common.h" />
+    <ClInclude Include="Include\steam\steam_api_flat.h" />
+    <ClInclude Include="Include\steam\steam_api_internal.h" />
+    <ClInclude Include="Include\steam\steam_gameserver.h" />
+    <ClInclude Include="Engine\Steam\SteamManager.h" />
+    <ClInclude Include="Engine\UI\Widget\Text.h" />
+    <ClInclude Include="Game\Map\MainMenu.h" />
+    <ClInclude Include="Engine\Object.h" />
+    <ClInclude Include="Game\Actor\Character\Player\States\PlayerIdleState.h" />
+    <ClInclude Include="Game\Actor\StateMachine\State.h" />
+    <ClInclude Include="Game\Actor\StateMachine\StateMachine.h" />
   </ItemGroup>
   <ItemGroup>
-    <Filter Include="TileMap">
-      <UniqueIdentifier>{1fc4bdff-12e1-43db-b307-3bf9c9dbfaef}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Other">
       <UniqueIdentifier>{a7a2b893-d9d3-4d46-a65e-55a902cdef87}</UniqueIdentifier>
     </Filter>
@@ -838,20 +768,8 @@
     <Filter Include="UI\Base">
       <UniqueIdentifier>{39e9e138-ba43-4c96-ab84-c5ab4e68b701}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Structure">
-      <UniqueIdentifier>{bc5f8b29-345f-40b1-a2ba-8f40dda71504}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Animation">
       <UniqueIdentifier>{42ddda06-8f33-4d5f-af90-9eeb4d872622}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Structure\Interactable">
-      <UniqueIdentifier>{5167afec-a445-418e-8c8f-2e4f41cd3bad}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Structure\Disinteractable">
-      <UniqueIdentifier>{270006f9-3369-4e70-ae4f-386ab7b95e77}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Sio">
-      <UniqueIdentifier>{ccecc76f-a4c5-41c0-b2cb-11ad51405169}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

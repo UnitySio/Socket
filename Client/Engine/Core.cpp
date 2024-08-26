@@ -2,10 +2,12 @@
 #include "Core.h"
 
 #include "GameEngine.h"
+#include "../Include/steam/steam_api.h"
 #include "Audio/AudioManager.h"
 #include "Input/Keyboard.h"
 #include "Input/Mouse.h"
 #include "Level/World.h"
+#include "Logger/Logger.h"
 #include "Math/Vector2.h"
 #include "Time/Time.h"
 #include "UI/Canvas.h"
@@ -28,11 +30,11 @@ Core::Core() :
 {
 }
 
-void Core::Init(const HINSTANCE instance_handle)
+void Core::Init(const HINSTANCE kInstanceHandle)
 {
     // 윈도우 애플리케이션을 생성하고 메시지 핸들러로 등록
-    HICON icon_handle = LoadIcon(instance_handle, MAKEINTRESOURCE(IDI_ICON1));
-    current_application_ = std::make_shared<WindowsApplication>(instance_handle, icon_handle);
+    HICON icon_handle = LoadIcon(kInstanceHandle, MAKEINTRESOURCE(IDI_ICON1));
+    current_application_ = std::make_shared<WindowsApplication>(kInstanceHandle, icon_handle);
     current_application_->AddMessageHandler(*this);
 
     // DirectX 11 렌더러 초기화
@@ -40,19 +42,18 @@ void Core::Init(const HINSTANCE instance_handle)
 
     // 게임 윈도우 정의 생성
     std::shared_ptr<WindowDefinition> definition = std::make_shared<WindowDefinition>();
-    definition->title = L"Fusion2D";
+    definition->title = ProjectSettings::kWindowTitle;
     definition->screen_x = 100;
     definition->screen_y = 100;
-    definition->width = 800;
-    definition->height = 600;
+    definition->width = ProjectSettings::kScreenWidth;
+    definition->height = ProjectSettings::kScreenHeight;
 
     // 게임 윈도우 생성
     std::shared_ptr<WindowsWindow> new_window = current_application_->MakeWindow();
     current_application_->InitWindow(new_window, definition, nullptr);
 
     // 렌더러에 뷰포트 생성
-    CHECK_IF(Renderer::Get()->CreateViewport(new_window, {definition->width, definition->height}),
-             L"Failed to create viewport.");
+    CHECK_IF(Renderer::Get()->CreateViewport(new_window, {definition->width, definition->height}), L"Failed to create viewport.");
     CHECK_IF(Renderer::Get()->CreateD2DViewport(new_window), L"Failed to create D2D viewport.");
 
     game_window_ = new_window;
@@ -77,32 +78,38 @@ bool Core::ProcessMessage(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam,
 
     if (message == WM_SIZE)
     {
+        Keyboard::Get()->Clear();
+        Mouse::Get()->Clear();
+        
         if (wParam == SIZE_MINIMIZED) return false;
-
+        
         resize_width_ = LOWORD(lParam);
         resize_height_ = HIWORD(lParam);
 
         Canvas::Get()->OnResize(resize_width_, resize_height_);
+        return true;
     }
 
     if (message == WM_SETFOCUS)
     {
         AudioManager::Get()->SetAllMutes(false);
+        return true;
     }
 
     if (message == WM_KILLFOCUS)
     {
-        AudioManager::Get()->SetAllMutes(true);
-        
         Keyboard::Get()->Clear();
         Mouse::Get()->Clear();
+        
+        AudioManager::Get()->SetAllMutes(true);
+        return true;
     }
 
     if (message == WM_DESTROY)
     {
-        if (const auto window = game_window_.lock())
+        if (const auto kWindow = game_window_.lock())
         {
-            if (window->GetHWnd() == hWnd)
+            if (kWindow->GetHWnd() == hWnd)
             {
                 Stop();
 
@@ -110,6 +117,7 @@ bool Core::ProcessMessage(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam,
                 Renderer::Get()->Release();
             }
         }
+        return true;
     }
 
     return false;
@@ -136,11 +144,11 @@ void Core::MainThread()
         delta_time_ = elapsed_time;
 #pragma endregion
         
-        if (const auto& window = game_window_.lock())
+        if (const auto& kWindow = game_window_.lock())
         {
             if (resize_width_ > 0 && resize_height_ > 0)
             {
-                Renderer::Get()->ResizeViewport(window, resize_width_, resize_height_);
+                Renderer::Get()->ResizeViewport(kWindow, resize_width_, resize_height_);
 
                 resize_width_ = 0;
                 resize_height_ = 0;

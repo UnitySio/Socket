@@ -22,7 +22,7 @@ private:
 template <std::derived_from<Resource> T>
 bool ResourceManager::Load(const std::wstring& kName, const std::wstring& kPath)
 {
-    if (resources_.contains(kName)) return false;
+    if (resources_.contains(kName)) return true;
 
     T* resource = new T();
     if (!resource->Load(kPath)) return false;

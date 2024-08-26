@@ -4,6 +4,8 @@
 
 class CameraComponent : public ActorComponent
 {
+    SHADER_CLASS_HELPER(CameraComponent);
+    
 public:
     CameraComponent(Actor* owner, const std::wstring& kName);
     virtual ~CameraComponent() override = default;

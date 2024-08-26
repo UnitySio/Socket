@@ -3,6 +3,8 @@
 
 class CircleColliderComponent : public ColliderComponent
 {
+    SHADER_CLASS_HELPER(CircleColliderComponent)
+    
 public:
     CircleColliderComponent(Actor* owner, const std::wstring& kName);
     virtual ~CircleColliderComponent() override = default;
@@ -10,9 +12,10 @@ public:
     virtual void SetOffset(const Math::Vector2& kOffset) override;
 
     void SetRadius(float radius);
+    void SetTrigger(bool is_trigger);
 
 private:
-    void SetCircle();
+    virtual void SetShape() override;
     
     float radius_;
     

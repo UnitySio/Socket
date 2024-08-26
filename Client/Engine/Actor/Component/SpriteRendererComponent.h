@@ -11,6 +11,8 @@ class Sprite;
 
 class SpriteRendererComponent : public ActorComponent
 {
+    SHADER_CLASS_HELPER(SpriteRendererComponent)
+    
 public:
     SpriteRendererComponent(class Actor* owner, const std::wstring& kName);
     virtual ~SpriteRendererComponent() override = default;

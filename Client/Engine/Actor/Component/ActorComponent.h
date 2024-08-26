@@ -2,14 +2,17 @@
 #include <memory>
 #include <string>
 
+#include "Object.h"
+#include "Misc/EngineMacros.h"
+
 enum class EndPlayReason : size_t;
-class ActorComponent : public std::enable_shared_from_this<ActorComponent>
+class ActorComponent : public Object, public std::enable_shared_from_this<ActorComponent>
 {
+    SHADER_CLASS_HELPER(ActorComponent)
+    
 public:
     ActorComponent(class Actor* owner, const std::wstring& kName);
-    virtual ~ActorComponent() = default;
-
-    inline std::shared_ptr<ActorComponent> GetSharedPtr() { return shared_from_this(); }
+    virtual ~ActorComponent() override = default;
 
     inline Actor* GetOwner() const { return owner_; }
     inline std::wstring GetName() const { return name_; }

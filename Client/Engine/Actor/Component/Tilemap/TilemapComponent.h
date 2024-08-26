@@ -3,19 +3,18 @@
 #include <vector>
 #include "Math/MathTypes.h"
 #include "Math/Vector2.h"
-#include "Misc/EngineMacros.h"
 #include "tmxlite/Map.hpp"
-#include "Windows/DX/Vertex.h"
-#include "wrl.h"
-#include <d3d11.h>
 
 #include "TilemapChunk.h"
 #include "TilemapLayer.h"
+#include "box2d/id.h"
 
 class Shape;
 
 class TilemapComponent : public ActorComponent
 {
+    SHADER_CLASS_HELPER(TilemapComponent)
+    
     const float PPU = 32.f;
     const MathTypes::uint32 VertexBufferSize = 2048;
     const MathTypes::uint32 IndexBufferSize = 2048 * 6 / 4;
@@ -36,6 +35,7 @@ private:
     Math::Vector2 map_size_;
 
     std::vector<std::unique_ptr<TilemapLayer>> tilemap_layers_;
-    class b2Body* tilemap_body_;
+
+    b2BodyId tilemap_body_id_;
     
 };

@@ -77,6 +77,7 @@ public:
     void EndRenderD2D();
     void BeginLayer(const Math::Rect& kRect);
     void EndLayer();
+    void ChangeResolution(WindowsWindow* window, MathTypes::uint32 width, MathTypes::uint32 height, bool is_fullscreen = false);
     
     Math::Vector2 ConvertScreenToWorld(const Math::Vector2& kScreenPosition) const;
     Math::Vector2 ConvertWorldToScreen(const Math::Vector2& kWorldPosition) const;
@@ -84,9 +85,10 @@ public:
     // Direct2D
     void DrawBox(WindowsWindow* window, const Math::Rect& kRect, const Math::Vector2& kPivot, const Math::Color& kColor, float rotation_z = 0.f, float stroke = 1.f);
     void DrawCircle(const std::shared_ptr<WindowsWindow>& kWindow, Math::Vector2 position, float radius, Math::Color color, float stroke = 1.f);
-    void DrawLine(const std::shared_ptr<WindowsWindow>& kWindow, Math::Vector2 start, Math::Vector2 end, Math::Color color, float stroke = 1.f);
-    void DrawString(WindowsWindow* window, const std::wstring& kString, const Math::Rect& kRect, const Math::Vector2& kPivot, const Math::Color& kColor, float rotation_z = 0.f, float font_size = 24.f);
-    void DrawBitmap(const std::shared_ptr<WindowsWindow>& kWindow, const Microsoft::WRL::ComPtr<ID2D1Bitmap>& kBitmap, Math::Vector2 position, Math::Vector2 size, float rotation_z = 0.f);
+    void DrawLine(WindowsWindow* window, Math::Vector2 start, Math::Vector2 end, Math::Color color, float stroke = 1.f);
+    void DrawString(WindowsWindow* window, const std::wstring& kString, const Math::Rect& kRect, const Math::Vector2& kPivot, const Math::Color& kColor, float rotation_z = 0.f, float font_size = 24.f, DWRITE_TEXT_ALIGNMENT text_alignment = DWRITE_TEXT_ALIGNMENT_LEADING, DWRITE_PARAGRAPH_ALIGNMENT paragraph_alignment = DWRITE_PARAGRAPH_ALIGNMENT_NEAR);
+    void DrawBitmap(WindowsWindow* window, const Microsoft::WRL::ComPtr<ID2D1Bitmap>& kBitmap, const Math::Rect& kRect, const Math::Vector2& kPivot, float rotation_z = 0.f);
+    void GetStringSize(WindowsWindow* window, const std::wstring& kString, float font_size, Math::Vector2& size);
     
     bool LoadBitmap(const std::shared_ptr<WindowsWindow>& kWindow, const std::wstring& kFileName, Microsoft::WRL::ComPtr<ID2D1Bitmap>& bitmap);
 

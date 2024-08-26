@@ -49,4 +49,11 @@
     do { \
         Logger::Get()->AddWarningLog(format, __VA_ARGS__); \
     } while (0)
-    
+
+#define SHADER_CLASS_HELPER(class_name) \
+    public: \
+        std::shared_ptr<class_name> GetSharedThis() \
+        { \
+            return std::dynamic_pointer_cast<class_name>(shared_from_this()); \
+        } \
+    private:

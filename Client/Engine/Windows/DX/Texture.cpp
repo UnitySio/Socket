@@ -47,6 +47,8 @@ bool Texture::Load(const std::wstring& kPath)
 
     width_ = texture_desc.Width;
     height_ = texture_desc.Height;
+
+    return true;
 }
 
 void Texture::Bind()

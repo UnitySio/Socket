@@ -3,7 +3,7 @@
 
 #include "Singleton.h"
 
-class UIBase;
+class Widget;
 
 class Canvas : public Singleton<Canvas>
 {
@@ -11,22 +11,30 @@ public:
     Canvas();
     virtual ~Canvas() override = default;
 
-    void AddUI(const std::shared_ptr<UIBase>& kUI);
+    void AddWidget(const std::shared_ptr<Widget>& kWidget);
+
+    float GetScaleRatio() const;
 
 private:
     friend class Core;
     friend class GameEngine;
     friend class World;
-    friend class UIBase;
+    friend class Widget;
 
     void OnResize(MathTypes::uint32 width, MathTypes::uint32 height);
-    void Tick(float deltaTime);
+    void Tick();
     void Render();
     void Clear();
 
     MathTypes::uint32 width_;
     MathTypes::uint32 height_;
+    MathTypes::uint32 reference_resolution_width_;
+    MathTypes::uint32 reference_resolution_height_;
 
-    std::vector<std::shared_ptr<UIBase>> uis_;
+    float match_mode_;
+
+    std::vector<std::shared_ptr<Widget>> widgets_;
+
+    Widget* hovered_widget_;
     
 };

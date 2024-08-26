@@ -5,13 +5,13 @@
       <Configuration>Debug</Configuration>
       <Platform>Win32</Platform>
     </ProjectConfiguration>
-    <ProjectConfiguration Include="Release|Win32">
-      <Configuration>Release</Configuration>
-      <Platform>Win32</Platform>
-    </ProjectConfiguration>
     <ProjectConfiguration Include="Debug|x64">
       <Configuration>Debug</Configuration>
       <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
     </ProjectConfiguration>
     <ProjectConfiguration Include="Release|x64">
       <Configuration>Release</Configuration>
@@ -113,7 +113,7 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)\Client\Lib\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>libtmxlite.lib;box2d.lib;DirectXTK.lib;fmod_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>libtmxlite-s-d.lib;box2d.lib;DirectXTK.lib;fmod_vc.lib;steam_api64.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -127,6 +127,7 @@
       <AdditionalIncludeDirectories>$(SolutionDir)\Client\Game;$(SolutionDir)\Client\Engine;$(SolutionDir)\Client\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -134,7 +135,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)\Client\Lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>box2d.lib;DirectXTK.lib;fmod_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>libtmxlite-s.lib;box2d.lib;DirectXTK.lib;fmod_vc.lib;steam_api64.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -145,6 +146,7 @@
     <ClInclude Include="Engine\Actor\Component\Animator\AnimatorComponent.h" />
     <ClInclude Include="Engine\Actor\Component\BoxColliderComponent.h" />
     <ClInclude Include="Engine\Actor\Component\CameraComponent.h" />
+    <ClInclude Include="Engine\Actor\Component\CapsuleColliderComponent.h" />
     <ClInclude Include="Engine\Actor\Component\CircleColliderComponent.h" />
     <ClInclude Include="Engine\Actor\Component\ColliderComponent.h" />
     <ClInclude Include="Engine\Actor\Component\RigidBodyComponent.h" />
@@ -156,15 +158,11 @@
     <ClInclude Include="Engine\Audio\AudioManager.h" />
     <ClInclude Include="Engine\Core.h" />
     <ClInclude Include="Engine\Data\DataManager.h" />
-    <ClInclude Include="Engine\DebugDraw.h" />
     <ClInclude Include="Engine\Enums.h" />
-    <ClInclude Include="Engine\EventManager.h" />
     <ClInclude Include="Engine\GameEngine.h" />
     <ClInclude Include="Engine\Input\Keyboard.h" />
     <ClInclude Include="Engine\Input\Mouse.h" />
     <ClInclude Include="Engine\Level\Level.h" />
-    <ClInclude Include="Engine\Level\Listener\ContactListener.h" />
-    <ClInclude Include="Engine\Level\Listener\QueryCallback.h" />
     <ClInclude Include="Engine\Level\World.h" />
     <ClInclude Include="Engine\Logger\Logger.h" />
     <ClInclude Include="Engine\Math\Bounds.h" />
@@ -178,23 +176,19 @@
     <ClInclude Include="Engine\Misc\EngineMacros.h" />
     <ClInclude Include="Engine\Misc\Delegate.h" />
     <ClInclude Include="Engine\Misc\Function.h" />
-    <ClInclude Include="Engine\Physics\CircleQueryCallback.h" />
-    <ClInclude Include="Engine\Physics\HitResult.h" />
-    <ClInclude Include="Engine\Physics\BoxQueryCallback.h" />
-    <ClInclude Include="Engine\Physics\Physics.h" />
-    <ClInclude Include="Engine\Physics\RayCastCallback.h" />
-    <ClInclude Include="Engine\Physics\RayCastResult.h" />
+    <ClInclude Include="Engine\Object.h" />
+    <ClInclude Include="Engine\Physics\Physics2D.h" />
     <ClInclude Include="Engine\Resource\Resource.h" />
     <ClInclude Include="Engine\Resource\ResourceManager.h" />
     <ClInclude Include="Engine\Singleton.h" />
+    <ClInclude Include="Engine\Steam\SteamManager.h" />
     <ClInclude Include="Engine\Time\Time.h" />
     <ClInclude Include="Engine\Time\TimerManager.h" />
-    <ClInclude Include="Engine\UI\Button.h" />
     <ClInclude Include="Engine\UI\Canvas.h" />
-    <ClInclude Include="Engine\UI\ScrollBox.h" />
-    <ClInclude Include="Engine\UI\Slider.h" />
-    <ClInclude Include="Engine\UI\Text.h" />
-    <ClInclude Include="Engine\UI\UIBase.h" />
+    <ClInclude Include="Engine\UI\Widget.h" />
+    <ClInclude Include="Engine\UI\Widget\Button.h" />
+    <ClInclude Include="Engine\UI\Widget\Image.h" />
+    <ClInclude Include="Engine\UI\Widget\Text.h" />
     <ClInclude Include="Engine\Windows\DX\ConstantBuffer.h" />
     <ClInclude Include="Engine\Windows\DX\IndexBuffer.h" />
     <ClInclude Include="Engine\Windows\DX\Renderer.h" />
@@ -213,62 +207,24 @@
     <ClInclude Include="Game\Actor\Box.h" />
     <ClInclude Include="Game\Actor\Character\CharacterBase.h" />
     <ClInclude Include="Game\Actor\Character\Player\PlayerController.h" />
+    <ClInclude Include="Game\Actor\Character\Player\States\PlayerAttackState.h" />
+    <ClInclude Include="Game\Actor\Character\Player\States\PlayerIdleState.h" />
+    <ClInclude Include="Game\Actor\Character\Player\States\PlayerMoveState.h" />
     <ClInclude Include="Game\Actor\FollowCamera.h" />
+    <ClInclude Include="Game\Actor\StateMachine\State.h" />
+    <ClInclude Include="Game\Actor\StateMachine\StateMachine.h" />
     <ClInclude Include="Game\Actor\Tilemap.h" />
     <ClInclude Include="Game\GameInstance.h" />
     <ClInclude Include="Game\Map\MainMap.h" />
-    <ClInclude Include="Game\Map\WorldMap.h" />
+    <ClInclude Include="Game\Map\MainMenu.h" />
+    <ClInclude Include="Game\Map\SplashMap.h" />
     <ClInclude Include="Game\ProjectSettings.h" />
-    <ClInclude Include="Game\Sio\AnimComp.h" />
-    <ClInclude Include="Game\Sio\InputComp.h" />
-    <ClInclude Include="Game\Sio\PhysicsComp.h" />
-    <ClInclude Include="Game\Sio\Sio.h" />
-    <ClInclude Include="Game\Structure\Character.h" />
-    <ClInclude Include="Game\Structure\Disinteractable.h" />
-    <ClInclude Include="Game\Structure\Enemy.h" />
-    <ClInclude Include="Game\Structure\Interactable.h" />
-    <ClInclude Include="Game\Structure\NPC.h" />
-    <ClInclude Include="Game\Structure\Player.h" />
-    <ClInclude Include="Include\box2d\b2_api.h" />
-    <ClInclude Include="Include\box2d\b2_block_allocator.h" />
-    <ClInclude Include="Include\box2d\b2_body.h" />
-    <ClInclude Include="Include\box2d\b2_broad_phase.h" />
-    <ClInclude Include="Include\box2d\b2_chain_shape.h" />
-    <ClInclude Include="Include\box2d\b2_circle_shape.h" />
-    <ClInclude Include="Include\box2d\b2_collision.h" />
-    <ClInclude Include="Include\box2d\b2_common.h" />
-    <ClInclude Include="Include\box2d\b2_contact.h" />
-    <ClInclude Include="Include\box2d\b2_contact_manager.h" />
-    <ClInclude Include="Include\box2d\b2_distance.h" />
-    <ClInclude Include="Include\box2d\b2_distance_joint.h" />
-    <ClInclude Include="Include\box2d\b2_draw.h" />
-    <ClInclude Include="Include\box2d\b2_dynamic_tree.h" />
-    <ClInclude Include="Include\box2d\b2_edge_shape.h" />
-    <ClInclude Include="Include\box2d\b2_fixture.h" />
-    <ClInclude Include="Include\box2d\b2_friction_joint.h" />
-    <ClInclude Include="Include\box2d\b2_gear_joint.h" />
-    <ClInclude Include="Include\box2d\b2_growable_stack.h" />
-    <ClInclude Include="Include\box2d\b2_joint.h" />
-    <ClInclude Include="Include\box2d\b2_math.h" />
-    <ClInclude Include="Include\box2d\b2_motor_joint.h" />
-    <ClInclude Include="Include\box2d\b2_mouse_joint.h" />
-    <ClInclude Include="Include\box2d\b2_polygon_shape.h" />
-    <ClInclude Include="Include\box2d\b2_prismatic_joint.h" />
-    <ClInclude Include="Include\box2d\b2_pulley_joint.h" />
-    <ClInclude Include="Include\box2d\b2_revolute_joint.h" />
-    <ClInclude Include="Include\box2d\b2_rope.h" />
-    <ClInclude Include="Include\box2d\b2_settings.h" />
-    <ClInclude Include="Include\box2d\b2_shape.h" />
-    <ClInclude Include="Include\box2d\b2_stack_allocator.h" />
-    <ClInclude Include="Include\box2d\b2_timer.h" />
-    <ClInclude Include="Include\box2d\b2_time_of_impact.h" />
-    <ClInclude Include="Include\box2d\b2_time_step.h" />
-    <ClInclude Include="Include\box2d\b2_types.h" />
-    <ClInclude Include="Include\box2d\b2_weld_joint.h" />
-    <ClInclude Include="Include\box2d\b2_wheel_joint.h" />
-    <ClInclude Include="Include\box2d\b2_world.h" />
-    <ClInclude Include="Include\box2d\b2_world_callbacks.h" />
+    <ClInclude Include="Include\box2d\base.h" />
     <ClInclude Include="Include\box2d\box2d.h" />
+    <ClInclude Include="Include\box2d\collision.h" />
+    <ClInclude Include="Include\box2d\id.h" />
+    <ClInclude Include="Include\box2d\math_functions.h" />
+    <ClInclude Include="Include\box2d\types.h" />
     <ClInclude Include="Include\DirectXTK\Audio.h" />
     <ClInclude Include="Include\DirectXTK\BufferHelpers.h" />
     <ClInclude Include="Include\DirectXTK\CommonStates.h" />
@@ -307,6 +263,51 @@
     <ClInclude Include="Include\imgui\imstb_rectpack.h" />
     <ClInclude Include="Include\imgui\imstb_textedit.h" />
     <ClInclude Include="Include\imgui\imstb_truetype.h" />
+    <ClInclude Include="Include\steam\isteamapps.h" />
+    <ClInclude Include="Include\steam\isteamappticket.h" />
+    <ClInclude Include="Include\steam\isteamclient.h" />
+    <ClInclude Include="Include\steam\isteamcontroller.h" />
+    <ClInclude Include="Include\steam\isteamdualsense.h" />
+    <ClInclude Include="Include\steam\isteamfriends.h" />
+    <ClInclude Include="Include\steam\isteamgamecoordinator.h" />
+    <ClInclude Include="Include\steam\isteamgameserver.h" />
+    <ClInclude Include="Include\steam\isteamgameserverstats.h" />
+    <ClInclude Include="Include\steam\isteamhtmlsurface.h" />
+    <ClInclude Include="Include\steam\isteamhttp.h" />
+    <ClInclude Include="Include\steam\isteaminput.h" />
+    <ClInclude Include="Include\steam\isteaminventory.h" />
+    <ClInclude Include="Include\steam\isteammatchmaking.h" />
+    <ClInclude Include="Include\steam\isteammusic.h" />
+    <ClInclude Include="Include\steam\isteammusicremote.h" />
+    <ClInclude Include="Include\steam\isteamnetworking.h" />
+    <ClInclude Include="Include\steam\isteamnetworkingmessages.h" />
+    <ClInclude Include="Include\steam\isteamnetworkingsockets.h" />
+    <ClInclude Include="Include\steam\isteamnetworkingutils.h" />
+    <ClInclude Include="Include\steam\isteamparentalsettings.h" />
+    <ClInclude Include="Include\steam\isteamps3overlayrenderer.h" />
+    <ClInclude Include="Include\steam\isteamremoteplay.h" />
+    <ClInclude Include="Include\steam\isteamremotestorage.h" />
+    <ClInclude Include="Include\steam\isteamscreenshots.h" />
+    <ClInclude Include="Include\steam\isteamtimeline.h" />
+    <ClInclude Include="Include\steam\isteamugc.h" />
+    <ClInclude Include="Include\steam\isteamuser.h" />
+    <ClInclude Include="Include\steam\isteamuserstats.h" />
+    <ClInclude Include="Include\steam\isteamutils.h" />
+    <ClInclude Include="Include\steam\isteamvideo.h" />
+    <ClInclude Include="Include\steam\matchmakingtypes.h" />
+    <ClInclude Include="Include\steam\steamclientpublic.h" />
+    <ClInclude Include="Include\steam\steamencryptedappticket.h" />
+    <ClInclude Include="Include\steam\steamhttpenums.h" />
+    <ClInclude Include="Include\steam\steamnetworkingfakeip.h" />
+    <ClInclude Include="Include\steam\steamnetworkingtypes.h" />
+    <ClInclude Include="Include\steam\steamps3params.h" />
+    <ClInclude Include="Include\steam\steamtypes.h" />
+    <ClInclude Include="Include\steam\steamuniverse.h" />
+    <ClInclude Include="Include\steam\steam_api.h" />
+    <ClInclude Include="Include\steam\steam_api_common.h" />
+    <ClInclude Include="Include\steam\steam_api_flat.h" />
+    <ClInclude Include="Include\steam\steam_api_internal.h" />
+    <ClInclude Include="Include\steam\steam_gameserver.h" />
     <ClInclude Include="Include\tmxlite\Config.hpp" />
     <ClInclude Include="Include\tmxlite\FreeFuncs.hpp" />
     <ClInclude Include="Include\tmxlite\ImageLayer.hpp" />
@@ -333,6 +334,7 @@
     <ClCompile Include="Engine\Actor\Component\Animator\AnimatorComponent.cpp" />
     <ClCompile Include="Engine\Actor\Component\BoxColliderComponent.cpp" />
     <ClCompile Include="Engine\Actor\Component\CameraComponent.cpp" />
+    <ClCompile Include="Engine\Actor\Component\CapsuleColliderComponent.cpp" />
     <ClCompile Include="Engine\Actor\Component\CircleColliderComponent.cpp" />
     <ClCompile Include="Engine\Actor\Component\ColliderComponent.cpp" />
     <ClCompile Include="Engine\Actor\Component\RigidBodyComponent.cpp" />
@@ -344,14 +346,10 @@
     <ClCompile Include="Engine\Audio\AudioManager.cpp" />
     <ClCompile Include="Engine\Core.cpp" />
     <ClCompile Include="Engine\Data\DataManager.cpp" />
-    <ClCompile Include="Engine\DebugDraw.cpp" />
-    <ClCompile Include="Engine\EventManager.cpp" />
     <ClCompile Include="Engine\GameEngine.cpp" />
     <ClCompile Include="Engine\Input\Keyboard.cpp" />
     <ClCompile Include="Engine\Input\Mouse.cpp" />
     <ClCompile Include="Engine\Level\Level.cpp" />
-    <ClCompile Include="Engine\Level\Listener\ContactListener.cpp" />
-    <ClCompile Include="Engine\Level\Listener\QueryCallback.cpp" />
     <ClCompile Include="Engine\Level\World.cpp" />
     <ClCompile Include="Engine\Logger\Logger.cpp" />
     <ClCompile Include="Engine\Math\Bounds.cpp" />
@@ -360,20 +358,18 @@
     <ClCompile Include="Engine\Math\Rect.cpp" />
     <ClCompile Include="Engine\Math\Vector2.cpp" />
     <ClCompile Include="Engine\Misc\Debug.cpp" />
-    <ClCompile Include="Engine\Physics\BoxQueryCallback.cpp" />
-    <ClCompile Include="Engine\Physics\CircleQueryCallback.cpp" />
-    <ClCompile Include="Engine\Physics\Physics.cpp" />
-    <ClCompile Include="Engine\Physics\RayCastCallback.cpp" />
+    <ClCompile Include="Engine\Object.cpp" />
+    <ClCompile Include="Engine\Physics\Physics2D.cpp" />
     <ClCompile Include="Engine\Resource\Resource.cpp" />
     <ClCompile Include="Engine\Resource\ResourceManager.cpp" />
+    <ClCompile Include="Engine\Steam\SteamManager.cpp" />
     <ClCompile Include="Engine\Time\Time.cpp" />
     <ClCompile Include="Engine\Time\TimerManager.cpp" />
-    <ClCompile Include="Engine\UI\Button.cpp" />
     <ClCompile Include="Engine\UI\Canvas.cpp" />
-    <ClCompile Include="Engine\UI\ScrollBox.cpp" />
-    <ClCompile Include="Engine\UI\Slider.cpp" />
-    <ClCompile Include="Engine\UI\Text.cpp" />
-    <ClCompile Include="Engine\UI\UIBase.cpp" />
+    <ClCompile Include="Engine\UI\Widget.cpp" />
+    <ClCompile Include="Engine\UI\Widget\Button.cpp" />
+    <ClCompile Include="Engine\UI\Widget\Image.cpp" />
+    <ClCompile Include="Engine\UI\Widget\Text.cpp" />
     <ClCompile Include="Engine\Windows\DX\IndexBuffer.cpp" />
     <ClCompile Include="Engine\Windows\DX\Renderer.cpp" />
     <ClCompile Include="Engine\Windows\DX\Shaders.cpp" />
@@ -388,44 +384,40 @@
     <ClCompile Include="Game\Actor\Box.cpp" />
     <ClCompile Include="Game\Actor\Character\CharacterBase.cpp" />
     <ClCompile Include="Game\Actor\Character\Player\PlayerController.cpp" />
+    <ClCompile Include="Game\Actor\Character\Player\States\PlayerAttackState.cpp" />
+    <ClCompile Include="Game\Actor\Character\Player\States\PlayerIdleState.cpp" />
+    <ClCompile Include="Game\Actor\Character\Player\States\PlayerMoveState.cpp" />
     <ClCompile Include="Game\Actor\FollowCamera.cpp" />
+    <ClCompile Include="Game\Actor\StateMachine\State.cpp" />
+    <ClCompile Include="Game\Actor\StateMachine\StateMachine.cpp" />
     <ClCompile Include="Game\Actor\Tilemap.cpp" />
     <ClCompile Include="Game\GameInstance.cpp" />
     <ClCompile Include="Game\Map\MainMap.cpp" />
-    <ClCompile Include="Game\Map\WorldMap.cpp" />
-    <ClCompile Include="Game\Sio\AnimComp.cpp" />
-    <ClCompile Include="Game\Sio\InputComp.cpp" />
-    <ClCompile Include="Game\Sio\PhysicsComp.cpp" />
-    <ClCompile Include="Game\Sio\Sio.cpp" />
-    <ClCompile Include="Game\Structure\Character.cpp" />
-    <ClCompile Include="Game\Structure\Disinteractable.cpp" />
-    <ClCompile Include="Game\Structure\Enemy.cpp" />
-    <ClCompile Include="Game\Structure\Interactable.cpp" />
-    <ClCompile Include="Game\Structure\NPC.cpp" />
-    <ClCompile Include="Game\Structure\Player.cpp" />
+    <ClCompile Include="Game\Map\MainMenu.cpp" />
+    <ClCompile Include="Game\Map\SplashMap.cpp" />
     <ClCompile Include="Include\imgui\imgui.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Include\imgui\imgui_demo.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Include\imgui\imgui_draw.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Include\imgui\imgui_impl_dx11.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Include\imgui\imgui_impl_win32.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Include\imgui\imgui_tables.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Include\imgui\imgui_widgets.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
@@ -448,6 +440,7 @@
       <EnableDebuggingInformation>true</EnableDebuggingInformation>
       <ShaderType>Pixel</ShaderType>
       <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(OutDir)\%(Filename).cso</ObjectFileOutput>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(OutDir)\%(Filename).cso</ObjectFileOutput>
     </FxCompile>
     <FxCompile Include="Engine\Shader\DefaultVertexShader.hlsl">
       <ObjectFileOutput>C:\Users\Woojin Choi\RiderProjects\Socket\x64\Debug\%(Filename).cso</ObjectFileOutput>
@@ -460,6 +453,7 @@
       <EnableDebuggingInformation>true</EnableDebuggingInformation>
       <ShaderType>Vertex</ShaderType>
       <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(OutDir)\%(Filename).cso</ObjectFileOutput>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(OutDir)\%(Filename).cso</ObjectFileOutput>
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
@@ -474,6 +468,7 @@
     <Compile Include="Include\FMOD\fmod_errors.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Include\steam\steam_api.json" />
     <Content Include="Lib\box2d.lib" />
     <Content Include="Lib\Debug\box2d.lib" />
     <Content Include="Lib\Debug\DirectXTK.lib" />
@@ -481,13 +476,17 @@
     <Content Include="Lib\Debug\fmodL.dll" />
     <Content Include="Lib\Debug\fmodL_vc.lib" />
     <Content Include="Lib\Debug\fmod_vc.lib" />
-    <Content Include="Lib\Debug\libtmxlite.lib" />
+    <Content Include="Lib\Debug\libtmxlite-s-d.lib" />
+    <Content Include="Lib\Debug\steam_api64.dll" />
+    <Content Include="Lib\Debug\steam_api64.lib" />
     <Content Include="Lib\DirectXTK.lib" />
     <Content Include="Lib\fmod.dll" />
     <Content Include="Lib\fmodL.dll" />
     <Content Include="Lib\fmodL_vc.lib" />
     <Content Include="Lib\fmod_vc.lib" />
-    <Content Include="Lib\libtmxlite.lib" />
+    <Content Include="Lib\libtmxlite-s.lib" />
+    <Content Include="Lib\steam_api64.dll" />
+    <Content Include="Lib\steam_api64.lib" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

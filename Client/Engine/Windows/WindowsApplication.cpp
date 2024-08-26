@@ -92,13 +92,6 @@ MathTypes::uint32 WindowsApplication::ProcessMessage(HWND hWnd, UINT message, WP
         // freopen_s(&file, "CONIN$", "r", stdin);
 #endif
     }
-
-    if (message == WM_CLOSE)
-    {
-#ifdef _DEBUG
-        FreeConsole();
-#endif
-    }
     
     if (window)
     {
@@ -141,7 +134,20 @@ MathTypes::uint32 WindowsApplication::ProcessMessage(HWND hWnd, UINT message, WP
         {
             std::erase(windows_, window);
 
-            if (windows_.empty()) PostQuitMessage(0);
+            if (windows_.empty())
+            {
+#ifdef _DEBUG
+                FreeConsole();
+#endif
+                
+                PostQuitMessage(0);
+            }
+            return 0;
+        }
+
+        if (message == WM_USER)
+        {
+            window->Destroy();
             return 0;
         }
 

@@ -2,7 +2,6 @@
 #include "TransformComponent.h"
 
 #include "Actor/Actor.h"
-#include "box2d/b2_body.h"
 #include "Level/Level.h"
 #include "Level/World.h"
 #include "RigidBodyComponent.h"
@@ -21,16 +20,16 @@ TransformComponent::TransformComponent(Actor* owner, const std::wstring& kName) 
 void TransformComponent::TickComponent(float delta_time)
 {
     ActorComponent::TickComponent(delta_time);
-
-    const b2Body* body = GetOwner()->body_;
-    if (!body || body->GetType() == b2_staticBody) return;
+    
+    b2BodyId body_id = GetOwner()->body_id_;
+    if (!b2Body_IsValid(body_id)) return;
     
     if (!GetOwner()->parent_)
     {
-        const b2Vec2 position = body->GetPosition();
+        const b2Vec2 position = b2Body_GetPosition(body_id);
         relative_position_ = {position.x, position.y};
 
-        const float angle = body->GetAngle();
+        const float angle = b2Rot_GetAngle(b2Body_GetRotation(body_id));
         relative_rotation_z_ = angle * 180.f / MATH_PI;
 
         UpdateTransform();
@@ -40,10 +39,12 @@ void TransformComponent::TickComponent(float delta_time)
     const RigidBodyComponent* rigid_body = GetOwner()->GetComponent<RigidBodyComponent>();
     if (!rigid_body || rigid_body->GetBodyType() == b2_kinematicBody) return;
 
-    const b2Vec2 position = b2MulT(GetOwner()->parent_->body_->GetTransform(), body->GetTransform().p);
+    b2BodyId parent_body_id = GetOwner()->parent_->body_id_;
+
+    const b2Vec2 position = b2InvMulTransforms(b2Body_GetTransform(parent_body_id), b2Body_GetTransform(body_id)).p;
     relative_position_ = {position.x, position.y};
 
-    const float angle = body->GetAngle() - GetOwner()->parent_->body_->GetAngle();
+    const float angle = b2Rot_GetAngle(b2Body_GetRotation(body_id)) - b2Rot_GetAngle(b2Body_GetRotation(parent_body_id));
     relative_rotation_z_ = angle * 180.f / MATH_PI; 
     
     UpdateTransform();
@@ -62,7 +63,7 @@ void TransformComponent::SetWorldPosition(Math::Vector2 position)
 
         // 부모의 회전을 고려하여 상대 좌표 계산
         b2Rot rotation(-parent_rotation * MATH_PI / 180.f);
-        b2Vec2 relative_position = b2MulT(rotation, {local_position.x, local_position.y});
+        b2Vec2 relative_position = b2InvRotateVector(rotation, {local_position.x, local_position.y});
 
         relative_position_ = {relative_position.x, relative_position.y};
     }
@@ -72,14 +73,14 @@ void TransformComponent::SetWorldPosition(Math::Vector2 position)
     }
     
     UpdateTransform();
-
-    if (b2Body* body = GetOwner()->body_)
+    
+    b2BodyId body_id = GetOwner()->body_id_;
+    if (b2Body_IsValid(body_id))
     {
-        body->SetTransform({position.x, position.y}, world_rotation_z_ * MATH_PI / 180.f);
-        body->SetAwake(true);
+        b2Body_SetTransform(body_id, {position.x, position.y}, b2MakeRot(world_rotation_z_ * MATH_PI / 180.f));
+        b2Body_SetAwake(body_id, true);
     }
 }
-
 
 void TransformComponent::SetWorldRotationZ(float angle)
 {
@@ -96,10 +97,11 @@ void TransformComponent::SetWorldRotationZ(float angle)
     
     UpdateTransform();
 
-    if (b2Body* body = GetOwner()->body_)
+    b2BodyId body_id = GetOwner()->body_id_;
+    if (b2Body_IsValid(body_id))
     {
-        body->SetTransform({world_position_.x, world_position_.y}, angle * MATH_PI / 180.f);
-        body->SetAwake(true);
+        b2Body_SetTransform(body_id, {world_position_.x, world_position_.y}, b2MakeRot(angle * MATH_PI / 180.f));
+        b2Body_SetAwake(body_id, true);
     }
 }
 
@@ -125,10 +127,11 @@ void TransformComponent::SetRelativePosition(Math::Vector2 position)
     relative_position_ = position;
     UpdateTransform();
 
-    if (b2Body* body = GetOwner()->body_)
+    b2BodyId body_id = GetOwner()->body_id_;
+    if (b2Body_IsValid(body_id))
     {
-        body->SetTransform({world_position_.x, world_position_.y}, world_rotation_z_ * MATH_PI / 180.f);
-        body->SetAwake(true);
+        b2Body_SetTransform(body_id, {world_position_.x, world_position_.y}, b2MakeRot(world_rotation_z_ * MATH_PI / 180.f));
+        b2Body_SetAwake(body_id, true);
     }
 }
 
@@ -137,10 +140,11 @@ void TransformComponent::SetRelativeRotationZ(float angle)
     relative_rotation_z_ = angle;
     UpdateTransform();
 
-    if (b2Body* body = GetOwner()->body_)
+    b2BodyId body_id = GetOwner()->body_id_;
+    if (b2Body_IsValid(body_id))
     {
-        body->SetTransform({world_position_.x, world_position_.y}, world_rotation_z_ * MATH_PI / 180.f);
-        body->SetAwake(true);
+        b2Body_SetTransform(body_id, {world_position_.x, world_position_.y}, b2MakeRot(world_rotation_z_ * MATH_PI / 180.f));
+        b2Body_SetAwake(body_id, true);
     }
 }
 
@@ -172,8 +176,8 @@ void TransformComponent::UpdateTransform()
 {
     if (GetOwner()->parent_)
     {
-        const b2Body* body = GetOwner()->body_;
-        if (!body || body->GetType() != b2_staticBody)
+        b2BodyId body_id = GetOwner()->body_id_;
+        if (!b2Body_IsValid(body_id) || b2Body_GetType(body_id) != b2_staticBody)
         {
             Math::Vector2 parent_position = GetOwner()->parent_->transform_->world_position_;
             const float parent_rotation = GetOwner()->parent_->transform_->world_rotation_z_;
@@ -189,7 +193,7 @@ void TransformComponent::UpdateTransform()
             world_rotation_z_ = parent_rotation + relative_rotation_z_;
         }
 
-        if (body && body->GetType() == b2_staticBody)
+        if (b2Body_IsValid(body_id) && b2Body_GetType(body_id) == b2_staticBody)
         {
             relative_position_ = world_position_ - GetOwner()->parent_->transform_->world_position_;
             relative_rotation_z_ = world_rotation_z_ - GetOwner()->parent_->transform_->world_rotation_z_;
@@ -199,10 +203,10 @@ void TransformComponent::UpdateTransform()
         {
             if (rigid_body->GetBodyType() == b2_kinematicBody)
             {
-                if (b2Body* body = GetOwner()->body_)
+                if (b2Body_IsValid(body_id))
                 {
-                    body->SetTransform({world_position_.x, world_position_.y}, world_rotation_z_ * MATH_PI / 180.f);
-                    body->SetAwake(true);
+                    b2Body_SetTransform(body_id, {world_position_.x, world_position_.y}, b2MakeRot(world_rotation_z_ * MATH_PI / 180.f));
+                    b2Body_SetAwake(body_id, true);
                 }
             }
         }
