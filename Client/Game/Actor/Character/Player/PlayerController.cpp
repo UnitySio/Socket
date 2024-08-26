@@ -90,17 +90,17 @@ void PlayerController::PhysicsTick(float delta_time)
 {
     CharacterBase::PhysicsTick(delta_time);
 
-    Keyboard* keyboard = Keyboard::Get();
-
-    const float h = keyboard->IsKeyDown(VK_RIGHT) - keyboard->IsKeyDown(VK_LEFT);
-    if (h != 0.f)
-    {
-        sprite_renderer_->SetFlipX(h < 0.f);
-        animator_->PlayClip(L"Walk");
-    }
-    else animator_->PlayClip(L"Idle");
-    
-    rigid_body_->SetVelocity({h * 2.f, rigid_body_->GetVelocity().y});
+    // Keyboard* keyboard = Keyboard::Get();
+    //
+    // const float h = keyboard->IsKeyDown(VK_RIGHT) - keyboard->IsKeyDown(VK_LEFT);
+    // if (h != 0.f)
+    // {
+    //     sprite_renderer_->SetFlipX(h < 0.f);
+    //     animator_->PlayClip(L"Walk");
+    // }
+    // else animator_->PlayClip(L"Idle");
+    //
+    // rigid_body_->SetVelocity({h * 2.f, rigid_body_->GetVelocity().y});
 }
 
 void PlayerController::Tick(float delta_time)

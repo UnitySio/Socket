@@ -35,7 +35,35 @@ World::World() :
 
     world_id_ = b2CreateWorld(&world_def);
 
+    b2AABB bounds = {
+        {-FLT_MAX, -FLT_MAX},
+        {FLT_MAX, FLT_MAX},
+    };
+
     debug_draw_ = {
+        nullptr,
+        nullptr,
+        nullptr,
+        nullptr,
+        nullptr,
+        nullptr,
+        nullptr,
+        nullptr,
+        nullptr,
+        nullptr,
+        bounds,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        this
     };
 }
 
