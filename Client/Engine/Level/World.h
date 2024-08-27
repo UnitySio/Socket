@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include <queue>
 
+#include "DebugDrawHelpers.h"
 #include "Enums.h"
 #include "Singleton.h"
 #include "Actor/Actor.h"
@@ -36,6 +37,8 @@ public:
     inline WindowsWindow* GetWindow() const { return window_.get(); }
     inline Level* GetLevel() const { return current_level_; }
     inline std::weak_ptr<Actor> GetCamera() const { return camera_; }
+    
+    DebugDrawHelpers debug_draw_helpers;
 
 private:
     friend class Physics2D;

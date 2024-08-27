@@ -142,6 +142,7 @@ void World::Render(float alpha)
     }
     
     b2World_Draw(world_id_, &debug_draw_);
+    debug_draw_helpers.CreateShape();
 
     std::vector<std::shared_ptr<Shape>> shapes;
 
@@ -165,6 +166,7 @@ void World::Render(float alpha)
     shapes_.clear();
     
     shape_batch_->DrawShapes(window_, shapes);
+    debug_draw_helpers.Flush();
 }
 
 void World::AddShape(const std::shared_ptr<Shape>& kShape)
@@ -293,6 +295,7 @@ void DrawPolygon(const b2Vec2* vertices, int vertexCount, b2HexColor color, void
 
 void DrawSolidPolygon(b2Transform transform, const b2Vec2* vertices, int vertexCount, float radius, b2HexColor color, void* context)
 {
+    static_cast<World*>(context)->debug_draw_helpers.AddSolidPolygon(transform, vertices, vertexCount, radius, color);
 }
 
 void DrawCircle(b2Vec2 center, float radius, b2HexColor color, void* context)

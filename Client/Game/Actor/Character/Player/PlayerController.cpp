@@ -109,9 +109,9 @@ void PlayerController::Tick(float delta_time)
     
     Keyboard* keyboard = Keyboard::Get();
     
-    /*if (keyboard->IsKeyPressed('Z'))
+    if (keyboard->IsKeyPressed('Z'))
     {
         Box* box = SpawnActor<Box>(L"Box");
         box->GetTransform()->SetRelativePosition(GetTransform()->GetWorldPosition());
-    }*/
+    }
 }
