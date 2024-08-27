@@ -68,6 +68,57 @@ void DebugDrawHelpers::AddSolidPolygon(b2Transform transform, const b2Vec2* vert
     }
 }
 
+void DebugDrawHelpers::AddSolidCapsule(b2Vec2 p1, b2Vec2 p2, float radius, b2HexColor color)
+{
+    float length;
+    b2Vec2 axis = b2GetLengthAndNormalize(&length, b2Sub(p2, p1));
+
+    const float kSegments = 16.f;
+    const float kIncremnt = b2_pi / kSegments;
+    float sin_incremnt = sinf(kIncremnt);
+    float cos_incremnt = cosf(kIncremnt);
+
+    b2Vec2 r1 = {-axis.y, axis.x};
+    b2Vec2 v1 = b2MulAdd(p1, radius, r1);
+    b2Vec2 a = v1;
+
+    for (int i = 0; i < kSegments; ++i)
+    {
+        b2Vec2 r2;
+        r2.x = cos_incremnt * r1.x - sin_incremnt * r1.y;
+        r2.y = sin_incremnt * r1.x + cos_incremnt * r1.y;
+
+        b2Vec2 v2 = b2MulAdd(p1, radius, r2);
+        AddSegment(v1, v2, color);
+        r1 = r2;
+        v1 = v2;
+    }
+
+    b2Vec2 b = v1;
+
+    r1 = {axis.y, -axis.x};
+    v1 = b2MulAdd(p2, radius, r1);
+    b2Vec2 c = v1;
+
+    for (int i = 0; i < kSegments; ++i)
+    {
+        b2Vec2 r2;
+        r2.x = cos_incremnt * r1.x - sin_incremnt * r1.y;
+        r2.y = sin_incremnt * r1.x + cos_incremnt * r1.y;
+
+        b2Vec2 v2 = b2MulAdd(p2, radius, r2);
+        AddSegment(v1, v2, color);
+        r1 = r2;
+        v1 = v2;
+    }
+
+    b2Vec2 d = v1;
+
+    AddSegment(a, d, color);
+    AddSegment(b, c, color);
+    AddSegment(p1, p2, color);
+}
+
 void DebugDrawHelpers::AddSegment(b2Vec2 p1, b2Vec2 p2, b2HexColor color)
 {
     Math::Color rgba8 = MakeRGBA8(color, 1.f);

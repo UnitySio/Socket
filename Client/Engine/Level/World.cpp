@@ -313,6 +313,7 @@ void DrawCapsule(b2Vec2 p1, b2Vec2 p2, float radius, b2HexColor color, void* con
 
 void DrawSolidCapsule(b2Vec2 p1, b2Vec2 p2, float radius, b2HexColor color, void* context)
 {
+    static_cast<World*>(context)->debug_draw_helpers.AddSolidCapsule(p1, p2, radius, color);
 }
 
 void DrawSegment(b2Vec2 p1, b2Vec2 p2, b2HexColor color, void* context)

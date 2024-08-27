@@ -36,7 +36,7 @@ void PlayerIdleState::OnTick(float delta_time)
             if (rigid_body)
             {
                 rigid_body->SetVelocity(Math::Vector2::Zero());
-                rigid_body->AddForce(Math::Vector2::Up() * 5.f, ForceMode::kImpulse);
+                rigid_body->AddForce(Math::Vector2::Up() * 10.f, ForceMode::kImpulse);
             }
         }
     }
