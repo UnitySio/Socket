@@ -68,7 +68,7 @@ World::World() :
         false,
         false,
         false,
-        false,
+        true,
         false,
         false,
         false,
@@ -322,6 +322,7 @@ void DrawSegment(b2Vec2 p1, b2Vec2 p2, b2HexColor color, void* context)
 
 void DrawTransform(b2Transform transform, void* context)
 {
+    static_cast<World*>(context)->debug_draw_helpers.AddTransform(transform);
 }
 
 void DrawPoint(b2Vec2 p, float size, b2HexColor color, void* context)

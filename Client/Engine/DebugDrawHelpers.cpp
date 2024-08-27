@@ -83,6 +83,18 @@ void DebugDrawHelpers::AddSegment(b2Vec2 p1, b2Vec2 p2, b2HexColor color)
     });
 }
 
+void DebugDrawHelpers::AddTransform(b2Transform transform)
+{
+    const float kAxisScale = .2f;
+    b2Vec2 p1 = transform.p;
+
+    b2Vec2 p2 = b2MulAdd(p1, kAxisScale, b2Rot_GetXAxis(transform.q));
+    AddSegment(p1, p2, b2_colorRed);
+
+    p2 = b2MulAdd(p1, kAxisScale, b2Rot_GetYAxis(transform.q));
+    AddSegment(p1, p2, b2_colorGreen);
+}
+
 void DebugDrawHelpers::Clear()
 {
     std::shared_ptr<Shape> polygon = std::make_shared<Shape>();
