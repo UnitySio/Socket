@@ -128,8 +128,8 @@ bool Keyboard::ProcessMessage(UINT message, WPARAM wParam, LPARAM lParam, MathTy
 
 	if (message == WM_CHAR)
 	{
-		const WCHAR character = static_cast<WCHAR>(wParam);
-		return OnKeyChar(character);
+		const WCHAR kCharacter = static_cast<WCHAR>(wParam);
+		return OnKeyChar(kCharacter);
 	}
     
 	return false;

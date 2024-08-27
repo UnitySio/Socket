@@ -58,7 +58,7 @@ public:
     bool CreateViewport(std::shared_ptr<WindowsWindow> window, Math::Vector2 window_size);
     bool CreateD2DViewport(std::shared_ptr<WindowsWindow> window);
     bool CreateDepthStencilBuffer(Viewport& viewport);
-    bool ResizeViewport(const std::shared_ptr<WindowsWindow>& window, MathTypes::uint32 width, MathTypes::uint32 height);
+    bool ResizeViewport(const std::shared_ptr<WindowsWindow>& kWindow, MathTypes::uint32 width, MathTypes::uint32 height);
     
     // TEST
     bool CreateRenderToTexture();

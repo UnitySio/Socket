@@ -12,7 +12,7 @@ public:
     VertexShader();
     virtual ~VertexShader() = default;
 
-    bool Create(const std::wstring& path, const D3D11_INPUT_ELEMENT_DESC* layout, UINT layout_count);
+    bool Create(const std::wstring& kPath, const D3D11_INPUT_ELEMENT_DESC* kLayout, UINT layout_count);
 
     void BindShader();
     void BindParameters();
@@ -32,7 +32,7 @@ public:
     PixelShader();
     virtual ~PixelShader() = default;
 
-    bool Create(const std::wstring& path);
+    bool Create(const std::wstring& kPath);
 
     void BindShader();
     void BindParameters();
@@ -51,9 +51,9 @@ public:
     DefaultVertexShader();
     virtual ~DefaultVertexShader() override = default;
 
-    void SetWorldMatrix(const DirectX::XMMATRIX& mat);
-    void SetUVOffset(const DirectX::XMFLOAT2& offset);
-    void SetUVScale(const DirectX::XMFLOAT2& scale);
+    void SetWorldMatrix(const DirectX::XMMATRIX& kMat);
+    void SetUVOffset(const DirectX::XMFLOAT2& kOffset);
+    void SetUVScale(const DirectX::XMFLOAT2& kScale);
 
 protected:
     virtual void UpdateParameters() override;

@@ -50,17 +50,17 @@ void Actor::BeginPlay()
 {
     if (b2Body_IsValid(body_id_) && !b2Body_IsEnabled(body_id_)) b2Body_Enable(body_id_);
     
-    for (const auto& component : components_)
+    for (const auto& kComponent : components_)
     {
-        component->BeginPlay();
+        kComponent->BeginPlay();
     }
 }
 
 void Actor::EndPlay(EndPlayReason type)
 {
-    for (const auto& component : components_)
+    for (const auto& kComponent : components_)
     {
-        component->EndPlay(type);
+        kComponent->EndPlay(type);
     }
     
     UninitializeComponents();
@@ -87,9 +87,9 @@ void Actor::Destroyed()
 
 void Actor::PhysicsTick(float delta_time)
 {
-    for (const auto& component : components_)
+    for (const auto& kComponent : components_)
     {
-        component->PhysicsTickComponent(delta_time);
+        kComponent->PhysicsTickComponent(delta_time);
     }
 }
 

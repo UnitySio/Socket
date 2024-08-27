@@ -13,7 +13,7 @@ public:
     GameEngine();
     ~GameEngine();
 
-    void Init(const std::shared_ptr<WindowsWindow>& window);
+    void Init(const std::shared_ptr<WindowsWindow>& kWindow);
     void GameLoop(float delta_time);
     void OnQuit();
 

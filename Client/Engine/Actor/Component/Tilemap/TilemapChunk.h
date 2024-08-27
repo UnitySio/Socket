@@ -11,14 +11,14 @@ class Texture;
 class TilemapChunk
 {
 public:
-    TilemapChunk(const tmx::TileLayer& layer, const tmx::Tileset* tileset, const Math::Vector2& position, const Math::Vector2& tile_count, const Math::Vector2& tile_size, size_t row_size, const std::shared_ptr<Texture>& texture);
+    TilemapChunk(const tmx::TileLayer& kLayer, const tmx::Tileset* kTileset, const Math::Vector2& kPosition, const Math::Vector2& kTileCount, const Math::Vector2& kTileSize, size_t row_size, const std::shared_ptr<Texture>& kTexture);
 
-    void AddShape(const Math::Vector2& position, const Math::Vector2& scale, const Math::Vector2& pivot = Math::Vector2::Zero());
+    void AddShape(const Math::Vector2& kPosition, const Math::Vector2& kScale, const Math::Vector2& kPivot = Math::Vector2::Zero());
     
     int GetTileIndex(int x, int y) const;
 
 private:
-    void GenerateTiles(const tmx::Tileset* tileset, const MathTypes::uint32& pos_x, const MathTypes::uint32& pos_y, const Math::Vector2& tile_size);
+    void GenerateTiles(const tmx::Tileset* kTileset, const MathTypes::uint32& kPosX, const MathTypes::uint32& kPosY, const Math::Vector2& kTileSize);
 
     Math::Vector2 tile_count_;
     

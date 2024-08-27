@@ -167,7 +167,7 @@ bool Renderer::CreateD2DViewport(std::shared_ptr<WindowsWindow> window)
     if (viewport)
     {
         const MathTypes::uint32 kDPI = GetDpiForWindow(window->GetHWnd());
-        const D2D1_RENDER_TARGET_PROPERTIES render_target_properties = D2D1::RenderTargetProperties(
+        const D2D1_RENDER_TARGET_PROPERTIES kRenderTargetProperties = D2D1::RenderTargetProperties(
             D2D1_RENDER_TARGET_TYPE_DEFAULT,
             D2D1::PixelFormat(DXGI_FORMAT_UNKNOWN, D2D1_ALPHA_MODE_PREMULTIPLIED),
             kDPI,
@@ -179,7 +179,7 @@ bool Renderer::CreateD2DViewport(std::shared_ptr<WindowsWindow> window)
         if (FAILED(hr)) return false;
 
         D2DViewport d2d_viewport;
-        hr = d2d_factory_->CreateDxgiSurfaceRenderTarget(dxgi_back_buffer.Get(), &render_target_properties,
+        hr = d2d_factory_->CreateDxgiSurfaceRenderTarget(dxgi_back_buffer.Get(), &kRenderTargetProperties,
                                                          d2d_viewport.d2d_render_target.GetAddressOf());
         if (FAILED(hr)) return false;
 
@@ -218,17 +218,17 @@ bool Renderer::CreateDepthStencilBuffer(Viewport& viewport)
     return SUCCEEDED(hr);
 }
 
-bool Renderer::ResizeViewport(const std::shared_ptr<WindowsWindow>& window, MathTypes::uint32 width,
+bool Renderer::ResizeViewport(const std::shared_ptr<WindowsWindow>& kWindow, MathTypes::uint32 width,
                               MathTypes::uint32 height)
 {
-    Viewport* viewport = FindViewport(window.get());
+    Viewport* viewport = FindViewport(kWindow.get());
     if (viewport && (viewport->d3d_viewport.Width != width || viewport->d3d_viewport.Height != height))
     {
         d3d_device_context_->OMSetRenderTargets(0, nullptr, nullptr);
         d3d_device_context_->ClearState();
         d3d_device_context_->Flush();
 
-        D2DViewport* d2d_viewport = FindD2DViewport(window.get());
+        D2DViewport* d2d_viewport = FindD2DViewport(kWindow.get());
         if (d2d_viewport) d2d_viewport->d2d_render_target.Reset();
 
         viewport->back_buffer.Reset();
@@ -251,7 +251,7 @@ bool Renderer::ResizeViewport(const std::shared_ptr<WindowsWindow>& window, Math
             return false;
 
 #pragma region D2D Resize
-        const MathTypes::uint32 kDPI = GetDpiForWindow(window->GetHWnd());
+        const MathTypes::uint32 kDPI = GetDpiForWindow(kWindow->GetHWnd());
         const D2D1_RENDER_TARGET_PROPERTIES render_target_properties = D2D1::RenderTargetProperties(
             D2D1_RENDER_TARGET_TYPE_DEFAULT,
             D2D1::PixelFormat(DXGI_FORMAT_UNKNOWN, D2D1_ALPHA_MODE_PREMULTIPLIED),

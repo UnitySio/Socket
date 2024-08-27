@@ -77,9 +77,9 @@ public:
 
     void Execute(Args&&...args) const
     {
-        for (const auto& temp : functions_)
+        for (const auto& kTemp : functions_)
         {
-            temp(std::forward<Args>(args)...);
+            kTemp(std::forward<Args>(args)...);
         }
     }
 

@@ -6,7 +6,7 @@ public:
     Object();
     virtual ~Object() = default;
 
-    bool operator==(const Object& other) const;
+    bool operator==(const Object& kOther) const;
 
     inline MathTypes::uint64 GetInstanceID() const { return instance_id_; }
 

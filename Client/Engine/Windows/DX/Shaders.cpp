@@ -14,16 +14,16 @@ VertexShader::VertexShader() :
 {
 }
 
-bool VertexShader::Create(const std::wstring& path, const D3D11_INPUT_ELEMENT_DESC* layout, UINT layout_count)
+bool VertexShader::Create(const std::wstring& kPath, const D3D11_INPUT_ELEMENT_DESC* kLayout, UINT layout_count)
 {
-    HRESULT hr = D3DReadFileToBlob(path.c_str(), shader_buffer_.GetAddressOf());
+    HRESULT hr = D3DReadFileToBlob(kPath.c_str(), shader_buffer_.GetAddressOf());
     if (FAILED(hr)) return false;
 
     hr = Renderer::Get()->GetDevice()->CreateVertexShader(shader_buffer_->GetBufferPointer(), shader_buffer_->GetBufferSize(), nullptr,
                                           shader_.GetAddressOf());
     if (FAILED(hr)) return false;
 
-    hr = Renderer::Get()->GetDevice()->CreateInputLayout(layout, layout_count, shader_buffer_->GetBufferPointer(),
+    hr = Renderer::Get()->GetDevice()->CreateInputLayout(kLayout, layout_count, shader_buffer_->GetBufferPointer(),
                                          shader_buffer_->GetBufferSize(), input_layout_.GetAddressOf());
     if (FAILED(hr)) return false;
 
@@ -47,9 +47,9 @@ PixelShader::PixelShader() :
 {
 }
 
-bool PixelShader::Create(const std::wstring& path)
+bool PixelShader::Create(const std::wstring& kPath)
 {
-    HRESULT hr = D3DReadFileToBlob(path.c_str(), shader_buffer_.GetAddressOf());
+    HRESULT hr = D3DReadFileToBlob(kPath.c_str(), shader_buffer_.GetAddressOf());
     if (FAILED(hr)) return false;
 
     hr = Renderer::Get()->GetDevice()->CreatePixelShader(shader_buffer_->GetBufferPointer(), shader_buffer_->GetBufferSize(), nullptr,
@@ -84,19 +84,19 @@ DefaultVertexShader::DefaultVertexShader()
     CHECK(r);
 }
 
-void DefaultVertexShader::SetWorldMatrix(const DirectX::XMMATRIX& mat)
+void DefaultVertexShader::SetWorldMatrix(const DirectX::XMMATRIX& kMat)
 {
-    constant_buffer_.GetBufferData().mat = mat;
+    constant_buffer_.GetBufferData().mat = kMat;
 }
 
-void DefaultVertexShader::SetUVOffset(const DirectX::XMFLOAT2& offset)
+void DefaultVertexShader::SetUVOffset(const DirectX::XMFLOAT2& kOffset)
 {
-    constant_buffer_.GetBufferData().uv_offset = offset;
+    constant_buffer_.GetBufferData().uv_offset = kOffset;
 }
 
-void DefaultVertexShader::SetUVScale(const DirectX::XMFLOAT2& scale)
+void DefaultVertexShader::SetUVScale(const DirectX::XMFLOAT2& kScale)
 {
-    constant_buffer_.GetBufferData().uv_scale = scale;
+    constant_buffer_.GetBufferData().uv_scale = kScale;
 }
 
 void DefaultVertexShader::UpdateParameters()

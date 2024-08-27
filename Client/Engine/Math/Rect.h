@@ -7,9 +7,9 @@ namespace Math
     {
         Rect();
         Rect(float x, float y, float width, float height);
-        Rect operator=(const Rect& other);
+        Rect operator=(const Rect& kOther);
 
-        bool Contains(const Math::Vector2& point) const;
+        bool Contains(const Math::Vector2& kPoint) const;
         bool Overlaps(const Rect& other) const;
 
         inline float Left() const { return x; }

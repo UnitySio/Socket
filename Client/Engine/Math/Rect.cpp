@@ -17,18 +17,18 @@ Math::Rect::Rect(float x, float y, float width, float height) :
 {
 }
 
-Math::Rect Math::Rect::operator=(const Rect& other)
+Math::Rect Math::Rect::operator=(const Rect& kOther)
 {
-    x = other.x;
-    y = other.y;
-    width = other.width;
-    height = other.height;
+    x = kOther.x;
+    y = kOther.y;
+    width = kOther.width;
+    height = kOther.height;
     return *this;
 }
 
-bool Math::Rect::Contains(const Math::Vector2& point) const
+bool Math::Rect::Contains(const Math::Vector2& kPoint) const
 {
-    return point.x >= x && point.x <= x + width && point.y >= y && point.y <= y + height;
+    return kPoint.x >= x && kPoint.x <= x + width && kPoint.y >= y && kPoint.y <= y + height;
 }
 
 bool Math::Rect::Overlaps(const Rect& other) const

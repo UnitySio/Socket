@@ -58,7 +58,7 @@ public:
     inline void SetZOrder(int z_order) { z_order_ = z_order; }
     inline int GetZOrder() const { return z_order_; }
 
-    static bool CompareZOrder(const std::shared_ptr<Shape>& lhs, const std::shared_ptr<Shape>& rhs);
+    static bool CompareZOrder(const std::shared_ptr<Shape>& kLHS, const std::shared_ptr<Shape>& kRHS);
 
 protected:
     virtual void UpdateMatrixx();

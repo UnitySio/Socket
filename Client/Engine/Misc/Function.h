@@ -290,10 +290,10 @@ public:
         return (*func_)();
     }
 
-    void operator=(const Function& input)
+    void operator=(const Function& kInput)
     {
-        this->addr_ = input.addr_;
-        this->func_ = input.func_;
+        this->addr_ = kInput.addr_;
+        this->func_ = kInput.func_;
     }
 
     std::uintptr_t GetAddr() const { return addr_; }

@@ -30,11 +30,11 @@ GameEngine::~GameEngine()
     ImGui::DestroyContext();
 }
 
-void GameEngine::Init(const std::shared_ptr<WindowsWindow>& window)
+void GameEngine::Init(const std::shared_ptr<WindowsWindow>& kWindow)
 {
     CHECK(AudioManager::Get()->Init());
     
-    game_window_ = window;
+    game_window_ = kWindow;
     World::Get()->Init(game_window_);
 
     shape_batch_ = std::make_shared<ShapeBatch>();

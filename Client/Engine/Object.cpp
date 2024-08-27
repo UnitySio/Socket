@@ -8,7 +8,7 @@ Object::Object() :
 {
 }
 
-bool Object::operator==(const Object& other) const
+bool Object::operator==(const Object& kOther) const
 {
-    return instance_id_ == other.instance_id_;
+    return instance_id_ == kOther.instance_id_;
 }

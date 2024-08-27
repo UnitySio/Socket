@@ -62,10 +62,10 @@ Bounds Shape::GetBounds() const
                                   DirectX::XMMatrixTranslation(pivot_.x, pivot_.y, 0.f) * // 원래 위치로 이동
                                   DirectX::XMMatrixTranslation(position_.x - pivot_.x, position_.y - pivot_.y, 0.f); // 최종 위치로 이동
 
-    for (const auto& vertex : vertices_)
+    for (const auto& kVertex : vertices_)
     {
         // 정점 위치를 변환
-        DirectX::XMVECTOR pos = DirectX::XMVectorSet(vertex.position.x, vertex.position.y, 0.f, 1.f);
+        DirectX::XMVECTOR pos = DirectX::XMVectorSet(kVertex.position.x, kVertex.position.y, 0.f, 1.f);
         pos = DirectX::XMVector3TransformCoord(pos, transform);
 
         // 변환된 정점 위치로 min/max 계산
@@ -78,9 +78,9 @@ Bounds Shape::GetBounds() const
     return {(min + max) * .5f, max - min};
 }
 
-bool Shape::CompareZOrder(const std::shared_ptr<Shape>& lhs, const std::shared_ptr<Shape>& rhs)
+bool Shape::CompareZOrder(const std::shared_ptr<Shape>& kLHS, const std::shared_ptr<Shape>& kRHS)
 {
-    return lhs->GetZOrder() < rhs->GetZOrder();
+    return kLHS->GetZOrder() < kRHS->GetZOrder();
 }
 
 void Shape::UpdateMatrixx()
