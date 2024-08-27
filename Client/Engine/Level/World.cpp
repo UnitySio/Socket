@@ -17,45 +17,16 @@
 #include "Windows/DX/Shape.h"
 #include "Windows/DX/ShapeBatch.h"
 
-void DrawPolygon(const b2Vec2* vertices, int vertexCount, b2HexColor color, void* context)
-{
-}
-
-void DrawSolidPolygon(b2Transform transform, const b2Vec2* vertices, int vertexCount, float radius, b2HexColor color, void* context)
-{
-}
-
-void DrawCircle(b2Vec2 center, float radius, b2HexColor color, void* context)
-{
-}
-
-void DrawSolidCircle(b2Transform transform, float radius, b2HexColor color, void* context)
-{
-}
-
-void DrawCapsule(b2Vec2 p1, b2Vec2 p2, float radius, b2HexColor color, void* context)
-{
-}
-
-void DrawSolidCapsule(b2Vec2 p1, b2Vec2 p2, float radius, b2HexColor color, void* context)
-{
-}
-
-void DrawSegment(b2Vec2 p1, b2Vec2 p2, b2HexColor color, void* context)
-{
-}
-
-void DrawTransform(b2Transform transform, void* context)
-{
-}
-
-void DrawPoint(b2Vec2 p, float size, b2HexColor color, void* context)
-{
-}
-
-void DrawString(b2Vec2 p, const char* s, void* context)
-{
-}
+void DrawPolygon(const b2Vec2* vertices, int vertexCount, b2HexColor color, void* context);
+void DrawSolidPolygon(b2Transform transform, const b2Vec2* vertices, int vertexCount, float radius, b2HexColor color, void* context);
+void DrawCircle(b2Vec2 center, float radius, b2HexColor color, void* context);
+void DrawSolidCircle(b2Transform transform, float radius, b2HexColor color, void* context);
+void DrawCapsule(b2Vec2 p1, b2Vec2 p2, float radius, b2HexColor color, void* context);
+void DrawSolidCapsule(b2Vec2 p1, b2Vec2 p2, float radius, b2HexColor color, void* context);
+void DrawSegment(b2Vec2 p1, b2Vec2 p2, b2HexColor color, void* context);
+void DrawTransform(b2Transform transform, void* context);
+void DrawPoint(b2Vec2 p, float size, b2HexColor color, void* context);
+void DrawString(b2Vec2 p, const char* s, void* context);
 
 World::World() :
     window_(nullptr),
@@ -314,4 +285,44 @@ void World::DestroyActors()
         std::erase(current_level_->actors_, actor);
         pending_destroy_actors_.pop();
     }
+}
+
+void DrawPolygon(const b2Vec2* vertices, int vertexCount, b2HexColor color, void* context)
+{
+}
+
+void DrawSolidPolygon(b2Transform transform, const b2Vec2* vertices, int vertexCount, float radius, b2HexColor color, void* context)
+{
+}
+
+void DrawCircle(b2Vec2 center, float radius, b2HexColor color, void* context)
+{
+}
+
+void DrawSolidCircle(b2Transform transform, float radius, b2HexColor color, void* context)
+{
+}
+
+void DrawCapsule(b2Vec2 p1, b2Vec2 p2, float radius, b2HexColor color, void* context)
+{
+}
+
+void DrawSolidCapsule(b2Vec2 p1, b2Vec2 p2, float radius, b2HexColor color, void* context)
+{
+}
+
+void DrawSegment(b2Vec2 p1, b2Vec2 p2, b2HexColor color, void* context)
+{
+}
+
+void DrawTransform(b2Transform transform, void* context)
+{
+}
+
+void DrawPoint(b2Vec2 p, float size, b2HexColor color, void* context)
+{
+}
+
+void DrawString(b2Vec2 p, const char* s, void* context)
+{
 }
