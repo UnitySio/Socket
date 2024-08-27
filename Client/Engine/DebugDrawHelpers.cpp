@@ -16,25 +16,27 @@ static inline Math::Color MakeRGBA8(b2HexColor color, float alpha)
 
 void DebugDrawHelpers::AddPolygon(const b2Vec2* vertices, int vertexCount, b2HexColor color)
 {
+    b2Vec2 p1 = vertices[vertexCount - 1];
     for (int i = 0; i < vertexCount; ++i)
     {
-        b2Vec2 p1 = vertices[i];
-        b2Vec2 p2 = vertices[(i + 1) % vertexCount];
-
+        b2Vec2 p2 = vertices[i];
         AddSegment(p1, p2, color);
+        p1 = p2;
     }
 }
 
 void DebugDrawHelpers::AddSolidPolygon(b2Transform transform, const b2Vec2* vertices, int vertexCount, float radius, b2HexColor color)
 {
-    Math::Color rgba8 = MakeRGBA8(color, .6f);
+    Math::Color fill_color = MakeRGBA8(color, .6f);
+    Math::Color border_color = MakeRGBA8(color, 1.f);
 
+    // Fill
     for (int i = 0; i < vertexCount; ++i)
     {
         b2Vec2 p = b2Add(transform.p, b2RotateVector(transform.q, vertices[i]));
         polygon_vertices_.push_back({
             {p.x, p.y, 0.f},
-            {rgba8.r / 255.f, rgba8.g / 255.f, rgba8.b / 255.f, rgba8.a / 255.f}
+            {fill_color.r / 255.f, fill_color.g / 255.f, fill_color.b / 255.f, fill_color.a / 255.f}
         });
     }
 
@@ -47,7 +49,23 @@ void DebugDrawHelpers::AddSolidPolygon(b2Transform transform, const b2Vec2* vert
         polygon_indices_.push_back(last_idx + i + 2);
     }
 
-    AddPolygon(vertices, vertexCount, color);
+    // Border
+    b2Vec2 p1 = b2Add(transform.p, b2RotateVector(transform.q, vertices[vertexCount - 1]));
+    for (int i = 0; i < vertexCount; ++i)
+    {
+        b2Vec2 p2 = b2Add(transform.p, b2RotateVector(transform.q, vertices[i]));
+        segment_vertices_.push_back({
+            {p1.x, p1.y, 0.f},
+            {border_color.r / 255.f, border_color.g / 255.f, border_color.b / 255.f, border_color.a / 255.f}
+        });
+
+        segment_vertices_.push_back({
+            {p2.x, p2.y, 0.f},
+            {border_color.r / 255.f, border_color.g / 255.f, border_color.b / 255.f, border_color.a / 255.f}
+        });
+        
+        p1 = p2;
+    }
 }
 
 void DebugDrawHelpers::AddSegment(b2Vec2 p1, b2Vec2 p2, b2HexColor color)
