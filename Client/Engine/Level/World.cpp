@@ -17,6 +17,46 @@
 #include "Windows/DX/Shape.h"
 #include "Windows/DX/ShapeBatch.h"
 
+void DrawPolygon(const b2Vec2* vertices, int vertexCount, b2HexColor color, void* context)
+{
+}
+
+void DrawSolidPolygon(b2Transform transform, const b2Vec2* vertices, int vertexCount, float radius, b2HexColor color, void* context)
+{
+}
+
+void DrawCircle(b2Vec2 center, float radius, b2HexColor color, void* context)
+{
+}
+
+void DrawSolidCircle(b2Transform transform, float radius, b2HexColor color, void* context)
+{
+}
+
+void DrawCapsule(b2Vec2 p1, b2Vec2 p2, float radius, b2HexColor color, void* context)
+{
+}
+
+void DrawSolidCapsule(b2Vec2 p1, b2Vec2 p2, float radius, b2HexColor color, void* context)
+{
+}
+
+void DrawSegment(b2Vec2 p1, b2Vec2 p2, b2HexColor color, void* context)
+{
+}
+
+void DrawTransform(b2Transform transform, void* context)
+{
+}
+
+void DrawPoint(b2Vec2 p, float size, b2HexColor color, void* context)
+{
+}
+
+void DrawString(b2Vec2 p, const char* s, void* context)
+{
+}
+
 World::World() :
     window_(nullptr),
     shape_batch_(nullptr),
@@ -41,19 +81,19 @@ World::World() :
     };
 
     debug_draw_ = {
-        nullptr,
-        nullptr,
-        nullptr,
-        nullptr,
-        nullptr,
-        nullptr,
-        nullptr,
-        nullptr,
-        nullptr,
-        nullptr,
+        DrawPolygon,
+        DrawSolidPolygon,
+        DrawCircle,
+        DrawSolidCircle,
+        DrawCapsule,
+        DrawSolidCapsule,
+        DrawSegment,
+        DrawTransform,
+        DrawPoint,
+        DrawString,
         bounds,
         false,
-        false,
+        true,
         false,
         false,
         false,
