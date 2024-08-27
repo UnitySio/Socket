@@ -37,17 +37,14 @@ void DebugDrawHelpers::AddSolidPolygon(b2Transform transform, const b2Vec2* vert
     }
 }
 
-void DebugDrawHelpers::CreateShape()
+void DebugDrawHelpers::Clear()
 {
     std::shared_ptr<Shape> shape = std::make_shared<Shape>();
     shape->SetVertices(polygon_vertices_);
     shape->SetIndices(polygon_indices_);
 
     World::Get()->AddShape(shape);
-}
-
-void DebugDrawHelpers::Flush()
-{
+    
     polygon_vertices_.clear();
     polygon_indices_.clear();
 }

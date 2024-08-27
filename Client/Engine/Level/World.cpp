@@ -142,7 +142,7 @@ void World::Render(float alpha)
     }
     
     b2World_Draw(world_id_, &debug_draw_);
-    debug_draw_helpers.CreateShape();
+    debug_draw_helpers.Clear();
 
     std::vector<std::shared_ptr<Shape>> shapes;
 
@@ -166,7 +166,7 @@ void World::Render(float alpha)
     shapes_.clear();
     
     shape_batch_->DrawShapes(window_, shapes);
-    debug_draw_helpers.Flush();
+    debug_draw_helpers.Clear();
 }
 
 void World::AddShape(const std::shared_ptr<Shape>& kShape)
