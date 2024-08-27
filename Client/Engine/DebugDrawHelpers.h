@@ -8,11 +8,15 @@ struct DefaultVertex;
 class DebugDrawHelpers
 {
 public:
+    void AddPolygon(const b2Vec2* vertices, int vertexCount, b2HexColor color);
     void AddSolidPolygon(b2Transform transform, const b2Vec2* vertices, int vertexCount, float radius, b2HexColor color);
+    void AddSegment(b2Vec2 p1, b2Vec2 p2, b2HexColor color);
     void Clear();
 
 private:
     std::vector<DefaultVertex> polygon_vertices_;
     std::vector<MathTypes::uint32> polygon_indices_;
+    
+    std::vector<DefaultVertex> segment_vertices_;
     
 };

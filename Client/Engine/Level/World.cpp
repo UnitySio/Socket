@@ -291,6 +291,7 @@ void World::DestroyActors()
 
 void DrawPolygon(const b2Vec2* vertices, int vertexCount, b2HexColor color, void* context)
 {
+    static_cast<World*>(context)->debug_draw_helpers.AddPolygon(vertices, vertexCount, color);
 }
 
 void DrawSolidPolygon(b2Transform transform, const b2Vec2* vertices, int vertexCount, float radius, b2HexColor color, void* context)
@@ -316,6 +317,7 @@ void DrawSolidCapsule(b2Vec2 p1, b2Vec2 p2, float radius, b2HexColor color, void
 
 void DrawSegment(b2Vec2 p1, b2Vec2 p2, b2HexColor color, void* context)
 {
+    static_cast<World*>(context)->debug_draw_helpers.AddSegment(p1, p2, color);
 }
 
 void DrawTransform(b2Transform transform, void* context)
