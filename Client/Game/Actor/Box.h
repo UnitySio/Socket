@@ -14,7 +14,7 @@ public:
 
 private:
     class SpriteRendererComponent* sprite_renderer_;
-    class CircleColliderComponent* box_collider_;
+    class BoxColliderComponent* box_collider_;
     class RigidBodyComponent* rigid_body_;
     
     std::shared_ptr<class Sprite> sprite_;
