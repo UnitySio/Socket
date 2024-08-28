@@ -68,7 +68,7 @@ World::World() :
         false,
         false,
         false,
-        true,
+        false,
         false,
         false,
         false,
@@ -307,7 +307,7 @@ void DrawCircle(b2Vec2 center, float radius, b2HexColor color, void* context)
 
 void DrawSolidCircle(b2Transform transform, float radius, b2HexColor color, void* context)
 {
-    static_cast<World*>(context)->debug_draw_helpers.AddSolidCircle(transform, radius, color);
+    static_cast<World*>(context)->debug_draw_helpers.AddSolidCircle(transform, b2Vec2_zero, radius, color);
 }
 
 void DrawCapsule(b2Vec2 p1, b2Vec2 p2, float radius, b2HexColor color, void* context)

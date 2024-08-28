@@ -71,10 +71,77 @@ void DebugDrawHelpers::AddSolidPolygon(b2Transform transform, const b2Vec2* vert
 
 void DebugDrawHelpers::AddCircle(b2Vec2 center, float radius, b2HexColor color)
 {
+    const int kSegments = 16;
+    const float kIncrement = 2.f * b2_pi / kSegments;
+    float sinIncrement = sinf(kIncrement);
+    float cosIncrement = cosf(kIncrement);
+
+    b2Vec2 r1 = {radius, 0.f};
+    b2Vec2 v1 = b2Add(center, r1);
+
+    for (int i = 0; i < kSegments; ++i)
+    {
+        b2Vec2 r2;
+        r2.x = cosIncrement * r1.x - sinIncrement * r1.y;
+        r2.y = sinIncrement * r1.x + cosIncrement * r1.y;
+
+        b2Vec2 v2 = b2Add(center, r2);
+        AddSegment(v1, v2, color);
+        
+        r1 = r2;
+        v1 = v2;
+    }
 }
 
-void DebugDrawHelpers::AddSolidCircle(b2Transform transform, float radius, b2HexColor color)
+void DebugDrawHelpers::AddSolidCircle(b2Transform transform, b2Vec2 center, float radius, b2HexColor color)
 {
+    Math::Color rgba8 = MakeRGBA8(color, .6f);
+
+    b2Vec2 final_center = b2Add(transform.p, b2RotateVector(transform.q, center));
+
+    const int kSegments = 16;
+    const float kIncrement = 2.f * b2_pi / kSegments;
+    float sinIncrement = sinf(kIncrement);
+    float cosIncrement = cosf(kIncrement);
+
+    b2Vec2 r = {radius, 0.f};
+    b2Vec2 v = b2Add(final_center, r);
+
+    for (int i = 0; i < kSegments; ++i)
+    {
+        circle_vertices_.push_back({
+            {v.x, v.y, 0.f},
+            {rgba8.r / 255.f, rgba8.g / 255.f, rgba8.b / 255.f, rgba8.a / 255.f}
+        });
+        
+        b2Vec2 t_r;
+        t_r.x = cosIncrement * r.x - sinIncrement * r.y;
+        t_r.y = sinIncrement * r.x + cosIncrement * r.y;
+
+        b2Vec2 t_v = b2Add(final_center, t_r);
+        r = t_r;
+        v = t_v;
+    }
+    
+    circle_vertices_.push_back({
+        {v.x, v.y, 0.f},
+        {rgba8.r / 255.f, rgba8.g / 255.f, rgba8.b / 255.f, rgba8.a / 255.f}
+    });
+
+    int last_idx = circle_vertices_.size() - (kSegments + 1);
+
+    for (int i = 0; i < kSegments; ++i)
+    {
+        circle_indices_.push_back(last_idx);
+        circle_indices_.push_back(last_idx + i + 1);
+        circle_indices_.push_back(last_idx + i + 2);
+    }
+
+    AddCircle(final_center, radius, color);
+
+    b2Vec2 axis = b2Rot_GetXAxis(transform.q);
+
+    AddSegment(final_center, b2MulAdd(final_center, radius, axis), color);
 }
 
 void DebugDrawHelpers::AddCapsule(b2Vec2 p1, b2Vec2 p2, float radius, b2HexColor color)
@@ -82,7 +149,7 @@ void DebugDrawHelpers::AddCapsule(b2Vec2 p1, b2Vec2 p2, float radius, b2HexColor
     float length;
     b2Vec2 axis = b2GetLengthAndNormalize(&length, b2Sub(p2, p1));
 
-    const float kSegments = 16.f;
+    const int kSegments = 16.f;
     const float kIncremnt = b2_pi / kSegments;
     float sin_incremnt = sinf(kIncremnt);
     float cos_incremnt = cosf(kIncremnt);
@@ -135,7 +202,7 @@ void DebugDrawHelpers::AddSolidCapsule(b2Vec2 p1, b2Vec2 p2, float radius, b2Hex
     float length;
     b2Vec2 axis = b2GetLengthAndNormalize(&length, b2Sub(p2, p1));
 
-    const float kSegments = 16.f;
+    const int kSegments = 16.f;
     const float kIncremnt = b2_pi / kSegments;
     float sin_incremnt = sinf(kIncremnt);
     float cos_incremnt = cosf(kIncremnt);
@@ -241,6 +308,10 @@ void DebugDrawHelpers::Clear()
     polygon->SetVertices(polygon_vertices_);
     polygon->SetIndices(polygon_indices_);
 
+    std::shared_ptr<Shape> circle = std::make_shared<Shape>();
+    circle->SetVertices(circle_vertices_);
+    circle->SetIndices(circle_indices_);
+
     std::shared_ptr<Shape> capsule = std::make_shared<Shape>();
     capsule->SetVertices(capsule_vertices_);
     capsule->SetIndices(capsule_indices_);
@@ -250,11 +321,15 @@ void DebugDrawHelpers::Clear()
     segment->SetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_LINELIST);
     
     World::Get()->AddShape(polygon);
+    World::Get()->AddShape(circle);
     World::Get()->AddShape(capsule);
     World::Get()->AddShape(segment);
     
     polygon_vertices_.clear();
     polygon_indices_.clear();
+
+    circle_vertices_.clear();
+    circle_indices_.clear();
 
     capsule_vertices_.clear();
     capsule_indices_.clear();
