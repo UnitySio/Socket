@@ -68,7 +68,7 @@ void DebugDrawHelpers::AddSolidPolygon(b2Transform transform, const b2Vec2* vert
     }
 }
 
-void DebugDrawHelpers::AddSolidCapsule(b2Vec2 p1, b2Vec2 p2, float radius, b2HexColor color)
+void DebugDrawHelpers::AddCapsule(b2Vec2 p1, b2Vec2 p2, float radius, b2HexColor color)
 {
     float length;
     b2Vec2 axis = b2GetLengthAndNormalize(&length, b2Sub(p2, p1));
@@ -119,6 +119,78 @@ void DebugDrawHelpers::AddSolidCapsule(b2Vec2 p1, b2Vec2 p2, float radius, b2Hex
     AddSegment(p1, p2, color);
 }
 
+void DebugDrawHelpers::AddSolidCapsule(b2Vec2 p1, b2Vec2 p2, float radius, b2HexColor color)
+{
+    Math::Color fill_color = MakeRGBA8(color, .6f);
+    
+    float length;
+    b2Vec2 axis = b2GetLengthAndNormalize(&length, b2Sub(p2, p1));
+
+    const float kSegments = 16.f;
+    const float kIncremnt = b2_pi / kSegments;
+    float sin_incremnt = sinf(kIncremnt);
+    float cos_incremnt = cosf(kIncremnt);
+
+    b2Vec2 r = {-axis.y, axis.x};
+    b2Vec2 v = b2MulAdd(p1, radius, r);
+
+    for (int i = 0; i < kSegments; ++i)
+    {
+        capsule_vertices_.push_back({
+            {v.x, v.y, 0.f},
+            {fill_color.r / 255.f, fill_color.g / 255.f, fill_color.b / 255.f, fill_color.a / 255.f}
+        });
+
+        b2Vec2 t_r;
+        t_r.x = cos_incremnt * r.x - sin_incremnt * r.y;
+        t_r.y = sin_incremnt * r.x + cos_incremnt * r.y;
+        
+        b2Vec2 t_v = b2MulAdd(p1, radius, r);
+        r = t_r;
+        v = t_v;
+    }
+    
+    capsule_vertices_.push_back({
+        {v.x, v.y, 0.f},
+        {fill_color.r / 255.f, fill_color.g / 255.f, fill_color.b / 255.f, fill_color.a / 255.f}
+    });
+
+    r = {axis.y, -axis.x};
+    v = b2MulAdd(p2, radius, r);
+
+    for (int i = 0; i < kSegments; ++i)
+    {
+        capsule_vertices_.push_back({
+            {v.x, v.y, 0.f},
+            {fill_color.r / 255.f, fill_color.g / 255.f, fill_color.b / 255.f, fill_color.a / 255.f}
+        });
+
+        b2Vec2 t_r;
+        t_r.x = cos_incremnt * r.x - sin_incremnt * r.y;
+        t_r.y = sin_incremnt * r.x + cos_incremnt * r.y;
+        
+        b2Vec2 t_v = b2MulAdd(p2, radius, r);
+        r = t_r;
+        v = t_v;
+    }
+    
+    capsule_vertices_.push_back({
+        {v.x, v.y, 0.f},
+        {fill_color.r / 255.f, fill_color.g / 255.f, fill_color.b / 255.f, fill_color.a / 255.f}
+    });
+
+    int last_idx = capsule_vertices_.size() - ((kSegments * 2.f) + 2.f);
+
+    for (int i = 0; i < kSegments * 2.f; ++i)
+    {
+        capsule_indices_.push_back(last_idx);
+        capsule_indices_.push_back(last_idx + i + 1);
+        capsule_indices_.push_back(last_idx + i + 2);
+    }
+
+    AddCapsule(p1, p2, radius, color);
+}
+
 void DebugDrawHelpers::AddSegment(b2Vec2 p1, b2Vec2 p2, b2HexColor color)
 {
     Math::Color rgba8 = MakeRGBA8(color, 1.f);
@@ -152,15 +224,23 @@ void DebugDrawHelpers::Clear()
     polygon->SetVertices(polygon_vertices_);
     polygon->SetIndices(polygon_indices_);
 
+    std::shared_ptr<Shape> capsule = std::make_shared<Shape>();
+    capsule->SetVertices(capsule_vertices_);
+    capsule->SetIndices(capsule_indices_);
+
     std::shared_ptr<Shape> segment = std::make_shared<Shape>();
     segment->SetVertices(segment_vertices_);
     segment->SetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_LINELIST);
     
     World::Get()->AddShape(polygon);
+    World::Get()->AddShape(capsule);
     World::Get()->AddShape(segment);
     
     polygon_vertices_.clear();
     polygon_indices_.clear();
+
+    capsule_vertices_.clear();
+    capsule_indices_.clear();
 
     segment_vertices_.clear();
 }

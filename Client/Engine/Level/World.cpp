@@ -309,6 +309,7 @@ void DrawSolidCircle(b2Transform transform, float radius, b2HexColor color, void
 
 void DrawCapsule(b2Vec2 p1, b2Vec2 p2, float radius, b2HexColor color, void* context)
 {
+    static_cast<World*>(context)->debug_draw_helpers.AddCapsule(p1, p2, radius, color);
 }
 
 void DrawSolidCapsule(b2Vec2 p1, b2Vec2 p2, float radius, b2HexColor color, void* context)
