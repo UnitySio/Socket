@@ -1,6 +1,7 @@
 ﻿#include "pch.h"
 #include "DebugDrawHelpers.h"
 
+#include "imgui/imgui.h"
 #include "Level/World.h"
 #include "Windows/DX/Shape.h"
 
@@ -66,6 +67,14 @@ void DebugDrawHelpers::AddSolidPolygon(b2Transform transform, const b2Vec2* vert
         
         p1 = p2;
     }
+}
+
+void DebugDrawHelpers::AddCircle(b2Vec2 center, float radius, b2HexColor color)
+{
+}
+
+void DebugDrawHelpers::AddSolidCircle(b2Transform transform, float radius, b2HexColor color)
+{
 }
 
 void DebugDrawHelpers::AddCapsule(b2Vec2 p1, b2Vec2 p2, float radius, b2HexColor color)
@@ -216,6 +225,14 @@ void DebugDrawHelpers::AddTransform(b2Transform transform)
 
     p2 = b2MulAdd(p1, kAxisScale, b2Rot_GetYAxis(transform.q));
     AddSegment(p1, p2, b2_colorGreen);
+}
+
+void DebugDrawHelpers::AddPoint(b2Vec2 p, float size, b2HexColor color)
+{
+}
+
+void DebugDrawHelpers::AddString(b2Vec2 p, const char* string, ...)
+{
 }
 
 void DebugDrawHelpers::Clear()
