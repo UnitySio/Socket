@@ -4,6 +4,12 @@
 #include "Math/Bounds.h"
 #include "Math/Vector2.h"
 
+struct PhysicsMaterial2D
+{
+    float friction;
+    float bounciness;
+};
+
 class ColliderComponent : public ActorComponent
 {
     SHADER_CLASS_HELPER(ColliderComponent)
@@ -14,12 +20,16 @@ public:
 
     virtual void SetOffset(const Math::Vector2& kOffset);
 
+    void SetMaterial(const PhysicsMaterial2D& kMaterial);
+
     const Bounds& GetBounds();
 
 protected:
     b2ShapeId shape_id_;
 
     Math::Vector2 offset_;
+
+    PhysicsMaterial2D material_;
 
 private:
     virtual void SetShape();

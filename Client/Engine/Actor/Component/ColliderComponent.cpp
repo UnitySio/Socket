@@ -16,6 +16,11 @@ void ColliderComponent::SetOffset(const Math::Vector2& kOffset)
     offset_ = kOffset;
 }
 
+void ColliderComponent::SetMaterial(const PhysicsMaterial2D& kMaterial)
+{
+    material_ = kMaterial;
+}
+
 const Bounds& ColliderComponent::GetBounds()
 {
     if (!b2Shape_IsValid(shape_id_)) return Bounds();

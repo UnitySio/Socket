@@ -35,6 +35,7 @@ void CapsuleColliderComponent::SetTrigger(bool is_trigger)
     b2ShapeDef shape_def = b2DefaultShapeDef();
     shape_def.density = b2Shape_GetDensity(shape_id_);
     shape_def.friction = b2Shape_GetFriction(shape_id_);
+    shape_def.restitution = b2Shape_GetRestitution(shape_id_);
     shape_def.filter = b2Shape_GetFilter(shape_id_);
     shape_def.isSensor = is_trigger;
 
