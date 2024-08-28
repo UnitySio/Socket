@@ -163,10 +163,11 @@ void World::Render(float alpha)
     }
     
     std::ranges::sort(shapes, Shape::CompareZOrder);
+    
+    debug_draw_helpers.Clear();
     shapes_.clear();
     
     shape_batch_->DrawShapes(window_, shapes);
-    debug_draw_helpers.Clear();
 }
 
 void World::AddShape(const std::shared_ptr<Shape>& kShape)
