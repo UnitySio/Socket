@@ -58,7 +58,8 @@ void BoxColliderComponent::SetShape()
         
         b2ShapeDef shape_def = b2DefaultShapeDef();
         shape_def.density = 1.f;
-        shape_def.friction = .3f;
+        shape_def.friction = material_.friction;
+        shape_def.restitution = material_.bounciness;
         shape_def.filter = filter;
 
         shape_id_ = b2CreatePolygonShape(GetOwner()->body_id_, &shape_def, &box);

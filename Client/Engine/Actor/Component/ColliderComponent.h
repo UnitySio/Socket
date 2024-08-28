@@ -6,8 +6,8 @@
 
 struct PhysicsMaterial2D
 {
-    float friction;
-    float bounciness;
+    float friction = .3f;
+    float bounciness = 0.f;
 };
 
 class ColliderComponent : public ActorComponent

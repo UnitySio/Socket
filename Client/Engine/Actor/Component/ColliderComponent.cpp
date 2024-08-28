@@ -6,7 +6,8 @@
 
 ColliderComponent::ColliderComponent(Actor* owner, const std::wstring& kName) :
     ActorComponent(owner, kName),
-    offset_(Math::Vector2::Zero())
+    offset_(Math::Vector2::Zero()),
+    material_()
 {
     if (!b2Body_IsValid(GetOwner()->body_id_)) GetOwner()->CreateBody();
 }
@@ -19,6 +20,12 @@ void ColliderComponent::SetOffset(const Math::Vector2& kOffset)
 void ColliderComponent::SetMaterial(const PhysicsMaterial2D& kMaterial)
 {
     material_ = kMaterial;
+
+    if (b2Shape_IsValid(shape_id_))
+    {
+        b2Shape_SetFriction(shape_id_, material_.friction);
+        b2Shape_SetRestitution(shape_id_, material_.bounciness);
+    }
 }
 
 const Bounds& ColliderComponent::GetBounds()
