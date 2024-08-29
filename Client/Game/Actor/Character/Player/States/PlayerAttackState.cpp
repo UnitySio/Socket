@@ -23,5 +23,5 @@ void PlayerAttackState::OnEnter()
     State::OnEnter();
 
     PlayerController* player = dynamic_cast<PlayerController*>(owner_);
-    player->GetAnimator()->PlayClip(L"Attack1");
+    if(IsValid(player)) player->GetAnimator()->PlayClip(L"Attack1");
 }

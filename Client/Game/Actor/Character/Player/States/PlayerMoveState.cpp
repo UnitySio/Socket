@@ -24,7 +24,7 @@ void PlayerMoveState::OnPhysicsTick(float delta_time)
     const float h = keyboard->IsKeyDown(VK_RIGHT) - keyboard->IsKeyDown(VK_LEFT);
     if (h == 0.f)
     {
-        player->ChangeState(player->idle_);
+        if(IsValid(player)) player->ChangeState(player->idle_);
         return;
     }
 
@@ -43,7 +43,7 @@ void PlayerMoveState::OnTick(float delta_time)
     if (keyboard->IsKeyPressed('C'))
     {
         PlayerController* player = dynamic_cast<PlayerController*>(owner_);
-        if (player)
+        if(IsValid(player))
         {
             RigidBody2DComponent* rigid_body = player->GetRigidBody();
             if (rigid_body)
@@ -59,5 +59,5 @@ void PlayerMoveState::OnEnter()
     State::OnEnter();
 
     PlayerController* player = dynamic_cast<PlayerController*>(owner_);
-    player->GetAnimator()->PlayClip(L"Walk");
+    if(IsValid(player)) player->GetAnimator()->PlayClip(L"Walk");
 }

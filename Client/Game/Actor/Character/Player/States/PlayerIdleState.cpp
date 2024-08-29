@@ -24,13 +24,14 @@ void PlayerIdleState::OnTick(float delta_time)
     if (h != 0.f)
     {
         PlayerController* player = dynamic_cast<PlayerController*>(owner_);
-        player->ChangeState(player->move_);
+        
+        if(IsValid(player)) player->ChangeState(player->move_);
     }
 
     if (keyboard->IsKeyPressed('C'))
     {
         PlayerController* player = dynamic_cast<PlayerController*>(owner_);
-        if (player)
+        if(IsValid(player))
         {
             RigidBody2DComponent* rigid_body = player->GetRigidBody();
             if (rigid_body)
@@ -43,7 +44,7 @@ void PlayerIdleState::OnTick(float delta_time)
     if (keyboard->IsKeyPressed('Z'))
     {
         PlayerController* player = dynamic_cast<PlayerController*>(owner_);
-        if (player)
+        if(IsValid(player))
         {
             player->ChangeState(player->attack1_);
         }
@@ -53,5 +54,5 @@ void PlayerIdleState::OnTick(float delta_time)
 void PlayerIdleState::OnEnter()
 {
     PlayerController* player = dynamic_cast<PlayerController*>(owner_);
-    player->GetAnimator()->PlayClip(L"Idle");
+    if(IsValid(player)) player->GetAnimator()->PlayClip(L"Idle");
 }
