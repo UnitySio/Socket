@@ -67,6 +67,9 @@ public:
 
     bool IsAwake() const;
 
-    b2BodyType GetBodyType() const;
+    BodyType GetBodyType() const;
+
+private:
+    b2BodyId GetValidBodyId() const;
     
 };

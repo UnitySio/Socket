@@ -49,7 +49,7 @@ void PlayerMoveState::OnTick(float delta_time)
             if (rigid_body)
             {
                 rigid_body->SetLinearVelocity(Math::Vector2::Zero());
-                rigid_body->AddForceY(10.f, ForceMode::kImpulse);
+                rigid_body->AddForceY(5.f, ForceMode::kImpulse);
             }
         }
     }

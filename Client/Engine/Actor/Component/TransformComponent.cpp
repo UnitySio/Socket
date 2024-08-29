@@ -37,7 +37,7 @@ void TransformComponent::TickComponent(float delta_time)
     }
 
     const RigidBody2DComponent* rigid_body = GetOwner()->GetComponent<RigidBody2DComponent>();
-    if (!rigid_body || rigid_body->GetBodyType() == b2_kinematicBody) return;
+    if (!rigid_body || rigid_body->GetBodyType() == BodyType::kKinematic) return;
 
     b2BodyId parent_body_id = GetOwner()->parent_->body_id_;
 
@@ -201,7 +201,7 @@ void TransformComponent::UpdateTransform()
 
         if (const RigidBody2DComponent* rigid_body = GetOwner()->GetComponent<RigidBody2DComponent>())
         {
-            if (rigid_body->GetBodyType() == b2_kinematicBody)
+            if (rigid_body->GetBodyType() == BodyType::kKinematic)
             {
                 if (b2Body_IsValid(body_id))
                 {

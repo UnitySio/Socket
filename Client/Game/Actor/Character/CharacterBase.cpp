@@ -21,5 +21,6 @@ CharacterBase::CharacterBase(const std::wstring& kName) :
     rigid_body_ = CreateComponent<RigidBody2DComponent>(L"RigidBody");
     rigid_body_->SetBodyType(BodyType::kDynamic);
     rigid_body_->SetFreezeRotation(true);
+    rigid_body_->UseAutoMass(false);
     
 }
