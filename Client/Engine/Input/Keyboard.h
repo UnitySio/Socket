@@ -40,9 +40,9 @@ public:
 
     void RegisterKey(WORD key_code);
 
-    bool IsKeyDown(WORD key_code) const;
-    bool IsKeyPressed(WORD key_code) const;
-    bool IsKeyReleased(WORD key_code) const;
+    bool IsKeyDown(WORD key_code);
+    bool IsKeyPressed(WORD key_code);
+    bool IsKeyReleased(WORD key_code);
 
     inline const std::wstring& GetInputString() const { return input_string_; }
 

@@ -7,10 +7,6 @@
 
 Keyboard::Keyboard() : input_string_(), key_states_(), key_events_()
 {
-	RegisterKey(VK_LEFT);
-	RegisterKey(VK_RIGHT);
-	RegisterKey('Z');
-	RegisterKey('C');
 }
 
 void Keyboard::Begin()
@@ -77,37 +73,22 @@ void Keyboard::RegisterKey(WORD key_code)
 	key_states_[key_code] = KeyState();
 }
 
-bool Keyboard::IsKeyDown(WORD key_code) const
+bool Keyboard::IsKeyDown(WORD key_code)
 {
-	auto it = key_states_.find(key_code);
-	if (it != key_states_.end())
-	{
-		return it->second.is_down && it->second.was_down;
-	}
-	
-	return false;
+	KeyState& key_state = key_states_[key_code];
+	return key_state.is_down && key_state.was_down;
 }
 
-bool Keyboard::IsKeyPressed(WORD key_code) const
+bool Keyboard::IsKeyPressed(WORD key_code)
 {
-	auto it = key_states_.find(key_code);
-	if (it != key_states_.end())
-	{
-		return it->second.is_down && !it->second.was_down;
-	}
-	
-	return false;
+	KeyState& key_state = key_states_[key_code];
+	return key_state.is_down && !key_state.was_down;
 }
 
-bool Keyboard::IsKeyReleased(WORD key_code) const
+bool Keyboard::IsKeyReleased(WORD key_code)
 {
-	auto it = key_states_.find(key_code);
-	if (it != key_states_.end())
-	{
-		return !it->second.is_down && it->second.was_down;
-	}
-	
-	return false;
+	KeyState& key_state = key_states_[key_code];
+	return !key_state.is_down && key_state.was_down;
 }
 
 bool Keyboard::ProcessMessage(UINT message, WPARAM wParam, LPARAM lParam, MathTypes::uint32 handler_result)
