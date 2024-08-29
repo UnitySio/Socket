@@ -1,6 +1,6 @@
 ﻿#pragma once
 
-enum class LevelType : size_t
+enum class LevelType : MathTypes::uint64
 {
     kSplash = 0,
     kMainMenu,
@@ -8,7 +8,7 @@ enum class LevelType : size_t
     kEnd
 };
 
-enum class EndPlayReason : size_t
+enum class EndPlayReason : MathTypes::uint64
 {
     kDestroyed,
     kLevelTransition,

@@ -67,7 +67,7 @@ private:
     Level* current_level_;
     Level* pending_level_;
     
-    std::shared_ptr<Level> levels_[static_cast<size_t>(LevelType::kEnd)];
+    std::shared_ptr<Level> levels_[static_cast<MathTypes::uint64>(LevelType::kEnd)];
 
     std::weak_ptr<Actor> camera_;
 
@@ -88,6 +88,6 @@ T* World::SpawnActor(const std::wstring& kName)
 template <std::derived_from<Level> T>
 T* World::AddLevel(LevelType type, std::wstring name)
 {
-    levels_[static_cast<size_t>(type)] = std::make_shared<T>(name);
-    return static_cast<T*>(levels_[static_cast<size_t>(type)].get());
+    levels_[static_cast<MathTypes::uint64>(type)] = std::make_shared<T>(name);
+    return static_cast<T*>(levels_[static_cast<MathTypes::uint64>(type)].get());
 }

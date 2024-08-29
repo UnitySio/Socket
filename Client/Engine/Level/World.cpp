@@ -97,7 +97,7 @@ void World::Init(const std::shared_ptr<WindowsWindow>& kWindow)
 
 void World::OpenLevel(LevelType type)
 {
-    pending_level_ = levels_[static_cast<size_t>(type)].get();
+    pending_level_ = levels_[static_cast<MathTypes::uint64>(type)].get();
 }
 
 void World::PhysicsTick(float delta_time)

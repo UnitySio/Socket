@@ -7,26 +7,26 @@ namespace Math
     struct Vector2;
 }
 
-enum class BodyType : size_t
+enum class BodyType : MathTypes::uint64
 {
     kDynamic = 0,
     kKinematic,
     kStatic
 };
 
-enum class SleepMode : size_t
+enum class SleepMode : MathTypes::uint64
 {
     kNeverSleep = 0,
     kStartAwake
 };
 
-enum class CollisionDetectionMode : size_t
+enum class CollisionDetectionMode : MathTypes::uint64
 {
     kDiscrete = 0,
     kContinuous
 };
 
-enum class ForceMode : size_t
+enum class ForceMode : MathTypes::uint64
 {
     kForce = 0,
     kImpulse
@@ -54,6 +54,8 @@ public:
     void AddForceY(float force, ForceMode mode = ForceMode::kForce);
     void AddForceAtPosition(const Math::Vector2& kForce, const Math::Vector2& kPosition, ForceMode mode = ForceMode::kForce);
     void AddTorque(float torque, ForceMode mode = ForceMode::kForce);
+    void UseAutoMass(bool use_auto_mass);
+    void SetMass(float mass);
     void Sleep();
     void WakeUp();
 

@@ -5,7 +5,7 @@
 #include "Object.h"
 #include "Misc/EngineMacros.h"
 
-enum class EndPlayReason : size_t;
+enum class EndPlayReason : MathTypes::uint64;
 class ActorComponent : public Object, public std::enable_shared_from_this<ActorComponent>
 {
     SHADER_CLASS_HELPER(ActorComponent)

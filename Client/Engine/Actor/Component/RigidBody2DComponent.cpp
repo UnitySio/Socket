@@ -241,6 +241,37 @@ void RigidBody2DComponent::AddTorque(float torque, ForceMode mode)
     }
 }
 
+void RigidBody2DComponent::UseAutoMass(bool use_auto_mass)
+{
+    Actor* owner = GetOwner();
+    CHECK(owner);
+
+    b2BodyId body_id = owner->body_id_;
+    CHECK(b2Body_IsValid(body_id));
+
+    if (!use_auto_mass)
+    {
+        SetMass(1.f);
+        return;
+    }
+
+    b2Body_ApplyMassFromShapes(body_id);
+}
+
+void RigidBody2DComponent::SetMass(float mass)
+{
+    Actor* owner = GetOwner();
+    CHECK(owner);
+
+    b2BodyId body_id = owner->body_id_;
+    CHECK(b2Body_IsValid(body_id));
+
+    b2MassData mass_data = b2Body_GetMassData(body_id);
+    mass_data.mass = mass;
+
+    b2Body_SetMassData(body_id, mass_data);
+}
+
 void RigidBody2DComponent::Sleep()
 {
     Actor* owner = GetOwner();

@@ -5,7 +5,7 @@
 
 #include "Actor/Actor.h"
 
-enum class EndPlayReason : size_t;
+enum class EndPlayReason : MathTypes::uint64;
 
 class Level
 {
