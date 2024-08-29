@@ -7,7 +7,7 @@
 #include "Math/Vector2.h"
 #include "Actor/Component/SpriteRendererComponent.h"
 #include "Actor/Component/Animator/AnimatorComponent.h"
-#include "Actor/Component/RigidBodyComponent.h"
+#include "Actor/Component/RigidBody2DComponent.h"
 
 PlayerMoveState::PlayerMoveState(StateMachine* owner) :
     State(owner)
@@ -31,8 +31,8 @@ void PlayerMoveState::OnPhysicsTick(float delta_time)
     SpriteRendererComponent* sprite = player->GetSpriteRenderer();
     sprite->SetFlipX(h < 0.f);
 
-    RigidBodyComponent* rigidbody = player->GetRigidBody();
-    rigidbody->SetVelocity({ h * 2.f, rigidbody->GetVelocity().y });
+    RigidBody2DComponent* rigidbody = player->GetRigidBody();
+    rigidbody->SetLinearVelocityX(h * 2.f);
 }
 
 void PlayerMoveState::OnTick(float delta_time)
@@ -45,11 +45,11 @@ void PlayerMoveState::OnTick(float delta_time)
         PlayerController* player = dynamic_cast<PlayerController*>(owner_);
         if (player)
         {
-            RigidBodyComponent* rigid_body = player->GetRigidBody();
+            RigidBody2DComponent* rigid_body = player->GetRigidBody();
             if (rigid_body)
             {
-                rigid_body->SetVelocity(Math::Vector2::Zero());
-                rigid_body->AddForce(Math::Vector2::Up() * 10.f, ForceMode::kImpulse);
+                rigid_body->SetLinearVelocity(Math::Vector2::Zero());
+                rigid_body->AddForceY(10.f, ForceMode::kImpulse);
             }
         }
     }

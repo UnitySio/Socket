@@ -4,7 +4,7 @@
 #include "Actor/Actor.h"
 #include "Level/Level.h"
 #include "Level/World.h"
-#include "RigidBodyComponent.h"
+#include "RigidBody2DComponent.h"
 
 TransformComponent::TransformComponent(Actor* owner, const std::wstring& kName) :
     ActorComponent(owner, kName),
@@ -36,7 +36,7 @@ void TransformComponent::TickComponent(float delta_time)
         return;
     }
 
-    const RigidBodyComponent* rigid_body = GetOwner()->GetComponent<RigidBodyComponent>();
+    const RigidBody2DComponent* rigid_body = GetOwner()->GetComponent<RigidBody2DComponent>();
     if (!rigid_body || rigid_body->GetBodyType() == b2_kinematicBody) return;
 
     b2BodyId parent_body_id = GetOwner()->parent_->body_id_;
@@ -199,7 +199,7 @@ void TransformComponent::UpdateTransform()
             relative_rotation_z_ = world_rotation_z_ - GetOwner()->parent_->transform_->world_rotation_z_;
         }
 
-        if (const RigidBodyComponent* rigid_body = GetOwner()->GetComponent<RigidBodyComponent>())
+        if (const RigidBody2DComponent* rigid_body = GetOwner()->GetComponent<RigidBody2DComponent>())
         {
             if (rigid_body->GetBodyType() == b2_kinematicBody)
             {

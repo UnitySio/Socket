@@ -4,7 +4,7 @@
 #include "PlayerMoveState.h"
 
 #include "Actor/Character/Player/PlayerController.h"
-#include "Actor/Component/RigidBodyComponent.h"
+#include "Actor/Component/RigidBody2DComponent.h"
 #include "Actor/Component/Animator/AnimatorComponent.h"
 #include "Input/Keyboard.h"
 #include "Math/Vector2.h"
@@ -32,11 +32,11 @@ void PlayerIdleState::OnTick(float delta_time)
         PlayerController* player = dynamic_cast<PlayerController*>(owner_);
         if (player)
         {
-            RigidBodyComponent* rigid_body = player->GetRigidBody();
+            RigidBody2DComponent* rigid_body = player->GetRigidBody();
             if (rigid_body)
             {
-                rigid_body->SetVelocity(Math::Vector2::Zero());
-                rigid_body->AddForce(Math::Vector2::Up() * 10.f, ForceMode::kImpulse);
+                rigid_body->SetLinearVelocity(Math::Vector2::Zero());
+                rigid_body->AddForceY(10.f, ForceMode::kImpulse);
             }
         }
     }

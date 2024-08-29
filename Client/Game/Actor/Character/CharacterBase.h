@@ -5,7 +5,7 @@
 class SpriteRendererComponent;
 class AnimatorComponent;
 class CapsuleColliderComponent;
-class RigidBodyComponent;
+class RigidBody2DComponent;
 
 class CharacterBase : public StateMachine
 {
@@ -18,12 +18,12 @@ public:
     inline SpriteRendererComponent* GetSpriteRenderer() const { return sprite_renderer_; }
     inline AnimatorComponent* GetAnimator() const { return animator_; }
     inline CapsuleColliderComponent* GetCapsuleCollider() const { return capsule_collider_; }
-    inline RigidBodyComponent* GetRigidBody() const { return rigid_body_; }
+    inline RigidBody2DComponent* GetRigidBody() const { return rigid_body_; }
 
 protected:
     SpriteRendererComponent* sprite_renderer_;
     AnimatorComponent* animator_;
     CapsuleColliderComponent* capsule_collider_;
-    RigidBodyComponent* rigid_body_;
+    RigidBody2DComponent* rigid_body_;
     
 };

@@ -3,7 +3,7 @@
 
 #include "Actor/Box.h"
 #include "Actor/Component/CapsuleColliderComponent.h"
-#include "Actor/Component/RigidBodyComponent.h"
+#include "Actor/Component/RigidBody2DComponent.h"
 #include "Actor/Component/SpriteRendererComponent.h"
 #include "Actor/Component/TransformComponent.h"
 #include "Actor/Component/Animator/AnimationClip.h"

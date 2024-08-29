@@ -3,7 +3,7 @@
 
 #include "Actor/Component/SpriteRendererComponent.h"
 #include "Actor/Component/BoxColliderComponent.h"
-#include "Actor/Component/RigidBodyComponent.h"
+#include "Actor/Component/RigidBody2DComponent.h"
 #include "Actor/Component/TransformComponent.h"
 #include "Logger/Logger.h"
 #include "Windows/DX/Shape.h"
@@ -16,7 +16,7 @@ Box::Box(const std::wstring& kName) : Actor(kName)
     box_collider_ = CreateComponent<BoxColliderComponent>(L"BoxCollider");
     box_collider_->SetSize({1.f, 1.f});
 
-    rigid_body_ = CreateComponent<RigidBodyComponent>(L"RigidBody");
+    rigid_body_ = CreateComponent<RigidBody2DComponent>(L"RigidBody");
     rigid_body_->SetBodyType(BodyType::kDynamic);
     
     sprite_ = std::make_shared<Sprite>();

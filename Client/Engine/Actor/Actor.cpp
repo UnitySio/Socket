@@ -2,7 +2,7 @@
 #include "Actor.h"
 
 #include "Enums.h"
-#include "Component/RigidBodyComponent.h"
+#include "Component/RigidBody2DComponent.h"
 #include "Component/TransformComponent.h"
 #include "Level/World.h"
 #include "Time/TimerManager.h"
@@ -126,8 +126,8 @@ void Actor::AttachToActor(Actor* actor)
 
     if (!b2Body_IsValid(body_id_) || !b2Body_IsValid(actor->body_id_)) return;
 
-    const RigidBodyComponent* rigid_body = GetComponent<RigidBodyComponent>();
-    const RigidBodyComponent* parent_rigid_body = actor->GetComponent<RigidBodyComponent>();
+    const RigidBody2DComponent* rigid_body = GetComponent<RigidBody2DComponent>();
+    const RigidBody2DComponent* parent_rigid_body = actor->GetComponent<RigidBody2DComponent>();
 
     if (parent_rigid_body && !rigid_body)
     {

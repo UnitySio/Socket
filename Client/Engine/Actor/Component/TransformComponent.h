@@ -34,7 +34,7 @@ public:
 private:
     friend class Actor;
     friend class ColliderComponent;
-    friend class RigidBodyComponent;
+    friend class RigidBody2DComponent;
 
     void UpdateTransform();
 

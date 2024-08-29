@@ -4,7 +4,7 @@
 #include "Actor/Component/SpriteRendererComponent.h"
 #include "Actor/Component/Animator/AnimatorComponent.h"
 #include "Actor/Component/CapsuleColliderComponent.h"
-#include "Actor/Component/RigidBodyComponent.h"
+#include "Actor/Component/RigidBody2DComponent.h"
 
 CharacterBase::CharacterBase(const std::wstring& kName) :
     StateMachine(kName)
@@ -18,7 +18,7 @@ CharacterBase::CharacterBase(const std::wstring& kName) :
     // capsule_collider_->SetMaterial(material);
     capsule_collider_->SetSize({1.f, 1.f});
 
-    rigid_body_ = CreateComponent<RigidBodyComponent>(L"RigidBody");
+    rigid_body_ = CreateComponent<RigidBody2DComponent>(L"RigidBody");
     rigid_body_->SetBodyType(BodyType::kDynamic);
     rigid_body_->SetFreezeRotation(true);
     
