@@ -48,7 +48,6 @@ void PlayerMoveState::OnTick(float delta_time)
             RigidBody2DComponent* rigid_body = player->GetRigidBody();
             if (rigid_body)
             {
-                rigid_body->SetLinearVelocity(Math::Vector2::Zero());
                 rigid_body->AddForceY(5.f, ForceMode::kImpulse);
             }
         }
