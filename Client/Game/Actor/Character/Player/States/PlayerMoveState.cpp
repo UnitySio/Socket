@@ -24,7 +24,7 @@ void PlayerMoveState::OnPhysicsTick(float delta_time)
     const float h = keyboard->IsKeyDown(VK_RIGHT) - keyboard->IsKeyDown(VK_LEFT);
     if (h == 0.f)
     {
-        player->ChangeState(std::make_shared<PlayerIdleState>(player));
+        player->ChangeState(player->idle_);
         return;
     }
 

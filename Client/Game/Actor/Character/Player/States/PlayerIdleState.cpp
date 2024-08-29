@@ -24,7 +24,7 @@ void PlayerIdleState::OnTick(float delta_time)
     if (h != 0.f)
     {
         PlayerController* player = dynamic_cast<PlayerController*>(owner_);
-        player->ChangeState(std::make_shared<PlayerMoveState>(player));
+        player->ChangeState(player->move_);
     }
 
     if (keyboard->IsKeyPressed('C'))
@@ -45,7 +45,7 @@ void PlayerIdleState::OnTick(float delta_time)
         PlayerController* player = dynamic_cast<PlayerController*>(owner_);
         if (player)
         {
-            player->ChangeState(std::make_shared<PlayerAttackState>(player));
+            player->ChangeState(player->attack1_);
         }
     }
 }

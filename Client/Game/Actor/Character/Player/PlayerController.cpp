@@ -41,17 +41,20 @@ PlayerController::PlayerController(const std::wstring& kName) :
     std::shared_ptr<AnimationClip> clip = animator_->AddClip(L"Idle", temp, 6);
     clip->SetRepeat(true);
     clip->SetFrameRate(6.f);
+    idle_ = std::make_shared<PlayerIdleState>(this);
 
     int attack1_indices[] = { 18, 19, 20, 21, 22, 23 };
     clip = animator_->AddClip(L"Attack1", attack1_indices, 6);
-    clip->AddEvent([this]()-> void {ChangeState(std::make_shared<PlayerIdleState>(this)); }, 5);
+    clip->AddEvent([this]()-> void { ChangeState(idle_); }, 5);
     clip->SetRepeat(false);
     clip->SetFrameRate(6.f);
+    attack1_ = std::make_shared<PlayerAttackState>(this);
 
     int walk_indices[] = {9, 10, 11, 12, 13, 14, 15, 16};
     clip = animator_->AddClip(L"Walk", walk_indices, 8);
     clip->SetRepeat(true);
     clip->SetFrameRate(6.f);
+    move_ = std::make_shared<PlayerMoveState>(this);
     
     animator_->PlayClip(clip);
 
@@ -65,7 +68,7 @@ PlayerController::PlayerController(const std::wstring& kName) :
     //     LOG(L"Success");
     // }
 
-    ChangeState(std::make_shared<PlayerIdleState>(this));
+    ChangeState(idle_);
 }
 
 void PlayerController::BeginPlay()
@@ -89,18 +92,6 @@ void PlayerController::EndPlay(EndPlayReason type)
 void PlayerController::PhysicsTick(float delta_time)
 {
     CharacterBase::PhysicsTick(delta_time);
-
-    // Keyboard* keyboard = Keyboard::Get();
-    //
-    // const float h = keyboard->IsKeyDown(VK_RIGHT) - keyboard->IsKeyDown(VK_LEFT);
-    // if (h != 0.f)
-    // {
-    //     sprite_renderer_->SetFlipX(h < 0.f);
-    //     animator_->PlayClip(L"Walk");
-    // }
-    // else animator_->PlayClip(L"Idle");
-    //
-    // rigid_body_->SetVelocity({h * 2.f, rigid_body_->GetVelocity().y});
 }
 
 void PlayerController::Tick(float delta_time)

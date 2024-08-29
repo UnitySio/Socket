@@ -1,5 +1,8 @@
 ﻿#pragma once
 #include "Actor/Character/CharacterBase.h"
+#include "States/PlayerIdleState.h"
+#include "States/PlayerMoveState.h"
+#include "States/PlayerAttackState.h"
 
 enum class PlayerStates
 {
@@ -19,6 +22,10 @@ public:
     virtual void EndPlay(EndPlayReason type) override;
     virtual void PhysicsTick(float delta_time) override;
     virtual void Tick(float delta_time) override;
+
+    std::shared_ptr<PlayerIdleState> idle_;
+    std::shared_ptr<PlayerMoveState> move_;
+    std::shared_ptr<PlayerAttackState> attack1_;
 
 private:
     std::shared_ptr<class Sprite> sprite_;
