@@ -7,7 +7,8 @@
 ColliderComponent::ColliderComponent(Actor* owner, const std::wstring& kName) :
     ActorComponent(owner, kName),
     offset_(Math::Vector2::Zero()),
-    material_()
+    material_(),
+    is_platform_(false)
 {
     if (!b2Body_IsValid(GetOwner()->body_id_)) GetOwner()->CreateBody();
 }
@@ -28,9 +29,9 @@ void ColliderComponent::SetMaterial(const PhysicsMaterial2D& kMaterial)
     }
 }
 
-void ColliderComponent::Test(bool a)
+void ColliderComponent::SetPreSolve(bool is_pre_solve)
 {
-    b2Shape_EnablePreSolveEvents(shape_id_, a);
+    b2Shape_EnablePreSolveEvents(shape_id_, is_pre_solve);
 }
 
 const Bounds& ColliderComponent::GetBounds()

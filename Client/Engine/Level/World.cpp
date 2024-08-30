@@ -6,6 +6,7 @@
 #include "Level.h"
 #include "Actor/FollowCamera.h"
 #include "Actor/Component/CameraComponent.h"
+#include "Actor/Component/ColliderComponent.h"
 #include "imgui/imgui.h"
 #include "Input/Keyboard.h"
 #include "Map/MainMap.h"
@@ -304,6 +305,37 @@ void World::DestroyActors()
 
 bool World::PreSolve_Internal(b2ShapeId shapeIdA, b2ShapeId shapeIdB, b2Manifold* manifold)
 {
+    ColliderComponent* collider_a = static_cast<ColliderComponent*>(b2Shape_GetUserData(shapeIdA));
+    ColliderComponent* collider_b = static_cast<ColliderComponent*>(b2Shape_GetUserData(shapeIdB));
+
+    if (!collider_a || !collider_b) return true;
+
+    b2ShapeId actor_shape_id = b2_nullShapeId;
+    float sign = 0.f;
+    if (collider_a->is_platform_)
+    {
+        sign = 1.f;
+        actor_shape_id = shapeIdB;
+    }
+    else if (collider_b->is_platform_)
+    {
+        sign = -1.f;
+        actor_shape_id = shapeIdA;
+    }
+    else return true;
+
+    b2Vec2 normal = manifold->normal;
+    if (sign * normal.y > .95f) return true;
+
+    float separation = 0.f;
+    for (int i = 0; i < manifold->pointCount; ++i)
+    {
+        float s = manifold->points[i].separation;
+        separation = separation < s ? separation : s;
+    }
+
+    if (separation > .1f * .5f) return true;
+    
     return false;
 }
 

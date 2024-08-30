@@ -17,7 +17,7 @@ CharacterBase::CharacterBase(const std::wstring& kName) :
     capsule_collider_ = CreateComponent<CapsuleColliderComponent>(L"CapsuleCollider");
     // capsule_collider_->SetMaterial(material);
     capsule_collider_->SetSize({1.f, 1.f});
-    capsule_collider_->Test(true);
+    capsule_collider_->SetPreSolve(true);
 
     rigid_body_ = CreateComponent<RigidBody2DComponent>(L"RigidBody");
     rigid_body_->SetBodyType(BodyType::kDynamic);

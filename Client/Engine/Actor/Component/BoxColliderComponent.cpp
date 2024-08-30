@@ -61,6 +61,7 @@ void BoxColliderComponent::SetShape()
         shape_def.friction = material_.friction;
         shape_def.restitution = material_.bounciness;
         shape_def.filter = filter;
+        shape_def.userData = this;
 
         shape_id_ = b2CreatePolygonShape(GetOwner()->body_id_, &shape_def, &box);
     }

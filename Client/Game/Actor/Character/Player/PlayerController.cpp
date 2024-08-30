@@ -77,7 +77,7 @@ void PlayerController::BeginPlay()
 
     float x = DataManager::GetFloat(L"PlayerX", 0.f);
     float y = DataManager::GetFloat(L"PlayerY", 0.f);
-    GetTransform()->SetWorldPosition({x, y});
+    // GetTransform()->SetWorldPosition({x, y});
 }
 
 void PlayerController::EndPlay(EndPlayReason type)
@@ -100,9 +100,9 @@ void PlayerController::Tick(float delta_time)
     
     Keyboard* keyboard = Keyboard::Get();
     
-    // if (keyboard->IsKeyPressed('Z'))
-    // {
-    //     Box* box = SpawnActor<Box>(L"Box");
-    //     box->GetTransform()->SetWorldPosition(GetTransform()->GetWorldPosition());
-    // }
+    if (keyboard->IsKeyPressed('Z'))
+    {
+        Box* box = SpawnActor<Box>(L"Box");
+        box->GetTransform()->SetWorldPosition(GetTransform()->GetWorldPosition());
+    }
 }

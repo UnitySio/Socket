@@ -21,16 +21,22 @@ public:
     virtual void SetOffset(const Math::Vector2& kOffset);
 
     void SetMaterial(const PhysicsMaterial2D& kMaterial);
-    void Test(bool a);
+    void SetPreSolve(bool is_pre_solve);
 
     const Bounds& GetBounds();
 
+    inline bool SetPlatform(bool is_platform) { return is_platform_ = is_platform; }
+
 protected:
+    friend class World;
+    
     b2ShapeId shape_id_;
 
     Math::Vector2 offset_;
 
     PhysicsMaterial2D material_;
+
+    bool is_platform_;
 
 private:
     virtual void SetShape();
