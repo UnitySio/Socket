@@ -17,6 +17,7 @@
 #include "Windows/DX/Shape.h"
 #include "Windows/DX/ShapeBatch.h"
 
+bool PreSolve(b2ShapeId shapeIdA, b2ShapeId shapeIdB, b2Manifold* manifold, void* context);
 void DrawPolygon(const b2Vec2* vertices, int vertexCount, b2HexColor color, void* context);
 void DrawSolidPolygon(b2Transform transform, const b2Vec2* vertices, int vertexCount, float radius, b2HexColor color, void* context);
 void DrawCircle(b2Vec2 center, float radius, b2HexColor color, void* context);
@@ -45,6 +46,8 @@ World::World() :
     world_def.gravity = gravity;
 
     world_id_ = b2CreateWorld(&world_def);
+
+    b2World_SetPreSolveCallback(world_id_, PreSolve, this);
 
     b2AABB bounds = {
         {-FLT_MAX, -FLT_MAX},
@@ -219,6 +222,14 @@ void World::ProcessCollisionEvents()
         Actor* actor_b = static_cast<Actor*>(b2Body_GetUserData(body_id_b));
 
         if (!actor_a || !actor_b) continue;
+
+        // 추후 필요하게 되면 적용
+        // b2ContactData contact_data_a[1];
+        // b2Shape_GetContactData(event.shapeIdA, contact_data_a, 1);
+        //
+        // b2ContactData contact_data_b[1];
+        // b2Shape_GetContactData(event.shapeIdB, contact_data_b, 1);
+        
         actor_a->OnCollisionEnter(actor_b);
         actor_b->OnCollisionEnter(actor_a);
     }
@@ -233,6 +244,7 @@ void World::ProcessCollisionEvents()
         Actor* actor_b = static_cast<Actor*>(b2Body_GetUserData(body_id_b));
 
         if (!actor_a || !actor_b) continue;
+        
         actor_a->OnCollisionExit(actor_b);
         actor_b->OnCollisionExit(actor_a);
     }
@@ -288,6 +300,16 @@ void World::DestroyActors()
         std::erase(current_level_->actors_, actor);
         pending_destroy_actors_.pop();
     }
+}
+
+bool World::PreSolve_Internal(b2ShapeId shapeIdA, b2ShapeId shapeIdB, b2Manifold* manifold)
+{
+    return false;
+}
+
+bool PreSolve(b2ShapeId shapeIdA, b2ShapeId shapeIdB, b2Manifold* manifold, void* context)
+{
+    return static_cast<World*>(context)->PreSolve_Internal(shapeIdA, shapeIdB, manifold);
 }
 
 void DrawPolygon(const b2Vec2* vertices, int vertexCount, b2HexColor color, void* context)

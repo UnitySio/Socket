@@ -28,6 +28,11 @@ void ColliderComponent::SetMaterial(const PhysicsMaterial2D& kMaterial)
     }
 }
 
+void ColliderComponent::Test(bool a)
+{
+    b2Shape_EnablePreSolveEvents(shape_id_, a);
+}
+
 const Bounds& ColliderComponent::GetBounds()
 {
     if (!b2Shape_IsValid(shape_id_)) return Bounds();

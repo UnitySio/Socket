@@ -41,6 +41,8 @@ public:
     DebugDrawHelpers debug_draw_helpers;
 
 private:
+    friend bool PreSolve(b2ShapeId shapeIdA, b2ShapeId shapeIdB, b2Manifold* manifold, void* context);
+    
     friend class Physics2D;
     friend class Level;
     friend class Actor;
@@ -52,6 +54,8 @@ private:
     void ProcessTriggerEvents();
     void DestroyActor(Actor* actor);
     void DestroyActors();
+
+    bool PreSolve_Internal(b2ShapeId shapeIdA, b2ShapeId shapeIdB, b2Manifold* manifold);
 
     inline void SetCamera(const std::shared_ptr<Actor>& kCamera) { camera_ = kCamera; }
 

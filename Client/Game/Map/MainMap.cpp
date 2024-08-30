@@ -4,8 +4,7 @@
 #include "Actor/FollowCamera.h"
 #include "Actor/Tilemap.h"
 #include "Actor/Character/Player/PlayerController.h"
-#include "Actor/Component/TransformComponent.h"
-#include "Level/World.h"
+#include "Actor/Test/Platform.h"
 
 MainMap::MainMap(const std::wstring& kName) : Level(kName)
 {
@@ -18,4 +17,6 @@ void MainMap::Load()
     
     FollowCamera* camera = AddActor<FollowCamera>(L"FollowCamera");
     camera->SetFollow(player);
+
+    Platform* platform = AddActor<Platform>(L"Platform");
 }

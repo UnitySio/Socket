@@ -21,6 +21,7 @@ public:
     virtual void SetOffset(const Math::Vector2& kOffset);
 
     void SetMaterial(const PhysicsMaterial2D& kMaterial);
+    void Test(bool a);
 
     const Bounds& GetBounds();
 

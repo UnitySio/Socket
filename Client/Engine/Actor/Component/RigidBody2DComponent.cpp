@@ -206,6 +206,7 @@ void RigidBody2DComponent::SetMass(float mass)
     mass_data.mass = mass;
 
     b2Body_SetMassData(body_id, mass_data);
+    
 }
 
 void RigidBody2DComponent::Sleep()
