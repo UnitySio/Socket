@@ -107,7 +107,24 @@ namespace Math
          */
         static Vector2 Min(Vector2 a, Vector2 b);
 
+        /**
+         * 반사 벡터를 반환합니다.
+         * @param direction 방향
+         * @param normal 법선
+         * @return Vector
+         */
+        static Vector2 Reflect(Vector2 direction, Vector2 normal);
+
+        /**
+         * 백터의 최대값을 반환합니다.
+         * @return Vector
+         */
         static Vector2 PositiveInfinity();
+
+        /**
+         * 백터의 최소값을 반환합니다.
+         * @return Vector
+         */
         static Vector2 NegativeInfinity();
 
         /**
