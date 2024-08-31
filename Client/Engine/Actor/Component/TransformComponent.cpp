@@ -154,6 +154,12 @@ void TransformComponent::SetRelativeScale(Math::Vector2 scale)
     UpdateTransform();
 }
 
+void TransformComponent::Translate(Math::Vector2 translation)
+{
+    Math::Vector2 new_position = world_position_ + translation;
+    SetWorldPosition(new_position);
+}
+
 Math::Vector2 TransformComponent::GetRightVector() const
 {
     const float theta = relative_rotation_z_ * MATH_PI / 180.f;

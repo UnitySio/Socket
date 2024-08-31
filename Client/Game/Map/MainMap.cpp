@@ -12,10 +12,10 @@ MainMap::MainMap(const std::wstring& kName) : Level(kName)
 
 void MainMap::Load()
 {
-    Tilemap* tilemap = AddActor<Tilemap>(L"Tilemap");
-    PlayerController* player = AddActor<PlayerController>(L"Player");
-    
     FollowCamera* camera = AddActor<FollowCamera>(L"FollowCamera");
+    Tilemap* tilemap = AddActor<Tilemap>(L"Tilemap");
+    
+    PlayerController* player = AddActor<PlayerController>(L"Player");
     camera->SetFollow(player);
 
     Platform* platform = AddActor<Platform>(L"Platform");
