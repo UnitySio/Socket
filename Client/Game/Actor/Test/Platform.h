@@ -10,7 +10,7 @@ public:
     virtual ~Platform() override = default;
 
 private:
-    class BoxColliderComponent* box_collider_;
+    class SegmentColliderComponent* segment_collider_;
     class RigidBody2DComponent* rigid_body_;
     
 };
