@@ -207,6 +207,12 @@ Math::Vector2 Math::Vector2::Min(Vector2 a, Vector2 b)
     return {min_x, min_y};
 }
 
+Math::Vector2 Math::Vector2::Reflect(Vector2 direction, Vector2 normal)
+{
+    float num = -2.f * Dot(normal, direction);
+    return direction + (normal * num);
+}
+
 Math::Vector2 Math::Vector2::PositiveInfinity()
 {
     return {std::numeric_limits<float>::max(), std::numeric_limits<float>::max()};
