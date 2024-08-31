@@ -25,7 +25,7 @@ public:
 
     const Bounds& GetBounds();
 
-    inline bool SetPlatform(bool is_platform) { return is_platform_ = is_platform; }
+    inline bool SetOneWayPlatform(bool is_one_way_platform) { return is_one_way_platform_ = is_one_way_platform; }
 
 protected:
     friend class World;
@@ -36,7 +36,7 @@ protected:
 
     PhysicsMaterial2D material_;
 
-    bool is_platform_;
+    bool is_one_way_platform_;
 
 private:
     virtual void SetShape();

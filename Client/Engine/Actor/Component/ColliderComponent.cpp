@@ -8,7 +8,7 @@ ColliderComponent::ColliderComponent(Actor* owner, const std::wstring& kName) :
     ActorComponent(owner, kName),
     offset_(Math::Vector2::Zero()),
     material_(),
-    is_platform_(false)
+    is_one_way_platform_(false)
 {
     if (!b2Body_IsValid(GetOwner()->body_id_)) GetOwner()->CreateBody();
 }

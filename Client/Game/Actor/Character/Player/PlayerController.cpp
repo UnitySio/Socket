@@ -47,7 +47,7 @@ PlayerController::PlayerController(const std::wstring& kName) :
     clip = animator_->AddClip(L"Attack1", attack1_indices, 6);
     clip->AddEvent([this]()-> void { ChangeState(idle_); }, 5);
     clip->SetRepeat(false);
-    clip->SetFrameRate(6.f);
+    clip->SetFrameRate(15.f);
     attack1_ = std::make_shared<PlayerAttackState>(this);
 
     int walk_indices[] = {9, 10, 11, 12, 13, 14, 15, 16};

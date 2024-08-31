@@ -312,12 +312,12 @@ bool World::PreSolve_Internal(b2ShapeId shapeIdA, b2ShapeId shapeIdB, b2Manifold
 
     b2ShapeId actor_shape_id = b2_nullShapeId;
     float sign = 0.f;
-    if (collider_a->is_platform_)
+    if (collider_a->is_one_way_platform_)
     {
         sign = 1.f;
         actor_shape_id = shapeIdB;
     }
-    else if (collider_b->is_platform_)
+    else if (collider_b->is_one_way_platform_)
     {
         sign = -1.f;
         actor_shape_id = shapeIdA;
