@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include <map>
 #include <queue>
+#include <stack>
 #include <Windows.h>
 
 #include "Singleton.h"
@@ -46,7 +47,7 @@ public:
 
     inline const std::wstring& GetInputString() const { return input_string_; }
 
-    KeyEvent command[3];
+    std::stack<KeyEvent> command_buffer_;
 
 private:
     friend class Core;

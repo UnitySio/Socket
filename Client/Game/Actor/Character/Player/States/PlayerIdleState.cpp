@@ -43,11 +43,22 @@ void PlayerIdleState::OnTick(float delta_time)
 
     if (keyboard->IsKeyPressed('Z'))
     {
+        keyboard->command_buffer_.pop();
+
         PlayerController* player = dynamic_cast<PlayerController*>(owner_);
         if (!IsValid(player)) return;
 
-        if(keyboard->IsKeyDown(VK_DOWN)) player->ChangeState(player->attack2_);
-        else player->ChangeState(player->attack1_);
+        if (keyboard->command_buffer_.empty())
+        {
+            player->ChangeState(player->attack1_);
+        }
+        else
+        {
+            KeyEvent event = keyboard->command_buffer_.top();
+            if (event.key_code == VK_DOWN) player->ChangeState(player->attack2_);
+        }
+
+        while (!keyboard->command_buffer_.empty()) keyboard->command_buffer_.pop();
     }
 }
 

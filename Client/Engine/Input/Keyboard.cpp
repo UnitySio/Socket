@@ -119,6 +119,12 @@ bool Keyboard::ProcessMessage(UINT message, WPARAM wParam, LPARAM lParam, MathTy
 bool Keyboard::OnKeyDown(WORD key_code, MathTypes::uint32 char_code)
 {
 	OnInputKey(key_code, KeyboardEventType::kPressed);
+
+	KeyEvent event;
+	event.state = KeyboardEventType::kPressed;
+	event.key_code = key_code;
+	command_buffer_.push(event);
+
 	return true;
 }
 
@@ -150,8 +156,4 @@ void Keyboard::OnInputKey(WORD key_code, KeyboardEventType state)
 	event.key_code = key_code;
 
 	key_events_.push(event);
-
-	command[2] = command[1];
-	command[1] = command[0];
-	command[0] = event;
 }
