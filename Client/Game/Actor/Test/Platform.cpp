@@ -18,11 +18,3 @@ Platform::Platform(const std::wstring& kName) :
     GetTransform()->SetWorldPosition({1.5f, -3.f});
     
 }
-
-void Platform::PhysicsTick(float delta_time)
-{
-    Actor::PhysicsTick(delta_time);
-
-    Math::Vector2 position = GetTransform()->GetWorldPosition();
-    
-}

@@ -29,7 +29,6 @@ protected:
     
     Actor* owner_;
     std::wstring name_;
-    bool tickable_;
 
 private:
     friend class Actor;

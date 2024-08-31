@@ -194,6 +194,7 @@ void World::TransitionLevel()
     
     current_level_->Load();
     current_level_->InitializeActors();
+    DestroyActors();
     
     SetWindowText(window_->GetHWnd(), current_level_->GetName().c_str());
 }

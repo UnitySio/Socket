@@ -19,6 +19,7 @@ public:
     void SetRelativePosition(Math::Vector2 position);
     void SetRelativeRotationZ(float angle);
     void SetRelativeScale(Math::Vector2 scale);
+    void Translate(Math::Vector2 translation);
 
     Math::Vector2 GetRightVector() const;
     Math::Vector2 GetUpVector() const;
