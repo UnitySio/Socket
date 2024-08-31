@@ -150,4 +150,8 @@ void Keyboard::OnInputKey(WORD key_code, KeyboardEventType state)
 	event.key_code = key_code;
 
 	key_events_.push(event);
+
+	command[2] = command[1];
+	command[1] = command[0];
+	command[0] = event;
 }

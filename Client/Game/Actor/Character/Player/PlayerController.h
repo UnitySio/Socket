@@ -3,6 +3,7 @@
 #include "States/PlayerIdleState.h"
 #include "States/PlayerMoveState.h"
 #include "States/PlayerAttackState.h"
+#include "States/PlayerAttack2State.h"
 
 enum class PlayerStates
 {
@@ -26,7 +27,8 @@ public:
     std::shared_ptr<PlayerIdleState> idle_;
     std::shared_ptr<PlayerMoveState> move_;
     std::shared_ptr<PlayerAttackState> attack1_;
-
+    std::shared_ptr<PlayerAttack2State> attack2_;
+    
 private:
     std::shared_ptr<class Sprite> sprite_;
 

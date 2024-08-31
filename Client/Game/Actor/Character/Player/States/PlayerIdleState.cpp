@@ -44,10 +44,10 @@ void PlayerIdleState::OnTick(float delta_time)
     if (keyboard->IsKeyPressed('Z'))
     {
         PlayerController* player = dynamic_cast<PlayerController*>(owner_);
-        if(IsValid(player))
-        {
-            player->ChangeState(player->attack1_);
-        }
+        if (!IsValid(player)) return;
+
+        if(keyboard->IsKeyDown(VK_DOWN)) player->ChangeState(player->attack2_);
+        else player->ChangeState(player->attack1_);
     }
 }
 

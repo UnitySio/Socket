@@ -50,6 +50,13 @@ PlayerController::PlayerController(const std::wstring& kName) :
     clip->SetFrameRate(15.f);
     attack1_ = std::make_shared<PlayerAttackState>(this);
 
+    int attack2_indices[] = { 27, 28, 29, 30, 31, 32 };
+    clip = animator_->AddClip(L"Attack2", attack2_indices, 6);
+    clip->AddEvent([this]()-> void { ChangeState(idle_); }, 5);
+    clip->SetRepeat(false);
+    clip->SetFrameRate(15.f);
+    attack2_ = std::make_shared<PlayerAttack2State>(this);
+
     int walk_indices[] = {9, 10, 11, 12, 13, 14, 15, 16};
     clip = animator_->AddClip(L"Walk", walk_indices, 8);
     clip->SetRepeat(true);

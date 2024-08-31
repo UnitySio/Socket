@@ -46,6 +46,8 @@ public:
 
     inline const std::wstring& GetInputString() const { return input_string_; }
 
+    KeyEvent command[3];
+
 private:
     friend class Core;
     friend class GameEngine;
@@ -64,8 +66,8 @@ private:
 
     std::map<WORD, KeyState> key_states_;
 
-    std::queue<KeyEvent> key_events_;
-
+    std::queue<KeyEvent> key_events_; 
+    
     // 스레드로 부터 안전을 위한 뮤텍스
     std::mutex mutex_;
     
