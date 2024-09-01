@@ -12,9 +12,7 @@ Actor::Actor(const std::wstring& kName) :
     layer_(ActorLayer::kDefault),
     is_pending_destroy_(false),
     components_(),
-    transform_(nullptr),
-    parent_(nullptr),
-    children_()
+    transform_(nullptr)
 {
     name_ = kName;
     
@@ -25,25 +23,21 @@ Actor::Actor(const std::wstring& kName) :
 void Actor::OnCollisionEnter(Actor* other)
 {
     on_collision_enter.Execute(std::move(other));
-    if (parent_) parent_->OnCollisionEnter(other);
 }
 
 void Actor::OnCollisionExit(Actor* other)
 {
     on_collision_exit.Execute(std::move(other));
-    if (parent_) parent_->OnCollisionExit(other);
 }
 
 void Actor::OnTriggerEnter(Actor* other)
 {
     on_trigger_enter.Execute(std::move(other));
-    if (parent_) parent_->OnTriggerEnter(other);
 }
 
 void Actor::OnTriggerExit(Actor* other)
 {
     on_trigger_exit.Execute(std::move(other));
-    if (parent_) parent_->OnTriggerExit(other);
 }
 
 void Actor::BeginPlay()
@@ -115,48 +109,6 @@ void Actor::Render(float alpha)
     {
         component->Render(alpha);
     }
-}
-
-void Actor::AttachToActor(Actor* actor)
-{
-    parent_ = actor;
-    actor->children_.push_back(this);
-
-    transform_->SetRelativePosition(transform_->GetWorldPosition() - actor->transform_->GetWorldPosition());
-
-    if (!b2Body_IsValid(body_id_) || !b2Body_IsValid(actor->body_id_)) return;
-
-    const RigidBody2DComponent* rigid_body = GetComponent<RigidBody2DComponent>();
-    const RigidBody2DComponent* parent_rigid_body = actor->GetComponent<RigidBody2DComponent>();
-
-    if (parent_rigid_body && !rigid_body)
-    {
-        b2Body_SetType(body_id_, b2Body_GetType(actor->body_id_));
-        
-        b2WeldJointDef joint_def = b2DefaultWeldJointDef();
-        joint_def.bodyIdA = actor->body_id_;
-        joint_def.bodyIdB = body_id_;
-        joint_def.localAnchorA = b2Body_GetLocalPoint(actor->body_id_, b2Body_GetLocalCenterOfMass(actor->body_id_));
-        joint_def.localAnchorB = b2Body_GetLocalPoint(body_id_, b2Body_GetLocalCenterOfMass(body_id_));
-        joint_def.referenceAngle = b2Rot_GetAngle(b2Body_GetRotation(body_id_)) - b2Rot_GetAngle(b2Body_GetRotation(actor->body_id_));
-
-        joint_id_ = b2CreateWeldJoint(World::Get()->world_id_, &joint_def);
-    }
-}
-
-void Actor::DetachFromActor()
-{
-    if (!parent_) return;
-
-    std::erase(parent_->children_, this);
-    
-    if (b2Joint_IsValid(joint_id_))
-    {
-        b2DestroyJoint(joint_id_);
-        joint_id_ = b2_nullJointId;
-    }
-
-    parent_ = nullptr;
 }
 
 void Actor::Destroy()

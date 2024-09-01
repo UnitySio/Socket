@@ -26,10 +26,7 @@ public:
     Actor(const std::wstring& kName);
     virtual ~Actor() override = default;
 
-    void AttachToActor(Actor* actor);
-    void DetachFromActor();
     void Destroy();
-    void SetActive(bool active);
     void SetLifeSpan(float life_span);
     
     bool CompareTag(ActorTag tag) const;
@@ -53,8 +50,6 @@ public:
     inline ActorLayer GetLayer() const { return layer_; }
 
     inline TransformComponent* GetTransform() const { return transform_.get(); }
-
-    inline Actor* GetParent() const { return parent_; }
 
     inline bool IsPendingDeletion() const { return is_pending_destroy_; }
     
@@ -103,9 +98,6 @@ protected:
     std::vector<std::shared_ptr<ActorComponent>> components_;
 
     std::shared_ptr<TransformComponent> transform_;
-
-    Actor* parent_;
-    std::vector<Actor*> children_;
     
     TimerHandle life_span_timer_;
 private:

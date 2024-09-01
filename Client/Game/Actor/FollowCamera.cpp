@@ -51,7 +51,7 @@ void FollowCamera::PhysicsTick(float delta_time)
         Bounds bounds = collider_->GetBounds();
         focus_area_->Tick(bounds);
     
-        const Math::Vector2 position = GetTransform()->GetWorldPosition();
+        const Math::Vector2 position = GetTransform()->GetPosition();
     
         Math::Vector2 focus_position = focus_area_->center + Math::Vector2::Up() * vertical_offset_;
         Math::Vector2 new_position = Math::Vector2::Lerp(position, focus_position, delta_time * 2.f);
@@ -68,7 +68,7 @@ void FollowCamera::PhysicsTick(float delta_time)
         if (limit_y < 0.f) limit_y = half_width_;
         
         float clamp_y = Math::Clamp(new_position.y, -limit_y, limit_y);
-        GetTransform()->SetRelativePosition({ clamp_x, clamp_y });;
+        GetTransform()->SetPosition({ clamp_x, clamp_y });;
     }
 }
 

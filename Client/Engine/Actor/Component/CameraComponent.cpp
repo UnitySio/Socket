@@ -30,12 +30,12 @@ void CameraComponent::TickComponent(float delta_time)
     ActorComponent::TickComponent(delta_time);
 
     TransformComponent* transform = GetOwner()->GetTransform();
-    Math::Vector2 position = transform->GetWorldPosition();
+    Math::Vector2 position = transform->GetPosition();
 
     if (Viewport* viewport = Renderer::Get()->FindViewport(World::Get()->GetWindow()))
     {
         viewport->view_matrix = DirectX::XMMatrixTranslation(-position.x, -position.y, 0.f)
-            * DirectX::XMMatrixRotationZ(-transform->GetWorldRotationZ());
+            * DirectX::XMMatrixRotationZ(-transform->GetAngle());
     }
 
     UpdateProjectionMatrix();
@@ -64,7 +64,7 @@ void CameraComponent::SetFarZ(float far_z)
 
 Bounds CameraComponent::GetBounds() const
 {
-    Math::Vector2 position = GetOwner()->GetTransform()->GetWorldPosition();
+    Math::Vector2 position = GetOwner()->GetTransform()->GetPosition();
 
     const float height = size_ * 2.f;
     const float width = height * aspect_;

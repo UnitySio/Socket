@@ -26,7 +26,7 @@ Box::Box(const std::wstring& kName) : Actor(kName)
 
     sprite_renderer_->SetSprite(sprite_);
 
-    GetTransform()->SetRelativeScale({.125f, .125f});
+    GetTransform()->SetScale({.125f, .125f});
     
 }
 

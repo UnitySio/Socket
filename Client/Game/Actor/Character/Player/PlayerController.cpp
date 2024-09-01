@@ -65,7 +65,7 @@ PlayerController::PlayerController(const std::wstring& kName) :
     
     animator_->PlayClip(clip);
 
-    GetTransform()->SetRelativeScale({2.f, 2.f});
+    GetTransform()->SetScale({2.f, 2.f});
     
     AudioManager::Get()->AddSound(L"BGM", L".\\Game_Data\\bgm.mp3");
     int id = AudioManager::Get()->PlaySound2D(L"BGM");
@@ -91,7 +91,7 @@ void PlayerController::EndPlay(EndPlayReason type)
 {
     CharacterBase::EndPlay(type);
     
-    Math::Vector2 position = GetTransform()->GetWorldPosition();
+    Math::Vector2 position = GetTransform()->GetPosition();
     DataManager::SetFloat(L"PlayerX", position.x);
     DataManager::SetFloat(L"PlayerY", position.y);
 }

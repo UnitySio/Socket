@@ -42,8 +42,8 @@ void SpriteRendererComponent::Render(float alpha)
 
     const SpriteFrame& current_frame = frames[frame_index_];
 
-    const float width = (sprite_->GetWidth() * current_frame.uv_scale.x / sprite_->GetPPU()) * transform->GetWorldScale().x;
-    const float height = (sprite_->GetHeight() * current_frame.uv_scale.y / sprite_->GetPPU()) * transform->GetWorldScale().y;
+    const float width = (sprite_->GetWidth() * current_frame.uv_scale.x / sprite_->GetPPU()) * transform->GetScale().x;
+    const float height = (sprite_->GetHeight() * current_frame.uv_scale.y / sprite_->GetPPU()) * transform->GetScale().y;
 
     const float pivot_x = current_frame.pivot.x * width;
     const float pivot_y = current_frame.pivot.y * height;
@@ -51,8 +51,8 @@ void SpriteRendererComponent::Render(float alpha)
     const int flip_x = flip_x_ ? -1 : 1;
     const int flip_y = flip_y_ ? -1 : 1;
 
-    shape_->SetPosition(transform->GetWorldPosition());
-    shape_->SetRotation(transform->GetWorldRotationZ());
+    shape_->SetPosition(transform->GetPosition());
+    shape_->SetRotation(transform->GetAngle());
     shape_->SetScale({width * flip_x, height * flip_y});
     shape_->SetUVOffset(current_frame.uv_offset);
     shape_->SetUVScale(current_frame.uv_scale);
