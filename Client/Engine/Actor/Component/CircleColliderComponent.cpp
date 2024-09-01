@@ -19,14 +19,10 @@ void CircleColliderComponent::SetOffset(const Math::Vector2& kOffset)
     SetShape();
 }
 
-void CircleColliderComponent::SetRadius(float radius)
-{
-    radius_ = radius;
-    SetShape();
-}
-
 void CircleColliderComponent::SetTrigger(bool is_trigger)
 {
+    ColliderComponent::SetTrigger(is_trigger);
+    
     if (!b2Shape_IsValid(shape_id_)) return;
 
     b2Circle circle = b2Shape_GetCircle(shape_id_);
@@ -40,6 +36,12 @@ void CircleColliderComponent::SetTrigger(bool is_trigger)
 
     b2DestroyShape(shape_id_);
     shape_id_ = b2CreateCircleShape(GetOwner()->body_id_, &shape_def, &circle);
+}
+
+void CircleColliderComponent::SetRadius(float radius)
+{
+    radius_ = radius;
+    SetShape();
 }
 
 void CircleColliderComponent::SetShape()

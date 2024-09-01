@@ -19,6 +19,7 @@ public:
     virtual ~ColliderComponent() override = default;
 
     virtual void SetOffset(const Math::Vector2& kOffset);
+    virtual void SetTrigger(bool is_trigger);
 
     void SetMaterial(const PhysicsMaterial2D& kMaterial);
     void SetPreSolve(bool is_pre_solve);

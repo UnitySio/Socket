@@ -18,6 +18,10 @@ void ColliderComponent::SetOffset(const Math::Vector2& kOffset)
     offset_ = kOffset;
 }
 
+void ColliderComponent::SetTrigger(bool is_trigger)
+{
+}
+
 void ColliderComponent::SetMaterial(const PhysicsMaterial2D& kMaterial)
 {
     material_ = kMaterial;

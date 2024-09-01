@@ -10,9 +10,9 @@ public:
     virtual ~CircleColliderComponent() override = default;
 
     virtual void SetOffset(const Math::Vector2& kOffset) override;
+    virtual void SetTrigger(bool is_trigger) override;
 
     void SetRadius(float radius);
-    void SetTrigger(bool is_trigger);
 
 private:
     virtual void SetShape() override;

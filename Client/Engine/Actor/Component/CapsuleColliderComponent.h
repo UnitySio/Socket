@@ -16,9 +16,9 @@ public:
     virtual ~CapsuleColliderComponent() override = default;
 
     virtual void SetOffset(const Math::Vector2& kOffset) override;
+    virtual void SetTrigger(bool is_trigger) override;
 
     void SetSize(Math::Vector2 size);
-    void SetTrigger(bool is_trigger);
 
     inline void SetDirection(CapsuleDirection direction) { direction_ = direction; }
 

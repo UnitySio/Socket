@@ -20,14 +20,10 @@ void CapsuleColliderComponent::SetOffset(const Math::Vector2& kOffset)
     SetShape();
 }
 
-void CapsuleColliderComponent::SetSize(Math::Vector2 size)
-{
-    size_ = size;
-    SetShape();
-}
-
 void CapsuleColliderComponent::SetTrigger(bool is_trigger)
 {
+    ColliderComponent::SetTrigger(is_trigger);
+    
     if (!b2Shape_IsValid(shape_id_)) return;
 
     b2Capsule capsule = b2Shape_GetCapsule(shape_id_);
@@ -41,6 +37,12 @@ void CapsuleColliderComponent::SetTrigger(bool is_trigger)
 
     b2DestroyShape(shape_id_);
     shape_id_ = b2CreateCapsuleShape(GetOwner()->body_id_, &shape_def, &capsule);
+}
+
+void CapsuleColliderComponent::SetSize(Math::Vector2 size)
+{
+    size_ = size;
+    SetShape();
 }
 
 void CapsuleColliderComponent::SetShape()

@@ -19,14 +19,10 @@ void BoxColliderComponent::SetOffset(const Math::Vector2& kOffset)
     SetShape();
 }
 
-void BoxColliderComponent::SetSize(Math::Vector2 size)
-{
-    size_ = size;
-    SetShape();
-}
-
 void BoxColliderComponent::SetTrigger(bool is_trigger)
 {
+    ColliderComponent::SetTrigger(is_trigger);
+    
     if (!b2Shape_IsValid(shape_id_)) return;
 
     b2Polygon box = b2Shape_GetPolygon(shape_id_);
@@ -40,6 +36,12 @@ void BoxColliderComponent::SetTrigger(bool is_trigger)
 
     b2DestroyShape(shape_id_);
     shape_id_ = b2CreatePolygonShape(GetOwner()->body_id_, &shape_def, &box);
+}
+
+void BoxColliderComponent::SetSize(Math::Vector2 size)
+{
+    size_ = size;
+    SetShape();
 }
 
 void BoxColliderComponent::SetShape()
