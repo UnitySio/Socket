@@ -84,7 +84,7 @@ void PlayerController::BeginPlay()
 
     float x = DataManager::GetFloat(L"PlayerX", 0.f);
     float y = DataManager::GetFloat(L"PlayerY", 0.f);
-    // GetTransform()->SetWorldPosition({x, y});
+    GetTransform()->SetPosition({x, y});
 }
 
 void PlayerController::EndPlay(EndPlayReason type)
