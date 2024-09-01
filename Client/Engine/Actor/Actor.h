@@ -32,7 +32,7 @@ public:
     bool CompareTag(ActorTag tag) const;
 
     template <std::derived_from<ActorComponent> T>
-    T* CreateComponent(const std::wstring& kName);
+    T* AddComponent(const std::wstring& kName);
 
     // 추후 리플렉션으로 변경
     template <std::derived_from<ActorComponent> T>
@@ -117,7 +117,7 @@ private:
 };
 
 template <std::derived_from<ActorComponent> T>
-T* Actor::CreateComponent(const std::wstring& kName)
+T* Actor::AddComponent(const std::wstring& kName)
 {
     components_.push_back(std::make_shared<T>(this, kName));
     return static_cast<T*>(components_.back().get());

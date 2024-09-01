@@ -11,12 +11,12 @@
 
 Box::Box(const std::wstring& kName) : Actor(kName)
 {
-    sprite_renderer_ = CreateComponent<SpriteRendererComponent>(L"SpriteRenderer");
+    sprite_renderer_ = AddComponent<SpriteRendererComponent>(L"SpriteRenderer");
     
-    box_collider_ = CreateComponent<BoxColliderComponent>(L"BoxCollider");
+    box_collider_ = AddComponent<BoxColliderComponent>(L"BoxCollider");
     box_collider_->SetSize({1.f, 1.f});
 
-    rigid_body_ = CreateComponent<RigidBody2DComponent>(L"RigidBody");
+    rigid_body_ = AddComponent<RigidBody2DComponent>(L"RigidBody");
     rigid_body_->SetBodyType(BodyType::kDynamic);
     
     sprite_ = std::make_shared<Sprite>();

@@ -16,7 +16,7 @@ Actor::Actor(const std::wstring& kName) :
 {
     name_ = kName;
     
-    TransformComponent* transform = CreateComponent<TransformComponent>(L"Transform");
+    TransformComponent* transform = AddComponent<TransformComponent>(L"Transform");
     transform_ = transform->GetSharedThis();
 }
 

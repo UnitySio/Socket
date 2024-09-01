@@ -7,11 +7,11 @@
 Platform::Platform(const std::wstring& kName) :
     Actor(kName)
 {
-    segment_collider_ = CreateComponent<BoxColliderComponent>(L"BoxCollider");
+    segment_collider_ = AddComponent<BoxColliderComponent>(L"BoxCollider");
     segment_collider_->SetSize({4.f, 1.f});
     segment_collider_->SetOneWayPlatform(true);
 
-    rigid_body_ = CreateComponent<RigidBody2DComponent>(L"RigidBody");
+    rigid_body_ = AddComponent<RigidBody2DComponent>(L"RigidBody");
     rigid_body_->SetBodyType(BodyType::kKinematic);
     
 }

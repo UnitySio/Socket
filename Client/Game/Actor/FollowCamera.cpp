@@ -20,7 +20,7 @@ FollowCamera::FollowCamera(const std::wstring& kName) :
     limit_half_width_(0),
     limit_half_height_(0)
 {
-    camera_ = CreateComponent<CameraComponent>(L"Camera");
+    camera_ = AddComponent<CameraComponent>(L"Camera");
 }
 
 void FollowCamera::BeginPlay()
