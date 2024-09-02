@@ -33,7 +33,7 @@ bool AudioManager::Init()
     return result == FMOD_OK;
 }
 
-bool AudioManager::AddSound(const std::wstring& kName, const std::wstring& kPath)
+bool AudioManager::LoadSound(const std::wstring& kName, const std::wstring& kPath)
 {
     if (sound_map_.contains(kName)) return false;
     

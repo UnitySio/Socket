@@ -16,7 +16,7 @@ public:
     AudioManager();
     virtual ~AudioManager() override;
 
-    bool AddSound(const std::wstring& kName, const std::wstring& kPath);
+    bool LoadSound(const std::wstring& kName, const std::wstring& kPath);
 
     void SetLoop(const std::wstring& kName, bool is_loop);
     void PlayOneShot(const std::wstring& kName, float volume = 1.f);

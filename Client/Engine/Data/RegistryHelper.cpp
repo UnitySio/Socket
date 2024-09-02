@@ -1,14 +1,14 @@
 #include "pch.h"
-#include "DataManager.h"
+#include "RegistryHelper.h"
 
 #include <Windows.h>
 
-void DataManager::DeleteAll()
+void RegistryHelper::DeleteAll()
 {
     RegDeleteKey(HKEY_CURRENT_USER, L"Software\\Game");
 }
 
-void DataManager::DeleteKey(const std::wstring& kKey)
+void RegistryHelper::DeleteKey(const std::wstring& kKey)
 {
     HKEY hKey = nullptr;
     if (RegOpenKeyEx(HKEY_CURRENT_USER, L"Software\\Game", 0, KEY_WRITE, &hKey) == ERROR_SUCCESS)
@@ -19,7 +19,7 @@ void DataManager::DeleteKey(const std::wstring& kKey)
     RegCloseKey(hKey);
 }
 
-bool DataManager::HasKey(const std::wstring& kKey)
+bool RegistryHelper::HasKey(const std::wstring& kKey)
 {
     HKEY hKey = nullptr;
     if (RegOpenKeyEx(HKEY_CURRENT_USER, L"Software\\Game", 0, KEY_READ, &hKey) == ERROR_SUCCESS)
@@ -35,7 +35,7 @@ bool DataManager::HasKey(const std::wstring& kKey)
     return false;
 }
 
-void DataManager::SetInt(const std::wstring& kKey, int value)
+void RegistryHelper::SetInt(const std::wstring& kKey, int value)
 {
     HKEY hKey = nullptr;
     if (RegCreateKeyEx(HKEY_CURRENT_USER, L"Software\\Game", 0, nullptr, REG_OPTION_NON_VOLATILE, KEY_WRITE, nullptr, &hKey, nullptr) == ERROR_SUCCESS)
@@ -46,7 +46,7 @@ void DataManager::SetInt(const std::wstring& kKey, int value)
     RegCloseKey(hKey);
 }
 
-void DataManager::SetFloat(const std::wstring& kKey, float value)
+void RegistryHelper::SetFloat(const std::wstring& kKey, float value)
 {
     HKEY hKey = nullptr;
     if (RegCreateKeyEx(HKEY_CURRENT_USER, L"Software\\Game", 0, nullptr, REG_OPTION_NON_VOLATILE, KEY_WRITE, nullptr, &hKey, nullptr) == ERROR_SUCCESS)
@@ -57,7 +57,7 @@ void DataManager::SetFloat(const std::wstring& kKey, float value)
     RegCloseKey(hKey);
 }
 
-void DataManager::SetString(const std::wstring& kKey, const std::wstring& kValue)
+void RegistryHelper::SetString(const std::wstring& kKey, const std::wstring& kValue)
 {
     HKEY hKey = nullptr;
     if (RegCreateKeyEx(HKEY_CURRENT_USER, L"Software\\Game", 0, nullptr, REG_OPTION_NON_VOLATILE, KEY_WRITE, nullptr, &hKey, nullptr) == ERROR_SUCCESS)
@@ -68,7 +68,7 @@ void DataManager::SetString(const std::wstring& kKey, const std::wstring& kValue
     RegCloseKey(hKey);
 }
 
-int DataManager::GetInt(const std::wstring& kKey, int kDefaultValue)
+int RegistryHelper::GetInt(const std::wstring& kKey, int kDefaultValue)
 {
     HKEY hKey = nullptr;
     if (RegOpenKeyEx(HKEY_CURRENT_USER, L"Software\\Game", 0, KEY_READ, &hKey) == ERROR_SUCCESS)
@@ -87,7 +87,7 @@ int DataManager::GetInt(const std::wstring& kKey, int kDefaultValue)
     return kDefaultValue;
 }
 
-float DataManager::GetFloat(const std::wstring& kKey, float kDefaultValue)
+float RegistryHelper::GetFloat(const std::wstring& kKey, float kDefaultValue)
 {
     HKEY hKey = nullptr;
     if (RegOpenKeyEx(HKEY_CURRENT_USER, L"Software\\Game", 0, KEY_READ, &hKey) == ERROR_SUCCESS)
@@ -106,7 +106,7 @@ float DataManager::GetFloat(const std::wstring& kKey, float kDefaultValue)
     return kDefaultValue;
 }
 
-std::wstring DataManager::GetString(const std::wstring& kKey, const std::wstring& kDefaultValue)
+std::wstring RegistryHelper::GetString(const std::wstring& kKey, const std::wstring& kDefaultValue)
 {
     HKEY hKey = nullptr;
     if (RegOpenKeyEx(HKEY_CURRENT_USER, L"Software\\Game", 0, KEY_READ, &hKey) == ERROR_SUCCESS)

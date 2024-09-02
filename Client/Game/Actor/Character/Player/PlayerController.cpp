@@ -9,7 +9,7 @@
 #include "Actor/Component/Animator/AnimationClip.h"
 #include "Actor/Component/Animator/AnimatorComponent.h"
 #include "Audio/AudioManager.h"
-#include "Data/DataManager.h"
+#include "Data/RegistryHelper.h"
 #include "imgui/imgui.h"
 #include "Input/Keyboard.h"
 #include "Input/Mouse.h"
@@ -67,7 +67,7 @@ PlayerController::PlayerController(const std::wstring& kName) :
 
     GetTransform()->SetScale({2.f, 2.f});
     
-    AudioManager::Get()->AddSound(L"BGM", L".\\Game_Data\\bgm.mp3");
+    AudioManager::Get()->LoadSound(L"BGM", L".\\Game_Data\\bgm.mp3");
     int id = AudioManager::Get()->PlaySound2D(L"BGM");
 
     // if (ResourceManager::Get()->Load<UITexture>(L"Soldier", L".\\Game_Data\\Soldier.png"))
@@ -82,8 +82,8 @@ void PlayerController::BeginPlay()
 {
     CharacterBase::BeginPlay();
 
-    float x = DataManager::GetFloat(L"PlayerX", 0.f);
-    float y = DataManager::GetFloat(L"PlayerY", 0.f);
+    float x = RegistryHelper::GetFloat(L"PlayerX", 0.f);
+    float y = RegistryHelper::GetFloat(L"PlayerY", 0.f);
     GetTransform()->SetPosition({x, y});
 }
 
@@ -92,8 +92,8 @@ void PlayerController::EndPlay(EndPlayReason type)
     CharacterBase::EndPlay(type);
     
     Math::Vector2 position = GetTransform()->GetPosition();
-    DataManager::SetFloat(L"PlayerX", position.x);
-    DataManager::SetFloat(L"PlayerY", position.y);
+    RegistryHelper::SetFloat(L"PlayerX", position.x);
+    RegistryHelper::SetFloat(L"PlayerY", position.y);
 }
 
 void PlayerController::PhysicsTick(float delta_time)
