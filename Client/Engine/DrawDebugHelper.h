@@ -6,6 +6,8 @@
 #include "box2d/types.h"
 #include "Windows/DX/Vertex.h"
 
+class Shape;
+
 class DrawDebugHelper : public Singleton<DrawDebugHelper>
 {
 public:
@@ -27,6 +29,11 @@ private:
     friend class World;
 
     void Clear();
+
+    std::shared_ptr<Shape> polygon_shape_;
+    std::shared_ptr<Shape> circle_shape_;
+    std::shared_ptr<Shape> capsule_shape_;
+    std::shared_ptr<Shape> segment_shape_;
     
     std::vector<DefaultVertex> polygon_vertices_;
     std::vector<MathTypes::uint32> polygon_indices_;
