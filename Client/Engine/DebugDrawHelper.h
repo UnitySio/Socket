@@ -14,7 +14,7 @@ public:
     DebugDrawHelper();
     virtual ~DebugDrawHelper() override = default;
 
-    void DrawDebugSegment(const Math::Vector2& kStart, const Math::Vector2& kEnd, const Math::Color& kColor);
+    void DrawSegment(const Math::Vector2& kStart, const Math::Vector2& kEnd, const Math::Color& kColor);
 
 private:
     friend class World;

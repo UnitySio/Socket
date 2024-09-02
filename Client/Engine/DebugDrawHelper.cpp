@@ -21,7 +21,7 @@ DebugDrawHelper::DebugDrawHelper() :
     segment_shape_->SetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_LINELIST);
 }
 
-void DebugDrawHelper::DrawDebugSegment(const Math::Vector2& kStart, const Math::Vector2& kEnd, const Math::Color& kColor)
+void DebugDrawHelper::DrawSegment(const Math::Vector2& kStart, const Math::Vector2& kEnd, const Math::Color& kColor)
 {
     segment_vertices_.push_back({
         {kStart.x, kStart.y, 0.f},
