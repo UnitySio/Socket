@@ -6,7 +6,6 @@
 
 #include "Actor/Actor.h"
 #include "Audio/AudioManager.h"
-#include "Logger/Logger.h"
 
 Level::Level(const std::wstring& kName) :
     actors_()

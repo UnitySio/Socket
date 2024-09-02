@@ -5,7 +5,6 @@
 #include "box2d/math_functions.h"
 #include "box2d/types.h"
 #include "Level/World.h"
-#include "Logger/Logger.h"
 
 struct SingleOverlapContext
 {

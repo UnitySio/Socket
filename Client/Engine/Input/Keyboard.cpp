@@ -3,8 +3,6 @@
 
 #include <ranges>
 
-#include "Logger/Logger.h"
-
 Keyboard::Keyboard() : input_string_(), key_states_(), key_events_()
 {
 }

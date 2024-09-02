@@ -5,7 +5,6 @@
 #include "Actor/Component/BoxColliderComponent.h"
 #include "Actor/Component/RigidBody2DComponent.h"
 #include "Actor/Component/TransformComponent.h"
-#include "Logger/Logger.h"
 #include "Windows/DX/Shape.h"
 #include "Windows/DX/Sprite.h"
 

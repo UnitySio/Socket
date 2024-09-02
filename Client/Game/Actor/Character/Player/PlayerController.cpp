@@ -1,6 +1,7 @@
 ﻿#include "pch.h"
 #include "PlayerController.h"
 
+#include "DebugDrawHelper.h"
 #include "Actor/Box.h"
 #include "Actor/Component/CapsuleColliderComponent.h"
 #include "Actor/Component/RigidBody2DComponent.h"
@@ -10,20 +11,16 @@
 #include "Actor/Component/Animator/AnimatorComponent.h"
 #include "Audio/AudioManager.h"
 #include "Data/RegistryHelper.h"
-#include "imgui/imgui.h"
 #include "Input/Keyboard.h"
-#include "Input/Mouse.h"
 #include "Level/World.h"
 #include "Windows/DX/Sprite.h"
-#include "Logger/Logger.h"
-#include "Physics/Physics2D.h"
-#include "Resource/ResourceManager.h"
 #include "States/PlayerIdleState.h"
 #include "States/PlayerAttackState.h"
 #include "Windows/DX/UITexture.h"
 
 PlayerController::PlayerController(const std::wstring& kName) :
-    CharacterBase(kName)
+    CharacterBase(kName),
+    is_hit_(false)
 {
     // ResourceManager::Get()->Load<Sprite>(L"Soldier", L".\\Game_Data\\Soldier.png");
     // Sprite* sprite = ResourceManager::Get()->GetResource<Sprite>(L"Soldier");
@@ -94,22 +91,4 @@ void PlayerController::EndPlay(EndPlayReason type)
     Math::Vector2 position = GetTransform()->GetPosition();
     RegistryHelper::SetFloat(L"PlayerX", position.x);
     RegistryHelper::SetFloat(L"PlayerY", position.y);
-}
-
-void PlayerController::PhysicsTick(float delta_time)
-{
-    CharacterBase::PhysicsTick(delta_time);
-}
-
-void PlayerController::Tick(float delta_time)
-{
-    CharacterBase::Tick(delta_time);
-    
-    // Keyboard* keyboard = Keyboard::Get();
-    //
-    // if (keyboard->IsKeyPressed('Z'))
-    // {
-    //     Box* box = SpawnActor<Box>(L"Box");
-    //     box->GetTransform()->SetPosition(GetTransform()->GetPosition());
-    // }
 }

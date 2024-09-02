@@ -1,7 +1,7 @@
 ﻿#pragma once
 #include <queue>
 
-#include "b2DebugDrawHelper.h"
+#include "PhysicsDebugDrawHelper.h"
 #include "Enums.h"
 #include "Singleton.h"
 #include "Actor/Actor.h"
@@ -41,6 +41,17 @@ public:
 private:
     friend bool PreSolve(b2ShapeId shapeIdA, b2ShapeId shapeIdB, b2Manifold* manifold, void* context);
     
+    friend void DrawPolygon(const b2Vec2* vertices, int vertexCount, b2HexColor color, void* context);
+    friend void DrawSolidPolygon(b2Transform transform, const b2Vec2* vertices, int vertexCount, float radius, b2HexColor color, void* context);
+    friend void DrawCircle(b2Vec2 center, float radius, b2HexColor color, void* context);
+    friend void DrawSolidCircle(b2Transform transform, float radius, b2HexColor color, void* context);
+    friend void DrawCapsule(b2Vec2 p1, b2Vec2 p2, float radius, b2HexColor color, void* context);
+    friend void DrawSolidCapsule(b2Vec2 p1, b2Vec2 p2, float radius, b2HexColor color, void* context);
+    friend void DrawSegment(b2Vec2 p1, b2Vec2 p2, b2HexColor color, void* context);
+    friend void DrawTransform(b2Transform transform, void* context);
+    friend void DrawPoint(b2Vec2 p, float size, b2HexColor color, void* context);
+    friend void DrawString(b2Vec2 p, const char* s, void* context);
+    
     friend class Physics2D;
     friend class Level;
     friend class Actor;
@@ -66,7 +77,7 @@ private:
     b2WorldId world_id_;
     b2DebugDraw debug_draw_;
     
-    b2DebugDrawHelper debug_draw_helper_;
+    PhysicsDebugDrawHelper debug_draw_helper_;
     
     Level* current_level_;
     Level* pending_level_;

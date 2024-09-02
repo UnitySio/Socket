@@ -23,11 +23,11 @@ public:
     
     static inline constexpr MathTypes::uint32 kSteamAppID = 480; // 스팀 앱 ID (480은 테스트 앱 ID)
 
-    static inline constexpr MathTypes::uint32 kScreenWidth = 1280; // 화면 너비
-    static inline constexpr MathTypes::uint32 kScreenHeight = 720; // 화면 높이
+    static inline constexpr MathTypes::uint32 kScreenWidth = 640; // 화면 너비
+    static inline constexpr MathTypes::uint32 kScreenHeight = 480; // 화면 높이
 
-    static inline constexpr MathTypes::uint32 kCanvasReferenceWidth = 1280;
-    static inline constexpr MathTypes::uint32 kCanvasReferenceHeight = 720;
+    static inline constexpr MathTypes::uint32 kCanvasReferenceWidth = 640;
+    static inline constexpr MathTypes::uint32 kCanvasReferenceHeight = 480;
     static inline constexpr float kMatchMode = 0.f;
     
     static inline constexpr bool kShowFrameRate = true; // 프레임레이트 표시 여부

@@ -7,7 +7,7 @@ class Actor;
 
 struct HitResult
 {
-    Actor* actor;
+    Actor* actor = nullptr;
  
     Math::Vector2 start;
     Math::Vector2 end;

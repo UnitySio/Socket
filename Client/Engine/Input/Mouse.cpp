@@ -3,8 +3,6 @@
 
 #include <windowsx.h>
 
-#include "Logger/Logger.h"
-
 Mouse::Mouse() :
     mouse_states_{},
     mouse_events_(),

@@ -21,8 +21,6 @@ public:
 
     virtual void BeginPlay() override;
     virtual void EndPlay(EndPlayReason type) override;
-    virtual void PhysicsTick(float delta_time) override;
-    virtual void Tick(float delta_time) override;
 
     std::shared_ptr<PlayerIdleState> idle_;
     std::shared_ptr<PlayerMoveState> move_;
@@ -33,5 +31,7 @@ private:
     std::shared_ptr<class Sprite> sprite_;
 
     class TextBlock* text_block_;
+    
+    bool is_hit_;
     
 };

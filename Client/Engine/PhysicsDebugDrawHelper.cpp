@@ -1,5 +1,5 @@
 ﻿#include "pch.h"
-#include "b2DebugDrawHelper.h"
+#include "PhysicsDebugDrawHelper.h"
 
 #include "imgui/imgui.h"
 #include "Level/World.h"
@@ -15,7 +15,7 @@ static inline Math::Color MakeRGBA8(b2HexColor color, float alpha)
     };
 }
 
-void b2DebugDrawHelper::AddPolygon(const b2Vec2* vertices, int vertexCount, b2HexColor color)
+void PhysicsDebugDrawHelper::AddPolygon(const b2Vec2* vertices, int vertexCount, b2HexColor color)
 {
     b2Vec2 p1 = vertices[vertexCount - 1];
     for (int i = 0; i < vertexCount; ++i)
@@ -26,7 +26,7 @@ void b2DebugDrawHelper::AddPolygon(const b2Vec2* vertices, int vertexCount, b2He
     }
 }
 
-void b2DebugDrawHelper::AddSolidPolygon(b2Transform transform, const b2Vec2* vertices, int vertexCount, float radius, b2HexColor color)
+void PhysicsDebugDrawHelper::AddSolidPolygon(b2Transform transform, const b2Vec2* vertices, int vertexCount, float radius, b2HexColor color)
 {
     Math::Color fill_color = MakeRGBA8(color, .6f);
     Math::Color border_color = MakeRGBA8(color, 1.f);
@@ -69,7 +69,7 @@ void b2DebugDrawHelper::AddSolidPolygon(b2Transform transform, const b2Vec2* ver
     }
 }
 
-void b2DebugDrawHelper::AddCircle(b2Vec2 center, float radius, b2HexColor color)
+void PhysicsDebugDrawHelper::AddCircle(b2Vec2 center, float radius, b2HexColor color)
 {
     const int kSegments = 16;
     const float kIncrement = 2.f * b2_pi / kSegments;
@@ -93,7 +93,7 @@ void b2DebugDrawHelper::AddCircle(b2Vec2 center, float radius, b2HexColor color)
     }
 }
 
-void b2DebugDrawHelper::AddSolidCircle(b2Transform transform, b2Vec2 center, float radius, b2HexColor color)
+void PhysicsDebugDrawHelper::AddSolidCircle(b2Transform transform, b2Vec2 center, float radius, b2HexColor color)
 {
     Math::Color rgba8 = MakeRGBA8(color, .6f);
 
@@ -144,7 +144,7 @@ void b2DebugDrawHelper::AddSolidCircle(b2Transform transform, b2Vec2 center, flo
     AddSegment(final_center, b2MulAdd(final_center, radius, axis), color);
 }
 
-void b2DebugDrawHelper::AddCapsule(b2Vec2 p1, b2Vec2 p2, float radius, b2HexColor color)
+void PhysicsDebugDrawHelper::AddCapsule(b2Vec2 p1, b2Vec2 p2, float radius, b2HexColor color)
 {
     float length;
     b2Vec2 axis = b2GetLengthAndNormalize(&length, b2Sub(p2, p1));
@@ -195,7 +195,7 @@ void b2DebugDrawHelper::AddCapsule(b2Vec2 p1, b2Vec2 p2, float radius, b2HexColo
     AddSegment(p1, p2, color);
 }
 
-void b2DebugDrawHelper::AddSolidCapsule(b2Vec2 p1, b2Vec2 p2, float radius, b2HexColor color)
+void PhysicsDebugDrawHelper::AddSolidCapsule(b2Vec2 p1, b2Vec2 p2, float radius, b2HexColor color)
 {
     Math::Color fill_color = MakeRGBA8(color, .6f);
     
@@ -267,7 +267,7 @@ void b2DebugDrawHelper::AddSolidCapsule(b2Vec2 p1, b2Vec2 p2, float radius, b2He
     AddCapsule(p1, p2, radius, color);
 }
 
-void b2DebugDrawHelper::AddSegment(b2Vec2 p1, b2Vec2 p2, b2HexColor color)
+void PhysicsDebugDrawHelper::AddSegment(b2Vec2 p1, b2Vec2 p2, b2HexColor color)
 {
     Math::Color rgba8 = MakeRGBA8(color, 1.f);
 
@@ -282,7 +282,7 @@ void b2DebugDrawHelper::AddSegment(b2Vec2 p1, b2Vec2 p2, b2HexColor color)
     });
 }
 
-void b2DebugDrawHelper::AddTransform(b2Transform transform)
+void PhysicsDebugDrawHelper::AddTransform(b2Transform transform)
 {
     const float kAxisScale = .2f;
     b2Vec2 p1 = transform.p;
@@ -294,15 +294,15 @@ void b2DebugDrawHelper::AddTransform(b2Transform transform)
     AddSegment(p1, p2, b2_colorGreen);
 }
 
-void b2DebugDrawHelper::AddPoint(b2Vec2 p, float size, b2HexColor color)
+void PhysicsDebugDrawHelper::AddPoint(b2Vec2 p, float size, b2HexColor color)
 {
 }
 
-void b2DebugDrawHelper::AddString(b2Vec2 p, const char* string, ...)
+void PhysicsDebugDrawHelper::AddString(b2Vec2 p, const char* string, ...)
 {
 }
 
-void b2DebugDrawHelper::Clear()
+void PhysicsDebugDrawHelper::Clear()
 {
     std::shared_ptr<Shape> polygon = std::make_shared<Shape>();
     polygon->SetVertices(polygon_vertices_);
