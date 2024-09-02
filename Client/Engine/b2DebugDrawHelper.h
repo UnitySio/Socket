@@ -5,7 +5,8 @@
 
 struct DefaultVertex;
 
-class DebugDrawHelpers
+// TODO: DrawDebugHelper 클래스 작업 후 삭제
+class b2DebugDrawHelper
 {
 public:
     void AddPolygon(const b2Vec2* vertices, int vertexCount, b2HexColor color);

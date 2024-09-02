@@ -3,6 +3,7 @@
 
 #include <algorithm>
 
+#include "DrawDebugHelper.h"
 #include "Level.h"
 #include "Actor/FollowCamera.h"
 #include "Actor/Component/CameraComponent.h"
@@ -146,7 +147,7 @@ void World::Render(float alpha)
     }
     
     b2World_Draw(world_id_, &debug_draw_);
-    debug_draw_helpers.Clear();
+    DrawDebugHelper::Get()->Clear();
 
     std::vector<std::shared_ptr<Shape>> shapes;
 
@@ -168,7 +169,6 @@ void World::Render(float alpha)
     
     std::ranges::sort(shapes, Shape::CompareZOrder);
     
-    debug_draw_helpers.Clear();
     shapes_.clear();
     
     shape_batch_->DrawShapes(window_, shapes);
@@ -338,50 +338,50 @@ bool PreSolve(b2ShapeId shapeIdA, b2ShapeId shapeIdB, b2Manifold* manifold, void
 
 void DrawPolygon(const b2Vec2* vertices, int vertexCount, b2HexColor color, void* context)
 {
-    static_cast<World*>(context)->debug_draw_helpers.AddPolygon(vertices, vertexCount, color);
+    DrawDebugHelper::Get()->AddPolygon(vertices, vertexCount, color);
 }
 
 void DrawSolidPolygon(b2Transform transform, const b2Vec2* vertices, int vertexCount, float radius, b2HexColor color, void* context)
 {
-    static_cast<World*>(context)->debug_draw_helpers.AddSolidPolygon(transform, vertices, vertexCount, radius, color);
+    DrawDebugHelper::Get()->AddSolidPolygon(transform, vertices, vertexCount, radius, color);
 }
 
 void DrawCircle(b2Vec2 center, float radius, b2HexColor color, void* context)
 {
-    static_cast<World*>(context)->debug_draw_helpers.AddCircle(center, radius, color);
+    DrawDebugHelper::Get()->AddCircle(center, radius, color);
 }
 
 void DrawSolidCircle(b2Transform transform, float radius, b2HexColor color, void* context)
 {
-    static_cast<World*>(context)->debug_draw_helpers.AddSolidCircle(transform, b2Vec2_zero, radius, color);
+    DrawDebugHelper::Get()->AddSolidCircle(transform, transform.p, radius, color);
 }
 
 void DrawCapsule(b2Vec2 p1, b2Vec2 p2, float radius, b2HexColor color, void* context)
 {
-    static_cast<World*>(context)->debug_draw_helpers.AddCapsule(p1, p2, radius, color);
+    DrawDebugHelper::Get()->AddCapsule(p1, p2, radius, color);
 }
 
 void DrawSolidCapsule(b2Vec2 p1, b2Vec2 p2, float radius, b2HexColor color, void* context)
 {
-    static_cast<World*>(context)->debug_draw_helpers.AddSolidCapsule(p1, p2, radius, color);
+    DrawDebugHelper::Get()->AddSolidCapsule(p1, p2, radius, color);
 }
 
 void DrawSegment(b2Vec2 p1, b2Vec2 p2, b2HexColor color, void* context)
 {
-    static_cast<World*>(context)->debug_draw_helpers.AddSegment(p1, p2, color);
+    DrawDebugHelper::Get()->AddSegment(p1, p2, color);
 }
 
 void DrawTransform(b2Transform transform, void* context)
 {
-    static_cast<World*>(context)->debug_draw_helpers.AddTransform(transform);
+    DrawDebugHelper::Get()->AddTransform(transform);
 }
 
 void DrawPoint(b2Vec2 p, float size, b2HexColor color, void* context)
 {
-    static_cast<World*>(context)->debug_draw_helpers.AddPoint(p, size, color);
+    DrawDebugHelper::Get()->AddPoint(p, size, color);
 }
 
 void DrawString(b2Vec2 p, const char* s, void* context)
 {
-    static_cast<World*>(context)->debug_draw_helpers.AddString(p, s);
+    DrawDebugHelper::Get()->AddString(p, s);
 }

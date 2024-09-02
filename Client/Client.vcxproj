@@ -158,7 +158,8 @@
     <ClInclude Include="Engine\Audio\AudioManager.h" />
     <ClInclude Include="Engine\Core.h" />
     <ClInclude Include="Engine\Data\RegistryHelper.h" />
-    <ClInclude Include="Engine\DebugDrawHelpers.h" />
+    <ClInclude Include="Engine\b2DebugDrawHelper.h" />
+    <ClInclude Include="Engine\DrawDebugHelper.h" />
     <ClInclude Include="Engine\Enums.h" />
     <ClInclude Include="Engine\GameEngine.h" />
     <ClInclude Include="Engine\Input\Keyboard.h" />
@@ -348,7 +349,8 @@
     <ClCompile Include="Engine\Audio\AudioManager.cpp" />
     <ClCompile Include="Engine\Core.cpp" />
     <ClCompile Include="Engine\Data\RegistryHelper.cpp" />
-    <ClCompile Include="Engine\DebugDrawHelpers.cpp" />
+    <ClCompile Include="Engine\b2DebugDrawHelper.cpp" />
+    <ClCompile Include="Engine\DrawDebugHelper.cpp" />
     <ClCompile Include="Engine\GameEngine.cpp" />
     <ClCompile Include="Engine\Input\Keyboard.cpp" />
     <ClCompile Include="Engine\Input\Mouse.cpp" />
