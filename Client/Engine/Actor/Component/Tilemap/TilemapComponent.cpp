@@ -92,7 +92,7 @@ void TilemapComponent::GeneratePhysics(const tmx::ObjectGroup& object)
 		if (temp.getShape() == tmx::Object::Shape::Rectangle)
 		{
 			b2Vec2 center = {temp.getPosition().x / PPU + ((temp.getAABB().width / 2) / PPU) - map_size_.x / 2.f, -1 * temp.getPosition().y / PPU - ((temp.getAABB().height / 2) / PPU) + map_size_.y / 2.f};
-			shape = b2MakeOffsetBox(temp.getAABB().width / 2 / PPU, temp.getAABB().height / 2 / PPU, center, b2MakeRot(0.f));
+			shape = b2MakeOffsetBox(temp.getAABB().width / 2 / PPU, temp.getAABB().height / 2 / PPU, center, b2Rot_identity);
 		}
 		else if (temp.getShape() == tmx::Object::Shape::Polygon)
 		{

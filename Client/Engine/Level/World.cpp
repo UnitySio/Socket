@@ -225,13 +225,6 @@ void World::ProcessCollisionEvents()
         Actor* actor_b = static_cast<Actor*>(b2Body_GetUserData(body_id_b));
 
         if (!actor_a || !actor_b) continue;
-
-        // 추후 필요하게 되면 적용
-        // b2ContactData contact_data_a[1];
-        // b2Shape_GetContactData(event.shapeIdA, contact_data_a, 1);
-        //
-        // b2ContactData contact_data_b[1];
-        // b2Shape_GetContactData(event.shapeIdB, contact_data_b, 1);
         
         actor_a->OnCollisionEnter(actor_b);
         actor_b->OnCollisionEnter(actor_a);
