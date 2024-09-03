@@ -73,8 +73,8 @@ void PhysicsDebugDrawHelper::AddCircle(b2Vec2 center, float radius, b2HexColor c
 {
     const int kSegments = 16;
     const float kIncrement = 2.f * b2_pi / kSegments;
-    float sinIncrement = sinf(kIncrement);
-    float cosIncrement = cosf(kIncrement);
+    float sin_increment = sinf(kIncrement);
+    float cos_increment = cosf(kIncrement);
 
     b2Vec2 r1 = {radius, 0.f};
     b2Vec2 v1 = b2Add(center, r1);
@@ -82,8 +82,8 @@ void PhysicsDebugDrawHelper::AddCircle(b2Vec2 center, float radius, b2HexColor c
     for (int i = 0; i < kSegments; ++i)
     {
         b2Vec2 r2;
-        r2.x = cosIncrement * r1.x - sinIncrement * r1.y;
-        r2.y = sinIncrement * r1.x + cosIncrement * r1.y;
+        r2.x = cos_increment * r1.x - sin_increment * r1.y;
+        r2.y = sin_increment * r1.x + cos_increment * r1.y;
 
         b2Vec2 v2 = b2Add(center, r2);
         AddSegment(v1, v2, color);
@@ -101,8 +101,8 @@ void PhysicsDebugDrawHelper::AddSolidCircle(b2Transform transform, b2Vec2 center
 
     const int kSegments = 16;
     const float kIncrement = 2.f * b2_pi / kSegments;
-    float sinIncrement = sinf(kIncrement);
-    float cosIncrement = cosf(kIncrement);
+    float sin_increment = sinf(kIncrement);
+    float cos_increment = cosf(kIncrement);
 
     b2Vec2 r = {radius, 0.f};
     b2Vec2 v = b2Add(final_center, r);
@@ -115,8 +115,8 @@ void PhysicsDebugDrawHelper::AddSolidCircle(b2Transform transform, b2Vec2 center
         });
         
         b2Vec2 t_r;
-        t_r.x = cosIncrement * r.x - sinIncrement * r.y;
-        t_r.y = sinIncrement * r.x + cosIncrement * r.y;
+        t_r.x = cos_increment * r.x - sin_increment * r.y;
+        t_r.y = sin_increment * r.x + cos_increment * r.y;
 
         b2Vec2 t_v = b2Add(final_center, t_r);
         r = t_r;

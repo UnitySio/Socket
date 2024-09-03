@@ -75,6 +75,14 @@ PlayerController::PlayerController(const std::wstring& kName) :
     ChangeState(idle_);
 }
 
+void PlayerController::Tick(float delta_time)
+{
+    CharacterBase::Tick(delta_time);
+
+    Math::Vector2 position = GetTransform()->GetPosition();
+    DebugDrawHelper::Get()->DrawCircle(position, 1.f, Math::Color::Red);
+}
+
 void PlayerController::BeginPlay()
 {
     CharacterBase::BeginPlay();

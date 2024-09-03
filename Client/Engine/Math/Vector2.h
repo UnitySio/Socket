@@ -17,11 +17,21 @@ namespace Math
         Vector2 operator-(const Vector2& kVector);
         Vector2 operator*(const Vector2& kVector);
         Vector2 operator/(const Vector2& kVector);
+     
+        Vector2 operator+(const Vector2& kVector) const;
+        Vector2 operator-(const Vector2& kVector) const;
+        Vector2 operator*(const Vector2& kVector) const;
+        Vector2 operator/(const Vector2& kVector) const;
 
         Vector2 operator+(float val);
         Vector2 operator-(float val);
         Vector2 operator*(float val);
         Vector2 operator/(float val);
+
+        Vector2 operator+(float val) const;
+        Vector2 operator-(float val) const;
+        Vector2 operator*(float val) const;
+        Vector2 operator/(float val) const;
 
         bool operator==(const Vector2& kVector) const;
         bool operator!=(const Vector2& kVector) const;

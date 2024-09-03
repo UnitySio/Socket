@@ -14,6 +14,8 @@ public:
     DebugDrawHelper();
     virtual ~DebugDrawHelper() override = default;
 
+    void DrawBox(const Math::Vector2& kCenter, const Math::Vector2& kSize, const Math::Color& kColor);
+    void DrawCircle(const Math::Vector2& kCenter, float radius, const Math::Color& kColor);
     void DrawSegment(const Math::Vector2& kStart, const Math::Vector2& kEnd, const Math::Color& kColor);
 
 private:

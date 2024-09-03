@@ -20,6 +20,57 @@ DebugDrawHelper::DebugDrawHelper() :
     segment_shape_ = std::make_shared<Shape>();
     segment_shape_->SetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_LINELIST);
 }
+void DebugDrawHelper::DrawBox(const Math::Vector2& kCenter, const Math::Vector2& kSize, const Math::Color& kColor)
+{
+    const Math::Vector2 kHalfSize = kSize * 2.f;
+
+    const Math::Vector2 vertices[4] = {
+        kCenter - kHalfSize,
+        kCenter + Math::Vector2(kHalfSize.x, -kHalfSize.y),
+        kCenter + kHalfSize,
+        kCenter + Math::Vector2(-kHalfSize.x, kHalfSize.y)
+    };
+
+    for (const auto& vertex : vertices)
+    {
+        segment_vertices_.push_back({
+            {vertex.x, vertex.y, 0.f},
+            {kColor.r / 255.f, kColor.g / 255.f, kColor.b / 255.f, kColor.a / 255.f}
+        });
+    }
+}
+
+void DebugDrawHelper::DrawCircle(const Math::Vector2& kCenter, float radius, const Math::Color& kColor)
+{
+    const int kSegment = 16;
+    const float kIncrement = 2.f * MATH_PI / kSegment;
+    float sin_increment = sin(kIncrement);
+    float cos_increment = cos(kIncrement);
+
+    Math::Vector2 r1 = {radius, 0.f};
+    Math::Vector2 v1 = kCenter + r1;
+
+    for (int i = 0; i < kSegment; ++i)
+    {
+        Math::Vector2 r2;
+        r2.x = r1.x * cos_increment - r1.y * sin_increment;
+        r2.y = r1.x * sin_increment + r1.y * cos_increment;
+
+        Math::Vector2 v2 = kCenter + r2;
+        DrawSegment(v1, v2, kColor);
+
+        r1 = r2;
+        v1 = v2;
+    }
+
+    Math::Vector2 start = kCenter - Math::Vector2(radius, 0.f);
+    Math::Vector2 end = kCenter + Math::Vector2(radius, 0.f);
+    DrawSegment(start, end, kColor);
+
+    start = kCenter + Math::Vector2(0.f, radius);
+    end = kCenter - Math::Vector2(0.f, radius);
+    DrawSegment(start, end, kColor);
+}
 
 void DebugDrawHelper::DrawSegment(const Math::Vector2& kStart, const Math::Vector2& kEnd, const Math::Color& kColor)
 {

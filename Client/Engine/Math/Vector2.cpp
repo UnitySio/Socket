@@ -79,6 +79,26 @@ Math::Vector2 Math::Vector2::operator/(const Vector2& kVector)
     return {x / kVector.x, y / kVector.y};
 }
 
+Math::Vector2 Math::Vector2::operator+(const Vector2& kVector) const
+{
+    return {x + kVector.x, y + kVector.y};
+}
+
+Math::Vector2 Math::Vector2::operator-(const Vector2& kVector) const
+{
+    return {x - kVector.x, y - kVector.y};
+}
+
+Math::Vector2 Math::Vector2::operator*(const Vector2& kVector) const
+{
+    return {x * kVector.x, y * kVector.y};
+}
+
+Math::Vector2 Math::Vector2::operator/(const Vector2& kVector) const
+{
+    return {x / kVector.x, y / kVector.y};
+}
+
 Math::Vector2 Math::Vector2::operator+(float val)
 {
     return {x + val, y + val};
@@ -95,6 +115,26 @@ Math::Vector2 Math::Vector2::operator*(float val)
 }
 
 Math::Vector2 Math::Vector2::operator/(float val)
+{
+    return {x / val, y / val};
+}
+
+Math::Vector2 Math::Vector2::operator+(float val) const
+{
+    return {x + val, y + val};
+}
+
+Math::Vector2 Math::Vector2::operator-(float val) const
+{
+    return {x - val, y - val};
+}
+
+Math::Vector2 Math::Vector2::operator*(float val) const
+{
+    return {x * val, y * val};
+}
+
+Math::Vector2 Math::Vector2::operator/(float val) const
 {
     return {x / val, y / val};
 }
