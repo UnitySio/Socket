@@ -3,6 +3,7 @@
 
 #include "Level/World.h"
 #include "Resource/ResourceManager.h"
+#include "Time/TimerManager.h"
 #include "UI/Canvas.h"
 #include "UI/Widget/Image.h"
 #include "Windows/DX/UITexture.h"

@@ -1,6 +1,5 @@
 ﻿#pragma once
 #include <memory>
-#include <string>
 
 #include "Object.h"
 #include "Misc/EngineMacros.h"

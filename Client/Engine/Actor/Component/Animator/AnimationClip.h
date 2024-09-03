@@ -1,9 +1,7 @@
 ﻿#pragma once
 #include <map>
-#include <string>
 #include <vector>
 
-#include "Misc/EngineMacros.h"
 #include "Misc/Function.h"
 
 class AnimationEvent

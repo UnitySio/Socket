@@ -1,21 +1,17 @@
 ﻿#include "pch.h"
 #include "World.h"
 
-#include <algorithm>
-
 #include "DebugDrawHelper.h"
-#include "Level.h"
 #include "Actor/FollowCamera.h"
 #include "Actor/Component/CameraComponent.h"
 #include "Actor/Component/ColliderComponent.h"
-#include "imgui/imgui.h"
-#include "Input/Keyboard.h"
+#include "box2d/box2d.h"
 #include "Map/MainMap.h"
 #include "Map/MainMenu.h"
 #include "Map/SplashMap.h"
 #include "Time/TimerManager.h"
 #include "UI/Canvas.h"
-#include "Windows/DX/Renderer.h"
+#include "Windows/WindowsWindow.h"
 #include "Windows/DX/Shape.h"
 #include "Windows/DX/ShapeBatch.h"
 

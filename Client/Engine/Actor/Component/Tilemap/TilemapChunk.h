@@ -1,10 +1,15 @@
 ﻿#pragma once
-#include "Math/MathTypes.h"
-#include "tmxlite/Map.hpp"
+#include <memory>
+#include <vector>
+
 #include "Math/Vector2.h"
-#include "Misc/EngineMacros.h"
 #include "tmxlite/TileLayer.hpp"
 #include "Windows/DX/Vertex.h"
+
+namespace tmx
+{
+    class Tileset;
+}
 
 class Texture;
 

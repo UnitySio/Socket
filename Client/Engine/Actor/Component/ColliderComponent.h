@@ -1,8 +1,9 @@
 ﻿#pragma once
 #include "ActorComponent.h"
 #include "box2d/id.h"
-#include "Math/Bounds.h"
 #include "Math/Vector2.h"
+
+struct Bounds;
 
 struct PhysicsMaterial2D
 {

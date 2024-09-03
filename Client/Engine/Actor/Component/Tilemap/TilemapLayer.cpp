@@ -2,6 +2,7 @@
 #include "TilemapLayer.h"
 
 #include "TilemapChunk.h"
+#include "tmxlite/Map.hpp"
 
 TilemapLayer::TilemapLayer(const tmx::Map& map, const tmx::TileLayer& layer, const std::shared_ptr<Texture>& texture, const Math::Vector2& chunk_size) :
     chunk_size_(chunk_size),

@@ -1,11 +1,6 @@
 ﻿#pragma once
-#include <vector>
-
 #include "ActorComponent.h"
 #include "Math/Color.h"
-#include "Math/Math.h"
-#include "Math/MathTypes.h"
-#include "Misc/EngineMacros.h"
 
 class Sprite;
 

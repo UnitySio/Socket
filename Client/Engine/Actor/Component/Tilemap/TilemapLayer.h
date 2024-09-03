@@ -1,11 +1,16 @@
 ﻿#pragma once
+#include <memory>
 #include <vector>
 
+#include "TilemapChunk.h"
 #include "Math/Vector2.h"
-#include "Misc/EngineMacros.h"
-#include "tmxlite/Map.hpp"
 
-class TilemapChunk;
+namespace tmx
+{
+    class TileLayer;
+    class Map;
+}
+
 class Texture;
 
 class TilemapLayer

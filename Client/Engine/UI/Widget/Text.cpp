@@ -3,6 +3,7 @@
 
 #include "Level/World.h"
 #include "Windows/WindowsWindow.h"
+#include "Windows/DX/Renderer.h"
 
 UI::Text::Text(const std::wstring& kName) :
     Widget(kName),

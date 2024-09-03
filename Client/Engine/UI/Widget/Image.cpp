@@ -4,6 +4,7 @@
 #include "Level/World.h"
 #include "Math/Color.h"
 #include "Windows/WindowsWindow.h"
+#include "Windows/DX/Renderer.h"
 #include "Windows/DX/UITexture.h"
 
 UI::Image::Image(const std::wstring& kName) :

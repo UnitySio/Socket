@@ -1,13 +1,14 @@
 ﻿#pragma once
+#include "TilemapLayer.h"
 #include "Actor/Component/ActorComponent.h"
-#include <vector>
-#include "Math/MathTypes.h"
+#include "box2d/id.h"
 #include "Math/Vector2.h"
 #include "tmxlite/Map.hpp"
 
-#include "TilemapChunk.h"
-#include "TilemapLayer.h"
-#include "box2d/id.h"
+namespace tmx
+{
+    class ObjectGroup;
+}
 
 class Shape;
 

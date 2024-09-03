@@ -3,8 +3,7 @@
 #include <string>
 #include <vector>
 
-#include "Actor/Actor.h"
-
+class Actor;
 enum class EndPlayReason : MathTypes::uint64;
 
 class Level

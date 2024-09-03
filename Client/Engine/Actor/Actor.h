@@ -1,17 +1,11 @@
 ﻿#pragma once
-#include <memory>
-#include <string>
-#include <vector>
-
 #include "Object.h"
-#include "ProjectSettings.h"
-#include "Component/ActorComponent.h"
-#include "Level/World.h"
+#include "box2d/id.h"
 #include "Misc/DelegateMacros.h"
 #include "Misc/EngineMacros.h"
 #include "Time/TimerManager.h"
-#include "box2d/box2d.h"
 
+class ActorComponent;
 class Actor;
 DECLARE_DELEGATE(ContactSignature, Actor*);
 

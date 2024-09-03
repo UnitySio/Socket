@@ -1,16 +1,20 @@
 ﻿#pragma once
 #include <queue>
+#include <vector>
 
-#include "PhysicsDebugDrawHelper.h"
 #include "Enums.h"
+#include "PhysicsDebugDrawHelper.h"
 #include "Singleton.h"
-#include "Actor/Actor.h"
-#include "box2d/box2d.h"
-#include "Windows/DX/Renderer.h"
+#include "box2d/collision.h"
+#include "box2d/id.h"
+#include "box2d/types.h"
 
-class Shape;
 class ShapeBatch;
 class Level;
+class Actor;
+class Shape;
+enum class LevelType : MathTypes::uint64;
+class WindowsWindow;
 
 class World : public Singleton<World>
 {

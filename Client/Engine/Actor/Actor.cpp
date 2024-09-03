@@ -2,10 +2,9 @@
 #include "Actor.h"
 
 #include "Enums.h"
-#include "Component/RigidBody2DComponent.h"
+#include "box2d/box2d.h"
 #include "Component/TransformComponent.h"
 #include "Level/World.h"
-#include "Time/TimerManager.h"
 
 Actor::Actor(const std::wstring& kName) :
     tag_(ActorTag::kNone),

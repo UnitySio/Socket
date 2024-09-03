@@ -1,15 +1,12 @@
 ﻿#include "pch.h"
 #include "TilemapComponent.h"
 
+#include "TilemapLayer.h"
 #include "Actor/Actor.h"
 #include "Actor/Component/TransformComponent.h"
-#include "tmxlite/Tileset.hpp"
-#include "tmxlite/Layer.hpp"
-#include "Windows/DX/Texture.h"
-#include "tmxlite/TileLayer.hpp"
 #include "box2d/box2d.h"
 #include "Level/World.h"
-#include "tmxlite/ImageLayer.hpp"
+#include "Windows/DX/Texture.h"
 
 TilemapComponent::TilemapComponent(Actor* owner, const std::wstring& kName) :
 	ActorComponent(owner, kName),

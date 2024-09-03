@@ -4,6 +4,7 @@
 #include "Level/World.h"
 #include "Math/Color.h"
 #include "Windows/WindowsWindow.h"
+#include "Windows/DX/Renderer.h"
 
 UI::Button::Button(const std::wstring& kName) :
     Widget(kName),

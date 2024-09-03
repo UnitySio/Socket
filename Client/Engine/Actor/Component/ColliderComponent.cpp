@@ -3,6 +3,8 @@
 
 #include "TransformComponent.h"
 #include "Actor/Actor.h"
+#include "box2d/box2d.h"
+#include "Math/Bounds.h"
 
 ColliderComponent::ColliderComponent(Actor* owner, const std::wstring& kName) :
     ActorComponent(owner, kName),

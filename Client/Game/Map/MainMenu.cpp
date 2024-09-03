@@ -7,6 +7,7 @@
 #include "UI/Canvas.h"
 #include "UI/Widget/Button.h"
 #include "UI/Widget/Text.h"
+#include "Windows/WindowsWindow.h"
 
 MainMenu::MainMenu(const std::wstring& kName) :
     Level(kName)

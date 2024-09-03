@@ -2,6 +2,7 @@
 #include "TilemapChunk.h"
 
 #include "Level/World.h"
+#include "tmxlite/Tileset.hpp"
 #include "Windows/DX/Shape.h"
 #include "Windows/DX/Texture.h"
 
