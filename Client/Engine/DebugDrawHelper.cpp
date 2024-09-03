@@ -22,7 +22,7 @@ DebugDrawHelper::DebugDrawHelper() :
 }
 void DebugDrawHelper::DrawBox(const Math::Vector2& kCenter, const Math::Vector2& kSize, const Math::Color& kColor)
 {
-    const Math::Vector2 kHalfSize = kSize * 2.f;
+    const Math::Vector2 kHalfSize = kSize * .5f;
 
     const Math::Vector2 vertices[4] = {
         kCenter - kHalfSize,
@@ -31,12 +31,12 @@ void DebugDrawHelper::DrawBox(const Math::Vector2& kCenter, const Math::Vector2&
         kCenter + Math::Vector2(-kHalfSize.x, kHalfSize.y)
     };
 
-    for (const auto& vertex : vertices)
+    Math::Vector2 p1 = vertices[3];
+    for (int i = 0; i < 4; ++i)
     {
-        segment_vertices_.push_back({
-            {vertex.x, vertex.y, 0.f},
-            {kColor.r / 255.f, kColor.g / 255.f, kColor.b / 255.f, kColor.a / 255.f}
-        });
+        Math::Vector2 p2 = vertices[i];
+        DrawSegment(p1, p2, kColor);
+        p1 = p2;
     }
 }
 
