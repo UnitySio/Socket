@@ -2,6 +2,7 @@
 #include "World.h"
 
 #include "DebugDrawHelper.h"
+#include "Actor/Camera.h"
 #include "Actor/FollowCamera.h"
 #include "Actor/Component/CameraComponent.h"
 #include "Actor/Component/ColliderComponent.h"
@@ -189,6 +190,8 @@ void World::TransitionLevel()
 
     current_level_ = pending_level_;
     pending_level_ = nullptr;
+
+    current_level_->AddActor<Camera>(L"Main Camera");
     
     current_level_->Load();
     current_level_->InitializeActors();

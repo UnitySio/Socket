@@ -141,6 +141,7 @@
   <ItemGroup>
     <ClInclude Include="Client.h" />
     <ClInclude Include="Engine\Actor\Actor.h" />
+    <ClInclude Include="Engine\Actor\Camera.h" />
     <ClInclude Include="Engine\Actor\Component\ActorComponent.h" />
     <ClInclude Include="Engine\Actor\Component\Animator\AnimationClip.h" />
     <ClInclude Include="Engine\Actor\Component\Animator\AnimatorComponent.h" />
@@ -216,7 +217,6 @@
     <ClInclude Include="Game\Actor\StateMachine\StateMachine.h" />
     <ClInclude Include="Game\Actor\Test\Platform.h" />
     <ClInclude Include="Game\Actor\Tilemap.h" />
-    <ClInclude Include="Game\GameInstance.h" />
     <ClInclude Include="Game\Map\MainMap.h" />
     <ClInclude Include="Game\Map\MainMenu.h" />
     <ClInclude Include="Game\Map\SplashMap.h" />
@@ -331,6 +331,7 @@
   <ItemGroup>
     <ClCompile Include="Client.cpp" />
     <ClCompile Include="Engine\Actor\Actor.cpp" />
+    <ClCompile Include="Engine\Actor\Camera.cpp" />
     <ClCompile Include="Engine\Actor\Component\ActorComponent.cpp" />
     <ClCompile Include="Engine\Actor\Component\Animator\AnimationClip.cpp" />
     <ClCompile Include="Engine\Actor\Component\Animator\AnimatorComponent.cpp" />
@@ -395,7 +396,6 @@
     <ClCompile Include="Game\Actor\StateMachine\StateMachine.cpp" />
     <ClCompile Include="Game\Actor\Test\Platform.cpp" />
     <ClCompile Include="Game\Actor\Tilemap.cpp" />
-    <ClCompile Include="Game\GameInstance.cpp" />
     <ClCompile Include="Game\Map\MainMap.cpp" />
     <ClCompile Include="Game\Map\MainMenu.cpp" />
     <ClCompile Include="Game\Map\SplashMap.cpp" />
