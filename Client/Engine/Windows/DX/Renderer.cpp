@@ -43,7 +43,7 @@ bool Renderer::Init()
 
 bool Renderer::CreateDevice()
 {
-    constexpr D3D_FEATURE_LEVEL feature_levels[] = {
+    constexpr D3D_FEATURE_LEVEL kFeatureLevel[] = {
         D3D_FEATURE_LEVEL_11_0,
         D3D_FEATURE_LEVEL_10_1
     };
@@ -53,8 +53,8 @@ bool Renderer::CreateDevice()
         D3D_DRIVER_TYPE_HARDWARE,
         nullptr,
         D3D11_CREATE_DEVICE_BGRA_SUPPORT,
-        feature_levels,
-        ARRAYSIZE(feature_levels),
+        kFeatureLevel,
+        ARRAYSIZE(kFeatureLevel),
         D3D11_SDK_VERSION,
         d3d_device_.GetAddressOf(),
         nullptr,
@@ -315,14 +315,14 @@ bool Renderer::CreateRenderToTexture()
 
 void Renderer::BeginRTT()
 {
-    constexpr float clear_color[4] = {
+    constexpr float kClearColor[4] = {
         49.f / 255.f,
         77.f / 255.f,
         121.f / 255.f,
         1.f
     };
 
-    d3d_device_context_->ClearRenderTargetView(rtv_.Get(), clear_color);
+    d3d_device_context_->ClearRenderTargetView(rtv_.Get(), kClearColor);
     d3d_device_context_->OMSetRenderTargets(1, rtv_.GetAddressOf(), nullptr);
 }
 
@@ -359,14 +359,14 @@ void Renderer::BeginRender(const std::shared_ptr<WindowsWindow>& kWindow)
     //     1.f
     // };
 
-    constexpr float clear_color[4] = {
+    constexpr float kClearColor[4] = {
         0.f,
         0.f,
         0.f,
         1.f
     };
 
-    d3d_device_context_->ClearRenderTargetView(current_viewport_->d3d_render_target_view.Get(), clear_color);
+    d3d_device_context_->ClearRenderTargetView(current_viewport_->d3d_render_target_view.Get(), kClearColor);
     d3d_device_context_->ClearDepthStencilView(current_viewport_->depth_stencil_view.Get(),
                                                D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.f, 0);
     d3d_device_context_->RSSetViewports(1, &current_viewport_->d3d_viewport);

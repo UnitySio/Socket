@@ -143,8 +143,8 @@ void ShapeBatch::DrawShapes(const std::shared_ptr<WindowsWindow>& kWindow, const
         ID3D11Buffer* buffer = vertex_buffer_.GetResource();
         vertex_shader_->BindParameters();
 
-        constexpr MathTypes::uint32 stride = sizeof(DefaultVertex);
-        constexpr MathTypes::uint32 offset = 0;
+        constexpr MathTypes::uint32 kStride = sizeof(DefaultVertex);
+        constexpr MathTypes::uint32 kOffset = 0;
 
         if (const auto& texture = shape->GetTexture())
         {
@@ -174,7 +174,7 @@ void ShapeBatch::DrawShapes(const std::shared_ptr<WindowsWindow>& kWindow, const
             texture->Bind();
         }
         
-        Renderer::Get()->GetDeviceContext()->IASetVertexBuffers(0, 1, &buffer, &stride, &offset);
+        Renderer::Get()->GetDeviceContext()->IASetVertexBuffers(0, 1, &buffer, &kStride, &kOffset);
         Renderer::Get()->GetDeviceContext()->IASetIndexBuffer(index_buffer_.GetResource(), DXGI_FORMAT_R32_UINT, 0);
 
         if (!shape->GetIndices().empty())
