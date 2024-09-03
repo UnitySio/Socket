@@ -40,7 +40,6 @@ public:
 
     inline WindowsWindow* GetWindow() const { return window_.get(); }
     inline Level* GetLevel() const { return current_level_; }
-    inline std::weak_ptr<Actor> GetCamera() const { return camera_; }
 
 private:
     friend bool PreSolve(b2ShapeId shapeIdA, b2ShapeId shapeIdB, b2Manifold* manifold, void* context);
@@ -70,8 +69,6 @@ private:
 
     bool PreSolve_Internal(b2ShapeId shapeIdA, b2ShapeId shapeIdB, b2Manifold* manifold);
 
-    inline void SetCamera(const std::shared_ptr<Actor>& kCamera) { camera_ = kCamera; }
-
     std::shared_ptr<WindowsWindow> window_;
     
     std::shared_ptr<ShapeBatch> shape_batch_;
@@ -87,8 +84,6 @@ private:
     Level* pending_level_;
     
     std::shared_ptr<Level> levels_[static_cast<MathTypes::uint64>(LevelType::kEnd)];
-
-    std::weak_ptr<Actor> camera_;
 
     std::queue<std::shared_ptr<Actor>> pending_actors_;
     std::queue<std::shared_ptr<Actor>> pending_destroy_actors_;

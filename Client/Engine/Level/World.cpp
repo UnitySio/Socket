@@ -150,18 +150,14 @@ void World::Render(float alpha)
 
     std::vector<std::shared_ptr<Shape>> shapes;
 
-    if (const std::shared_ptr<Actor> kActor = camera_.lock())
+    if (Camera* camera = Camera::Get())
     {
-        if (FollowCamera* camera = dynamic_cast<FollowCamera*>(kActor.get()))
+        Bounds bounds = camera->GetBounds();
+        for (const auto& kShape : shapes_)
         {
-            Bounds bounds = camera->GetCamera()->GetBounds();
-
-            for (const auto& kShape : shapes_)
+            if (Bounds::Contains(bounds, kShape->GetBounds()))
             {
-                if (Bounds::Contains(bounds, kShape->GetBounds()))
-                {
-                    shapes.push_back(kShape);
-                }
+                shapes.push_back(kShape);
             }
         }
     }

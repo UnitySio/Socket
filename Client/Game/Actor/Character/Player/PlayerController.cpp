@@ -2,6 +2,7 @@
 #include "PlayerController.h"
 
 #include "DebugDrawHelper.h"
+#include "Actor/Camera.h"
 #include "Actor/Component/CapsuleColliderComponent.h"
 #include "Actor/Component/RigidBody2DComponent.h"
 #include "Actor/Component/SpriteRendererComponent.h"
@@ -85,6 +86,8 @@ void PlayerController::Tick(float delta_time)
 void PlayerController::BeginPlay()
 {
     CharacterBase::BeginPlay();
+
+    Camera::Get()->SetTarget(this);
 
     float x = RegistryHelper::GetFloat(L"PlayerX", 0.f);
     float y = RegistryHelper::GetFloat(L"PlayerY", 0.f);
