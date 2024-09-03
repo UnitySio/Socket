@@ -1,20 +1,20 @@
 ﻿#pragma once
 #include "Actor/Actor.h"
 
-class Box : public Actor
+class Capsule : public Actor
 {
-    SHADER_CLASS_HELPER(Box)
+    SHADER_CLASS_HELPER(Capsule)
     
 public:
-    Box(const std::wstring& kName);
-    virtual ~Box() override = default;
+    Capsule(const std::wstring& kName);
+    virtual ~Capsule() override = default;
 
     virtual void BeginPlay() override;
     virtual void Tick(float delta_time) override;
 
 private:
     class SpriteRendererComponent* sprite_renderer_;
-    class BoxColliderComponent* box_collider_;
+    class CapsuleColliderComponent* capsule_collider_;
     class RigidBody2DComponent* rigid_body_;
     
     std::shared_ptr<class Sprite> sprite_;

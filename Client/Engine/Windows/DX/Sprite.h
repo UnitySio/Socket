@@ -11,7 +11,7 @@ struct SpriteFrame
 class Sprite : public Texture
 {
 public:
-    Sprite();
+    Sprite(float ppu = 32.f);
     virtual ~Sprite() override = default;
 
     virtual bool Load(const std::wstring& kPath) override;

@@ -2,7 +2,6 @@
 #include "PlayerController.h"
 
 #include "DebugDrawHelper.h"
-#include "Actor/Box.h"
 #include "Actor/Component/CapsuleColliderComponent.h"
 #include "Actor/Component/RigidBody2DComponent.h"
 #include "Actor/Component/SpriteRendererComponent.h"
@@ -80,7 +79,7 @@ void PlayerController::Tick(float delta_time)
     CharacterBase::Tick(delta_time);
 
     Math::Vector2 position = GetTransform()->GetPosition();
-    DebugDrawHelper::Get()->DrawCircle(position, 1.f, Math::Color::Red);
+    DebugDrawHelper::Get()->DrawCircle(position, .5f, Math::Color::Red);
 }
 
 void PlayerController::BeginPlay()
