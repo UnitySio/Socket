@@ -1,6 +1,7 @@
 ﻿#include "pch.h"
 #include "Camera.h"
 
+#include "DebugDrawHelper.h"
 #include "Component/ColliderComponent.h"
 #include "Component/TransformComponent.h"
 #include "Level/World.h"
@@ -78,6 +79,17 @@ void Camera::PhysicsTick(float delta_time)
         viewport->view_matrix = DirectX::XMMatrixTranslation(-position.x, -position.y, 0.f)
             * DirectX::XMMatrixRotationZ(-transform->GetAngle());
     }
+}
+
+void Camera::Tick(float delta_time)
+{
+    Actor::Tick(delta_time);
+
+    if (target_ && target_collider_)
+    {
+        DebugDrawHelper::Get()->DrawBox(focus_area_.center, focus_area_size_, Math::Color::Green);
+    }
+    
 }
 
 Camera* Camera::Get()
