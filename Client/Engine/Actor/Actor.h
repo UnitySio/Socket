@@ -20,6 +20,8 @@ public:
     Actor(const std::wstring& kName);
     virtual ~Actor() override = default;
 
+    inline virtual class ColliderComponent* GetCollider() { return nullptr; }
+
     void Destroy();
     void SetLifeSpan(float life_span);
     
@@ -62,8 +64,8 @@ protected:
     void CreateBody();
     void OnLifeSpanExpired();
 
-    virtual inline void PreInitializeComponents() {};
-    virtual inline void PostInitializeComponents() {};
+    inline virtual void PreInitializeComponents() {};
+    inline virtual void PostInitializeComponents() {};
     
     virtual void BeginPlay();
     virtual void EndPlay(EndPlayReason type);

@@ -1,8 +1,10 @@
 ﻿#include "pch.h"
 #include "Camera.h"
 
+#include "Component/ColliderComponent.h"
 #include "Component/TransformComponent.h"
 #include "Level/World.h"
+#include "Math/Math.h"
 #include "Windows/DX/Renderer.h"
 
 std::weak_ptr<Camera> Camera::camera_;
@@ -12,13 +14,21 @@ Camera::Camera(const std::wstring& kName) :
     size_(5.f),
     near_z_(.3f),
     far_z_(1000.f),
-    target_(nullptr)
+    target_(nullptr),
+    target_collider_(nullptr),
+    focus_area_(),
+    focus_area_size_({3.f, 5.f}),
+    vertical_offset_(1.f),
+    half_width_(0),
+    half_height_(0),
+    limit_half_width_(0),
+    limit_half_height_(0)
 {
 }
 
-void Camera::BeginPlay()
+void Camera::PreInitializeComponents()
 {
-    Actor::BeginPlay();
+    Actor::PreInitializeComponents();
     
     std::shared_ptr<Camera> camera = camera_.lock();
     if (!camera) camera_ = GetSharedThis();
@@ -29,17 +39,35 @@ void Camera::BeginPlay()
     }
 
     UpdateProjectionMatrix();
-    
 }
 
 void Camera::PhysicsTick(float delta_time)
 {
     Actor::PhysicsTick(delta_time);
 
-    // 테스트용
-    if (target_)
+    if (target_ && target_collider_)
     {
-        GetTransform()->SetPosition(target_->GetTransform()->GetPosition());
+        const Bounds& bounds = target_collider_->GetBounds();
+        focus_area_.Update(bounds);
+        
+        const Math::Vector2 position = GetTransform()->GetPosition();
+        
+        Math::Vector2 focus_position = focus_area_.center + Math::Vector2::Up() * vertical_offset_;
+        Math::Vector2 new_position = Math::Vector2::Lerp(position, focus_position, delta_time * 2.f);
+        
+        half_height_ = size_;
+        half_width_ = GetAspect() * half_height_;
+        
+        float limit_x = limit_half_width_ - half_width_;
+        if (limit_x < 0.f) limit_x = half_width_;
+        
+        float clamp_x = Math::Clamp(new_position.x, -limit_x, limit_x);
+        
+        float limit_y = limit_half_height_ - half_width_;
+        if (limit_y < 0.f) limit_y = half_width_;
+        
+        float clamp_y = Math::Clamp(new_position.y, -limit_y, limit_y);
+        GetTransform()->SetPosition({ clamp_x, clamp_y });;
     }
     
     TransformComponent* transform = GetTransform();
@@ -79,6 +107,19 @@ void Camera::SetFarZ(float far_z)
 {
     far_z_ = far_z;
     UpdateProjectionMatrix();
+}
+
+void Camera::SetTarget(Actor* target)
+{
+    if (!IsValid(target)) return;
+    target_ = target;
+
+    target_collider_ = target_->GetCollider();
+    if (target_collider_)
+    {
+        const Bounds bounds = target_collider_->GetBounds();
+        focus_area_.Setup(bounds, focus_area_size_);
+    }
 }
 
 float Camera::GetAspect() const

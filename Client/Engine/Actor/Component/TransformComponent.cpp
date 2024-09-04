@@ -33,25 +33,13 @@ void TransformComponent::PhysicsTickComponent(float delta_time)
 void TransformComponent::SetPosition(const Math::Vector2& position)
 {
     position_ = position;
-
-    b2BodyId  body_id = GetOwner()->body_id_;
-    if (b2Body_IsValid(body_id))
-    {
-        b2Body_SetTransform(body_id, {position.x, position.y}, b2MakeRot(angle_ * MATH_PI / 180.f));
-        b2Body_SetAwake(body_id, true);
-    }
+    UpdateBody();
 }
 
 void TransformComponent::SetAngle(float angle)
 {
     angle_ = angle;
-    
-    b2BodyId  body_id = GetOwner()->body_id_;
-    if (b2Body_IsValid(body_id))
-    {
-        b2Body_SetTransform(body_id, {position_.x, position_.y}, b2MakeRot(angle * MATH_PI / 180.f));
-        b2Body_SetAwake(body_id, true);
-    }
+    UpdateBody();
 }
 
 void TransformComponent::SetScale(const Math::Vector2& scale)
@@ -81,4 +69,14 @@ Math::Vector2 TransformComponent::GetUpVector() const
     const float s = sinf(theta);
 
     return {-s, c};
+}
+
+void TransformComponent::UpdateBody()
+{
+    b2BodyId  body_id = GetOwner()->body_id_;
+    if (b2Body_IsValid(body_id))
+    {
+        b2Body_SetTransform(body_id, {position_.x, position_.y}, b2MakeRot(angle_ * MATH_PI / 180.f));
+        b2Body_SetAwake(body_id, true);
+    }
 }

@@ -11,11 +11,11 @@ public:
 protected:
     friend class StateMachine;
 
-    virtual inline void OnEnter() {};
-    virtual inline void OnExit() {};
-    virtual inline void OnPhysicsTick(float delta_time) {};
-    virtual inline void OnTick(float delta_time) {};
-    virtual inline void OnPostTick(float delta_time) {};
+    inline virtual void OnEnter() {};
+    inline virtual void OnExit() {};
+    inline virtual void OnPhysicsTick(float delta_time) {};
+    inline virtual void OnTick(float delta_time) {};
+    inline virtual void OnPostTick(float delta_time) {};
 
     StateMachine* owner_;
     

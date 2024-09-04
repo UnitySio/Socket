@@ -3,20 +3,13 @@
 
 #include "DebugDrawHelper.h"
 #include "Actor/Camera.h"
-#include "Actor/Component/CapsuleColliderComponent.h"
-#include "Actor/Component/RigidBody2DComponent.h"
 #include "Actor/Component/SpriteRendererComponent.h"
 #include "Actor/Component/TransformComponent.h"
 #include "Actor/Component/Animator/AnimationClip.h"
 #include "Actor/Component/Animator/AnimatorComponent.h"
 #include "Audio/AudioManager.h"
 #include "Data/RegistryHelper.h"
-#include "Input/Keyboard.h"
-#include "Level/World.h"
 #include "Windows/DX/Sprite.h"
-#include "States/PlayerIdleState.h"
-#include "States/PlayerAttackState.h"
-#include "Windows/DX/UITexture.h"
 
 PlayerController::PlayerController(const std::wstring& kName) :
     CharacterBase(kName),

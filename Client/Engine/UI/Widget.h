@@ -42,10 +42,10 @@ public:
 protected:
     friend class Canvas;
 
-    virtual inline void OnMousePressed() {}
-    virtual inline void OnMouseReleased() {}
-    virtual inline void OnMouseHover() {}
-    virtual inline void OnMouseLeave() {}
+    inline virtual void OnMousePressed() {}
+    inline virtual void OnMouseReleased() {}
+    inline virtual void OnMouseHover() {}
+    inline virtual void OnMouseLeave() {}
     
     virtual void Render() = 0;
     

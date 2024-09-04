@@ -31,6 +31,8 @@ private:
     friend class ColliderComponent;
     friend class RigidBody2DComponent;
 
+    void UpdateBody();
+
     Math::Vector2 position_;
     Math::Vector2 scale_;
 

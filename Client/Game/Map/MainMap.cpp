@@ -2,7 +2,6 @@
 #include "MainMap.h"
 
 #include "Actor/Capsule.h"
-#include "Actor/FollowCamera.h"
 #include "Actor/Tilemap.h"
 #include "Actor/Character/Player/PlayerController.h"
 #include "Actor/Test/Platform.h"

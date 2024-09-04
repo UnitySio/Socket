@@ -1,10 +1,10 @@
 ﻿#pragma once
 #include "Actor/Actor.h"
+#include "Actor/Component/CapsuleColliderComponent.h"
 #include "Actor/StateMachine/StateMachine.h"
 
 class SpriteRendererComponent;
 class AnimatorComponent;
-class CapsuleColliderComponent;
 class RigidBody2DComponent;
 
 class CharacterBase : public StateMachine
@@ -14,6 +14,8 @@ class CharacterBase : public StateMachine
 public:
     CharacterBase(const std::wstring& kName);
     virtual ~CharacterBase() override = default;
+
+    inline virtual class ColliderComponent* GetCollider() override { return capsule_collider_; }
 
     inline SpriteRendererComponent* GetSpriteRenderer() const { return sprite_renderer_; }
     inline AnimatorComponent* GetAnimator() const { return animator_; }
