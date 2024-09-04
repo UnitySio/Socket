@@ -78,7 +78,7 @@ void Camera::PhysicsTick(float delta_time)
     if (Viewport* viewport = Renderer::Get()->FindViewport(World::Get()->GetWindow()))
     {
         viewport->view_matrix = DirectX::XMMatrixTranslation(-position.x, -position.y, 0.f)
-            * DirectX::XMMatrixRotationZ(-transform->GetAngle());
+            * DirectX::XMMatrixRotationZ(-transform->GetAngle() * MATH_PI / 180.f);
     }
 }
 
