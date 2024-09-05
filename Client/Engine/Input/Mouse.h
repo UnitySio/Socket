@@ -8,8 +8,8 @@
 
 enum class MouseEventType
 {
-    kPressed,
-    kReleased,
+    kDown,
+    kUp,
     kWheel,
     kHWeel,
     kMove
@@ -59,9 +59,9 @@ public:
     Mouse();
     virtual ~Mouse() override = default;
 
-    bool IsButtonDown(MouseButton button) const;
-    bool IsButtonPressed(MouseButton button) const;
-    bool IsButtonReleased(MouseButton button) const;
+    bool GetButton(MouseButton button) const;
+    bool GetButtonDown(MouseButton button) const;
+    bool GetButtonUp(MouseButton button) const;
 
     inline int GetWheelAxis() const { return wheel_axis_; }
     inline int GetWheelHAxis() const { return wheel_h_axis_; }

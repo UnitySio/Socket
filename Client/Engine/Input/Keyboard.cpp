@@ -18,7 +18,7 @@ void Keyboard::Begin()
 
 		KeyboardEventType type = event.state;
 
-		if (type == KeyboardEventType::kPressed || type == KeyboardEventType::kReleased)
+		if (type == KeyboardEventType::kDown || type == KeyboardEventType::kUp)
 		{
 			WORD key_code = event.key_code;
 			
@@ -26,7 +26,7 @@ void Keyboard::Begin()
 			if (it != key_states_.end())
 			{
 				KeyState& key_state = it->second;
-				key_state.is_down = type == KeyboardEventType::kPressed;
+				key_state.is_down = type == KeyboardEventType::kDown;
 			}
 		}
 		else if (type == KeyboardEventType::kChar)
@@ -71,19 +71,19 @@ void Keyboard::RegisterKey(WORD key_code)
 	key_states_[key_code] = KeyState();
 }
 
-bool Keyboard::IsKeyDown(WORD key_code)
+bool Keyboard::GetKey(WORD key_code)
 {
 	KeyState& key_state = key_states_[key_code];
 	return key_state.is_down && key_state.was_down;
 }
 
-bool Keyboard::IsKeyPressed(WORD key_code)
+bool Keyboard::GetKeyDown(WORD key_code)
 {
 	KeyState& key_state = key_states_[key_code];
 	return key_state.is_down && !key_state.was_down;
 }
 
-bool Keyboard::IsKeyReleased(WORD key_code)
+bool Keyboard::GetKeyUp(WORD key_code)
 {
 	KeyState& key_state = key_states_[key_code];
 	return !key_state.is_down && key_state.was_down;
@@ -116,10 +116,10 @@ bool Keyboard::ProcessMessage(UINT message, WPARAM wParam, LPARAM lParam, MathTy
 
 bool Keyboard::OnKeyDown(WORD key_code, MathTypes::uint32 char_code)
 {
-	OnInputKey(key_code, KeyboardEventType::kPressed);
+	OnInputKey(key_code, KeyboardEventType::kDown);
 
 	KeyEvent event;
-	event.state = KeyboardEventType::kPressed;
+	event.state = KeyboardEventType::kDown;
 	event.key_code = key_code;
 	command_buffer_.push(event);
 
@@ -128,7 +128,7 @@ bool Keyboard::OnKeyDown(WORD key_code, MathTypes::uint32 char_code)
 
 bool Keyboard::OnKeyUp(WORD key_code, MathTypes::uint32 char_code)
 {
-	OnInputKey(key_code, KeyboardEventType::kReleased);
+	OnInputKey(key_code, KeyboardEventType::kUp);
 	return true;
 }
 

@@ -20,7 +20,7 @@ void PlayerIdleState::OnTick(float delta_time)
 
     Keyboard* keyboard = Keyboard::Get();
 
-    const float h = keyboard->IsKeyDown(VK_RIGHT) - keyboard->IsKeyDown(VK_LEFT);
+    const float h = keyboard->GetKey(VK_RIGHT) - keyboard->GetKey(VK_LEFT);
     if (h != 0.f)
     {
         PlayerController* player = dynamic_cast<PlayerController*>(owner_);
@@ -28,7 +28,7 @@ void PlayerIdleState::OnTick(float delta_time)
         if(IsValid(player)) player->ChangeState(player->move_);
     }
 
-    if (keyboard->IsKeyPressed('C'))
+    if (keyboard->GetKeyDown('C'))
     {
         PlayerController* player = dynamic_cast<PlayerController*>(owner_);
         if(IsValid(player))
@@ -41,7 +41,7 @@ void PlayerIdleState::OnTick(float delta_time)
         }
     }
 
-    if (keyboard->IsKeyPressed('Z'))
+    if (keyboard->GetKeyDown('Z'))
     {
         keyboard->command_buffer_.pop();
 

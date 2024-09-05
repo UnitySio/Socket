@@ -14,19 +14,19 @@ Mouse::Mouse() :
 {
 }
 
-bool Mouse::IsButtonDown(MouseButton button) const
+bool Mouse::GetButton(MouseButton button) const
 {
     MouseState state = mouse_states_[static_cast<int>(button)];
     return state.is_down && state.was_down;
 }
 
-bool Mouse::IsButtonPressed(MouseButton button) const
+bool Mouse::GetButtonDown(MouseButton button) const
 {
     MouseState state = mouse_states_[static_cast<int>(button)];
     return state.is_down && !state.was_down;
 }
 
-bool Mouse::IsButtonReleased(MouseButton button) const
+bool Mouse::GetButtonUp(MouseButton button) const
 {
     MouseState state = mouse_states_[static_cast<int>(button)];
     return !state.is_down && state.was_down;
@@ -90,7 +90,7 @@ bool Mouse::ProcessMessage(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam
         const int y = GET_Y_LPARAM(lParam);
 
         ButtonEvent event;
-        event.type = is_released ? MouseEventType::kReleased : MouseEventType::kPressed;
+        event.type = is_released ? MouseEventType::kUp : MouseEventType::kDown;
         event.button = mouse_button;
         event.mouse_position = Math::Vector2(static_cast<float>(x), static_cast<float>(y));
 
@@ -165,7 +165,7 @@ void Mouse::Begin()
 
         switch (type)
         {
-        case MouseEventType::kPressed:
+        case MouseEventType::kDown:
             {
                 mouse_states_[static_cast<int>(event.button)].is_down = true;
                 
@@ -175,7 +175,7 @@ void Mouse::Begin()
             }
             break;
 
-        case MouseEventType::kReleased:
+        case MouseEventType::kUp:
             {
                 mouse_states_[static_cast<int>(event.button)].is_down = false;
                 
