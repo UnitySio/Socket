@@ -165,6 +165,7 @@
     <ClInclude Include="Engine\Input\Mouse.h" />
     <ClInclude Include="Engine\Level\Level.h" />
     <ClInclude Include="Engine\Level\World.h" />
+    <ClInclude Include="Engine\Logger.h" />
     <ClInclude Include="Engine\Math\Bounds.h" />
     <ClInclude Include="Engine\Math\Color.h" />
     <ClInclude Include="Engine\Math\Math.h" />
@@ -352,6 +353,7 @@
     <ClCompile Include="Engine\Input\Mouse.cpp" />
     <ClCompile Include="Engine\Level\Level.cpp" />
     <ClCompile Include="Engine\Level\World.cpp" />
+    <ClCompile Include="Engine\Logger.cpp" />
     <ClCompile Include="Engine\Math\Bounds.cpp" />
     <ClCompile Include="Engine\Math\Color.cpp" />
     <ClCompile Include="Engine\Math\Math.cpp" />
