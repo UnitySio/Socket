@@ -8,7 +8,9 @@
 #include "Actor/Component/Animator/AnimationClip.h"
 #include "Actor/Component/Animator/AnimatorComponent.h"
 #include "Audio/AudioManager.h"
+#include "Audio/Audio.h"
 #include "Data/RegistryHelper.h"
+#include "Resource/ResourceManager.h"
 #include "Windows/DX/Sprite.h"
 
 PlayerController::PlayerController(const std::wstring& kName) :
@@ -56,9 +58,14 @@ PlayerController::PlayerController(const std::wstring& kName) :
     animator_->PlayClip(clip);
 
     GetTransform()->SetScale({2.f, 2.f});
-    
-    AudioManager::Get()->LoadSound(L"BGM", L".\\Game_Data\\bgm.mp3");
-    int id = AudioManager::Get()->PlaySound2D(L"BGM");
+
+    if (ResourceManager::Get()->Load<Audio>(L"BGM", L".\\Game_Data\\bgm.mp3"))
+    {
+        Audio* audio = ResourceManager::Get()->GetResource<Audio>(L"BGM");
+        audio->SetLoop(true);
+        
+        int id = AudioManager::Get()->PlaySound2D(audio);
+    }
 
     // if (ResourceManager::Get()->Load<UITexture>(L"Soldier", L".\\Game_Data\\Soldier.png"))
     // {

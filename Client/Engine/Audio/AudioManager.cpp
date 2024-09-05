@@ -5,21 +5,17 @@
 
 #include "FMOD/fmod.hpp"
 #include "Math/Math.h"
+#include "Resource/ResourceManager.h"
+#include "Audio/Audio.h"
 
 AudioManager::AudioManager() :
     fmod_system_(nullptr),
-    channels_(),
-    sound_map_()
+    channels_()
 {
 }
 
 AudioManager::~AudioManager()
 {
-    for (const auto& kSound : sound_map_ | std::views::values)
-    {
-        FMOD_Sound_Release(kSound);
-    }
-    
     FMOD_System_Close(fmod_system_);
     FMOD_System_Release(fmod_system_);
 }
@@ -33,55 +29,17 @@ bool AudioManager::Init()
     return result == FMOD_OK;
 }
 
-bool AudioManager::LoadSound(const std::wstring& kName, const std::wstring& kPath)
-{
-    if (sound_map_.contains(kName)) return false;
-    
-    FMOD_SOUND* sound = nullptr;
-
-    const std::string kFinalPath(kPath.begin(), kPath.end());
-
-    FMOD_RESULT result = FMOD_System_CreateSound(fmod_system_, kFinalPath.c_str(), FMOD_DEFAULT, nullptr, &sound);
-    if (result != FMOD_OK) return false;
-
-    sound_map_[kName] = sound;
-    return true;
-}
-
 void AudioManager::Tick()
 {
     FMOD_System_Update(fmod_system_);
 }
 
-void AudioManager::SetLoop(const std::wstring& kName, bool is_loop)
+void AudioManager::PlayOneShot(const Audio* audio, float volume)
 {
-    const auto it = sound_map_.find(kName);
-    if (it == sound_map_.end()) return;
-    
-    FMOD_MODE mode;
-    FMOD_Sound_GetMode(it->second, &mode);
-
-    if (is_loop)
-    {
-        mode &= ~FMOD_LOOP_OFF;
-        mode |= FMOD_LOOP_NORMAL;
-    }
-    else
-    {
-        mode &= ~FMOD_LOOP_NORMAL;
-        mode |= FMOD_LOOP_OFF;
-    }
-
-    FMOD_Sound_SetMode(it->second, mode);
-}
-
-void AudioManager::PlayOneShot(const std::wstring& kName, float volume)
-{
-    const auto it = sound_map_.find(kName);
-    if (it == sound_map_.end()) return;
+    if (!audio) return;
     
     FMOD_CHANNEL* channel = nullptr;
-    FMOD_System_PlaySound(fmod_system_, it->second, nullptr, false, &channel);
+    FMOD_System_PlaySound(fmod_system_, audio->sound_, nullptr, false, &channel);
     if (channel) FMOD_Channel_SetVolume(channel, volume);
 }
 
@@ -134,11 +92,10 @@ void AudioManager::SetAllMutes(bool is_mute)
     }
 }
 
-int AudioManager::PlaySound2D(const std::wstring& kName, FMOD_CHANNELGROUP* channel_group)
+int AudioManager::PlaySound2D(const Audio* audio, FMOD_CHANNELGROUP* channel_group)
 {
-    const auto it = sound_map_.find(kName);
-    if (it == sound_map_.end()) return -1;
-
+    if (!audio) return -1;
+    
     for (int i = 0; i < MAX_CHANNEL_COUNT; ++i)
     {
         FMOD_CHANNEL* channel = channels_[i];
@@ -147,7 +104,7 @@ int AudioManager::PlaySound2D(const std::wstring& kName, FMOD_CHANNELGROUP* chan
         
         if (!is_playing)
         {
-            FMOD_System_PlaySound(fmod_system_, it->second, channel_group, false, &channels_[i]);
+            FMOD_System_PlaySound(fmod_system_, audio->sound_, channel_group, false, &channels_[i]);
             return i;
         }
     }
