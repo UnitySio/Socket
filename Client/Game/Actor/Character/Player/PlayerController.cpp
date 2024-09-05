@@ -10,6 +10,7 @@
 #include "Audio/AudioManager.h"
 #include "Audio/Audio.h"
 #include "Data/RegistryHelper.h"
+#include "File/FileManager.h"
 #include "Resource/ResourceManager.h"
 #include "Windows/DX/Sprite.h"
 
@@ -59,7 +60,7 @@ PlayerController::PlayerController(const std::wstring& kName) :
 
     GetTransform()->SetScale({2.f, 2.f});
 
-    if (ResourceManager::Get()->Load<Audio>(L"BGM", L".\\Game_Data\\bgm.mp3"))
+    if (ResourceManager::Get()->Load<Audio>(L"BGM", FileManager::GetCurrentPath() + L"\\Game_Data\\BGM.mp3"))
     {
         Audio* audio = ResourceManager::Get()->GetResource<Audio>(L"BGM");
         audio->SetLoop(true);

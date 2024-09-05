@@ -8,5 +8,7 @@ class FileManager : public Singleton<FileManager>
 public:
     FileManager();
     virtual ~FileManager() override = default;
+
+    static std::wstring GetCurrentPath();
     
 };
