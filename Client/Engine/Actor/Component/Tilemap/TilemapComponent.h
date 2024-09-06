@@ -31,7 +31,7 @@ public:
 private:
     void GeneratePhysics(const tmx::ObjectGroup& object);
 
-    std::shared_ptr<class Texture> tilemap_texture_;
+    Texture* tilemap_texture_;
     tmx::Map map_;
     Math::Vector2 map_size_;
 

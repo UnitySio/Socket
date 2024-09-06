@@ -17,6 +17,6 @@ private:
     class CapsuleColliderComponent* capsule_collider_;
     class RigidBody2DComponent* rigid_body_;
     
-    std::shared_ptr<class Sprite> sprite_;
+    class Sprite* sprite_;
     
 };

@@ -5,6 +5,7 @@
 #include "Actor/Component/CapsuleColliderComponent.h"
 #include "Actor/Component/RigidBody2DComponent.h"
 #include "Actor/Component/TransformComponent.h"
+#include "Resource/ResourceManager.h"
 #include "Windows/DX/Shape.h"
 #include "Windows/DX/Sprite.h"
 
@@ -22,8 +23,11 @@ Capsule::Capsule(const std::wstring& kName) : Actor(kName)
     rigid_body_ = AddComponent<RigidBody2DComponent>(L"RigidBody");
     rigid_body_->SetBodyType(BodyType::kDynamic);
     
-    sprite_ = std::make_shared<Sprite>(256.f);
-    CHECK_IF(sprite_->Load(L".\\Game_Data\\Default\\Capsule.png"), L"Failed to load texture");
+    if (ResourceManager::Get()->Load<Sprite>(L"Capsule", L".\\Game_Data\\Default\\Capsule.png"))
+    {
+        sprite_ = ResourceManager::Get()->GetResource<Sprite>(L"Capsule");
+        sprite_->SetPPU(256);
+    }
 
     sprite_->Split(1, 1, Sprite::kCenter);
     sprite_->SetFilterMode(FilterMode::kBilinear);

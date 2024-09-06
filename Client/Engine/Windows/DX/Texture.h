@@ -30,7 +30,7 @@ public:
     
     virtual bool Load(const std::wstring& kPath) override;
 
-    void Bind();
+    void Bind() const;
 
     inline MathTypes::uint32 GetWidth() const { return width_; }
     inline MathTypes::uint32 GetHeight() const { return height_; }

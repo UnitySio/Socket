@@ -15,8 +15,8 @@ public:
     virtual void InitializeComponent() override;
     virtual void Render(float alpha) override;
 
-    inline void SetSprite(const std::shared_ptr<Sprite>& sprite) { sprite_ = sprite; }
-    inline std::shared_ptr<Sprite> GetSprite() const { return sprite_; }
+    inline void SetSprite(Sprite* sprite) { sprite_ = sprite; }
+    inline const Sprite* GetSprite() const { return sprite_; }
 
     inline void SetFrameIndex(MathTypes::uint32 frame_index) { frame_index_ = frame_index; }
     inline MathTypes::uint32 GetFrameIndex() const { return frame_index_; }
@@ -34,7 +34,7 @@ private:
     friend class AnimatorComponent;
     
     std::shared_ptr<class Shape> shape_;
-    std::shared_ptr<Sprite> sprite_;
+    Sprite* sprite_;
 
     MathTypes::uint32 frame_index_;
 

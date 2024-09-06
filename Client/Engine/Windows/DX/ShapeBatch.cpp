@@ -146,7 +146,7 @@ void ShapeBatch::DrawShapes(const std::shared_ptr<WindowsWindow>& kWindow, const
         constexpr MathTypes::uint32 kStride = sizeof(DefaultVertex);
         constexpr MathTypes::uint32 kOffset = 0;
 
-        if (const auto& texture = shape->GetTexture())
+        if (const Texture* texture = shape->GetTexture())
         {
             if (texture->GetWrapMode() == WrapMode::kClamp)
             {

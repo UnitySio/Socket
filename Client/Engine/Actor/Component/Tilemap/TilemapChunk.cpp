@@ -6,7 +6,7 @@
 #include "Windows/DX/Shape.h"
 #include "Windows/DX/Texture.h"
 
-TilemapChunk::TilemapChunk(const tmx::TileLayer& kLayer, const tmx::Tileset* kTileset, const Math::Vector2& kPosition, const Math::Vector2& kTileCount, const Math::Vector2& kTileSize, MathTypes::uint64 row_size, const std::shared_ptr<Texture>& kTexture) :
+TilemapChunk::TilemapChunk(const tmx::TileLayer& kLayer, const tmx::Tileset* kTileset, const Math::Vector2& kPosition, const Math::Vector2& kTileCount, const Math::Vector2& kTileSize, MathTypes::uint64 row_size, Texture* kTexture) :
     tile_count_(kTileCount),
     texture_(kTexture),
     chunk_tile_ids_(),

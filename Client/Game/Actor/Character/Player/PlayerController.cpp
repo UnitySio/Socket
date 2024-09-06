@@ -18,13 +18,12 @@ PlayerController::PlayerController(const std::wstring& kName) :
     CharacterBase(kName),
     is_hit_(false)
 {
-    // ResourceManager::Get()->Load<Sprite>(L"Soldier", L".\\Game_Data\\Soldier.png");
-    // Sprite* sprite = ResourceManager::Get()->GetResource<Sprite>(L"Soldier");
-
     capsule_collider_->SetSize({.5f, .5f});
     
-    sprite_ = std::make_shared<Sprite>();
-    CHECK_IF(sprite_->Load(L".\\Game_Data\\Soldier.png"), L"Failed to load texture");
+    if (ResourceManager::Get()->Load<Sprite>(L"Soldier", L".\\Game_Data\\Soldier.png"))
+    {
+        sprite_ = ResourceManager::Get()->GetResource<Sprite>(L"Soldier");
+    }
     
     sprite_->Split(9, 7, Sprite::kCenter);
 
@@ -67,11 +66,6 @@ PlayerController::PlayerController(const std::wstring& kName) :
         
         int id = AudioManager::Get()->PlaySound2D(audio);
     }
-
-    // if (ResourceManager::Get()->Load<UITexture>(L"Soldier", L".\\Game_Data\\Soldier.png"))
-    // {
-    //     LOG(L"Success");
-    // }
 
     ChangeState(idle_);
 }

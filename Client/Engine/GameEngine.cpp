@@ -9,6 +9,7 @@
 #include "Input/Mouse.h"
 #include "Level/Level.h"
 #include "Level/World.h"
+#include "Math/Math.h"
 #include "Steam/SteamManager.h"
 #include "UI/Canvas.h"
 #include "Windows/WindowsWindow.h"
@@ -86,7 +87,7 @@ void GameEngine::StartFrame()
 void GameEngine::Tick(float delta_time)
 {
     // 죽음의 나선형을 방지하기 위해 delta_time을 제한
-    const float kLimitFrameTime = min(delta_time, .25f);
+    const float kLimitFrameTime = Math::Min(delta_time, .25f);
     accumulator_ += kLimitFrameTime;
     
     // SteamManager::Get()->Tick();

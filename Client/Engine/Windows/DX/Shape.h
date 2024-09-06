@@ -52,8 +52,8 @@ public:
     
     inline float GetRotation() const { return rotation_; }
 
-    inline void SetTexture(const std::shared_ptr<Texture>& kTexture) { texture_ = kTexture; }
-    inline const std::shared_ptr<Texture>& GetTexture() const { return texture_; }
+    inline void SetTexture(Texture* kTexture) { texture_ = kTexture; }
+    inline const Texture* GetTexture() const { return texture_; }
 
     inline void SetZOrder(int z_order) { z_order_ = z_order; }
     inline int GetZOrder() const { return z_order_; }
@@ -80,7 +80,7 @@ protected:
     
     float rotation_;
 
-    std::shared_ptr<Texture> texture_;
+    Texture* texture_;
 
     int z_order_;
     

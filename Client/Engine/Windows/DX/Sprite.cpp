@@ -11,9 +11,9 @@ const Math::Vector2 Sprite::kBottomLeft = Math::Vector2(0.f, 0.f);
 const Math::Vector2 Sprite::kBottom = Math::Vector2(.5f, 0.f);
 const Math::Vector2 Sprite::kBottomRight = Math::Vector2(0.f, 1.f);
 
-Sprite::Sprite(float ppu) :
+Sprite::Sprite() :
     frames_(),
-    ppu_(ppu)
+    ppu_(32.f)
 {
 }
 

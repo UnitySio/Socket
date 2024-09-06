@@ -4,7 +4,7 @@
 #include "TilemapChunk.h"
 #include "tmxlite/Map.hpp"
 
-TilemapLayer::TilemapLayer(const tmx::Map& map, const tmx::TileLayer& layer, const std::shared_ptr<Texture>& texture, const Math::Vector2& chunk_size) :
+TilemapLayer::TilemapLayer(const tmx::Map& map, const tmx::TileLayer& layer, Texture* texture, const Math::Vector2& chunk_size) :
     chunk_size_(chunk_size),
     chunk_count_(Math::Vector2::Zero()),
     chunks_()
@@ -45,7 +45,7 @@ TilemapChunk* TilemapLayer::GetChunk(int x, int y, Math::Vector2& tile_relative_
     return chunks_[chunk_y * chunk_count_.x + chunk_x].get();
 }
 
-void TilemapLayer::CreateChunks(const tmx::Map& map, const tmx::TileLayer& layer, const std::shared_ptr<Texture>& texture, const Math::Vector2& tile_size)
+void TilemapLayer::CreateChunks(const tmx::Map& map, const tmx::TileLayer& layer, Texture* texture, const Math::Vector2& tile_size)
 {
     const auto bounds = map.getBounds();
     chunk_count_.x = std::ceil(bounds.width / chunk_size_.x);

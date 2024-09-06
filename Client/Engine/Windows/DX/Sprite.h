@@ -11,13 +11,15 @@ struct SpriteFrame
 class Sprite : public Texture
 {
 public:
-    Sprite(float ppu = 32.f);
+    Sprite();
     virtual ~Sprite() override = default;
 
     virtual bool Load(const std::wstring& kPath) override;
     
     void Split(MathTypes::uint32 cols, MathTypes::uint32 rows, Math::Vector2 pivot);
 
+    inline void SetPPU(MathTypes::uint32 ppu) { ppu_ = ppu; }
+    
     inline const std::vector<SpriteFrame>& GetFrames() const { return frames_; }
     inline MathTypes::uint32 GetPPU() const { return ppu_; }
 

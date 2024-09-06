@@ -51,7 +51,7 @@ bool Texture::Load(const std::wstring& kPath)
     return true;
 }
 
-void Texture::Bind()
+void Texture::Bind() const
 {
     Renderer::Get()->GetDeviceContext()->PSSetShaderResources(0, 1, resource_view_.GetAddressOf());
 }

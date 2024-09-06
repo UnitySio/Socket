@@ -16,7 +16,7 @@ class Texture;
 class TilemapChunk
 {
 public:
-    TilemapChunk(const tmx::TileLayer& kLayer, const tmx::Tileset* kTileset, const Math::Vector2& kPosition, const Math::Vector2& kTileCount, const Math::Vector2& kTileSize, MathTypes::uint64 row_size, const std::shared_ptr<Texture>& kTexture);
+    TilemapChunk(const tmx::TileLayer& kLayer, const tmx::Tileset* kTileset, const Math::Vector2& kPosition, const Math::Vector2& kTileCount, const Math::Vector2& kTileSize, MathTypes::uint64 row_size, Texture* kTexture);
 
     void AddShape(const Math::Vector2& kPosition, const Math::Vector2& kScale, const Math::Vector2& kPivot = Math::Vector2::Zero());
     
@@ -27,7 +27,7 @@ private:
 
     Math::Vector2 tile_count_;
     
-    std::shared_ptr<Texture> texture_;
+    Texture* texture_;
     
     std::vector<tmx::TileLayer::Tile> chunk_tile_ids_;
     

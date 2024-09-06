@@ -30,7 +30,7 @@ public:
     std::shared_ptr<PlayerAttack2State> attack2_;
     
 private:
-    std::shared_ptr<class Sprite> sprite_;
+    class Sprite* sprite_;
 
     class TextBlock* text_block_;
     
