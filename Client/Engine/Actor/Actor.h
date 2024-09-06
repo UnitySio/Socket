@@ -56,6 +56,14 @@ public:
     ContactSignature on_trigger_exit;
 
 protected:
+    friend class World;
+    friend class Level;
+    friend class TransformComponent;
+    friend class ColliderComponent;
+    friend class BoxColliderComponent;
+    friend class CircleColliderComponent;
+    friend class CapsuleColliderComponent;
+    friend class RigidBody2DComponent;
     friend class Physics2D;
     
     void InitializeActor();
@@ -96,19 +104,6 @@ protected:
     std::shared_ptr<TransformComponent> transform_;
     
     TimerHandle life_span_timer_;
-private:
-    // 추후 정리 예정
-    friend class Level;
-    friend class ColliderComponent;
-    friend class BoxColliderComponent;
-    friend class CircleColliderComponent;
-    friend class CapsuleColliderComponent;
-    friend class SegmentColliderComponent;
-    friend class RigidBody2DComponent;
-    friend class TransformComponent;
-    friend class PlayerController;
-    friend class ContactListener;
-    friend class World;
 
 };
 
