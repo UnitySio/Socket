@@ -8,6 +8,7 @@
 #include "Input/Mouse.h"
 #include "Level/World.h"
 #include "Math/Vector2.h"
+#include "Resource/ResourceManager.h"
 #include "Time/Time.h"
 #include "UI/Canvas.h"
 #include "Windows/WindowDefinition.h"
@@ -114,6 +115,7 @@ bool Core::ProcessMessage(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam,
 
                 World::Get()->Release();
                 Renderer::Get()->Release();
+                ResourceManager::Get()->Release();
             }
         }
         return true;
