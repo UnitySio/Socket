@@ -7,15 +7,20 @@
 #include "Actor/Component/CapsuleColliderComponent.h"
 #include "Actor/Component/RigidBody2DComponent.h"
 #include "Actor/Component/TransformComponent.h"
+#include "Math/Math.h"
 #include "Physics/Physics2D.h"
 
 CharacterBase::CharacterBase(const std::wstring& kName) :
     StateMachine(kName),
     is_jumping_(false),
+    is_falling_(false),
     ground_check_size_({1.f, .1f}),
     last_on_ground_time_(0.f),
     coyote_time_(.1f),
-    jump_force_(10.f)
+    jump_force_(10.f),
+    gravity_scale_(1.f),
+    fall_gravity_multiplier_(2.f),
+    max_fall_speed_(10.f)
 {
     sprite_renderer_ = AddComponent<SpriteRendererComponent>(L"SpriteRenderer");
     animator_ = AddComponent<AnimatorComponent>(L"Animator");
@@ -58,6 +63,22 @@ void CharacterBase::Tick(float delta_time)
     if (is_jumping_ && rigid_body_->GetLinearVelocityY() < 0.f)
     {
         is_jumping_ = false;
+        is_falling_ = true;
+    }
+
+    if (last_on_ground_time_ > 0.f && !is_jumping_)
+    {
+        is_falling_ = false;
+    }
+
+    if (rigid_body_->GetLinearVelocityY() < 0.f)
+    {
+        rigid_body_->SetGravityScale(gravity_scale_ * fall_gravity_multiplier_);
+        rigid_body_->SetLinearVelocityY(Math::Max(rigid_body_->GetLinearVelocityY(), -max_fall_speed_));
+    }
+    else
+    {
+        rigid_body_->SetGravityScale(gravity_scale_);
     }
 }
 
