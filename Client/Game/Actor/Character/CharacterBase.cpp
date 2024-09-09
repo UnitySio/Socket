@@ -14,9 +14,9 @@ CharacterBase::CharacterBase(const std::wstring& kName) :
     StateMachine(kName),
     is_jumping_(false),
     is_falling_(false),
-    ground_check_size_({1.f, .1f}),
+    ground_check_size_({.4f, .1f}),
     last_on_ground_time_(0.f),
-    coyote_time_(.1f),
+    coyote_time_(.15f),
     jump_force_(10.f),
     gravity_scale_(1.f),
     fall_gravity_multiplier_(2.f),
@@ -25,7 +25,7 @@ CharacterBase::CharacterBase(const std::wstring& kName) :
     sprite_renderer_ = AddComponent<SpriteRendererComponent>(L"SpriteRenderer");
     animator_ = AddComponent<AnimatorComponent>(L"Animator");
 
-    // PhysicsMaterial2D material = {0.f, 1.f};
+    // PhysicsMaterial2D material = {0.f, 0.f};
     
     capsule_collider_ = AddComponent<CapsuleColliderComponent>(L"CapsuleCollider");
     // capsule_collider_->SetMaterial(material);
@@ -85,6 +85,8 @@ void CharacterBase::Tick(float delta_time)
 void CharacterBase::Jump()
 {
     last_on_ground_time_ = 0.f;
+    is_jumping_ = true;
+    is_falling_ = false;
 
     float force = jump_force_;
     if (rigid_body_->GetLinearVelocityY() < 0.f) force -= rigid_body_->GetLinearVelocityY();

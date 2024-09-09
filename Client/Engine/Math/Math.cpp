@@ -26,3 +26,8 @@ float Math::Clamp(float value, float min, float max)
 {
     return Math::Max(min, Math::Min(value, max));
 }
+
+float Math::Abs(float a)
+{
+    return a < 0.f ? -a : a;
+}
