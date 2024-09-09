@@ -13,9 +13,8 @@
 CharacterBase::CharacterBase(const std::wstring& kName) :
     StateMachine(kName),
     is_jumping_(false),
-    is_falling_(false),
     ground_check_size_({.4f, .1f}),
-    last_on_ground_time_(0.f),
+    last_grounded_time_(0.f),
     coyote_time_(.15f),
     jump_force_(10.f),
     gravity_scale_(1.f),
@@ -43,32 +42,23 @@ void CharacterBase::Tick(float delta_time)
 {
     StateMachine::Tick(delta_time);
 
-    Math::Vector2 pos = GetTransform()->GetPosition();
+    Math::Vector2 position = GetTransform()->GetPosition();
 
-    last_on_ground_time_ -= delta_time;
+    last_grounded_time_ -= delta_time;
+    
+    Math::Vector2 center = position + Math::Vector2::Down() * .5f;
 
-    if (!is_jumping_)
+    Actor* ground = nullptr;
+    if (Physics2D::OverlapBox(center, ground_check_size_, &ground, ActorLayer::kGround) && !is_jumping_)
     {
-        Math::Vector2 ground_check_pos = pos + Math::Vector2::Down() * .5f;
-        
-        Actor* ground = nullptr;
-        if (Physics2D::OverlapBox(ground_check_pos, ground_check_size_, &ground, ActorLayer::kGround) && !is_jumping_)
-        {
-            last_on_ground_time_ = coyote_time_;
-        }
-        
-        DebugDrawHelper::Get()->DrawBox(ground_check_pos, ground_check_size_, Math::Color::Red);
+        last_grounded_time_ = coyote_time_;
     }
+
+    DebugDrawHelper::Get()->DrawBox(center, ground_check_size_, Math::Color::Green);
 
     if (is_jumping_ && rigid_body_->GetLinearVelocityY() < 0.f)
     {
         is_jumping_ = false;
-        is_falling_ = true;
-    }
-
-    if (last_on_ground_time_ > 0.f && !is_jumping_)
-    {
-        is_falling_ = false;
     }
 
     if (rigid_body_->GetLinearVelocityY() < 0.f)
@@ -84,9 +74,7 @@ void CharacterBase::Tick(float delta_time)
 
 void CharacterBase::Jump()
 {
-    last_on_ground_time_ = 0.f;
-    is_jumping_ = true;
-    is_falling_ = false;
+    last_grounded_time_ = 0.f;
 
     float force = jump_force_;
     if (rigid_body_->GetLinearVelocityY() < 0.f) force -= rigid_body_->GetLinearVelocityY();
@@ -96,5 +84,5 @@ void CharacterBase::Jump()
 
 bool CharacterBase::CanJump() const
 {
-    return last_on_ground_time_ > 0.f && !is_jumping_;
+    return last_grounded_time_ > 0.f && !is_jumping_;
 }

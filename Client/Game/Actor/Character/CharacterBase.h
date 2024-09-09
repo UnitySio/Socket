@@ -35,11 +35,10 @@ protected:
     RigidBody2DComponent* rigid_body_;
 
     bool is_jumping_;
-    bool is_falling_;
 
     Math::Vector2 ground_check_size_;
 
-    float last_on_ground_time_;
+    float last_grounded_time_;
     float coyote_time_;
     float jump_force_;
     float gravity_scale_;

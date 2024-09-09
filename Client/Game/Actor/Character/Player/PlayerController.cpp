@@ -100,6 +100,8 @@ void PlayerController::Tick(float delta_time)
     {
         if (CanJump())
         {
+            is_jumping_ = true;
+            
             Jump();
         }
     }
