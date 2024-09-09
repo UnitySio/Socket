@@ -40,18 +40,18 @@ void PlayerMoveState::OnTick(float delta_time)
     State::OnTick(delta_time);
 
     Keyboard* keyboard = Keyboard::Get();
-    if (keyboard->GetKeyDown('C'))
-    {
-        PlayerController* player = dynamic_cast<PlayerController*>(owner_);
-        if(IsValid(player))
-        {
-            RigidBody2DComponent* rigid_body = player->GetRigidBody();
-            if (rigid_body)
-            {
-                rigid_body->AddForceY(5.f, ForceMode::kImpulse);
-            }
-        }
-    }
+    // if (keyboard->GetKeyDown('C'))
+    // {
+    //     PlayerController* player = dynamic_cast<PlayerController*>(owner_);
+    //     if(IsValid(player))
+    //     {
+    //         RigidBody2DComponent* rigid_body = player->GetRigidBody();
+    //         if (rigid_body)
+    //         {
+    //             rigid_body->AddForceY(5.f, ForceMode::kImpulse);
+    //         }
+    //     }
+    // }
 }
 
 void PlayerMoveState::OnEnter()

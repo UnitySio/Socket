@@ -11,6 +11,7 @@
 #include "Audio/Audio.h"
 #include "Data/RegistryHelper.h"
 #include "File/FileManager.h"
+#include "Input/Keyboard.h"
 #include "Resource/ResourceManager.h"
 #include "Windows/DX/Sprite.h"
 
@@ -70,14 +71,6 @@ PlayerController::PlayerController(const std::wstring& kName) :
     ChangeState(idle_);
 }
 
-void PlayerController::Tick(float delta_time)
-{
-    CharacterBase::Tick(delta_time);
-
-    Math::Vector2 position = GetTransform()->GetPosition();
-    DebugDrawHelper::Get()->DrawCircle(position, .5f, Math::Color::Red);
-}
-
 void PlayerController::BeginPlay()
 {
     CharacterBase::BeginPlay();
@@ -96,4 +89,19 @@ void PlayerController::EndPlay(EndPlayReason type)
     Math::Vector2 position = GetTransform()->GetPosition();
     RegistryHelper::SetFloat(L"PlayerX", position.x);
     RegistryHelper::SetFloat(L"PlayerY", position.y);
+}
+
+void PlayerController::Tick(float delta_time)
+{
+    CharacterBase::Tick(delta_time);
+
+    Keyboard* keyboard = Keyboard::Get();
+    if (keyboard->GetKeyDown('C'))
+    {
+        if (CanJump())
+        {
+            is_jumping_ = true;
+            Jump();
+        }
+    }
 }

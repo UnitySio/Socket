@@ -19,10 +19,9 @@ public:
     PlayerController(const std::wstring& kName);
     virtual ~PlayerController() override = default;
 
-    virtual void Tick(float delta_time) override;
-
     virtual void BeginPlay() override;
     virtual void EndPlay(EndPlayReason type) override;
+    virtual void Tick(float delta_time) override;
 
     std::shared_ptr<PlayerIdleState> idle_;
     std::shared_ptr<PlayerMoveState> move_;

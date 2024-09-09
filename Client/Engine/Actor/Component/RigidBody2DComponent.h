@@ -59,7 +59,7 @@ public:
     void Sleep();
     void WakeUp();
 
-    Math::Vector2 GetVelocity() const;
+    Math::Vector2 GetLinearVelocity() const;
     
     float GetAngularVelocity() const;
     float GetLinearVelocityX() const;

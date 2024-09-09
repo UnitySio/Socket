@@ -224,7 +224,7 @@ void RigidBody2DComponent::WakeUp()
     b2Body_SetAwake(body_id, true);
 }
 
-Math::Vector2 RigidBody2DComponent::GetVelocity() const
+Math::Vector2 RigidBody2DComponent::GetLinearVelocity() const
 {
     b2BodyId body_id = GetValidBodyId();
 

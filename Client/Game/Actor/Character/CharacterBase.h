@@ -15,6 +15,12 @@ public:
     CharacterBase(const std::wstring& kName);
     virtual ~CharacterBase() override = default;
 
+    virtual void Tick(float delta_time) override;
+
+    void Jump();
+
+    bool CanJump() const;
+
     inline virtual class ColliderComponent* GetCollider() override { return capsule_collider_; }
 
     inline SpriteRendererComponent* GetSpriteRenderer() const { return sprite_renderer_; }
@@ -27,5 +33,13 @@ protected:
     AnimatorComponent* animator_;
     CapsuleColliderComponent* capsule_collider_;
     RigidBody2DComponent* rigid_body_;
+
+    bool is_jumping_;
+
+    Math::Vector2 ground_check_size_;
+
+    float last_on_ground_time_;
+    float coyote_time_;
+    float jump_force_;
     
 };

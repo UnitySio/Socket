@@ -13,7 +13,7 @@ enum class ActorTag : MathTypes::uint64
 enum ActorLayer : MathTypes::uint16
 {
     kDefault = (0x01<<0),
-    kTilemap = (0x01<<1)
+    kGround = (0x01<<1)
 };
 
 class ProjectSettings
@@ -36,8 +36,8 @@ public:
     static inline constexpr float kFixedTimeStep = .02f; // 고정 프레임 간격
 
     static inline const std::map<MathTypes::uint16, MathTypes::uint16> kLayerCollisionMatrix = { // 레이어 충돌 매트릭스
-        {kDefault, kDefault | kTilemap},
-        {kTilemap, kTilemap | kDefault}
+        {kDefault, kDefault | kGround},
+        {kGround, kGround | kDefault}
     };
     
 };

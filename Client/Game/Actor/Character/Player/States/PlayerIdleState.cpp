@@ -28,18 +28,18 @@ void PlayerIdleState::OnTick(float delta_time)
         if(IsValid(player)) player->ChangeState(player->move_);
     }
 
-    if (keyboard->GetKeyDown('C'))
-    {
-        PlayerController* player = dynamic_cast<PlayerController*>(owner_);
-        if(IsValid(player))
-        {
-            RigidBody2DComponent* rigid_body = player->GetRigidBody();
-            if (rigid_body)
-            {
-                rigid_body->AddForceY(5.f, ForceMode::kImpulse);
-            }
-        }
-    }
+    // if (keyboard->GetKeyDown('C'))
+    // {
+    //     PlayerController* player = dynamic_cast<PlayerController*>(owner_);
+    //     if(IsValid(player))
+    //     {
+    //         RigidBody2DComponent* rigid_body = player->GetRigidBody();
+    //         if (rigid_body)
+    //         {
+    //             rigid_body->AddForceY(5.f, ForceMode::kImpulse);
+    //         }
+    //     }
+    // }
 
     if (keyboard->GetKeyDown('Z'))
     {
