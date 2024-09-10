@@ -53,8 +53,6 @@ void CharacterBase::PhysicsTick(float delta_time)
         float amount = Math::Min(Math::Abs(rigid_body_->GetLinearVelocityX()), Math::Abs(friction_amount_));
         amount *= Math::Sign(rigid_body_->GetLinearVelocityX());
         rigid_body_->AddForceX(-amount, ForceMode::kImpulse);
-
-        rigid_body_->SetLinearVelocityY(0.f);
     }
 }
 
