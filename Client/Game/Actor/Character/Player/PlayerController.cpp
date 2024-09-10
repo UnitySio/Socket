@@ -3,6 +3,7 @@
 
 #include "DebugDrawHelper.h"
 #include "Actor/Camera.h"
+#include "Actor/Component/RigidBody2DComponent.h"
 #include "Actor/Component/SpriteRendererComponent.h"
 #include "Actor/Component/TransformComponent.h"
 #include "Actor/Component/Animator/AnimationClip.h"
@@ -17,7 +18,8 @@
 
 PlayerController::PlayerController(const std::wstring& kName) :
     CharacterBase(kName),
-    is_hit_(false)
+    last_pressed_jump_time_(0.f),
+    jump_count_(0)
 {
     capsule_collider_->SetSize({.5f, .5f});
     
@@ -95,14 +97,33 @@ void PlayerController::Tick(float delta_time)
 {
     CharacterBase::Tick(delta_time);
 
+    last_pressed_jump_time_ -= delta_time;
+
+    if (CanJump() && last_pressed_jump_time_ > 0.f)
+    {
+        last_grounded_time_ = 0.f;
+        last_pressed_jump_time_ = 0.f;
+        jump_count_++;
+
+        Jump();
+    }
+    else if (is_jumping_ && last_pressed_jump_time_ > 0.f && jump_count_ < 2)
+    {
+        last_pressed_jump_time_ = 0.f;
+        jump_count_++;
+        
+        Jump();
+    }
+
+    if (last_grounded_time_ > 0.f)
+    {
+        jump_count_ = 0;
+    }
+    
     Keyboard* keyboard = Keyboard::Get();
     if (keyboard->GetKeyDown('C'))
     {
-        if (CanJump())
-        {
-            is_jumping_ = true;
-            
-            Jump();
-        }
+        last_pressed_jump_time_ = .1f;
     }
+    
 }

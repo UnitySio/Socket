@@ -7,7 +7,6 @@
 #include "Actor/Component/CapsuleColliderComponent.h"
 #include "Actor/Component/RigidBody2DComponent.h"
 #include "Actor/Component/TransformComponent.h"
-#include "imgui/imgui_internal.h"
 #include "Math/Math.h"
 #include "Physics/Physics2D.h"
 
@@ -48,6 +47,11 @@ void CharacterBase::Tick(float delta_time)
 
     last_grounded_time_ -= delta_time;
     
+    if (is_jumping_ && rigid_body_->GetLinearVelocityY() < 0.f)
+    {
+        is_jumping_ = false;
+    }
+    
     Math::Vector2 center = position + Math::Vector2::Down() * .5f;
 
     Actor* ground = nullptr;
@@ -57,11 +61,6 @@ void CharacterBase::Tick(float delta_time)
     }
 
     DebugDrawHelper::Get()->DrawBox(center, ground_check_size_, Math::Color::Green);
-
-    if (is_jumping_ && rigid_body_->GetLinearVelocityY() < 0.f)
-    {
-        is_jumping_ = false;
-    }
 
     if (rigid_body_->GetLinearVelocityY() < 0.f)
     {
@@ -75,23 +74,12 @@ void CharacterBase::Tick(float delta_time)
         rigid_body_->SetGravityScale(gravity_scale_);
         is_falling_ = false;
     }
-
-#ifdef _DEBUG
-    if (ImGui::Begin("Property"))
-    {
-        ImGui::Checkbox("Is Jumping", &is_jumping_);
-        ImGui::Checkbox("Is Falling", &is_falling_);
-        ImGui::Text("Velocity: %.2f, %.2f", rigid_body_->GetLinearVelocity().x, rigid_body_->GetLinearVelocity().y);
-    }
-
-    ImGui::End();
-#endif
 }
 
 void CharacterBase::Jump()
 {
-    last_grounded_time_ = 0.f;
-
+    is_jumping_ = true;
+    
     float force = jump_force_;
     if (rigid_body_->GetLinearVelocityY() < 0.f) force -= rigid_body_->GetLinearVelocityY();
 

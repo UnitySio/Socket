@@ -31,8 +31,8 @@ public:
 private:
     class Sprite* sprite_;
 
-    class TextBlock* text_block_;
-    
-    bool is_hit_;
+    float last_pressed_jump_time_;
+
+    int jump_count_;
     
 };

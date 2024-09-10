@@ -17,21 +17,21 @@ public:
 
     virtual void Tick(float delta_time) override;
 
-    void Jump();
-
-    bool CanJump() const;
-
     inline virtual class ColliderComponent* GetCollider() override { return capsule_collider_; }
 
     inline SpriteRendererComponent* GetSpriteRenderer() const { return sprite_renderer_; }
     inline AnimatorComponent* GetAnimator() const { return animator_; }
     inline CapsuleColliderComponent* GetCapsuleCollider() const { return capsule_collider_; }
     inline RigidBody2DComponent* GetRigidBody() const { return rigid_body_; }
-    
+
     inline bool IsJumping() const { return is_jumping_; }
     inline bool IsFalling() const { return is_falling_; }
 
 protected:
+    void Jump();
+
+    bool CanJump() const;
+    
     SpriteRendererComponent* sprite_renderer_;
     AnimatorComponent* animator_;
     CapsuleColliderComponent* capsule_collider_;
