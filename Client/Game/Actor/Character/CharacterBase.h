@@ -38,8 +38,10 @@ protected:
     RigidBody2DComponent* rigid_body_;
 
     bool is_jumping_;
+    bool is_jump_falling_;
     bool is_falling_;
 
+    Math::Vector2 move_axis_;
     Math::Vector2 ground_check_size_;
 
     float last_grounded_time_;
@@ -48,5 +50,7 @@ protected:
     float gravity_scale_;
     float fall_gravity_multiplier_;
     float max_fall_speed_;
+    float jump_hang_time_threshold_;
+    float jump_hang_gravity_multiplier_;
     
 };
