@@ -25,7 +25,7 @@ CharacterBase::CharacterBase(const std::wstring& kName) :
     max_fall_speed_(10.f),
     jump_hang_time_threshold_(.1f),
     jump_hang_gravity_multiplier_(.5f),
-    friction_amount_(.1f)
+    friction_amount_(.25f)
 {
     sprite_renderer_ = AddComponent<SpriteRendererComponent>(L"SpriteRenderer");
     animator_ = AddComponent<AnimatorComponent>(L"Animator");
@@ -44,13 +44,27 @@ CharacterBase::CharacterBase(const std::wstring& kName) :
     
 }
 
+void CharacterBase::PhysicsTick(float delta_time)
+{
+    StateMachine::PhysicsTick(delta_time);
+    
+    if (last_grounded_time_ > 0.f && Math::Abs(move_axis_.x) < .01f)
+    {
+        float amount = Math::Min(Math::Abs(rigid_body_->GetLinearVelocityX()), Math::Abs(friction_amount_));
+        amount *= Math::Sign(rigid_body_->GetLinearVelocityX());
+        rigid_body_->AddForceX(-amount, ForceMode::kImpulse);
+
+        rigid_body_->SetLinearVelocityY(0.f);
+    }
+}
+
 void CharacterBase::Tick(float delta_time)
 {
     StateMachine::Tick(delta_time);
 
-    Math::Vector2 position = GetTransform()->GetPosition();
-
     last_grounded_time_ -= delta_time;
+    
+    Math::Vector2 position = GetTransform()->GetPosition();
     
     if (is_jumping_ && rigid_body_->GetLinearVelocityY() < 0.f)
     {
@@ -91,13 +105,6 @@ void CharacterBase::Tick(float delta_time)
     {
         rigid_body_->SetGravityScale(gravity_scale_);
         is_falling_ = false;
-    }
-    
-    if (last_grounded_time_ > 0.f && Math::Abs(move_axis_.x) < .01f)
-    {
-        float amount = Math::Min(Math::Abs(rigid_body_->GetLinearVelocityX()), Math::Abs(friction_amount_));
-        amount *= Math::Sign(rigid_body_->GetLinearVelocityX());
-        rigid_body_->AddForceX(-amount, ForceMode::kImpulse);
     }
 }
 

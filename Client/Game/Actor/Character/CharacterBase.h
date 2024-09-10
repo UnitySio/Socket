@@ -15,6 +15,7 @@ public:
     CharacterBase(const std::wstring& kName);
     virtual ~CharacterBase() override = default;
 
+    virtual void PhysicsTick(float delta_time) override;
     virtual void Tick(float delta_time) override;
 
     inline virtual class ColliderComponent* GetCollider() override { return capsule_collider_; }
