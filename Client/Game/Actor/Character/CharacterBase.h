@@ -28,6 +28,8 @@ public:
     inline bool IsFalling() const { return is_falling_; }
 
 protected:
+    friend class PlayerMoveState;
+    
     void Jump();
 
     bool CanJump() const;
@@ -52,5 +54,6 @@ protected:
     float max_fall_speed_;
     float jump_hang_time_threshold_;
     float jump_hang_gravity_multiplier_;
+    float friction_amount_;
     
 };

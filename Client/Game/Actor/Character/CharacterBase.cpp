@@ -24,7 +24,8 @@ CharacterBase::CharacterBase(const std::wstring& kName) :
     fall_gravity_multiplier_(2.f),
     max_fall_speed_(10.f),
     jump_hang_time_threshold_(.1f),
-    jump_hang_gravity_multiplier_(.5f)
+    jump_hang_gravity_multiplier_(.5f),
+    friction_amount_(.1f)
 {
     sprite_renderer_ = AddComponent<SpriteRendererComponent>(L"SpriteRenderer");
     animator_ = AddComponent<AnimatorComponent>(L"Animator");
@@ -90,6 +91,13 @@ void CharacterBase::Tick(float delta_time)
     {
         rigid_body_->SetGravityScale(gravity_scale_);
         is_falling_ = false;
+    }
+    
+    if (last_grounded_time_ > 0.f && Math::Abs(move_axis_.x) < .01f)
+    {
+        float amount = Math::Min(Math::Abs(rigid_body_->GetLinearVelocityX()), Math::Abs(friction_amount_));
+        amount *= Math::Sign(rigid_body_->GetLinearVelocityX());
+        rigid_body_->AddForceX(-amount, ForceMode::kImpulse);
     }
 }
 

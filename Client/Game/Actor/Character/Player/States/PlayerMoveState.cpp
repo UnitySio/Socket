@@ -22,6 +22,8 @@ void PlayerMoveState::OnPhysicsTick(float delta_time)
 
     Keyboard* keyboard = Keyboard::Get();
     const float h = keyboard->GetKey(VK_RIGHT) - keyboard->GetKey(VK_LEFT);
+    player->move_axis_.x = h;
+    
     if (h == 0.f)
     {
         if(IsValid(player)) player->ChangeState(player->idle_);
