@@ -19,13 +19,13 @@ CharacterBase::CharacterBase(const std::wstring& kName) :
     ground_check_size_({.4f, .1f}),
     last_grounded_time_(0.f),
     coyote_time_(.15f),
-    jump_force_(5.f),
+    jump_force_(10.f),
     gravity_scale_(1.f),
     fall_gravity_multiplier_(2.f),
     max_fall_speed_(10.f),
     jump_hang_time_threshold_(.1f),
     jump_hang_gravity_multiplier_(.5f),
-    friction_amount_(.25f)
+    friction_amount_(.22f)
 {
     sprite_renderer_ = AddComponent<SpriteRendererComponent>(L"SpriteRenderer");
     animator_ = AddComponent<AnimatorComponent>(L"Animator");

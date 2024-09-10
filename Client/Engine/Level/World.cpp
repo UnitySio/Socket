@@ -38,7 +38,7 @@ World::World() :
     shape_batch_ = std::make_shared<ShapeBatch>();
     shape_batch_->Init();
     
-    b2Vec2 gravity(0.f, -9.81f);
+    b2Vec2 gravity(0.f, -30.f);
     b2WorldDef world_def = b2DefaultWorldDef();
     world_def.gravity = gravity;
 

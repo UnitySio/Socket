@@ -34,7 +34,7 @@ void PlayerMoveState::OnPhysicsTick(float delta_time)
     sprite->SetFlipX(h < 0.f);
 
     RigidBody2DComponent* rigidbody = player->GetRigidBody();
-    rigidbody->SetLinearVelocityX(h * 2.f);
+    rigidbody->SetLinearVelocityX(h * 5.f);
 }
 
 void PlayerMoveState::OnTick(float delta_time)
