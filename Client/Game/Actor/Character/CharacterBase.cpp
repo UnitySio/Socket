@@ -58,9 +58,12 @@ void CharacterBase::Tick(float delta_time)
     if (Physics2D::OverlapBox(center, ground_check_size_, &ground, ActorLayer::kGround) && !is_jumping_)
     {
         last_grounded_time_ = coyote_time_;
+        DebugDrawHelper::Get()->DrawBox(center, ground_check_size_, Math::Color::Green);
     }
-
-    DebugDrawHelper::Get()->DrawBox(center, ground_check_size_, Math::Color::Green);
+    else
+    {
+        DebugDrawHelper::Get()->DrawBox(center, ground_check_size_, Math::Color::Red);
+    }
 
     if (rigid_body_->GetLinearVelocityY() < 0.f)
     {
