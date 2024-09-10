@@ -7,16 +7,18 @@
 #include "Actor/Component/CapsuleColliderComponent.h"
 #include "Actor/Component/RigidBody2DComponent.h"
 #include "Actor/Component/TransformComponent.h"
+#include "imgui/imgui_internal.h"
 #include "Math/Math.h"
 #include "Physics/Physics2D.h"
 
 CharacterBase::CharacterBase(const std::wstring& kName) :
     StateMachine(kName),
     is_jumping_(false),
+    is_falling_(false),
     ground_check_size_({.4f, .1f}),
     last_grounded_time_(0.f),
     coyote_time_(.15f),
-    jump_force_(10.f),
+    jump_force_(5.f),
     gravity_scale_(1.f),
     fall_gravity_multiplier_(2.f),
     max_fall_speed_(10.f)
@@ -65,11 +67,25 @@ void CharacterBase::Tick(float delta_time)
     {
         rigid_body_->SetGravityScale(gravity_scale_ * fall_gravity_multiplier_);
         rigid_body_->SetLinearVelocityY(Math::Max(rigid_body_->GetLinearVelocityY(), -max_fall_speed_));
+        
+        is_falling_ = true;
     }
     else
     {
         rigid_body_->SetGravityScale(gravity_scale_);
+        is_falling_ = false;
     }
+
+#ifdef _DEBUG
+    if (ImGui::Begin("Property"))
+    {
+        ImGui::Checkbox("Is Jumping", &is_jumping_);
+        ImGui::Checkbox("Is Falling", &is_falling_);
+        ImGui::Text("Velocity: %.2f, %.2f", rigid_body_->GetLinearVelocity().x, rigid_body_->GetLinearVelocity().y);
+    }
+
+    ImGui::End();
+#endif
 }
 
 void CharacterBase::Jump()

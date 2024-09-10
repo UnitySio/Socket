@@ -4,7 +4,6 @@
 #include "DebugDrawHelper.h"
 #include "Component/ColliderComponent.h"
 #include "Component/TransformComponent.h"
-#include "imgui/imgui_internal.h"
 #include "Level/World.h"
 #include "Math/Math.h"
 #include "Windows/DX/Renderer.h"
@@ -89,12 +88,6 @@ void Camera::Tick(float delta_time)
     if (target_ && target_collider_)
     {
         DebugDrawHelper::Get()->DrawBox(focus_area_.center, focus_area_size_, Math::Color::Green);
-    }
-
-    static float size = size_;
-    if (ImGui::SliderFloat("Size", &size, 1.f, 10.f))
-    {
-        SetSize(size);
     }
     
 }

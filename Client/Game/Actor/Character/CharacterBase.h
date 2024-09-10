@@ -27,6 +27,9 @@ public:
     inline AnimatorComponent* GetAnimator() const { return animator_; }
     inline CapsuleColliderComponent* GetCapsuleCollider() const { return capsule_collider_; }
     inline RigidBody2DComponent* GetRigidBody() const { return rigid_body_; }
+    
+    inline bool IsJumping() const { return is_jumping_; }
+    inline bool IsFalling() const { return is_falling_; }
 
 protected:
     SpriteRendererComponent* sprite_renderer_;
@@ -35,6 +38,7 @@ protected:
     RigidBody2DComponent* rigid_body_;
 
     bool is_jumping_;
+    bool is_falling_;
 
     Math::Vector2 ground_check_size_;
 
