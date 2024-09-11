@@ -39,15 +39,11 @@ public:
     Keyboard();
     virtual ~Keyboard() override = default;
 
-    void RegisterKey(WORD key_code);
-
     bool GetKey(WORD key_code);
     bool GetKeyDown(WORD key_code);
     bool GetKeyUp(WORD key_code);
 
     inline const std::wstring& GetInputString() const { return input_string_; }
-
-    std::stack<KeyEvent> command_buffer_;
 
 private:
     friend class Core;

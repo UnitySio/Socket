@@ -64,13 +64,6 @@ void Keyboard::Clear()
 	}
 }
 
-void Keyboard::RegisterKey(WORD key_code)
-{
-	std::lock_guard<std::mutex> lock(mutex_);
-	
-	key_states_[key_code] = KeyState();
-}
-
 bool Keyboard::GetKey(WORD key_code)
 {
 	KeyState& key_state = key_states_[key_code];
@@ -117,12 +110,6 @@ bool Keyboard::ProcessMessage(UINT message, WPARAM wParam, LPARAM lParam, MathTy
 bool Keyboard::OnKeyDown(WORD key_code, MathTypes::uint32 char_code)
 {
 	OnInputKey(key_code, KeyboardEventType::kDown);
-
-	KeyEvent event;
-	event.state = KeyboardEventType::kDown;
-	event.key_code = key_code;
-	command_buffer_.push(event);
-
 	return true;
 }
 
