@@ -12,15 +12,23 @@
 #include "Audio/Audio.h"
 #include "Data/RegistryHelper.h"
 #include "File/FileManager.h"
+#include "imgui/imgui.h"
 #include "Input/Keyboard.h"
+#include "Math/Math.h"
 #include "Resource/ResourceManager.h"
+#include "States/PlayerIdleState.h"
+#include "States/PlayerWalkState.h"
 #include "Windows/DX/Sprite.h"
 
 PlayerController::PlayerController(const std::wstring& kName) :
     CharacterBase(kName),
+    input_axis_(Math::Vector2::Zero()),
     last_pressed_jump_time_(0.f),
     jump_count_(0)
 {
+    PhysicsMaterial2D material = {0.f, 0.f};
+
+    capsule_collider_->SetMaterial(material);
     capsule_collider_->SetSize({.5f, .5f});
     
     if (ResourceManager::Get()->Load<Sprite>(L"Soldier", L".\\Game_Data\\Soldier.png"))
@@ -51,8 +59,6 @@ PlayerController::PlayerController(const std::wstring& kName) :
     clip = animator_->AddClip(L"Walk", walk_indices, 8);
     clip->SetRepeat(true);
     clip->SetFrameRate(6.f);
-    
-    animator_->PlayClip(clip);
 
     GetTransform()->SetScale({2.f, 2.f});
 
@@ -63,6 +69,10 @@ PlayerController::PlayerController(const std::wstring& kName) :
         
         int id = AudioManager::Get()->PlaySound2D(audio);
     }
+
+    states_[static_cast<int>(PlayerStates::kIdle)] = std::make_shared<PlayerIdleState>(this);
+    states_[static_cast<int>(PlayerStates::kWalk)] = std::make_shared<PlayerWalkState>(this);
+    ChangeState(states_[static_cast<int>(PlayerStates::kIdle)]);
 }
 
 void PlayerController::BeginPlay()
@@ -85,6 +95,18 @@ void PlayerController::EndPlay(EndPlayReason type)
     RegistryHelper::SetFloat(L"PlayerY", position.y);
 }
 
+void PlayerController::PhysicsTick(float delta_time)
+{
+    CharacterBase::PhysicsTick(delta_time);
+
+    if (last_grounded_time_ > 0.f && Math::Abs(input_axis_.x) < .01f)
+    {
+        float amount = Math::Min(Math::Abs(rigid_body_->GetLinearVelocityX()), Math::Abs(.3f));
+        amount *= Math::Sign(rigid_body_->GetLinearVelocityX());
+        rigid_body_->AddForceX(-amount, ForceMode::kImpulse);
+    }
+}
+
 void PlayerController::Tick(float delta_time)
 {
     CharacterBase::Tick(delta_time);
@@ -92,11 +114,8 @@ void PlayerController::Tick(float delta_time)
     last_pressed_jump_time_ -= delta_time;
 
     Keyboard* keyboard = Keyboard::Get();
-    move_axis_.x = keyboard->GetKey(VK_RIGHT) - keyboard->GetKey(VK_LEFT);
-    if (move_axis_.x != 0)
-    {
-        sprite_renderer_->SetFlipX(move_axis_.x < 0);
-    }
+    input_axis_.x = keyboard->GetKey(VK_RIGHT) - keyboard->GetKey(VK_LEFT);
+    input_axis_.y = keyboard->GetKey(VK_UP) - keyboard->GetKey(VK_DOWN);
 
     if (CanJump() && last_pressed_jump_time_ > 0.f)
     {

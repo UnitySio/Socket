@@ -210,6 +210,8 @@
     <ClInclude Include="Game\Actor\Capsule.h" />
     <ClInclude Include="Game\Actor\Character\CharacterBase.h" />
     <ClInclude Include="Game\Actor\Character\Player\PlayerController.h" />
+    <ClInclude Include="Game\Actor\Character\Player\States\PlayerIdleState.h" />
+    <ClInclude Include="Game\Actor\Character\Player\States\PlayerWalkState.h" />
     <ClInclude Include="Game\Actor\StateMachine\State.h" />
     <ClInclude Include="Game\Actor\StateMachine\StateMachine.h" />
     <ClInclude Include="Game\Actor\Test\Platform.h" />
@@ -386,6 +388,8 @@
     <ClCompile Include="Game\Actor\Capsule.cpp" />
     <ClCompile Include="Game\Actor\Character\CharacterBase.cpp" />
     <ClCompile Include="Game\Actor\Character\Player\PlayerController.cpp" />
+    <ClCompile Include="Game\Actor\Character\Player\States\PlayerIdleState.cpp" />
+    <ClCompile Include="Game\Actor\Character\Player\States\PlayerWalkState.cpp" />
     <ClCompile Include="Game\Actor\StateMachine\State.cpp" />
     <ClCompile Include="Game\Actor\StateMachine\StateMachine.cpp" />
     <ClCompile Include="Game\Actor\Test\Platform.cpp" />
@@ -485,9 +489,6 @@
     <Content Include="Lib\libtmxlite-s.lib" />
     <Content Include="Lib\steam_api64.dll" />
     <Content Include="Lib\steam_api64.lib" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Game\Actor\Character\Player\States\" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

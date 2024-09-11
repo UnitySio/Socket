@@ -15,9 +15,7 @@ CharacterBase::CharacterBase(const std::wstring& kName) :
     is_jumping_(false),
     is_jump_falling_(false),
     is_falling_(false),
-    move_axis_(Math::Vector2::Zero()),
     ground_check_size_({.4f, .1f}),
-    move_speed_(3.f),
     last_grounded_time_(0.f),
     coyote_time_(.15f),
     jump_force_(7.f),
@@ -29,11 +27,8 @@ CharacterBase::CharacterBase(const std::wstring& kName) :
 {
     sprite_renderer_ = AddComponent<SpriteRendererComponent>(L"SpriteRenderer");
     animator_ = AddComponent<AnimatorComponent>(L"Animator");
-
-    PhysicsMaterial2D material = {0.f, 0.f};
     
     capsule_collider_ = AddComponent<CapsuleColliderComponent>(L"CapsuleCollider");
-    capsule_collider_->SetMaterial(material);
     capsule_collider_->SetSize({1.f, 1.f});
     capsule_collider_->SetPreSolve(true);
 
@@ -49,9 +44,6 @@ void CharacterBase::PhysicsTick(float delta_time)
     StateMachine::PhysicsTick(delta_time);
     
     Math::Vector2 position = GetTransform()->GetPosition();
-    
-    rigid_body_->SetLinearVelocityX(move_axis_.x * move_speed_);
-    
     Math::Vector2 center = position + Math::Vector2::Down() * .5f;
     
     Actor* ground = nullptr;

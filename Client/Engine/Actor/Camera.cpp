@@ -85,10 +85,10 @@ void Camera::Tick(float delta_time)
 {
     Actor::Tick(delta_time);
 
-    if (target_ && target_collider_)
-    {
-        DebugDrawHelper::Get()->DrawBox(focus_area_.center, focus_area_size_, Math::Color::Green);
-    }
+    // if (target_ && target_collider_)
+    // {
+    //     DebugDrawHelper::Get()->DrawBox(focus_area_.center, focus_area_size_, Math::Color::Green);
+    // }
     
 }
 
