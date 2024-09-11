@@ -17,15 +17,15 @@ CharacterBase::CharacterBase(const std::wstring& kName) :
     is_falling_(false),
     move_axis_(Math::Vector2::Zero()),
     ground_check_size_({.4f, .1f}),
+    move_speed_(3.f),
     last_grounded_time_(0.f),
     coyote_time_(.15f),
-    jump_force_(10.f),
+    jump_force_(7.f),
     gravity_scale_(1.f),
     fall_gravity_multiplier_(2.f),
     max_fall_speed_(10.f),
     jump_hang_time_threshold_(.1f),
-    jump_hang_gravity_multiplier_(.5f),
-    friction_amount_(.22f)
+    jump_hang_gravity_multiplier_(.5f)
 {
     sprite_renderer_ = AddComponent<SpriteRendererComponent>(L"SpriteRenderer");
     animator_ = AddComponent<AnimatorComponent>(L"Animator");
@@ -48,22 +48,18 @@ void CharacterBase::PhysicsTick(float delta_time)
 {
     StateMachine::PhysicsTick(delta_time);
     
-    if (last_grounded_time_ > 0.f && Math::Abs(move_axis_.x) < .01f)
-    {
-        float amount = Math::Min(Math::Abs(rigid_body_->GetLinearVelocityX()), Math::Abs(friction_amount_));
-        amount *= Math::Sign(rigid_body_->GetLinearVelocityX());
-        rigid_body_->AddForceX(-amount, ForceMode::kImpulse);
-    }
-}
-
-void CharacterBase::Tick(float delta_time)
-{
-    StateMachine::Tick(delta_time);
-
-    last_grounded_time_ -= delta_time;
-    
     Math::Vector2 position = GetTransform()->GetPosition();
     
+    rigid_body_->SetLinearVelocityX(move_axis_.x * move_speed_);
+    
+    Math::Vector2 center = position + Math::Vector2::Down() * .5f;
+    
+    Actor* ground = nullptr;
+    if (Physics2D::OverlapBox(center, ground_check_size_, &ground, ActorLayer::kGround) && !is_jumping_)
+    {
+        last_grounded_time_ = coyote_time_;
+    }
+
     if (is_jumping_ && rigid_body_->GetLinearVelocityY() < 0.f)
     {
         is_jumping_ = false;
@@ -74,19 +70,6 @@ void CharacterBase::Tick(float delta_time)
     {
         is_jump_falling_ = false;
     }
-    
-    Math::Vector2 center = position + Math::Vector2::Down() * .5f;
-
-    Actor* ground = nullptr;
-    if (Physics2D::OverlapBox(center, ground_check_size_, &ground, ActorLayer::kGround) && !is_jumping_)
-    {
-        last_grounded_time_ = coyote_time_;
-        DebugDrawHelper::Get()->DrawBox(center, ground_check_size_, Math::Color::Green);
-    }
-    else
-    {
-        DebugDrawHelper::Get()->DrawBox(center, ground_check_size_, Math::Color::Red);
-    }
 
     if ((is_jumping_ || is_jump_falling_) && Math::Abs(rigid_body_->GetLinearVelocityY()) < jump_hang_time_threshold_)
     {
@@ -96,7 +79,7 @@ void CharacterBase::Tick(float delta_time)
     {
         rigid_body_->SetGravityScale(gravity_scale_ * fall_gravity_multiplier_);
         rigid_body_->SetLinearVelocityY(Math::Max(rigid_body_->GetLinearVelocityY(), -max_fall_speed_));
-        
+
         is_falling_ = true;
     }
     else
@@ -104,6 +87,14 @@ void CharacterBase::Tick(float delta_time)
         rigid_body_->SetGravityScale(gravity_scale_);
         is_falling_ = false;
     }
+}
+
+void CharacterBase::Tick(float delta_time)
+{
+    StateMachine::Tick(delta_time);
+
+    last_grounded_time_ -= delta_time;
+
 }
 
 void CharacterBase::Jump()

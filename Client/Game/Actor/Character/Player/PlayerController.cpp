@@ -36,27 +36,21 @@ PlayerController::PlayerController(const std::wstring& kName) :
     std::shared_ptr<AnimationClip> clip = animator_->AddClip(L"Idle", temp, 6);
     clip->SetRepeat(true);
     clip->SetFrameRate(6.f);
-    idle_ = std::make_shared<PlayerIdleState>(this);
 
     int attack1_indices[] = { 18, 19, 20, 21, 22, 23 };
     clip = animator_->AddClip(L"Attack1", attack1_indices, 6);
-    clip->AddEvent([this]()-> void { ChangeState(idle_); }, 5);
     clip->SetRepeat(false);
     clip->SetFrameRate(15.f);
-    attack1_ = std::make_shared<PlayerAttackState>(this);
 
     int attack2_indices[] = { 27, 28, 29, 30, 31, 32 };
     clip = animator_->AddClip(L"Attack2", attack2_indices, 6);
-    clip->AddEvent([this]()-> void { ChangeState(idle_); }, 5);
     clip->SetRepeat(false);
     clip->SetFrameRate(15.f);
-    attack2_ = std::make_shared<PlayerAttack2State>(this);
 
     int walk_indices[] = {9, 10, 11, 12, 13, 14, 15, 16};
     clip = animator_->AddClip(L"Walk", walk_indices, 8);
     clip->SetRepeat(true);
     clip->SetFrameRate(6.f);
-    move_ = std::make_shared<PlayerMoveState>(this);
     
     animator_->PlayClip(clip);
 
@@ -69,8 +63,6 @@ PlayerController::PlayerController(const std::wstring& kName) :
         
         int id = AudioManager::Get()->PlaySound2D(audio);
     }
-
-    ChangeState(idle_);
 }
 
 void PlayerController::BeginPlay()
@@ -99,6 +91,13 @@ void PlayerController::Tick(float delta_time)
 
     last_pressed_jump_time_ -= delta_time;
 
+    Keyboard* keyboard = Keyboard::Get();
+    move_axis_.x = keyboard->GetKey(VK_RIGHT) - keyboard->GetKey(VK_LEFT);
+    if (move_axis_.x != 0)
+    {
+        sprite_renderer_->SetFlipX(move_axis_.x < 0);
+    }
+
     if (CanJump() && last_pressed_jump_time_ > 0.f)
     {
         last_grounded_time_ = 0.f;
@@ -120,7 +119,6 @@ void PlayerController::Tick(float delta_time)
         jump_count_ = 0;
     }
     
-    Keyboard* keyboard = Keyboard::Get();
     if (keyboard->GetKeyDown('C'))
     {
         last_pressed_jump_time_ = .1f;

@@ -47,6 +47,7 @@ protected:
     Math::Vector2 move_axis_;
     Math::Vector2 ground_check_size_;
 
+    float move_speed_;
     float last_grounded_time_;
     float coyote_time_;
     float jump_force_;
@@ -55,6 +56,5 @@ protected:
     float max_fall_speed_;
     float jump_hang_time_threshold_;
     float jump_hang_gravity_multiplier_;
-    float friction_amount_;
     
 };
