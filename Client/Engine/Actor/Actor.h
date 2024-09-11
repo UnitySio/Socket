@@ -22,6 +22,7 @@ public:
 
     inline virtual class ColliderComponent* GetCollider() { return nullptr; }
 
+    void SetActive(bool is_active);
     void Destroy();
     void SetLifeSpan(float life_span);
     
@@ -47,6 +48,7 @@ public:
 
     inline TransformComponent* GetTransform() const { return transform_.get(); }
 
+    inline bool IsActive() const { return is_active_; }
     inline bool IsPendingDeletion() const { return is_pending_destroy_; }
     
     ContactSignature on_collision_enter;
@@ -97,6 +99,7 @@ protected:
     b2BodyId body_id_;
     b2JointId joint_id_;
 
+    bool is_active_;
     bool is_pending_destroy_;
 
     std::vector<std::shared_ptr<ActorComponent>> components_;

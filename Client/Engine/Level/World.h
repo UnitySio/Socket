@@ -64,6 +64,7 @@ private:
     
     void ProcessCollisionEvents();
     void ProcessTriggerEvents();
+    void ProcessActorActivation();
     void DestroyActor(Actor* actor);
     void DestroyActors();
 

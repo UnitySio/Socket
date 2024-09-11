@@ -9,6 +9,7 @@
 Actor::Actor(const std::wstring& kName) :
     tag_(ActorTag::kNone),
     layer_(ActorLayer::kDefault),
+    is_active_(true),
     is_pending_destroy_(false),
     components_(),
     transform_(nullptr)
@@ -108,6 +109,10 @@ void Actor::Render(float alpha)
     {
         component->Render(alpha);
     }
+}
+
+void Actor::SetActive(bool is_active)
+{
 }
 
 void Actor::Destroy()

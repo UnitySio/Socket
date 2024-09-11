@@ -110,6 +110,8 @@ void World::PhysicsTick(float delta_time)
         ProcessTriggerEvents();
         
         current_level_->PhysicsTick(delta_time);
+        
+        ProcessActorActivation();
         DestroyActors();
     }
 }
@@ -121,6 +123,8 @@ void World::Tick(float delta_time)
     if (current_level_)
     {
         current_level_->Tick(delta_time);
+        
+        ProcessActorActivation();
         DestroyActors();
     }
 }
@@ -130,6 +134,8 @@ void World::PostTick(float delta_time)
     if (current_level_)
     {
         current_level_->PostTick(delta_time);
+        
+        ProcessActorActivation();
         DestroyActors();
     }
 }
@@ -189,6 +195,8 @@ void World::TransitionLevel()
     
     current_level_->Load();
     current_level_->InitializeActors();
+    
+    ProcessActorActivation();
     DestroyActors();
     SpawnActors();
     
@@ -271,6 +279,10 @@ void World::ProcessTriggerEvents()
         actor_a->OnTriggerExit(actor_b);
         actor_b->OnTriggerExit(actor_a);
     }
+}
+
+void World::ProcessActorActivation()
+{
 }
 
 void World::DestroyActor(Actor* actor)
