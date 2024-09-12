@@ -5,6 +5,8 @@ struct Bounds
 {
     Bounds() = default;
     Bounds(Math::Vector2 center, Math::Vector2 size);
+
+    void Expand(float amount);
     
     /**
      * \brief 두 바운드의 교차점을 반환합니다.

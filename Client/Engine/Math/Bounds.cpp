@@ -11,6 +11,15 @@ Bounds::Bounds(Math::Vector2 center, Math::Vector2 size) :
     max = center + extents;
 }
 
+void Bounds::Expand(float amount)
+{
+    size += {amount, amount};
+    extents = size * .5f;
+    
+    min = center - extents;
+    max = center + extents;
+}
+
 Bounds Bounds::Intersect(Bounds a, Bounds b)
 {
     Math::Vector2 min = Math::Vector2::Max(a.min, b.min);
