@@ -16,8 +16,7 @@
 #include "Input/Keyboard.h"
 #include "Math/Math.h"
 #include "Resource/ResourceManager.h"
-#include "States/PlayerIdleState.h"
-#include "States/PlayerWalkState.h"
+#include "States/LocomotionState.h"
 #include "Windows/DX/Sprite.h"
 
 PlayerController::PlayerController(const std::wstring& kName) :
@@ -70,9 +69,8 @@ PlayerController::PlayerController(const std::wstring& kName) :
         int id = AudioManager::Get()->PlaySound2D(audio);
     }
 
-    states_[static_cast<int>(PlayerStates::kIdle)] = std::make_shared<PlayerIdleState>(this);
-    states_[static_cast<int>(PlayerStates::kWalk)] = std::make_shared<PlayerWalkState>(this);
-    ChangeState(states_[static_cast<int>(PlayerStates::kIdle)]);
+    states_[static_cast<int>(PlayerState::kLocomotion)] = std::make_shared<Player::LocomotionState>(this);
+    ChangeState(states_[static_cast<int>(PlayerState::kLocomotion)]);
 }
 
 void PlayerController::BeginPlay()

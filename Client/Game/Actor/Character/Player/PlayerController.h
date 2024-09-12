@@ -1,10 +1,9 @@
 ﻿#pragma once
 #include "Actor/Character/CharacterBase.h"
 
-enum class PlayerStates
+enum class PlayerState
 {
-    kIdle,
-    kWalk,
+    kLocomotion,
     kEnd
 };
 
@@ -22,7 +21,7 @@ public:
     virtual void Tick(float delta_time) override;
 
     inline Math::Vector2 GetInputAxis() const { return input_axis_; }
-    inline std::shared_ptr<State> GetState(PlayerStates state) const { return states_[static_cast<int>(state)]; }
+    inline std::shared_ptr<State> GetState(PlayerState state) const { return states_[static_cast<int>(state)]; }
     
 private:
     class Sprite* sprite_;
@@ -33,6 +32,6 @@ private:
 
     int jump_count_;
 
-    std::shared_ptr<State> states_[static_cast<int>(PlayerStates::kEnd)];
+    std::shared_ptr<State> states_[static_cast<int>(PlayerState::kEnd)];
     
 };
