@@ -138,22 +138,29 @@ namespace Math
         static Vector2 NegativeInfinity();
 
         /**
+         * 두 백터의 각도를 반환합니다.
+         * @param from 시작 백터
+         * @param to 끝 백터
+         * @return float
+         */
+        static float Angle(Vector2 from, Vector2 to);
+
+        /**
          * \brief 백터를 정규화된 값으로 반환합니다.
          * \return Vector
          */
-        Vector2 Normalized();
+        Vector2 Normalized() const;
 
         /**
          * \brief 백터의 길이를 반환합니다.
          * \return float
          */
-        float Magnitude();
+        float Magnitude() const;
 
         /**
          * \brief 백터를 정규화를 합니다.
          */
         void Normalize();
-
 
         float x;
         float y;

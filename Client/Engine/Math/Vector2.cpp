@@ -263,7 +263,12 @@ Math::Vector2 Math::Vector2::NegativeInfinity()
     return {std::numeric_limits<float>::lowest(), std::numeric_limits<float>::lowest()};
 }
 
-Math::Vector2 Math::Vector2::Normalized()
+float Math::Vector2::Angle(Vector2 from, Vector2 to)
+{
+    return acos(Dot(from, to) / (from.Magnitude() * to.Magnitude())) * (180.f / MATH_PI);
+}
+
+Math::Vector2 Math::Vector2::Normalized() const
 {
     float m = Magnitude();
 
@@ -275,7 +280,7 @@ Math::Vector2 Math::Vector2::Normalized()
     return Zero();
 }
 
-float Math::Vector2::Magnitude()
+float Math::Vector2::Magnitude() const
 {
     const auto temp_x = static_cast<double>(x);
     const auto temp_y = static_cast<double>(y);

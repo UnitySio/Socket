@@ -85,6 +85,11 @@ void DebugDrawHelper::DrawSegment(const Math::Vector2& kStart, const Math::Vecto
     });
 }
 
+void DebugDrawHelper::DrawRay(const Math::Vector2& kStart, const Math::Vector2& kDirection, const Math::Color& kColor)
+{
+    DrawSegment(kStart, kStart + kDirection, kColor);
+}
+
 void DebugDrawHelper::Clear()
 {
     polygon_shape_->SetVertices(polygon_vertices_);

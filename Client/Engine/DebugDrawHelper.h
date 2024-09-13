@@ -17,6 +17,7 @@ public:
     void DrawBox(const Math::Vector2& kCenter, const Math::Vector2& kSize, const Math::Color& kColor);
     void DrawCircle(const Math::Vector2& kCenter, float radius, const Math::Color& kColor);
     void DrawSegment(const Math::Vector2& kStart, const Math::Vector2& kEnd, const Math::Color& kColor);
+    void DrawRay(const Math::Vector2& kStart, const Math::Vector2& kDirection, const Math::Color& kColor);
 
 private:
     friend class World;

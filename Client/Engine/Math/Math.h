@@ -8,4 +8,5 @@ namespace Math
     float Max(float a, float b);
     float Clamp(float value, float min, float max);
     float Abs(float a);
+    float Pow(float f, float p);
 }

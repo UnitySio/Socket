@@ -42,10 +42,10 @@ void Camera::PreInitializeComponents()
     UpdateProjectionMatrix();
 }
 
-void Camera::PhysicsTick(float delta_time)
+void Camera::PostTick(float delta_time)
 {
-    Actor::PhysicsTick(delta_time);
-
+    Actor::PostTick(delta_time);
+    
     if (target_ && target_collider_)
     {
         const Bounds& bounds = target_collider_->GetBounds();
@@ -79,17 +79,6 @@ void Camera::PhysicsTick(float delta_time)
         viewport->view_matrix = DirectX::XMMatrixTranslation(-position.x, -position.y, 0.f)
             * DirectX::XMMatrixRotationZ(-transform->GetAngle() * MATH_PI / 180.f);
     }
-}
-
-void Camera::Tick(float delta_time)
-{
-    Actor::Tick(delta_time);
-
-    // if (target_ && target_collider_)
-    // {
-    //     DebugDrawHelper::Get()->DrawBox(focus_area_.center, focus_area_size_, Math::Color::Green);
-    // }
-    
 }
 
 Camera* Camera::Get()

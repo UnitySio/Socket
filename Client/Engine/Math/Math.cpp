@@ -31,3 +31,15 @@ float Math::Abs(float a)
 {
     return a < 0.f ? -a : a;
 }
+
+float Math::Pow(float f, float p)
+{
+    float result = 1.f;
+
+    for (int i = 0; i < p; ++i)
+    {
+        result *= f;
+    }
+    
+    return result;
+}
