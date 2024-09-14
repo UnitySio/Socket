@@ -17,9 +17,12 @@ struct CollisionInfo
     bool left;
     bool right;
     bool climbing_slope;
+    bool descending_slope;
 
     float slope_angle;
     float slope_angle_old;
+
+    Math::Vector2 velocity_old;
 
     void Reset()
     {
@@ -28,6 +31,7 @@ struct CollisionInfo
         left = false;
         right = false;
         climbing_slope = false;
+        descending_slope = false;
 
         slope_angle_old = slope_angle;
         slope_angle = 0;
@@ -53,8 +57,9 @@ protected:
     void HorizontalCollisions(Math::Vector2& velocity);
     void VerticalCollisions(Math::Vector2& velocity);
     void ClimbSlope(Math::Vector2& velocity, float slope_angle);
+    void DescendSlope(Math::Vector2& velocity);
     
-    class BoxColliderComponent* box_collider_;
+    class CapsuleColliderComponent* capsule_collider_;
 
     float skin_width_;
 

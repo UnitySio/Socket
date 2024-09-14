@@ -2,7 +2,7 @@
 #include "Controller2D.h"
 
 #include "DebugDrawHelper.h"
-#include "Actor/Component/BoxColliderComponent.h"
+#include "Actor/Component/CapsuleColliderComponent.h"
 #include "Actor/Component/TransformComponent.h"
 #include "Math/Bounds.h"
 #include "Math/Math.h"
@@ -18,8 +18,8 @@ Controller2D::Controller2D(const std::wstring& kName) :
     raycast_origins_(),
     collisions_()
 {
-    box_collider_ = AddComponent<BoxColliderComponent>(L"BoxCollider");
-    box_collider_->SetSize({1.f, 1.f});
+    capsule_collider_ = AddComponent<CapsuleColliderComponent>(L"CapsuleCollider");
+    capsule_collider_->SetSize({1.f, 1.f});
 }
 
 void Controller2D::BeginPlay()
@@ -33,7 +33,7 @@ void Controller2D::Tick(float delta_time)
 {
     Actor::Tick(delta_time);
     
-    Bounds bounds = box_collider_->GetBounds();
+    Bounds bounds = capsule_collider_->GetBounds();
     bounds.Expand(skin_width_ * -2.f);
 
     DebugDrawHelper::Get()->DrawBox(bounds.center, bounds.size, Math::Color::Green);
@@ -43,7 +43,9 @@ void Controller2D::Move(Math::Vector2 velocity)
 {
     UpdateRaycastOrigins();
     collisions_.Reset();
-    
+    collisions_.velocity_old = velocity;
+
+    if (velocity.y < 0.f) DescendSlope(velocity);
     if (velocity.x != 0.f) HorizontalCollisions(velocity);
     if (velocity.y != 0.f) VerticalCollisions(velocity);
     
@@ -52,7 +54,7 @@ void Controller2D::Move(Math::Vector2 velocity)
 
 void Controller2D::UpdateRaycastOrigins()
 {
-    Bounds bounds = box_collider_->GetBounds();
+    Bounds bounds = capsule_collider_->GetBounds();
     bounds.Expand(skin_width_ * -2.f);
 
     raycast_origins_.bottom_left = bounds.min;
@@ -63,7 +65,7 @@ void Controller2D::UpdateRaycastOrigins()
 
 void Controller2D::CalculateRaySpecing()
 {
-    Bounds bounds = box_collider_->GetBounds();
+    Bounds bounds = capsule_collider_->GetBounds();
     bounds.Expand(skin_width_ * -2.f);
 
     horizontal_ray_count_ = Math::Clamp(horizontal_ray_count_, 2, 1024);
@@ -83,15 +85,18 @@ void Controller2D::HorizontalCollisions(Math::Vector2& velocity)
         Math::Vector2 ray_origin = dir_x == -1 ? raycast_origins_.bottom_left : raycast_origins_.bottom_right;
         ray_origin += Math::Vector2::Up() * (horizontal_ray_spacing_ * i);
 
-        DebugDrawHelper::Get()->DrawRay(ray_origin, Math::Vector2::Right() * dir_x * ray_length, Math::Color::Red);
-
         HitResult hit_result;
-        if (Physics2D::RayCast(hit_result, ray_origin, Math::Vector2::Right() * dir_x, ray_length))
+        if (Physics2D::RayCast(hit_result, ray_origin, Math::Vector2::Right() * dir_x, ray_length, ActorLayer::kGround))
         {
-            DebugDrawHelper::Get()->DrawRay(hit_result.point, hit_result.normal, Math::Color::Blue);
             float slope_angle = Math::Vector2::Angle(hit_result.normal, Math::Vector2::Up());
             if (i == 0 && slope_angle <= 80.f)
             {
+                if (collisions_.descending_slope)
+                {
+                    collisions_.descending_slope = false;
+                    velocity = collisions_.velocity_old;
+                }
+                
                 float dist_to_slope_start = 0.f;
                 if (slope_angle != collisions_.slope_angle_old)
                 {
@@ -130,10 +135,8 @@ void Controller2D::VerticalCollisions(Math::Vector2& velocity)
         Math::Vector2 ray_origin = dir_y == -1 ? raycast_origins_.bottom_left : raycast_origins_.top_left;
         ray_origin += Math::Vector2::Right() * (vertical_ray_spacing_ * i + velocity.x);
 
-        DebugDrawHelper::Get()->DrawRay(ray_origin, Math::Vector2::Up() * dir_y * ray_length, Math::Color::Red);
-
         HitResult hit_result;
-        if (Physics2D::RayCast(hit_result, ray_origin, Math::Vector2::Up() * dir_y, ray_length))
+        if (Physics2D::RayCast(hit_result, ray_origin, Math::Vector2::Up() * dir_y, ray_length, ActorLayer::kGround))
         {
             velocity.y = (hit_result.distance - skin_width_) * dir_y;
             ray_length = hit_result.distance;
@@ -145,6 +148,24 @@ void Controller2D::VerticalCollisions(Math::Vector2& velocity)
 
             collisions_.below = dir_y == -1;
             collisions_.above = dir_y == 1;
+        }
+    }
+
+    if (collisions_.climbing_slope)
+    {
+        float dir_x = Math::Sign(velocity.x);
+        ray_length = Math::Abs(velocity.x) + skin_width_;
+        Math::Vector2 ray_origin = (dir_x == -1 ? raycast_origins_.bottom_left : raycast_origins_.bottom_right) + Math::Vector2::Up() * velocity.y;
+
+        HitResult hit_result;
+        if (Physics2D::RayCast(hit_result, ray_origin, Math::Vector2::Right() * dir_x, ray_length, ActorLayer::kGround))
+        {
+            float slope_angle = Math::Vector2::Angle(hit_result.normal, Math::Vector2::Up());
+            if (slope_angle != collisions_.slope_angle)
+            {
+                velocity.x = (hit_result.distance - skin_width_) * dir_x;
+                collisions_.slope_angle = slope_angle;
+            }
         }
     }
 }
@@ -160,5 +181,35 @@ void Controller2D::ClimbSlope(Math::Vector2& velocity, float slope_angle)
         collisions_.below = true;
         collisions_.climbing_slope = true;
         collisions_.slope_angle = slope_angle;
+    }
+}
+
+void Controller2D::DescendSlope(Math::Vector2& velocity)
+{
+    float dir_x = Math::Sign(velocity.x);
+    Math::Vector2 ray_origin = dir_x == -1 ? raycast_origins_.bottom_right : raycast_origins_.bottom_left;
+
+    HitResult hit_result;
+    if (Physics2D::RayCast(hit_result, ray_origin, Math::Vector2::Down(), std::numeric_limits<float>::max(), ActorLayer::kGround))
+    {
+        float slope_angle = Math::Vector2::Angle(hit_result.normal, Math::Vector2::Up());
+        
+        if (slope_angle != 0.f && slope_angle <= 75.f)
+        {
+            if (Math::Sign(hit_result.normal.x) == dir_x)
+            {
+                if (hit_result.distance - skin_width_ <= std::tan(slope_angle * (MATH_PI / 180.f)) * Math::Abs(velocity.x))
+                {
+                    float move_distance = Math::Abs(velocity.x);
+                    float descend_vel_y = std::sin(slope_angle * (MATH_PI / 180.f)) * move_distance;
+                    velocity.x = std::cos(slope_angle * (MATH_PI / 180.f)) * move_distance * Math::Sign(velocity.x);
+                    velocity.y -= descend_vel_y;
+
+                    collisions_.slope_angle = slope_angle;
+                    collisions_.descending_slope = true;
+                    collisions_.below = true;
+                }
+            }
+        }
     }
 }

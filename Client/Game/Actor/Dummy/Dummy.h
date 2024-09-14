@@ -1,6 +1,6 @@
 ﻿#pragma once
 #include "Controller2D.h"
-#include "Actor/Component/BoxColliderComponent.h"
+#include "Actor/Component/CapsuleColliderComponent.h"
 
 class Dummy : public Controller2D
 {
@@ -13,7 +13,7 @@ public:
     virtual void BeginPlay() override;
     virtual void Tick(float delta_time) override;
 
-    inline virtual class ColliderComponent* GetCollider() override { return box_collider_; }
+    inline virtual class CapsuleColliderComponent* GetCollider() override { return capsule_collider_; }
 
 private:
     float gravity_;
