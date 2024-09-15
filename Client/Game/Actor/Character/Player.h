@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include "CharacterBase.h"
+#include "State/PlayerStandingState.h"
 
 class Player : public CharacterBase
 {
@@ -10,9 +11,10 @@ public:
     virtual ~Player() override = default;
 
     virtual void BeginPlay() override;
-    virtual void Tick(float delta_time) override;
 
 private:
     class Sprite* sprite_;
+
+    std::unique_ptr<PlayerStandingState> standing_state_;
     
 };

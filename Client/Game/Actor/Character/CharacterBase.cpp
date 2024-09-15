@@ -10,7 +10,7 @@ CharacterBase::CharacterBase(const std::wstring& kName) :
     velocity_(Math::Vector2::Zero()),
     gravity_(-9.81f)
 {
-    state_machine_ = std::make_shared<StateMachine>();
+    state_machine_ = std::make_unique<StateMachine>();
     
     sprite_renderer_ = AddComponent<SpriteRendererComponent>(L"SpriteRenderer");
     capsule_collider_ = AddComponent<CapsuleColliderComponent>(L"CapsuleCollider");

@@ -21,6 +21,9 @@ Player::Player(const std::wstring& kName) :
         
         sprite_renderer_->SetSprite(sprite_);
     }
+
+    standing_state_ = std::make_unique<PlayerStandingState>(this, state_machine_.get());
+    state_machine_->ChangeState(standing_state_.get());
 }
 
 void Player::BeginPlay()
@@ -28,17 +31,4 @@ void Player::BeginPlay()
     CharacterBase::BeginPlay();
 
     Camera::Get()->SetTarget(this);
-}
-
-void Player::Tick(float delta_time)
-{
-    CharacterBase::Tick(delta_time);
-
-    velocity_.x = 1.f;
-
-    const CollisionInfo& collisions = controller_->GetCollisions();
-    if (collisions.below)
-    {
-        velocity_.y = 5.f;
-    }
 }
