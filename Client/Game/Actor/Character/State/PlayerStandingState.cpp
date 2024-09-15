@@ -2,6 +2,7 @@
 #include "PlayerStandingState.h"
 
 #include "Actor/Character/Player.h"
+#include "Actor/Component/Controller2DComponent.h"
 #include "Actor/Component/SpriteRendererComponent.h"
 #include "Input/Keyboard.h"
 
@@ -25,13 +26,15 @@ void PlayerStandingState::Tick(float delta_time)
 
     if (Player* player = static_cast<Player*>(owner_))
     {
-        if (input_x != 0.f)
-        {
-            player->GetSpriteRenderer()->SetFlipX(input_x < 0.f);
-        }
+        if (input_x != 0.f) player->GetSpriteRenderer()->SetFlipX(input_x < 0.f);
         
         Math::Vector2 velocity = player->GetVelocity();
         velocity.x = input_x * 5.f;
+        if (keyboard->GetKeyDown(VK_SPACE) && player->GetController()->GetCollisions().below)
+        {
+            velocity.y = 5.f;
+        }
+        
         player->SetVelocity(velocity);
     }
 }

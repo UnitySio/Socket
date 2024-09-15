@@ -11,6 +11,8 @@
 
 Capsule::Capsule(const std::wstring& kName) : Actor(kName)
 {
+    SetLayer(ActorLayer::kGround);
+    
     sprite_renderer_ = AddComponent<SpriteRendererComponent>(L"SpriteRenderer");
 
     PhysicsMaterial2D material = {.3f, 1.f};
