@@ -1,22 +1,13 @@
 ﻿#pragma once
 
-class StateMachine;
-
 class State
 {
 public:
-    State(StateMachine* owner);
+    State(class StateMachine* state_machine);
     virtual ~State() = default;
 
-protected:
-    friend class StateMachine;
-
-    inline virtual void OnEnter() {};
-    inline virtual void OnExit() {};
-    inline virtual void OnPhysicsTick(float delta_time) {};
-    inline virtual void OnTick(float delta_time) {};
-    inline virtual void OnPostTick(float delta_time) {};
-
-    StateMachine* owner_;
+    virtual void Enter() = 0;
+    virtual void Exit() = 0;
+    virtual void Tick(float delta_time) = 0;
     
 };

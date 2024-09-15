@@ -1,16 +1,18 @@
 ﻿#include "pch.h"
-#include "Controller2D.h"
+#include "Controller2DComponent.h"
 
 #include "DebugDrawHelper.h"
-#include "Actor/Component/CapsuleColliderComponent.h"
+#include "Actor/Actor.h"
+#include "Actor/Component/ColliderComponent.h"
 #include "Actor/Component/TransformComponent.h"
 #include "Math/Bounds.h"
 #include "Math/Math.h"
 #include "Physics/Physics2D.h"
 
-Controller2D::Controller2D(const std::wstring& kName) :
-    Actor(kName),
+Controller2DComponent::Controller2DComponent(class Actor* owner, const std::wstring& kName) :
+    ActorComponent(owner, kName),
     skin_width_(.015f),
+    collider_(nullptr),
     horizontal_ray_count_(4),
     vertical_ray_count_(4),
     horizontal_ray_spacing_(0.f),
@@ -18,28 +20,16 @@ Controller2D::Controller2D(const std::wstring& kName) :
     raycast_origins_(),
     collisions_()
 {
-    capsule_collider_ = AddComponent<CapsuleColliderComponent>(L"CapsuleCollider");
-    capsule_collider_->SetSize({1.f, 1.f});
 }
 
-void Controller2D::BeginPlay()
+void Controller2DComponent::BeginPlay()
 {
-    Actor::BeginPlay();
+    ActorComponent::BeginPlay();
 
     CalculateRaySpecing();
 }
 
-void Controller2D::Tick(float delta_time)
-{
-    Actor::Tick(delta_time);
-    
-    Bounds bounds = capsule_collider_->GetBounds();
-    bounds.Expand(skin_width_ * -2.f);
-
-    DebugDrawHelper::Get()->DrawBox(bounds.center, bounds.size, Math::Color::Green);
-}
-
-void Controller2D::Move(Math::Vector2 velocity)
+void Controller2DComponent::Move(Math::Vector2 velocity)
 {
     UpdateRaycastOrigins();
     collisions_.Reset();
@@ -49,12 +39,12 @@ void Controller2D::Move(Math::Vector2 velocity)
     if (velocity.x != 0.f) HorizontalCollisions(velocity);
     if (velocity.y != 0.f) VerticalCollisions(velocity);
     
-    GetTransform()->Translate(velocity);
+    GetOwner()->GetTransform()->Translate(velocity);
 }
 
-void Controller2D::UpdateRaycastOrigins()
+void Controller2DComponent::UpdateRaycastOrigins()
 {
-    Bounds bounds = capsule_collider_->GetBounds();
+    Bounds bounds = collider_->GetBounds();
     bounds.Expand(skin_width_ * -2.f);
 
     raycast_origins_.bottom_left = bounds.min;
@@ -63,9 +53,9 @@ void Controller2D::UpdateRaycastOrigins()
     raycast_origins_.top_right = bounds.max;
 }
 
-void Controller2D::CalculateRaySpecing()
+void Controller2DComponent::CalculateRaySpecing()
 {
-    Bounds bounds = capsule_collider_->GetBounds();
+    Bounds bounds = collider_->GetBounds();
     bounds.Expand(skin_width_ * -2.f);
 
     horizontal_ray_count_ = Math::Clamp(horizontal_ray_count_, 2, 1024);
@@ -75,7 +65,7 @@ void Controller2D::CalculateRaySpecing()
     vertical_ray_spacing_ = bounds.size.x / (vertical_ray_count_ - 1);
 }
 
-void Controller2D::HorizontalCollisions(Math::Vector2& velocity)
+void Controller2DComponent::HorizontalCollisions(Math::Vector2& velocity)
 {
     float dir_x = Math::Sign(velocity.x);
     float ray_length = Math::Abs(velocity.x) + skin_width_;
@@ -125,7 +115,7 @@ void Controller2D::HorizontalCollisions(Math::Vector2& velocity)
     }
 }
 
-void Controller2D::VerticalCollisions(Math::Vector2& velocity)
+void Controller2DComponent::VerticalCollisions(Math::Vector2& velocity)
 {
     float dir_y = Math::Sign(velocity.y);
     float ray_length = Math::Abs(velocity.y) + skin_width_;
@@ -170,7 +160,7 @@ void Controller2D::VerticalCollisions(Math::Vector2& velocity)
     }
 }
 
-void Controller2D::ClimbSlope(Math::Vector2& velocity, float slope_angle)
+void Controller2DComponent::ClimbSlope(Math::Vector2& velocity, float slope_angle)
 {
     float max_dist = Math::Abs(velocity.x);
     float climb_vel_y = std::sin(slope_angle * (MATH_PI / 180.f)) * max_dist;
@@ -184,7 +174,7 @@ void Controller2D::ClimbSlope(Math::Vector2& velocity, float slope_angle)
     }
 }
 
-void Controller2D::DescendSlope(Math::Vector2& velocity)
+void Controller2DComponent::DescendSlope(Math::Vector2& velocity)
 {
     float dir_x = Math::Sign(velocity.x);
     Math::Vector2 ray_origin = dir_x == -1 ? raycast_origins_.bottom_right : raycast_origins_.bottom_left;

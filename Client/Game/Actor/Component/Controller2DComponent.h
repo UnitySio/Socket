@@ -1,5 +1,5 @@
 ﻿#pragma once
-#include "Actor/Actor.h"
+#include "Actor/Component/ActorComponent.h"
 #include "Math/Vector2.h"
 
 struct RaycastOrigins
@@ -38,20 +38,23 @@ struct CollisionInfo
     }
 };
 
-class Controller2D : public Actor
+class Controller2DComponent : public ActorComponent
 {
-    SHADER_CLASS_HELPER(Controller2D)
+    SHADER_CLASS_HELPER(Controller2DComponent)
     
 public:
-    Controller2D(const std::wstring& kName);
-    virtual ~Controller2D() override = default;
+    Controller2DComponent(class Actor* owner, const std::wstring& kName);
+    virtual ~Controller2DComponent() override = default;
 
     virtual void BeginPlay() override;
-    virtual void Tick(float delta_time) override;
     
     void Move(Math::Vector2 velocity);
 
-protected:
+    inline void SetCollider(class ColliderComponent* collider) { collider_ = collider; }
+
+    inline const CollisionInfo& GetCollisions() const { return collisions_; }
+
+private:
     void UpdateRaycastOrigins();
     void CalculateRaySpecing();
     void HorizontalCollisions(Math::Vector2& velocity);
@@ -59,7 +62,7 @@ protected:
     void ClimbSlope(Math::Vector2& velocity, float slope_angle);
     void DescendSlope(Math::Vector2& velocity);
     
-    class CapsuleColliderComponent* capsule_collider_;
+    class ColliderComponent* collider_;
 
     float skin_width_;
 
