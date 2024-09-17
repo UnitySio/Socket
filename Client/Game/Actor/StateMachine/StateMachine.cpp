@@ -8,11 +8,27 @@ StateMachine::StateMachine() :
 {
 }
 
+void StateMachine::PhysicsTick(float delta_time)
+{
+    if (current_state_)
+    {
+        current_state_->PhysicsTick(delta_time);
+    }
+}
+
 void StateMachine::Tick(float delta_time)
 {
     if (current_state_)
     {
         current_state_->Tick(delta_time);
+    }
+}
+
+void StateMachine::PostTick(float delta_time)
+{
+    if (current_state_)
+    {
+        current_state_->PostTick(delta_time);
     }
 }
 

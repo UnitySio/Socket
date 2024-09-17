@@ -6,9 +6,7 @@
 #include "Actor/StateMachine/StateMachine.h"
 
 CharacterBase::CharacterBase(const std::wstring& kName) :
-    Actor(kName),
-    velocity_(Math::Vector2::Zero()),
-    gravity_(-9.81f)
+    Actor(kName)
 {
     state_machine_ = std::make_unique<StateMachine>();
     
@@ -20,18 +18,23 @@ CharacterBase::CharacterBase(const std::wstring& kName) :
     controller_->SetCollider(capsule_collider_);
 }
 
+void CharacterBase::PhysicsTick(float delta_time)
+{
+    Actor::PhysicsTick(delta_time);
+
+    state_machine_->PhysicsTick(delta_time);
+}
+
 void CharacterBase::Tick(float delta_time)
 {
     Actor::Tick(delta_time);
 
     state_machine_->Tick(delta_time);
+}
 
-    velocity_.y += gravity_ * delta_time;
-    controller_->Move(velocity_ * delta_time);
+void CharacterBase::PostTick(float delta_time)
+{
+    Actor::PostTick(delta_time);
 
-    const CollisionInfo& collisions = controller_->GetCollisions();
-    if (collisions.above || collisions.below)
-    {
-        velocity_.y = 0.f;
-    }
+    state_machine_->PostTick(delta_time);
 }

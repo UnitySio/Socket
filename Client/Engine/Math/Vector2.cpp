@@ -141,8 +141,8 @@ Math::Vector2 Math::Vector2::operator/(float val) const
 
 bool Math::Vector2::operator==(const Vector2& kVector) const
 {
-    if (fabsf(x - kVector.x) <= FLT_EPSILON &&
-        fabsf(y - kVector.y) <= FLT_EPSILON)
+    if (std::fabsf(x - kVector.x) <= FLT_EPSILON &&
+        std::fabsf(y - kVector.y) <= FLT_EPSILON)
     {
         return true;
     }
@@ -152,8 +152,8 @@ bool Math::Vector2::operator==(const Vector2& kVector) const
 
 bool Math::Vector2::operator!=(const Vector2& kVector) const
 {
-    if (fabsf(x - kVector.x) > FLT_EPSILON ||
-        fabsf(y - kVector.y) > FLT_EPSILON)
+    if (std::fabsf(x - kVector.x) > FLT_EPSILON ||
+        std::fabsf(y - kVector.y) > FLT_EPSILON)
     {
         return true;
     }
@@ -163,8 +163,8 @@ bool Math::Vector2::operator!=(const Vector2& kVector) const
 
 bool Math::Vector2::operator==(float val) const
 {
-    if (fabsf(x - val) <= FLT_EPSILON &&
-        fabsf(y - val) <= FLT_EPSILON)
+    if (std::fabsf(x - val) <= FLT_EPSILON &&
+        std::fabsf(y - val) <= FLT_EPSILON)
     {
         return true;
     }
@@ -174,8 +174,8 @@ bool Math::Vector2::operator==(float val) const
 
 bool Math::Vector2::operator!=(float val) const
 {
-    if (fabsf(x - val) > FLT_EPSILON ||
-        fabsf(y - val) > FLT_EPSILON)
+    if (std::fabsf(x - val) > FLT_EPSILON ||
+        std::fabsf(y - val) > FLT_EPSILON)
     {
         return true;
     }
@@ -215,13 +215,13 @@ Math::Vector2 Math::Vector2::Down()
 
 Math::Vector2 Math::Vector2::Lerp(Vector2 a, Vector2 b, float t)
 {
-    t = Math::Clamp(t, 0.f, 1.f);
+    t = Clamp(t, 0.f, 1.f);
     return a + (b - a) * t;
 }
 
 float Math::Vector2::Distance(Vector2 a, Vector2 b)
 {
-    Math::Vector2 diff = a - b;
+    Vector2 diff = a - b;
     return diff.Magnitude();
 }
 
@@ -265,7 +265,10 @@ Math::Vector2 Math::Vector2::NegativeInfinity()
 
 float Math::Vector2::Angle(Vector2 from, Vector2 to)
 {
-    return acos(Dot(from, to) / (from.Magnitude() * to.Magnitude())) * (180.f / MATH_PI);
+    float cos_theta = Dot(from, to) / (from.Magnitude() * to.Magnitude());
+    cos_theta = Clamp(cos_theta, -1.f, 1.f);
+    
+    return std::acos(cos_theta) * (180.f / MATH_PI);
 }
 
 Math::Vector2 Math::Vector2::Normalized() const
@@ -285,7 +288,7 @@ float Math::Vector2::Magnitude() const
     const auto temp_x = static_cast<double>(x);
     const auto temp_y = static_cast<double>(y);
 
-    return static_cast<float>(sqrt(pow(temp_x, 2) + pow(temp_y, 2)));
+    return static_cast<float>(std::sqrt(std::pow(temp_x, 2) + std::pow(temp_y, 2)));
 }
 
 void Math::Vector2::Normalize()

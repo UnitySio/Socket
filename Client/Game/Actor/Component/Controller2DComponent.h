@@ -53,6 +53,7 @@ public:
     inline void SetCollider(class ColliderComponent* collider) { collider_ = collider; }
 
     inline const CollisionInfo& GetCollisions() const { return collisions_; }
+    inline bool IsGrounded() const { return collisions_.below; }
 
 private:
     void UpdateRaycastOrigins();

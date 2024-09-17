@@ -3,7 +3,7 @@
 
 #include "Actor/Capsule.h"
 #include "Actor/Tilemap.h"
-#include "Actor/Character/Player.h"
+#include "Actor/Character/Player/Player.h"
 #include "Actor/Test/Platform.h"
 
 MainMap::MainMap(const std::wstring& kName) : Level(kName)

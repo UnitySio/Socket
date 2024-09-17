@@ -16,13 +16,13 @@ public:
     virtual ~CharacterBase() override = default;
 
     virtual class ColliderComponent* GetCollider() override { return capsule_collider_; }
+
+    virtual void PhysicsTick(float delta_time) override;
     virtual void Tick(float delta_time) override;
+    inline  void PostTick(float delta_time) override;
 
     inline SpriteRendererComponent* GetSpriteRenderer() const { return sprite_renderer_; }
     inline Controller2DComponent* GetController() const { return controller_; }
-
-    inline void SetVelocity(const Math::Vector2& velocity) { velocity_ = velocity; }
-    inline Math::Vector2 GetVelocity() const { return velocity_; }
 
 protected:
     std::unique_ptr<StateMachine> state_machine_;
@@ -30,9 +30,5 @@ protected:
     SpriteRendererComponent* sprite_renderer_;
     class CapsuleColliderComponent* capsule_collider_;
     Controller2DComponent* controller_;
-
-    Math::Vector2 velocity_;
-
-    float gravity_;
     
 };
