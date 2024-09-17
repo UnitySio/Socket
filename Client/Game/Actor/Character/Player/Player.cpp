@@ -15,10 +15,11 @@
 Player::Player(const std::wstring& kName) :
     CharacterBase(kName),
     gravity_(0.f),
-    jump_height_(4.f),
+    jump_height_(2.f),
     time_to_jump_apex_(.4f),
     jump_velocity_(0.f),
-    move_speed_(3.f)
+    move_speed_(3.f),
+    last_pressed_jump_time_(0.f)
 {
     GetTransform()->SetScale({2.f, 2.f});
     
@@ -44,4 +45,17 @@ void Player::BeginPlay()
 
     gravity_ = -(2 * jump_height_) / std::pow(time_to_jump_apex_, 2);
     jump_velocity_ = Math::Abs(gravity_) * time_to_jump_apex_;
+}
+
+void Player::Tick(float delta_time)
+{
+    CharacterBase::Tick(delta_time);
+
+    last_pressed_jump_time_ -= delta_time;
+
+    Keyboard* keyboard = Keyboard::Get();
+    if (keyboard->GetKeyDown('C'))
+    {
+        last_pressed_jump_time_ = .1f;
+    }
 }

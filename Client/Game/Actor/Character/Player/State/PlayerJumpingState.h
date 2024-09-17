@@ -16,10 +16,12 @@ public:
 
 private:
     class Player* player_;
-    
+
+    class SpriteRendererComponent* sprite_renderer_;
     class Controller2DComponent* controller_;
 
     int input_x_;
+    int jump_count_;
     
     Math::Vector2 velocity_;
 };

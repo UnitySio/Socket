@@ -26,5 +26,4 @@ private:
 
     float last_grounded_time_;
     float coyote_time_;
-    float last_pressed_jump_time_;
 };

@@ -14,8 +14,7 @@ PlayerStandingState::PlayerStandingState(Actor* actor, StateMachine* state_machi
     input_x_(0),
     velocity_(Math::Vector2::Zero()),
     last_grounded_time_(0.f),
-    coyote_time_(.1f),
-    last_pressed_jump_time_(0.f)
+    coyote_time_(.15f)
 {
 }
 
@@ -32,11 +31,8 @@ void PlayerStandingState::Enter()
 void PlayerStandingState::Exit()
 {
     velocity_ = Math::Vector2::Zero();
-    
     input_x_ = 0;
-    
     last_grounded_time_ = 0.f;
-    last_pressed_jump_time_ = 0.f;
 }
 
 void PlayerStandingState::PhysicsTick(float delta_time)
@@ -59,9 +55,8 @@ void PlayerStandingState::PhysicsTick(float delta_time)
 void PlayerStandingState::Tick(float delta_time)
 {
     last_grounded_time_ -= delta_time;
-    last_pressed_jump_time_ -= delta_time;
     
-    if (last_grounded_time_ > 0.f && last_pressed_jump_time_ > 0.f)
+    if (last_grounded_time_ > 0.f && player_->GetLastPressedJumpTime() > 0.f)
     {
         state_machine_->ChangeState(player_->GetState(1));
         return;
@@ -72,11 +67,6 @@ void PlayerStandingState::Tick(float delta_time)
     if (sprite_renderer_ && input_x_ != 0)
     {
         sprite_renderer_->SetFlipX(input_x_ < 0);
-    }
-
-    if (keyboard->GetKeyDown('C'))
-    {
-        last_pressed_jump_time_ = .1f;
     }
 }
 

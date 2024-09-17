@@ -12,10 +12,14 @@ public:
     virtual ~Player() override = default;
 
     virtual void BeginPlay() override;
+    virtual void Tick(float delta_time) override;
 
     inline float GetGravity() const { return gravity_; }
     inline float GetJumpVelocity() const { return jump_velocity_; }
     inline float GetMoveSpeed() const { return move_speed_; }
+    
+    inline void SetLastPressedJumpTime(float time) { last_pressed_jump_time_ = time; }
+    inline float GetLastPressedJumpTime() const { return last_pressed_jump_time_; }
 
     inline State* GetState(int index) const { return states_[index].get(); }
 
@@ -29,5 +33,6 @@ private:
     float time_to_jump_apex_;
     float jump_velocity_;
     float move_speed_;
+    float last_pressed_jump_time_;
     
 };
