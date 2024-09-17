@@ -21,6 +21,7 @@ Player::Player(const std::wstring& kName) :
     move_speed_(3.f),
     last_pressed_jump_time_(0.f)
 {
+    GetTransform()->SetPosition({10.f, 0.f});
     GetTransform()->SetScale({2.f, 2.f});
     
     if (ResourceManager::Get()->Load<Sprite>(L"Soldier", L".\\Game_Data\\Soldier.png"))

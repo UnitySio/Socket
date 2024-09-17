@@ -5,6 +5,7 @@
 #include "Actor/Component/Controller2DComponent.h"
 #include "Actor/Component/SpriteRendererComponent.h"
 #include "Input/Keyboard.h"
+#include "Math/Math.h"
 
 PlayerJumpingState::PlayerJumpingState(Actor* actor, StateMachine* state_machine) :
     State(actor, state_machine),
@@ -24,8 +25,24 @@ void PlayerJumpingState::Enter()
         sprite_renderer_ = player_->GetSpriteRenderer();
         controller_ = player_->GetController();
 
+        const CollisionInfo& collisions = controller_->GetCollisions();
+        if (collisions.sliding_down_max_slope)
+        {
+            // if (input_x_ != -Math::Sign(collisions.slope_normal.x))
+            // {
+            //     velocity_.y = player_->GetJumpVelocity() * collisions.slope_normal.y;
+            //     velocity_.x = player_->GetJumpVelocity() * collisions.slope_normal.x;
+            // }
+            
+            velocity_.y = player_->GetJumpVelocity() * collisions.slope_normal.y;
+            velocity_.x = player_->GetJumpVelocity() * collisions.slope_normal.x;
+        }
+        else
+        {
+            velocity_.y = player_->GetJumpVelocity();
+        }
+
         player_->SetLastPressedJumpTime(0.f);
-        velocity_.y = player_->GetJumpVelocity();
         jump_count_++;
     }
 }

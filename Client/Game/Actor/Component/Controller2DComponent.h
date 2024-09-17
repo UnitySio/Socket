@@ -2,6 +2,8 @@
 #include "Actor/Component/ActorComponent.h"
 #include "Math/Vector2.h"
 
+struct HitResult;
+
 struct RaycastOrigins
 {
     Math::Vector2 bottom_left;
@@ -18,11 +20,13 @@ struct CollisionInfo
     bool right;
     bool climbing_slope;
     bool descending_slope;
+    bool sliding_down_max_slope;
 
     float slope_angle;
     float slope_angle_old;
 
     Math::Vector2 velocity_old;
+    Math::Vector2 slope_normal;
 
     void Reset()
     {
@@ -32,8 +36,10 @@ struct CollisionInfo
         right = false;
         climbing_slope = false;
         descending_slope = false;
+        sliding_down_max_slope = false;
 
         slope_angle_old = slope_angle;
+        slope_normal = Math::Vector2::Zero();
         slope_angle = 0;
     }
 };
@@ -48,7 +54,7 @@ public:
 
     virtual void BeginPlay() override;
     
-    void Move(Math::Vector2 velocity);
+    void Move(Math::Vector2 move_amount);
 
     inline void SetCollider(class ColliderComponent* collider) { collider_ = collider; }
 
@@ -60,10 +66,11 @@ public:
 private:
     void UpdateRaycastOrigins();
     void CalculateRaySpecing();
-    void HorizontalCollisions(Math::Vector2& velocity);
-    void VerticalCollisions(Math::Vector2& velocity);
-    void ClimbSlope(Math::Vector2& velocity, float slope_angle);
-    void DescendSlope(Math::Vector2& velocity);
+    void HorizontalCollisions(Math::Vector2& move_amount);
+    void VerticalCollisions(Math::Vector2& move_amount);
+    void ClimbSlope(Math::Vector2& move_amount, float slope_angle, const Math::Vector2& kSlopeNormal);
+    void DescendSlope(Math::Vector2& move_amount);
+    void SlideDownMaxSlope(const HitResult& kHit, Math::Vector2& move_amount);
     
     class ColliderComponent* collider_;
 

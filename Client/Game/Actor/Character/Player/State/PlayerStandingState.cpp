@@ -44,10 +44,15 @@ void PlayerStandingState::PhysicsTick(float delta_time)
     {
         controller_->Move(velocity_ * delta_time);
 
+        const CollisionInfo& collisions = controller_->GetCollisions();
+
         if (controller_->IsGrounded())
         {
             last_grounded_time_ = coyote_time_;
-            velocity_.y = 0.f;
+
+            if (collisions.sliding_down_max_slope)
+                velocity_.y += collisions.slope_normal.y * -player_->GetGravity() * delta_time;
+            else velocity_.y = 0.f;
         }
     }
 }
