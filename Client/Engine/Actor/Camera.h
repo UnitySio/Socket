@@ -64,7 +64,7 @@ public:
     virtual ~Camera() override = default;
 
     virtual void PreInitializeComponents() override;
-    virtual void PostTick(float delta_time) override;
+    virtual void PhysicsTick(float delta_time) override;
 
     static Camera* Get();
 

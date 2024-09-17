@@ -68,6 +68,7 @@ private:
     class ColliderComponent* collider_;
 
     float skin_width_;
+    float slope_limit_;
 
     int horizontal_ray_count_;
     int vertical_ray_count_;

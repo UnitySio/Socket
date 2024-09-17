@@ -42,9 +42,9 @@ void Camera::PreInitializeComponents()
     UpdateProjectionMatrix();
 }
 
-void Camera::PostTick(float delta_time)
+void Camera::PhysicsTick(float delta_time)
 {
-    Actor::PostTick(delta_time);
+    Actor::PhysicsTick(delta_time);
     
     if (target_ && target_collider_)
     {

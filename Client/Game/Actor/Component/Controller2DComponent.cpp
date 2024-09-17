@@ -12,6 +12,7 @@
 Controller2DComponent::Controller2DComponent(class Actor* owner, const std::wstring& kName) :
     ActorComponent(owner, kName),
     skin_width_(.015f),
+    slope_limit_(80.f),
     collider_(nullptr),
     horizontal_ray_count_(4),
     vertical_ray_count_(4),
@@ -79,7 +80,7 @@ void Controller2DComponent::HorizontalCollisions(Math::Vector2& velocity)
         if (Physics2D::RayCast(hit_result, ray_origin, Math::Vector2::Right() * dir_x, ray_length, ActorLayer::kGround))
         {
             float slope_angle = Math::Vector2::Angle(hit_result.normal, Math::Vector2::Up());
-            if (i == 0 && slope_angle <= 80.f)
+            if (i == 0 && slope_angle <= slope_limit_)
             {
                 if (collisions_.descending_slope)
                 {
@@ -98,7 +99,7 @@ void Controller2DComponent::HorizontalCollisions(Math::Vector2& velocity)
                 velocity.x += dist_to_slope_start * dir_x;
             }
 
-            if (!collisions_.climbing_slope || slope_angle > 80.f)
+            if (!collisions_.climbing_slope || slope_angle > slope_limit_)
             {
                 velocity.x = (hit_result.distance - skin_width_) * dir_x;
                 ray_length = hit_result.distance;
@@ -184,7 +185,7 @@ void Controller2DComponent::DescendSlope(Math::Vector2& velocity)
     {
         float slope_angle = Math::Vector2::Angle(hit_result.normal, Math::Vector2::Up());
         
-        if (slope_angle != 0.f && slope_angle <= 75.f)
+        if (slope_angle != 0.f && slope_angle <= slope_limit_)
         {
             if (Math::Sign(hit_result.normal.x) == dir_x)
             {
