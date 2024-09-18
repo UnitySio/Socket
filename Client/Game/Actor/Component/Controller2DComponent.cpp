@@ -106,7 +106,7 @@ void Controller2DComponent::HorizontalCollisions(Math::Vector2& move_amount)
 
                 if (collisions_.climbing_slope)
                 {
-                    move_amount.y = std::tan(collisions_.slope_angle * (MATH_PI / 180.f)) * Math::Abs(move_amount.x);
+                    move_amount.y = std::tan(collisions_.slope_angle * Math::Deg2Rad()) * Math::Abs(move_amount.x);
                 }
 
                 collisions_.left = dir_x == -1;
@@ -134,7 +134,7 @@ void Controller2DComponent::VerticalCollisions(Math::Vector2& move_amount)
 
             if (collisions_.climbing_slope)
             {
-                move_amount.x = move_amount.y / std::tan(collisions_.slope_angle * (MATH_PI / 180.f)) * Math::Sign(move_amount.x);
+                move_amount.x = move_amount.y / std::tan(collisions_.slope_angle * Math::Deg2Rad()) * Math::Sign(move_amount.x);
             }
 
             collisions_.below = dir_y == -1;
@@ -165,12 +165,12 @@ void Controller2DComponent::VerticalCollisions(Math::Vector2& move_amount)
 void Controller2DComponent::ClimbSlope(Math::Vector2& move_amount, float slope_angle, const Math::Vector2& kSlopeNormal)
 {
     float max_dist = Math::Abs(move_amount.x);
-    float climb_vel_y = std::sin(slope_angle * (MATH_PI / 180.f)) * max_dist;
+    float climb_vel_y = std::sin(slope_angle * Math::Deg2Rad()) * max_dist;
     
     if (move_amount.y <= climb_vel_y)
     {
         move_amount.y = climb_vel_y;
-        move_amount.x = std::cos(slope_angle * (MATH_PI / 180.f)) * max_dist * Math::Sign(move_amount.x);
+        move_amount.x = std::cos(slope_angle * Math::Deg2Rad()) * max_dist * Math::Sign(move_amount.x);
         collisions_.below = true;
         collisions_.climbing_slope = true;
         collisions_.slope_normal = kSlopeNormal;
@@ -205,11 +205,11 @@ void Controller2DComponent::DescendSlope(Math::Vector2& move_amount)
             {
                 if (Math::Sign(hit_result.normal.x) == dir_x)
                 {
-                    if (hit_result.distance - skin_width_ <= std::tan(slope_angle * (MATH_PI / 180.f)) * Math::Abs(move_amount.x))
+                    if (hit_result.distance - skin_width_ <= std::tan(slope_angle * Math::Deg2Rad()) * Math::Abs(move_amount.x))
                     {
                         float move_distance = Math::Abs(move_amount.x);
-                        float descend_vel_y = std::sin(slope_angle * (MATH_PI / 180.f)) * move_distance;
-                        move_amount.x = std::cos(slope_angle * (MATH_PI / 180.f)) * move_distance * Math::Sign(move_amount.x);
+                        float descend_vel_y = std::sin(slope_angle * Math::Deg2Rad()) * move_distance;
+                        move_amount.x = std::cos(slope_angle * Math::Deg2Rad()) * move_distance * Math::Sign(move_amount.x);
                         move_amount.y -= descend_vel_y;
 
                         collisions_.slope_angle = slope_angle;
@@ -230,7 +230,7 @@ void Controller2DComponent::SlideDownMaxSlope(const HitResult& kHit, Math::Vecto
         float slope_angle = Math::Vector2::Angle(kHit.normal, Math::Vector2::Up());
         if (slope_angle > slope_limit_)
         {
-            move_amount.x = Math::Sign(kHit.normal.x) * (Math::Abs(move_amount.y) - kHit.distance) / std::tan(slope_angle * (MATH_PI / 180.f));
+            move_amount.x = Math::Sign(kHit.normal.x) * (Math::Abs(move_amount.y) - kHit.distance) / std::tan(slope_angle * Math::Deg2Rad());
 
             collisions_.slope_angle = slope_angle;
             collisions_.sliding_down_max_slope = true;

@@ -20,8 +20,10 @@ private:
     class SpriteRendererComponent* sprite_renderer_;
     class Controller2DComponent* controller_;
 
-    int input_x_;
     int jump_count_;
+
+    bool is_sliding_;
     
     Math::Vector2 velocity_;
+    Math::Vector2 input_velocity_;
 };

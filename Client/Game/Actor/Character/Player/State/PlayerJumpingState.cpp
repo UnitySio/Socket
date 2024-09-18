@@ -4,16 +4,17 @@
 #include "Actor/Character/Player/Player.h"
 #include "Actor/Component/Controller2DComponent.h"
 #include "Actor/Component/SpriteRendererComponent.h"
-#include "Input/Keyboard.h"
 #include "Math/Math.h"
 
 PlayerJumpingState::PlayerJumpingState(Actor* actor, StateMachine* state_machine) :
     State(actor, state_machine),
     player_(nullptr),
+    sprite_renderer_(nullptr),
     controller_(nullptr),
-    input_x_(0),
     jump_count_(0),
-    velocity_(Math::Vector2::Zero())
+    is_sliding_(false),
+    velocity_(Math::Vector2::Zero()),
+    input_velocity_(Math::Vector2::Zero())
 {
 }
 
@@ -28,14 +29,12 @@ void PlayerJumpingState::Enter()
         const CollisionInfo& collisions = controller_->GetCollisions();
         if (collisions.sliding_down_max_slope)
         {
-            // if (input_x_ != -Math::Sign(collisions.slope_normal.x))
-            // {
-            //     velocity_.y = player_->GetJumpVelocity() * collisions.slope_normal.y;
-            //     velocity_.x = player_->GetJumpVelocity() * collisions.slope_normal.x;
-            // }
-            
-            velocity_.y = player_->GetJumpVelocity() * collisions.slope_normal.y;
-            velocity_.x = player_->GetJumpVelocity() * collisions.slope_normal.x;
+            if (player_->GetInputX() != -Math::Sign(collisions.slope_normal.x))
+            {
+                velocity_.y = player_->GetJumpVelocity() * collisions.slope_normal.y;
+                velocity_.x = player_->GetJumpVelocity() * collisions.slope_normal.x;
+                is_sliding_ = true;
+            }
         }
         else
         {
@@ -49,19 +48,20 @@ void PlayerJumpingState::Enter()
 
 void PlayerJumpingState::Exit()
 {
+    input_velocity_ = Math::Vector2::Zero();
     velocity_ = Math::Vector2::Zero();
-    input_x_ = 0;
     jump_count_ = 0;
+    is_sliding_ = false;
 }
 
 void PlayerJumpingState::PhysicsTick(float delta_time)
 {
-    velocity_.x = player_->GetMoveSpeed() * input_x_;
+    if (!is_sliding_) input_velocity_.x = player_->GetMoveSpeed() * player_->GetInputX();
     velocity_.y += player_->GetGravity() * delta_time;
 
     if (controller_)
     {
-        controller_->Move(velocity_ * delta_time);
+        controller_->Move(input_velocity_ * delta_time + velocity_ * delta_time);
 
         if (player_->GetLastPressedJumpTime() > 0.f && jump_count_ < 2)
         {
@@ -85,11 +85,9 @@ void PlayerJumpingState::PhysicsTick(float delta_time)
 
 void PlayerJumpingState::Tick(float delta_time)
 {
-    Keyboard* keyboard = Keyboard::Get();
-    input_x_ = keyboard->GetKey(VK_RIGHT) - keyboard->GetKey(VK_LEFT);
-    if (sprite_renderer_ && input_x_ != 0)
+    if (sprite_renderer_ && player_->GetInputX() != 0)
     {
-        sprite_renderer_->SetFlipX(input_x_ < 0);
+        sprite_renderer_->SetFlipX(player_->GetInputX() < 0);
     }
 }
 

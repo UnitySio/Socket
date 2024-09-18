@@ -20,8 +20,6 @@ private:
     class SpriteRendererComponent* sprite_renderer_;
     class Controller2DComponent* controller_;
 
-    int input_x_;
-
     Math::Vector2 velocity_;
 
     float last_grounded_time_;

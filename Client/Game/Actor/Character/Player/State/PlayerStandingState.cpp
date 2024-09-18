@@ -4,14 +4,12 @@
 #include "Actor/Character/Player/Player.h"
 #include "Actor/Component/Controller2DComponent.h"
 #include "Actor/Component/SpriteRendererComponent.h"
-#include "Input/Keyboard.h"
 
 PlayerStandingState::PlayerStandingState(Actor* actor, StateMachine* state_machine) :
     State(actor, state_machine),
     player_(nullptr),
     sprite_renderer_(nullptr),
     controller_(nullptr),
-    input_x_(0),
     velocity_(Math::Vector2::Zero()),
     last_grounded_time_(0.f),
     coyote_time_(.15f)
@@ -31,13 +29,12 @@ void PlayerStandingState::Enter()
 void PlayerStandingState::Exit()
 {
     velocity_ = Math::Vector2::Zero();
-    input_x_ = 0;
     last_grounded_time_ = 0.f;
 }
 
 void PlayerStandingState::PhysicsTick(float delta_time)
 {
-    velocity_.x = player_->GetMoveSpeed() * input_x_;
+    velocity_.x = player_->GetMoveSpeed() * player_->GetInputX();
     velocity_.y += player_->GetGravity() * delta_time;
     
     if (controller_)
@@ -67,11 +64,9 @@ void PlayerStandingState::Tick(float delta_time)
         return;
     }
     
-    Keyboard* keyboard = Keyboard::Get();
-    input_x_ = keyboard->GetKey(VK_RIGHT) - keyboard->GetKey(VK_LEFT);
-    if (sprite_renderer_ && input_x_ != 0)
+    if (sprite_renderer_ && player_->GetInputX() != 0)
     {
-        sprite_renderer_->SetFlipX(input_x_ < 0);
+        sprite_renderer_->SetFlipX(player_->GetInputX() < 0);
     }
 }
 

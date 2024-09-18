@@ -19,7 +19,8 @@ Player::Player(const std::wstring& kName) :
     time_to_jump_apex_(.4f),
     jump_velocity_(0.f),
     move_speed_(3.f),
-    last_pressed_jump_time_(0.f)
+    last_pressed_jump_time_(0.f),
+    input_x_(0)
 {
     GetTransform()->SetPosition({10.f, 0.f});
     GetTransform()->SetScale({2.f, 2.f});
@@ -55,6 +56,8 @@ void Player::Tick(float delta_time)
     last_pressed_jump_time_ -= delta_time;
 
     Keyboard* keyboard = Keyboard::Get();
+    input_x_ = keyboard->GetKey(VK_RIGHT) - keyboard->GetKey(VK_LEFT);
+    
     if (keyboard->GetKeyDown('C'))
     {
         last_pressed_jump_time_ = .1f;

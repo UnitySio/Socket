@@ -268,7 +268,7 @@ float Math::Vector2::Angle(Vector2 from, Vector2 to)
     float cos_theta = Dot(from, to) / (from.Magnitude() * to.Magnitude());
     cos_theta = Clamp(cos_theta, -1.f, 1.f);
     
-    return std::acos(cos_theta) * (180.f / MATH_PI);
+    return std::acos(cos_theta) * Rad2Deg();
 }
 
 Math::Vector2 Math::Vector2::Normalized() const

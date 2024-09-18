@@ -43,3 +43,13 @@ float Math::Pow(float f, float p)
     
     return result;
 }
+
+float Math::Rad2Deg()
+{
+    return 360.f / (MATH_PI * 2.f);
+}
+
+float Math::Deg2Rad()
+{
+    return (MATH_PI * 2.f) / 360.f;
+}
