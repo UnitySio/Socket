@@ -4,6 +4,7 @@
 #include "Actor/Character/Player/Player.h"
 #include "Actor/Component/Controller2DComponent.h"
 #include "Actor/Component/SpriteRendererComponent.h"
+#include "Actor/Component/Animator/AnimatorComponent.h"
 
 PlayerStandingState::PlayerStandingState(Actor* actor, StateMachine* state_machine) :
     State(actor, state_machine),
@@ -22,7 +23,10 @@ void PlayerStandingState::Enter()
     if (player_)
     {
         sprite_renderer_ = player_->GetSpriteRenderer();
+        animator_ = player_->GetAnimator();
         controller_ = player_->GetController();
+
+        animator_->PlayClip(L"Idle");
     }
 }
 
@@ -68,6 +72,9 @@ void PlayerStandingState::Tick(float delta_time)
     {
         sprite_renderer_->SetFlipX(player_->GetInputX() < 0);
     }
+
+    if (player_->GetInputX() != 0) animator_->PlayClip(L"Walk");
+    else animator_->PlayClip(L"Idle");
 }
 
 void PlayerStandingState::PostTick(float delta_time)

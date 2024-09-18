@@ -18,6 +18,7 @@ private:
     class Player* player_;
 
     class SpriteRendererComponent* sprite_renderer_;
+    class AnimatorComponent* animator_;
     class Controller2DComponent* controller_;
 
     int jump_count_;

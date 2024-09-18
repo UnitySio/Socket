@@ -4,6 +4,7 @@
 #include "Actor/Character/Player/Player.h"
 #include "Actor/Component/Controller2DComponent.h"
 #include "Actor/Component/SpriteRendererComponent.h"
+#include "Actor/Component/Animator/AnimatorComponent.h"
 #include "Math/Math.h"
 
 PlayerJumpingState::PlayerJumpingState(Actor* actor, StateMachine* state_machine) :
@@ -24,6 +25,7 @@ void PlayerJumpingState::Enter()
     if (player_)
     {
         sprite_renderer_ = player_->GetSpriteRenderer();
+        animator_ = player_->GetAnimator();
         controller_ = player_->GetController();
 
         const CollisionInfo& collisions = controller_->GetCollisions();
@@ -43,6 +45,8 @@ void PlayerJumpingState::Enter()
 
         player_->SetLastPressedJumpTime(0.f);
         jump_count_++;
+
+        animator_->PlayClip(L"Jump");
     }
 }
 

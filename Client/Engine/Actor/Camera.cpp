@@ -12,13 +12,13 @@ std::weak_ptr<Camera> Camera::camera_;
 
 Camera::Camera(const std::wstring& kName) :
     Actor(kName),
-    size_(5.f),
+    size_(3.f),
     near_z_(.3f),
     far_z_(1000.f),
     target_(nullptr),
     target_collider_(nullptr),
     focus_area_(),
-    focus_area_size_({3.f, 5.f}),
+    focus_area_size_({1.f, 3.f}),
     vertical_offset_(1.f),
     half_width_(0),
     half_height_(0),

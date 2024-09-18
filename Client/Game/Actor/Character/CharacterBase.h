@@ -4,6 +4,7 @@
 #include "Actor/StateMachine/StateMachine.h"
 #include "Math/Vector2.h"
 
+class AnimatorComponent;
 class Controller2DComponent;
 class SpriteRendererComponent;
 
@@ -22,12 +23,14 @@ public:
     inline  void PostTick(float delta_time) override;
 
     inline SpriteRendererComponent* GetSpriteRenderer() const { return sprite_renderer_; }
+    inline AnimatorComponent* GetAnimator() const { return animator_; }
     inline Controller2DComponent* GetController() const { return controller_; }
 
 protected:
     std::unique_ptr<StateMachine> state_machine_;
     
     SpriteRendererComponent* sprite_renderer_;
+    AnimatorComponent* animator_;
     class CapsuleColliderComponent* capsule_collider_;
     Controller2DComponent* controller_;
     

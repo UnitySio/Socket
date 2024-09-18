@@ -2,6 +2,7 @@
 #include "CharacterBase.h"
 
 #include "Actor/Component/SpriteRendererComponent.h"
+#include "Actor/Component/Animator/AnimatorComponent.h"
 #include "Actor/Component/Controller2DComponent.h"
 #include "Actor/StateMachine/StateMachine.h"
 
@@ -11,6 +12,7 @@ CharacterBase::CharacterBase(const std::wstring& kName) :
     state_machine_ = std::make_unique<StateMachine>();
     
     sprite_renderer_ = AddComponent<SpriteRendererComponent>(L"SpriteRenderer");
+    animator_ = AddComponent<AnimatorComponent>(L"Animator");
     capsule_collider_ = AddComponent<CapsuleColliderComponent>(L"CapsuleCollider");
     capsule_collider_->SetSize({.5f, .5f});
     
