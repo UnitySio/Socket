@@ -5,7 +5,6 @@
 #include "Actor/Component/Controller2DComponent.h"
 #include "Actor/Component/SpriteRendererComponent.h"
 #include "Actor/Component/Animator/AnimatorComponent.h"
-#include "imgui/imgui_internal.h"
 #include "Input/Keyboard.h"
 #include "Math/Math.h"
 
@@ -14,6 +13,7 @@ PlayerStandingState::PlayerStandingState(Actor* actor, StateMachine* state_machi
     player_(nullptr),
     sprite_renderer_(nullptr),
     controller_(nullptr),
+    input_x_(0),
     velocity_(Math::Vector2::Zero()),
     last_grounded_time_(0.f),
     coyote_time_(.15f),
@@ -37,14 +37,17 @@ void PlayerStandingState::Enter()
 
 void PlayerStandingState::Exit()
 {
+    input_x_ = 0;
     velocity_ = Math::Vector2::Zero();
     last_grounded_time_ = 0.f;
+    last_double_tap_time_ = 0.f;
+    is_running_ = false;
 }
 
 void PlayerStandingState::PhysicsTick(float delta_time)
 {
     float move_speed = is_running_ ? player_->GetRunSpeed() : player_->GetWalkSpeed();
-    velocity_.x = player_->GetInputX() * move_speed;
+    velocity_.x = input_x_ * move_speed;
     velocity_.y += player_->GetGravity() * delta_time;
     
     if (controller_)
@@ -72,6 +75,12 @@ void PlayerStandingState::Tick(float delta_time)
     HandleTime(delta_time);
 
     Keyboard* keyboard = Keyboard::Get();
+    input_x_ = keyboard->GetKey(VK_RIGHT) - keyboard->GetKey(VK_LEFT);
+    if (sprite_renderer_ && input_x_ != 0)
+    {
+        sprite_renderer_->SetFlipX(input_x_ < 0);
+    }
+    
     if (keyboard->GetKeyDown(VK_LEFT) || keyboard->GetKeyDown(VK_RIGHT))
     {
         if (last_double_tap_time_ > 0.f)
@@ -85,18 +94,14 @@ void PlayerStandingState::Tick(float delta_time)
         }
     }
 
-    if (is_running_ && !keyboard->GetKey(VK_LEFT) && !keyboard->GetKey(VK_RIGHT))
+    if (is_running_ && input_x_ == 0)
     {
         is_running_ = false;
     }
 
-    if (ImGui::Begin("Property"))
-    {
-        ImGui::Text("Last Double Tap Time: %.2f", last_double_tap_time_);
-        ImGui::Text("Is Running: %s", is_running_ ? "True" : "False");
-    }
-
-    ImGui::End();
+    if (is_running_) animator_->PlayClip(L"Run");
+    else if (input_x_ != 0) animator_->PlayClip(L"Walk");
+    else animator_->PlayClip(L"Idle");
 }
 
 void PlayerStandingState::PostTick(float delta_time)

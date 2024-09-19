@@ -46,6 +46,11 @@ Player::Player(const std::wstring& kName) :
         walk_clip->SetRepeat(true);
         walk_clip->SetFrameRate(10.f);
 
+        int run_indices[] = {27, 28, 29, 30, 31, 32};
+        std::shared_ptr<AnimationClip> run_clip = animator_->AddClip(L"Run", run_indices, 6);
+        run_clip->SetRepeat(true);
+        run_clip->SetFrameRate(10.f);
+
         int jump_indices[] = {36, 37, 38};
         std::shared_ptr<AnimationClip> jump_clip = animator_->AddClip(L"Jump", jump_indices, 3);
         jump_clip->SetRepeat(false);
