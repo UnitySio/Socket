@@ -70,11 +70,11 @@ void Canvas::Tick()
         if (hovered_widget_) hovered_widget->OnMouseHover();
     }
 
-    if (mouse->GetButtonDown(MouseButton::kLeft))
+    if (mouse->GetMouseButtonDown(MouseButton::kLeft))
     {
         if (hovered_widget_) hovered_widget_->OnMousePressed();
     }
-    else if (mouse->GetButtonUp(MouseButton::kLeft))
+    else if (mouse->GetMouseButtonUp(MouseButton::kLeft))
     {
         if (hovered_widget_) hovered_widget_->OnMouseReleased();
     }

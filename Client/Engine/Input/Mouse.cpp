@@ -14,19 +14,19 @@ Mouse::Mouse() :
 {
 }
 
-bool Mouse::GetButton(MouseButton button) const
+bool Mouse::GetMouseButton(MouseButton button) const
 {
     MouseState state = mouse_states_[static_cast<int>(button)];
-    return state.is_down && state.was_down;
+    return state.is_down;
 }
 
-bool Mouse::GetButtonDown(MouseButton button) const
+bool Mouse::GetMouseButtonDown(MouseButton button) const
 {
     MouseState state = mouse_states_[static_cast<int>(button)];
     return state.is_down && !state.was_down;
 }
 
-bool Mouse::GetButtonUp(MouseButton button) const
+bool Mouse::GetMouseButtonUp(MouseButton button) const
 {
     MouseState state = mouse_states_[static_cast<int>(button)];
     return !state.is_down && state.was_down;

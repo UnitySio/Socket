@@ -59,9 +59,9 @@ public:
     Mouse();
     virtual ~Mouse() override = default;
 
-    bool GetButton(MouseButton button) const;
-    bool GetButtonDown(MouseButton button) const;
-    bool GetButtonUp(MouseButton button) const;
+    bool GetMouseButton(MouseButton button) const;
+    bool GetMouseButtonDown(MouseButton button) const;
+    bool GetMouseButtonUp(MouseButton button) const;
 
     inline int GetWheelAxis() const { return wheel_axis_; }
     inline int GetWheelHAxis() const { return wheel_h_axis_; }
