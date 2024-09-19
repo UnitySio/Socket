@@ -40,11 +40,14 @@ void Core::Init(const HINSTANCE kInstanceHandle)
     // DirectX 11 렌더러 초기화
     CHECK_IF(Renderer::Get()->Init(), L"Failed to initialize renderer.");
 
+    const int screen_width = GetSystemMetrics(SM_CXSCREEN);
+    const int screen_height = GetSystemMetrics(SM_CYSCREEN);
+
     // 게임 윈도우 정의 생성
     std::shared_ptr<WindowDefinition> definition = std::make_shared<WindowDefinition>();
     definition->title = ProjectSettings::kWindowTitle;
-    definition->screen_x = 100;
-    definition->screen_y = 100;
+    definition->screen_x = screen_width * .5f - ProjectSettings::kScreenWidth * .5f;
+    definition->screen_y = screen_height * .5f - ProjectSettings::kScreenHeight * .5f;
     definition->width = ProjectSettings::kScreenWidth;
     definition->height = ProjectSettings::kScreenHeight;
 
