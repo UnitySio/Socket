@@ -57,6 +57,7 @@ void PlayerStandingState::PhysicsTick(float delta_time)
         if (controller_->IsWall())
         {
             velocity_.x = 0.f;
+            is_running_ = false;
         }
 
         const CollisionInfo& collisions = controller_->GetCollisions();
@@ -98,10 +99,18 @@ void PlayerStandingState::Tick(float delta_time)
     {
         is_running_ = false;
     }
+    
+    std::wstring clip_name = L"Idle";
 
-    if (is_running_) animator_->PlayClip(L"Run");
-    else if (input_x_ != 0) animator_->PlayClip(L"Walk");
-    else animator_->PlayClip(L"Idle");
+    if (Math::Abs(velocity_.x) > 0.f) {
+        if (is_running_) {
+            clip_name = L"Run";
+        } else if (Math::Abs(input_x_) > 0) {
+            clip_name = L"Walk";
+        }
+    }
+
+    animator_->PlayClip(clip_name);
 }
 
 void PlayerStandingState::PostTick(float delta_time)
