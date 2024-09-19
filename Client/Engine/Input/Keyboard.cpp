@@ -67,7 +67,7 @@ void Keyboard::Clear()
 bool Keyboard::GetKey(WORD key_code)
 {
 	KeyState& key_state = key_states_[key_code];
-	return key_state.is_down && key_state.was_down;
+	return key_state.is_down;
 }
 
 bool Keyboard::GetKeyDown(WORD key_code)

@@ -18,7 +18,8 @@ public:
 
     inline float GetGravity() const { return gravity_; }
     inline float GetJumpVelocity() const { return jump_velocity_; }
-    inline float GetMoveSpeed() const { return move_speed_; }
+    inline float GetWalkSpeed() const { return walk_speed_; }
+    inline float GetRunSpeed() const { return run_speed_; }
     
     inline void SetLastPressedJumpTime(float time) { last_pressed_jump_time_ = time; }
     inline float GetLastPressedJumpTime() const { return last_pressed_jump_time_; }
@@ -34,7 +35,8 @@ private:
     float jump_height_;
     float time_to_jump_apex_;
     float jump_velocity_;
-    float move_speed_;
+    float walk_speed_;
+    float run_speed_;
     float last_pressed_jump_time_;
 
     int input_x_;

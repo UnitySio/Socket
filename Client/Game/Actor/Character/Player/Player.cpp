@@ -20,7 +20,8 @@ Player::Player(const std::wstring& kName) :
     jump_height_(2.f),
     time_to_jump_apex_(.4f),
     jump_velocity_(0.f),
-    move_speed_(3.f),
+    walk_speed_(3.f),
+    run_speed_(6.f),
     last_pressed_jump_time_(0.f),
     input_x_(0)
 {

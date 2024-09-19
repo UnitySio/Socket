@@ -60,6 +60,7 @@ public:
 
     inline const CollisionInfo& GetCollisions() const { return collisions_; }
 
+    inline bool IsWall() const { return collisions_.left || collisions_.right; }
     inline bool IsCeiling() const { return collisions_.above; }
     inline bool IsGrounded() const { return collisions_.below; }
 

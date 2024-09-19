@@ -60,7 +60,7 @@ void PlayerJumpingState::Exit()
 
 void PlayerJumpingState::PhysicsTick(float delta_time)
 {
-    if (!is_sliding_) input_velocity_.x = player_->GetMoveSpeed() * player_->GetInputX();
+    if (!is_sliding_) input_velocity_.x = player_->GetWalkSpeed() * player_->GetInputX();
     velocity_.y += player_->GetGravity() * delta_time;
 
     if (controller_)

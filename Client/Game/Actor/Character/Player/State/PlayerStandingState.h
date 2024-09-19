@@ -15,6 +15,8 @@ public:
     virtual void PostTick(float delta_time) override;
 
 private:
+    void HandleTime(float delta_time);
+    
     class Player* player_;
 
     class SpriteRendererComponent* sprite_renderer_;
@@ -25,4 +27,7 @@ private:
 
     float last_grounded_time_;
     float coyote_time_;
+    float last_double_tap_time_;
+
+    bool is_running_;
 };
