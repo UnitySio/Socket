@@ -62,8 +62,12 @@ void PlayerJumpingState::PhysicsTick(float delta_time)
     if (player_->GetLastPressedJumpTime() > 0.f && jump_count_ < 2)
     {
         player_->ResetLastPressedJumpTime();
+
+        if (Math::Sign(velocity.x) != input_x_)
+        {
+            velocity.x *= -1.f;
+        }
         
-        velocity.x *= input_x_;
         velocity.y = player_->GetJumpVelocity();
         
         jump_count_++;

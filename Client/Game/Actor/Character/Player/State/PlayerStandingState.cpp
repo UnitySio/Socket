@@ -38,7 +38,6 @@ void PlayerStandingState::Exit()
     input_x_ = 0;
     move_speed_ = 3.f;
     last_double_tap_time_ = 0.f;
-    is_running_ = false;
 }
 
 void PlayerStandingState::PhysicsTick(float delta_time)
