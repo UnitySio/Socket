@@ -35,13 +35,20 @@ void PlayerStandingState::Enter()
 
 void PlayerStandingState::Exit()
 {
+    input_x_ = 0;
+    move_speed_ = 3.f;
+    last_double_tap_time_ = 0.f;
+    is_running_ = false;
 }
 
 void PlayerStandingState::PhysicsTick(float delta_time)
 {
     Math::Vector2 velocity = player_->GetVelocity();
     velocity.x = input_x_ * move_speed_;
+    velocity.y += player_->GetGravity() * delta_time;
     player_->SetVelocity(velocity);
+
+    controller_->Move(velocity * delta_time);
 }
 
 void PlayerStandingState::Tick(float delta_time)
@@ -88,6 +95,13 @@ void PlayerStandingState::Tick(float delta_time)
     if (is_running_ && !keyboard->GetKey(VK_LEFT) && !keyboard->GetKey(VK_RIGHT))
     {
         is_running_ = false;
+    }
+
+    if (player_->GetLastGroundedTime() > 0.f && player_->GetLastPressedJumpTime() > 0.f)
+    {
+        player_->ResetLastPressedJumpTime();
+        state_machine_->ChangeState(player_->GetState(1));
+        return;
     }
 }
 

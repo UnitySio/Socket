@@ -10,6 +10,7 @@
 #include "Input/Keyboard.h"
 #include "Math/Math.h"
 #include "Resource/ResourceManager.h"
+#include "State/PlayerJumpingState.h"
 #include "State/PlayerStandingState.h"
 #include "Windows/DX/Sprite.h"
 
@@ -21,6 +22,7 @@ Player::Player(const std::wstring& kName) :
     jump_velocity_(0.f),
     last_grounded_time_(0.f),
     coyote_time_(.15f),
+    last_pressed_jump_time_(0.f),
     velocity_(Math::Vector2::Zero())
 {
     GetTransform()->SetPosition({5.f, 5.f});
@@ -56,6 +58,7 @@ Player::Player(const std::wstring& kName) :
     }
 
     states_[0] = std::make_unique<PlayerStandingState>(this, state_machine_.get());
+    states_[1] = std::make_unique<PlayerJumpingState>(this, state_machine_.get());
 }
 
 void Player::BeginPlay()
@@ -73,17 +76,8 @@ void Player::BeginPlay()
 void Player::PhysicsTick(float delta_time)
 {
     CharacterBase::PhysicsTick(delta_time);
-    
-    velocity_.y += gravity_ * delta_time;
-
-    controller_->Move(velocity_ * delta_time);
 
     const CollisionInfo& collisions = controller_->GetCollisions();
-    if (collisions.left || collisions.right)
-    {
-        velocity_.x = 0.f;
-    }
-
     if (collisions.above || collisions.below)
     {
         if (collisions.sliding_down_max_slope)
@@ -102,11 +96,12 @@ void Player::Tick(float delta_time)
     CharacterBase::Tick(delta_time);
 
     HandleTime(delta_time);
-}
 
-bool Player::CanJump() const
-{
-    return last_grounded_time_ > 0.f;
+    Keyboard* keyboard = Keyboard::Get();
+    if (keyboard->GetKeyDown('C'))
+    {
+        last_pressed_jump_time_ = .1f;
+    }
 }
 
 void Player::HandleTime(float delta_time)
@@ -115,5 +110,10 @@ void Player::HandleTime(float delta_time)
     if (!collisions.below && last_grounded_time_ > 0.f)
     {
         last_grounded_time_ = Math::Max(last_grounded_time_ - delta_time, 0.f);
+    }
+
+    if (last_pressed_jump_time_ > 0.f)
+    {
+        last_pressed_jump_time_ = Math::Max(last_pressed_jump_time_ - delta_time, 0.f);
     }
 }
