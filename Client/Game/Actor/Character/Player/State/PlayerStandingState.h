@@ -24,11 +24,8 @@ private:
     class Controller2DComponent* controller_;
 
     int input_x_;
-    
-    Math::Vector2 velocity_;
 
-    float last_grounded_time_;
-    float coyote_time_;
+    float move_speed_;
     float last_double_tap_time_;
 
     bool is_running_;

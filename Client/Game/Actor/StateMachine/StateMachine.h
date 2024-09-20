@@ -13,6 +13,8 @@ public:
     void PostTick(float delta_time);
     void ChangeState(State* new_state);
 
+    inline State* GetCurrentState() const { return current_state_; }
+
 private:
     State* current_state_;
     

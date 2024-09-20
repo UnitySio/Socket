@@ -10,7 +10,6 @@
 #include "Input/Keyboard.h"
 #include "Math/Math.h"
 #include "Resource/ResourceManager.h"
-#include "State/PlayerJumpingState.h"
 #include "State/PlayerStandingState.h"
 #include "Windows/DX/Sprite.h"
 
@@ -20,12 +19,11 @@ Player::Player(const std::wstring& kName) :
     jump_height_(2.f),
     time_to_jump_apex_(.4f),
     jump_velocity_(0.f),
-    walk_speed_(3.f),
-    run_speed_(6.f),
-    last_pressed_jump_time_(0.f),
-    input_x_(0)
+    last_grounded_time_(0.f),
+    coyote_time_(.15f),
+    velocity_(Math::Vector2::Zero())
 {
-    GetTransform()->SetPosition({10.f, 0.f});
+    GetTransform()->SetPosition({5.f, 5.f});
     
     if (ResourceManager::Get()->Load<Sprite>(L"PlayerSheet", L".\\Game_Data\\PlayerSheet.png"))
     {
@@ -58,7 +56,6 @@ Player::Player(const std::wstring& kName) :
     }
 
     states_[0] = std::make_unique<PlayerStandingState>(this, state_machine_.get());
-    states_[1] = std::make_unique<PlayerJumpingState>(this, state_machine_.get());
 }
 
 void Player::BeginPlay()
@@ -73,17 +70,50 @@ void Player::BeginPlay()
     jump_velocity_ = Math::Abs(gravity_) * time_to_jump_apex_;
 }
 
+void Player::PhysicsTick(float delta_time)
+{
+    CharacterBase::PhysicsTick(delta_time);
+    
+    velocity_.y += gravity_ * delta_time;
+
+    controller_->Move(velocity_ * delta_time);
+
+    const CollisionInfo& collisions = controller_->GetCollisions();
+    if (collisions.left || collisions.right)
+    {
+        velocity_.x = 0.f;
+    }
+
+    if (collisions.above || collisions.below)
+    {
+        if (collisions.sliding_down_max_slope)
+            velocity_.y += collisions.slope_normal.y * -gravity_ * delta_time;
+        else velocity_.y = 0.f;
+    }
+
+    if (collisions.below)
+    {
+        last_grounded_time_ = coyote_time_;
+    }
+}
+
 void Player::Tick(float delta_time)
 {
     CharacterBase::Tick(delta_time);
 
-    last_pressed_jump_time_ -= delta_time;
+    HandleTime(delta_time);
+}
 
-    Keyboard* keyboard = Keyboard::Get();
-    input_x_ = keyboard->GetKey(VK_RIGHT) - keyboard->GetKey(VK_LEFT);
-    
-    if (keyboard->GetKeyDown('C'))
+bool Player::CanJump() const
+{
+    return last_grounded_time_ > 0.f;
+}
+
+void Player::HandleTime(float delta_time)
+{
+    const CollisionInfo& collisions = controller_->GetCollisions();
+    if (!collisions.below && last_grounded_time_ > 0.f)
     {
-        last_pressed_jump_time_ = .1f;
+        last_grounded_time_ = Math::Max(last_grounded_time_ - delta_time, 0.f);
     }
 }

@@ -210,7 +210,6 @@
     <ClInclude Include="Game\Actor\Capsule.h" />
     <ClInclude Include="Game\Actor\Character\CharacterBase.h" />
     <ClInclude Include="Game\Actor\Character\Player\Player.h" />
-    <ClInclude Include="Game\Actor\Character\Player\State\PlayerJumpingState.h" />
     <ClInclude Include="Game\Actor\Character\Player\State\PlayerStandingState.h" />
     <ClInclude Include="Game\Actor\Component\Controller2DComponent.h" />
     <ClInclude Include="Game\Actor\StateMachine\State.h" />
@@ -389,7 +388,6 @@
     <ClCompile Include="Game\Actor\Capsule.cpp" />
     <ClCompile Include="Game\Actor\Character\CharacterBase.cpp" />
     <ClCompile Include="Game\Actor\Character\Player\Player.cpp" />
-    <ClCompile Include="Game\Actor\Character\Player\State\PlayerJumpingState.cpp" />
     <ClCompile Include="Game\Actor\Character\Player\State\PlayerStandingState.cpp" />
     <ClCompile Include="Game\Actor\Component\Controller2DComponent.cpp" />
     <ClCompile Include="Game\Actor\StateMachine\State.cpp" />
