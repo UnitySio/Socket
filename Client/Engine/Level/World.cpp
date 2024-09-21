@@ -14,7 +14,6 @@
 #include "Windows/DX/Shape.h"
 #include "Windows/DX/ShapeBatch.h"
 
-bool PreSolve(b2ShapeId shapeIdA, b2ShapeId shapeIdB, b2Manifold* manifold, void* context);
 void DrawPolygon(const b2Vec2* vertices, int vertexCount, b2HexColor color, void* context);
 void DrawSolidPolygon(b2Transform transform, const b2Vec2* vertices, int vertexCount, float radius, b2HexColor color, void* context);
 void DrawCircle(b2Vec2 center, float radius, b2HexColor color, void* context);
@@ -43,8 +42,6 @@ World::World() :
     world_def.gravity = gravity;
 
     world_id_ = b2CreateWorld(&world_def);
-
-    b2World_SetPreSolveCallback(world_id_, PreSolve, this);
 
     b2AABB bounds = {
         {-FLT_MAX, -FLT_MAX},
@@ -303,44 +300,6 @@ void World::DestroyActors()
         std::erase(current_level_->actors_, actor);
         pending_destroy_actors_.pop();
     }
-}
-
-bool World::PreSolve_Internal(b2ShapeId shapeIdA, b2ShapeId shapeIdB, b2Manifold* manifold)
-{
-    ColliderComponent* collider_a = static_cast<ColliderComponent*>(b2Shape_GetUserData(shapeIdA));
-    ColliderComponent* collider_b = static_cast<ColliderComponent*>(b2Shape_GetUserData(shapeIdB));
-
-    if (!collider_a || !collider_b) return true;
-
-    float sign = 0.f;
-    if (collider_a->is_one_way_platform_)
-    {
-        sign = 1.f;
-    }
-    else if (collider_b->is_one_way_platform_)
-    {
-        sign = -1.f;
-    }
-    else return true;
-
-    b2Vec2 normal = manifold->normal;
-    if (sign * normal.y > .95f) return true;
-
-    float separation = 0.f;
-    for (int i = 0; i < manifold->pointCount; ++i)
-    {
-        float s = manifold->points[i].separation;
-        separation = separation < s ? separation : s;
-    }
-
-    if (separation > .1f * .5f) return true;
-    
-    return false;
-}
-
-bool PreSolve(b2ShapeId shapeIdA, b2ShapeId shapeIdB, b2Manifold* manifold, void* context)
-{
-    return static_cast<World*>(context)->PreSolve_Internal(shapeIdA, shapeIdB, manifold);
 }
 
 void DrawPolygon(const b2Vec2* vertices, int vertexCount, b2HexColor color, void* context)

@@ -37,7 +37,7 @@ class RigidBody2DComponent : public ActorComponent
     SHADER_CLASS_HELPER(RigidBody2DComponent)
     
 public:
-    RigidBody2DComponent(class Actor* owner, const std::wstring& kName);
+    RigidBody2DComponent(Actor* owner, const std::wstring& kName);
     virtual ~RigidBody2DComponent() override = default;
 
     void SetBodyType(BodyType type);

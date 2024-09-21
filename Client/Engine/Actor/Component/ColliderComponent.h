@@ -23,11 +23,8 @@ public:
     virtual void SetTrigger(bool is_trigger);
 
     void SetMaterial(const PhysicsMaterial2D& kMaterial);
-    void SetPreSolve(bool is_pre_solve);
 
     const Bounds& GetBounds();
-
-    inline bool SetOneWayPlatform(bool is_one_way_platform) { return is_one_way_platform_ = is_one_way_platform; }
 
 protected:
     friend class World;
@@ -37,8 +34,6 @@ protected:
     Math::Vector2 offset_;
 
     PhysicsMaterial2D material_;
-
-    bool is_one_way_platform_;
 
 private:
     virtual void SetShape();

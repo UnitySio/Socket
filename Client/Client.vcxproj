@@ -213,9 +213,10 @@
     <ClInclude Include="Game\Actor\Character\Player\State\PlayerJumpingState.h" />
     <ClInclude Include="Game\Actor\Character\Player\State\PlayerStandingState.h" />
     <ClInclude Include="Game\Actor\Component\Controller2DComponent.h" />
+    <ClInclude Include="Game\Actor\Component\RayCastController.h" />
+    <ClInclude Include="Game\Actor\Platform\PlatformController.h" />
     <ClInclude Include="Game\Actor\StateMachine\State.h" />
     <ClInclude Include="Game\Actor\StateMachine\StateMachine.h" />
-    <ClInclude Include="Game\Actor\Test\Platform.h" />
     <ClInclude Include="Game\Actor\Tilemap.h" />
     <ClInclude Include="Game\Map\MainMap.h" />
     <ClInclude Include="Game\Map\MainMenu.h" />
@@ -392,9 +393,10 @@
     <ClCompile Include="Game\Actor\Character\Player\State\PlayerJumpingState.cpp" />
     <ClCompile Include="Game\Actor\Character\Player\State\PlayerStandingState.cpp" />
     <ClCompile Include="Game\Actor\Component\Controller2DComponent.cpp" />
+    <ClCompile Include="Game\Actor\Component\RayCastController.cpp" />
+    <ClCompile Include="Game\Actor\Platform\PlatformController.cpp" />
     <ClCompile Include="Game\Actor\StateMachine\State.cpp" />
     <ClCompile Include="Game\Actor\StateMachine\StateMachine.cpp" />
-    <ClCompile Include="Game\Actor\Test\Platform.cpp" />
     <ClCompile Include="Game\Actor\Tilemap.cpp" />
     <ClCompile Include="Game\Map\MainMap.cpp" />
     <ClCompile Include="Game\Map\MainMenu.cpp" />

@@ -9,25 +9,11 @@
 #include "Math/Math.h"
 #include "Physics/Physics2D.h"
 
-Controller2DComponent::Controller2DComponent(class Actor* owner, const std::wstring& kName) :
-    ActorComponent(owner, kName),
-    skin_width_(.015f),
+Controller2DComponent::Controller2DComponent(Actor* owner, const std::wstring& kName) :
+    RayCastController(owner, kName),
     slope_limit_(80.f),
-    collider_(nullptr),
-    horizontal_ray_count_(4),
-    vertical_ray_count_(4),
-    horizontal_ray_spacing_(0.f),
-    vertical_ray_spacing_(0.f),
-    raycast_origins_(),
     collisions_()
 {
-}
-
-void Controller2DComponent::BeginPlay()
-{
-    ActorComponent::BeginPlay();
-
-    CalculateRaySpecing();
 }
 
 void Controller2DComponent::Move(Math::Vector2 move_amount)
@@ -41,29 +27,6 @@ void Controller2DComponent::Move(Math::Vector2 move_amount)
     if (move_amount.y != 0.f) VerticalCollisions(move_amount);
     
     GetOwner()->GetTransform()->Translate(move_amount);
-}
-
-void Controller2DComponent::UpdateRaycastOrigins()
-{
-    Bounds bounds = collider_->GetBounds();
-    bounds.Expand(skin_width_ * -2.f);
-
-    raycast_origins_.bottom_left = bounds.min;
-    raycast_origins_.bottom_right = {bounds.max.x, bounds.min.y};
-    raycast_origins_.top_left = {bounds.min.x, bounds.max.y};
-    raycast_origins_.top_right = bounds.max;
-}
-
-void Controller2DComponent::CalculateRaySpecing()
-{
-    Bounds bounds = collider_->GetBounds();
-    bounds.Expand(skin_width_ * -2.f);
-
-    horizontal_ray_count_ = Math::Clamp(horizontal_ray_count_, 2, 1024);
-    horizontal_ray_count_ = Math::Clamp(horizontal_ray_count_, 2, 1024);
-
-    horizontal_ray_spacing_ = bounds.size.y / (horizontal_ray_count_ - 1);
-    vertical_ray_spacing_ = bounds.size.x / (vertical_ray_count_ - 1);
 }
 
 void Controller2DComponent::HorizontalCollisions(Math::Vector2& move_amount)

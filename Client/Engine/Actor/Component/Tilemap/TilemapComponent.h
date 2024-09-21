@@ -20,7 +20,7 @@ class TilemapComponent : public ActorComponent
     const MathTypes::uint32 VertexBufferSize = 2048;
     const MathTypes::uint32 IndexBufferSize = 2048 * 6 / 4;
 public:
-    TilemapComponent(class Actor* owner, const std::wstring& kName);
+    TilemapComponent(Actor* owner, const std::wstring& kName);
 
     virtual void InitializeComponent() override;
     virtual void UninitializeComponent() override;

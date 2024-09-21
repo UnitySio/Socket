@@ -42,8 +42,6 @@ public:
     inline Level* GetLevel() const { return current_level_; }
 
 private:
-    friend bool PreSolve(b2ShapeId shapeIdA, b2ShapeId shapeIdB, b2Manifold* manifold, void* context);
-    
     friend void DrawPolygon(const b2Vec2* vertices, int vertexCount, b2HexColor color, void* context);
     friend void DrawSolidPolygon(b2Transform transform, const b2Vec2* vertices, int vertexCount, float radius, b2HexColor color, void* context);
     friend void DrawCircle(b2Vec2 center, float radius, b2HexColor color, void* context);
@@ -67,8 +65,6 @@ private:
     void ProcessActorActivation();
     void DestroyActor(Actor* actor);
     void DestroyActors();
-
-    bool PreSolve_Internal(b2ShapeId shapeIdA, b2ShapeId shapeIdB, b2Manifold* manifold);
 
     std::shared_ptr<WindowsWindow> window_;
     

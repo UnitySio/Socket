@@ -20,7 +20,6 @@ Capsule::Capsule(const std::wstring& kName) : Actor(kName)
     capsule_collider_ = AddComponent<CapsuleColliderComponent>(L"CapsuleCollider");
     capsule_collider_->SetSize({1.f, 1.f});
     capsule_collider_->SetMaterial(material);
-    capsule_collider_->SetPreSolve(true);
 
     rigid_body_ = AddComponent<RigidBody2DComponent>(L"RigidBody");
     rigid_body_->SetBodyType(BodyType::kDynamic);

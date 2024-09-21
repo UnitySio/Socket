@@ -13,7 +13,7 @@ class AnimatorComponent : public ActorComponent
     SHADER_CLASS_HELPER(AnimatorComponent)
     
 public:
-    AnimatorComponent(class Actor* owner, const std::wstring& kName);
+    AnimatorComponent(Actor* owner, const std::wstring& kName);
     virtual ~AnimatorComponent() override = default;
 
     virtual void BeginPlay() override;

@@ -8,7 +8,7 @@ class TransformComponent : public ActorComponent
     SHADER_CLASS_HELPER(TransformComponent)
     
 public:
-    TransformComponent(class Actor* owner, const std::wstring& kName);
+    TransformComponent(Actor* owner, const std::wstring& kName);
     virtual ~TransformComponent() override = default;
 
     virtual void PhysicsTickComponent(float delta_time) override;
