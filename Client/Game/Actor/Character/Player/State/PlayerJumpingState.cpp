@@ -15,7 +15,8 @@ PlayerJumpingState::PlayerJumpingState(Actor* actor, StateMachine* state_machine
     animator_(nullptr),
     controller_(nullptr),
     input_x_(0),
-    jump_count_(0)
+    jump_count_(0),
+    velocity_(Math::Vector2::Zero())
 {
 }
 
@@ -29,18 +30,14 @@ void PlayerJumpingState::Enter()
         controller_ = player_->GetController();
 
         animator_->PlayClip(L"Jump");
-
-        Math::Vector2 velocity = player_->GetVelocity();
         
         const CollisionInfo& collisions = controller_->GetCollisions();
         if (collisions.sliding_down_max_slope)
         {
-            velocity.y = player_->GetJumpVelocity() * collisions.slope_normal.y;
-            velocity.x = player_->GetJumpVelocity() * collisions.slope_normal.x;
+            velocity_.y = player_->GetJumpVelocity() * collisions.slope_normal.y;
+            velocity_.x = player_->GetJumpVelocity() * collisions.slope_normal.x;
         }
-        else velocity.y = player_->GetJumpVelocity();
-        
-        player_->SetVelocity(velocity);
+        else velocity_.y = player_->GetJumpVelocity();
 
         jump_count_++;
     }
@@ -48,37 +45,34 @@ void PlayerJumpingState::Enter()
 
 void PlayerJumpingState::Exit()
 {
-    Math::Vector2 velocity = player_->GetVelocity();
-    velocity.x = 0.f;
-    player_->SetVelocity(velocity);
-
     input_x_ = 0;
     jump_count_ = 0;
+
+    velocity_ = Math::Vector2::Zero();
 }
 
 void PlayerJumpingState::PhysicsTick(float delta_time)
 {
-    Math::Vector2 velocity = player_->GetVelocity();
     if (player_->GetLastPressedJumpTime() > 0.f && jump_count_ < 2)
     {
         player_->ResetLastPressedJumpTime();
-
-        if (Math::Sign(velocity.x) != input_x_)
-        {
-            velocity.x *= -1.f;
-        }
-        
-        velocity.y = player_->GetJumpVelocity();
-        
+        velocity_.y = player_->GetJumpVelocity();
         jump_count_++;
     }
     
-    velocity.y += player_->GetGravity() * delta_time;
-    player_->SetVelocity(velocity);
+    velocity_.x = input_x_ * player_->GetMoveSpeed();
+    velocity_.y += player_->GetGravity() * delta_time;
     
-    controller_->Move(velocity * delta_time);
+    controller_->Move(velocity_ * delta_time);
     
     const CollisionInfo& collisions = controller_->GetCollisions();
+    if (collisions.above || collisions.below)
+    {
+        if (collisions.sliding_down_max_slope)
+            velocity_.y += collisions.slope_normal.y * -player_->GetGravity() * delta_time;
+        else velocity_.y = 0.f;
+    }
+    
     if (collisions.below)
     {
         state_machine_->ChangeState(player_->GetState(0));

@@ -14,9 +14,11 @@ PlayerStandingState::PlayerStandingState(Actor* actor, StateMachine* state_machi
     sprite_renderer_(nullptr),
     controller_(nullptr),
     input_x_(0),
-    move_speed_(3.f),
+    last_grounded_time_(0.f),
+    coyote_time_(.15f),
     last_double_tap_time_(0.f),
-    is_running_(false)
+    is_running_(false),
+    velocity_(Math::Vector2::Zero())
 {
 }
 
@@ -36,18 +38,32 @@ void PlayerStandingState::Enter()
 void PlayerStandingState::Exit()
 {
     input_x_ = 0;
-    move_speed_ = 3.f;
+    
+    last_grounded_time_ = 0.f;
     last_double_tap_time_ = 0.f;
+
+    velocity_ = Math::Vector2::Zero();
 }
 
 void PlayerStandingState::PhysicsTick(float delta_time)
 {
-    Math::Vector2 velocity = player_->GetVelocity();
-    velocity.x = input_x_ * move_speed_;
-    velocity.y += player_->GetGravity() * delta_time;
-    player_->SetVelocity(velocity);
+    velocity_.x = input_x_ * player_->GetMoveSpeed();
+    velocity_.y += player_->GetGravity() * delta_time;
 
-    controller_->Move(velocity * delta_time);
+    controller_->Move(velocity_ * delta_time);
+    
+    const CollisionInfo& collisions = controller_->GetCollisions();
+    if (collisions.above || collisions.below)
+    {
+        if (collisions.sliding_down_max_slope)
+            velocity_.y += collisions.slope_normal.y * -player_->GetGravity() * delta_time;
+        else velocity_.y = 0.f;
+    }
+
+    if (collisions.below)
+    {
+        last_grounded_time_ = coyote_time_;
+    }
 }
 
 void PlayerStandingState::Tick(float delta_time)
@@ -63,12 +79,12 @@ void PlayerStandingState::Tick(float delta_time)
         {
             if (is_running_)
             {
-                move_speed_ = 6.f;
+                player_->SetMoveSpeed(6.f);
                 animator_->PlayClip(L"Run");
             }
             else
             {
-                move_speed_ = 3.f;
+                player_->SetMoveSpeed(3.f);
                 animator_->PlayClip(L"Walk");
             }
         }
@@ -96,7 +112,7 @@ void PlayerStandingState::Tick(float delta_time)
         is_running_ = false;
     }
 
-    if (player_->GetLastGroundedTime() > 0.f && player_->GetLastPressedJumpTime() > 0.f)
+    if (last_grounded_time_ > 0.f && player_->GetLastPressedJumpTime() > 0.f)
     {
         player_->ResetLastPressedJumpTime();
         state_machine_->ChangeState(player_->GetState(1));
@@ -110,6 +126,12 @@ void PlayerStandingState::PostTick(float delta_time)
 
 void PlayerStandingState::HandleTime(float delta_time)
 {
+    const CollisionInfo& collisions = controller_->GetCollisions();
+    if (collisions.below && last_grounded_time_ > 0.f)
+    {
+        last_grounded_time_ = Math::Max(last_grounded_time_ - delta_time, 0.f);
+    }
+    
     if (last_double_tap_time_ > 0.f)
     {
         last_double_tap_time_ = Math::Max(last_double_tap_time_ - delta_time, 0.f);

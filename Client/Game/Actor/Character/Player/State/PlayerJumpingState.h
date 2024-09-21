@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include "Actor/StateMachine/State.h"
+#include "Math/Vector2.h"
 
 class PlayerJumpingState : public State
 {
@@ -22,5 +23,7 @@ private:
 
     int input_x_;
     int jump_count_;
+
+    Math::Vector2 velocity_;
     
 };

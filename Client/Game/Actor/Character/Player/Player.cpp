@@ -8,6 +8,7 @@
 #include "Actor/Component/Animator/AnimationClip.h"
 #include "Actor/Component/Animator/AnimatorComponent.h"
 #include "Input/Keyboard.h"
+#include "Level/World.h"
 #include "Math/Math.h"
 #include "Resource/ResourceManager.h"
 #include "State/PlayerJumpingState.h"
@@ -20,10 +21,8 @@ Player::Player(const std::wstring& kName) :
     jump_height_(2.f),
     time_to_jump_apex_(.4f),
     jump_velocity_(0.f),
-    last_grounded_time_(0.f),
-    coyote_time_(.15f),
-    last_pressed_jump_time_(0.f),
-    velocity_(Math::Vector2::Zero())
+    move_speed_(0.f),
+    last_pressed_jump_time_(0.f)
 {
     GetTransform()->SetPosition({5.f, 5.f});
     
@@ -73,24 +72,6 @@ void Player::BeginPlay()
     jump_velocity_ = Math::Abs(gravity_) * time_to_jump_apex_;
 }
 
-void Player::PhysicsTick(float delta_time)
-{
-    CharacterBase::PhysicsTick(delta_time);
-
-    const CollisionInfo& collisions = controller_->GetCollisions();
-    if (collisions.above || collisions.below)
-    {
-        if (collisions.sliding_down_max_slope)
-            velocity_.y += collisions.slope_normal.y * -gravity_ * delta_time;
-        else velocity_.y = 0.f;
-    }
-
-    if (collisions.below)
-    {
-        last_grounded_time_ = coyote_time_;
-    }
-}
-
 void Player::Tick(float delta_time)
 {
     CharacterBase::Tick(delta_time);
@@ -102,16 +83,15 @@ void Player::Tick(float delta_time)
     {
         last_pressed_jump_time_ = .1f;
     }
+
+    if (keyboard->GetKeyDown('R'))
+    {
+        World::Get()->OpenLevel(LevelType::kDefault);
+    }
 }
 
 void Player::HandleTime(float delta_time)
 {
-    const CollisionInfo& collisions = controller_->GetCollisions();
-    if (!collisions.below && last_grounded_time_ > 0.f)
-    {
-        last_grounded_time_ = Math::Max(last_grounded_time_ - delta_time, 0.f);
-    }
-
     if (last_pressed_jump_time_ > 0.f)
     {
         last_pressed_jump_time_ = Math::Max(last_pressed_jump_time_ - delta_time, 0.f);

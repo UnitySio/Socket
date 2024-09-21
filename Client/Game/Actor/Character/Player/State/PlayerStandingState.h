@@ -25,8 +25,11 @@ private:
 
     int input_x_;
 
-    float move_speed_;
+    float last_grounded_time_;
+    float coyote_time_;
     float last_double_tap_time_;
 
     bool is_running_;
+
+    Math::Vector2 velocity_;
 };
