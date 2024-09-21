@@ -20,7 +20,7 @@ public:
 
     virtual void PhysicsTick(float delta_time) override;
     virtual void Tick(float delta_time) override;
-    inline  void PostTick(float delta_time) override;
+    virtual void PostTick(float delta_time) override;
 
     inline SpriteRendererComponent* GetSpriteRenderer() const { return sprite_renderer_; }
     inline AnimatorComponent* GetAnimator() const { return animator_; }
