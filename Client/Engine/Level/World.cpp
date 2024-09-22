@@ -18,7 +18,6 @@ void DrawPolygon(const b2Vec2* vertices, int vertexCount, b2HexColor color, void
 void DrawSolidPolygon(b2Transform transform, const b2Vec2* vertices, int vertexCount, float radius, b2HexColor color, void* context);
 void DrawCircle(b2Vec2 center, float radius, b2HexColor color, void* context);
 void DrawSolidCircle(b2Transform transform, float radius, b2HexColor color, void* context);
-void DrawCapsule(b2Vec2 p1, b2Vec2 p2, float radius, b2HexColor color, void* context);
 void DrawSolidCapsule(b2Vec2 p1, b2Vec2 p2, float radius, b2HexColor color, void* context);
 void DrawSegment(b2Vec2 p1, b2Vec2 p2, b2HexColor color, void* context);
 void DrawTransform(b2Transform transform, void* context);
@@ -53,7 +52,6 @@ World::World() :
         DrawSolidPolygon,
         DrawCircle,
         DrawSolidCircle,
-        DrawCapsule,
         DrawSolidCapsule,
         DrawSegment,
         DrawTransform,
@@ -320,11 +318,6 @@ void DrawCircle(b2Vec2 center, float radius, b2HexColor color, void* context)
 void DrawSolidCircle(b2Transform transform, float radius, b2HexColor color, void* context)
 {
     static_cast<World*>(context)->debug_draw_helper_.AddSolidCircle(transform, b2Vec2_zero, radius, color);
-}
-
-void DrawCapsule(b2Vec2 p1, b2Vec2 p2, float radius, b2HexColor color, void* context)
-{
-    static_cast<World*>(context)->debug_draw_helper_.AddCapsule(p1, p2, radius, color);
 }
 
 void DrawSolidCapsule(b2Vec2 p1, b2Vec2 p2, float radius, b2HexColor color, void* context)
