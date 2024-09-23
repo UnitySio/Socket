@@ -8,7 +8,8 @@
 #include "Audio/AudioManager.h"
 
 Level::Level(const std::wstring& kName) :
-    actors_()
+    actors_(),
+    has_begun_play_(false)
 {
     name_ = kName;
 }
@@ -37,6 +38,8 @@ void Level::InitializeActors()
         actor->InitializeComponents();
         actor->PostInitializeComponents();
     }
+
+    has_begun_play_ = true;
     
     for (const auto& actor : actors_)
     {

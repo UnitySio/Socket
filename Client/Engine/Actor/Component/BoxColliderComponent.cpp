@@ -4,19 +4,31 @@
 #include "Actor/Actor.h"
 #include "box2d/box2d.h"
 #include "box2d/collision.h"
+#include "Level/Level.h"
+#include "Level/World.h"
 
 BoxColliderComponent::BoxColliderComponent(Actor* owner, const std::wstring& kName) :
     ColliderComponent(owner, kName),
     size_(Math::Vector2::One())
 {
+}
+
+void BoxColliderComponent::InitializeComponent()
+{
+    ColliderComponent::InitializeComponent();
+    
     SetShape();
 }
 
 void BoxColliderComponent::SetOffset(const Math::Vector2& kOffset)
 {
     ColliderComponent::SetOffset(kOffset);
-    
-    SetShape();
+
+    // 함수 호출 시 바로 적용이 되는 경우는 BeginPlay()가 호출된 이후에만 적용됨
+    if (Level* level = World::Get()->GetLevel(); level->HasBegunPlay())
+    {
+        SetShape();
+    }
 }
 
 void BoxColliderComponent::SetTrigger(bool is_trigger)
