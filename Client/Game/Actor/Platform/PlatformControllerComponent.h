@@ -7,7 +7,7 @@ public:
     PlatformControllerComponent(Actor* owner, const std::wstring& kName);
     virtual ~PlatformControllerComponent() override = default;
 
-    virtual void PhysicsTickComponent(float delta_time) override;
+    virtual void TickComponent(float delta_time) override;
 
 private:
     void MovePassengers(Math::Vector2 velocity);

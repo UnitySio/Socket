@@ -47,6 +47,12 @@ void PlayerStandingState::Exit()
 
 void PlayerStandingState::PhysicsTick(float delta_time)
 {
+}
+
+void PlayerStandingState::Tick(float delta_time)
+{
+    HandleTime(delta_time);
+    
     velocity_.x = input_x_ * player_->GetMoveSpeed();
     velocity_.y += player_->GetGravity() * delta_time;
 
@@ -64,11 +70,6 @@ void PlayerStandingState::PhysicsTick(float delta_time)
     {
         last_grounded_time_ = coyote_time_;
     }
-}
-
-void PlayerStandingState::Tick(float delta_time)
-{
-    HandleTime(delta_time);
     
     Keyboard* keyboard = Keyboard::Get();
     input_x_ = keyboard->GetKey(VK_RIGHT) - keyboard->GetKey(VK_LEFT);

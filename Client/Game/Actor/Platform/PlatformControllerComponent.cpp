@@ -12,12 +12,12 @@ PlatformControllerComponent::PlatformControllerComponent(Actor* owner, const std
     RayCastController(owner, kName),
     move_(Math::Vector2::Zero())
 {
-    move_ = {0.f, .5f};
+    move_ = {0.f, 1.f};
 }
 
-void PlatformControllerComponent::PhysicsTickComponent(float delta_time)
+void PlatformControllerComponent::TickComponent(float delta_time)
 {
-    RayCastController::PhysicsTickComponent(delta_time);
+    RayCastController::TickComponent(delta_time);
     
     UpdateRaycastOrigins();
 

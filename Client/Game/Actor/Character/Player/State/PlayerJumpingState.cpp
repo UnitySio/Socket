@@ -53,6 +53,10 @@ void PlayerJumpingState::Exit()
 
 void PlayerJumpingState::PhysicsTick(float delta_time)
 {
+}
+
+void PlayerJumpingState::Tick(float delta_time)
+{
     if (player_->GetLastPressedJumpTime() > 0.f && jump_count_ < 2)
     {
         player_->ResetLastPressedJumpTime();
@@ -78,10 +82,7 @@ void PlayerJumpingState::PhysicsTick(float delta_time)
         state_machine_->ChangeState(player_->GetState(0));
         return;
     }
-}
-
-void PlayerJumpingState::Tick(float delta_time)
-{
+    
     Keyboard* keyboard = Keyboard::Get();
     input_x_ = keyboard->GetKey(VK_RIGHT) - keyboard->GetKey(VK_LEFT);
     if (Math::Abs(input_x_) > 0)

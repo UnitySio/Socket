@@ -24,8 +24,6 @@ Player::Player(const std::wstring& kName) :
     move_speed_(0.f),
     last_pressed_jump_time_(0.f)
 {
-    SetLayer(ActorLayer::kPlayer);
-    
     GetTransform()->SetPosition({5.f, 5.f});
     
     if (ResourceManager::Get()->Load<Sprite>(L"PlayerSheet", L".\\Game_Data\\PlayerSheet.png"))
