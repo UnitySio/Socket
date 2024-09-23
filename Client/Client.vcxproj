@@ -214,7 +214,8 @@
     <ClInclude Include="Game\Actor\Character\Player\State\PlayerStandingState.h" />
     <ClInclude Include="Game\Actor\Component\Controller2DComponent.h" />
     <ClInclude Include="Game\Actor\Component\RayCastController.h" />
-    <ClInclude Include="Game\Actor\Platform\PlatformController.h" />
+    <ClInclude Include="Game\Actor\Platform\Platform.h" />
+    <ClInclude Include="Game\Actor\Platform\PlatformControllerComponent.h" />
     <ClInclude Include="Game\Actor\StateMachine\State.h" />
     <ClInclude Include="Game\Actor\StateMachine\StateMachine.h" />
     <ClInclude Include="Game\Actor\Tilemap.h" />
@@ -394,7 +395,8 @@
     <ClCompile Include="Game\Actor\Character\Player\State\PlayerStandingState.cpp" />
     <ClCompile Include="Game\Actor\Component\Controller2DComponent.cpp" />
     <ClCompile Include="Game\Actor\Component\RayCastController.cpp" />
-    <ClCompile Include="Game\Actor\Platform\PlatformController.cpp" />
+    <ClCompile Include="Game\Actor\Platform\Platform.cpp" />
+    <ClCompile Include="Game\Actor\Platform\PlatformControllerComponent.cpp" />
     <ClCompile Include="Game\Actor\StateMachine\State.cpp" />
     <ClCompile Include="Game\Actor\StateMachine\StateMachine.cpp" />
     <ClCompile Include="Game\Actor\Tilemap.cpp" />
