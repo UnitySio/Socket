@@ -5,6 +5,7 @@
 #include "box2d/math_functions.h"
 #include "box2d/types.h"
 #include "Level/World.h"
+#include "Math/Math.h"
 
 struct SingleOverlapContext
 {
@@ -179,6 +180,7 @@ bool Physics2D::RayCast(HitResult& hit_result, const Math::Vector2& kOrigin, con
     filter.categoryBits = layer;
     filter.maskBits = layer;
 
+    if (!Math::IsValid(max_distance)) return false;
     Math::Vector2 translation = {kDirection.x * max_distance, kDirection.y * max_distance};
     
     SingleRayCastContext context = {kOrigin, {kOrigin.x + translation.x, kOrigin.y + translation.y}, hit_result};
@@ -194,6 +196,7 @@ bool Physics2D::RayCastAll(std::vector<HitResult>& hit_results, const Math::Vect
     filter.categoryBits = layer;
     filter.maskBits = layer;
 
+    if (!Math::IsValid(max_distance)) return false;
     Math::Vector2 translation = {kDirection.x * max_distance, kDirection.y * max_distance};
 
     MultiRayCastContext context = {kOrigin, {kOrigin.x + translation.x, kOrigin.y + translation.y}, hit_results};
@@ -212,6 +215,7 @@ bool Physics2D::BoxCast(HitResult& hit_result, const Math::Vector2& kSize, float
     filter.categoryBits = layer;
     filter.maskBits = layer;
     
+    if (!Math::IsValid(max_distance)) return false;
     Math::Vector2 translation = {kDirection.x * max_distance, kDirection.y * max_distance};
 
     SingleRayCastContext context = {kOrigin, {kOrigin.x + translation.x, kOrigin.y + translation.y}, hit_result};
@@ -230,6 +234,7 @@ bool Physics2D::BoxCastAll(std::vector<HitResult>& hit_results, const Math::Vect
     filter.categoryBits = layer;
     filter.maskBits = layer;
     
+    if (!Math::IsValid(max_distance)) return false;
     Math::Vector2 translation = {kDirection.x * max_distance, kDirection.y * max_distance};
 
     MultiRayCastContext context = {kOrigin, {kOrigin.x + translation.x, kOrigin.y + translation.y}, hit_results};
@@ -248,6 +253,7 @@ bool Physics2D::CircleCast(HitResult& hit_result, float radius, float angle, con
     filter.categoryBits = layer;
     filter.maskBits = layer;
     
+    if (!Math::IsValid(max_distance)) return false;
     Math::Vector2 translation = {kDirection.x * max_distance, kDirection.y * max_distance};
 
     SingleRayCastContext context = {kOrigin, {kOrigin.x + translation.x, kOrigin.y + translation.y}, hit_result};
@@ -266,6 +272,7 @@ bool Physics2D::CircleCastAll(std::vector<HitResult>& hit_results, float radius,
     filter.categoryBits = layer;
     filter.maskBits = layer;
     
+    if (!Math::IsValid(max_distance)) return false;
     Math::Vector2 translation = {kDirection.x * max_distance, kDirection.y * max_distance};
 
     MultiRayCastContext context = {kOrigin, {kOrigin.x + translation.x, kOrigin.y + translation.y}, hit_results};

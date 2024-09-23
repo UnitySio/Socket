@@ -56,6 +56,9 @@ Math::Vector2& Math::Vector2::operator=(const Vector2& kVector)
     x = kVector.x;
     y = kVector.y;
 
+    if (std::isnan(x) || std::isinf(x)) x = 0.f;
+    if (std::isnan(y) || std::isinf(y)) y = 0.f;
+
     return *this;
 }
 

@@ -24,7 +24,7 @@ float Math::Max(float a, float b)
 
 float Math::Clamp(float value, float min, float max)
 {
-    return Math::Max(min, Math::Min(value, max));
+    return Max(min, Min(value, max));
 }
 
 float Math::Abs(float a)
@@ -52,4 +52,9 @@ float Math::Rad2Deg()
 float Math::Deg2Rad()
 {
     return (MATH_PI * 2.f) / 360.f;
+}
+
+bool Math::IsValid(float f)
+{
+    return !isnan(f) && !isinf(f);
 }

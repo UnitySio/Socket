@@ -11,4 +11,6 @@ namespace Math
     float Pow(float f, float p);
     float Rad2Deg();
     float Deg2Rad();
+
+    bool IsValid(float f);
 }
