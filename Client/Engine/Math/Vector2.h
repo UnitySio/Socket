@@ -5,7 +5,7 @@ namespace Math
     struct Vector2
     {
         Vector2();
-        Vector2(float x, float y);
+        Vector2(float new_x, float new_y);
 
         Vector2& operator+=(const Vector2& kVector);
         Vector2& operator-=(const Vector2& kVector);

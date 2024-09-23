@@ -13,10 +13,12 @@ Math::Vector2::Vector2() :
 {
 }
 
-Math::Vector2::Vector2(float x, float y) :
-    x(x),
-    y(y)
+Math::Vector2::Vector2(float new_x, float new_y) :
+    x(new_x),
+    y(new_y)
 {
+    if (std::isnan(x) || std::isinf(x)) x = 0.f;
+    if (std::isnan(y) || std::isinf(y)) y = 0.f;
 }
 
 Math::Vector2& Math::Vector2::operator+=(const Vector2& kVector)
