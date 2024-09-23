@@ -182,7 +182,8 @@ bool Physics2D::RayCast(HitResult& hit_result, const Math::Vector2& kOrigin, con
 
     if (!Math::IsValid(max_distance)) return false;
     Math::Vector2 translation = {kDirection.x * max_distance, kDirection.y * max_distance};
-    
+
+    if (kOrigin == kOrigin + translation) return false;
     SingleRayCastContext context = {kOrigin, {kOrigin.x + translation.x, kOrigin.y + translation.y}, hit_result};
     b2World_CastRay(World::Get()->world_id_, {kOrigin.x, kOrigin.y}, {translation.x, translation.y}, filter, SingleRayCastCallback, &context);
     if (hit_result.actor) return true;
@@ -199,6 +200,7 @@ bool Physics2D::RayCastAll(std::vector<HitResult>& hit_results, const Math::Vect
     if (!Math::IsValid(max_distance)) return false;
     Math::Vector2 translation = {kDirection.x * max_distance, kDirection.y * max_distance};
 
+    if (kOrigin == kOrigin + translation) return false;
     MultiRayCastContext context = {kOrigin, {kOrigin.x + translation.x, kOrigin.y + translation.y}, hit_results};
     b2World_CastRay(World::Get()->world_id_, {kOrigin.x, kOrigin.y}, {translation.x, translation.y}, filter, MultiRayCastCallback, &context);
     if (!hit_results.empty()) return true;
@@ -211,6 +213,7 @@ bool Physics2D::BoxCast(HitResult& hit_result, const Math::Vector2& kSize, float
     b2Polygon box = b2MakeBox(kSize.x * .5f, kSize.y * .5f);
     b2Transform transform = {{kOrigin.x, kOrigin.y}, b2MakeRot(angle * MATH_PI / 180.f)};
     
+    if (kOrigin == kOrigin + translation) return false;
     b2QueryFilter filter = b2DefaultQueryFilter();
     filter.categoryBits = layer;
     filter.maskBits = layer;
@@ -237,6 +240,7 @@ bool Physics2D::BoxCastAll(std::vector<HitResult>& hit_results, const Math::Vect
     if (!Math::IsValid(max_distance)) return false;
     Math::Vector2 translation = {kDirection.x * max_distance, kDirection.y * max_distance};
 
+    if (kOrigin == kOrigin + translation) return false;
     MultiRayCastContext context = {kOrigin, {kOrigin.x + translation.x, kOrigin.y + translation.y}, hit_results};
     b2World_CastPolygon(World::Get()->world_id_, &box, transform, {translation.x, translation.y}, filter, MultiRayCastCallback, &context);
     if (!hit_results.empty()) return true;
@@ -256,6 +260,7 @@ bool Physics2D::CircleCast(HitResult& hit_result, float radius, float angle, con
     if (!Math::IsValid(max_distance)) return false;
     Math::Vector2 translation = {kDirection.x * max_distance, kDirection.y * max_distance};
 
+    if (kOrigin == kOrigin + translation) return false;
     SingleRayCastContext context = {kOrigin, {kOrigin.x + translation.x, kOrigin.y + translation.y}, hit_result};
     b2World_CastCircle(World::Get()->world_id_, &circle, transform, {translation.x, translation.y}, filter, SingleRayCastCallback, &context);
     if (hit_result.actor) return true;
@@ -275,6 +280,7 @@ bool Physics2D::CircleCastAll(std::vector<HitResult>& hit_results, float radius,
     if (!Math::IsValid(max_distance)) return false;
     Math::Vector2 translation = {kDirection.x * max_distance, kDirection.y * max_distance};
 
+    if (kOrigin == kOrigin + translation) return false;
     MultiRayCastContext context = {kOrigin, {kOrigin.x + translation.x, kOrigin.y + translation.y}, hit_results};
     b2World_CastCircle(World::Get()->world_id_, &circle, transform, {translation.x, translation.y}, filter, MultiRayCastCallback, &context);
     if (!hit_results.empty()) return true;
