@@ -15,15 +15,12 @@ public:
     CapsuleColliderComponent(Actor* owner, const std::wstring& kName);
     virtual ~CapsuleColliderComponent() override = default;
 
-    virtual void SetOffset(const Math::Vector2& kOffset) override;
-    virtual void SetTrigger(bool is_trigger) override;
-
     void SetSize(Math::Vector2 size);
-
-    inline void SetDirection(CapsuleDirection direction) { direction_ = direction; }
+    void SetDirection(CapsuleDirection direction);
 
 private:
     virtual void SetShape() override;
+    virtual void SetTriggerInternal() override;
 
     CapsuleDirection direction_;
     Math::Vector2 size_;

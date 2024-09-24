@@ -19,10 +19,11 @@ public:
     ColliderComponent(Actor* owner, const std::wstring& kName);
     virtual ~ColliderComponent() override = default;
 
-    virtual void SetOffset(const Math::Vector2& kOffset);
-    virtual void SetTrigger(bool is_trigger);
+    virtual void InitializeComponent() override;
 
+    void SetOffset(const Math::Vector2& kOffset);
     void SetMaterial(const PhysicsMaterial2D& kMaterial);
+    void SetTrigger(bool is_trigger);
 
     const Bounds& GetBounds();
 
@@ -35,7 +36,12 @@ protected:
 
     PhysicsMaterial2D material_;
 
+    bool is_trigger_;
+
 private:
     virtual void SetShape();
+    virtual void SetTriggerInternal();
+
+    void SetMaterialIntermal();
     
 };

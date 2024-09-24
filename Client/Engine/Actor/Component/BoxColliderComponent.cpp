@@ -9,39 +9,16 @@ BoxColliderComponent::BoxColliderComponent(Actor* owner, const std::wstring& kNa
     ColliderComponent(owner, kName),
     size_(Math::Vector2::One())
 {
-    SetShape();
-}
-
-void BoxColliderComponent::SetOffset(const Math::Vector2& kOffset)
-{
-    ColliderComponent::SetOffset(kOffset);
-    
-    SetShape();
-}
-
-void BoxColliderComponent::SetTrigger(bool is_trigger)
-{
-    ColliderComponent::SetTrigger(is_trigger);
-    
-    if (!b2Shape_IsValid(shape_id_)) return;
-
-    b2Polygon box = b2Shape_GetPolygon(shape_id_);
-    
-    b2ShapeDef shape_def = b2DefaultShapeDef();
-    shape_def.density = b2Shape_GetDensity(shape_id_);
-    shape_def.friction = b2Shape_GetFriction(shape_id_);
-    shape_def.restitution = b2Shape_GetRestitution(shape_id_);
-    shape_def.filter = b2Shape_GetFilter(shape_id_);
-    shape_def.isSensor = is_trigger;
-
-    b2DestroyShape(shape_id_);
-    shape_id_ = b2CreatePolygonShape(GetOwner()->body_id_, &shape_def, &box);
 }
 
 void BoxColliderComponent::SetSize(Math::Vector2 size)
 {
     size_ = size;
-    SetShape();
+
+    if (HasBegunPlay())
+    {
+        SetShape();
+    }
 }
 
 void BoxColliderComponent::SetShape()
@@ -64,7 +41,25 @@ void BoxColliderComponent::SetShape()
         shape_def.restitution = material_.bounciness;
         shape_def.filter = filter;
         shape_def.userData = this;
+        shape_def.isSensor = is_trigger_;
 
         shape_id_ = b2CreatePolygonShape(GetOwner()->body_id_, &shape_def, &box);
     }
+}
+
+void BoxColliderComponent::SetTriggerInternal()
+{
+    CHECK(b2Shape_IsValid(shape_id_));
+
+    b2Polygon box = b2Shape_GetPolygon(shape_id_);
+    
+    b2ShapeDef shape_def = b2DefaultShapeDef();
+    shape_def.density = b2Shape_GetDensity(shape_id_);
+    shape_def.friction = b2Shape_GetFriction(shape_id_);
+    shape_def.restitution = b2Shape_GetRestitution(shape_id_);
+    shape_def.filter = b2Shape_GetFilter(shape_id_);
+    shape_def.isSensor = is_trigger_;
+
+    b2DestroyShape(shape_id_);
+    shape_id_ = b2CreatePolygonShape(GetOwner()->body_id_, &shape_def, &box);
 }

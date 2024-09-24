@@ -9,28 +9,48 @@
 ColliderComponent::ColliderComponent(Actor* owner, const std::wstring& kName) :
     ActorComponent(owner, kName),
     offset_(Math::Vector2::Zero()),
-    material_()
+    material_(),
+    is_trigger_(false)
 {
+}
+
+void ColliderComponent::InitializeComponent()
+{
+    ActorComponent::InitializeComponent();
+    
     if (!b2Body_IsValid(GetOwner()->body_id_)) GetOwner()->CreateBody();
+    SetShape();
+    
+    SetMaterialIntermal(); // 물리 메테리얼을 설정합니다.
 }
 
 void ColliderComponent::SetOffset(const Math::Vector2& kOffset)
 {
     offset_ = kOffset;
-}
 
-void ColliderComponent::SetTrigger(bool is_trigger)
-{
+    if (HasBegunPlay())
+    {
+        SetShape();
+    }
 }
 
 void ColliderComponent::SetMaterial(const PhysicsMaterial2D& kMaterial)
 {
     material_ = kMaterial;
 
-    if (b2Shape_IsValid(shape_id_))
+    if (HasBegunPlay())
     {
-        b2Shape_SetFriction(shape_id_, material_.friction);
-        b2Shape_SetRestitution(shape_id_, material_.bounciness);
+        SetMaterialIntermal();
+    }
+}
+
+void ColliderComponent::SetTrigger(bool is_trigger)
+{
+    is_trigger_ = is_trigger;
+
+    if (HasBegunPlay())
+    {
+        SetTriggerInternal();
     }
 }
 
@@ -52,4 +72,16 @@ const Bounds& ColliderComponent::GetBounds()
 
 void ColliderComponent::SetShape()
 {
+}
+
+void ColliderComponent::SetTriggerInternal()
+{
+}
+
+void ColliderComponent::SetMaterialIntermal()
+{
+    if (!b2Shape_IsValid(shape_id_)) return;
+
+    b2Shape_SetFriction(shape_id_, material_.friction);
+    b2Shape_SetRestitution(shape_id_, material_.bounciness);
 }

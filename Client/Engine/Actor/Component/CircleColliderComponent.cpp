@@ -9,39 +9,16 @@ CircleColliderComponent::CircleColliderComponent(Actor* owner, const std::wstrin
     ColliderComponent(owner, kName),
     radius_(.5f)
 {
-    SetShape();
-}
-
-void CircleColliderComponent::SetOffset(const Math::Vector2& kOffset)
-{
-    ColliderComponent::SetOffset(kOffset);
-
-    SetShape();
-}
-
-void CircleColliderComponent::SetTrigger(bool is_trigger)
-{
-    ColliderComponent::SetTrigger(is_trigger);
-    
-    if (!b2Shape_IsValid(shape_id_)) return;
-
-    b2Circle circle = b2Shape_GetCircle(shape_id_);
-
-    b2ShapeDef shape_def = b2DefaultShapeDef();
-    shape_def.density = b2Shape_GetDensity(shape_id_);
-    shape_def.friction = b2Shape_GetFriction(shape_id_);
-    shape_def.restitution = b2Shape_GetRestitution(shape_id_);
-    shape_def.filter = b2Shape_GetFilter(shape_id_);
-    shape_def.isSensor = is_trigger;
-
-    b2DestroyShape(shape_id_);
-    shape_id_ = b2CreateCircleShape(GetOwner()->body_id_, &shape_def, &circle);
 }
 
 void CircleColliderComponent::SetRadius(float radius)
 {
     radius_ = radius;
-    SetShape();
+
+    if (HasBegunPlay())
+    {
+        SetShape();
+    }
 }
 
 void CircleColliderComponent::SetShape()
@@ -67,7 +44,25 @@ void CircleColliderComponent::SetShape()
         shape_def.restitution = material_.bounciness;
         shape_def.filter = filter;
         shape_def.userData = this;
+        shape_def.isSensor = is_trigger_;
 
         shape_id_ = b2CreateCircleShape(GetOwner()->body_id_, &shape_def, &circle);
     }
+}
+
+void CircleColliderComponent::SetTriggerInternal()
+{
+    CHECK(b2Shape_IsValid(shape_id_));
+
+    b2Circle circle = b2Shape_GetCircle(shape_id_);
+
+    b2ShapeDef shape_def = b2DefaultShapeDef();
+    shape_def.density = b2Shape_GetDensity(shape_id_);
+    shape_def.friction = b2Shape_GetFriction(shape_id_);
+    shape_def.restitution = b2Shape_GetRestitution(shape_id_);
+    shape_def.filter = b2Shape_GetFilter(shape_id_);
+    shape_def.isSensor = is_trigger_;
+
+    b2DestroyShape(shape_id_);
+    shape_id_ = b2CreateCircleShape(GetOwner()->body_id_, &shape_def, &circle);
 }
