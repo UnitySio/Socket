@@ -61,12 +61,6 @@ void Actor::EndPlay(EndPlayReason type)
 
     components_.clear();
 
-    if (b2Joint_IsValid(joint_id_))
-    {
-        b2DestroyJoint(joint_id_);
-        joint_id_ = b2_nullJointId;
-    }
-
     if (b2Body_IsValid(body_id_))
     {
         b2DestroyBody(body_id_);

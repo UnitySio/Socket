@@ -97,7 +97,6 @@ protected:
     ActorLayer layer_;
 
     b2BodyId body_id_;
-    b2JointId joint_id_;
 
     bool is_active_;
     bool is_pending_destroy_;
