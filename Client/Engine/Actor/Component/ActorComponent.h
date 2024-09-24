@@ -16,10 +16,13 @@ public:
     inline Actor* GetOwner() const { return owner_; }
     inline std::wstring GetName() const { return name_; }
 
+    inline bool HasBegunPlay() const { return has_begun_play_; }
+
 protected:
+    virtual void BeginPlay();
+    
     inline virtual void InitializeComponent() {};
     inline virtual void UninitializeComponent() {};
-    inline virtual void BeginPlay() {};
     inline virtual void EndPlay(EndPlayReason type) {};
     inline virtual void PhysicsTickComponent(float delta_time) {};
     inline virtual void TickComponent(float delta_time) {};
@@ -32,5 +35,7 @@ protected:
 private:
     friend class Actor;
     friend class PlayerController;
+
+    bool has_begun_play_;
     
 };

@@ -38,49 +38,78 @@ void RigidBody2DComponent::SetBodyType(BodyType type)
 {
     body_type_ = type;
 
-    // TODO: BeginPlay 이후에는 즉시 적용되어야 합니다.
+    if (HasBegunPlay())
+    {
+        b2BodyId body_id = GetValidBodyId();
+        SetBodyTypeInternal(body_id);
+    }
 }
 
 void RigidBody2DComponent::SetGravityScale(float scale)
 {
     gravity_scale_ = scale;
 
-    // TODO: BeginPlay 이후에는 즉시 적용되어야 합니다.
+    if (HasBegunPlay())
+    {
+        b2BodyId body_id = GetValidBodyId();
+        SetGravityScaleInternal(body_id);
+    }
 }
 
 void RigidBody2DComponent::SetSleepMode(SleepMode mode)
 {
     sleep_mode_ = mode;
-    
-    // TODO: BeginPlay 이후에는 즉시 적용되어야 합니다.
+
+    if (HasBegunPlay())
+    {
+        b2BodyId body_id = GetValidBodyId();
+        SetSleepModeInternal(body_id);
+    }
 }
 
 void RigidBody2DComponent::SetCollisionDetectionMode(CollisionDetectionMode mode)
 {
     collision_detection_mode_ = mode;
-    
-    // TODO: BeginPlay 이후에는 즉시 적용되어야 합니다.
+
+    if (HasBegunPlay())
+    {
+        b2BodyId body_id = GetValidBodyId();
+        SetCollisionDetectionModeInternal(body_id);
+    }
 }
 
 void RigidBody2DComponent::SetFreezeRotation(bool freeze)
 {
     is_fixed_rotation_ = freeze;
 
-    // TODO: BeginPlay 이후에는 즉시 적용되어야 합니다.
+    if (HasBegunPlay())
+    {
+        b2BodyId body_id = GetValidBodyId();
+        SetFixedRotationInternal(body_id);
+        SetAutoMassInternal(body_id); // 질량을 다시 계산합니다.
+    }
 }
 
 void RigidBody2DComponent::UseAutoMass(bool use_auto_mass)
 {
     use_auto_mass_ = use_auto_mass;
-    
-    // TODO: BeginPlay 이후에는 즉시 적용되어야 합니다.
+
+    if (HasBegunPlay())
+    {
+        b2BodyId body_id = GetValidBodyId();
+        SetAutoMassInternal(body_id);
+    }
 }
 
 void RigidBody2DComponent::SetMass(float mass)
 {
     mass_ = mass;
-    
-    // TODO: BeginPlay 이후에는 즉시 적용되어야 합니다.
+
+    if (HasBegunPlay())
+    {
+        b2BodyId body_id = GetValidBodyId();
+        SetMassInternal(body_id);
+    }
 }
 
 void RigidBody2DComponent::SetLinearVelocity(const Math::Vector2& kLinearVelocity)
