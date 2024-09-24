@@ -11,12 +11,6 @@ ColliderComponent::ColliderComponent(Actor* owner, const std::wstring& kName) :
     offset_(Math::Vector2::Zero()),
     material_()
 {
-}
-
-void ColliderComponent::InitializeComponent()
-{
-    ActorComponent::InitializeComponent();
-    
     if (!b2Body_IsValid(GetOwner()->body_id_)) GetOwner()->CreateBody();
 }
 

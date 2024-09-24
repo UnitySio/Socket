@@ -40,11 +40,15 @@ public:
     RigidBody2DComponent(Actor* owner, const std::wstring& kName);
     virtual ~RigidBody2DComponent() override = default;
 
+    virtual void InitializeComponent() override;
+
     void SetBodyType(BodyType type);
     void SetGravityScale(float scale);
     void SetSleepMode(SleepMode mode);
     void SetCollisionDetectionMode(CollisionDetectionMode mode);
     void SetFreezeRotation(bool freeze);
+    void UseAutoMass(bool use_auto_mass);
+    void SetMass(float mass);
     void SetLinearVelocity(const Math::Vector2& kLinearVelocity);
     void SetLinearVelocityX(float linear_velocity);
     void SetLinearVelocityY(float linear_velocity);
@@ -54,8 +58,6 @@ public:
     void AddForceY(float force, ForceMode mode = ForceMode::kForce);
     void AddForceAtPosition(const Math::Vector2& kForce, const Math::Vector2& kPosition, ForceMode mode = ForceMode::kForce);
     void AddTorque(float torque, ForceMode mode = ForceMode::kForce);
-    void UseAutoMass(bool use_auto_mass);
-    void SetMass(float mass);
     void Sleep();
     void WakeUp();
 
@@ -70,6 +72,24 @@ public:
     BodyType GetBodyType() const;
 
 private:
+    void SetBodyTypeInternal(b2BodyId body_id);
+    void SetGravityScaleInternal(b2BodyId body_id);
+    void SetSleepModeInternal(b2BodyId body_id);
+    void SetCollisionDetectionModeInternal(b2BodyId body_id);
+    void SetFixedRotationInternal(b2BodyId body_id);
+    void SetAutoMassInternal(b2BodyId body_id);
+    void SetMassInternal(b2BodyId body_id);
+    
     b2BodyId GetValidBodyId() const;
+
+    BodyType body_type_;
+    SleepMode sleep_mode_;
+    CollisionDetectionMode collision_detection_mode_;
+
+    float gravity_scale_;
+    float mass_;
+
+    bool is_fixed_rotation_;
+    bool use_auto_mass_;
     
 };

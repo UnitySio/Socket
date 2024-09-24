@@ -7,75 +7,80 @@
 #include "Math/Vector2.h"
 
 RigidBody2DComponent::RigidBody2DComponent(Actor* owner, const std::wstring& kName) :
-    ActorComponent(owner, kName)
+    ActorComponent(owner, kName),
+    body_type_(BodyType::kDynamic),
+    sleep_mode_(SleepMode::kStartAwake),
+    collision_detection_mode_(CollisionDetectionMode::kDiscrete),
+    gravity_scale_(1.f),
+    mass_(1.f),
+    is_fixed_rotation_(false),
+    use_auto_mass_(false)
 {
+}
+
+void RigidBody2DComponent::InitializeComponent()
+{
+    ActorComponent::InitializeComponent();
+    
     if (!b2Body_IsValid(GetOwner()->body_id_)) GetOwner()->CreateBody();
+
+    b2BodyId body_id = GetValidBodyId();
+    
+    SetBodyTypeInternal(body_id); // 강체의 유형을 설정합니다.
+    SetGravityScaleInternal(body_id); // 중력의 크기를 설정합니다.
+    SetSleepModeInternal(body_id); // 강체의 수면 모드를 설정합니다.
+    SetCollisionDetectionModeInternal(body_id); // 충돌 감지 모드를 설정합니다.
+    SetFixedRotationInternal(body_id); // 회전을 고정할지 여부를 설정합니다.
+    SetAutoMassInternal(body_id); // 자동으로 질량을 계산할지 여부를 설정합니다.
 }
 
 void RigidBody2DComponent::SetBodyType(BodyType type)
 {
-    b2BodyId body_id = GetValidBodyId();
+    body_type_ = type;
 
-    switch (type)
-    {
-    case BodyType::kDynamic:
-        b2Body_SetType(body_id, b2_dynamicBody);
-        break;
-
-    case BodyType::kKinematic:
-        b2Body_SetType(body_id, b2_kinematicBody);
-        break;
-
-    case BodyType::kStatic:
-        b2Body_SetType(body_id, b2_staticBody);
-        break;
-    }
+    // TODO: BeginPlay 이후에는 즉시 적용되어야 합니다.
 }
 
 void RigidBody2DComponent::SetGravityScale(float scale)
 {
-    b2BodyId body_id = GetValidBodyId();
+    gravity_scale_ = scale;
 
-    b2Body_SetGravityScale(body_id, scale);
+    // TODO: BeginPlay 이후에는 즉시 적용되어야 합니다.
 }
 
 void RigidBody2DComponent::SetSleepMode(SleepMode mode)
 {
-    b2BodyId body_id = GetValidBodyId();
-
-    switch (mode)
-    {
-    case SleepMode::kNeverSleep:
-        b2Body_EnableSleep(body_id, false);
-        break;
-
-    case SleepMode::kStartAwake:
-        b2Body_EnableSleep(body_id, true);
-        break;
-    }
+    sleep_mode_ = mode;
+    
+    // TODO: BeginPlay 이후에는 즉시 적용되어야 합니다.
 }
 
 void RigidBody2DComponent::SetCollisionDetectionMode(CollisionDetectionMode mode)
 {
-    b2BodyId body_id = GetValidBodyId();
-
-    switch (mode)
-    {
-    case CollisionDetectionMode::kDiscrete:
-        b2Body_SetBullet(body_id, false);
-        break;
-
-    case CollisionDetectionMode::kContinuous:
-        b2Body_SetBullet(body_id, true);
-        break;
-    }
+    collision_detection_mode_ = mode;
+    
+    // TODO: BeginPlay 이후에는 즉시 적용되어야 합니다.
 }
 
 void RigidBody2DComponent::SetFreezeRotation(bool freeze)
 {
-    b2BodyId body_id = GetValidBodyId();
+    is_fixed_rotation_ = freeze;
+
+    // TODO: BeginPlay 이후에는 즉시 적용되어야 합니다.
+}
+
+void RigidBody2DComponent::UseAutoMass(bool use_auto_mass)
+{
+    use_auto_mass_ = use_auto_mass;
     
-    b2Body_SetFixedRotation(body_id, freeze);
+    // TODO: BeginPlay 이후에는 즉시 적용되어야 합니다.
+}
+
+void RigidBody2DComponent::SetMass(float mass)
+{
+    mass_ = mass;
+    
+    // TODO: BeginPlay 이후에는 즉시 적용되어야 합니다.
 }
 
 void RigidBody2DComponent::SetLinearVelocity(const Math::Vector2& kLinearVelocity)
@@ -186,30 +191,6 @@ void RigidBody2DComponent::AddTorque(float torque, ForceMode mode)
     }
 }
 
-void RigidBody2DComponent::UseAutoMass(bool use_auto_mass)
-{
-    b2BodyId body_id = GetValidBodyId();
-
-    if (!use_auto_mass)
-    {
-        SetMass(1.f);
-        return;
-    }
-
-    b2Body_ApplyMassFromShapes(body_id);
-}
-
-void RigidBody2DComponent::SetMass(float mass)
-{
-    b2BodyId body_id = GetValidBodyId();
-
-    b2MassData mass_data = b2Body_GetMassData(body_id);
-    mass_data.mass = mass;
-
-    b2Body_SetMassData(body_id, mass_data);
-    
-}
-
 void RigidBody2DComponent::Sleep()
 {
     b2BodyId body_id = GetValidBodyId();
@@ -267,6 +248,81 @@ BodyType RigidBody2DComponent::GetBodyType() const
     if (b2Body_GetType(body_id) == b2_kinematicBody) return BodyType::kKinematic;
     if (b2Body_GetType(body_id) == b2_staticBody) return BodyType::kStatic;
     return BodyType::kDynamic;
+}
+
+void RigidBody2DComponent::SetBodyTypeInternal(b2BodyId body_id)
+{
+    switch (body_type_)
+    {
+    case BodyType::kDynamic:
+        b2Body_SetType(body_id, b2_dynamicBody);
+        break;
+
+    case BodyType::kKinematic:
+        b2Body_SetType(body_id, b2_kinematicBody);
+        break;
+
+    case BodyType::kStatic:
+        b2Body_SetType(body_id, b2_staticBody);
+        break;
+    }
+}
+
+void RigidBody2DComponent::SetGravityScaleInternal(b2BodyId body_id)
+{
+    b2Body_SetGravityScale(body_id, gravity_scale_);
+}
+
+void RigidBody2DComponent::SetSleepModeInternal(b2BodyId body_id)
+{
+    switch (sleep_mode_)
+    {
+    case SleepMode::kNeverSleep:
+        b2Body_EnableSleep(body_id, false);
+        break;
+
+    case SleepMode::kStartAwake:
+        b2Body_EnableSleep(body_id, true);
+        break;
+    }
+}
+
+void RigidBody2DComponent::SetCollisionDetectionModeInternal(b2BodyId body_id)
+{
+    switch (collision_detection_mode_)
+    {
+    case CollisionDetectionMode::kDiscrete:
+        b2Body_SetBullet(body_id, false);
+        break;
+
+    case CollisionDetectionMode::kContinuous:
+        b2Body_SetBullet(body_id, true);
+        break;
+    }
+}
+
+void RigidBody2DComponent::SetFixedRotationInternal(b2BodyId body_id)
+{
+    b2Body_SetFixedRotation(body_id, is_fixed_rotation_);
+}
+
+void RigidBody2DComponent::SetAutoMassInternal(b2BodyId body_id)
+{
+    if (use_auto_mass_)
+    {
+        b2Body_ApplyMassFromShapes(body_id);
+        return;
+    }
+
+    SetMassInternal(body_id);
+}
+
+void RigidBody2DComponent::SetMassInternal(b2BodyId body_id)
+{
+    b2MassData mass_data = b2Body_GetMassData(body_id);
+    mass_data.mass = mass_;
+
+    b2Body_SetMassData(body_id, mass_data);
 }
 
 b2BodyId RigidBody2DComponent::GetValidBodyId() const

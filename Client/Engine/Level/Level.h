@@ -23,13 +23,9 @@ public:
 
     inline const std::wstring& GetName() const { return name_; }
 
-    inline bool HasBegunPlay() const { return has_begun_play_; }
-
 protected:
     template<std::derived_from<Actor> T>
     T* AddActor(const std::wstring& kName);
-
-    bool has_begun_play_;
 
 private:
     friend class World;

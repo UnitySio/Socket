@@ -9,8 +9,6 @@ public:
     BoxColliderComponent(Actor* owner, const std::wstring& kName);
     virtual ~BoxColliderComponent() override = default;
 
-    virtual void InitializeComponent() override;
-
     virtual void SetOffset(const Math::Vector2& kOffset) override;
     virtual void SetTrigger(bool is_trigger) override;
 
