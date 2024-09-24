@@ -9,8 +9,6 @@
 CharacterBase::CharacterBase(const std::wstring& kName) :
     Actor(kName)
 {
-    SetLayer(ActorLayer::kPlayer);
-    
     state_machine_ = std::make_unique<StateMachine>();
     
     sprite_renderer_ = AddComponent<SpriteRendererComponent>(L"SpriteRenderer");
