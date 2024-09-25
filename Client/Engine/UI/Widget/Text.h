@@ -9,7 +9,7 @@ namespace UI
     public:
         Text(const std::wstring& kName);
         virtual ~Text() override = default;
-
+        
         virtual void Render() override;
 
         inline void SetText(const std::wstring& kText) { text_ = kText; }

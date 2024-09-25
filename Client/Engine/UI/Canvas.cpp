@@ -40,7 +40,7 @@ void Canvas::OnResize(MathTypes::uint32 width, MathTypes::uint32 height)
     }
 }
 
-void Canvas::Tick()
+void Canvas::Tick(float delta_time)
 {
     Mouse* mouse = Mouse::Get();
     if (!mouse) return;
@@ -77,6 +77,11 @@ void Canvas::Tick()
     else if (mouse->GetMouseButtonUp(MouseButton::kLeft))
     {
         if (hovered_widget_) hovered_widget_->OnMouseReleased();
+    }
+
+    for (const auto& ui : widgets_)
+    {
+        ui->Tick(delta_time);
     }
 }
 
