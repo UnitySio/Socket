@@ -22,7 +22,7 @@ private:
     friend class Widget;
 
     void OnResize(MathTypes::uint32 width, MathTypes::uint32 height);
-    void Tick();
+    void Tick(float delta_time);
     void Render();
     void Clear();
 

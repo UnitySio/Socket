@@ -7,6 +7,7 @@
 #include "UI/Canvas.h"
 #include "UI/Widget/Button.h"
 #include "UI/Widget/Text.h"
+#include "UI/Widget/TextBox.h"
 #include "Windows/WindowsWindow.h"
 
 MainMenu::MainMenu(const std::wstring& kName) :
@@ -55,4 +56,11 @@ void MainMenu::Load()
     exit_button_text->SetColor(Math::Color::Black);
 
     Canvas::Get()->AddWidget(exit_button_text);
+
+    std::shared_ptr<UI::TextBox> text_box = std::make_shared<UI::TextBox>(L"Text Box");
+    text_box->SetPosition({0.f, -45.f});
+    text_box->SetAnchorPreset(AnchorPresets::kMiddle | AnchorPresets::kCenter, true);
+    text_box->SetSize({200.f, 30.f});
+
+    Canvas::Get()->AddWidget(text_box);
 }

@@ -105,7 +105,7 @@ void GameEngine::Tick(float delta_time)
     World::Get()->Tick(delta_time);
     World::Get()->PostTick(delta_time);
 
-    Canvas::Get()->Tick();
+    Canvas::Get()->Tick(delta_time);
 
     Mouse::Get()->End();
     Keyboard::Get()->End();

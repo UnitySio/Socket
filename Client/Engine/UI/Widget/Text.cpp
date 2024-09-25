@@ -7,8 +7,9 @@
 
 UI::Text::Text(const std::wstring& kName) :
     Widget(kName),
+    text_(),
     color_(Math::Color::White),
-    font_size_(24.f)
+    font_size_(16.f)
 {
 }
 

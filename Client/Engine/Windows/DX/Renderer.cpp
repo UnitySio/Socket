@@ -556,7 +556,7 @@ void Renderer::DrawString(WindowsWindow* window, const std::wstring& kString, co
     float scaled_font_size = font_size * scale_ratio;
 
     Microsoft::WRL::ComPtr<IDWriteTextFormat> text_format;
-    HRESULT hr = dwrite_factory_->CreateTextFormat(L"Silver", dwrite_font_collection_.Get(),
+    HRESULT hr = dwrite_factory_->CreateTextFormat(L"NanumBarunGothic", dwrite_font_collection_.Get(),
                                                    DWRITE_FONT_WEIGHT_REGULAR, DWRITE_FONT_STYLE_NORMAL,
                                                    DWRITE_FONT_STRETCH_NORMAL, scaled_font_size, L"en-us",
                                                    text_format.GetAddressOf());
@@ -615,7 +615,7 @@ void Renderer::GetStringSize(WindowsWindow* window, const std::wstring& kString,
 
     Microsoft::WRL::ComPtr<IDWriteTextFormat> text_format;
     HRESULT hr = dwrite_factory_->CreateTextFormat(
-        L"Silver", dwrite_font_collection_.Get(),
+        L"NanumBarunGothic", dwrite_font_collection_.Get(),
         DWRITE_FONT_WEIGHT_REGULAR, DWRITE_FONT_STYLE_NORMAL,
         DWRITE_FONT_STRETCH_NORMAL, scaled_font_size, L"en-us",
         text_format.GetAddressOf()

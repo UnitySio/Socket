@@ -46,6 +46,7 @@ protected:
     inline virtual void OnMouseReleased() {}
     inline virtual void OnMouseHover() {}
     inline virtual void OnMouseLeave() {}
+    inline virtual void Tick(float delta_time) {}
     
     virtual void Render() = 0;
     
