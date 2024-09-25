@@ -21,13 +21,13 @@ public:
 protected:
     virtual void BeginPlay();
     
-    inline virtual void InitializeComponent() {};
-    inline virtual void UninitializeComponent() {};
-    inline virtual void EndPlay(EndPlayReason type) {};
-    inline virtual void PhysicsTickComponent(float delta_time) {};
-    inline virtual void TickComponent(float delta_time) {};
-    inline virtual void PostTickComponent(float delta_time) {};
-    inline virtual void Render(float alpha) {};
+    inline virtual void InitializeComponent() {}
+    inline virtual void UninitializeComponent() {}
+    inline virtual void EndPlay(EndPlayReason type) {}
+    inline virtual void PhysicsTickComponent(float delta_time) {}
+    inline virtual void TickComponent(float delta_time) {}
+    inline virtual void PostTickComponent(float delta_time) {}
+    inline virtual void Render(float alpha) {}
     
     Actor* owner_;
     std::wstring name_;

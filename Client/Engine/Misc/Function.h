@@ -107,7 +107,7 @@ private:
     template<typename F>
     struct LCallable : public ICallable
     {
-        LCallable(F&& func) : func_(std::move(func)) {};
+        LCallable(F&& func) : func_(std::move(func)) {}
         virtual Ret operator()(Args&&... args) const override
         {
             return func_(std::forward<Args>(args)...);
@@ -181,7 +181,7 @@ private:
     {
         FCallable(Ret(*func)(Args...), Args... args) 
             : args_(std::make_tuple(args...)), func_(func)
-        {};
+        {}
         virtual Ret operator()(Args&&... args) const override
         {
             return std::apply(func_, args_);
@@ -309,7 +309,7 @@ private:
     {
         GCallable(void(*func)(void)) 
             : func_(func)
-        {};
+        {}
         virtual void operator()(void) const override
         {
             (*func_)();
@@ -322,7 +322,7 @@ private:
     {
         GGCallable(void(*func)(Args...), const Args&&... kArgs)
             : args_(std::make_tuple(std::forward<Args>(kArgs)...)), func_(func)
-        {};
+        {}
 
         virtual void operator()() const override
         {
@@ -337,7 +337,7 @@ private:
     {
         SCallable(void(*func)(const std::wstring&), const std::wstring& kStr)
             : str_(kStr), func_(func)
-        {};
+        {}
 
         virtual void operator()() const override
         {
@@ -353,7 +353,7 @@ private:
     {
         SMCallable(M* target, void(M::*func)(const std::wstring&), const std::wstring& kStr)
             : target_(target), str_(kStr), func_(func)
-        {};
+        {}
 
         virtual void operator()() const override
         {
@@ -369,7 +369,7 @@ private:
     {
         AGCallable(void(*func)(Args...), Args... args)
             : func_(func), args_(std::make_tuple(args...))
-        {};
+        {}
         virtual void operator()(void) const override
         {
             std::apply(func_, args_);
@@ -396,7 +396,7 @@ private:
     {
         AMCallable(M* target, void(M::* func)(Args...), Args... args)
             : func_(func), target_(target), args_(std::make_tuple(args...))
-        {};
+        {}
         virtual void operator()() const override
         {
             std::apply([this](auto&&... args)
@@ -429,7 +429,7 @@ private:
     {
         LCallable(L&& func, Args&&... args)
             : func_(std::forward<L>(func)), args_(std::make_tuple(std::forward<Args>(args)...))
-        {};
+        {}
         virtual void operator()() const override
         {
             std::apply([&](auto&&... args) {
@@ -445,7 +445,7 @@ private:
     {
         VCallable(void(*func)(void))
             : func_(func)
-        {};
+        {}
         virtual void operator()() const override
         {
             func_();
@@ -461,7 +461,7 @@ private:
             : 
             func_(func), 
             m_(m)
-        {};
+        {}
         virtual void operator()() const override
         {
             (m_->*func_)();

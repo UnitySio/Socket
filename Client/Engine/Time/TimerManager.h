@@ -29,11 +29,11 @@ struct TimerHandle
 {
     TimerHandle() 
         : addr_(0)
-    {};
+    {}
 
     TimerHandle(TimerData& data)
         : addr_(reinterpret_cast<std::uintptr_t&>(data))
-    {};
+    {}
 
     bool operator==(const TimerHandle& kInput) const
     {
@@ -49,12 +49,12 @@ struct TimerData
 
     TimerData(Function<void(void)>&& func) 
         : callback(std::forward<Function<void(void)>>(func)), loop(false), rate(0.f), expire_time(0.f), status(TimerStatus::Active)
-    {};
+    {}
 
     template<typename M>
     TimerData(M* target, Function<void(void)>&& func)
         : callback(std::forward<Function<void(void)>>(target, func)), loop(false), rate(0.f), expire_time(0.f), status(TimerStatus::Active)
-    {};
+    {}
 
     bool operator==(const TimerData& kInput) const
     {
