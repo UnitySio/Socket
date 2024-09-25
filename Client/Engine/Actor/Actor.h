@@ -74,8 +74,8 @@ protected:
     void CreateBody();
     void OnLifeSpanExpired();
 
-    inline virtual void PreInitializeComponents() {};
-    inline virtual void PostInitializeComponents() {};
+    inline virtual void PreInitializeComponents() {}
+    inline virtual void PostInitializeComponents() {}
     
     virtual void BeginPlay();
     virtual void EndPlay(EndPlayReason type);
