@@ -31,28 +31,28 @@ Player::Player(const std::wstring& kName) :
     if (ResourceManager::Get()->Load<Sprite>(L"PlayerSheet", L".\\Game_Data\\PlayerSheet.png"))
     {
         sprite_ = ResourceManager::Get()->GetResource<Sprite>(L"PlayerSheet");
-        sprite_->Split(9, 7, Sprite::kCenter);
+        sprite_->Split(8, 7, Sprite::kCenter);
         
         sprite_renderer_->SetSprite(sprite_);
     }
     
     {
-        int idle_indices[] = {0, 1, 2, 3, 4, 5, 6, 7, 8};
-        std::shared_ptr<AnimationClip> idle_clip = animator_->AddClip(L"Idle", idle_indices, 9);
+        int idle_indices[] = {0, 1, 2, 3, 4, 5, 6, 7};
+        std::shared_ptr<AnimationClip> idle_clip = animator_->AddClip(L"Idle", idle_indices, 8);
         idle_clip->SetRepeat(true);
         idle_clip->SetFrameRate(6.f);
 
-        int walk_indices[] = {9, 10, 11, 12, 13, 14, 15, 16};
+        int walk_indices[] = {8, 9, 10, 11, 12, 13, 14, 15};
         std::shared_ptr<AnimationClip> walk_clip = animator_->AddClip(L"Walk", walk_indices, 8);
         walk_clip->SetRepeat(true);
         walk_clip->SetFrameRate(10.f);
 
-        int run_indices[] = {27, 28, 29, 30, 31, 32};
+        int run_indices[] = {24, 25, 26, 27, 28, 29};
         std::shared_ptr<AnimationClip> run_clip = animator_->AddClip(L"Run", run_indices, 6);
         run_clip->SetRepeat(true);
         run_clip->SetFrameRate(10.f);
 
-        int jump_indices[] = {36, 37, 38};
+        int jump_indices[] = {32, 33, 34};
         std::shared_ptr<AnimationClip> jump_clip = animator_->AddClip(L"Jump", jump_indices, 3);
         jump_clip->SetRepeat(false);
         jump_clip->SetFrameRate(10.f);
