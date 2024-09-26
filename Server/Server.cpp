@@ -20,6 +20,7 @@ int main()
 
         std::unique_ptr<sql::Statement> statement(connection->createStatement());
         std::unique_ptr<sql::ResultSet> result_set(statement->executeQuery("SELECT * FROM account_info"));
+        
         while (result_set->next())
         {
             std::cout << "id: " << result_set->getInt("id") << ", password: " << result_set->getString("password") << std::endl;
@@ -27,7 +28,7 @@ int main()
     }
     catch (sql::SQLException e)
     {
-        std::cout << e.what() << std::endl;
+        std::cerr << e.what() << std::endl;
         return 1;
     }
 
