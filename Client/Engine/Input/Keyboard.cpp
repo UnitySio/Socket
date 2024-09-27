@@ -97,11 +97,6 @@ bool Keyboard::ProcessMessage(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPa
 		if (!is_released) return OnKeyDown(key_code, char_code);
 		return OnKeyUp(key_code, char_code);
 	}
-	
-	// if (message == WM_IME_ENDCOMPOSITION)
-	// {
-	// 	return true;
-	// }
 
 	if (message == WM_CHAR)
 	{

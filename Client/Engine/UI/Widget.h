@@ -38,6 +38,8 @@ public:
     
     inline Widget* GetParent() const { return parent_; }
     inline const std::vector<Widget*>& GetChildren() const { return children_; }
+    
+    inline bool IsFocused() const { return is_focused_; }
 
 protected:
     friend class Canvas;
@@ -47,6 +49,9 @@ protected:
     inline virtual void OnMouseHover() {}
     inline virtual void OnMouseLeave() {}
     inline virtual void Tick(float delta_time) {}
+    
+    virtual void OnFocus();
+    virtual void OnBlur();
     
     virtual void Render() = 0;
     
@@ -70,5 +75,7 @@ protected:
     std::vector<Widget*> children_;
 
     MathTypes::uint32 z_index_;
+
+    bool is_focused_;
     
 };

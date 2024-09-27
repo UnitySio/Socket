@@ -36,5 +36,6 @@ private:
     std::vector<std::shared_ptr<Widget>> widgets_;
 
     Widget* hovered_widget_;
+    Widget* focused_widget_;
     
 };

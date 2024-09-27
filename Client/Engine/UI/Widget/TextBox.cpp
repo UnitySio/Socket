@@ -9,6 +9,7 @@
 UI::TextBox::TextBox(const std::wstring& kName) :
     Widget(kName),
     text_(),
+    placeholder_(),
     cursor_position_(0),
     elapsed_(0.f),
     show_cursor_(false),
@@ -19,6 +20,7 @@ UI::TextBox::TextBox(const std::wstring& kName) :
 void UI::TextBox::Tick(float delta_time)
 {
     Widget::Tick(delta_time);
+    if (!is_focused_) return;
 
     Keyboard* keyboard = Keyboard::Get();
 
@@ -84,7 +86,15 @@ void UI::TextBox::Render()
     if (GetParent()) pivot_position = GetParent()->GetPivotPosition();
 
     renderer->DrawBox(window, rect_, pivot_position, Math::Color::White, angle_);
-    renderer->DrawString(window, text_, rect_, pivot_position, Math::Color::Black, angle_, 16.f, DWRITE_TEXT_ALIGNMENT_LEADING, DWRITE_PARAGRAPH_ALIGNMENT_CENTER, &advances_);
+
+    if (text_.empty())
+    {
+        renderer->DrawString(window, placeholder_, rect_, pivot_position, Math::Color::Gray, angle_, 16.f, DWRITE_TEXT_ALIGNMENT_LEADING, DWRITE_PARAGRAPH_ALIGNMENT_CENTER, &advances_);
+    }
+    else
+    {
+        renderer->DrawString(window, text_, rect_, pivot_position, Math::Color::Black, angle_, 16.f, DWRITE_TEXT_ALIGNMENT_LEADING, DWRITE_PARAGRAPH_ALIGNMENT_CENTER, &advances_);
+    }
 
     if (show_cursor_)
     {
@@ -103,4 +113,12 @@ void UI::TextBox::Render()
     }
     
     advances_.clear();
+}
+
+void UI::TextBox::OnBlur()
+{
+    Widget::OnBlur();
+
+    elapsed_ = 0.f;
+    show_cursor_ = false;
 }

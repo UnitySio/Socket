@@ -1,13 +1,10 @@
 ﻿#pragma once
 #include <map>
 #include <queue>
-#include <stack>
 #include <Windows.h>
 
 #include "Singleton.h"
 #include "Math/MathTypes.h"
-
-#pragma comment(lib, "imm32.lib")
 
 enum class KeyboardEventType
 {

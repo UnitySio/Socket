@@ -15,6 +15,7 @@ namespace Math
         static const Color Blue;
         static const Color White;
         static const Color Black;
+        static const Color Gray;
         static const Color Yellow;
         static const Color Cyan;
         static const Color Magenta;

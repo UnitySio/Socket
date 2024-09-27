@@ -1,9 +1,11 @@
 ﻿#include "pch.h"
 #include "Canvas.h"
 
+#include "Logger.h"
 #include "Widget.h"
 #include "Input/Mouse.h"
 #include "Widget/Button.h"
+#include "Widget/TextBox.h"
 
 Canvas::Canvas() :
     width_(0.f),
@@ -12,7 +14,8 @@ Canvas::Canvas() :
     reference_resolution_height_(ProjectSettings::kCanvasReferenceHeight),
     match_mode_(ProjectSettings::kMatchMode),
     widgets_(),
-    hovered_widget_(nullptr)
+    hovered_widget_(nullptr),
+    focused_widget_(nullptr)
 {
 }
 
@@ -53,7 +56,7 @@ void Canvas::Tick(float delta_time)
         Widget* widget = it->get();
         if (widget->rect_.Contains(mouse_position))
         {
-            if (dynamic_cast<UI::Button*>(widget))
+            if (dynamic_cast<UI::Button*>(widget) || dynamic_cast<UI::TextBox*>(widget))
             {
                 if (!hovered_widget || widget->z_index_ > hovered_widget->z_index_)
                 {
@@ -76,7 +79,25 @@ void Canvas::Tick(float delta_time)
     }
     else if (mouse->GetMouseButtonUp(MouseButton::kLeft))
     {
-        if (hovered_widget_) hovered_widget_->OnMouseReleased();
+        if (hovered_widget_)
+        {
+            if (hovered_widget_ != focused_widget_)
+            {
+                if (focused_widget_) focused_widget_->OnBlur();
+                focused_widget_ = hovered_widget_;
+                focused_widget_->OnFocus();
+            }
+
+            hovered_widget_->OnMouseReleased();
+        }
+        else
+        {
+            if (focused_widget_)
+            {
+                focused_widget_->OnBlur();
+                focused_widget_ = nullptr;
+            }
+        }
     }
 
     for (const auto& ui : widgets_)
