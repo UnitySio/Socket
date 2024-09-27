@@ -82,7 +82,7 @@ bool Keyboard::GetKeyUp(WORD key_code)
 	return !key_state.is_down && key_state.was_down;
 }
 
-bool Keyboard::ProcessMessage(UINT message, WPARAM wParam, LPARAM lParam, MathTypes::uint32 handler_result)
+bool Keyboard::ProcessMessage(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam, MathTypes::uint32 handler_result)
 {
 	if (message == WM_KEYDOWN || message == WM_SYSKEYDOWN ||
 		message == WM_KEYUP || message == WM_SYSKEYUP)
@@ -97,6 +97,11 @@ bool Keyboard::ProcessMessage(UINT message, WPARAM wParam, LPARAM lParam, MathTy
 		if (!is_released) return OnKeyDown(key_code, char_code);
 		return OnKeyUp(key_code, char_code);
 	}
+	
+	// if (message == WM_IME_ENDCOMPOSITION)
+	// {
+	// 	return true;
+	// }
 
 	if (message == WM_CHAR)
 	{

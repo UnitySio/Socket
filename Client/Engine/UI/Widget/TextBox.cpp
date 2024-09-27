@@ -84,7 +84,7 @@ void UI::TextBox::Render()
     if (GetParent()) pivot_position = GetParent()->GetPivotPosition();
 
     renderer->DrawBox(window, rect_, pivot_position, Math::Color::White, angle_);
-    renderer->DrawString(window, text_, rect_, pivot_position, Math::Color::Black, angle_, 12.f, DWRITE_TEXT_ALIGNMENT_LEADING, DWRITE_PARAGRAPH_ALIGNMENT_CENTER, &advances_);
+    renderer->DrawString(window, text_, rect_, pivot_position, Math::Color::Black, angle_, 16.f, DWRITE_TEXT_ALIGNMENT_LEADING, DWRITE_PARAGRAPH_ALIGNMENT_CENTER, &advances_);
 
     if (show_cursor_)
     {
@@ -98,8 +98,8 @@ void UI::TextBox::Render()
             }
         }
         
-        Math::Vector2 cursor_position = Math::Vector2(rect_.x + advance + 1.f, rect_.y + 4.f);
-        renderer->DrawLine(window, cursor_position, cursor_position + Math::Vector2(0.f, 22.f), Math::Color::Black);
+        Math::Vector2 cursor_position = Math::Vector2(rect_.x + advance + 1.f, rect_.y + 6.f);
+        renderer->DrawLine(window, cursor_position, cursor_position + Math::Vector2(0.f, 18.f), Math::Color::Black);
     }
     
     advances_.clear();

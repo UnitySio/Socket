@@ -565,24 +565,20 @@ void Renderer::DrawString(WindowsWindow* window, const std::wstring& kString, co
     text_format->SetTextAlignment(text_alignment);
     text_format->SetParagraphAlignment(paragraph_alignment);
 
-    Microsoft::WRL::ComPtr<IDWriteTextLayout> text_layout;
-    hr = dwrite_factory_->CreateTextLayout(kString.c_str(), static_cast<UINT32>(kString.size()), text_format.Get(), kRect.width, kRect.height, text_layout.GetAddressOf());
-    if (FAILED(hr)) return;
-
-    std::vector<DWRITE_CLUSTER_METRICS> cluster_metrics;
-
-    MathTypes::uint32 cluster_count = 0;
-    hr = text_layout->GetClusterMetrics(nullptr, 0, &cluster_count);
-    // if (FAILED(hr)) return;
-
-    cluster_metrics.resize(cluster_count);
-    hr = text_layout->GetClusterMetrics(cluster_metrics.data(), cluster_count, &cluster_count);
-    // if (FAILED(hr)) return;
-
-    // *GetClusterMetrics를 사용했을 때 값은 정상적으로 나오는데, 이상하게 메모리 부족 오류가 발생함
-
     if (advances)
     {
+        Microsoft::WRL::ComPtr<IDWriteTextLayout> text_layout;
+        hr = dwrite_factory_->CreateTextLayout(kString.c_str(), static_cast<UINT32>(kString.size()), text_format.Get(), FLT_MAX, FLT_MAX, text_layout.GetAddressOf());
+        if (FAILED(hr)) return;
+    
+        std::vector<DWRITE_CLUSTER_METRICS> cluster_metrics;
+
+        MathTypes::uint32 cluster_count = 0;
+        text_layout->GetClusterMetrics(nullptr, 0, &cluster_count);
+        
+        cluster_metrics.resize(cluster_count);
+        text_layout->GetClusterMetrics(cluster_metrics.data(), cluster_count, &cluster_count);
+        
         for (const auto& cluster : cluster_metrics)
         {
             advances->push_back(cluster.width);

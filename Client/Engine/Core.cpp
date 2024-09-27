@@ -76,7 +76,7 @@ bool Core::ProcessMessage(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam,
 {
     if (ImGui_ImplWin32_WndProcHandler(hWnd, message, wParam, lParam)) return true;
     
-    if (Keyboard::Get()->ProcessMessage(message, wParam, lParam, handler_result)) return true;
+    if (Keyboard::Get()->ProcessMessage(hWnd, message, wParam, lParam, handler_result)) return true;
     if (Mouse::Get()->ProcessMessage(hWnd, message, wParam, lParam, handler_result)) return true;
 
     if (message == WM_SIZE)

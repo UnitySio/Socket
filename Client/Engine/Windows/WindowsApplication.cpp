@@ -119,16 +119,6 @@ MathTypes::uint32 WindowsApplication::ProcessMessage(HWND hWnd, UINT message, WP
             info->ptMinTrackSize.x = 100 + border_rect.right - border_rect.left;
             info->ptMinTrackSize.y = 100 + border_rect.bottom - border_rect.top;
         }
-
-        if (message == WM_IME_COMPOSITION)
-        {
-            return 0;
-        }
-
-        if (message == WM_IME_ENDCOMPOSITION)
-        {
-            return 0;
-        }
         
         if (message == WM_DESTROY)
         {
