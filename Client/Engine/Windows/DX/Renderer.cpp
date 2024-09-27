@@ -541,7 +541,7 @@ void Renderer::DrawLine(WindowsWindow* window, Math::Vector2 start, Math::Vector
     d2d_viewport->d2d_render_target->DrawLine(D2D1::Point2F(start.x, start.y), D2D1::Point2F(end.x, end.y), brush.Get(), stroke);
 }
 
-void Renderer::DrawString(WindowsWindow* window, const std::wstring& kString, const Math::Rect& kRect, const Math::Vector2& kPivot, const Math::Color& kColor, float rotation_z, float font_size, DWRITE_TEXT_ALIGNMENT text_alignment, DWRITE_PARAGRAPH_ALIGNMENT paragraph_alignment)
+void Renderer::DrawString(WindowsWindow* window, const std::wstring& kString, const Math::Rect& kRect, const Math::Vector2& kPivot, const Math::Color& kColor, float rotation_z, float font_size, DWRITE_TEXT_ALIGNMENT text_alignment, DWRITE_PARAGRAPH_ALIGNMENT paragraph_alignment, std::vector<float>* advances)
 {
     D2DViewport* d2d_viewport = FindD2DViewport(window);
     if (!d2d_viewport) return;
@@ -564,6 +564,30 @@ void Renderer::DrawString(WindowsWindow* window, const std::wstring& kString, co
 
     text_format->SetTextAlignment(text_alignment);
     text_format->SetParagraphAlignment(paragraph_alignment);
+
+    Microsoft::WRL::ComPtr<IDWriteTextLayout> text_layout;
+    hr = dwrite_factory_->CreateTextLayout(kString.c_str(), static_cast<UINT32>(kString.size()), text_format.Get(), kRect.width, kRect.height, text_layout.GetAddressOf());
+    if (FAILED(hr)) return;
+
+    std::vector<DWRITE_CLUSTER_METRICS> cluster_metrics;
+
+    MathTypes::uint32 cluster_count = 0;
+    hr = text_layout->GetClusterMetrics(nullptr, 0, &cluster_count);
+    // if (FAILED(hr)) return;
+
+    cluster_metrics.resize(cluster_count);
+    hr = text_layout->GetClusterMetrics(cluster_metrics.data(), cluster_count, &cluster_count);
+    // if (FAILED(hr)) return;
+
+    // *GetClusterMetrics를 사용했을 때 값은 정상적으로 나오는데, 이상하게 메모리 부족 오류가 발생함
+
+    if (advances)
+    {
+        for (const auto& cluster : cluster_metrics)
+        {
+            advances->push_back(cluster.width);
+        }
+    }
 
     Microsoft::WRL::ComPtr<ID2D1SolidColorBrush> brush;
     hr = d2d_viewport->d2d_render_target->CreateSolidColorBrush(
@@ -602,39 +626,6 @@ void Renderer::DrawBitmap(WindowsWindow* window, const Microsoft::WRL::ComPtr<ID
 
     d2d_viewport->d2d_render_target->DrawBitmap(kBitmap.Get(), rect, 1.f, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR);
     d2d_viewport->d2d_render_target->SetTransform(transform);
-}
-
-void Renderer::GetStringSize(WindowsWindow* window, const std::wstring& kString, float font_size, Math::Vector2& size)
-{
-    D2DViewport* d2d_viewport = FindD2DViewport(window);
-    if (!d2d_viewport) return;
-
-    Canvas* canvas = Canvas::Get();
-    float scale_ratio = canvas->GetScaleRatio();
-    float scaled_font_size = font_size * scale_ratio;
-
-    Microsoft::WRL::ComPtr<IDWriteTextFormat> text_format;
-    HRESULT hr = dwrite_factory_->CreateTextFormat(
-        L"NanumBarunGothic", dwrite_font_collection_.Get(),
-        DWRITE_FONT_WEIGHT_REGULAR, DWRITE_FONT_STYLE_NORMAL,
-        DWRITE_FONT_STRETCH_NORMAL, scaled_font_size, L"en-us",
-        text_format.GetAddressOf()
-    );
-    
-    if (FAILED(hr)) return;
-
-    text_format->SetTextAlignment(DWRITE_TEXT_ALIGNMENT_LEADING);
-    text_format->SetParagraphAlignment(DWRITE_PARAGRAPH_ALIGNMENT_NEAR);
-
-    Microsoft::WRL::ComPtr<IDWriteTextLayout> text_layout;
-    hr = dwrite_factory_->CreateTextLayout(kString.c_str(), static_cast<UINT32>(kString.size()), text_format.Get(), FLT_MAX, FLT_MAX, text_layout.GetAddressOf());
-    if (FAILED(hr)) return;
-
-    DWRITE_TEXT_METRICS text_metrics;
-    text_layout->GetMetrics(&text_metrics);
-
-    size.x = text_metrics.width;
-    size.y = text_metrics.height;
 }
 
 bool Renderer::LoadBitmap(const std::shared_ptr<WindowsWindow>& kWindow, const std::wstring& kFileName, Microsoft::WRL::ComPtr<ID2D1Bitmap>& bitmap)

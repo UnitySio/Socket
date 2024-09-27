@@ -13,17 +13,16 @@ namespace UI
         virtual void Tick(float delta_time) override;
         virtual void Render() override;
 
-        inline const std::wstring& GetText() const { return text_; }
-
     private:
         std::wstring text_;
         
-        Math::Color color_;
+        int cursor_position_;
 
-        float font_size_;
-        float cursor_blink_time_;
+        float elapsed_;
 
-        bool cursor_visible_;
+        bool show_cursor_;
+
+        std::vector<float> advances_;
         
     };
 }

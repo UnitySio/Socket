@@ -76,6 +76,9 @@ LRESULT WindowsApplication::StaticWndProc(HWND hWnd, UINT message, WPARAM wParam
     return DefWindowProc(hWnd, message, wParam, lParam);
 }
 
+#include <imm.h> // IME 관련 헤더
+#pragma comment(lib, "imm32.lib") // IME 라이브러리
+
 MathTypes::uint32 WindowsApplication::ProcessMessage(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
     std::shared_ptr<WindowsWindow> window = FindWindowByHWND(hWnd);
@@ -115,6 +118,16 @@ MathTypes::uint32 WindowsApplication::ProcessMessage(HWND hWnd, UINT message, WP
             MINMAXINFO* info = reinterpret_cast<MINMAXINFO*>(lParam);
             info->ptMinTrackSize.x = 100 + border_rect.right - border_rect.left;
             info->ptMinTrackSize.y = 100 + border_rect.bottom - border_rect.top;
+        }
+
+        if (message == WM_IME_COMPOSITION)
+        {
+            return 0;
+        }
+
+        if (message == WM_IME_ENDCOMPOSITION)
+        {
+            return 0;
         }
         
         if (message == WM_DESTROY)
