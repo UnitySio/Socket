@@ -20,23 +20,23 @@ enum ActorLayer : MathTypes::uint16
 class ProjectSettings
 {
 public:
-    static inline const std::wstring kWindowTitle = L"Fusion2D"; // 윈도우 타이틀
+    inline static const std::wstring kWindowTitle = L"Fusion2D"; // 윈도우 타이틀
     
-    static inline constexpr MathTypes::uint32 kSteamAppID = 480; // 스팀 앱 ID (480은 테스트 앱 ID)
+    inline static constexpr MathTypes::uint32 kSteamAppID = 480; // 스팀 앱 ID (480은 테스트 앱 ID)
 
-    static inline constexpr MathTypes::uint32 kScreenWidth = 640; // 화면 너비
-    static inline constexpr MathTypes::uint32 kScreenHeight = 480; // 화면 높이
+    inline static constexpr MathTypes::uint32 kScreenWidth = 640; // 화면 너비
+    inline static constexpr MathTypes::uint32 kScreenHeight = 480; // 화면 높이
 
-    static inline constexpr MathTypes::uint32 kCanvasReferenceWidth = 640;
-    static inline constexpr MathTypes::uint32 kCanvasReferenceHeight = 480;
-    static inline constexpr float kMatchMode = 0.f;
+    inline static constexpr MathTypes::uint32 kCanvasReferenceWidth = 640;
+    inline static constexpr MathTypes::uint32 kCanvasReferenceHeight = 480;
+    inline static constexpr float kMatchMode = 0.f;
     
-    static inline constexpr bool kShowFrameRate = true; // 프레임레이트 표시 여부
-    static inline constexpr bool kUseVSync = false; // 수직동기화 사용 여부
+    inline static constexpr bool kShowFrameRate = true; // 프레임레이트 표시 여부
+    inline static constexpr bool kUseVSync = false; // 수직동기화 사용 여부
 
-    static inline constexpr float kFixedTimeStep = .02f; // 고정 프레임 간격
+    inline static constexpr float kFixedTimeStep = .02f; // 고정 프레임 간격
 
-    static inline const std::map<MathTypes::uint16, MathTypes::uint16> kLayerCollisionMatrix = { // 레이어 충돌 매트릭스
+    inline static const std::map<MathTypes::uint16, MathTypes::uint16> kLayerCollisionMatrix = { // 레이어 충돌 매트릭스
         {kDefault, kDefault | kGround | kPlayer},
         {kGround, kGround | kDefault | kPlayer},
         {kPlayer, kPlayer | kGround | kDefault},
