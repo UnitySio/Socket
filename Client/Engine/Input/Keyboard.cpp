@@ -3,7 +3,11 @@
 
 #include <ranges>
 
-Keyboard::Keyboard() : input_string_(), key_states_(), key_events_()
+#include "UI/Canvas.h"
+
+Keyboard::Keyboard() :
+	key_states_(),
+	key_events_()
 {
 }
 
@@ -29,17 +33,11 @@ void Keyboard::Begin()
 				key_state.is_down = type == KeyboardEventType::kDown;
 			}
 		}
-		else if (type == KeyboardEventType::kChar)
-		{
-			input_string_.push_back(event.character);
-		}
 	}
 }
 
 void Keyboard::End()
 {
-	input_string_.clear();
-	
 	for (auto& key_state : key_states_ | std::views::values)
 	{
 		key_state.was_down = key_state.is_down;
@@ -49,8 +47,6 @@ void Keyboard::End()
 void Keyboard::Clear()
 {
 	std::lock_guard<std::mutex> lock(mutex_);
-	
-	input_string_.clear();
 	
 	while (!key_events_.empty())
 	{
@@ -93,28 +89,36 @@ bool Keyboard::ProcessMessage(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPa
 		MathTypes::uint32 char_code =  MapVirtualKey(key_code, MAPVK_VK_TO_CHAR);
 
 		bool is_released = (key_flags & KF_UP) == KF_UP;
+		bool is_repeat = (key_flags & KF_REPEAT) == KF_REPEAT;
         
-		if (!is_released) return OnKeyDown(key_code, char_code);
+		if (!is_released) return OnKeyDown(key_code, char_code,is_repeat);
 		return OnKeyUp(key_code, char_code);
 	}
 
 	if (message == WM_CHAR)
 	{
 		const WCHAR kCharacter = static_cast<WCHAR>(wParam);
+		if (kCharacter < 32 || (kCharacter > 126 && kCharacter < 160)) return false;
 		return OnKeyChar(kCharacter);
 	}
     
 	return false;
 }
 
-bool Keyboard::OnKeyDown(WORD key_code, MathTypes::uint32 char_code)
+bool Keyboard::OnKeyDown(WORD key_code, MathTypes::uint32 char_code, bool is_repeat)
 {
+	std::lock_guard<std::mutex> lock(mutex_);
+	
+	Canvas::Get()->OnKeyDown(key_code, is_repeat);
 	OnInputKey(key_code, KeyboardEventType::kDown);
 	return true;
 }
 
 bool Keyboard::OnKeyUp(WORD key_code, MathTypes::uint32 char_code)
 {
+	std::lock_guard<std::mutex> lock(mutex_);
+	
+	Canvas::Get()->OnKeyUp(key_code);
 	OnInputKey(key_code, KeyboardEventType::kUp);
 	return true;
 }
@@ -122,20 +126,13 @@ bool Keyboard::OnKeyUp(WORD key_code, MathTypes::uint32 char_code)
 bool Keyboard::OnKeyChar(WCHAR character)
 {
 	std::lock_guard<std::mutex> lock(mutex_);
-
-	KeyEvent event;
-	event.state = KeyboardEventType::kChar;
-	event.character = character;
-
-	key_events_.push(event);
 	
+	Canvas::Get()->OnKeyChar(character);
 	return true;
 }
 
 void Keyboard::OnInputKey(WORD key_code, KeyboardEventType state)
 {
-	std::lock_guard<std::mutex> lock(mutex_);
-	
 	KeyEvent event;
 	event.state = state;
 	event.key_code = key_code;

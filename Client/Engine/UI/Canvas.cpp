@@ -1,7 +1,6 @@
 ﻿#include "pch.h"
 #include "Canvas.h"
 
-#include "Logger.h"
 #include "Widget.h"
 #include "Input/Mouse.h"
 #include "Widget/Button.h"
@@ -41,6 +40,22 @@ void Canvas::OnResize(MathTypes::uint32 width, MathTypes::uint32 height)
     {
         widget->UpdateRect();
     }
+}
+
+void Canvas::OnKeyDown(MathTypes::uint16 key_code, bool is_repeat)
+{
+    if (is_repeat) keyboard_events_.push({UIKeyboardEventType::kRepeat, key_code});
+    else keyboard_events_.push({UIKeyboardEventType::kDown, key_code});
+}
+
+void Canvas::OnKeyUp(MathTypes::uint16 key_code)
+{
+    keyboard_events_.push({UIKeyboardEventType::kUp, key_code});
+}
+
+void Canvas::OnKeyChar(MathTypes::uint16 character)
+{
+    keyboard_events_.push({UIKeyboardEventType::kChar, character});
 }
 
 void Canvas::Tick(float delta_time)
@@ -97,6 +112,35 @@ void Canvas::Tick(float delta_time)
                 focused_widget_->OnBlur();
                 focused_widget_ = nullptr;
             }
+        }
+    }
+
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+    
+        while (!keyboard_events_.empty())
+        {
+            const UIKeyboardEvent& event = keyboard_events_.front();
+            switch (event.type)
+            {
+            case UIKeyboardEventType::kDown:
+            case UIKeyboardEventType::kRepeat:
+                {
+                    if (focused_widget_) focused_widget_->OnKeyEvent(event.key_code, true);
+                }
+                break;
+            case UIKeyboardEventType::kUp:
+                {
+                    if (focused_widget_) focused_widget_->OnKeyEvent(event.key_code, false);
+                }
+                break;
+            case UIKeyboardEventType::kChar:
+                {
+                    if (focused_widget_) focused_widget_->OnCharEvent(event.key_code);
+                }
+                break;
+            }
+            keyboard_events_.pop();
         }
     }
 

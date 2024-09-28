@@ -1,7 +1,22 @@
 ﻿#pragma once
+#include <queue>
 #include <vector>
 
 #include "Singleton.h"
+
+enum class UIKeyboardEventType
+{
+    kDown,
+    kRepeat,
+    kUp,
+    kChar,
+};
+
+struct UIKeyboardEvent
+{
+    UIKeyboardEventType type;
+    MathTypes::uint16 key_code;
+};
 
 class Widget;
 
@@ -15,13 +30,19 @@ public:
 
     float GetScaleRatio() const;
 
+    inline std::queue<UIKeyboardEvent>& GetKeyboardEvents() { return keyboard_events_; }
+
 private:
     friend class Core;
     friend class GameEngine;
+    friend class Keyboard;
     friend class World;
     friend class Widget;
 
     void OnResize(MathTypes::uint32 width, MathTypes::uint32 height);
+    void OnKeyDown(MathTypes::uint16 key_code, bool is_repeat);
+    void OnKeyUp(MathTypes::uint16 key_code);
+    void OnKeyChar(MathTypes::uint16 character);
     void Tick(float delta_time);
     void Render();
     void Clear();
@@ -37,5 +58,10 @@ private:
 
     Widget* hovered_widget_;
     Widget* focused_widget_;
+    
+    // 스레드로 부터 안전을 위한 뮤텍스
+    std::mutex mutex_;
+
+    std::queue<UIKeyboardEvent> keyboard_events_;
     
 };

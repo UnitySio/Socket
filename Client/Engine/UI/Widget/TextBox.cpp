@@ -3,6 +3,7 @@
 
 #include "Input/Keyboard.h"
 #include "Level/World.h"
+#include "UI/Canvas.h"
 #include "Windows/WindowsWindow.h"
 #include "Windows/DX/Renderer.h"
 
@@ -21,50 +22,6 @@ void UI::TextBox::Tick(float delta_time)
 {
     Widget::Tick(delta_time);
     if (!is_focused_) return;
-
-    Keyboard* keyboard = Keyboard::Get();
-
-    if (keyboard->GetKeyDown(VK_LEFT))
-    {
-        if (cursor_position_ > 0) cursor_position_--;
-    }
-    else if (keyboard->GetKeyDown(VK_RIGHT))
-    {
-        if (cursor_position_ < text_.size()) cursor_position_++;
-    }
-    else if (keyboard->GetKeyDown(VK_BACK))
-    {
-        if (text_.size() > 0 && cursor_position_ > 0)
-        {
-            text_.erase(cursor_position_ - 1, 1);
-            cursor_position_--;
-        }
-    }
-    else if (keyboard->GetKeyDown(VK_SPACE))
-    {
-        text_.insert(cursor_position_, L" ");
-        cursor_position_++;
-    }
-    else if (keyboard->GetKeyDown(VK_HOME))
-    {
-        cursor_position_ = 0;
-    }
-    else if (keyboard->GetKeyDown(VK_END))
-    {
-        cursor_position_ = text_.size();
-    }
-    else if (keyboard->GetKeyDown(VK_DELETE))
-    {
-        if (text_.size() > 0 && cursor_position_ < text_.size())
-        {
-            text_.erase(cursor_position_, 1);
-        }
-    }
-    else
-    {
-        text_.insert(cursor_position_, keyboard->GetInputString());
-        cursor_position_ += keyboard->GetInputString().size();
-    }
 
     elapsed_ += delta_time;
     if (elapsed_ >= .5f)
@@ -121,4 +78,57 @@ void UI::TextBox::OnBlur()
 
     elapsed_ = 0.f;
     show_cursor_ = false;
+}
+
+void UI::TextBox::OnKeyEvent(MathTypes::uint16 key_code, bool is_pressed)
+{
+    Widget::OnKeyEvent(key_code, is_pressed);
+
+    if (is_pressed)
+    {
+        if (key_code == VK_LEFT)
+        {
+            if (cursor_position_ > 0) cursor_position_--;
+        }
+        else if (key_code == VK_RIGHT)
+        {
+            if (cursor_position_ < text_.size()) cursor_position_++;
+        }
+        else if (key_code == VK_BACK)
+        {
+            if (text_.size() > 0 && cursor_position_ > 0)
+            {
+                text_.erase(cursor_position_ - 1, 1);
+                cursor_position_--;
+            }
+        }
+        else if (key_code == VK_SPACE)
+        {
+            text_.insert(cursor_position_, L" ");
+            cursor_position_++;
+        }
+        else if (key_code == VK_HOME)
+        {
+            cursor_position_ = 0;
+        }
+        else if (key_code == VK_END)
+        {
+            cursor_position_ = text_.size();
+        }
+        else if (key_code == VK_DELETE)
+        {
+            if (text_.size() > 0 && cursor_position_ < text_.size())
+            {
+                text_.erase(cursor_position_, 1);
+            }
+        }
+    }
+}
+
+void UI::TextBox::OnCharEvent(MathTypes::uint16 character)
+{
+    Widget::OnCharEvent(character);
+
+    text_.insert(cursor_position_, 1, character);
+    cursor_position_++;
 }

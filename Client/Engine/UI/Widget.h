@@ -48,6 +48,8 @@ protected:
     inline virtual void OnMouseReleased() {}
     inline virtual void OnMouseHover() {}
     inline virtual void OnMouseLeave() {}
+    inline virtual void OnKeyEvent(MathTypes::uint16 key_code, bool is_pressed) {}
+    inline virtual void OnCharEvent(MathTypes::uint16 character) {}
     inline virtual void Tick(float delta_time) {}
     
     virtual void OnFocus();
