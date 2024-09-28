@@ -195,6 +195,8 @@ void World::TransitionLevel()
     DestroyActors();
     SpawnActors();
     
+    Canvas::Get()->BeginPlay();
+    
     SetWindowText(window_->GetHWnd(), current_level_->GetName().c_str());
 }
 

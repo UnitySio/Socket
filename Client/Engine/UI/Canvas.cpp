@@ -58,6 +58,14 @@ void Canvas::OnKeyChar(MathTypes::uint16 character)
     keyboard_events_.push({UIKeyboardEventType::kChar, character});
 }
 
+void Canvas::BeginPlay()
+{
+    for (const auto& ui : widgets_)
+    {
+        ui->BeginPlay();
+    }
+}
+
 void Canvas::Tick(float delta_time)
 {
     Mouse* mouse = Mouse::Get();

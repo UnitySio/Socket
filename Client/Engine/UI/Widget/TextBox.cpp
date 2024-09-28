@@ -8,6 +8,7 @@
 
 UI::TextBox::TextBox(const std::wstring& kName) :
     Widget(kName),
+    text_area_(),
     text_(),
     placeholder_(),
     cursor_position_(0),
@@ -15,6 +16,13 @@ UI::TextBox::TextBox(const std::wstring& kName) :
     show_cursor_(false),
     advances_()
 {
+}
+
+void UI::TextBox::BeginPlay()
+{
+    Widget::BeginPlay();
+
+    text_area_ = rect_;
 }
 
 void UI::TextBox::Tick(float delta_time)
@@ -43,6 +51,8 @@ void UI::TextBox::Render()
 
     renderer->DrawBox(window, rect_, pivot_position, Math::Color::White, angle_);
 
+    renderer->BeginLayer(rect_);
+
     if (text_.empty())
     {
         renderer->DrawString(window, placeholder_, rect_, pivot_position, Math::Color::Gray, angle_, 16.f, DWRITE_TEXT_ALIGNMENT_LEADING, DWRITE_PARAGRAPH_ALIGNMENT_CENTER, &advances_);
@@ -69,6 +79,8 @@ void UI::TextBox::Render()
     }
     
     advances_.clear();
+
+    renderer->EndLayer();
 }
 
 void UI::TextBox::OnBlur()

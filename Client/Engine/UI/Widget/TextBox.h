@@ -10,6 +10,7 @@ namespace UI
         TextBox(const std::wstring& kName);
         virtual ~TextBox() override = default;
 
+        virtual void BeginPlay() override;
         virtual void Tick(float delta_time) override;
         virtual void Render() override;
         virtual void OnBlur() override;
@@ -19,6 +20,8 @@ namespace UI
         inline void SetPlaceholder(const std::wstring& kPlaceholder) { placeholder_ = kPlaceholder; }
 
     private:
+        Math::Rect text_area_;
+        
         std::wstring text_;
         std::wstring placeholder_;
         

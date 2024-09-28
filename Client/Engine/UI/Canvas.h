@@ -43,6 +43,7 @@ private:
     void OnKeyDown(MathTypes::uint16 key_code, bool is_repeat);
     void OnKeyUp(MathTypes::uint16 key_code);
     void OnKeyChar(MathTypes::uint16 character);
+    void BeginPlay();
     void Tick(float delta_time);
     void Render();
     void Clear();

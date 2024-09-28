@@ -50,12 +50,12 @@ protected:
     inline virtual void OnMouseLeave() {}
     inline virtual void OnKeyEvent(MathTypes::uint16 key_code, bool is_pressed) {}
     inline virtual void OnCharEvent(MathTypes::uint16 character) {}
+    inline virtual void BeginPlay() {}
     inline virtual void Tick(float delta_time) {}
+    inline virtual void Render() {}
     
     virtual void OnFocus();
     virtual void OnBlur();
-    
-    virtual void Render() = 0;
     
     virtual void UpdateRect();
     
