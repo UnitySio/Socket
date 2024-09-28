@@ -161,5 +161,6 @@ void Canvas::Render()
 void Canvas::Clear()
 {
     hovered_widget_ = nullptr;
+    focused_widget_ = nullptr;
     widgets_.clear();
 }
