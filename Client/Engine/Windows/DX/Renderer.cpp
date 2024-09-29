@@ -650,6 +650,8 @@ bool Renderer::GetTextAdvances(const std::wstring& kString, const std::wstring& 
         
     cluster_metrics.resize(cluster_count);
     text_layout->GetClusterMetrics(cluster_metrics.data(), cluster_count, &cluster_count);
+
+    advances.clear();
         
     for (const auto& cluster : cluster_metrics)
     {

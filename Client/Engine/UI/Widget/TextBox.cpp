@@ -143,7 +143,6 @@ void UI::TextBox::OnCharEvent(MathTypes::uint16 character)
 
     if (Renderer* renderer = Renderer::Get())
     {
-        advances_.clear();
         renderer->GetTextAdvances(text_, L"Nanum16", advances_);
     }
 }
