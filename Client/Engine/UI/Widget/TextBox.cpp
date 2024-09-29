@@ -55,11 +55,11 @@ void UI::TextBox::Render()
 
     if (text_.empty())
     {
-        renderer->DrawString(window, placeholder_, text_area_, pivot_position, Math::Color::Gray, angle_, L"Nanum18", DWRITE_TEXT_ALIGNMENT_LEADING, DWRITE_PARAGRAPH_ALIGNMENT_CENTER);
+        renderer->DrawString(window, placeholder_, text_area_, pivot_position, Math::Color::Gray, angle_, L"Nanum16", DWRITE_TEXT_ALIGNMENT_LEADING, DWRITE_PARAGRAPH_ALIGNMENT_CENTER);
     }
     else
     {
-        renderer->DrawString(window, text_, text_area_, pivot_position, Math::Color::Black, angle_, L"Nanum18", DWRITE_TEXT_ALIGNMENT_LEADING, DWRITE_PARAGRAPH_ALIGNMENT_CENTER);
+        renderer->DrawString(window, text_, text_area_, pivot_position, Math::Color::Black, angle_, L"Nanum16", DWRITE_TEXT_ALIGNMENT_LEADING, DWRITE_PARAGRAPH_ALIGNMENT_CENTER);
     }
 
     if (show_cursor_)
@@ -144,6 +144,6 @@ void UI::TextBox::OnCharEvent(MathTypes::uint16 character)
     if (Renderer* renderer = Renderer::Get())
     {
         advances_.clear();
-        renderer->GetTextAdvances(text_, L"Nanum18", advances_);
+        renderer->GetTextAdvances(text_, L"Nanum16", advances_);
     }
 }

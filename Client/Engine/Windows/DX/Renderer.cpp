@@ -100,8 +100,8 @@ bool Renderer::CreateDWrite()
 
     hr = dwrite_factory_->CreateTextFormat(L"NanumBarunGothic", dwrite_font_collection_.Get(),
                                                    DWRITE_FONT_WEIGHT_REGULAR, DWRITE_FONT_STYLE_NORMAL,
-                                                   DWRITE_FONT_STRETCH_NORMAL, 18.f, L"en-us",
-                                                   text_formats_[L"Nanum18"].GetAddressOf());
+                                                   DWRITE_FONT_STRETCH_NORMAL, 16.f, L"ko-kr",
+                                                   text_formats_[L"Nanum16"].GetAddressOf());
     return SUCCEEDED(hr);
 }
 
