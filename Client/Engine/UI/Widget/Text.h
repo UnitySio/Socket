@@ -14,14 +14,11 @@ namespace UI
 
         inline void SetText(const std::wstring& kText) { text_ = kText; }
         inline void SetColor(const Math::Color& kColor) { color_ = kColor; }
-        inline void SetFontSize(float kFontSize) { font_size_ = kFontSize; }
 
     private:
         std::wstring text_;
 
         Math::Color color_;
-
-        float font_size_;
     
     };
 }

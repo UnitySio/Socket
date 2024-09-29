@@ -55,11 +55,11 @@ void UI::TextBox::Render()
 
     if (text_.empty())
     {
-        renderer->DrawString(window, placeholder_, rect_, pivot_position, Math::Color::Gray, angle_, 16.f, DWRITE_TEXT_ALIGNMENT_LEADING, DWRITE_PARAGRAPH_ALIGNMENT_CENTER, &advances_);
+        renderer->DrawString(window, placeholder_, text_area_, pivot_position, Math::Color::Gray, angle_, L"Nanum18", DWRITE_TEXT_ALIGNMENT_LEADING, DWRITE_PARAGRAPH_ALIGNMENT_CENTER);
     }
     else
     {
-        renderer->DrawString(window, text_, rect_, pivot_position, Math::Color::Black, angle_, 16.f, DWRITE_TEXT_ALIGNMENT_LEADING, DWRITE_PARAGRAPH_ALIGNMENT_CENTER, &advances_);
+        renderer->DrawString(window, text_, text_area_, pivot_position, Math::Color::Black, angle_, L"Nanum18", DWRITE_TEXT_ALIGNMENT_LEADING, DWRITE_PARAGRAPH_ALIGNMENT_CENTER);
     }
 
     if (show_cursor_)
@@ -74,11 +74,9 @@ void UI::TextBox::Render()
             }
         }
         
-        Math::Vector2 cursor_position = Math::Vector2(rect_.x + advance + 1.f, rect_.y + 6.f);
+        Math::Vector2 cursor_position = Math::Vector2(text_area_.x + advance + 1.f, text_area_.y + 6.f);
         renderer->DrawLine(window, cursor_position, cursor_position + Math::Vector2(0.f, 18.f), Math::Color::Black);
     }
-    
-    advances_.clear();
 
     renderer->EndLayer();
 }
@@ -142,4 +140,10 @@ void UI::TextBox::OnCharEvent(MathTypes::uint16 character)
 
     text_.insert(cursor_position_, 1, character);
     cursor_position_++;
+
+    if (Renderer* renderer = Renderer::Get())
+    {
+        advances_.clear();
+        renderer->GetTextAdvances(text_, L"Nanum18", advances_);
+    }
 }
