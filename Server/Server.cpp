@@ -7,7 +7,7 @@
 
 int main()
 {
-    try
+    /*try
     {
         sql::mysql::MySQL_Driver* driver = sql::mysql::get_mysql_driver_instance();
 
@@ -30,7 +30,7 @@ int main()
     {
         std::cerr << e.what() << std::endl;
         return 1;
-    }
+    }*/
 
     return 0;
 }
