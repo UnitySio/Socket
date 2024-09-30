@@ -1,9 +1,9 @@
 #include "pch.h"
 #include "CoreGlobal.h"
-#include "ThreadManager.h"
-#include "GlobalQueue.h"
-#include "SocketUtils.h"
-#include "JobTimer.h"
+#include "..\Thread\ThreadManager.h"
+#include "..\Job\GlobalQueue.h"
+#include "..\Network\SocketUtils.h"
+#include "..\Job\JobTimer.h"
 
 ThreadManager* GThreadManager = nullptr;
 GlobalQueue* GGlobalQueue = nullptr;

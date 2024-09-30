@@ -1,9 +1,9 @@
 #include "pch.h"
 #include "ThreadManager.h"
-#include "JobTimer.h"
-#include "CoreTLS.h"
-#include "GlobalQueue.h"
-#include "CoreGlobal.h"
+#include "..\Job\JobTimer.h"
+#include "..\Util\CoreTLS.h"
+#include "..\Job\GlobalQueue.h"
+#include "..\Util\CoreGlobal.h"
 /*------------------
 	ThreadManager
 -------------------*/

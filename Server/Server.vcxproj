@@ -137,33 +137,28 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="CoreGlobal.cpp" />
-    <ClCompile Include="CoreTLS.cpp" />
-    <ClCompile Include="GlobalQueue.cpp" />
-    <ClCompile Include="IocpCore.cpp" />
-    <ClCompile Include="IocpEvent.cpp" />
-    <ClCompile Include="Job.cpp" />
-    <ClCompile Include="JobQueue.cpp" />
-    <ClCompile Include="JobTimer.cpp" />
-    <ClCompile Include="Listener.cpp" />
-    <ClCompile Include="Lock.cpp" />
-    <ClCompile Include="LockQueue.cpp" />
-    <ClCompile Include="NetworkConnector.cpp" />
+    <ClCompile Include="Job\GlobalQueue.cpp" />
+    <ClCompile Include="Job\Job.cpp" />
+    <ClCompile Include="Job\JobQueue.cpp" />
+    <ClCompile Include="Job\JobTimer.cpp" />
+    <ClCompile Include="Network\IocpCore.cpp" />
+    <ClCompile Include="Network\IocpEvent.cpp" />
+    <ClCompile Include="Network\Listener.cpp" />
+    <ClCompile Include="Network\NetworkConnector.cpp" />
+    <ClCompile Include="Network\Service.cpp" />
+    <ClCompile Include="Network\Session.cpp" />
+    <ClCompile Include="Network\SocketUtils.cpp" />
     <ClCompile Include="pch.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Server.cpp" />
-    <ClCompile Include="Service.cpp" />
-    <ClCompile Include="Session.cpp" />
-    <ClCompile Include="SocketUtils.cpp" />
-    <ClCompile Include="ThreadManager.cpp" />
+    <ClCompile Include="Thread\Lock.cpp" />
+    <ClCompile Include="Thread\ThreadManager.cpp" />
+    <ClCompile Include="Util\CoreGlobal.cpp" />
+    <ClCompile Include="Util\CoreTLS.cpp" />
+    <ClCompile Include="Util\LockQueue.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="CoreGlobal.h" />
-    <ClInclude Include="CoreMacro.h" />
-    <ClInclude Include="CoreTLS.h" />
-    <ClInclude Include="GlobalQueue.h" />
     <ClInclude Include="Include\jdbc\cppconn\build_config.h" />
     <ClInclude Include="Include\jdbc\cppconn\callback.h" />
     <ClInclude Include="Include\jdbc\cppconn\config.h" />
@@ -215,20 +210,24 @@
     <ClInclude Include="Include\mysqlx\xapi.h" />
     <ClInclude Include="Include\mysqlx\xdevapi.h" />
     <ClInclude Include="Include\mysql\jdbc.h" />
-    <ClInclude Include="IocpCore.h" />
-    <ClInclude Include="IocpEvent.h" />
-    <ClInclude Include="Job.h" />
-    <ClInclude Include="JobQueue.h" />
-    <ClInclude Include="JobTimer.h" />
-    <ClInclude Include="Listener.h" />
-    <ClInclude Include="Lock.h" />
-    <ClInclude Include="LockQueue.h" />
-    <ClInclude Include="NetworkConnector.h" />
+    <ClInclude Include="Job\GlobalQueue.h" />
+    <ClInclude Include="Job\Job.h" />
+    <ClInclude Include="Job\JobQueue.h" />
+    <ClInclude Include="Job\JobTimer.h" />
+    <ClInclude Include="Network\IocpCore.h" />
+    <ClInclude Include="Network\IocpEvent.h" />
+    <ClInclude Include="Network\Listener.h" />
+    <ClInclude Include="Network\NetworkConnector.h" />
+    <ClInclude Include="Network\Service.h" />
+    <ClInclude Include="Network\Session.h" />
+    <ClInclude Include="Network\SocketUtils.h" />
     <ClInclude Include="pch.h" />
-    <ClInclude Include="Service.h" />
-    <ClInclude Include="Session.h" />
-    <ClInclude Include="SocketUtils.h" />
-    <ClInclude Include="ThreadManager.h" />
+    <ClInclude Include="Thread\Lock.h" />
+    <ClInclude Include="Thread\ThreadManager.h" />
+    <ClInclude Include="Util\CoreGlobal.h" />
+    <ClInclude Include="Util\CoreMacro.h" />
+    <ClInclude Include="Util\CoreTLS.h" />
+    <ClInclude Include="Util\LockQueue.h" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Lib\Debug\libcrypto-3-x64.dll" />

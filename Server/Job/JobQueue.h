@@ -1,8 +1,8 @@
 #pragma once
 
 #include "Job.h"
-#include "LockQueue.h"
-#include "JobTimer.h"
+#include "..\Util\LockQueue.h"
+#include "..\Job\JobTimer.h"
 class JobQueue : public enable_shared_from_this<JobQueue>
 {
 public:

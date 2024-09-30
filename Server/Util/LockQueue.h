@@ -1,5 +1,5 @@
 #pragma once
-#include "Lock.h"
+#include "..\Thread\Lock.h"
 
 template<typename T>
 class LockQueue
