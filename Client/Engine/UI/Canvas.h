@@ -3,6 +3,7 @@
 #include <vector>
 
 #include "Singleton.h"
+#include "Input/InputSystem.h"
 
 enum class UIKeyboardEventType
 {
@@ -36,8 +37,9 @@ private:
     friend class Keyboard;
     friend class World;
     friend class Widget;
-
+    
     void OnResize(MathTypes::uint32 width, MathTypes::uint32 height);
+    void OnKeyEvent(const InputSystem::KeyEvnet& kEvent);
     void BeginPlay();
     void Tick(float delta_time);
     void Render();

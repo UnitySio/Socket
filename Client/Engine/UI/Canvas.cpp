@@ -44,6 +44,22 @@ void Canvas::OnResize(MathTypes::uint32 width, MathTypes::uint32 height)
     }
 }
 
+void Canvas::OnKeyEvent(const InputSystem::KeyEvnet& kEvent)
+{
+    if (kEvent.action == InputSystem::KeyAction::kPressed)
+    {
+        if (focused_widget_) focused_widget_->OnKeyEvent(kEvent.key_code, true);
+    }
+    else if (kEvent.action == InputSystem::KeyAction::kReleased)
+    {
+        if (focused_widget_) focused_widget_->OnKeyEvent(kEvent.key_code, false);
+    }
+    else if (kEvent.action == InputSystem::KeyAction::kText)
+    {
+        if (focused_widget_) focused_widget_->OnCharEvent(kEvent.character);
+    }
+}
+
 void Canvas::BeginPlay()
 {
     for (const auto& ui : widgets_)
@@ -106,24 +122,6 @@ void Canvas::Tick(float delta_time)
                 focused_widget_->OnBlur();
                 focused_widget_ = nullptr;
             }
-        }
-    }
-
-    InputSystem::Keyboard* keyboard = InputSystem::Keyboard::Get();
-    InputSystem::KeyEvnet event;
-    while (keyboard->PollEvents(event))
-    {
-        if (event.action == InputSystem::KeyAction::kPressed)
-        {
-            if (focused_widget_) focused_widget_->OnKeyEvent(event.key_code, true);
-        }
-        else if (event.action == InputSystem::KeyAction::kReleased)
-        {
-            if (focused_widget_) focused_widget_->OnKeyEvent(event.key_code, false);
-        }
-        else if (event.action == InputSystem::KeyAction::kText)
-        {
-            if (focused_widget_) focused_widget_->OnCharEvent(event.character);
         }
     }
 
