@@ -1,7 +1,9 @@
 ﻿#include "pch.h"
 #include "Canvas.h"
 
+#include "Logger.h"
 #include "Widget.h"
+#include "Input/InputSystem.h"
 #include "Input/Mouse.h"
 #include "Widget/Button.h"
 #include "Widget/TextBox.h"
@@ -40,22 +42,6 @@ void Canvas::OnResize(MathTypes::uint32 width, MathTypes::uint32 height)
     {
         widget->UpdateRect();
     }
-}
-
-void Canvas::OnKeyDown(MathTypes::uint16 key_code, bool is_repeat)
-{
-    if (is_repeat) keyboard_events_.push({UIKeyboardEventType::kRepeat, key_code});
-    else keyboard_events_.push({UIKeyboardEventType::kDown, key_code});
-}
-
-void Canvas::OnKeyUp(MathTypes::uint16 key_code)
-{
-    keyboard_events_.push({UIKeyboardEventType::kUp, key_code});
-}
-
-void Canvas::OnKeyChar(MathTypes::uint16 character)
-{
-    keyboard_events_.push({UIKeyboardEventType::kChar, character});
 }
 
 void Canvas::BeginPlay()
@@ -123,32 +109,21 @@ void Canvas::Tick(float delta_time)
         }
     }
 
+    InputSystem::Keyboard* keyboard = InputSystem::Keyboard::Get();
+    InputSystem::KeyEvnet event;
+    while (keyboard->PollEvents(event))
     {
-        std::lock_guard<std::mutex> lock(mutex_);
-    
-        while (!keyboard_events_.empty())
+        if (event.action == InputSystem::KeyAction::kPressed)
         {
-            const UIKeyboardEvent& event = keyboard_events_.front();
-            switch (event.type)
-            {
-            case UIKeyboardEventType::kDown:
-            case UIKeyboardEventType::kRepeat:
-                {
-                    if (focused_widget_) focused_widget_->OnKeyEvent(event.key_code, true);
-                }
-                break;
-            case UIKeyboardEventType::kUp:
-                {
-                    if (focused_widget_) focused_widget_->OnKeyEvent(event.key_code, false);
-                }
-                break;
-            case UIKeyboardEventType::kChar:
-                {
-                    if (focused_widget_) focused_widget_->OnCharEvent(event.key_code);
-                }
-                break;
-            }
-            keyboard_events_.pop();
+            if (focused_widget_) focused_widget_->OnKeyEvent(event.key_code, true);
+        }
+        else if (event.action == InputSystem::KeyAction::kReleased)
+        {
+            if (focused_widget_) focused_widget_->OnKeyEvent(event.key_code, false);
+        }
+        else if (event.action == InputSystem::KeyAction::kText)
+        {
+            if (focused_widget_) focused_widget_->OnCharEvent(event.character);
         }
     }
 

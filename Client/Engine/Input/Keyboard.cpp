@@ -94,45 +94,26 @@ bool Keyboard::ProcessMessage(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPa
 		if (!is_released) return OnKeyDown(key_code, char_code,is_repeat);
 		return OnKeyUp(key_code, char_code);
 	}
-
-	if (message == WM_CHAR)
-	{
-		const WCHAR kCharacter = static_cast<WCHAR>(wParam);
-		if (kCharacter < 32 || (kCharacter > 126 && kCharacter < 160)) return false;
-		return OnKeyChar(kCharacter);
-	}
     
 	return false;
 }
 
 bool Keyboard::OnKeyDown(WORD key_code, MathTypes::uint32 char_code, bool is_repeat)
 {
-	std::lock_guard<std::mutex> lock(mutex_);
-	
-	Canvas::Get()->OnKeyDown(key_code, is_repeat);
 	OnInputKey(key_code, KeyboardEventType::kDown);
 	return true;
 }
 
 bool Keyboard::OnKeyUp(WORD key_code, MathTypes::uint32 char_code)
 {
-	std::lock_guard<std::mutex> lock(mutex_);
-	
-	Canvas::Get()->OnKeyUp(key_code);
 	OnInputKey(key_code, KeyboardEventType::kUp);
-	return true;
-}
-
-bool Keyboard::OnKeyChar(WCHAR character)
-{
-	std::lock_guard<std::mutex> lock(mutex_);
-	
-	Canvas::Get()->OnKeyChar(character);
 	return true;
 }
 
 void Keyboard::OnInputKey(WORD key_code, KeyboardEventType state)
 {
+	std::lock_guard<std::mutex> lock(mutex_);
+	
 	KeyEvent event;
 	event.state = state;
 	event.key_code = key_code;

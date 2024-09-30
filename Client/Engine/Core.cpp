@@ -4,6 +4,7 @@
 #include "GameEngine.h"
 #include "../Include/steam/steam_api.h"
 #include "Audio/AudioManager.h"
+#include "Input/InputSystem.h"
 #include "Input/Keyboard.h"
 #include "Input/Mouse.h"
 #include "Level/World.h"
@@ -76,8 +77,9 @@ bool Core::ProcessMessage(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam,
 {
     if (ImGui_ImplWin32_WndProcHandler(hWnd, message, wParam, lParam)) return true;
     
-    if (Keyboard::Get()->ProcessMessage(hWnd, message, wParam, lParam, handler_result)) return true;
     if (Mouse::Get()->ProcessMessage(hWnd, message, wParam, lParam, handler_result)) return true;
+    Keyboard::Get()->ProcessMessage(hWnd, message, wParam, lParam, handler_result);
+    if (InputSystem::Keyboard::Get()->ProcessMessage(hWnd, message, wParam, lParam, handler_result)) return true;
 
     if (message == WM_SIZE)
     {

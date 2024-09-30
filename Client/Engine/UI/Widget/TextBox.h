@@ -15,7 +15,7 @@ namespace UI
         virtual void Render() override;
         virtual void OnBlur() override;
         virtual void OnKeyEvent(MathTypes::uint16 key_code, bool is_pressed) override;
-        virtual void OnCharEvent(MathTypes::uint16 character) override;
+        virtual void OnCharEvent(wchar_t character) override;
 
         inline void SetPlaceholder(const std::wstring& kPlaceholder) { placeholder_ = kPlaceholder; }
 

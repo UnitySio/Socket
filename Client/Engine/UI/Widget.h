@@ -49,7 +49,7 @@ protected:
     inline virtual void OnMouseHover() {}
     inline virtual void OnMouseLeave() {}
     inline virtual void OnKeyEvent(MathTypes::uint16 key_code, bool is_pressed) {}
-    inline virtual void OnCharEvent(MathTypes::uint16 character) {}
+    inline virtual void OnCharEvent(wchar_t character) {}
     inline virtual void BeginPlay() {}
     inline virtual void Tick(float delta_time) {}
     inline virtual void Render() {}

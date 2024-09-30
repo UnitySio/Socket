@@ -134,7 +134,7 @@ void UI::TextBox::OnKeyEvent(MathTypes::uint16 key_code, bool is_pressed)
     }
 }
 
-void UI::TextBox::OnCharEvent(MathTypes::uint16 character)
+void UI::TextBox::OnCharEvent(wchar_t character)
 {
     Widget::OnCharEvent(character);
 
