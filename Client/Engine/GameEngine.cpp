@@ -5,8 +5,8 @@
 #include "imgui/imgui.h"
 #include "imgui/imgui_impl_dx11.h"
 #include "imgui/imgui_impl_win32.h"
-#include "Input/InputSystem.h"
 #include "Input/Keyboard.h"
+#include "Input/PlayerInput.h"
 #include "Input/Mouse.h"
 #include "Level/Level.h"
 #include "Level/World.h"
@@ -96,12 +96,12 @@ void GameEngine::Tick(float delta_time)
     
     Mouse::Get()->Begin();
 
-    InputSystem::Keyboard* keyboard = InputSystem::Keyboard::Get();
+    Keyboard* keyboard = Keyboard::Get();
     
-    InputSystem::KeyEvnet key_event;
+    KeyEvnet key_event;
     while (keyboard->PollEvents(key_event))
     {
-        Keyboard::Get()->OnKeyEvent(key_event);
+        PlayerInput::Get()->OnKeyEvent(key_event);
         Canvas::Get()->OnKeyEvent(key_event);
     }
 
@@ -113,7 +113,7 @@ void GameEngine::Tick(float delta_time)
 
     World::Get()->Tick(delta_time);
     World::Get()->PostTick(delta_time);
-    Keyboard::Get()->UpdateKeyStates();
+    PlayerInput::Get()->UpdateKeyStates();
 
     Canvas::Get()->Tick(delta_time);
 

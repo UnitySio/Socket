@@ -1,24 +1,23 @@
 ﻿#pragma once
-#include <map>
-#include <Windows.h>
+#include <queue>
 
 #include "Singleton.h"
 
-namespace InputSystem
-{
-    struct KeyEvnet;
-}
+#include <Windows.h>
 
-struct KeyState
+enum class KeyAction
 {
-    bool is_down;
-    bool was_down;
-
-    KeyState() :
-        is_down(false),
-        was_down(false)
-    {
-    }
+    kPressed,
+    kReleased,
+    kText
+};
+    
+struct KeyEvnet
+{
+    KeyAction action;
+    WORD key_code;
+    WCHAR character;
+    bool is_repeat;
 };
 
 class Keyboard : public Singleton<Keyboard>
@@ -27,20 +26,20 @@ public:
     Keyboard();
     virtual ~Keyboard() override = default;
 
-    bool GetKey(WORD key_code);
-    bool GetKeyDown(WORD key_code);
-    bool GetKeyUp(WORD key_code);
+    bool PollEvents(KeyEvnet& event);
+    bool GetKeyState(WORD key_code);
 
 private:
     friend class Core;
-    friend class GameEngine;
     
-    void OnKeyEvent(const InputSystem::KeyEvnet& kEvent);
-    void UpdateKeyStates();
+    bool ProcessMessage(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam, MathTypes::uint32 handler_result);
+
     void Clear();
 
-    std::map<WORD, KeyState> key_states_;
-    
+    std::queue<KeyEvnet> key_events_;
+
+    std::map<WORD, bool> key_states_;
+
     // 스레드로 부터 안전을 위한 뮤텍스
     std::mutex mutex_;
     
