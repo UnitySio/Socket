@@ -9,7 +9,7 @@ Keyboard::Keyboard() :
 {
 }
 
-bool Keyboard::PollEvents(KeyEvnet& event)
+bool Keyboard::PollEvent(KeyEvnet& event)
 {
 	std::lock_guard<std::mutex> lock(mutex_);
     if (key_events_.empty()) return false;

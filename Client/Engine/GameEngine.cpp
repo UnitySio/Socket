@@ -99,7 +99,7 @@ void GameEngine::Tick(float delta_time)
     Keyboard* keyboard = Keyboard::Get();
     
     KeyEvnet key_event;
-    while (keyboard->PollEvents(key_event))
+    while (keyboard->PollEvent(key_event))
     {
         PlayerInput::Get()->OnKeyEvent(key_event);
         Canvas::Get()->OnKeyEvent(key_event);

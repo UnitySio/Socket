@@ -26,7 +26,7 @@ public:
     Keyboard();
     virtual ~Keyboard() override = default;
 
-    bool PollEvents(KeyEvnet& event);
+    bool PollEvent(KeyEvnet& event);
     bool GetKeyState(WORD key_code);
 
 private:
