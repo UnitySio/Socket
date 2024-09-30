@@ -163,6 +163,7 @@
     <ClInclude Include="Engine\Enums.h" />
     <ClInclude Include="Engine\File\FileManager.h" />
     <ClInclude Include="Engine\GameEngine.h" />
+    <ClInclude Include="Engine\Input\InputSystem.h" />
     <ClInclude Include="Engine\Input\Keyboard.h" />
     <ClInclude Include="Engine\Input\Mouse.h" />
     <ClInclude Include="Engine\Level\Level.h" />
@@ -355,6 +356,7 @@
     <ClCompile Include="Engine\DebugDrawHelper.cpp" />
     <ClCompile Include="Engine\File\FileManager.cpp" />
     <ClCompile Include="Engine\GameEngine.cpp" />
+    <ClCompile Include="Engine\Input\InputSystem.cpp" />
     <ClCompile Include="Engine\Input\Keyboard.cpp" />
     <ClCompile Include="Engine\Input\Mouse.cpp" />
     <ClCompile Include="Engine\Level\Level.cpp" />
