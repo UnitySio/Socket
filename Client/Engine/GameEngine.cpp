@@ -2,6 +2,7 @@
 #include "GameEngine.h"
 
 #include "Audio/AudioManager.h"
+#include "Event/Events.h"
 #include "imgui/imgui.h"
 #include "imgui/imgui_impl_dx11.h"
 #include "imgui/imgui_impl_win32.h"
@@ -15,8 +16,8 @@
 #include "UI/Canvas.h"
 #include "Windows/WindowsWindow.h"
 #include "Windows/DX/Renderer.h"
-#include "Windows/DX/Shape.h"
 #include "Windows/DX/ShapeBatch.h"
+#include "Event/Events.h"
 
 GameEngine::GameEngine() :
     game_window_(nullptr),

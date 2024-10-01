@@ -1,7 +1,5 @@
 ﻿#pragma once
-#include "Math/MathTypes.h"
 #include "Misc/EngineMacros.h"
-#include "Windows/DX/Vertex.h"
 
 class TilemapComponent;
 class ShapeBatch;

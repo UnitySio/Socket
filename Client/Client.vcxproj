@@ -161,6 +161,8 @@
     <ClInclude Include="Engine\Data\RegistryHelper.h" />
     <ClInclude Include="Engine\DebugDrawHelper.h" />
     <ClInclude Include="Engine\Enums.h" />
+    <ClInclude Include="Engine\Event\EventManager.h" />
+    <ClInclude Include="Engine\Event\Events.h" />
     <ClInclude Include="Engine\GameEngine.h" />
     <ClInclude Include="Engine\Input\Keyboard.h" />
     <ClInclude Include="Engine\Input\PlayerInput.h" />
@@ -353,6 +355,7 @@
     <ClCompile Include="Engine\Core.cpp" />
     <ClCompile Include="Engine\Data\RegistryHelper.cpp" />
     <ClCompile Include="Engine\DebugDrawHelper.cpp" />
+    <ClCompile Include="Engine\Event\EventManager.cpp" />
     <ClCompile Include="Engine\GameEngine.cpp" />
     <ClCompile Include="Engine\Input\Keyboard.cpp" />
     <ClCompile Include="Engine\Input\PlayerInput.cpp" />

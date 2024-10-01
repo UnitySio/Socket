@@ -4,6 +4,7 @@
 #include "GameEngine.h"
 #include "../Include/steam/steam_api.h"
 #include "Audio/AudioManager.h"
+#include "Event/EventManager.h"
 #include "Input/Keyboard.h"
 #include "Input/PlayerInput.h"
 #include "Input/Mouse.h"
@@ -76,6 +77,9 @@ extern LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam
 bool Core::ProcessMessage(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam, MathTypes::uint32 handler_result)
 {
     if (ImGui_ImplWin32_WndProcHandler(hWnd, message, wParam, lParam)) return true;
+
+    // 테스트 코드
+    EventManager::Get()->ProcessMessage(hWnd, message, wParam, lParam, handler_result);
     
     if (Mouse::Get()->ProcessMessage(hWnd, message, wParam, lParam, handler_result)) return true;
     if (Keyboard::Get()->ProcessMessage(hWnd, message, wParam, lParam, handler_result)) return true;
