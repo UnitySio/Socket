@@ -32,7 +32,4 @@ private:
     double last_time_;
     double delta_time_;
     
-    MathTypes::uint32 resize_width_;
-    MathTypes::uint32 resize_height_;
-    
 };

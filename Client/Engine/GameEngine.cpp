@@ -64,12 +64,20 @@ void GameEngine::Init(const std::shared_ptr<WindowsWindow>& kWindow)
 
 void GameEngine::GameLoop(float delta_time)
 {
+    // Windows 이벤트 처리
     EventManager* event_manager = EventManager::Get();
     Event event;
     while (event_manager->PollEvent(event))
     {
         const MathTypes::uint32& kType = event.type;
-        if (kType & (EventType::kKeyPressed | EventType::kKeyReleased))
+        if (kType == EventType::kWindowSize)
+        {
+            const WindowEvent& kWindowEvent = event.window;
+            
+            Renderer::Get()->ResizeViewport(game_window_, kWindowEvent.data1, kWindowEvent.data2);
+            Canvas::Get()->OnResize(kWindowEvent.data1, kWindowEvent.data2);
+        }
+        else if (kType & (EventType::kKeyPressed | EventType::kKeyReleased))
         {
             Keyboard::Get()->OnKeyEvent(event);
             Canvas::Get()->OnKeyEvent(event);

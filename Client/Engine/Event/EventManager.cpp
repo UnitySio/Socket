@@ -23,6 +23,22 @@ bool EventManager::PollEvent(Event& event)
 
 bool EventManager::ProcessMessage(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam, MathTypes::uint32 handler_result)
 {
+    if (message == WM_SIZE)
+    {
+        if (wParam == SIZE_MINIMIZED) return false;
+
+        int width = LOWORD(lParam);
+        int height = HIWORD(lParam);
+        
+        Event event;
+        event.type = EventType::kWindowSize;
+        event.window.data1 = width;
+        event.window.data2 = height;
+
+        events_.push(event);
+        return true;
+    }
+    
     if (message == WM_KEYDOWN || message == WM_SYSKEYDOWN ||
         message == WM_KEYUP || message == WM_SYSKEYUP)
     {
@@ -134,4 +150,9 @@ bool EventManager::ProcessMessage(HWND hWnd, UINT message, WPARAM wParam, LPARAM
     }
     
     return false;
+}
+
+void EventManager::Clear()
+{
+    events_ = std::queue<Event>();
 }

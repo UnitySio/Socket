@@ -15,6 +15,10 @@ public:
     bool ProcessMessage(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam, MathTypes::uint32 handler_result);
 
 private:
+    friend class Core;
+    
+    void Clear();
+    
     std::queue<Event> events_;
     
 };

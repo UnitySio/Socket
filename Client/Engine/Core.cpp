@@ -26,9 +26,7 @@ Core::Core() :
     mutex_(),
     current_time_(0.),
     last_time_(0.),
-    delta_time_(0.),
-    resize_width_(0),
-    resize_height_(0)
+    delta_time_(0.)
 {
 }
 
@@ -79,20 +77,6 @@ bool Core::ProcessMessage(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam,
     if (ImGui_ImplWin32_WndProcHandler(hWnd, message, wParam, lParam)) return true;
     if (EventManager::Get()->ProcessMessage(hWnd, message, wParam, lParam, handler_result)) return true;
 
-    if (message == WM_SIZE)
-    {
-        Keyboard::Get()->Clear();
-        Mouse::Get()->UpdateButtonStates();
-        
-        if (wParam == SIZE_MINIMIZED) return false;
-        
-        resize_width_ = LOWORD(lParam);
-        resize_height_ = HIWORD(lParam);
-
-        Canvas::Get()->OnResize(resize_width_, resize_height_);
-        return true;
-    }
-
     if (message == WM_SETFOCUS)
     {
         AudioManager::Get()->SetAllMutes(false);
@@ -101,8 +85,9 @@ bool Core::ProcessMessage(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam,
 
     if (message == WM_KILLFOCUS)
     {
+        EventManager::Get()->Clear();
         Keyboard::Get()->Clear();
-        Mouse::Get()->UpdateButtonStates();
+        Mouse::Get()->Clear();
         
         AudioManager::Get()->SetAllMutes(true);
         return true;
@@ -150,14 +135,6 @@ void Core::MainThread()
         
         if (const auto& kWindow = game_window_.lock())
         {
-            if (resize_width_ > 0 && resize_height_ > 0)
-            {
-                Renderer::Get()->ResizeViewport(kWindow, resize_width_, resize_height_);
-
-                resize_width_ = 0;
-                resize_height_ = 0;
-            }
-
             game_engine_->GameLoop(delta_time_);
         }
     }

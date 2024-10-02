@@ -79,6 +79,9 @@ void Camera::Tick(float delta_time)
         viewport->view_matrix = DirectX::XMMatrixTranslation(-position.x, -position.y, 0.f)
             * DirectX::XMMatrixRotationZ(-transform->GetAngle() * MATH_PI / 180.f);
     }
+
+    // 추후 이벤트 처리
+    UpdateProjectionMatrix();
 }
 
 Camera* Camera::Get()
