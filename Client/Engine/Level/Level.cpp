@@ -5,10 +5,13 @@
 #include "World.h"
 
 #include "Actor/Actor.h"
+#include "Actor/Camera.h"
 #include "Audio/AudioManager.h"
+#include "Event/Events.h"
 
 Level::Level(const std::wstring& kName) :
-    actors_()
+    actors_(),
+    has_begun_play_(false)
 {
     name_ = kName;
 }
@@ -42,6 +45,8 @@ void Level::InitializeActors()
     {
         actor->BeginPlay();
     }
+    
+    has_begun_play_ = true;
 }
 
 void Level::PhysicsTick(float delta_time)
@@ -77,5 +82,16 @@ void Level::Render(float alpha)
     {
         if (!actor->is_active_) continue;
         actor->Render(alpha);
+    }
+}
+
+void Level::OnEvent(const Event& event)
+{
+    if (has_begun_play_)
+    {
+        if (event.type == EventType::kWindowSize)
+        {
+            Camera::Get()->UpdateProjectionMatrix();
+        }
     }
 }

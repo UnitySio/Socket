@@ -212,6 +212,14 @@ void World::SpawnActors()
     }
 }
 
+void World::OnEvent(const Event& kEvent)
+{
+    if (current_level_)
+    {
+        current_level_->OnEvent(kEvent);
+    }
+}
+
 void World::ProcessCollisionEvents()
 {
     b2ContactEvents events = b2World_GetContactEvents(World::Get()->world_id_);

@@ -44,7 +44,6 @@ public:
 
 private:
     friend class Core;
-    friend class GameEngine;
 
     void OnMouseEvent(const Event& kEvent);
     void UpdateButtonStates();

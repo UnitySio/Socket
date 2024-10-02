@@ -3,6 +3,7 @@
 #include <string>
 #include <vector>
 
+union Event;
 class Actor;
 enum class EndPlayReason : MathTypes::uint64;
 
@@ -22,6 +23,7 @@ public:
     virtual void Render(float alpha);
 
     inline const std::wstring& GetName() const { return name_; }
+    inline bool HasBegunPlay() const { return has_begun_play_; }
 
 protected:
     template<std::derived_from<Actor> T>
@@ -29,10 +31,14 @@ protected:
 
 private:
     friend class World;
+
+    void OnEvent(const Event& event);
     
     std::wstring name_;
 
     std::vector<std::shared_ptr<Actor>> actors_;
+
+    bool has_begun_play_;
 };
 
 template <std::derived_from<Actor> T>

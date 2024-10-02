@@ -30,7 +30,6 @@ public:
 
 private:
     friend class Core;
-    friend class GameEngine;
     
     void OnKeyEvent(const Event& kEvent);
     void UpdateKeyStates();

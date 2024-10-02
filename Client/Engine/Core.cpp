@@ -6,7 +6,6 @@
 #include "Audio/AudioManager.h"
 #include "Event/EventManager.h"
 #include "Input/Keyboard.h"
-#include "Input/Keyboard.h"
 #include "Input/Mouse.h"
 #include "Level/World.h"
 #include "Math/Vector2.h"
@@ -135,7 +134,40 @@ void Core::MainThread()
         
         if (const auto& kWindow = game_window_.lock())
         {
+            // Windows 이벤트 처리
+            EventManager* event_manager = EventManager::Get();
+            Event event;
+            while (event_manager->PollEvent(event))
+            {
+                const MathTypes::uint32& kType = event.type;
+                if (kType == EventType::kWindowSize)
+                {
+                    const WindowEvent& kWindowEvent = event.window;
+            
+                    Renderer::Get()->ResizeViewport(kWindow, kWindowEvent.data1, kWindowEvent.data2);
+                    Canvas::Get()->OnResize(kWindowEvent.data1, kWindowEvent.data2);
+                }
+                else if (kType & (EventType::kKeyPressed | EventType::kKeyReleased))
+                {
+                    Keyboard::Get()->OnKeyEvent(event);
+                    Canvas::Get()->OnKeyEvent(event);
+                }
+                else if (kType == EventType::kText)
+                {
+                    Canvas::Get()->OnKeyEvent(event);
+                }
+                else if (kType & (EventType::kMousePressed | EventType::kMouseReleased | EventType::kMouseMotion | EventType::kMouseWheel))
+                {
+                    Mouse::Get()->OnMouseEvent(event);
+                }
+
+                World::Get()->OnEvent(event);
+            }
+            
             game_engine_->GameLoop(delta_time_);
+            
+            Keyboard::Get()->UpdateKeyStates();
+            Mouse::Get()->UpdateButtonStates();
         }
     }
 }

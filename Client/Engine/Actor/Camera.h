@@ -82,6 +82,8 @@ public:
     inline float GetFarZ() const { return far_z_; }
 
 private:
+    friend class Level;
+    
     void UpdateProjectionMatrix() const;
     
     static std::weak_ptr<Camera> camera_;

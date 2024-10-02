@@ -9,6 +9,7 @@
 #include "box2d/id.h"
 #include "box2d/types.h"
 
+union Event;
 class ShapeBatch;
 class Level;
 class Actor;
@@ -51,14 +52,16 @@ private:
     friend void DrawTransform(b2Transform transform, void* context);
     friend void DrawPoint(b2Vec2 p, float size, b2HexColor color, void* context);
     friend void DrawString(b2Vec2 p, const char* s, void* context);
-    
+
+    friend class Core;
     friend class Physics2D;
     friend class Level;
     friend class Actor;
     friend class TilemapComponent;
     friend class CameraComponent;
     friend class PlayerController;
-    
+
+    void OnEvent(const Event& kEvent);
     void ProcessCollisionEvents();
     void ProcessTriggerEvents();
     void ProcessActorActivation();

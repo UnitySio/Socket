@@ -1,25 +1,18 @@
 ﻿#include "pch.h"
 #include "GameEngine.h"
 
-#include "Logger.h"
 #include "Audio/AudioManager.h"
 #include "Event/EventManager.h"
-#include "Event/Events.h"
 #include "imgui/imgui.h"
 #include "imgui/imgui_impl_dx11.h"
 #include "imgui/imgui_impl_win32.h"
-#include "Input/Keyboard.h"
-#include "Input/Keyboard.h"
-#include "Input/Mouse.h"
 #include "Level/Level.h"
 #include "Level/World.h"
 #include "Math/Math.h"
-#include "Steam/SteamManager.h"
 #include "UI/Canvas.h"
 #include "Windows/WindowsWindow.h"
 #include "Windows/DX/Renderer.h"
 #include "Windows/DX/ShapeBatch.h"
-#include "Event/Events.h"
 
 GameEngine::GameEngine() :
     game_window_(nullptr),
@@ -64,34 +57,6 @@ void GameEngine::Init(const std::shared_ptr<WindowsWindow>& kWindow)
 
 void GameEngine::GameLoop(float delta_time)
 {
-    // Windows 이벤트 처리
-    EventManager* event_manager = EventManager::Get();
-    Event event;
-    while (event_manager->PollEvent(event))
-    {
-        const MathTypes::uint32& kType = event.type;
-        if (kType == EventType::kWindowSize)
-        {
-            const WindowEvent& kWindowEvent = event.window;
-            
-            Renderer::Get()->ResizeViewport(game_window_, kWindowEvent.data1, kWindowEvent.data2);
-            Canvas::Get()->OnResize(kWindowEvent.data1, kWindowEvent.data2);
-        }
-        else if (kType & (EventType::kKeyPressed | EventType::kKeyReleased))
-        {
-            Keyboard::Get()->OnKeyEvent(event);
-            Canvas::Get()->OnKeyEvent(event);
-        }
-        else if (kType == EventType::kText)
-        {
-            Canvas::Get()->OnKeyEvent(event);
-        }
-        else if (kType & (EventType::kMousePressed | EventType::kMouseReleased | EventType::kMouseMotion | EventType::kMouseWheel))
-        {
-            Mouse::Get()->OnMouseEvent(event);
-        }
-    }
-    
     World::Get()->TransitionLevel();
 
     StartFrame();
@@ -135,9 +100,6 @@ void GameEngine::Tick(float delta_time)
     World::Get()->PostTick(delta_time);
 
     Canvas::Get()->Tick(delta_time);
-    
-    Keyboard::Get()->UpdateKeyStates();
-    Mouse::Get()->UpdateButtonStates();
 }
 
 void GameEngine::Render(float alpha)
