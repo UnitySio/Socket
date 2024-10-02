@@ -21,13 +21,7 @@
     <ClCompile Include="Engine\Math\Bounds.cpp">
       <Filter>Other</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Actor\Box.cpp">
-      <Filter>Other</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\Actor\Component\BoxColliderComponent.cpp">
-      <Filter>Other</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Actor\Component\CameraComponent.cpp">
       <Filter>Other</Filter>
     </ClCompile>
     <ClCompile Include="Game\Actor\Character\CharacterBase.cpp">
@@ -46,9 +40,6 @@
       <Filter>Other</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Core.cpp">
-      <Filter>Other</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\Actor\FollowCamera.cpp">
       <Filter>Other</Filter>
     </ClCompile>
     <ClCompile Include="Engine\GameEngine.cpp">
@@ -85,9 +76,6 @@
       <Filter>Other</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Math\Math.cpp">
-      <Filter>Other</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\Actor\Character\Player\PlayerController.cpp">
       <Filter>Other</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Windows\DX\Renderer.cpp">
@@ -159,13 +147,8 @@
     <ClCompile Include="Engine\Actor\Component\SpriteRendererComponent.cpp">
       <Filter>Animation</Filter>
     </ClCompile>
-    <ClCompile Include="Game\GameInstance.cpp">
-      <Filter>Other</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Logger\Logger.cpp" />
     <ClCompile Include="Engine\Input\Mouse.cpp" />
     <ClCompile Include="pch.cpp" />
-    <ClCompile Include="Engine\Data\DataManager.cpp" />
     <ClCompile Include="Engine\Math\Rect.cpp" />
     <ClCompile Include="Engine\Resource\Resource.cpp" />
     <ClCompile Include="Engine\Resource\ResourceManager.cpp" />
@@ -178,17 +161,27 @@
     <ClCompile Include="Engine\UI\Widget\Text.cpp" />
     <ClCompile Include="Game\Map\MainMenu.cpp" />
     <ClCompile Include="Engine\Object.cpp" />
-    <ClCompile Include="Game\Actor\Character\Player\States\PlayerIdleState.cpp" />
     <ClCompile Include="Game\Actor\StateMachine\State.cpp" />
     <ClCompile Include="Game\Actor\StateMachine\StateMachine.cpp" />
     <ClCompile Include="Engine\Actor\Component\CapsuleColliderComponent.cpp" />
     <ClCompile Include="Engine\Actor\Component\RigidBody2DComponent.cpp" />
-    <ClCompile Include="Engine\DebugDrawHelpers.cpp" />
     <ClCompile Include="Engine\Physics\Physics2D.cpp" />
-    <ClCompile Include="Game\Actor\Character\Player\States\PlayerAttack2State.cpp" />
-    <ClCompile Include="Game\Actor\Character\Player\States\PlayerAttackState.cpp" />
-    <ClCompile Include="Game\Actor\Character\Player\States\PlayerMoveState.cpp" />
-    <ClCompile Include="Game\Actor\Test\Platform.cpp" />
+    <ClCompile Include="Engine\Actor\Camera.cpp" />
+    <ClCompile Include="Engine\Audio\Audio.cpp" />
+    <ClCompile Include="Engine\Data\RegistryHelper.cpp" />
+    <ClCompile Include="Engine\DebugDrawHelper.cpp" />
+    <ClCompile Include="Engine\Event\EventManager.cpp" />
+    <ClCompile Include="Engine\Logger.cpp" />
+    <ClCompile Include="Engine\PhysicsDebugDrawHelper.cpp" />
+    <ClCompile Include="Engine\UI\Widget\TextBox.cpp" />
+    <ClCompile Include="Game\Actor\Capsule.cpp" />
+    <ClCompile Include="Game\Actor\Character\Player\Player.cpp" />
+    <ClCompile Include="Game\Actor\Character\Player\State\PlayerJumpingState.cpp" />
+    <ClCompile Include="Game\Actor\Character\Player\State\PlayerStandingState.cpp" />
+    <ClCompile Include="Game\Actor\Component\Controller2DComponent.cpp" />
+    <ClCompile Include="Game\Actor\Component\RayCastController.cpp" />
+    <ClCompile Include="Game\Actor\Platform\Platform.cpp" />
+    <ClCompile Include="Game\Actor\Platform\PlatformControllerComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Actor\Actor.h">
@@ -206,9 +199,6 @@
     <ClInclude Include="Engine\Math\Bounds.h">
       <Filter>Other</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Actor\Box.h">
-      <Filter>Other</Filter>
-    </ClInclude>
     <ClInclude Include="Include\box2d\box2d.h">
       <Filter>Other</Filter>
     </ClInclude>
@@ -216,9 +206,6 @@
       <Filter>Other</Filter>
     </ClInclude>
     <ClInclude Include="Include\DirectXTK\BufferHelpers.h">
-      <Filter>Other</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Actor\Component\CameraComponent.h">
       <Filter>Other</Filter>
     </ClInclude>
     <ClInclude Include="Game\Actor\Character\CharacterBase.h">
@@ -291,9 +278,6 @@
       <Filter>Other</Filter>
     </ClInclude>
     <ClInclude Include="Include\FMOD\fmod_output.h">
-      <Filter>Other</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Actor\FollowCamera.h">
       <Filter>Other</Filter>
     </ClInclude>
     <ClInclude Include="framework.h">
@@ -384,9 +368,6 @@
       <Filter>Other</Filter>
     </ClInclude>
     <ClInclude Include="Include\tmxlite\ObjectTypes.hpp">
-      <Filter>Other</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Actor\Character\Player\PlayerController.h">
       <Filter>Other</Filter>
     </ClInclude>
     <ClInclude Include="Include\DirectXTK\PostProcess.h">
@@ -521,13 +502,8 @@
     <ClInclude Include="Engine\Actor\Component\SpriteRendererComponent.h">
       <Filter>Animation</Filter>
     </ClInclude>
-    <ClInclude Include="Game\GameInstance.h">
-      <Filter>Other</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Logger\Logger.h" />
     <ClInclude Include="Engine\Input\Mouse.h" />
     <ClInclude Include="pch.h" />
-    <ClInclude Include="Engine\Data\DataManager.h" />
     <ClInclude Include="Engine\Math\Rect.h" />
     <ClInclude Include="Engine\Resource\Resource.h" />
     <ClInclude Include="Engine\Resource\ResourceManager.h" />
@@ -585,22 +561,170 @@
     <ClInclude Include="Engine\UI\Widget\Text.h" />
     <ClInclude Include="Game\Map\MainMenu.h" />
     <ClInclude Include="Engine\Object.h" />
-    <ClInclude Include="Game\Actor\Character\Player\States\PlayerIdleState.h" />
     <ClInclude Include="Game\Actor\StateMachine\State.h" />
     <ClInclude Include="Game\Actor\StateMachine\StateMachine.h" />
     <ClInclude Include="Engine\Actor\Component\CapsuleColliderComponent.h" />
     <ClInclude Include="Engine\Actor\Component\RigidBody2DComponent.h" />
-    <ClInclude Include="Engine\DebugDrawHelpers.h" />
     <ClInclude Include="Engine\Physics\Physics2D.h" />
-    <ClInclude Include="Game\Actor\Character\Player\States\PlayerAttack2State.h" />
-    <ClInclude Include="Game\Actor\Character\Player\States\PlayerAttackState.h" />
-    <ClInclude Include="Game\Actor\Character\Player\States\PlayerMoveState.h" />
-    <ClInclude Include="Game\Actor\Test\Platform.h" />
     <ClInclude Include="Include\box2d\base.h" />
     <ClInclude Include="Include\box2d\collision.h" />
     <ClInclude Include="Include\box2d\id.h" />
     <ClInclude Include="Include\box2d\math_functions.h" />
     <ClInclude Include="Include\box2d\types.h" />
+    <ClInclude Include="Engine\Actor\Camera.h" />
+    <ClInclude Include="Engine\Audio\Audio.h" />
+    <ClInclude Include="Engine\Data\RegistryHelper.h" />
+    <ClInclude Include="Engine\DebugDrawHelper.h" />
+    <ClInclude Include="Engine\Event\EventManager.h" />
+    <ClInclude Include="Engine\Event\Events.h" />
+    <ClInclude Include="Engine\Logger.h" />
+    <ClInclude Include="Engine\PhysicsDebugDrawHelper.h" />
+    <ClInclude Include="Engine\UI\Widget\TextBox.h" />
+    <ClInclude Include="Game\Actor\Capsule.h" />
+    <ClInclude Include="Game\Actor\Character\Player\Player.h" />
+    <ClInclude Include="Game\Actor\Character\Player\State\PlayerJumpingState.h" />
+    <ClInclude Include="Game\Actor\Character\Player\State\PlayerStandingState.h" />
+    <ClInclude Include="Game\Actor\Component\Controller2DComponent.h" />
+    <ClInclude Include="Game\Actor\Component\RayCastController.h" />
+    <ClInclude Include="Game\Actor\Platform\Platform.h" />
+    <ClInclude Include="Game\Actor\Platform\PlatformControllerComponent.h" />
+    <ClInclude Include="Include\rttr\access_levels.h" />
+    <ClInclude Include="Include\rttr\argument.h" />
+    <ClInclude Include="Include\rttr\array_range.h" />
+    <ClInclude Include="Include\rttr\associative_mapper.h" />
+    <ClInclude Include="Include\rttr\constructor.h" />
+    <ClInclude Include="Include\rttr\destructor.h" />
+    <ClInclude Include="Include\rttr\detail\base\core_prerequisites.h" />
+    <ClInclude Include="Include\rttr\detail\base\version.h" />
+    <ClInclude Include="Include\rttr\detail\comparison\comparable_types.h" />
+    <ClInclude Include="Include\rttr\detail\comparison\compare_array_equal.h" />
+    <ClInclude Include="Include\rttr\detail\comparison\compare_array_equal_impl.h" />
+    <ClInclude Include="Include\rttr\detail\comparison\compare_array_less.h" />
+    <ClInclude Include="Include\rttr\detail\comparison\compare_array_less_impl.h" />
+    <ClInclude Include="Include\rttr\detail\comparison\compare_equal.h" />
+    <ClInclude Include="Include\rttr\detail\comparison\compare_equal_impl.h" />
+    <ClInclude Include="Include\rttr\detail\comparison\compare_less.h" />
+    <ClInclude Include="Include\rttr\detail\comparison\compare_less_impl.h" />
+    <ClInclude Include="Include\rttr\detail\constructor\constructor_invoker.h" />
+    <ClInclude Include="Include\rttr\detail\constructor\constructor_wrapper.h" />
+    <ClInclude Include="Include\rttr\detail\constructor\constructor_wrapper_base.h" />
+    <ClInclude Include="Include\rttr\detail\constructor\constructor_wrapper_defaults.h" />
+    <ClInclude Include="Include\rttr\detail\conversion\number_conversion.h" />
+    <ClInclude Include="Include\rttr\detail\conversion\std_conversion_functions.h" />
+    <ClInclude Include="Include\rttr\detail\default_arguments\default_arguments.h" />
+    <ClInclude Include="Include\rttr\detail\default_arguments\invoke_with_defaults.h" />
+    <ClInclude Include="Include\rttr\detail\destructor\destructor_wrapper.h" />
+    <ClInclude Include="Include\rttr\detail\destructor\destructor_wrapper_base.h" />
+    <ClInclude Include="Include\rttr\detail\enumeration\enumeration_helper.h" />
+    <ClInclude Include="Include\rttr\detail\enumeration\enumeration_wrapper.h" />
+    <ClInclude Include="Include\rttr\detail\enumeration\enumeration_wrapper_base.h" />
+    <ClInclude Include="Include\rttr\detail\enumeration\enum_data.h" />
+    <ClInclude Include="Include\rttr\detail\filter\filter_item_funcs.h" />
+    <ClInclude Include="Include\rttr\detail\impl\argument_impl.h" />
+    <ClInclude Include="Include\rttr\detail\impl\array_range_impl.h" />
+    <ClInclude Include="Include\rttr\detail\impl\associative_mapper_impl.h" />
+    <ClInclude Include="Include\rttr\detail\impl\enum_flags_impl.h" />
+    <ClInclude Include="Include\rttr\detail\impl\instance_impl.h" />
+    <ClInclude Include="Include\rttr\detail\impl\rttr_cast_impl.h" />
+    <ClInclude Include="Include\rttr\detail\impl\sequential_mapper_impl.h" />
+    <ClInclude Include="Include\rttr\detail\impl\string_view_impl.h" />
+    <ClInclude Include="Include\rttr\detail\impl\wrapper_mapper_impl.h" />
+    <ClInclude Include="Include\rttr\detail\metadata\metadata.h" />
+    <ClInclude Include="Include\rttr\detail\metadata\metadata_handler.h" />
+    <ClInclude Include="Include\rttr\detail\method\method_accessor.h" />
+    <ClInclude Include="Include\rttr\detail\method\method_invoker.h" />
+    <ClInclude Include="Include\rttr\detail\method\method_wrapper.h" />
+    <ClInclude Include="Include\rttr\detail\method\method_wrapper_base.h" />
+    <ClInclude Include="Include\rttr\detail\misc\argument_extractor.h" />
+    <ClInclude Include="Include\rttr\detail\misc\argument_wrapper.h" />
+    <ClInclude Include="Include\rttr\detail\misc\class_item_mapper.h" />
+    <ClInclude Include="Include\rttr\detail\misc\data_address_container.h" />
+    <ClInclude Include="Include\rttr\detail\misc\flat_map.h" />
+    <ClInclude Include="Include\rttr\detail\misc\flat_multimap.h" />
+    <ClInclude Include="Include\rttr\detail\misc\function_traits.h" />
+    <ClInclude Include="Include\rttr\detail\misc\iterator_wrapper.h" />
+    <ClInclude Include="Include\rttr\detail\misc\misc_type_traits.h" />
+    <ClInclude Include="Include\rttr\detail\misc\register_wrapper_mapper_conversion.h" />
+    <ClInclude Include="Include\rttr\detail\misc\sequential_container_type_traits.h" />
+    <ClInclude Include="Include\rttr\detail\misc\std_type_traits.h" />
+    <ClInclude Include="Include\rttr\detail\misc\template_type_trait.h" />
+    <ClInclude Include="Include\rttr\detail\misc\template_type_trait_impl.h" />
+    <ClInclude Include="Include\rttr\detail\misc\utility.h" />
+    <ClInclude Include="Include\rttr\detail\parameter_info\parameter_infos.h" />
+    <ClInclude Include="Include\rttr\detail\parameter_info\parameter_infos_compare.h" />
+    <ClInclude Include="Include\rttr\detail\parameter_info\parameter_info_wrapper.h" />
+    <ClInclude Include="Include\rttr\detail\parameter_info\parameter_info_wrapper_base.h" />
+    <ClInclude Include="Include\rttr\detail\parameter_info\parameter_names.h" />
+    <ClInclude Include="Include\rttr\detail\policies\ctor_policies.h" />
+    <ClInclude Include="Include\rttr\detail\policies\meth_policies.h" />
+    <ClInclude Include="Include\rttr\detail\policies\prop_policies.h" />
+    <ClInclude Include="Include\rttr\detail\property\property_accessor.h" />
+    <ClInclude Include="Include\rttr\detail\property\property_wrapper.h" />
+    <ClInclude Include="Include\rttr\detail\property\property_wrapper_base.h" />
+    <ClInclude Include="Include\rttr\detail\property\property_wrapper_func.h" />
+    <ClInclude Include="Include\rttr\detail\property\property_wrapper_member_func.h" />
+    <ClInclude Include="Include\rttr\detail\property\property_wrapper_member_object.h" />
+    <ClInclude Include="Include\rttr\detail\property\property_wrapper_object.h" />
+    <ClInclude Include="Include\rttr\detail\registration\bind_impl.h" />
+    <ClInclude Include="Include\rttr\detail\registration\bind_types.h" />
+    <ClInclude Include="Include\rttr\detail\registration\register_base_class_from_accessor.h" />
+    <ClInclude Include="Include\rttr\detail\registration\registration_executer.h" />
+    <ClInclude Include="Include\rttr\detail\registration\registration_impl.h" />
+    <ClInclude Include="Include\rttr\detail\registration\registration_manager.h" />
+    <ClInclude Include="Include\rttr\detail\registration\registration_state_saver.h" />
+    <ClInclude Include="Include\rttr\detail\type\accessor_type.h" />
+    <ClInclude Include="Include\rttr\detail\type\base_classes.h" />
+    <ClInclude Include="Include\rttr\detail\type\get_create_variant_func.h" />
+    <ClInclude Include="Include\rttr\detail\type\get_derived_info_func.h" />
+    <ClInclude Include="Include\rttr\detail\type\type_comparator.h" />
+    <ClInclude Include="Include\rttr\detail\type\type_converter.h" />
+    <ClInclude Include="Include\rttr\detail\type\type_data.h" />
+    <ClInclude Include="Include\rttr\detail\type\type_impl.h" />
+    <ClInclude Include="Include\rttr\detail\type\type_name.h" />
+    <ClInclude Include="Include\rttr\detail\type\type_register.h" />
+    <ClInclude Include="Include\rttr\detail\type\type_string_utils.h" />
+    <ClInclude Include="Include\rttr\detail\variant\variant_compare.h" />
+    <ClInclude Include="Include\rttr\detail\variant\variant_data.h" />
+    <ClInclude Include="Include\rttr\detail\variant\variant_data_converter.h" />
+    <ClInclude Include="Include\rttr\detail\variant\variant_data_policy.h" />
+    <ClInclude Include="Include\rttr\detail\variant\variant_impl.h" />
+    <ClInclude Include="Include\rttr\detail\variant_associative_view\variant_associative_view_creator.h" />
+    <ClInclude Include="Include\rttr\detail\variant_associative_view\variant_associative_view_creator_impl.h" />
+    <ClInclude Include="Include\rttr\detail\variant_associative_view\variant_associative_view_private.h" />
+    <ClInclude Include="Include\rttr\detail\variant_sequential_view\variant_sequential_view_creator.h" />
+    <ClInclude Include="Include\rttr\detail\variant_sequential_view\variant_sequential_view_creator_impl.h" />
+    <ClInclude Include="Include\rttr\detail\variant_sequential_view\variant_sequential_view_private.h" />
+    <ClInclude Include="Include\rttr\detail\visitor\constructor_visitor_invoker.h" />
+    <ClInclude Include="Include\rttr\detail\visitor\create_type_visitor_func.h" />
+    <ClInclude Include="Include\rttr\detail\visitor\create_type_visitor_func_impl.h" />
+    <ClInclude Include="Include\rttr\detail\visitor\method_visitor_invoker.h" />
+    <ClInclude Include="Include\rttr\detail\visitor\property_visitor_invoker.h" />
+    <ClInclude Include="Include\rttr\detail\visitor\type_visitor_invoker.h" />
+    <ClInclude Include="Include\rttr\detail\visitor\visitor_impl.h" />
+    <ClInclude Include="Include\rttr\detail\visitor\visitor_iterator.h" />
+    <ClInclude Include="Include\rttr\detail\visitor\visitor_registration.h" />
+    <ClInclude Include="Include\rttr\enumeration.h" />
+    <ClInclude Include="Include\rttr\enum_flags.h" />
+    <ClInclude Include="Include\rttr\filter_item.h" />
+    <ClInclude Include="Include\rttr\instance.h" />
+    <ClInclude Include="Include\rttr\library.h" />
+    <ClInclude Include="Include\rttr\method.h" />
+    <ClInclude Include="Include\rttr\parameter_info.h" />
+    <ClInclude Include="Include\rttr\policy.h" />
+    <ClInclude Include="Include\rttr\property.h" />
+    <ClInclude Include="Include\rttr\registration.h" />
+    <ClInclude Include="Include\rttr\registration_friend.h" />
+    <ClInclude Include="Include\rttr\rttr_cast.h" />
+    <ClInclude Include="Include\rttr\rttr_enable.h" />
+    <ClInclude Include="Include\rttr\sequential_mapper.h" />
+    <ClInclude Include="Include\rttr\string_view.h" />
+    <ClInclude Include="Include\rttr\type.h" />
+    <ClInclude Include="Include\rttr\type_list.h" />
+    <ClInclude Include="Include\rttr\variant.h" />
+    <ClInclude Include="Include\rttr\variant_associative_view.h" />
+    <ClInclude Include="Include\rttr\variant_sequential_view.h" />
+    <ClInclude Include="Include\rttr\visitor.h" />
+    <ClInclude Include="Include\rttr\wrapper_mapper.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Other">
