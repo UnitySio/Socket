@@ -1,16 +1,13 @@
 ﻿#include "pch.h"
 #include "Mouse.h"
 
-#include <windowsx.h>
+#include "Event/Events.h"
 
 Mouse::Mouse() :
     mouse_states_{},
-    mouse_events_(),
     wheel_axis_(0),
     wheel_h_axis_(0),
-    mouse_position_(Math::Vector2::Zero()),
-    previous_mouse_position_(Math::Vector2::Zero()),
-    mouse_delta_(Math::Vector2::Zero())
+    mouse_position_(Math::Vector2::Zero())
 {
 }
 
@@ -32,191 +29,28 @@ bool Mouse::GetMouseButtonUp(MouseButton button) const
     return !state.is_down && state.was_down;
 }
 
-bool Mouse::ProcessMessage(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam, MathTypes::uint32 handler_result)
+void Mouse::OnMouseEvent(const Event& kEvent)
 {
-    if (message == WM_LBUTTONDOWN ||
-        message == WM_LBUTTONUP ||
-        message == WM_RBUTTONDOWN ||
-        message == WM_RBUTTONUP ||
-        message == WM_MBUTTONDOWN ||
-        message == WM_MBUTTONUP)
+    const MathTypes::uint32& kType = kEvent.type;
+    if (kType == EventType::kMouseMotion)
     {
-        MouseButton mouse_button = MouseButton::kNone;
-        bool is_released = false;
-
-        switch (message)
-        {
-        case WM_LBUTTONDOWN:
-            {
-                mouse_button = MouseButton::kLeft;
-            }
-            break;
-
-        case WM_LBUTTONUP:
-            {
-                mouse_button = MouseButton::kLeft;
-                is_released = true;
-            }
-            break;
-
-        case WM_RBUTTONDOWN:
-            {
-                mouse_button = MouseButton::kRight;
-            }
-            break;
-
-        case WM_RBUTTONUP:
-            {
-                mouse_button = MouseButton::kRight;
-                is_released = true;
-            }
-            break;
-
-        case WM_MBUTTONDOWN:
-            {
-                mouse_button = MouseButton::kMiddle;
-            }
-            break;
-
-        case WM_MBUTTONUP:
-            {
-                mouse_button = MouseButton::kMiddle;
-                is_released = true;
-            }
-            break;
-        }
-        
-        const int x = GET_X_LPARAM(lParam);
-        const int y = GET_Y_LPARAM(lParam);
-
-        ButtonEvent event;
-        event.type = is_released ? MouseEventType::kUp : MouseEventType::kDown;
-        event.button = mouse_button;
-        event.mouse_position = Math::Vector2(static_cast<float>(x), static_cast<float>(y));
-
-        mouse_events_.push(event);
-        return true;
+        const MouseMotionEvent& kMotion = kEvent.motion;
+        mouse_position_ = Math::Vector2(kMotion.x, kMotion.y);
     }
-
-    if (message == WM_MOUSEWHEEL)
+    else if (kType & EventType::kMousePressed || kType & EventType::kMouseReleased)
     {
-        // 마우스 휠의 경우, 마우스의 좌표가 화면 좌표로 들어옴
-        POINT point;
-        point.x = GET_X_LPARAM(lParam);
-        point.y = GET_Y_LPARAM(lParam);
-        ScreenToClient(hWnd, &point);
-        
-        const int z_delta = GET_WHEEL_DELTA_WPARAM(wParam);
-
-        ButtonEvent event;
-        event.type = MouseEventType::kWheel;
-        event.wheel_delta = z_delta / WHEEL_DELTA;
-        event.mouse_position = Math::Vector2(static_cast<float>(point.x), static_cast<float>(point.y));
-
-        mouse_events_.push(event);
-        return true;
+        const MouseButtonEvent& kButton = kEvent.button;
+        mouse_states_[static_cast<int>(kButton.button)].is_down = kButton.is_pressed;
     }
-
-    if (message == WM_MOUSEHWHEEL)
+    else if (kType == EventType::kMouseWheel)
     {
-        // 마우스 휠의 경우, 마우스의 좌표가 화면 좌표로 들어옴
-        POINT point;
-        point.x = GET_X_LPARAM(lParam);
-        point.y = GET_Y_LPARAM(lParam);
-        ScreenToClient(hWnd, &point);
-        
-        const int z_delta = GET_WHEEL_DELTA_WPARAM(wParam);
-
-        ButtonEvent event;
-        event.type = MouseEventType::kHWeel;
-        event.wheel_delta = z_delta / WHEEL_DELTA;
-        event.mouse_position = Math::Vector2(static_cast<float>(point.x), static_cast<float>(point.y));
-
-        mouse_events_.push(event);
-        return true;
-    }
-
-    if (message == WM_MOUSEMOVE)
-    {
-        const int x = GET_X_LPARAM(lParam);
-        const int y = GET_Y_LPARAM(lParam);
-
-        ButtonEvent event;
-        event.type = MouseEventType::kMove;
-        event.mouse_position = Math::Vector2(static_cast<float>(x), static_cast<float>(y));
-
-        mouse_events_.push(event);
-        return true;
-    }
-
-    return false;
-}
-
-void Mouse::Begin()
-{
-    std::lock_guard<std::mutex> lock(mutex_);
-
-    while (!mouse_events_.empty())
-    {
-        ButtonEvent& event = mouse_events_.front();
-        mouse_events_.pop();
-
-        MouseEventType type = event.type;
-
-        switch (type)
-        {
-        case MouseEventType::kDown:
-            {
-                mouse_states_[static_cast<int>(event.button)].is_down = true;
-                
-                previous_mouse_position_ = mouse_position_;
-                mouse_position_ = event.mouse_position;
-                mouse_delta_ = mouse_position_ - previous_mouse_position_;
-            }
-            break;
-
-        case MouseEventType::kUp:
-            {
-                mouse_states_[static_cast<int>(event.button)].is_down = false;
-                
-                previous_mouse_position_ = mouse_position_;
-                mouse_position_ = event.mouse_position;
-                mouse_delta_ = mouse_position_ - previous_mouse_position_;
-            }
-            break;
-
-        case MouseEventType::kWheel:
-            {
-                wheel_axis_ = event.wheel_delta;
-                
-                previous_mouse_position_ = mouse_position_;
-                mouse_position_ = event.mouse_position;
-                mouse_delta_ = mouse_position_ - previous_mouse_position_;
-            }
-            break;
-
-        case MouseEventType::kHWeel:
-            {
-                wheel_h_axis_ = event.wheel_delta;
-                
-                previous_mouse_position_ = mouse_position_;
-                mouse_position_ = event.mouse_position;
-                mouse_delta_ = mouse_position_ - previous_mouse_position_;
-            }
-            break;
-
-        case MouseEventType::kMove:
-            {
-                previous_mouse_position_ = mouse_position_;
-                mouse_position_ = event.mouse_position;
-                mouse_delta_ = mouse_position_ - previous_mouse_position_;
-            }
-            break;
-        }
+        const MouseWheelEvent& kWheel = kEvent.wheel;
+        wheel_axis_ = static_cast<int>(kWheel.y);
+        wheel_h_axis_ = static_cast<int>(kWheel.x);
     }
 }
 
-void Mouse::End()
+void Mouse::UpdateButtonStates()
 {
     for (auto& mouse_state : mouse_states_)
     {
@@ -225,17 +59,11 @@ void Mouse::End()
 
     wheel_axis_ = 0;
     wheel_h_axis_ = 0;
-    mouse_delta_ = Math::Vector2::Zero();
 }
 
 void Mouse::Clear()
 {
     std::lock_guard<std::mutex> lock(mutex_);
-
-    while (!mouse_events_.empty())
-    {
-        mouse_events_.pop();
-    }
 
     for (auto& mouse_state : mouse_states_)
     {

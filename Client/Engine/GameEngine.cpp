@@ -1,13 +1,15 @@
 ﻿#include "pch.h"
 #include "GameEngine.h"
 
+#include "Logger.h"
 #include "Audio/AudioManager.h"
+#include "Event/EventManager.h"
 #include "Event/Events.h"
 #include "imgui/imgui.h"
 #include "imgui/imgui_impl_dx11.h"
 #include "imgui/imgui_impl_win32.h"
 #include "Input/Keyboard.h"
-#include "Input/PlayerInput.h"
+#include "Input/Keyboard.h"
 #include "Input/Mouse.h"
 #include "Level/Level.h"
 #include "Level/World.h"
@@ -62,6 +64,26 @@ void GameEngine::Init(const std::shared_ptr<WindowsWindow>& kWindow)
 
 void GameEngine::GameLoop(float delta_time)
 {
+    EventManager* event_manager = EventManager::Get();
+    Event event;
+    while (event_manager->PollEvent(event))
+    {
+        const MathTypes::uint32& kType = event.type;
+        if (kType & (EventType::kKeyPressed | EventType::kKeyReleased))
+        {
+            Keyboard::Get()->OnKeyEvent(event);
+            Canvas::Get()->OnKeyEvent(event);
+        }
+        else if (kType == EventType::kText)
+        {
+            Canvas::Get()->OnKeyEvent(event);
+        }
+        else if (kType & (EventType::kMousePressed | EventType::kMouseReleased | EventType::kMouseMotion | EventType::kMouseWheel))
+        {
+            Mouse::Get()->OnMouseEvent(event);
+        }
+    }
+    
     World::Get()->TransitionLevel();
 
     StartFrame();
@@ -94,17 +116,6 @@ void GameEngine::Tick(float delta_time)
     
     // SteamManager::Get()->Tick();
     AudioManager::Get()->Tick();
-    
-    Mouse::Get()->Begin();
-
-    Keyboard* keyboard = Keyboard::Get();
-    
-    KeyEvnet key_event;
-    while (keyboard->PollEvent(key_event))
-    {
-        PlayerInput::Get()->OnKeyEvent(key_event);
-        Canvas::Get()->OnKeyEvent(key_event);
-    }
 
     while (accumulator_ >= ProjectSettings::kFixedTimeStep)
     {
@@ -114,11 +125,11 @@ void GameEngine::Tick(float delta_time)
 
     World::Get()->Tick(delta_time);
     World::Get()->PostTick(delta_time);
-    PlayerInput::Get()->UpdateKeyStates();
 
     Canvas::Get()->Tick(delta_time);
-
-    Mouse::Get()->End();
+    
+    Keyboard::Get()->UpdateKeyStates();
+    Mouse::Get()->UpdateButtonStates();
 }
 
 void GameEngine::Render(float alpha)

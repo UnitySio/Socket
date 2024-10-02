@@ -165,7 +165,6 @@
     <ClInclude Include="Engine\Event\Events.h" />
     <ClInclude Include="Engine\GameEngine.h" />
     <ClInclude Include="Engine\Input\Keyboard.h" />
-    <ClInclude Include="Engine\Input\PlayerInput.h" />
     <ClInclude Include="Engine\Input\Mouse.h" />
     <ClInclude Include="Engine\Level\Level.h" />
     <ClInclude Include="Engine\Level\World.h" />
@@ -358,7 +357,6 @@
     <ClCompile Include="Engine\Event\EventManager.cpp" />
     <ClCompile Include="Engine\GameEngine.cpp" />
     <ClCompile Include="Engine\Input\Keyboard.cpp" />
-    <ClCompile Include="Engine\Input\PlayerInput.cpp" />
     <ClCompile Include="Engine\Input\Mouse.cpp" />
     <ClCompile Include="Engine\Level\Level.cpp" />
     <ClCompile Include="Engine\Level\World.cpp" />

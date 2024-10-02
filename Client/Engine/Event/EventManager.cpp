@@ -1,6 +1,11 @@
 ﻿#include "pch.h"
 #include "EventManager.h"
 
+#include <windowsx.h>
+
+#include "Logger.h"
+#include "Input/Mouse.h"
+
 EventManager::EventManager() :
     events_()
 {
@@ -50,6 +55,79 @@ bool EventManager::ProcessMessage(HWND hWnd, UINT message, WPARAM wParam, LPARAM
         Event event;
         event.type = EventType::kText;
         event.text.character = kCharacter;
+
+        events_.push(event);
+        return true;
+    }
+    
+    if (message == WM_LBUTTONDOWN || message == WM_LBUTTONUP ||
+        message == WM_RBUTTONDOWN || message == WM_RBUTTONUP ||
+        message == WM_MBUTTONDOWN || message == WM_MBUTTONUP)
+    {
+        bool is_pressed = false;
+        MouseButton mouse_button = MouseButton::kLeft;
+        MathTypes::uint32 type = 0;
+        
+        if ((wParam & MK_LBUTTON))
+        {
+            is_pressed = true;
+            mouse_button = MouseButton::kLeft;
+        }
+        else if ((wParam & MK_RBUTTON))
+        {
+            is_pressed = true;
+            mouse_button = MouseButton::kRight;
+        }
+        else if ((wParam & MK_MBUTTON))
+        {
+            is_pressed = true;
+            mouse_button = MouseButton::kMiddle;
+        }
+
+        if (is_pressed) type = EventType::kMousePressed;
+        else type = EventType::kMouseReleased;
+
+        Event event;
+        event.type = type;
+        event.button.is_pressed = is_pressed;
+        event.button.button = mouse_button;
+
+        events_.push(event);
+        return true;
+    }
+
+    if (message == WM_MOUSEMOVE)
+    {
+        const int x = GET_X_LPARAM(lParam);
+        const int y = GET_Y_LPARAM(lParam);
+
+        Event event;
+        event.type = EventType::kMouseMotion;
+        event.motion.x = static_cast<float>(x);
+        event.motion.y = static_cast<float>(y);
+
+        events_.push(event);
+        return true;
+    }
+
+    if (message == WM_MOUSEWHEEL || message == WM_MOUSEHWHEEL)
+    {
+        const short delta = GET_WHEEL_DELTA_WPARAM(wParam);
+        float delta_f = static_cast<float>(delta) / static_cast<float>(WHEEL_DELTA);
+
+        Event event;
+        event.type = EventType::kMouseWheel;
+
+        if (message == WM_MOUSEWHEEL)
+        {
+            event.wheel.x = 0.f;
+            event.wheel.y = delta_f;
+        }
+        else
+        {
+            event.wheel.x = delta_f;
+            event.wheel.y = 0.f;
+        }
 
         events_.push(event);
         return true;

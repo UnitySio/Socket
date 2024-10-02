@@ -3,6 +3,7 @@
 
 #include "Logger.h"
 #include "Widget.h"
+#include "Event/Events.h"
 #include "Input/Keyboard.h"
 #include "Input/Mouse.h"
 #include "Widget/Button.h"
@@ -44,19 +45,21 @@ void Canvas::OnResize(MathTypes::uint32 width, MathTypes::uint32 height)
     }
 }
 
-void Canvas::OnKeyEvent(const KeyEvnet& kEvent)
+void Canvas::OnKeyEvent(const Event& kEvent)
 {
-    if (kEvent.action == KeyAction::kPressed)
+    const MathTypes::uint32& kType = kEvent.type;
+    
+    if (kType == EventType::kKeyPressed)
     {
-        if (focused_widget_) focused_widget_->OnKeyEvent(kEvent.key_code, true);
+        if (focused_widget_) focused_widget_->OnKeyEvent(kEvent.key.key_code, true);
     }
-    else if (kEvent.action == KeyAction::kReleased)
+    else if (kType == EventType::kKeyReleased)
     {
-        if (focused_widget_) focused_widget_->OnKeyEvent(kEvent.key_code, false);
+        if (focused_widget_) focused_widget_->OnKeyEvent(kEvent.key.key_code, false);
     }
-    else if (kEvent.action == KeyAction::kText)
+    else if (kType == EventType::kText)
     {
-        if (focused_widget_) focused_widget_->OnCharEvent(kEvent.character);
+        if (focused_widget_) focused_widget_->OnCharEvent(kEvent.text.character);
     }
 }
 

@@ -5,7 +5,7 @@
 #include "Actor/Component/Controller2DComponent.h"
 #include "Actor/Component/SpriteRendererComponent.h"
 #include "Actor/Component/Animator/AnimatorComponent.h"
-#include "Input/PlayerInput.h"
+#include "Input/Keyboard.h"
 #include "Math/Math.h"
 
 PlayerStandingState::PlayerStandingState(Actor* actor, StateMachine* state_machine) :
@@ -71,7 +71,7 @@ void PlayerStandingState::Tick(float delta_time)
         last_grounded_time_ = coyote_time_;
     }
     
-    PlayerInput* keyboard = PlayerInput::Get();
+    Keyboard* keyboard = Keyboard::Get();
     input_x_ = keyboard->GetKey(VK_RIGHT) - keyboard->GetKey(VK_LEFT);
     if (Math::Abs(input_x_) > 0)
     {

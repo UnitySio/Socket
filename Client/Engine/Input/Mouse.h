@@ -6,21 +6,13 @@
 #include "Math/MathTypes.h"
 #include "Math/Vector2.h"
 
-enum class MouseEventType
-{
-    kDown,
-    kUp,
-    kWheel,
-    kHWeel,
-    kMove
-};
+union Event;
 
 enum class MouseButton
 {
     kLeft,
     kRight,
-    kMiddle,
-    kNone
+    kMiddle
 };
 
 struct MouseState
@@ -31,24 +23,6 @@ struct MouseState
     MouseState() :
         is_down(false),
         was_down(false)
-    {
-    }
-};
-
-struct ButtonEvent
-{
-    MouseEventType type;
-    MouseButton button;
-
-    int wheel_delta;
-    
-    Math::Vector2 mouse_position;
-
-    ButtonEvent() :
-        type(MouseEventType::kMove),
-        button(MouseButton::kNone),
-        wheel_delta(0),
-        mouse_position(Math::Vector2::Zero())
     {
     }
 };
@@ -67,28 +41,21 @@ public:
     inline int GetWheelHAxis() const { return wheel_h_axis_; }
     
     inline Math::Vector2 GetMousePosition() const { return mouse_position_; }
-    inline Math::Vector2 GetMouseDelta() const { return mouse_delta_; }
 
 private:
     friend class Core;
     friend class GameEngine;
-    
-    bool ProcessMessage(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam, MathTypes::uint32 handler_result);
 
-    void Begin();
-    void End();
+    void OnMouseEvent(const Event& kEvent);
+    void UpdateButtonStates();
     void Clear();
 
-    MouseState mouse_states_[static_cast<int>(MouseButton::kNone)];
-
-    std::queue<ButtonEvent> mouse_events_;
+    MouseState mouse_states_[3];
 
     int wheel_axis_;
     int wheel_h_axis_;
     
     Math::Vector2 mouse_position_;
-    Math::Vector2 previous_mouse_position_;
-    Math::Vector2 mouse_delta_;
 
     // 스레드로 부터 안전을 위한 뮤텍스
     std::mutex mutex_;

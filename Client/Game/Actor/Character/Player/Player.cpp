@@ -7,7 +7,7 @@
 #include "Actor/Component/TransformComponent.h"
 #include "Actor/Component/Animator/AnimationClip.h"
 #include "Actor/Component/Animator/AnimatorComponent.h"
-#include "Input/PlayerInput.h"
+#include "Input/Keyboard.h"
 #include "Level/World.h"
 #include "Math/Math.h"
 #include "Resource/ResourceManager.h"
@@ -80,13 +80,13 @@ void Player::Tick(float delta_time)
 
     HandleTime(delta_time);
 
-    PlayerInput* input = PlayerInput::Get();
-    if (input->GetKeyDown('C'))
+    Keyboard* keyboard = Keyboard::Get();
+    if (keyboard->GetKeyDown('C'))
     {
         last_pressed_jump_time_ = .1f;
     }
 
-    if (input->GetKeyDown('R'))
+    if (keyboard->GetKeyDown('R'))
     {
         World::Get()->OpenLevel(LevelType::kDefault);
     }

@@ -5,7 +5,7 @@
 #include "Actor/Component/Controller2DComponent.h"
 #include "Actor/Component/SpriteRendererComponent.h"
 #include "Actor/Component/Animator/AnimatorComponent.h"
-#include "Input/PlayerInput.h"
+#include "Input/Keyboard.h"
 #include "Math/Math.h"
 
 PlayerJumpingState::PlayerJumpingState(Actor* actor, StateMachine* state_machine) :
@@ -83,8 +83,8 @@ void PlayerJumpingState::Tick(float delta_time)
         return;
     }
     
-    PlayerInput* input = PlayerInput::Get();
-    input_x_ = input->GetKey(VK_RIGHT) - input->GetKey(VK_LEFT);
+    Keyboard* keyboard = Keyboard::Get();
+    input_x_ = keyboard->GetKey(VK_RIGHT) - keyboard->GetKey(VK_LEFT);
     if (Math::Abs(input_x_) > 0)
     {
         if (sprite_renderer_) sprite_renderer_->SetFlipX(input_x_ < 0);

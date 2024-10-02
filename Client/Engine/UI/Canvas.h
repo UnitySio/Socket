@@ -1,23 +1,9 @@
 ﻿#pragma once
-#include <queue>
 #include <vector>
 
 #include "Singleton.h"
-#include "Input/Keyboard.h"
 
-enum class UIKeyboardEventType
-{
-    kDown,
-    kRepeat,
-    kUp,
-    kChar,
-};
-
-struct UIKeyboardEvent
-{
-    UIKeyboardEventType type;
-    MathTypes::uint16 key_code;
-};
+union Event;
 
 class Widget;
 
@@ -34,12 +20,12 @@ public:
 private:
     friend class Core;
     friend class GameEngine;
-    friend class PlayerInput;
+    friend class Keyboard;
     friend class World;
     friend class Widget;
     
     void OnResize(MathTypes::uint32 width, MathTypes::uint32 height);
-    void OnKeyEvent(const KeyEvnet& kEvent);
+    void OnKeyEvent(const Event& kEvent);
     void BeginPlay();
     void Tick(float delta_time);
     void Render();
