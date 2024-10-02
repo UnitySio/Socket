@@ -13,6 +13,7 @@ namespace UI
         virtual void BeginPlay() override;
         virtual void Tick(float delta_time) override;
         virtual void Render() override;
+        virtual void OnFocus() override;
         virtual void OnBlur() override;
         virtual void OnKeyEvent(MathTypes::uint16 key_code, bool is_pressed) override;
         virtual void OnCharEvent(wchar_t character) override;

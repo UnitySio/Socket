@@ -81,6 +81,13 @@ void UI::TextBox::Render()
     renderer->EndLayer();
 }
 
+void UI::TextBox::OnFocus()
+{
+    Widget::OnFocus();
+
+    show_cursor_ = true;
+}
+
 void UI::TextBox::OnBlur()
 {
     Widget::OnBlur();
@@ -97,11 +104,23 @@ void UI::TextBox::OnKeyEvent(MathTypes::uint16 key_code, bool is_pressed)
     {
         if (key_code == VK_LEFT)
         {
-            if (cursor_position_ > 0) cursor_position_--;
+            if (cursor_position_ > 0)
+            {
+                cursor_position_--;
+
+                elapsed_ = 0.f;
+                show_cursor_ = true;
+            }
         }
         else if (key_code == VK_RIGHT)
         {
-            if (cursor_position_ < text_.size()) cursor_position_++;
+            if (cursor_position_ < text_.size())
+            {
+                cursor_position_++;
+                
+                elapsed_ = 0.f;
+                show_cursor_ = true;
+            }
         }
         else if (key_code == VK_BACK)
         {
@@ -109,26 +128,41 @@ void UI::TextBox::OnKeyEvent(MathTypes::uint16 key_code, bool is_pressed)
             {
                 text_.erase(cursor_position_ - 1, 1);
                 cursor_position_--;
+                
+                elapsed_ = 0.f;
+                show_cursor_ = true;
             }
         }
         else if (key_code == VK_SPACE)
         {
             text_.insert(cursor_position_, L" ");
             cursor_position_++;
+            
+            elapsed_ = 0.f;
+            show_cursor_ = true;
         }
         else if (key_code == VK_HOME)
         {
             cursor_position_ = 0;
+            
+            elapsed_ = 0.f;
+            show_cursor_ = true;
         }
         else if (key_code == VK_END)
         {
             cursor_position_ = text_.size();
+            
+            elapsed_ = 0.f;
+            show_cursor_ = true;
         }
         else if (key_code == VK_DELETE)
         {
             if (text_.size() > 0 && cursor_position_ < text_.size())
             {
                 text_.erase(cursor_position_, 1);
+                
+                elapsed_ = 0.f;
+                show_cursor_ = true;
             }
         }
     }
