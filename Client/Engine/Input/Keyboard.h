@@ -31,7 +31,7 @@ public:
 private:
     friend class Core;
     
-    void OnKeyEvent(const Event& kEvent);
+    void OnEvent(const Event& kEvent);
     void UpdateKeyStates();
     void Clear();
 

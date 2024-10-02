@@ -25,7 +25,7 @@ private:
     friend class Widget;
     
     void OnResize(MathTypes::uint32 width, MathTypes::uint32 height);
-    void OnKeyEvent(const Event& kEvent);
+    void OnEvent(const Event& kEvent);
     void BeginPlay();
     void Tick(float delta_time);
     void Render();

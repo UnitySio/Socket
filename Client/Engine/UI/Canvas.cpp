@@ -45,7 +45,7 @@ void Canvas::OnResize(MathTypes::uint32 width, MathTypes::uint32 height)
     }
 }
 
-void Canvas::OnKeyEvent(const Event& kEvent)
+void Canvas::OnEvent(const Event& kEvent)
 {
     const MathTypes::uint32& kType = kEvent.type;
     

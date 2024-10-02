@@ -29,7 +29,7 @@ bool Mouse::GetMouseButtonUp(MouseButton button) const
     return !state.is_down && state.was_down;
 }
 
-void Mouse::OnMouseEvent(const Event& kEvent)
+void Mouse::OnEvent(const Event& kEvent)
 {
     const MathTypes::uint32& kType = kEvent.type;
     if (kType == EventType::kMouseMotion)

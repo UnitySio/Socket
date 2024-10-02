@@ -149,16 +149,16 @@ void Core::MainThread()
                 }
                 else if (kType & (EventType::kKeyPressed | EventType::kKeyReleased))
                 {
-                    Keyboard::Get()->OnKeyEvent(event);
-                    Canvas::Get()->OnKeyEvent(event);
+                    Keyboard::Get()->OnEvent(event);
+                    Canvas::Get()->OnEvent(event);
                 }
                 else if (kType == EventType::kText)
                 {
-                    Canvas::Get()->OnKeyEvent(event);
+                    Canvas::Get()->OnEvent(event);
                 }
                 else if (kType & (EventType::kMousePressed | EventType::kMouseReleased | EventType::kMouseMotion | EventType::kMouseWheel))
                 {
-                    Mouse::Get()->OnMouseEvent(event);
+                    Mouse::Get()->OnEvent(event);
                 }
 
                 World::Get()->OnEvent(event);

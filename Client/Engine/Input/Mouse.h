@@ -45,7 +45,7 @@ public:
 private:
     friend class Core;
 
-    void OnMouseEvent(const Event& kEvent);
+    void OnEvent(const Event& kEvent);
     void UpdateButtonStates();
     void Clear();
 

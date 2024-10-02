@@ -48,7 +48,7 @@ bool Keyboard::GetKeyUp(WORD key_code)
 	return !key_state.is_down && key_state.was_down;
 }
 
-void Keyboard::OnKeyEvent(const Event& kEvent)
+void Keyboard::OnEvent(const Event& kEvent)
 {
 	const MathTypes::uint32& kType = kEvent.type;
 
