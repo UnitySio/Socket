@@ -47,6 +47,6 @@ RTTR_REGISTRATION
 {
     using namespace rttr;
 
-    registration::class_<CharacterBase>(L"CharacterBase")
+    registration::class_<CharacterBase>("CharacterBase")
         .constructor<const std::wstring&>();
 }

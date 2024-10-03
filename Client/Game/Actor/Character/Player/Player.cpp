@@ -106,6 +106,6 @@ RTTR_REGISTRATION
 {
     using namespace rttr;
 
-    registration::class_<Player>(L"Player")
+    registration::class_<Player>("Player")
         .constructor<const std::wstring&>();
 }

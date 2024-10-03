@@ -16,7 +16,7 @@ RTTR_REGISTRATION
 {
     using namespace rttr;
 
-    registration::class_<Tilemap>(L"Tilemap")
+    registration::class_<Tilemap>("Tilemap")
         .constructor<const std::wstring&>();
 }
  

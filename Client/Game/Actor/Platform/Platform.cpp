@@ -46,6 +46,6 @@ RTTR_REGISTRATION
 {
     using namespace rttr;
 
-    registration::class_<Platform>(L"Platform")
+    registration::class_<Platform>("Platform")
         .constructor<const std::wstring&>();
 }

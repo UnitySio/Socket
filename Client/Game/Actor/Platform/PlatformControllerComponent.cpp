@@ -124,6 +124,6 @@ RTTR_REGISTRATION
 {
     using namespace rttr;
 
-    registration::class_<PlatformControllerComponent>(L"PlatformControllerComponent")
+    registration::class_<PlatformControllerComponent>("PlatformControllerComponent")
         .constructor<Actor*, const std::wstring&>();
 }

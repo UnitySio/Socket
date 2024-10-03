@@ -57,6 +57,6 @@ RTTR_REGISTRATION
 {
     using namespace rttr;
 
-    registration::class_<Capsule>(L"Capsule")
+    registration::class_<Capsule>("Capsule")
         .constructor<const std::wstring&>();
 }
