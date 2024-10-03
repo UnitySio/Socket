@@ -5,6 +5,8 @@
 #include "box2d/box2d.h"
 #include "Component/TransformComponent.h"
 #include "Level/World.h"
+#include "rttr/registration.h"
+#include "rttr/detail/registration/registration_impl.h"
 
 Actor::Actor(const std::wstring& kName) :
     tag_(ActorTag::kNone),
@@ -166,4 +168,12 @@ void Actor::CreateBody()
 void Actor::OnLifeSpanExpired()
 {
     Destroy();
+}
+
+RTTR_REGISTRATION
+{
+    using namespace rttr;
+
+    registration::class_<Actor>("Actor")
+        .constructor<const std::wstring&>();
 }

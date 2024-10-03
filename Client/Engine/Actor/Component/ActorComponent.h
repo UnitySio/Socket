@@ -37,5 +37,8 @@ private:
     friend class PlayerController;
 
     bool has_begun_play_;
+
+    RTTR_ENABLE(Object)
+    RTTR_REGISTRATION_FRIEND
     
 };

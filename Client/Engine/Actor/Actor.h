@@ -107,7 +107,12 @@ protected:
     
     TimerHandle life_span_timer_;
 
+private:
+    RTTR_ENABLE(Object)
+    RTTR_REGISTRATION_FRIEND
+
 };
+
 
 template <std::derived_from<ActorComponent> T>
 T* Actor::AddComponent(const std::wstring& kName)
@@ -119,11 +124,13 @@ T* Actor::AddComponent(const std::wstring& kName)
 template <std::derived_from<ActorComponent> T>
 T* Actor::GetComponent()
 {
+    rttr::type type = rttr::type::get<T>();
     for (const auto& component : components_)
     {
-        if (T* target = dynamic_cast<T*>(component.get()))
+        rttr::type component_type = rttr::type::get(*component);
+        if (component_type.is_derived_from(type))
         {
-            return target;
+            return static_cast<T*>(component.get());
         }
     }
 

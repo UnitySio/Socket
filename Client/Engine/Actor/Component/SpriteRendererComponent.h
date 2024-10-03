@@ -42,5 +42,8 @@ private:
     bool flip_y_;
 
     Math::Color color_;
+
+    RTTR_ENABLE(ActorComponent)
+    RTTR_REGISTRATION_FRIEND
     
 };

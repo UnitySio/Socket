@@ -4,6 +4,7 @@
 #include "TransformComponent.h"
 #include "Actor/Actor.h"
 #include "Level/World.h"
+#include "rttr/registration.h"
 #include "Windows/DX/Shape.h"
 #include "Windows/DX/Sprite.h"
 
@@ -60,4 +61,12 @@ void SpriteRendererComponent::Render(float alpha)
     shape_->SetPivot({pivot_x, pivot_y});
 
     World::Get()->AddShape(shape_);
+}
+
+RTTR_REGISTRATION
+{
+    using namespace rttr;
+
+    registration::class_<SpriteRendererComponent>("SpriteRendererComponent")
+        .constructor<Actor*, const std::wstring&>();
 }
