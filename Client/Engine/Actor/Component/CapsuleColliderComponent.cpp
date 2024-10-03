@@ -4,6 +4,7 @@
 #include "Actor/Actor.h"
 #include "box2d/box2d.h"
 #include "box2d/collision.h"
+#include "rttr/registration.h"
 
 CapsuleColliderComponent::CapsuleColliderComponent(Actor* owner, const std::wstring& kName) :
     ColliderComponent(owner, kName),
@@ -88,4 +89,12 @@ void CapsuleColliderComponent::SetTriggerInternal()
 
     b2DestroyShape(shape_id_);
     shape_id_ = b2CreateCapsuleShape(GetOwner()->body_id_, &shape_def, &capsule);
+}
+
+RTTR_REGISTRATION
+{
+    using namespace rttr;
+
+    registration::class_<CapsuleColliderComponent>("CapsuleColliderComponent")
+        .constructor<Actor*, const std::wstring&>();
 }

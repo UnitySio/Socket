@@ -43,5 +43,8 @@ private:
     virtual void SetTriggerInternal();
 
     void SetMaterialIntermal();
+
+    RTTR_ENABLE(ActorComponent)
+    RTTR_REGISTRATION_FRIEND
     
 };

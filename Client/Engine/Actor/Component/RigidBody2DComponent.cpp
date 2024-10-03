@@ -5,6 +5,7 @@
 #include "Actor/Actor.h"
 #include "box2d/box2d.h"
 #include "Math/Vector2.h"
+#include "rttr/registration.h"
 
 RigidBody2DComponent::RigidBody2DComponent(Actor* owner, const std::wstring& kName) :
     ActorComponent(owner, kName),
@@ -363,4 +364,12 @@ b2BodyId RigidBody2DComponent::GetValidBodyId() const
     CHECK(b2Body_IsValid(body_id));
 
     return body_id;
+}
+
+RTTR_REGISTRATION
+{
+    using namespace rttr;
+
+    registration::class_<RigidBody2DComponent>("RigidBody2DComponent")
+        .constructor<Actor*, const std::wstring&>();
 }

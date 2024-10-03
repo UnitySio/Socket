@@ -4,6 +4,7 @@
 #include "AnimationClip.h"
 #include "Actor/Actor.h"
 #include "Actor/Component/SpriteRendererComponent.h"
+#include "rttr/registration.h"
 
 AnimatorComponent::AnimatorComponent(Actor* owner, const std::wstring& kName) :
     ActorComponent(owner, kName),
@@ -83,4 +84,12 @@ bool AnimatorComponent::PlayClip(std::shared_ptr<AnimationClip> clip)
     timer_ = 0.f;
     current_index_ = 0;
     return true;
+}
+
+RTTR_REGISTRATION
+{
+    using namespace rttr;
+
+    registration::class_<AnimatorComponent>("AnimatorComponent")
+        .constructor<Actor*, const std::wstring&>();
 }

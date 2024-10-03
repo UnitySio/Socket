@@ -8,6 +8,7 @@
 #include "Math/Bounds.h"
 #include "Math/Math.h"
 #include "Physics/Physics2D.h"
+#include "rttr/registration.h"
 
 Controller2DComponent::Controller2DComponent(Actor* owner, const std::wstring& kName) :
     RayCastController(owner, kName),
@@ -200,4 +201,12 @@ void Controller2DComponent::SlideDownMaxSlope(const HitResult& kHit, Math::Vecto
             collisions_.slope_normal = kHit.normal;
         }
     }
+}
+
+RTTR_REGISTRATION
+{
+    using namespace rttr;
+
+    registration::class_<Controller2DComponent>("Controller2DComponent")
+        .constructor<Actor*, const std::wstring&>();
 }

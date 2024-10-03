@@ -16,5 +16,8 @@ private:
     virtual void SetTriggerInternal() override;
     
     Math::Vector2 size_;
+
+    RTTR_ENABLE(ColliderComponent)
+    RTTR_REGISTRATION_FRIEND
     
 };

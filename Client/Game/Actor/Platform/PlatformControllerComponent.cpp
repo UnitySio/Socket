@@ -7,6 +7,8 @@
 #include "Actor/Component/TransformComponent.h"
 #include "Math/Math.h"
 #include "Physics/Physics2D.h"
+#include "rttr/registration.h"
+#include "rttr/detail/registration/registration_impl.h"
 
 PlatformControllerComponent::PlatformControllerComponent(Actor* owner, const std::wstring& kName) :
     RayCastController(owner, kName),
@@ -116,4 +118,12 @@ void PlatformControllerComponent::MovePassengers(Math::Vector2 velocity)
             }
         }
     }
+}
+
+RTTR_REGISTRATION
+{
+    using namespace rttr;
+
+    registration::class_<PlatformControllerComponent>(L"PlatformControllerComponent")
+        .constructor<Actor*, const std::wstring&>();
 }

@@ -1,12 +1,14 @@
 ﻿#pragma once
 #include "Object.h"
 #include "box2d/id.h"
+#include "Level/World.h"
 #include "Misc/DelegateMacros.h"
 #include "Misc/EngineMacros.h"
 #include "Time/TimerManager.h"
 
 class ActorComponent;
 class Actor;
+
 DECLARE_DELEGATE(ContactSignature, Actor*);
 
 enum class EndPlayReason : MathTypes::uint64;

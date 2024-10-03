@@ -91,5 +91,8 @@ private:
 
     bool is_fixed_rotation_;
     bool use_auto_mass_;
+
+    RTTR_ENABLE(ActorComponent)
+    RTTR_REGISTRATION_FRIEND
     
 };

@@ -38,5 +38,8 @@ private:
     std::vector<std::unique_ptr<TilemapLayer>> tilemap_layers_;
 
     b2BodyId tilemap_body_id_;
+
+    RTTR_ENABLE(ActorComponent)
+    RTTR_REGISTRATION_FRIEND
     
 };

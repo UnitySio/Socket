@@ -18,5 +18,8 @@ private:
     class RigidBody2DComponent* rigid_body_;
     
     class Sprite* sprite_;
+
+    RTTR_ENABLE(Actor)
+    RTTR_REGISTRATION_FRIEND
     
 };

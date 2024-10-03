@@ -5,6 +5,7 @@
 #include "Actor/Actor.h"
 #include "box2d/box2d.h"
 #include "Math/Bounds.h"
+#include "rttr/registration.h"
 
 ColliderComponent::ColliderComponent(Actor* owner, const std::wstring& kName) :
     ActorComponent(owner, kName),
@@ -84,4 +85,12 @@ void ColliderComponent::SetMaterialIntermal()
 
     b2Shape_SetFriction(shape_id_, material_.friction);
     b2Shape_SetRestitution(shape_id_, material_.bounciness);
+}
+
+RTTR_REGISTRATION
+{
+    using namespace rttr;
+
+    registration::class_<ColliderComponent>("ColliderComponent")
+        .constructor<Actor*, const std::wstring&>();
 }

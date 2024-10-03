@@ -13,5 +13,8 @@ private:
     void MovePassengers(Math::Vector2 velocity);
     
     Math::Vector2 move_;
+
+    RTTR_ENABLE(RayCastController)
+    RTTR_REGISTRATION_FRIEND
     
 };

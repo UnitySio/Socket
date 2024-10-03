@@ -11,5 +11,8 @@ public:
 
 private:
     class TilemapComponent* tilemap_component_;
+
+    RTTR_ENABLE(Actor)
+    RTTR_REGISTRATION_FRIEND
     
 };

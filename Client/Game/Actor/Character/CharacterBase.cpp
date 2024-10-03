@@ -5,6 +5,8 @@
 #include "Actor/Component/Animator/AnimatorComponent.h"
 #include "Actor/Component/Controller2DComponent.h"
 #include "Actor/StateMachine/StateMachine.h"
+#include "rttr/registration.h"
+#include "rttr/detail/registration/registration_impl.h"
 
 CharacterBase::CharacterBase(const std::wstring& kName) :
     Actor(kName)
@@ -39,4 +41,12 @@ void CharacterBase::PostTick(float delta_time)
     Actor::PostTick(delta_time);
 
     state_machine_->PostTick(delta_time);
+}
+
+RTTR_REGISTRATION
+{
+    using namespace rttr;
+
+    registration::class_<CharacterBase>(L"CharacterBase")
+        .constructor<const std::wstring&>();
 }

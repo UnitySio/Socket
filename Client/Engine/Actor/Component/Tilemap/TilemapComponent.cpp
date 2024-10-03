@@ -7,6 +7,7 @@
 #include "box2d/box2d.h"
 #include "Level/World.h"
 #include "Resource/ResourceManager.h"
+#include "rttr/registration.h"
 #include "Windows/DX/Texture.h"
 
 TilemapComponent::TilemapComponent(Actor* owner, const std::wstring& kName) :
@@ -119,4 +120,12 @@ void TilemapComponent::GeneratePhysics(const tmx::ObjectGroup& object)
 	}
 
 	b2Body_Disable(tilemap_body_id_);
+}
+
+RTTR_REGISTRATION
+{
+	using namespace rttr;
+
+	registration::class_<TilemapComponent>("TilemapComponent")
+		.constructor<Actor*, const std::wstring&>();
 }

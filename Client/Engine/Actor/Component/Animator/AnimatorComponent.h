@@ -35,4 +35,7 @@ private:
     float timer_;
     int current_index_;
     bool is_playing_;
+
+    RTTR_ENABLE(ActorComponent)
+    RTTR_REGISTRATION_FRIEND
 };

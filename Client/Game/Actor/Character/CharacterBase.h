@@ -33,5 +33,8 @@ protected:
     AnimatorComponent* animator_;
     class CapsuleColliderComponent* capsule_collider_;
     Controller2DComponent* controller_;
+
+    RTTR_ENABLE(Actor)
+    RTTR_REGISTRATION_FRIEND
     
 };

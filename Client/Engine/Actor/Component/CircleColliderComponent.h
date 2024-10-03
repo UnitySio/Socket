@@ -16,5 +16,8 @@ private:
     virtual void SetTriggerInternal() override;
     
     float radius_;
+
+    RTTR_ENABLE(ColliderComponent)
+    RTTR_REGISTRATION_FRIEND
     
 };

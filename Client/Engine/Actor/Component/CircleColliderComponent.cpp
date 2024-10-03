@@ -4,6 +4,7 @@
 #include "Actor/Actor.h"
 #include "box2d/box2d.h"
 #include "box2d/collision.h"
+#include "rttr/registration.h"
 
 CircleColliderComponent::CircleColliderComponent(Actor* owner, const std::wstring& kName) :
     ColliderComponent(owner, kName),
@@ -65,4 +66,12 @@ void CircleColliderComponent::SetTriggerInternal()
 
     b2DestroyShape(shape_id_);
     shape_id_ = b2CreateCircleShape(GetOwner()->body_id_, &shape_def, &circle);
+}
+
+RTTR_REGISTRATION
+{
+    using namespace rttr;
+
+    registration::class_<CircleColliderComponent>("CircleColliderComponent")
+        .constructor<Actor*, const std::wstring&>();
 }

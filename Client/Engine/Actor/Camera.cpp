@@ -6,6 +6,8 @@
 #include "Component/TransformComponent.h"
 #include "Level/World.h"
 #include "Math/Math.h"
+#include "rttr/registration.h"
+#include "rttr/detail/registration/registration_impl.h"
 #include "Windows/DX/Renderer.h"
 
 std::weak_ptr<Camera> Camera::camera_;
@@ -153,4 +155,12 @@ void Camera::UpdateProjectionMatrix() const
         
         viewport->projection_matrix = DirectX::XMMatrixOrthographicOffCenterLH(left, right, -size_, size_, near_z_, far_z_);
     }
+}
+
+RTTR_REGISTRATION
+{
+    using namespace rttr;
+
+    registration::class_<Camera>("Camera")
+        .constructor<const std::wstring&>();
 }

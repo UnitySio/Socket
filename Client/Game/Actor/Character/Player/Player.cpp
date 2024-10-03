@@ -11,6 +11,8 @@
 #include "Level/World.h"
 #include "Math/Math.h"
 #include "Resource/ResourceManager.h"
+#include "rttr/registration.h"
+#include "rttr/detail/registration/registration_impl.h"
 #include "State/PlayerJumpingState.h"
 #include "State/PlayerStandingState.h"
 #include "Windows/DX/Sprite.h"
@@ -98,4 +100,12 @@ void Player::HandleTime(float delta_time)
     {
         last_pressed_jump_time_ = Math::Max(last_pressed_jump_time_ - delta_time, 0.f);
     }
+}
+
+RTTR_REGISTRATION
+{
+    using namespace rttr;
+
+    registration::class_<Player>(L"Player")
+        .constructor<const std::wstring&>();
 }

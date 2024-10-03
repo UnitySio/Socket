@@ -37,5 +37,8 @@ private:
     Math::Vector2 scale_;
 
     float angle_;
+
+    RTTR_ENABLE(ActorComponent)
+    RTTR_REGISTRATION_FRIEND
     
 };

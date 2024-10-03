@@ -6,6 +6,7 @@
 #include "Level/World.h"
 #include "RigidBody2DComponent.h"
 #include "box2d/box2d.h"
+#include "rttr/registration.h"
 
 TransformComponent::TransformComponent(Actor* owner, const std::wstring& kName) :
     ActorComponent(owner, kName),
@@ -79,4 +80,12 @@ void TransformComponent::UpdateBody()
         b2Body_SetTransform(body_id, {position_.x, position_.y}, b2MakeRot(angle_ * MATH_PI / 180.f));
         b2Body_SetAwake(body_id, true);
     }
+}
+
+RTTR_REGISTRATION
+{
+    using namespace rttr;
+
+    registration::class_<TransformComponent>("TransformComponent")
+        .constructor<Actor*, const std::wstring&>();
 }

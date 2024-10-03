@@ -6,6 +6,7 @@
 #include "Actor/Component/RigidBody2DComponent.h"
 #include "Actor/Component/TransformComponent.h"
 #include "Resource/ResourceManager.h"
+#include "rttr/registration.h"
 #include "Windows/DX/Shape.h"
 #include "Windows/DX/Sprite.h"
 
@@ -50,4 +51,12 @@ void Capsule::Tick(float delta_time)
 {
     Actor::Tick(delta_time);
 
+}
+
+RTTR_REGISTRATION
+{
+    using namespace rttr;
+
+    registration::class_<Capsule>(L"Capsule")
+        .constructor<const std::wstring&>();
 }

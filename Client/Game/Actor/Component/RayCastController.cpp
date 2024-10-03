@@ -1,9 +1,11 @@
 ﻿#include "pch.h"
 #include "RayCastController.h"
 
+#include "Actor/Actor.h"
 #include "Actor/Component/ColliderComponent.h"
 #include "Math/Bounds.h"
 #include "Math/Math.h"
+#include "rttr/registration.h"
 
 RayCastController::RayCastController(Actor* owner, const std::wstring& kName) :
     ActorComponent(owner, kName),
@@ -45,4 +47,12 @@ void RayCastController::CalculateRaySpecing()
 
     horizontal_ray_spacing_ = bounds.size.y / (horizontal_ray_count_ - 1);
     vertical_ray_spacing_ = bounds.size.x / (vertical_ray_count_ - 1);
+}
+
+RTTR_REGISTRATION
+{
+    using namespace rttr;
+
+    registration::class_<RayCastController>("RayCastController")
+        .constructor<Actor*, const std::wstring&>();
 }

@@ -58,5 +58,8 @@ private:
     float slope_limit_;
 
     CollisionInfo collisions_;
+
+    RTTR_ENABLE(RayCastController)
+    RTTR_REGISTRATION_FRIEND
     
 };

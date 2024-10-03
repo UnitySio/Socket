@@ -17,5 +17,8 @@ private:
     class PlatformControllerComponent* controller_;
 
     class Sprite* sprite_;
+
+    RTTR_ENABLE(Actor)
+    RTTR_REGISTRATION_FRIEND
     
 };

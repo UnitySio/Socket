@@ -34,5 +34,8 @@ protected:
     int vertical_ray_count_;
     
     RaycastOrigins raycast_origins_;
+
+    RTTR_ENABLE(ActorComponent)
+    RTTR_REGISTRATION_FRIEND
     
 };

@@ -38,5 +38,8 @@ private:
     float jump_velocity_;
     float move_speed_;
     float last_pressed_jump_time_;
+
+    RTTR_ENABLE(CharacterBase)
+    RTTR_REGISTRATION_FRIEND
     
 };

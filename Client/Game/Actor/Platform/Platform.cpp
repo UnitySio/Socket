@@ -6,6 +6,8 @@
 #include "PlatformControllerComponent.h"
 #include "Actor/Component/TransformComponent.h"
 #include "Resource/ResourceManager.h"
+#include "rttr/registration.h"
+#include "rttr/detail/registration/registration_impl.h"
 #include "Windows/DX/Sprite.h"
 
 Platform::Platform(const std::wstring& kName) :
@@ -38,4 +40,12 @@ Platform::Platform(const std::wstring& kName) :
 void Platform::Tick(float delta_time)
 {
     Actor::Tick(delta_time);
+}
+
+RTTR_REGISTRATION
+{
+    using namespace rttr;
+
+    registration::class_<Platform>(L"Platform")
+        .constructor<const std::wstring&>();
 }

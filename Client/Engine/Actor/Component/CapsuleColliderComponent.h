@@ -24,5 +24,8 @@ private:
 
     CapsuleDirection direction_;
     Math::Vector2 size_;
+
+    RTTR_ENABLE(ColliderComponent)
+    RTTR_REGISTRATION_FRIEND
     
 };
