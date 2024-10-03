@@ -53,13 +53,19 @@ void UI::TextBox::Render()
 
     renderer->BeginLayer(rect_);
 
-    if (text_.empty())
+    std::wstring text = text_;
+    if (content_type_ == ContentType::kPassword)
+    {
+        text = std::wstring(text_.size(), L'*');
+    }
+
+    if (text.empty())
     {
         renderer->DrawString(window, placeholder_, text_area_, pivot_position, Math::Color::Gray, angle_, L"Nanum16", DWRITE_TEXT_ALIGNMENT_LEADING, DWRITE_PARAGRAPH_ALIGNMENT_CENTER);
     }
     else
     {
-        renderer->DrawString(window, text_, text_area_, pivot_position, Math::Color::Black, angle_, L"Nanum16", DWRITE_TEXT_ALIGNMENT_LEADING, DWRITE_PARAGRAPH_ALIGNMENT_CENTER);
+        renderer->DrawString(window, text, text_area_, pivot_position, Math::Color::Black, angle_, L"Nanum16", DWRITE_TEXT_ALIGNMENT_LEADING, DWRITE_PARAGRAPH_ALIGNMENT_CENTER);
     }
 
     if (show_cursor_)
@@ -177,6 +183,12 @@ void UI::TextBox::OnCharEvent(wchar_t character)
 
     if (Renderer* renderer = Renderer::Get())
     {
-        renderer->GetTextAdvances(text_, L"Nanum16", advances_);
+        std::wstring text = text_;
+        if (content_type_ == ContentType::kPassword)
+        {
+            text = std::wstring(text_.size(), L'*');
+        }
+        
+        renderer->GetTextAdvances(text, L"Nanum16", advances_);
     }
 }

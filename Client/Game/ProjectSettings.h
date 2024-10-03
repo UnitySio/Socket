@@ -20,7 +20,7 @@ enum ActorLayer : MathTypes::uint16
 class ProjectSettings
 {
 public:
-    inline static const std::wstring kWindowTitle = L"Fusion2D"; // 윈도우 타이틀
+    inline static const std::wstring kWindowTitle = L"ProjectM"; // 윈도우 타이틀
     
     inline static constexpr MathTypes::uint32 kSteamAppID = 480; // 스팀 앱 ID (480은 테스트 앱 ID)
 

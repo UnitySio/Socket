@@ -17,6 +17,13 @@ MainMenu::MainMenu(const std::wstring& kName) :
 
 void MainMenu::Load()
 {
+    std::shared_ptr<UI::Text> build = std::make_shared<UI::Text>(L"Build");
+    build->SetAnchorPreset(AnchorPresets::kLeft | AnchorPresets::kBottom, true);
+    build->SetSize({200.f, 30.f});
+    build->SetText(L"Development Build: v0.0.1");
+
+    Canvas::Get()->AddWidget(build);
+    
     std::shared_ptr<UI::TextBox> tb_id = std::make_shared<UI::TextBox>(L"ID");
     tb_id->SetPosition({0.f, -45.f});
     tb_id->SetAnchorPreset(AnchorPresets::kMiddle | AnchorPresets::kCenter, true);
@@ -30,6 +37,7 @@ void MainMenu::Load()
     tb_pw->SetAnchorPreset(AnchorPresets::kMiddle | AnchorPresets::kCenter, true);
     tb_pw->SetSize({200.f, 30.f});
     tb_pw->SetPlaceholder(L"Password");
+    tb_pw->SetContentType(UI::ContentType::kPassword);
 
     Canvas::Get()->AddWidget(tb_pw);
     

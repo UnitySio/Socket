@@ -4,6 +4,12 @@
 
 namespace UI
 {
+    enum class ContentType
+    {
+        kText,
+        kPassword
+    };
+    
     class TextBox : public Widget
     {
     public:
@@ -18,9 +24,12 @@ namespace UI
         virtual void OnKeyEvent(MathTypes::uint16 key_code, bool is_pressed) override;
         virtual void OnCharEvent(wchar_t character) override;
 
+        inline void SetContentType(ContentType content_type) { content_type_ = content_type; }
         inline void SetPlaceholder(const std::wstring& kPlaceholder) { placeholder_ = kPlaceholder; }
 
     private:
+        ContentType content_type_;
+        
         Math::Rect text_area_;
         
         std::wstring text_;
