@@ -2,8 +2,6 @@
 #include "ActorComponent.h"
 
 #include "../Actor.h"
-#include "rttr/registration.h"
-#include "rttr/detail/registration/registration_impl.h"
 
 ActorComponent::ActorComponent(Actor* owner, const std::wstring& kName) :
     owner_(owner),

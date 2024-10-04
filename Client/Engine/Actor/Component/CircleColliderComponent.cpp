@@ -4,7 +4,6 @@
 #include "Actor/Actor.h"
 #include "box2d/box2d.h"
 #include "box2d/collision.h"
-#include "rttr/registration.h"
 
 CircleColliderComponent::CircleColliderComponent(Actor* owner, const std::wstring& kName) :
     ColliderComponent(owner, kName),

@@ -5,7 +5,6 @@
 #include "Actor/Actor.h"
 #include "box2d/box2d.h"
 #include "Math/Bounds.h"
-#include "rttr/registration.h"
 
 ColliderComponent::ColliderComponent(Actor* owner, const std::wstring& kName) :
     ActorComponent(owner, kName),

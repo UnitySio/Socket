@@ -6,7 +6,6 @@
 #include "Level/World.h"
 #include "RigidBody2DComponent.h"
 #include "box2d/box2d.h"
-#include "rttr/registration.h"
 
 TransformComponent::TransformComponent(Actor* owner, const std::wstring& kName) :
     ActorComponent(owner, kName),

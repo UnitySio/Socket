@@ -1,8 +1,6 @@
 ﻿#include "pch.h"
 #include "Object.h"
 
-#include "rttr/registration.h"
-
 MathTypes::uint64 Object::next_instance_id_ = 0;
 
 Object::Object() :

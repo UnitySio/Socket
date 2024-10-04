@@ -6,8 +6,6 @@
 #include "Component/TransformComponent.h"
 #include "Level/World.h"
 #include "Math/Math.h"
-#include "rttr/registration.h"
-#include "rttr/detail/registration/registration_impl.h"
 #include "Windows/DX/Renderer.h"
 
 std::weak_ptr<Camera> Camera::camera_;

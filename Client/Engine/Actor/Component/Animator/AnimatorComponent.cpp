@@ -4,7 +4,6 @@
 #include "AnimationClip.h"
 #include "Actor/Actor.h"
 #include "Actor/Component/SpriteRendererComponent.h"
-#include "rttr/registration.h"
 
 AnimatorComponent::AnimatorComponent(Actor* owner, const std::wstring& kName) :
     ActorComponent(owner, kName),

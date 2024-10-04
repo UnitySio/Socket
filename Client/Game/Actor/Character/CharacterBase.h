@@ -2,7 +2,6 @@
 #include "Actor/Actor.h"
 #include "Actor/Component/CapsuleColliderComponent.h"
 #include "Actor/StateMachine/StateMachine.h"
-#include "Math/Vector2.h"
 
 class AnimatorComponent;
 class Controller2DComponent;
