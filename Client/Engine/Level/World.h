@@ -34,22 +34,9 @@ public:
     void TransitionLevel();
     void SpawnActors();
 
-    /**
-     * Level 내의 특정 타입의 액터들을 가져옵니다.
-     * @tparam T 액터 타입
-     * @param actors 액터들을 담을 벡터
-     */
-    template<std::derived_from<Actor> T>
-    void GetActors(std::vector<T>& actors);
+    void GetActors(const rttr::type& type, std::vector<Actor*>& actors);
 
-    /**
-     * Level 내의 특정 타입의 액터를 가져옵니다.
-     * @tparam T 액터 타입
-     * @param kName 액터 이름
-     * @return 액터
-     */
-    template<std::derived_from<Actor> T>
-    T* GetActor(const std::wstring& kName);
+    Actor* GetActor(const rttr::type& type);
 
     template<std::derived_from<Actor> T>
     T* SpawnActor(const std::wstring& kName);
@@ -105,36 +92,6 @@ private:
     std::queue<std::shared_ptr<Actor>> pending_actors_;
     std::queue<std::shared_ptr<Actor>> pending_destroy_actors_;
 };
-
-template <std::derived_from<Actor> T>
-T* World::GetActor(const std::wstring& kName)
-{
-    rttr::type type = rttr::type::get<T>();
-    for (const auto& kActor : current_level_->actors_)
-    {
-        rttr::type actor_type = rttr::type::get(*kActor);
-        if (actor_type.is_derived_from(type) && wcscmp(kActor->GetName().c_str(), kName.c_str()) == 0)
-        {
-            return static_cast<T*>(kActor.get());
-        }
-    }
-    
-    return nullptr;
-}
-
-template <std::derived_from<Actor> T>
-void World::GetActors(std::vector<T>& actors)
-{
-    rttr::type type = rttr::type::get<T>();
-    for (const auto& kActor : current_level_->actors_)
-    {
-        rttr::type actor_type = rttr::type::get(*kActor);
-        if (actor_type.is_derived_from(type))
-        {
-            actors.push_back(static_cast<T*>(kActor.get()));
-        }
-    }
-}
 
 template <std::derived_from<Actor> T>
 T* World::SpawnActor(const std::wstring& kName)
