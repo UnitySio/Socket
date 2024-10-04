@@ -1,11 +1,12 @@
 ﻿#pragma once
+#include "Shaders.h"
+
 #include <wrl/client.h>
 #include <d3d11.h>
 #include <vector>
 
 #include "IndexBuffer.h"
 #include "VertexBuffer.h"
-#include "Misc/EngineMacros.h"
 
 class WindowsWindow;
 class Shape;

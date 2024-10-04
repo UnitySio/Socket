@@ -1,8 +1,6 @@
 ﻿#include "pch.h"
 #include "IndexBuffer.h"
 
-#include "Renderer.h"
-
 IndexBuffer::IndexBuffer() :
     indices_(0),
     buffer_(nullptr)

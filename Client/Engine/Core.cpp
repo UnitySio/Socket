@@ -7,7 +7,6 @@
 #include "Event/EventManager.h"
 #include "Input/Keyboard.h"
 #include "Input/Mouse.h"
-#include "Level/World.h"
 #include "Math/Vector2.h"
 #include "Resource/ResourceManager.h"
 #include "Time/Time.h"

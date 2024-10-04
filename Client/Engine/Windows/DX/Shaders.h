@@ -1,4 +1,5 @@
 ﻿#pragma once
+#include "Windows/DX/Renderer.h"
 
 #include <string>
 #include <wrl/client.h>

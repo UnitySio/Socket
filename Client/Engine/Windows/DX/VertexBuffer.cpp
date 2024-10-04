@@ -1,8 +1,6 @@
 ﻿#include "pch.h"
 #include "VertexBuffer.h"
 
-#include "Renderer.h"
-
 VertexBuffer::VertexBuffer() :
     stride_(0),
     buffer_size_(0),

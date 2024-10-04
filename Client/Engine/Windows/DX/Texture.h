@@ -1,13 +1,13 @@
 ﻿#pragma once
+#include "Renderer.h"
+
 #include <d3d11.h>
 #include <string>
 #include <vector>
 #include <wrl/client.h>
 
-#include "Renderer.h"
 #include "Vertex.h"
 #include "Math/MathTypes.h"
-#include "Math/Vector2.h"
 #include "Resource/Resource.h"
 
 enum class WrapMode

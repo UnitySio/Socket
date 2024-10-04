@@ -2,13 +2,12 @@
 #define _CRTDBG_MAP_ALLOC
 
 #include "Client.h"
+#include "Core.h"
 #include "Misc/EngineMacros.h"
-#include "Engine/Windows/WindowsApplication.h"
 
 #include <crtdbg.h>
 #include <iostream>
 
-#include "Core.h"
 #include "Steam/SteamManager.h"
 #include "Windows/WindowsWindow.h"
 

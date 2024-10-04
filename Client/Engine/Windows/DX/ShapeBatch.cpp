@@ -1,7 +1,6 @@
 ﻿#include "pch.h"
 #include "ShapeBatch.h"
 
-#include "Shaders.h"
 #include "Shape.h"
 #include "Texture.h"
 #include "Vertex.h"

@@ -5,7 +5,6 @@
 
 #include "Math/Color.h"
 #include "Misc/EngineMacros.h"
-#include "Windows/DX/Renderer.h"
 
 VertexShader::VertexShader() :
     shader_(nullptr),

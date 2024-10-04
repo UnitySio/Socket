@@ -2,11 +2,9 @@
 #include "Renderer.h"
 
 #include "ProjectSettings.h"
-#include "Level/World.h"
 #include "Math/Color.h"
 #include "Math/Rect.h"
 #include "Math/Vector2.h"
-#include "UI/Canvas.h"
 #include "Windows/WindowsWindow.h"
 
 Renderer::Renderer() :

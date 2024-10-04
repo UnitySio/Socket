@@ -2,6 +2,7 @@
 #include "Player.h"
 
 #include "Actor/Camera.h"
+#include "Actor/Capsule.h"
 #include "Actor/Component/Controller2DComponent.h"
 #include "Actor/Component/SpriteRendererComponent.h"
 #include "Actor/Component/TransformComponent.h"

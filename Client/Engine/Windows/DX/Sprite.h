@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include "Texture.h"
+#include "Math/Vector2.h"
 
 struct SpriteFrame
 {

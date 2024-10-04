@@ -1,4 +1,6 @@
 ﻿#pragma once
+#include "Renderer.h"
+
 #include <wrl/client.h>
 
 #include <string>

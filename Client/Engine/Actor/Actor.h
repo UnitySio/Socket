@@ -33,7 +33,6 @@ public:
     template <std::derived_from<ActorComponent> T>
     T* AddComponent(const std::wstring& kName);
 
-    // 추후 리플렉션으로 변경
     template <std::derived_from<ActorComponent> T>
     T* GetComponent();
 

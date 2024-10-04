@@ -2,8 +2,8 @@
 #include "Widget.h"
 
 #include "Canvas.h"
-#include "Input/Mouse.h"
 #include "Level/World.h"
+#include "Input/Mouse.h"
 #include "Math/Rect.h"
 
 MathTypes::uint32 Widget::next_z_index_ = 0;

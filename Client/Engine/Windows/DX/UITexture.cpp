@@ -1,7 +1,6 @@
 ﻿#include "pch.h"
 #include "UITexture.h"
 
-#include "Renderer.h"
 #include "Level/World.h"
 
 UITexture::UITexture() :

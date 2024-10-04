@@ -14,6 +14,6 @@ void MainMap::Load()
 {
     Tilemap* tilemap = AddActor<Tilemap>(L"Tilemap");
     Player* player = AddActor<Player>(L"Player");
-    Capsule* capsule = AddActor<Capsule>(L"capsule");
+    Capsule* capsule = AddActor<Capsule>(L"Capsule");
     Platform* platform = AddActor<Platform>(L"Platform");
 }
