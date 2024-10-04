@@ -1,8 +1,11 @@
 ﻿#pragma once
 #include <vector>
+#include <rttr/registration>
 
 #include "Math/Rect.h"
 #include "Math/Vector2.h"
+#include "Misc/EngineMacros.h"
+#include "rttr/registration_friend.h"
 
 enum AnchorPresets
 {
@@ -15,8 +18,11 @@ enum AnchorPresets
     kStretch = (0x01<<6)
 };
 
-class Widget
+class Widget : public std::enable_shared_from_this<Widget>
 {
+    SHADER_CLASS_HELPER(Widget)
+    GENERATED_BODY(Widget)
+    
 public:
     Widget(const std::wstring& kName);
     virtual ~Widget() = default;

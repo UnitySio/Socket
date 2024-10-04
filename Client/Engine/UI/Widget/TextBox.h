@@ -12,6 +12,9 @@ namespace UI
     
     class TextBox : public Widget
     {
+        SHADER_CLASS_HELPER(TextBox)
+        GENERATED_BODY(TextBox, Widget)
+        
     public:
         TextBox(const std::wstring& kName);
         virtual ~TextBox() override = default;

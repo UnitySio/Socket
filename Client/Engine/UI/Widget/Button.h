@@ -9,6 +9,9 @@ namespace UI
     
     class Button : public Widget
     {
+        SHADER_CLASS_HELPER(Button)
+        GENERATED_BODY(Button, Widget)
+        
     public:
         Button(const std::wstring& kName);
         virtual ~Button() override = default;

@@ -6,6 +6,9 @@ namespace UI
 {
     class Text : public Widget
     {
+        SHADER_CLASS_HELPER(Text)
+        GENERATED_BODY(Text, Widget)
+        
     public:
         Text(const std::wstring& kName);
         virtual ~Text() override = default;

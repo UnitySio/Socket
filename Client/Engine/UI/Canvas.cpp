@@ -4,7 +4,6 @@
 #include "Logger.h"
 #include "Widget.h"
 #include "Event/Events.h"
-#include "Input/Keyboard.h"
 #include "Input/Mouse.h"
 #include "Widget/Button.h"
 #include "Widget/TextBox.h"
@@ -84,7 +83,8 @@ void Canvas::Tick(float delta_time)
         Widget* widget = it->get();
         if (widget->rect_.Contains(mouse_position))
         {
-            if (dynamic_cast<UI::Button*>(widget) || dynamic_cast<UI::TextBox*>(widget))
+            rttr::type type = rttr::type::get(*widget);
+            if (type.is_derived_from<UI::Button>() || type.is_derived_from<UI::TextBox>())
             {
                 if (!hovered_widget || widget->z_index_ > hovered_widget->z_index_)
                 {
