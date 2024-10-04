@@ -96,10 +96,10 @@ bool Renderer::CreateDWrite()
     hr = dwrite_factory_->CreateFontCollectionFromFontSet(font_set.Get(), dwrite_font_collection_.GetAddressOf());
     if (FAILED(hr)) return false;
 
-    hr = dwrite_factory_->CreateTextFormat(L"NanumBarunGothic", dwrite_font_collection_.Get(),
+    hr = dwrite_factory_->CreateTextFormat(L"Silver", dwrite_font_collection_.Get(),
                                                    DWRITE_FONT_WEIGHT_REGULAR, DWRITE_FONT_STYLE_NORMAL,
-                                                   DWRITE_FONT_STRETCH_NORMAL, 16.f, L"ko-kr",
-                                                   text_formats_[L"Nanum16"].GetAddressOf());
+                                                   DWRITE_FONT_STRETCH_NORMAL, 24.f, L"ko-kr",
+                                                   text_formats_[L"Silver24"].GetAddressOf());
     return SUCCEEDED(hr);
 }
 

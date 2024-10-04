@@ -61,11 +61,11 @@ void UI::TextBox::Render()
 
     if (text.empty())
     {
-        renderer->DrawString(window, placeholder_, text_area_, pivot_position, Math::Color::Gray, angle_, L"Nanum16", DWRITE_TEXT_ALIGNMENT_LEADING, DWRITE_PARAGRAPH_ALIGNMENT_CENTER);
+        renderer->DrawString(window, placeholder_, text_area_, pivot_position, Math::Color::Gray, angle_, L"Silver24", DWRITE_TEXT_ALIGNMENT_LEADING, DWRITE_PARAGRAPH_ALIGNMENT_CENTER);
     }
     else
     {
-        renderer->DrawString(window, text, text_area_, pivot_position, Math::Color::Black, angle_, L"Nanum16", DWRITE_TEXT_ALIGNMENT_LEADING, DWRITE_PARAGRAPH_ALIGNMENT_CENTER);
+        renderer->DrawString(window, text, text_area_, pivot_position, Math::Color::Black, angle_, L"Silver24", DWRITE_TEXT_ALIGNMENT_LEADING, DWRITE_PARAGRAPH_ALIGNMENT_CENTER);
     }
 
     if (show_cursor_)
@@ -189,6 +189,6 @@ void UI::TextBox::OnCharEvent(wchar_t character)
             text = std::wstring(text_.size(), L'*');
         }
         
-        renderer->GetTextAdvances(text, L"Nanum16", advances_);
+        renderer->GetTextAdvances(text, L"Silver24", advances_);
     }
 }

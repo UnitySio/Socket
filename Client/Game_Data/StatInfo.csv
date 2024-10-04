@@ -1,4 +1,4 @@
-hp,maxHp,moveSpeed,name
-1,10,5.0,Actor
-2,100,5.0,Actor
-3,100,5.0,Actor
+name,maxHp,maxMp,moveSpeed
+A,100,400,1.0
+B,200,500,2.0
+C,300,600,3.0

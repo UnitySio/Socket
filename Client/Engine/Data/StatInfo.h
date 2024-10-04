@@ -2,10 +2,8 @@
 
 struct StatInfo
 {
-    int hp;
-    int maxHp;
-
-    float moveSpeed;
-
     std::wstring name;
+    int maxHp;
+    int maxMp;
+    float moveSpeed;
 };

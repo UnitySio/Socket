@@ -81,8 +81,6 @@ void Player::BeginPlay()
     // 직렬화 테스트
     std::vector<StatInfo> stats;
     CSVReader::Get()->Load(L".\\Game_Data\\StatInfo.csv", stats);
-
-    int a = 0;
 }
 
 void Player::Tick(float delta_time)
