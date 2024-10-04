@@ -3,6 +3,9 @@
 
 class PlatformControllerComponent : public RayCastController
 {
+    SHADER_CLASS_HELPER(PlatformControllerComponent)
+    GENERATED_BODY(PlatformControllerComponent, RayCastController)
+    
 public:
     PlatformControllerComponent(Actor* owner, const std::wstring& kName);
     virtual ~PlatformControllerComponent() override = default;
@@ -13,8 +16,5 @@ private:
     void MovePassengers(Math::Vector2 velocity);
     
     Math::Vector2 move_;
-
-    RTTR_ENABLE(RayCastController)
-    RTTR_REGISTRATION_FRIEND
     
 };

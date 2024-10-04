@@ -4,6 +4,7 @@
 class Tilemap : public Actor
 {
     SHADER_CLASS_HELPER(Tilemap)
+    GENERATED_BODY(Tilemap, Actor)
     
 public:
     Tilemap(const std::wstring& kName);
@@ -11,8 +12,5 @@ public:
 
 private:
     class TilemapComponent* tilemap_component_;
-
-    RTTR_ENABLE(Actor)
-    RTTR_REGISTRATION_FRIEND
     
 };

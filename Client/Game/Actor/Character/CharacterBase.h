@@ -10,6 +10,7 @@ class SpriteRendererComponent;
 class CharacterBase : public Actor
 {
     SHADER_CLASS_HELPER(CharacterBase)
+    GENERATED_BODY(CharacterBase, Actor)
     
 public:
     CharacterBase(const std::wstring& kName);
@@ -32,8 +33,5 @@ protected:
     AnimatorComponent* animator_;
     class CapsuleColliderComponent* capsule_collider_;
     Controller2DComponent* controller_;
-
-    RTTR_ENABLE(Actor)
-    RTTR_REGISTRATION_FRIEND
     
 };

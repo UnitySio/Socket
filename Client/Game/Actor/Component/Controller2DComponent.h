@@ -39,6 +39,7 @@ struct CollisionInfo
 class Controller2DComponent : public RayCastController
 {
     SHADER_CLASS_HELPER(Controller2DComponent)
+    GENERATED_BODY(Controller2DComponent, RayCastController)
     
 public:
     Controller2DComponent(Actor* owner, const std::wstring& kName);
@@ -58,8 +59,5 @@ private:
     float slope_limit_;
 
     CollisionInfo collisions_;
-
-    RTTR_ENABLE(RayCastController)
-    RTTR_REGISTRATION_FRIEND
     
 };

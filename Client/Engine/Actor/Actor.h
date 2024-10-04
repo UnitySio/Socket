@@ -14,9 +14,10 @@ DECLARE_DELEGATE(ContactSignature, Actor*);
 enum class EndPlayReason : MathTypes::uint64;
 class TransformComponent;
 
-class Actor : public Object, public std::enable_shared_from_this<Actor>
+class Actor : public Object
 {
     SHADER_CLASS_HELPER(Actor)
+    GENERATED_BODY(Actor, Object)
     
 public:
     Actor(const std::wstring& kName);
@@ -33,8 +34,7 @@ public:
     template <std::derived_from<ActorComponent> T>
     T* AddComponent(const std::wstring& kName);
 
-    template <std::derived_from<ActorComponent> T>
-    T* GetComponent();
+    ActorComponent* GetComponent(const rttr::type& type);
 
     template <std::derived_from<Actor> T>
     T* SpawnActor(const std::wstring& kName);
@@ -108,34 +108,24 @@ protected:
     
     TimerHandle life_span_timer_;
 
-private:
-    RTTR_ENABLE(Object)
-    RTTR_REGISTRATION_FRIEND
-
 };
 
 
 template <std::derived_from<ActorComponent> T>
 T* Actor::AddComponent(const std::wstring& kName)
 {
-    components_.push_back(std::make_shared<T>(this, kName));
-    return static_cast<T*>(components_.back().get());
-}
-
-template <std::derived_from<ActorComponent> T>
-T* Actor::GetComponent()
-{
     rttr::type type = rttr::type::get<T>();
-    for (const auto& component : components_)
+    for (const auto& kComponent : components_)
     {
-        rttr::type component_type = rttr::type::get(*component);
-        if (component_type.is_derived_from(type))
+        rttr::type component_type = rttr::type::get(*kComponent);
+        if (component_type == type)
         {
-            return static_cast<T*>(component.get());
+            return nullptr;
         }
     }
-
-    return nullptr;
+    
+    components_.push_back(std::make_shared<T>(this, kName));
+    return static_cast<T*>(components_.back().get());
 }
 
 template <std::derived_from<Actor> T>

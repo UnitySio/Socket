@@ -35,6 +35,7 @@ enum class ForceMode : MathTypes::uint64
 class RigidBody2DComponent : public ActorComponent
 {
     SHADER_CLASS_HELPER(RigidBody2DComponent)
+    GENERATED_BODY(RigidBody2DComponent, ActorComponent)
     
 public:
     RigidBody2DComponent(Actor* owner, const std::wstring& kName);
@@ -91,8 +92,5 @@ private:
 
     bool is_fixed_rotation_;
     bool use_auto_mass_;
-
-    RTTR_ENABLE(ActorComponent)
-    RTTR_REGISTRATION_FRIEND
     
 };

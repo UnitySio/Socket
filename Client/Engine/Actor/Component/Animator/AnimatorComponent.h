@@ -11,6 +11,7 @@ class AnimationEvent;
 class AnimatorComponent : public ActorComponent
 {
     SHADER_CLASS_HELPER(AnimatorComponent)
+    GENERATED_BODY(AnimatorComponent, ActorComponent)
     
 public:
     AnimatorComponent(Actor* owner, const std::wstring& kName);
@@ -35,7 +36,4 @@ private:
     float timer_;
     int current_index_;
     bool is_playing_;
-
-    RTTR_ENABLE(ActorComponent)
-    RTTR_REGISTRATION_FRIEND
 };

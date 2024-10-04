@@ -42,3 +42,13 @@
             return std::dynamic_pointer_cast<class_name>(shared_from_this()); \
         } \
     private:
+
+#define GENERATED_BODY(class_name, ...) \
+    RTTR_ENABLE(__VA_ARGS__) \
+    RTTR_REGISTRATION_FRIEND \
+    \
+    public: \
+        inline static rttr::type StaticClass() \
+        { \
+            return rttr::type::get<class_name>(); \
+        }

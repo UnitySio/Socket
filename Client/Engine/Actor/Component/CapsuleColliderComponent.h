@@ -10,6 +10,7 @@ enum class CapsuleDirection
 class CapsuleColliderComponent : public ColliderComponent
 {
     SHADER_CLASS_HELPER(CapsuleColliderComponent)
+    GENERATED_BODY(CapsuleColliderComponent, ColliderComponent)
     
 public:
     CapsuleColliderComponent(Actor* owner, const std::wstring& kName);
@@ -24,8 +25,5 @@ private:
 
     CapsuleDirection direction_;
     Math::Vector2 size_;
-
-    RTTR_ENABLE(ColliderComponent)
-    RTTR_REGISTRATION_FRIEND
     
 };

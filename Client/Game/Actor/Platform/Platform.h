@@ -4,6 +4,7 @@
 class Platform : public Actor
 {
     SHADER_CLASS_HELPER(Platform)
+    GENERATED_BODY(Platform, Actor)
     
 public:
     Platform(const std::wstring& kName);
@@ -17,8 +18,5 @@ private:
     class PlatformControllerComponent* controller_;
 
     class Sprite* sprite_;
-
-    RTTR_ENABLE(Actor)
-    RTTR_REGISTRATION_FRIEND
     
 };

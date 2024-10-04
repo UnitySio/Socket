@@ -14,6 +14,7 @@ struct PhysicsMaterial2D
 class ColliderComponent : public ActorComponent
 {
     SHADER_CLASS_HELPER(ColliderComponent)
+    GENERATED_BODY(ColliderComponent, ActorComponent)
     
 public:
     ColliderComponent(Actor* owner, const std::wstring& kName);
@@ -43,8 +44,5 @@ private:
     virtual void SetTriggerInternal();
 
     void SetMaterialIntermal();
-
-    RTTR_ENABLE(ActorComponent)
-    RTTR_REGISTRATION_FRIEND
     
 };

@@ -1,10 +1,14 @@
 ﻿#pragma once
 #include <rttr/registration>
 
+#include "Misc/EngineMacros.h"
 #include "rttr/registration_friend.h"
 
-class Object
+class Object : public std::enable_shared_from_this<Object>
 {
+    SHADER_CLASS_HELPER(Object)
+    GENERATED_BODY(Object)
+    
 public:
     Object();
     virtual ~Object() = default;
@@ -17,8 +21,5 @@ private:
     static MathTypes::uint64 next_instance_id_;
     
     MathTypes::uint64 instance_id_;
-
-    RTTR_ENABLE()
-    RTTR_REGISTRATION_FRIEND
     
 };

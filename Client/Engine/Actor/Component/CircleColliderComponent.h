@@ -4,6 +4,7 @@
 class CircleColliderComponent : public ColliderComponent
 {
     SHADER_CLASS_HELPER(CircleColliderComponent)
+    GENERATED_BODY(CircleColliderComponent, ColliderComponent)
     
 public:
     CircleColliderComponent(Actor* owner, const std::wstring& kName);
@@ -16,8 +17,5 @@ private:
     virtual void SetTriggerInternal() override;
     
     float radius_;
-
-    RTTR_ENABLE(ColliderComponent)
-    RTTR_REGISTRATION_FRIEND
     
 };

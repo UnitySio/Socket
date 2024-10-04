@@ -4,6 +4,7 @@
 class Capsule : public Actor
 {
     SHADER_CLASS_HELPER(Capsule)
+    GENERATED_BODY(Capsule, Actor)
     
 public:
     Capsule(const std::wstring& kName);
@@ -18,8 +19,5 @@ private:
     class RigidBody2DComponent* rigid_body_;
     
     class Sprite* sprite_;
-
-    RTTR_ENABLE(Actor)
-    RTTR_REGISTRATION_FRIEND
     
 };

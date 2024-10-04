@@ -12,6 +12,9 @@ struct RaycastOrigins
 
 class RayCastController : public ActorComponent
 {
+    SHADER_CLASS_HELPER(RayCastController)
+    GENERATED_BODY(RayCastController, ActorComponent)
+    
 public:
     RayCastController(Actor* owner, const std::wstring& kName);
     virtual ~RayCastController() override = default;
@@ -34,8 +37,5 @@ protected:
     int vertical_ray_count_;
     
     RaycastOrigins raycast_origins_;
-
-    RTTR_ENABLE(ActorComponent)
-    RTTR_REGISTRATION_FRIEND
     
 };

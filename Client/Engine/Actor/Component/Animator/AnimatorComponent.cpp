@@ -19,9 +19,12 @@ AnimatorComponent::AnimatorComponent(Actor* owner, const std::wstring& kName) :
 void AnimatorComponent::BeginPlay()
 {
     ActorComponent::BeginPlay();
-    
-    SpriteRendererComponent* sprite_renderer = GetOwner()->GetComponent<SpriteRendererComponent>();
-    if (sprite_renderer) sprite_renderer_ = sprite_renderer;
+
+    ActorComponent* component = GetOwner()->GetComponent(SpriteRendererComponent::StaticClass());
+    if (component)
+    {
+        sprite_renderer_ = static_cast<SpriteRendererComponent*>(component);
+    }
 }
 
 void AnimatorComponent::TickComponent(float delta_time)

@@ -4,6 +4,7 @@
 class BoxColliderComponent : public ColliderComponent
 {
     SHADER_CLASS_HELPER(BoxColliderComponent)
+    GENERATED_BODY(BoxColliderComponent, ColliderComponent)
     
 public:
     BoxColliderComponent(Actor* owner, const std::wstring& kName);
@@ -16,8 +17,5 @@ private:
     virtual void SetTriggerInternal() override;
     
     Math::Vector2 size_;
-
-    RTTR_ENABLE(ColliderComponent)
-    RTTR_REGISTRATION_FRIEND
     
 };

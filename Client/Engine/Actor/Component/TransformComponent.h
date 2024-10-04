@@ -6,6 +6,7 @@
 class TransformComponent : public ActorComponent
 {
     SHADER_CLASS_HELPER(TransformComponent)
+    GENERATED_BODY(TransformComponent, ActorComponent)
     
 public:
     TransformComponent(Actor* owner, const std::wstring& kName);
@@ -37,8 +38,5 @@ private:
     Math::Vector2 scale_;
 
     float angle_;
-
-    RTTR_ENABLE(ActorComponent)
-    RTTR_REGISTRATION_FRIEND
     
 };

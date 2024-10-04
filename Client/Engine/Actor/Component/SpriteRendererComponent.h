@@ -7,6 +7,7 @@ class Sprite;
 class SpriteRendererComponent : public ActorComponent
 {
     SHADER_CLASS_HELPER(SpriteRendererComponent)
+    GENERATED_BODY(SpriteRendererComponent, ActorComponent)
     
 public:
     SpriteRendererComponent(Actor* owner, const std::wstring& kName);
@@ -42,8 +43,5 @@ private:
     bool flip_y_;
 
     Math::Color color_;
-
-    RTTR_ENABLE(ActorComponent)
-    RTTR_REGISTRATION_FRIEND
     
 };

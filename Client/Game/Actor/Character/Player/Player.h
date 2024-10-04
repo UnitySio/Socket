@@ -6,6 +6,7 @@
 class Player : public CharacterBase
 {
     SHADER_CLASS_HELPER(Player)
+    GENERATED_BODY(Player, CharacterBase)
     
 public:
     Player(const std::wstring& kName);
@@ -38,8 +39,5 @@ private:
     float jump_velocity_;
     float move_speed_;
     float last_pressed_jump_time_;
-
-    RTTR_ENABLE(CharacterBase)
-    RTTR_REGISTRATION_FRIEND
     
 };

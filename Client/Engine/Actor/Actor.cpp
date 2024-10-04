@@ -131,6 +131,20 @@ bool Actor::CompareTag(ActorTag tag) const
     return tag_ == tag;
 }
 
+ActorComponent* Actor::GetComponent(const rttr::type& type)
+{
+    for (const auto& component : components_)
+    {
+        rttr::type component_type = rttr::type::get(*component);
+        if (component_type.is_derived_from(type))
+        {
+            return component.get();
+        }
+    }
+
+    return nullptr;
+}
+
 void Actor::InitializeActor()
 {
     PreInitializeComponents();

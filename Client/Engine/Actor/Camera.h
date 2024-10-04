@@ -58,6 +58,7 @@ struct FocusArea
 class Camera : public Actor
 {
     SHADER_CLASS_HELPER(Camera)
+    GENERATED_BODY(Camera, Actor)
     
 public:
     Camera(const std::wstring& kName);
@@ -106,8 +107,5 @@ private:
     MathTypes::uint32 half_height_;
     MathTypes::uint32 limit_half_width_;
     MathTypes::uint32 limit_half_height_;
-
-    RTTR_ENABLE(Actor)
-    RTTR_REGISTRATION_FRIEND
     
 };

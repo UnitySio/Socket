@@ -110,12 +110,12 @@ template <std::derived_from<Actor> T>
 T* World::GetActor(const std::wstring& kName)
 {
     rttr::type type = rttr::type::get<T>();
-    for (const auto& actor : current_level_->actors_)
+    for (const auto& kActor : current_level_->actors_)
     {
-        rttr::type actor_type = rttr::type::get(*actor);
-        if (actor_type.is_derived_from(type) && wcscmp(actor->GetName().c_str(), kName.c_str()) == 0)
+        rttr::type actor_type = rttr::type::get(*kActor);
+        if (actor_type.is_derived_from(type) && wcscmp(kActor->GetName().c_str(), kName.c_str()) == 0)
         {
-            return static_cast<T*>(actor.get());
+            return static_cast<T*>(kActor.get());
         }
     }
     
@@ -126,12 +126,12 @@ template <std::derived_from<Actor> T>
 void World::GetActors(std::vector<T>& actors)
 {
     rttr::type type = rttr::type::get<T>();
-    for (const auto& actor : current_level_->actors_)
+    for (const auto& kActor : current_level_->actors_)
     {
-        rttr::type actor_type = rttr::type::get(*actor);
+        rttr::type actor_type = rttr::type::get(*kActor);
         if (actor_type.is_derived_from(type))
         {
-            actors.push_back(static_cast<T*>(actor.get()));
+            actors.push_back(static_cast<T*>(kActor.get()));
         }
     }
 }
