@@ -1,0 +1,4 @@
+hp,maxHp,moveSpeed,name
+1,10,5.0,Actor
+2,100,5.0,Actor
+3,100,5.0,Actor

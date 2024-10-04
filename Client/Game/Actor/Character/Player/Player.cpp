@@ -8,6 +8,8 @@
 #include "Actor/Component/TransformComponent.h"
 #include "Actor/Component/Animator/AnimationClip.h"
 #include "Actor/Component/Animator/AnimatorComponent.h"
+#include "Data/CSVReader.h"
+#include "Data/StatInfo.h"
 #include "Input/Keyboard.h"
 #include "Level/World.h"
 #include "Math/Math.h"
@@ -75,6 +77,12 @@ void Player::BeginPlay()
 
     gravity_ = -(2 * jump_height_) / std::pow(time_to_jump_apex_, 2);
     jump_velocity_ = Math::Abs(gravity_) * time_to_jump_apex_;
+
+    // 직렬화 테스트
+    std::vector<StatInfo> stats;
+    CSVReader::Get()->Load(L".\\Game_Data\\StatInfo.csv", stats);
+
+    int a = 0;
 }
 
 void Player::Tick(float delta_time)
