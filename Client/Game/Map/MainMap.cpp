@@ -17,3 +17,9 @@ void MainMap::Load()
     Capsule* capsule = AddActor<Capsule>(L"Capsule");
     Platform* platform = AddActor<Platform>(L"Platform");
 }
+
+RTTR_REGISTRATION
+{
+    rttr::registration::class_<MainMap>("MainMap")
+        .constructor<const std::wstring&>();
+}

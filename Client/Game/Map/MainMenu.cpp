@@ -82,3 +82,9 @@ void MainMenu::Load()
 
     Canvas::Get()->AddWidget(exit_button_text);
 }
+
+RTTR_REGISTRATION
+{
+    rttr::registration::class_<MainMenu>("MainMenu")
+        .constructor<const std::wstring&>();
+}

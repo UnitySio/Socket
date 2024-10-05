@@ -2,13 +2,20 @@
 #include <memory>
 #include <string>
 #include <vector>
+#include <rttr/registration>
+
+#include "Misc/EngineMacros.h"
+#include "rttr/registration_friend.h"
 
 union Event;
 class Actor;
 enum class EndPlayReason : MathTypes::uint64;
 
-class Level
+class Level : public std::enable_shared_from_this<Level>
 {
+    SHADER_CLASS_HELPER(Level)
+    GENERATED_BODY(Level);
+    
 public:
     Level(const std::wstring& kName);
     virtual ~Level() = default;

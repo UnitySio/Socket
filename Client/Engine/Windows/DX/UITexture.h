@@ -11,6 +11,8 @@
 
 class UITexture : public Resource
 {
+    GENERATED_BODY(UITexture, Resource)
+    
 public:
     UITexture();
     virtual ~UITexture() override = default;

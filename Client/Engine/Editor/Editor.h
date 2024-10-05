@@ -10,8 +10,10 @@ public:
     void Tick(float delta_time);
 
 private:
-    void DrawLevelWindow(bool* p_open);
+    void OpenSpriteAnimator(bool* p_open);
     
-    bool show_level_;
+    bool show_sprite_animator_;
+
+    class Texture* sprite_sheet_;
     
 };

@@ -5,9 +5,11 @@
 #include "Level/World.h"
 
 #include "Windows/WindowsWindow.h"
+#include "Windows/DX/Texture.h"
 
 Editor::Editor() :
-    show_level_(false)
+    show_sprite_animator_(false),
+    sprite_sheet_(nullptr)
 {
 }
 
@@ -28,7 +30,7 @@ void Editor::Tick(float delta_time)
 
         if (ImGui::BeginMenu("Window"))
         {
-            ImGui::MenuItem("Level", nullptr, &show_level_);
+            ImGui::MenuItem("Sprite Animator", nullptr, &show_sprite_animator_);
             
             ImGui::EndMenu();
         }
@@ -36,18 +38,16 @@ void Editor::Tick(float delta_time)
     
     ImGui::EndMainMenuBar();
 
-    if (show_level_) DrawLevelWindow(&show_level_);
+    if (show_sprite_animator_) OpenSpriteAnimator(&show_sprite_animator_);
 }
 
-void Editor::DrawLevelWindow(bool* p_open)
+void Editor::OpenSpriteAnimator(bool* p_open)
 {
-    if (!ImGui::Begin("Level", p_open))
+    if (!ImGui::Begin("Sprite Animator", p_open))
     {
         ImGui::End();
         return;
     }
-
-    ImGui::Text("Hello, world!");
 
     ImGui::End();
 }

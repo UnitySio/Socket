@@ -30,3 +30,9 @@ void SplashMap::Load()
         World::Get()->OpenLevel(LevelType::kMainMenu);
     }, 2.f);
 }
+
+RTTR_REGISTRATION
+{
+    rttr::registration::class_<SplashMap>("SplashMap")
+        .constructor<const std::wstring&>();
+}

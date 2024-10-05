@@ -38,3 +38,11 @@ bool UITexture::Load(const std::wstring& kPath)
     hr = d2d_viewport->d2d_render_target->CreateBitmapFromWicBitmap(format_converter.Get(), bitmap_.GetAddressOf());
     return SUCCEEDED(hr);
 }
+
+RTTR_REGISTRATION
+{
+    using namespace rttr;
+    
+    registration::class_<UITexture>("UITexture")
+        .constructor<>();
+}

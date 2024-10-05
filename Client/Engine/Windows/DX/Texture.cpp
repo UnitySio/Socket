@@ -55,3 +55,11 @@ void Texture::Bind() const
 {
     Renderer::Get()->GetDeviceContext()->PSSetShaderResources(0, 1, resource_view_.GetAddressOf());
 }
+
+RTTR_REGISTRATION
+{
+    using namespace rttr;
+
+    registration::class_<Texture>("Texture")
+        .constructor<>();
+}

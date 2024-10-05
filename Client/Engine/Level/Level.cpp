@@ -95,3 +95,10 @@ void Level::OnEvent(const Event& event)
         }
     }
 }
+
+RTTR_REGISTRATION
+{
+    using namespace rttr;
+
+    registration::class_<Level>("Level");
+}

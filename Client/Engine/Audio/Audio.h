@@ -12,6 +12,8 @@ struct AudioFormat
 
 class Audio : public Resource
 {
+    GENERATED_BODY(Audio, Resource)
+    
 public:
     Audio();
     virtual ~Audio() override;

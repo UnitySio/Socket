@@ -24,6 +24,8 @@ enum class FilterMode
 
 class Texture : public Resource
 {
+    GENERATED_BODY(Texture, Resource)
+    
 public:
     Texture();
     virtual ~Texture() override = default;
@@ -45,6 +47,8 @@ public:
     inline void SetFilterMode(FilterMode mode) { filter_mode_ = mode; }
 
 protected:
+    friend class Editor;
+    
     Microsoft::WRL::ComPtr<ID3D11Resource> resource_;
     Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> resource_view_;
     

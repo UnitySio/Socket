@@ -53,3 +53,11 @@ AudioFormat Audio::GetFormat() const
     FMOD_Sound_GetFormat(sound_, &format.type, &format.format, &format.channels, &format.bits);
     return format;
 }
+
+RTTR_REGISTRATION
+{
+    using namespace rttr;
+    
+    registration::class_<Audio>("Audio")
+        .constructor<>();
+}
