@@ -14,6 +14,10 @@
 #include "Windows/DX/Renderer.h"
 #include "Windows/DX/ShapeBatch.h"
 
+#ifdef _DEBUG
+#include "Editor/Editor.h"
+#endif
+
 GameEngine::GameEngine() :
     game_window_(nullptr),
     shape_batch_(nullptr),
@@ -57,9 +61,14 @@ void GameEngine::Init(const std::shared_ptr<WindowsWindow>& kWindow)
 
 void GameEngine::GameLoop(float delta_time)
 {
-    World::Get()->TransitionLevel();
-
     StartFrame();
+    
+#ifdef _DEBUG
+    Editor::Get()->Tick(delta_time);
+#endif
+    
+    World::Get()->TransitionLevel();
+    
     Tick(delta_time);
 
     // 물리 시뮬레이션으로 인해 발생한 오차를 보정하기 위해 alpha를 계산
