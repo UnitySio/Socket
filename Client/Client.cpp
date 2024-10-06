@@ -37,7 +37,7 @@ START
     MSG msg = {};
     while (msg.message != WM_QUIT)
     {
-        if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
+        if (GetMessage(&msg, nullptr, 0, 0))
         {
             TranslateMessage(&msg);
             DispatchMessage(&msg);
