@@ -321,16 +321,9 @@ void World::ProcessActorActivation()
         pending_actor_activation_.pop();
         
         Actor* actor = activation.actor;
-
-        b2BodyId body_id = actor->body_id_;
-        if (b2Body_IsValid(body_id))
-        {
-            if (activation.is_active) b2Body_Enable(body_id);
-            else b2Body_Disable(body_id);
-        }
         
-        actor->is_active_ = activation.is_active;
         if (activation.is_active) actor->OnEnable();
+        else actor->OnDisable();
     }
 }
 

@@ -67,11 +67,11 @@ void Editor::ShowHierarchy(bool* p_open)
         
         if (actor->IsActive())
         {
-            ImGui::TextColored({0.f, 1.f, 0.f, 1.f}, name.c_str());
+            ImGui::TextColored({1.f, 1.f, 1.f, 1.f}, name.c_str());
         }
         else
         {
-            ImGui::TextColored({1.f, 0.f, 0.f, 1.f}, name.c_str());
+            ImGui::TextColored({.5f, .5f, .5f, 1.f}, name.c_str());
         }
     }
 

@@ -7,13 +7,13 @@
 #include "Level.h"
 #include "PhysicsDebugDrawHelper.h"
 #include "Singleton.h"
+#include "Actor/Actor.h"
 #include "box2d/id.h"
 #include "box2d/types.h"
 
 union Event;
 class ShapeBatch;
 class Level;
-class Actor;
 class Shape;
 enum class LevelType : MathTypes::uint64;
 class WindowsWindow;

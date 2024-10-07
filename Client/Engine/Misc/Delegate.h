@@ -59,6 +59,13 @@ public:
         auto temp = std::make_shared<Function<Ret(Args...)>>(func, m);
         functions_.push_back(*temp);
     }*/
+    
+    template<typename M, typename std::enable_if<std::is_class<M>::value>::type* = nullptr>
+    void Add(M* target, Ret(M::*func)(Args...))
+    {
+        auto temp = std::make_shared<Function<Ret(Args...)>>(target, func);
+        functions_.push_back(*temp);
+    }
 
     void Add(Ret(*func)(Args&&...))
     {
@@ -72,8 +79,6 @@ public:
         auto temp = std::make_shared<Function<Ret(Args...)>>(func, m);
         functions_.push_back(*temp);
     }
-
-
 
     void Execute(Args&&...args) const
     {

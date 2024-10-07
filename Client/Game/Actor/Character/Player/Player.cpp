@@ -2,12 +2,12 @@
 #include "Player.h"
 
 #include "Actor/Camera.h"
-#include "Actor/Bullet.h"
 #include "Actor/Component/Controller2DComponent.h"
 #include "Actor/Component/SpriteRendererComponent.h"
 #include "Actor/Component/TransformComponent.h"
 #include "Actor/Component/Animator/AnimationClip.h"
 #include "Actor/Component/Animator/AnimatorComponent.h"
+#include "Actor/ObjectPool/ObjectPool.h"
 #include "Data/CSVReader.h"
 #include "Data/StatInfo.h"
 #include "Input/Keyboard.h"
@@ -27,9 +27,7 @@ Player::Player(const std::wstring& kName) :
     time_to_jump_apex_(.4f),
     jump_velocity_(0.f),
     move_speed_(0.f),
-    last_pressed_jump_time_(0.f),
-    bullets_(),
-    count(0)
+    last_pressed_jump_time_(0.f)
 {
     SetLayer(ActorLayer::kPlayer);
     
@@ -67,6 +65,8 @@ Player::Player(const std::wstring& kName) :
 
     states_[0] = std::make_unique<PlayerStandingState>(this, state_machine_.get());
     states_[1] = std::make_unique<PlayerJumpingState>(this, state_machine_.get());
+
+    object_pool_ = AddComponent<ObjectPool>(L"ObjectPool");
 }
 
 void Player::BeginPlay()
@@ -83,12 +83,6 @@ void Player::BeginPlay()
     // 직렬화 테스트
     std::vector<StatInfo> stats;
     CSVReader::Get()->Load(L".\\Game_Data\\StatInfo.csv", stats);
-
-    for (int i = 0; i < 10; ++i)
-    {
-        Bullet* bullet = World::Get()->SpawnActor<Bullet>(L"Bullet");
-        bullets_.push_back(bullet);
-    }
 }
 
 void Player::Tick(float delta_time)
@@ -110,10 +104,7 @@ void Player::Tick(float delta_time)
 
     if (keyboard->GetKeyDown('F'))
     {
-        int idx = count++ % bullets_.size();
-        Bullet* bullet = bullets_[idx];
-        bullet->Pop();
-        bullet->GetTransform()->SetPosition(GetTransform()->GetPosition());
+        object_pool_->SpawnPooledObject();
     }
 }
 

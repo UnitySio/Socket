@@ -87,6 +87,7 @@ protected:
     virtual void PostTick(float delta_time);
     virtual void Render(float alpha);
     virtual void OnEnable();
+    virtual void OnDisable();
 
     virtual void OnCollisionEnter(Actor* other);
     virtual void OnCollisionExit(Actor* other);

@@ -30,6 +30,7 @@ private:
     void HandleTime(float delta_time);
     
     class Sprite* sprite_;
+    class ObjectPool* object_pool_;
 
     std::unique_ptr<State> states_[2];
 
@@ -39,10 +40,5 @@ private:
     float jump_velocity_;
     float move_speed_;
     float last_pressed_jump_time_;
-
-    // Object Pooling Test
-    std::vector<class Bullet*> bullets_;
-    
-    int count;
     
 };
