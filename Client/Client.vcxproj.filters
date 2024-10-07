@@ -157,7 +157,6 @@
     <ClCompile Include="Engine\UI\Widget\Image.cpp" />
     <ClCompile Include="Engine\Windows\DX\UITexture.cpp" />
     <ClCompile Include="Game\Map\SplashMap.cpp" />
-    <ClCompile Include="Engine\Steam\SteamManager.cpp" />
     <ClCompile Include="Engine\UI\Widget\Text.cpp" />
     <ClCompile Include="Game\Map\MainMenu.cpp" />
     <ClCompile Include="Engine\Object.cpp" />
@@ -182,6 +181,9 @@
     <ClCompile Include="Game\Actor\Component\RayCastController.cpp" />
     <ClCompile Include="Game\Actor\Platform\Platform.cpp" />
     <ClCompile Include="Game\Actor\Platform\PlatformControllerComponent.cpp" />
+    <ClCompile Include="Engine\Data\CSVReader.cpp" />
+    <ClCompile Include="Engine\Data\StatInfo.cpp" />
+    <ClCompile Include="Engine\Editor\Editor.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Actor\Actor.h">
@@ -512,52 +514,6 @@
     <ClInclude Include="Engine\UI\Widget\Image.h" />
     <ClInclude Include="Engine\Windows\DX\UITexture.h" />
     <ClInclude Include="Game\Map\SplashMap.h" />
-    <ClInclude Include="Include\steam\isteamapps.h" />
-    <ClInclude Include="Include\steam\isteamappticket.h" />
-    <ClInclude Include="Include\steam\isteamclient.h" />
-    <ClInclude Include="Include\steam\isteamcontroller.h" />
-    <ClInclude Include="Include\steam\isteamdualsense.h" />
-    <ClInclude Include="Include\steam\isteamfriends.h" />
-    <ClInclude Include="Include\steam\isteamgamecoordinator.h" />
-    <ClInclude Include="Include\steam\isteamgameserver.h" />
-    <ClInclude Include="Include\steam\isteamgameserverstats.h" />
-    <ClInclude Include="Include\steam\isteamhtmlsurface.h" />
-    <ClInclude Include="Include\steam\isteamhttp.h" />
-    <ClInclude Include="Include\steam\isteaminput.h" />
-    <ClInclude Include="Include\steam\isteaminventory.h" />
-    <ClInclude Include="Include\steam\isteammatchmaking.h" />
-    <ClInclude Include="Include\steam\isteammusic.h" />
-    <ClInclude Include="Include\steam\isteammusicremote.h" />
-    <ClInclude Include="Include\steam\isteamnetworking.h" />
-    <ClInclude Include="Include\steam\isteamnetworkingmessages.h" />
-    <ClInclude Include="Include\steam\isteamnetworkingsockets.h" />
-    <ClInclude Include="Include\steam\isteamnetworkingutils.h" />
-    <ClInclude Include="Include\steam\isteamparentalsettings.h" />
-    <ClInclude Include="Include\steam\isteamps3overlayrenderer.h" />
-    <ClInclude Include="Include\steam\isteamremoteplay.h" />
-    <ClInclude Include="Include\steam\isteamremotestorage.h" />
-    <ClInclude Include="Include\steam\isteamscreenshots.h" />
-    <ClInclude Include="Include\steam\isteamtimeline.h" />
-    <ClInclude Include="Include\steam\isteamugc.h" />
-    <ClInclude Include="Include\steam\isteamuser.h" />
-    <ClInclude Include="Include\steam\isteamuserstats.h" />
-    <ClInclude Include="Include\steam\isteamutils.h" />
-    <ClInclude Include="Include\steam\isteamvideo.h" />
-    <ClInclude Include="Include\steam\matchmakingtypes.h" />
-    <ClInclude Include="Include\steam\steamclientpublic.h" />
-    <ClInclude Include="Include\steam\steamencryptedappticket.h" />
-    <ClInclude Include="Include\steam\steamhttpenums.h" />
-    <ClInclude Include="Include\steam\steamnetworkingfakeip.h" />
-    <ClInclude Include="Include\steam\steamnetworkingtypes.h" />
-    <ClInclude Include="Include\steam\steamps3params.h" />
-    <ClInclude Include="Include\steam\steamtypes.h" />
-    <ClInclude Include="Include\steam\steamuniverse.h" />
-    <ClInclude Include="Include\steam\steam_api.h" />
-    <ClInclude Include="Include\steam\steam_api_common.h" />
-    <ClInclude Include="Include\steam\steam_api_flat.h" />
-    <ClInclude Include="Include\steam\steam_api_internal.h" />
-    <ClInclude Include="Include\steam\steam_gameserver.h" />
-    <ClInclude Include="Engine\Steam\SteamManager.h" />
     <ClInclude Include="Engine\UI\Widget\Text.h" />
     <ClInclude Include="Game\Map\MainMenu.h" />
     <ClInclude Include="Engine\Object.h" />
@@ -725,6 +681,9 @@
     <ClInclude Include="Include\rttr\variant_sequential_view.h" />
     <ClInclude Include="Include\rttr\visitor.h" />
     <ClInclude Include="Include\rttr\wrapper_mapper.h" />
+    <ClInclude Include="Engine\Data\CSVReader.h" />
+    <ClInclude Include="Engine\Data\StatInfo.h" />
+    <ClInclude Include="Engine\Editor\Editor.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Other">

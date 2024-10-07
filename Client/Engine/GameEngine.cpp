@@ -96,7 +96,6 @@ void GameEngine::Tick(float delta_time)
     const float kLimitFrameTime = Math::Min(delta_time, .25f);
     accumulator_ += kLimitFrameTime;
     
-    // SteamManager::Get()->Tick();
     AudioManager::Get()->Tick();
 
     while (accumulator_ >= ProjectSettings::kFixedTimeStep)

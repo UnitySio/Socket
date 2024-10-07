@@ -113,7 +113,7 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)\Client\Lib\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>libtmxlite-s-d.lib;box2dd.lib;DirectXTK.lib;fmod_vc.lib;steam_api64.lib;rttr_core_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>libtmxlite-s-d.lib;box2dd.lib;DirectXTK.lib;fmod_vc.lib;rttr_core_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -135,7 +135,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)\Client\Lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>libtmxlite-s.lib;box2d.lib;DirectXTK.lib;fmod_vc.lib;steam_api64.lib;rttr_core.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>libtmxlite-s.lib;box2d.lib;DirectXTK.lib;fmod_vc.lib;rttr_core.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -187,7 +187,6 @@
     <ClInclude Include="Engine\Resource\Resource.h" />
     <ClInclude Include="Engine\Resource\ResourceManager.h" />
     <ClInclude Include="Engine\Singleton.h" />
-    <ClInclude Include="Engine\Steam\SteamManager.h" />
     <ClInclude Include="Engine\PhysicsDebugDrawHelper.h" />
     <ClInclude Include="Engine\Time\Time.h" />
     <ClInclude Include="Engine\Time\TimerManager.h" />
@@ -409,51 +408,6 @@
     <ClInclude Include="Include\rttr\variant_sequential_view.h" />
     <ClInclude Include="Include\rttr\visitor.h" />
     <ClInclude Include="Include\rttr\wrapper_mapper.h" />
-    <ClInclude Include="Include\steam\isteamapps.h" />
-    <ClInclude Include="Include\steam\isteamappticket.h" />
-    <ClInclude Include="Include\steam\isteamclient.h" />
-    <ClInclude Include="Include\steam\isteamcontroller.h" />
-    <ClInclude Include="Include\steam\isteamdualsense.h" />
-    <ClInclude Include="Include\steam\isteamfriends.h" />
-    <ClInclude Include="Include\steam\isteamgamecoordinator.h" />
-    <ClInclude Include="Include\steam\isteamgameserver.h" />
-    <ClInclude Include="Include\steam\isteamgameserverstats.h" />
-    <ClInclude Include="Include\steam\isteamhtmlsurface.h" />
-    <ClInclude Include="Include\steam\isteamhttp.h" />
-    <ClInclude Include="Include\steam\isteaminput.h" />
-    <ClInclude Include="Include\steam\isteaminventory.h" />
-    <ClInclude Include="Include\steam\isteammatchmaking.h" />
-    <ClInclude Include="Include\steam\isteammusic.h" />
-    <ClInclude Include="Include\steam\isteammusicremote.h" />
-    <ClInclude Include="Include\steam\isteamnetworking.h" />
-    <ClInclude Include="Include\steam\isteamnetworkingmessages.h" />
-    <ClInclude Include="Include\steam\isteamnetworkingsockets.h" />
-    <ClInclude Include="Include\steam\isteamnetworkingutils.h" />
-    <ClInclude Include="Include\steam\isteamparentalsettings.h" />
-    <ClInclude Include="Include\steam\isteamps3overlayrenderer.h" />
-    <ClInclude Include="Include\steam\isteamremoteplay.h" />
-    <ClInclude Include="Include\steam\isteamremotestorage.h" />
-    <ClInclude Include="Include\steam\isteamscreenshots.h" />
-    <ClInclude Include="Include\steam\isteamtimeline.h" />
-    <ClInclude Include="Include\steam\isteamugc.h" />
-    <ClInclude Include="Include\steam\isteamuser.h" />
-    <ClInclude Include="Include\steam\isteamuserstats.h" />
-    <ClInclude Include="Include\steam\isteamutils.h" />
-    <ClInclude Include="Include\steam\isteamvideo.h" />
-    <ClInclude Include="Include\steam\matchmakingtypes.h" />
-    <ClInclude Include="Include\steam\steamclientpublic.h" />
-    <ClInclude Include="Include\steam\steamencryptedappticket.h" />
-    <ClInclude Include="Include\steam\steamhttpenums.h" />
-    <ClInclude Include="Include\steam\steamnetworkingfakeip.h" />
-    <ClInclude Include="Include\steam\steamnetworkingtypes.h" />
-    <ClInclude Include="Include\steam\steamps3params.h" />
-    <ClInclude Include="Include\steam\steamtypes.h" />
-    <ClInclude Include="Include\steam\steamuniverse.h" />
-    <ClInclude Include="Include\steam\steam_api.h" />
-    <ClInclude Include="Include\steam\steam_api_common.h" />
-    <ClInclude Include="Include\steam\steam_api_flat.h" />
-    <ClInclude Include="Include\steam\steam_api_internal.h" />
-    <ClInclude Include="Include\steam\steam_gameserver.h" />
     <ClInclude Include="Include\tmxlite\Config.hpp" />
     <ClInclude Include="Include\tmxlite\FreeFuncs.hpp" />
     <ClInclude Include="Include\tmxlite\ImageLayer.hpp" />
@@ -513,7 +467,6 @@
     <ClCompile Include="Engine\Physics\Physics2D.cpp" />
     <ClCompile Include="Engine\Resource\Resource.cpp" />
     <ClCompile Include="Engine\Resource\ResourceManager.cpp" />
-    <ClCompile Include="Engine\Steam\SteamManager.cpp" />
     <ClCompile Include="Engine\PhysicsDebugDrawHelper.cpp" />
     <ClCompile Include="Engine\Time\Time.cpp" />
     <ClCompile Include="Engine\Time\TimerManager.cpp" />
@@ -625,7 +578,6 @@
     <Content Include="Include\rttr\registration" />
     <Content Include="Include\rttr\registration_friend" />
     <Content Include="Include\rttr\type" />
-    <Content Include="Include\steam\steam_api.json" />
     <Content Include="Lib\box2d.lib" />
     <Content Include="Lib\Debug\box2dd.lib" />
     <Content Include="Lib\Debug\DirectXTK.lib" />
@@ -636,8 +588,6 @@
     <Content Include="Lib\Debug\libtmxlite-s-d.lib" />
     <Content Include="Lib\Debug\rttr_core_d.dll" />
     <Content Include="Lib\Debug\rttr_core_d.lib" />
-    <Content Include="Lib\Debug\steam_api64.dll" />
-    <Content Include="Lib\Debug\steam_api64.lib" />
     <Content Include="Lib\DirectXTK.lib" />
     <Content Include="Lib\fmod.dll" />
     <Content Include="Lib\fmodL.dll" />
@@ -646,8 +596,6 @@
     <Content Include="Lib\libtmxlite-s.lib" />
     <Content Include="Lib\rttr_core.dll" />
     <Content Include="Lib\rttr_core.lib" />
-    <Content Include="Lib\steam_api64.dll" />
-    <Content Include="Lib\steam_api64.lib" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

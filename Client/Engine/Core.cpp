@@ -2,7 +2,6 @@
 #include "Core.h"
 
 #include "GameEngine.h"
-#include "../Include/steam/steam_api.h"
 #include "Audio/AudioManager.h"
 #include "Event/EventManager.h"
 #include "Input/Keyboard.h"

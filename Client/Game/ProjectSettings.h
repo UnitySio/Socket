@@ -21,8 +21,6 @@ class ProjectSettings
 {
 public:
     inline static const std::wstring kWindowTitle = L"ProjectM"; // 윈도우 타이틀
-    
-    inline static constexpr MathTypes::uint32 kSteamAppID = 480; // 스팀 앱 ID (480은 테스트 앱 ID)
 
     inline static constexpr MathTypes::uint32 kScreenWidth = 640; // 화면 너비
     inline static constexpr MathTypes::uint32 kScreenHeight = 480; // 화면 높이
