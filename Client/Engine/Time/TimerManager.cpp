@@ -108,6 +108,15 @@ void TimerManager::UnPauseTimer(const TimerHandle& kHandle)
     timer->status = TimerStatus::Active;
 }
 
+void TimerManager::ClearAllTimers()
+{
+    // 추후 개발하면서 상황을 보고, 수정해야 할 수 있음
+    for (auto& timer : timers_)
+    {
+        timer.status = TimerStatus::Removal;
+    }
+}
+
 TimerData* TimerManager::FindTimer(const TimerHandle& kHandle)
 {
     for (auto& timer : timers_)

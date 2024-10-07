@@ -92,6 +92,7 @@ public:
     void ClearTimer(const TimerHandle& kHandle);
     void PauseTimer(const TimerHandle& kHandle);
     void UnPauseTimer(const TimerHandle& kHandle);
+    void ClearAllTimers();
     
     TimerData* FindTimer(const TimerHandle& kHandle);
 

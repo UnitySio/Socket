@@ -180,6 +180,7 @@ void World::TransitionLevel()
     if (current_level_)
     {
         current_level_->Unload(EndPlayReason::kLevelTransition);
+        TimerManager::Get()->ClearAllTimers();
         Canvas::Get()->Clear();
     }
 
