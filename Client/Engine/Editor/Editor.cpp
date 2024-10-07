@@ -10,7 +10,6 @@
 #include "Windows/DX/Sprite.h"
 
 Editor::Editor() :
-    show_level_(false),
     show_animator_(false),
     show_sprite_editor_(false),
     sprite_(nullptr)
@@ -38,7 +37,6 @@ void Editor::Tick(float delta_time)
 
         if (ImGui::BeginMenu("View"))
         {
-            ImGui::MenuItem("Level", nullptr, &show_level_);
             ImGui::MenuItem("Animator", nullptr, &show_animator_);
             ImGui::EndMenu();
         }
@@ -46,42 +44,8 @@ void Editor::Tick(float delta_time)
     
     ImGui::EndMainMenuBar();
 
-    if (show_level_) ShowLevel(&show_level_);
     if (show_animator_) ShowAnimator(&show_animator_);
     if (show_sprite_editor_) ShowSpriteEditor(&show_sprite_editor_);
-}
-
-void Editor::ShowLevel(bool* p_open)
-{
-    if (!ImGui::Begin("Level", p_open))
-    {
-        ImGui::End();
-        return;
-    }
-
-    static int selected_level = 0;
-    std::vector<std::string> level_names;
-
-    std::shared_ptr<Level>* levels = World::Get()->levels_;
-    constexpr int level_size = static_cast<int>(LevelType::kEnd);
-    for (int i = 0; i < level_size; ++i)
-    {
-        level_names.emplace_back(levels[i]->GetName().begin(), levels[i]->GetName().end());
-    }
-
-    if (ImGui::ListBox("Levels", &selected_level, 
-                       [](void* data, int idx, const char** out_text) 
-                       {
-                           const auto& names = *static_cast<std::vector<std::string>*>(data);
-                           *out_text = names[idx].c_str();
-                           return true;
-                       }, 
-                       &level_names, level_names.size()))
-    {
-        World::Get()->OpenLevel(static_cast<LevelType>(selected_level));
-    }
-
-    ImGui::End();
 }
 
 void Editor::ShowAnimator(bool* p_open)
