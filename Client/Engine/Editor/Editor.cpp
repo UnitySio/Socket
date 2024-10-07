@@ -2,6 +2,7 @@
 #include "Editor.h"
 
 #include "Logger.h"
+#include "Actor/Actor.h"
 #include "imgui/imgui.h"
 #include "Level/World.h"
 #include "Resource/ResourceManager.h"
@@ -10,6 +11,7 @@
 #include "Windows/DX/Sprite.h"
 
 Editor::Editor() :
+    show_hierarchy_(false),
     show_animator_(false),
     show_sprite_editor_(false),
     sprite_(nullptr)
@@ -37,6 +39,7 @@ void Editor::Tick(float delta_time)
 
         if (ImGui::BeginMenu("View"))
         {
+            ImGui::MenuItem("Hierarchy", nullptr, &show_hierarchy_);
             ImGui::MenuItem("Animator", nullptr, &show_animator_);
             ImGui::EndMenu();
         }
@@ -44,8 +47,35 @@ void Editor::Tick(float delta_time)
     
     ImGui::EndMainMenuBar();
 
+    if (show_hierarchy_) ShowHierarchy(&show_hierarchy_);
     if (show_animator_) ShowAnimator(&show_animator_);
     if (show_sprite_editor_) ShowSpriteEditor(&show_sprite_editor_);
+}
+
+void Editor::ShowHierarchy(bool* p_open)
+{
+    if (!ImGui::Begin("Hierarchy", p_open))
+    {
+        ImGui::End();
+        return;
+    }
+
+    for (const auto& actor : World::Get()->current_level_->actors_)
+    {
+        std::string name;
+        name.assign(actor->GetName().begin(), actor->GetName().end());
+        
+        if (actor->IsActive())
+        {
+            ImGui::TextColored({0.f, 1.f, 0.f, 1.f}, name.c_str());
+        }
+        else
+        {
+            ImGui::TextColored({1.f, 0.f, 0.f, 1.f}, name.c_str());
+        }
+    }
+
+    ImGui::End();
 }
 
 void Editor::ShowAnimator(bool* p_open)
