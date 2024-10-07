@@ -14,7 +14,6 @@ public:
     PooledObject(const std::wstring& kName);
     virtual ~PooledObject() override = default;
 
-    virtual void BeginPlay() override;
     virtual void OnEnable() override;
 
     void Deactivate();

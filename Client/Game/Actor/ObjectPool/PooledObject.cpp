@@ -7,11 +7,6 @@ PooledObject::PooledObject(const std::wstring& kName) :
 {
 }
 
-void PooledObject::BeginPlay()
-{
-    Actor::BeginPlay();
-}
-
 void PooledObject::OnEnable()
 {
     Actor::OnEnable();

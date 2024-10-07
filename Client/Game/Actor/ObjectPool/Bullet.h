@@ -9,5 +9,11 @@ class Bullet : public PooledObject
 public:
     Bullet(const std::wstring& kName);
     virtual ~Bullet() override = default;
+
+    virtual void OnEnable() override;
+
+private:
+    class CircleColliderComponent* circle_collider_;
+    class RigidBody2DComponent* rigid_body_;
     
 };

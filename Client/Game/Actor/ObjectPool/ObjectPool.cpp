@@ -3,6 +3,7 @@
 
 #include "Bullet.h"
 #include "Actor/Actor.h"
+#include "Actor/Component/TransformComponent.h"
 
 ObjectPool::ObjectPool(Actor* owner, const std::wstring& kName) :
     ActorComponent(owner, kName),
@@ -34,6 +35,7 @@ PooledObject* ObjectPool::SpawnPooledObject()
     {
         if (poolable_actor != nullptr && !poolable_actor->IsActive())
         {
+            poolable_actor->GetTransform()->SetPosition({0.f, 0.f});
             poolable_actor->SetActive(true);
             spawned_pool_indexes_.push_back(poolable_actor->GetPoolIndex());
             
@@ -51,6 +53,7 @@ PooledObject* ObjectPool::SpawnPooledObject()
         {
             poolable_actor->SetActive(false);
             
+            poolable_actor->GetTransform()->SetPosition({0.f, 0.f});
             poolable_actor->SetActive(true);
             spawned_pool_indexes_.push_back(poolable_actor->GetPoolIndex());
             
