@@ -18,6 +18,12 @@ class Shape;
 enum class LevelType : MathTypes::uint64;
 class WindowsWindow;
 
+struct ActorActivation
+{
+    Actor* actor;
+    bool is_active;
+};
+
 class World : public Singleton<World>
 {
 public:
@@ -73,6 +79,7 @@ private:
     void ProcessActorActivation();
     void DestroyActor(Actor* actor);
     void DestroyActors();
+    void ActivateActor(Actor* actor, bool is_active);
 
     std::shared_ptr<WindowsWindow> window_;
     
@@ -92,6 +99,7 @@ private:
 
     std::queue<std::shared_ptr<Actor>> pending_actors_;
     std::queue<std::shared_ptr<Actor>> pending_destroy_actors_;
+    std::queue<ActorActivation> pending_actor_activation_;
 };
 
 template <std::derived_from<Actor> T>

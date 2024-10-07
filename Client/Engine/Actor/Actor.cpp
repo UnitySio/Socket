@@ -107,6 +107,7 @@ void Actor::Render(float alpha)
 
 void Actor::SetActive(bool is_active)
 {
+    World::Get()->ActivateActor(this, is_active);
 }
 
 void Actor::Destroy()

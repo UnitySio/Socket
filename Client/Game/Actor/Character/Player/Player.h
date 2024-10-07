@@ -39,5 +39,7 @@ private:
     float jump_velocity_;
     float move_speed_;
     float last_pressed_jump_time_;
+
+    Actor* actor_;
     
 };

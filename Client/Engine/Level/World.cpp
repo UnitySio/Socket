@@ -31,7 +31,9 @@ World::World() :
     current_level_(nullptr),
     pending_level_(nullptr),
     levels_(),
-    pending_actors_()
+    pending_actors_(),
+    pending_destroy_actors_(),
+    pending_actor_activation_()
 {
     shape_batch_ = std::make_shared<ShapeBatch>();
     shape_batch_->Init();
@@ -313,6 +315,22 @@ void World::ProcessTriggerEvents()
 
 void World::ProcessActorActivation()
 {
+    while (!pending_actor_activation_.empty())
+    {
+        const ActorActivation& activation = pending_actor_activation_.front();
+        pending_actor_activation_.pop();
+        
+        Actor* actor = activation.actor;
+
+        b2BodyId body_id = actor->body_id_;
+        if (b2Body_IsValid(body_id))
+        {
+            if (activation.is_active) b2Body_Enable(body_id);
+            else b2Body_Disable(body_id);
+        }
+        
+        actor->is_active_ = activation.is_active;
+    }
 }
 
 void World::DestroyActor(Actor* actor)
@@ -333,6 +351,11 @@ void World::DestroyActors()
         std::erase(current_level_->actors_, actor);
         pending_destroy_actors_.pop();
     }
+}
+
+void World::ActivateActor(Actor* actor, bool is_active)
+{
+    pending_actor_activation_.push({actor, is_active});
 }
 
 void DrawPolygon(const b2Vec2* vertices, int vertexCount, b2HexColor color, void* context)

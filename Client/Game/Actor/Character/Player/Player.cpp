@@ -27,7 +27,8 @@ Player::Player(const std::wstring& kName) :
     time_to_jump_apex_(.4f),
     jump_velocity_(0.f),
     move_speed_(0.f),
-    last_pressed_jump_time_(0.f)
+    last_pressed_jump_time_(0.f),
+    actor_(nullptr)
 {
     SetLayer(ActorLayer::kPlayer);
     
@@ -81,6 +82,8 @@ void Player::BeginPlay()
     // 직렬화 테스트
     std::vector<StatInfo> stats;
     CSVReader::Get()->Load(L".\\Game_Data\\StatInfo.csv", stats);
+
+    actor_ = World::Get()->SpawnActor<Capsule>(L"Actor");
 }
 
 void Player::Tick(float delta_time)
@@ -98,6 +101,13 @@ void Player::Tick(float delta_time)
     if (keyboard->GetKeyDown('R'))
     {
         World::Get()->OpenLevel(LevelType::kDefault);
+    }
+
+    static bool is_active = true;
+    if (keyboard->GetKeyDown('F'))
+    {
+        is_active = !is_active;
+        actor_->SetActive(is_active);
     }
 }
 

@@ -82,6 +82,9 @@ void Editor::ShowSpriteEditor(bool* p_open)
     static int tile_size[2] = { 32, 32 };
     if (ImGui::InputInt2("Tile Size", tile_size))
     {
+        if (tile_size[0] < 1) tile_size[0] = 1;
+        if (tile_size[1] < 1) tile_size[1] = 1;
+        
         selected_tile = { 0.f, 0.f };
     }
 
