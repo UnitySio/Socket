@@ -3,6 +3,7 @@
 
 #include "Level/World.h"
 #include "Input/Keyboard.h"
+#include "UI/Canvas.h"
 #include "Windows/WindowsWindow.h"
 #include "Windows/DX/Renderer.h"
 

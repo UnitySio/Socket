@@ -59,6 +59,7 @@ private:
     friend void DrawString(b2Vec2 p, const char* s, void* context);
 
     friend class Core;
+    friend class Editor;
     friend class Physics2D;
     friend class Level;
     friend class Actor;
