@@ -11,6 +11,10 @@ public:
     virtual ~Bullet() override = default;
 
     virtual void BeginPlay() override;
+    virtual void OnEnable() override;
+
+    void Pop();
+    void Push();
 
 private:
     class CircleColliderComponent* circle_collider_;

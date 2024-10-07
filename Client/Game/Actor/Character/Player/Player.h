@@ -40,6 +40,9 @@ private:
     float move_speed_;
     float last_pressed_jump_time_;
 
-    Actor* actor_;
+    // Object Pooling Test
+    std::vector<class Bullet*> bullets_;
+    
+    int count;
     
 };

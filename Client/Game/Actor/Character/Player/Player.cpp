@@ -2,7 +2,7 @@
 #include "Player.h"
 
 #include "Actor/Camera.h"
-#include "Actor/Capsule.h"
+#include "Actor/Bullet.h"
 #include "Actor/Component/Controller2DComponent.h"
 #include "Actor/Component/SpriteRendererComponent.h"
 #include "Actor/Component/TransformComponent.h"
@@ -28,7 +28,8 @@ Player::Player(const std::wstring& kName) :
     jump_velocity_(0.f),
     move_speed_(0.f),
     last_pressed_jump_time_(0.f),
-    actor_(nullptr)
+    bullets_(),
+    count(0)
 {
     SetLayer(ActorLayer::kPlayer);
     
@@ -83,7 +84,11 @@ void Player::BeginPlay()
     std::vector<StatInfo> stats;
     CSVReader::Get()->Load(L".\\Game_Data\\StatInfo.csv", stats);
 
-    actor_ = World::Get()->SpawnActor<Capsule>(L"Actor");
+    for (int i = 0; i < 10; ++i)
+    {
+        Bullet* bullet = World::Get()->SpawnActor<Bullet>(L"Bullet");
+        bullets_.push_back(bullet);
+    }
 }
 
 void Player::Tick(float delta_time)
@@ -103,11 +108,12 @@ void Player::Tick(float delta_time)
         World::Get()->OpenLevel(LevelType::kDefault);
     }
 
-    static bool is_active = true;
     if (keyboard->GetKeyDown('F'))
     {
-        is_active = !is_active;
-        actor_->SetActive(is_active);
+        int idx = count++ % bullets_.size();
+        Bullet* bullet = bullets_[idx];
+        bullet->Pop();
+        bullet->GetTransform()->SetPosition(GetTransform()->GetPosition());
     }
 }
 

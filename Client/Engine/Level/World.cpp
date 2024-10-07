@@ -61,7 +61,7 @@ World::World() :
         DrawString,
         bounds,
         false,
-        false,
+        true,
         false,
         false,
         false,
@@ -330,6 +330,7 @@ void World::ProcessActorActivation()
         }
         
         actor->is_active_ = activation.is_active;
+        if (activation.is_active) actor->OnEnable();
     }
 }
 
