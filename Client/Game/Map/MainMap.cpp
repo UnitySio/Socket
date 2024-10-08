@@ -19,5 +19,8 @@ void MainMap::Load()
 RTTR_REGISTRATION
 {
     rttr::registration::class_<MainMap>("MainMap")
-        .constructor<const std::wstring&>();
+        .constructor<const std::wstring&>()
+        (
+            rttr::policy::ctor::as_std_shared_ptr
+        );
 }

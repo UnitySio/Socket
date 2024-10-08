@@ -34,5 +34,8 @@ void SplashMap::Load()
 RTTR_REGISTRATION
 {
     rttr::registration::class_<SplashMap>("SplashMap")
-        .constructor<const std::wstring&>();
+        .constructor<const std::wstring&>()
+        (
+            rttr::policy::ctor::as_std_shared_ptr
+        );
 }

@@ -86,5 +86,8 @@ void MainMenu::Load()
 RTTR_REGISTRATION
 {
     rttr::registration::class_<MainMenu>("MainMenu")
-        .constructor<const std::wstring&>();
+        .constructor<const std::wstring&>()
+        (
+            rttr::policy::ctor::as_std_shared_ptr
+        );
 }

@@ -44,5 +44,8 @@ RTTR_REGISTRATION
     using namespace rttr;
     
     registration::class_<UITexture>("UITexture")
-        .constructor<>();
+        .constructor<>()
+        (
+            policy::ctor::as_raw_ptr
+        );
 }

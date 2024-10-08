@@ -61,5 +61,8 @@ RTTR_REGISTRATION
     using namespace rttr;
 
     registration::class_<Texture>("Texture")
-        .constructor<>();
+        .constructor<>()
+        (
+            policy::ctor::as_raw_ptr
+        );
 }
