@@ -42,5 +42,7 @@ private:
     float last_pressed_jump_time_;
     
     std::shared_ptr<Object> obj_;
+
+    class Audio* fire_sound_;
     
 };

@@ -9,6 +9,8 @@
 #include "Actor/Component/Animator/AnimatorComponent.h"
 #include "Actor/ObjectPool/Bullet.h"
 #include "Actor/ObjectPool/ObjectPool.h"
+#include "Audio/Audio.h"
+#include "Audio/AudioManager.h"
 #include "Data/CSVReader.h"
 #include "Data/StatInfo.h"
 #include "Input/Keyboard.h"
@@ -69,6 +71,11 @@ Player::Player(const std::wstring& kName) :
 
     object_pool_ = AddComponent<ObjectPool>(L"ObjectPool");
     object_pool_->SetPooledObjectClass(Bullet::StaticClass());
+
+    if (ResourceManager::Get()->Load<Audio>(L"Fire", L".\\Game_Data\\Fire.mp3"))
+    {
+        fire_sound_ = ResourceManager::Get()->GetResource<Audio>(L"Fire");
+    }
 }
 
 void Player::BeginPlay()
@@ -109,6 +116,7 @@ void Player::Tick(float delta_time)
         PooledObject* poolable_object = object_pool_->SpawnPooledObject();
         if (poolable_object)
         {
+            AudioManager::Get()->PlayOneShot(fire_sound_, .125f);
             poolable_object->GetTransform()->SetPosition(GetTransform()->GetPosition());
         }
     }
