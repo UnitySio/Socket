@@ -22,7 +22,7 @@ void ObjectPool::BeginPlay()
     {
         for (int i = 0; i < 5; ++i)
         {
-            PooledObject* poolable_actor = World::Get()->SpawnActor<PooledObject>(pooled_object_class_, L"Actor");
+            PooledObject* poolable_actor = World::Get()->SpawnActor<PooledObject>(pooled_object_class_);
             if (poolable_actor)
             {
                 poolable_actor->SetActive(false);

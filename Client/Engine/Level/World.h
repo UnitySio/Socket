@@ -43,7 +43,7 @@ public:
     Actor* GetActor(const rttr::type& type);
 
     template<std::derived_from<Actor> T>
-    T* SpawnActor(const rttr::type& kType, const std::wstring& kName);
+    T* SpawnActor(const rttr::type& kType, const std::wstring& kName = L"");
 
     template<std::derived_from<Level> T>
     T* AddLevel(LevelType type, std::wstring name);
@@ -106,7 +106,15 @@ private:
 template <std::derived_from<Actor> T>
 T* World::SpawnActor(const rttr::type& kType, const std::wstring& kName)
 {
-    rttr::variant var = kType.create({ kName });
+    std::wstring name = kName;
+    
+    if (name.empty())
+    {
+        std::string type_name = kType.get_name().to_string();
+        name.assign(type_name.begin(), type_name.end());
+    }
+    
+    rttr::variant var = kType.create({ name });
     if (var.is_valid())
     {
         std::shared_ptr<Actor> actor = var.get_value<std::shared_ptr<Actor>>();

@@ -3,16 +3,35 @@
 
 #include "Actor/Component/CircleColliderComponent.h"
 #include "Actor/Component/RigidBody2DComponent.h"
+#include "Actor/Component/SpriteRendererComponent.h"
+#include "Actor/Component/TransformComponent.h"
+#include "Resource/ResourceManager.h"
+#include "Windows/DX/Sprite.h"
 
 Bullet::Bullet(const std::wstring& kName) :
     PooledObject(kName)
 {
     circle_collider_ = AddComponent<CircleColliderComponent>(L"CircleCollider");
-    circle_collider_->SetRadius(.25f);
+    circle_collider_->SetRadius(.125f);
     // circle_collider_->SetTrigger(true);
     
     rigid_body_ = AddComponent<RigidBody2DComponent>(L"RigidBody");
     rigid_body_->SetCollisionDetectionMode(CollisionDetectionMode::kContinuous);
+
+    sprite_renderer_ = AddComponent<SpriteRendererComponent>(L"SpriteRenderer");
+    
+    if (ResourceManager::Get()->Load<Sprite>(L"Circle", L".\\Game_Data\\Default\\Circle.png"))
+    {
+        sprite_ = ResourceManager::Get()->GetResource<Sprite>(L"Circle");
+        sprite_->SetPPU(256);
+    }
+
+    sprite_->Split(1, 1, Sprite::kCenter);
+    sprite_->SetFilterMode(FilterMode::kBilinear);
+
+    sprite_renderer_->SetSprite(sprite_);
+
+    GetTransform()->SetScale({.25f, .25f});
 }
 
 void Bullet::OnEnable()
