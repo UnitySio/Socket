@@ -129,4 +129,6 @@ void GameEngine::Render(float alpha)
 void GameEngine::EndFrame()
 {
     World::Get()->SpawnActors();
+    World::Get()->ProcessActorActivation();
+    World::Get()->DestroyActors();
 }

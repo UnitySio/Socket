@@ -37,8 +37,6 @@ public:
     void PostTick(float delta_time);
     void Render(float alpha);
     void AddShape(const std::shared_ptr<Shape>& kShape);
-    void TransitionLevel();
-    void SpawnActors();
 
     void GetActors(const rttr::type& type, std::vector<Actor*>& actors);
 
@@ -65,6 +63,7 @@ private:
     friend void DrawString(b2Vec2 p, const char* s, void* context);
 
     friend class Core;
+    friend class GameEngine;
     friend class Editor;
     friend class Physics2D;
     friend class Level;
@@ -74,9 +73,11 @@ private:
     friend class PlayerController;
 
     void OnEvent(const Event& kEvent);
+    void TransitionLevel();
     void ProcessCollisionEvents();
     void ProcessTriggerEvents();
     void ProcessActorActivation();
+    void SpawnActors();
     void DestroyActor(Actor* actor);
     void DestroyActors();
     void ActivateActor(Actor* actor, bool is_active);

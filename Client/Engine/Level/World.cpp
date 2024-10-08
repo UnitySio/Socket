@@ -175,44 +175,6 @@ void World::AddShape(const std::shared_ptr<Shape>& kShape)
     shapes_.push_back(kShape);
 }
 
-void World::TransitionLevel()
-{
-    if (!pending_level_) return;
-    
-    if (current_level_)
-    {
-        current_level_->Unload(EndPlayReason::kLevelTransition);
-        TimerManager::Get()->ClearAllTimers();
-        Canvas::Get()->Clear();
-    }
-
-    current_level_ = pending_level_;
-    pending_level_ = nullptr;
-
-    current_level_->AddActor<Camera>(L"Main Camera");
-    
-    current_level_->Load();
-    current_level_->InitializeActors();
-    
-    ProcessActorActivation();
-    DestroyActors();
-    SpawnActors();
-    
-    Canvas::Get()->BeginPlay();
-}
-
-void World::SpawnActors()
-{
-    while (!pending_actors_.empty())
-    {
-        std::shared_ptr<Actor> actor = pending_actors_.front();
-        current_level_->actors_.push_back(actor);
-        actor->BeginPlay();
-        
-        pending_actors_.pop();
-    }
-}
-
 void World::GetActors(const rttr::type& type, std::vector<Actor*>& actors)
 {
     for (const auto& kActor : current_level_->actors_)
@@ -245,6 +207,32 @@ void World::OnEvent(const Event& kEvent)
     {
         current_level_->OnEvent(kEvent);
     }
+}
+
+void World::TransitionLevel()
+{
+    if (!pending_level_) return;
+    
+    if (current_level_)
+    {
+        current_level_->Unload(EndPlayReason::kLevelTransition);
+        TimerManager::Get()->ClearAllTimers();
+        Canvas::Get()->Clear();
+    }
+
+    current_level_ = pending_level_;
+    pending_level_ = nullptr;
+
+    current_level_->AddActor<Camera>(L"Main Camera");
+    
+    current_level_->Load();
+    current_level_->InitializeActors();
+    
+    SpawnActors();
+    ProcessActorActivation();
+    DestroyActors();
+    
+    Canvas::Get()->BeginPlay();
 }
 
 void World::ProcessCollisionEvents()
@@ -333,6 +321,18 @@ void World::ProcessActorActivation()
         
         if (activation.is_active) actor->OnEnable();
         else actor->OnDisable();
+    }
+}
+
+void World::SpawnActors()
+{
+    while (!pending_actors_.empty())
+    {
+        std::shared_ptr<Actor> actor = pending_actors_.front();
+        current_level_->actors_.push_back(actor);
+        actor->BeginPlay();
+        
+        pending_actors_.pop();
     }
 }
 

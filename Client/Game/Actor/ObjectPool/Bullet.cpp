@@ -9,7 +9,7 @@ Bullet::Bullet(const std::wstring& kName) :
 {
     circle_collider_ = AddComponent<CircleColliderComponent>(L"CircleCollider");
     circle_collider_->SetRadius(.25f);
-    circle_collider_->SetTrigger(true);
+    // circle_collider_->SetTrigger(true);
     
     rigid_body_ = AddComponent<RigidBody2DComponent>(L"RigidBody");
     rigid_body_->SetCollisionDetectionMode(CollisionDetectionMode::kContinuous);
