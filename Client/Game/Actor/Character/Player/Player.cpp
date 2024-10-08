@@ -104,7 +104,11 @@ void Player::Tick(float delta_time)
 
     if (keyboard->GetKeyDown('F'))
     {
-        object_pool_->SpawnPooledObject();
+        PooledObject* poolable_object = object_pool_->SpawnPooledObject();
+        if (poolable_object)
+        {
+            poolable_object->GetTransform()->SetPosition(GetTransform()->GetPosition());
+        }
     }
 }
 
