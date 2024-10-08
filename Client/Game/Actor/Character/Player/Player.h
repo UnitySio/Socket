@@ -41,4 +41,6 @@ private:
     float move_speed_;
     float last_pressed_jump_time_;
     
+    std::shared_ptr<Object> obj_;
+    
 };

@@ -1,7 +1,6 @@
 ﻿#pragma once
 #include "Object.h"
 #include "box2d/id.h"
-#include "Level/World.h"
 #include "Misc/DelegateMacros.h"
 #include "Misc/EngineMacros.h"
 #include "Time/TimerManager.h"
@@ -111,7 +110,6 @@ protected:
     TimerHandle life_span_timer_;
 
 };
-
 
 template <std::derived_from<ActorComponent> T>
 T* Actor::AddComponent(const std::wstring& kName)

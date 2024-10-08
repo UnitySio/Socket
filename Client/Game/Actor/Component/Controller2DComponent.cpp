@@ -208,5 +208,8 @@ RTTR_REGISTRATION
     using namespace rttr;
 
     registration::class_<Controller2DComponent>("Controller2DComponent")
-        .constructor<Actor*, const std::wstring&>();
+        .constructor<Actor*, const std::wstring&>()
+        (
+            policy::ctor::as_std_shared_ptr
+        );
 }

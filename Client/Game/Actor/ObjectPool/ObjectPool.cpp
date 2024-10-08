@@ -2,11 +2,12 @@
 #include "ObjectPool.h"
 
 #include "Bullet.h"
-#include "Actor/Actor.h"
 #include "Actor/Component/TransformComponent.h"
+#include "Level/World.h"
 
 ObjectPool::ObjectPool(Actor* owner, const std::wstring& kName) :
     ActorComponent(owner, kName),
+    pooled_object_class_(rttr::type::get<void>()),
     object_pool_(),
     spawned_pool_indexes_()
 {
@@ -16,15 +17,19 @@ void ObjectPool::BeginPlay()
 {
     ActorComponent::BeginPlay();
 
-    for (int i = 0; i < 20; ++i)
+    rttr::type type = rttr::type::get<PooledObject>();
+    if (pooled_object_class_.is_derived_from(type))
     {
-        PooledObject* poolable_actor = World::Get()->SpawnActor<Bullet>(L"Bullet");
-        if (poolable_actor)
+        for (int i = 0; i < 5; ++i)
         {
-            poolable_actor->SetActive(false);
-            poolable_actor->SetPoolIndex(i);
-            poolable_actor->on_despawn.Add(this, &ObjectPool::OnPooledObjectDespawn);
-            object_pool_.push_back(poolable_actor);
+            PooledObject* poolable_actor = World::Get()->SpawnActor<PooledObject>(pooled_object_class_, L"Actor");
+            if (poolable_actor)
+            {
+                poolable_actor->SetActive(false);
+                poolable_actor->SetPoolIndex(i);
+                poolable_actor->on_despawn.Add(this, &ObjectPool::OnPooledObjectDespawn);
+                object_pool_.push_back(poolable_actor);
+            }
         }
     }
 }
@@ -74,5 +79,8 @@ RTTR_REGISTRATION
     using namespace rttr;
 
     registration::class_<ObjectPool>("ObjectPool")
-        .constructor<Actor*, const std::wstring&>();
+        .constructor<Actor*, const std::wstring&>()
+        (
+            policy::ctor::as_std_shared_ptr
+        );
 }

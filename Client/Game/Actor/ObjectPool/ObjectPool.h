@@ -17,7 +17,11 @@ public:
 
     void OnPooledObjectDespawn(PooledObject* pool_actor);
 
+    inline void SetPooledObjectClass(const rttr::type& type) { pooled_object_class_ = type; }
+
 protected:
+    rttr::type pooled_object_class_;
+    
     std::vector<PooledObject*> object_pool_;
     std::vector<int> spawned_pool_indexes_;
     

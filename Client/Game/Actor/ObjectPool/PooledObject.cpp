@@ -25,5 +25,8 @@ RTTR_REGISTRATION
     using namespace rttr;
 
     registration::class_<PooledObject>("PooledObject")
-        .constructor<const std::wstring&>();
+        .constructor<const std::wstring&>()
+        (
+            policy::ctor::as_std_shared_ptr
+        );
 }

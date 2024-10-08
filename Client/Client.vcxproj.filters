@@ -184,6 +184,10 @@
     <ClCompile Include="Engine\Data\CSVReader.cpp" />
     <ClCompile Include="Engine\Data\StatInfo.cpp" />
     <ClCompile Include="Engine\Editor\Editor.cpp" />
+    <ClCompile Include="Game\Actor\ObjectPool\Bullet.cpp" />
+    <ClCompile Include="Game\Actor\ObjectPool\ObjectPool.cpp" />
+    <ClCompile Include="Game\Actor\ObjectPool\PooledObject.cpp" />
+    <ClCompile Include="Include\rttr\policy.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Actor\Actor.h">
@@ -684,6 +688,9 @@
     <ClInclude Include="Engine\Data\CSVReader.h" />
     <ClInclude Include="Engine\Data\StatInfo.h" />
     <ClInclude Include="Engine\Editor\Editor.h" />
+    <ClInclude Include="Game\Actor\ObjectPool\Bullet.h" />
+    <ClInclude Include="Game\Actor\ObjectPool\ObjectPool.h" />
+    <ClInclude Include="Game\Actor\ObjectPool\PooledObject.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Other">

@@ -69,5 +69,8 @@ RTTR_REGISTRATION
     using namespace rttr;
 
     registration::class_<BoxColliderComponent>("BoxColliderComponent")
-        .constructor<Actor*, const std::wstring&>();
+        .constructor<Actor*, const std::wstring&>()
+        (
+            policy::ctor::as_std_shared_ptr
+        );
 }

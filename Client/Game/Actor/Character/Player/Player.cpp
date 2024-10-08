@@ -7,6 +7,7 @@
 #include "Actor/Component/TransformComponent.h"
 #include "Actor/Component/Animator/AnimationClip.h"
 #include "Actor/Component/Animator/AnimatorComponent.h"
+#include "Actor/ObjectPool/Bullet.h"
 #include "Actor/ObjectPool/ObjectPool.h"
 #include "Data/CSVReader.h"
 #include "Data/StatInfo.h"
@@ -67,6 +68,7 @@ Player::Player(const std::wstring& kName) :
     states_[1] = std::make_unique<PlayerJumpingState>(this, state_machine_.get());
 
     object_pool_ = AddComponent<ObjectPool>(L"ObjectPool");
+    object_pool_->SetPooledObjectClass(Bullet::StaticClass());
 }
 
 void Player::BeginPlay()
@@ -125,5 +127,8 @@ RTTR_REGISTRATION
     using namespace rttr;
 
     registration::class_<Player>("Player")
-        .constructor<const std::wstring&>();
+        .constructor<const std::wstring&>()
+        (
+            policy::ctor::as_std_shared_ptr
+        );
 }
