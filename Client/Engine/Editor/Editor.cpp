@@ -60,19 +60,28 @@ void Editor::ShowHierarchy(bool* p_open)
         return;
     }
 
-    for (const auto& actor : World::Get()->current_level_->actors_)
+    if (ImGui::TreeNode("Root"))
     {
-        std::string name;
-        name.assign(actor->GetName().begin(), actor->GetName().end());
-        
-        if (actor->IsActive())
+        for (const auto& actor : World::Get()->current_level_->actors_)
         {
-            ImGui::TextColored({1.f, 1.f, 1.f, 1.f}, name.c_str());
+            std::string name;
+            name.assign(actor->GetName().begin(), actor->GetName().end());
+
+            if (actor->IsActive())
+            {
+                ImGui::PushStyleColor(ImGuiCol_Text, {1.f, 1.f, 1.f, 1.f});
+                ImGui::TreeNodeEx(name.c_str(), ImGuiTreeNodeFlags_Leaf | ImGuiTreeNodeFlags_NoTreePushOnOpen);
+                ImGui::PopStyleColor();
+            }
+            else
+            {
+                ImGui::PushStyleColor(ImGuiCol_Text, {.5f, .5f, .5f, 1.f});
+                ImGui::TreeNodeEx(name.c_str(), ImGuiTreeNodeFlags_Leaf | ImGuiTreeNodeFlags_NoTreePushOnOpen);
+                ImGui::PopStyleColor();
+            }
         }
-        else
-        {
-            ImGui::TextColored({.5f, .5f, .5f, 1.f}, name.c_str());
-        }
+
+        ImGui::TreePop();
     }
 
     ImGui::End();
