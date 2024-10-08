@@ -17,7 +17,7 @@ void PooledObject::OnEnable()
 void PooledObject::Deactivate()
 {
     SetActive(false);
-    OnDespawn.Execute(this);
+    on_despawn.Execute(this);
 }
 
 RTTR_REGISTRATION

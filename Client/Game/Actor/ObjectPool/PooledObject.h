@@ -18,7 +18,7 @@ public:
 
     void Deactivate();
 
-    OnPooledObjectDespawn OnDespawn;
+    OnPooledObjectDespawn on_despawn;
 
     inline void SetPoolIndex(int index) { pool_index_ = index; }
     inline int GetPoolIndex() const { return pool_index_; }
