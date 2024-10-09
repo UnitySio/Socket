@@ -11,6 +11,8 @@
 Bullet::Bullet(const std::wstring& kName) :
     PooledObject(kName)
 {
+    SetLayer(ActorLayer::kBullet);
+    
     circle_collider_ = AddComponent<CircleColliderComponent>(L"CircleCollider");
     circle_collider_->SetRadius(.125f);
     // circle_collider_->SetTrigger(true);

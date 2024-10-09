@@ -15,6 +15,7 @@ enum ActorLayer : MathTypes::uint16
     kDefault = (0x01<<0),
     kGround = (0x01<<1),
     kPlayer = (0x01<<2),
+    kBullet = (0x01<<3)
 };
 
 class ProjectSettings
@@ -35,9 +36,10 @@ public:
     inline static constexpr float kFixedTimeStep = .02f; // 고정 프레임 간격
 
     inline static const std::map<MathTypes::uint16, MathTypes::uint16> kLayerCollisionMatrix = { // 레이어 충돌 매트릭스
-        {kDefault, kDefault | kGround | kPlayer},
-        {kGround, kGround | kDefault | kPlayer},
+        {kDefault, kDefault | kGround | kPlayer | kBullet},
+        {kGround, kGround | kDefault | kPlayer | kBullet},
         {kPlayer, kPlayer | kGround | kDefault},
+        {kBullet, kBullet | kGround | kDefault}
     };
     
 };
