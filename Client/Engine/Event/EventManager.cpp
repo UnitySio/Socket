@@ -3,7 +3,6 @@
 
 #include <windowsx.h>
 
-#include "Logger.h"
 #include "Input/Mouse.h"
 
 EventManager::EventManager() :

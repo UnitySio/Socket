@@ -161,7 +161,7 @@ void Controller2DComponent::DescendSlope(Math::Vector2& move_amount)
         Math::Vector2 ray_origin = dir_x == -1 ? raycast_origins_.bottom_right : raycast_origins_.bottom_left;
 
         HitResult hit_result;
-        if (Physics2D::RayCast(hit_result, ray_origin, Math::Vector2::Down(), std::numeric_limits<float>::max(), ActorLayer::kGround))
+        if (Physics2D::RayCast(hit_result, ray_origin, Math::Vector2::Down(), FLT_MAX, ActorLayer::kGround))
         {
             float slope_angle = Math::Vector2::Angle(hit_result.normal, Math::Vector2::Up());
         

@@ -1,8 +1,6 @@
 ﻿#include "pch.h"
 #include "StatInfo.h"
 
-#include <rttr/registration>
-
 RTTR_REGISTRATION
 {
     using namespace rttr;
