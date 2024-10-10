@@ -14,7 +14,11 @@ SpriteRendererComponent::SpriteRendererComponent(Actor* owner, const std::wstrin
     frame_index_(0),
     flip_x_(false),
     flip_y_(false),
-    color_(Math::Color::White)
+    color_(Math::Color::White),
+    use_manual_(false),
+    position_(Math::Vector2::Zero()),
+    scale_(Math::Vector2::One()),
+    angle_(0.f)
 {
 }
 
@@ -37,13 +41,26 @@ void SpriteRendererComponent::Render(float alpha)
     const TransformComponent* transform = GetOwner()->GetTransform();
     if (!transform) return;
 
+    Math::Vector2 position = transform->GetPosition();
+    Math::Vector2 scale = transform->GetScale();
+    
+    float angle = transform->GetAngle();
+
+    if (use_manual_)
+    {
+        position = position_;
+        scale = scale_;
+        
+        angle = angle_;
+    }
+
     const std::vector<SpriteFrame>& frames = sprite_->GetFrames();
     if (frames.empty() || frame_index_ >= frames.size()) return;
 
     const SpriteFrame& current_frame = frames[frame_index_];
 
-    const float width = (sprite_->GetWidth() * current_frame.uv_scale.x / sprite_->GetPPU()) * transform->GetScale().x;
-    const float height = (sprite_->GetHeight() * current_frame.uv_scale.y / sprite_->GetPPU()) * transform->GetScale().y;
+    const float width = (sprite_->GetWidth() * current_frame.uv_scale.x / sprite_->GetPPU()) * scale.x;
+    const float height = (sprite_->GetHeight() * current_frame.uv_scale.y / sprite_->GetPPU()) * scale.y;
 
     const float pivot_x = current_frame.pivot.x * width;
     const float pivot_y = current_frame.pivot.y * height;
@@ -51,8 +68,8 @@ void SpriteRendererComponent::Render(float alpha)
     const int flip_x = flip_x_ ? -1 : 1;
     const int flip_y = flip_y_ ? -1 : 1;
 
-    shape_->SetPosition(transform->GetPosition());
-    shape_->SetRotation(transform->GetAngle());
+    shape_->SetPosition(position);
+    shape_->SetRotation(angle);
     shape_->SetScale({width * flip_x, height * flip_y});
     shape_->SetUVOffset(current_frame.uv_offset);
     shape_->SetUVScale(current_frame.uv_scale);

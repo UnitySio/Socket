@@ -4,6 +4,7 @@
 #include "Actor/Tilemap.h"
 #include "Actor/Character/Player/Player.h"
 #include "Actor/Platform/Platform.h"
+#include "TopDown/Actor/TopDownCharacter.h"
 
 MainMap::MainMap(const std::wstring& kName) : Level(kName)
 {
@@ -11,9 +12,11 @@ MainMap::MainMap(const std::wstring& kName) : Level(kName)
 
 void MainMap::Load()
 {
-    Tilemap* tilemap = AddActor<Tilemap>(L"Tilemap");
-    Player* player = AddActor<Player>(L"Player");
-    Platform* platform = AddActor<Platform>(L"Platform");
+    // Tilemap* tilemap = AddActor<Tilemap>(L"Tilemap");
+    // Player* player = AddActor<Player>(L"Player");
+    // Platform* platform = AddActor<Platform>(L"Platform");
+
+    TopDownCharacter* character = AddActor<TopDownCharacter>(L"TopDownCharacter");
 }
 
 RTTR_REGISTRATION

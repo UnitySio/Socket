@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include "ActorComponent.h"
 #include "Math/Color.h"
+#include "Math/Vector2.h"
 
 class Sprite;
 
@@ -31,6 +32,12 @@ public:
     inline void SetColor(const Math::Color& color) { color_ = color; }
     inline Math::Color GetColor() const { return color_; }
 
+    inline void SetManual(bool use_manual) { use_manual_ = use_manual; }
+
+    inline void SetPosition(const Math::Vector2& position) { position_ = position; }
+    inline void SetScale(const Math::Vector2& scale) { scale_ = scale; }
+    inline void SetAngle(float angle) { angle_ = angle; }
+
 private:
     friend class AnimatorComponent;
     
@@ -43,5 +50,13 @@ private:
     bool flip_y_;
 
     Math::Color color_;
+
+    // Manual
+    bool use_manual_;
+    
+    Math::Vector2 position_;
+    Math::Vector2 scale_;
+
+    float angle_;
     
 };
