@@ -15,7 +15,6 @@
 #include "Windows/DX/Renderer.h"
 
 Core::Core() :
-    current_application_(nullptr),
     game_window_(),
     game_engine_(nullptr),
     is_running_(false),
@@ -27,12 +26,9 @@ Core::Core() :
 {
 }
 
-void Core::Init(const HINSTANCE kInstanceHandle)
+void Core::Init(WindowsApplication* application)
 {
-    // 윈도우 애플리케이션을 생성하고 메시지 핸들러로 등록
-    HICON icon_handle = LoadIcon(kInstanceHandle, MAKEINTRESOURCE(IDI_ICON1));
-    current_application_ = std::make_shared<WindowsApplication>(kInstanceHandle, icon_handle);
-    current_application_->AddMessageHandler(*this);
+    application->AddMessageHandler(*this);
 
     // DirectX 11 렌더러 초기화
     CHECK_IF(Renderer::Get()->Init(), L"Failed to initialize renderer.");
@@ -49,8 +45,8 @@ void Core::Init(const HINSTANCE kInstanceHandle)
     definition->height = ProjectSettings::kScreenHeight;
 
     // 게임 윈도우 생성
-    std::shared_ptr<WindowsWindow> new_window = current_application_->MakeWindow();
-    current_application_->InitWindow(new_window, definition, nullptr);
+    std::shared_ptr<WindowsWindow> new_window = application->MakeWindow();
+    application->InitWindow(new_window, definition, nullptr);
 
     // 렌더러에 뷰포트 생성
     CHECK_IF(Renderer::Get()->CreateViewport(new_window, {definition->width, definition->height}), L"Failed to create viewport.");

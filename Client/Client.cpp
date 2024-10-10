@@ -10,14 +10,17 @@
 
 #include "Windows/WindowsWindow.h"
 
-START
+MAIN
 {
 #ifdef _DEBUG
     _CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 #endif
+    
+    HICON icon_handle = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_ICON1));
+    WindowsApplication* application = new WindowsApplication(hInstance, icon_handle);
 
     Core* core = new Core();
-    core->Init(hInstance);
+    core->Init(application);
 
     MSG msg = {};
     while (msg.message != WM_QUIT)
@@ -30,6 +33,7 @@ START
     }
 
     SAFE_RELEASE(core);
+    SAFE_RELEASE(application);
     
     return 0;
 }

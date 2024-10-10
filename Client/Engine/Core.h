@@ -11,7 +11,7 @@ public:
     Core();
     ~Core() = default;
 
-    void Init(const HINSTANCE kInstanceHandle);
+    void Init(WindowsApplication* application);
     
     virtual bool ProcessMessage(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam, MathTypes::uint32 handler_result) override;
 
@@ -20,7 +20,6 @@ private:
     void Start();
     void Stop();
     
-    std::shared_ptr<WindowsApplication> current_application_;
     std::weak_ptr<WindowsWindow> game_window_;
 
     std::shared_ptr<GameEngine> game_engine_;
