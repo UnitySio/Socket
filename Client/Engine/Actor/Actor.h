@@ -114,15 +114,15 @@ protected:
 template <std::derived_from<ActorComponent> T>
 T* Actor::AddComponent(const std::wstring& kName)
 {
-    rttr::type type = rttr::type::get<T>();
-    for (const auto& kComponent : components_)
-    {
-        rttr::type component_type = rttr::type::get(*kComponent);
-        if (component_type == type)
-        {
-            return nullptr;
-        }
-    }
+    // rttr::type type = rttr::type::get<T>();
+    // for (const auto& kComponent : components_)
+    // {
+    //     rttr::type component_type = rttr::type::get(*kComponent);
+    //     if (component_type == type)
+    //     {
+    //         return nullptr;
+    //     }
+    // }
     
     components_.push_back(std::make_shared<T>(this, kName));
     return static_cast<T*>(components_.back().get());
